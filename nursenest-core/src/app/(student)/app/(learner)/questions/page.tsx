@@ -41,18 +41,20 @@ export default async function QuestionBankPage() {
 
   let questions: { id: string; stem: string; questionType: string; rationale: string }[] = [];
   try {
-    const raw = await prisma.question.findMany({
+    const raw = await prisma.examQuestion.findMany({
       where: questionAccessWhere(entitlement),
       select: { id: true, stem: true, questionType: true, rationale: true },
       orderBy: { updatedAt: "desc" },
       take: 15,
     });
     const maxRationale = 360;
-    questions = raw.map((q) => ({
-      ...q,
-      rationale:
-        q.rationale.length > maxRationale ? `${q.rationale.slice(0, maxRationale).trim()}…` : q.rationale,
-    }));
+    questions = raw.map((q) => {
+      const r = q.rationale ?? "";
+      return {
+        ...q,
+        rationale: r.length > maxRationale ? `${r.slice(0, maxRationale).trim()}…` : r,
+      };
+    });
   } catch {
     safeServerLog("page_questions", "prisma_find_failed", {});
     return (

@@ -1,4 +1,4 @@
-import type { Prisma, QuestionType } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/db";
 
 function asStringArray(v: Prisma.JsonValue): string[] {
@@ -7,18 +7,24 @@ function asStringArray(v: Prisma.JsonValue): string[] {
   return [String(v)];
 }
 
-function userAnswerArray(type: QuestionType, user: unknown): string[] {
+/** `exam_questions.question_type` is a free-form string (e.g. multiple_choice, sata). */
+function isSataType(questionType: string): boolean {
+  const t = questionType.toLowerCase();
+  return t === "sata" || t === "select_all_that_apply" || t === "SATA";
+}
+
+function userAnswerArray(questionType: string, user: unknown): string[] {
   if (user === null || user === undefined) return [];
-  if (type === "SATA" && Array.isArray(user)) return user.map((x) => String(x));
+  if (isSataType(questionType) && Array.isArray(user)) return user.map((x) => String(x));
   if (typeof user === "string") return [user];
   if (typeof user === "number" || typeof user === "boolean") return [String(user)];
   return [];
 }
 
-/** Compare learner answer to stored key (MCQ / SATA style keys in seed). */
-export function answerMatches(type: QuestionType, answerKey: Prisma.JsonValue, user: unknown): boolean {
-  const keyParts = asStringArray(answerKey).map((s) => s.trim()).filter(Boolean);
-  const userParts = userAnswerArray(type, user).map((s) => s.trim()).filter(Boolean);
+/** Compare learner answer to stored `correct_answer` JSON (MCQ / SATA style keys). */
+export function answerMatches(questionType: string, correctAnswer: Prisma.JsonValue, user: unknown): boolean {
+  const keyParts = asStringArray(correctAnswer).map((s) => s.trim()).filter(Boolean);
+  const userParts = userAnswerArray(questionType, user).map((s) => s.trim()).filter(Boolean);
   const a = [...keyParts].sort((x, y) => x.localeCompare(y));
   const b = [...userParts].sort((x, y) => x.localeCompare(y));
   if (a.length !== b.length) return false;
@@ -40,14 +46,14 @@ export async function scoreSessionAnswers(
   const ids = session.questionIds as string[];
   if (ids.length === 0) return { score: 0, total: 0 };
 
-  const qs = await prisma.question.findMany({
+  const qs = await prisma.examQuestion.findMany({
     where: { id: { in: ids } },
-    select: { id: true, answerKey: true, questionType: true },
+    select: { id: true, correctAnswer: true, questionType: true },
   });
 
   let score = 0;
   for (const q of qs) {
-    if (answerMatches(q.questionType, q.answerKey, answers[q.id])) score += 1;
+    if (answerMatches(q.questionType, q.correctAnswer, answers[q.id])) score += 1;
   }
   return { score, total: qs.length };
 }

@@ -4,42 +4,28 @@ import { requireAdmin } from "@/lib/admin/ensure-admin";
 import { prisma } from "@/lib/db";
 
 const LOW_THRESHOLD = 20;
+const PUBLISHED = "published";
 
-/** Coverage gaps: categories with few published questions / lessons without flashcards. */
+/** Coverage gaps: topic buckets with few published questions (production `exam_questions` has no Category FK). */
 export async function GET() {
   const gate = await requireAdmin();
   if (!gate.ok) return gate.response;
 
-  const categories = await prisma.category.findMany({
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      _count: {
-        select: {
-          questions: { where: { status: ContentStatus.PUBLISHED } },
-          lessons: { where: { status: ContentStatus.PUBLISHED } },
-          flashcards: { where: { status: ContentStatus.PUBLISHED } },
-        },
-      },
-    },
-    take: 200,
+  const topicBuckets = await prisma.examQuestion.groupBy({
+    by: ["topic"],
+    where: { status: PUBLISHED, topic: { not: null } },
+    _count: { _all: true },
   });
 
-  const lowQuestionCategories = categories
-    .filter((c) => c._count.questions < LOW_THRESHOLD)
-    .map((c) => ({
-      id: c.id,
-      name: c.name,
-      slug: c.slug,
-      publishedQuestions: c._count.questions,
+  const lowQuestionTopics = topicBuckets
+    .filter((t) => (t._count._all ?? 0) < LOW_THRESHOLD)
+    .map((t) => ({
+      topic: t.topic,
+      publishedQuestions: t._count._all,
     }));
 
-  const lessonsWithoutFlashcards = await prisma.lesson.count({
-    where: {
-      status: ContentStatus.PUBLISHED,
-      flashcards: { none: { status: ContentStatus.PUBLISHED } },
-    },
+  const lessonCount = await prisma.contentItem.count({
+    where: { type: "lesson", status: PUBLISHED },
   });
 
   const examsPerFamily = await prisma.exam.groupBy({
@@ -49,9 +35,10 @@ export async function GET() {
   });
 
   return NextResponse.json({
-    lowQuestionCategories,
-    lessonsPublishedWithoutFlashcards: lessonsWithoutFlashcards,
+    lowQuestionTopics,
+    lessonsPublished: lessonCount,
     publishedExamsByFamily: examsPerFamily,
     thresholds: { lowQuestionCount: LOW_THRESHOLD },
+    note: "Flashcard↔lesson links live in `flashcard_bank.lesson_links` JSON in production; not modeled in Prisma yet.",
   });
 }

@@ -31,19 +31,19 @@ export async function POST(req: Request) {
 
   const body = parsed.data;
   if (body.action === "delete") {
-    const res = await prisma.lesson.deleteMany({ where: { id: { in: body.ids } } });
+    const res = await prisma.contentItem.deleteMany({ where: { id: { in: body.ids } } });
     return NextResponse.json({ deleted: res.count });
   }
 
   if (body.action === "set_status") {
-    const res = await prisma.lesson.updateMany({
+    const res = await prisma.contentItem.updateMany({
       where: { id: { in: body.ids } },
       data: { status: body.status },
     });
     return NextResponse.json({ updated: res.count });
   }
 
-  const rows = await prisma.lesson.findMany({
+  const rows = await prisma.contentItem.findMany({
     where: { id: { in: body.ids } },
     select: { id: true, tags: true },
   });
@@ -52,7 +52,7 @@ export async function POST(req: Request) {
   for (const r of rows) {
     const next =
       body.mode === "replace" ? body.tags : Array.from(new Set([...r.tags, ...body.tags]));
-    await prisma.lesson.update({ where: { id: r.id }, data: { tags: next } });
+    await prisma.contentItem.update({ where: { id: r.id }, data: { tags: next } });
     updated += 1;
   }
 

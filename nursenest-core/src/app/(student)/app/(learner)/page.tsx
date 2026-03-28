@@ -48,8 +48,8 @@ export default async function DashboardPage() {
       userPrefs = userRow;
       completedLessons = progressCount;
       const lessonRow = incomplete?.lessonId
-        ? await prisma.lesson.findUnique({
-            where: { id: incomplete.lessonId },
+        ? await prisma.contentItem.findFirst({
+            where: { id: incomplete.lessonId, type: "lesson" },
             select: { title: true },
           })
         : null;

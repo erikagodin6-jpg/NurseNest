@@ -3,6 +3,7 @@ import { ContentStatus } from "@prisma/client";
 import { z } from "zod";
 import { requireAdmin } from "@/lib/admin/ensure-admin";
 import { prisma } from "@/lib/db";
+import { contentStatusToDb } from "@/lib/prisma/content-status";
 
 const schema = z.discriminatedUnion("action", [
   z.object({
@@ -31,19 +32,19 @@ export async function POST(req: Request) {
 
   const body = parsed.data;
   if (body.action === "delete") {
-    const res = await prisma.question.deleteMany({ where: { id: { in: body.ids } } });
+    const res = await prisma.examQuestion.deleteMany({ where: { id: { in: body.ids } } });
     return NextResponse.json({ deleted: res.count });
   }
 
   if (body.action === "set_status") {
-    const res = await prisma.question.updateMany({
+    const res = await prisma.examQuestion.updateMany({
       where: { id: { in: body.ids } },
-      data: { status: body.status },
+      data: { status: contentStatusToDb(body.status) },
     });
     return NextResponse.json({ updated: res.count });
   }
 
-  const rows = await prisma.question.findMany({
+  const rows = await prisma.examQuestion.findMany({
     where: { id: { in: body.ids } },
     select: { id: true, tags: true },
   });
@@ -52,7 +53,7 @@ export async function POST(req: Request) {
   for (const r of rows) {
     const next =
       body.mode === "replace" ? body.tags : Array.from(new Set([...r.tags, ...body.tags]));
-    await prisma.question.update({ where: { id: r.id }, data: { tags: next } });
+    await prisma.examQuestion.update({ where: { id: r.id }, data: { tags: next } });
     updated += 1;
   }
 

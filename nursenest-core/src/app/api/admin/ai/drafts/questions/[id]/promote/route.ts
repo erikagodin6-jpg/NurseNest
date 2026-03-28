@@ -6,6 +6,12 @@ import type { NormalizedQuestionDraft } from "@/lib/content/ai-draft-validation"
 import { validateQuestionForPublish } from "@/lib/content/publish-validation";
 import { stemHash } from "@/lib/content/stem-hash";
 import { prisma } from "@/lib/db";
+import { contentStatusToDb } from "@/lib/prisma/content-status";
+import {
+  adminQuestionTypeToDb,
+  examFamilyToExamColumn,
+  tierCodeToExamDbTier,
+} from "@/lib/prisma/exam-question-maps";
 
 const bodySchema = z.object({
   categoryId: z.string().min(5).optional(),
@@ -57,24 +63,24 @@ export async function POST(req: Request, ctx: Props) {
   }
 
   const hash = stemHash(n.stem);
-  const q = await prisma.question.create({
+  const topic = [cat.name, n.topicTag].filter(Boolean).join(" — ") || cat.slug;
+
+  const q = await prisma.examQuestion.create({
     data: {
       stem: n.stem,
       rationale: n.rationale,
       options: n.options,
-      answerKey: n.answerKey,
-      questionType: n.questionType,
-      country: draft.country,
-      tier: draft.tier,
-      status: ContentStatus.DRAFT,
-      examFamily: draft.examFamily,
-      categoryId,
-      lessonId: draft.lessonId,
-      needsReview: true,
-      sourceNotes: `Promoted from AI draft ${draft.id}`,
-      generationBatchId: draft.batchId,
+      correctAnswer: n.answerKey,
+      questionType: adminQuestionTypeToDb(String(n.questionType)),
+      countryCode: draft.country,
+      tier: tierCodeToExamDbTier(draft.tier),
+      status: contentStatusToDb(ContentStatus.DRAFT),
+      exam: examFamilyToExamColumn(draft.examFamily),
+      topic,
+      careerType: "nursing",
+      regionScope: "BOTH",
       stemHash: hash,
-      topicTag: n.topicTag ?? undefined,
+      tags: [],
     },
   });
 

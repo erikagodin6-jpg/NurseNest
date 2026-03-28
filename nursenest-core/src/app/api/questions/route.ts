@@ -41,9 +41,9 @@ export async function GET(req: NextRequest) {
         stem: true,
         questionType: true,
         difficulty: true,
-        examFamily: true,
-        categoryId: true,
-        category: { select: { name: true, slug: true } },
+        exam: true,
+        topic: true,
+        bodySystem: true,
       } as const;
       const fullSelect = {
         id: true,
@@ -51,11 +51,12 @@ export async function GET(req: NextRequest) {
         questionType: true,
         rationale: true,
         options: true,
-        category: { select: { name: true } },
+        topic: true,
+        exam: true,
       } as const;
 
       const questions = await withRetry(() =>
-        prisma.question.findMany({
+        prisma.examQuestion.findMany({
           where: questionAccessWhere(gate.entitlement),
           select: mode === "full" ? fullSelect : summarySelect,
           orderBy: { updatedAt: "desc" },
@@ -114,7 +115,7 @@ export async function GET(req: NextRequest) {
     const where = questionBankWhereForProfile(user.country as CountryCode, user.tier as TierCode);
     const freemiumMode = searchParams.get("mode") === "full" ? "full" : "summary";
     const questions = await withRetry(() =>
-      prisma.question.findMany({
+      prisma.examQuestion.findMany({
         where,
         select:
           freemiumMode === "full"
@@ -124,16 +125,17 @@ export async function GET(req: NextRequest) {
                 questionType: true,
                 rationale: true,
                 options: true,
-                category: { select: { name: true } },
+                topic: true,
+                exam: true,
               }
             : {
                 id: true,
                 stem: true,
                 questionType: true,
                 difficulty: true,
-                examFamily: true,
-                categoryId: true,
-                category: { select: { name: true, slug: true } },
+                exam: true,
+                topic: true,
+                bodySystem: true,
               },
         orderBy: { updatedAt: "desc" },
         skip: 0,

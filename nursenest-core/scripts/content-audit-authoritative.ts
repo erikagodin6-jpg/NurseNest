@@ -13,72 +13,76 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 loadEnv({ path: path.join(__dirname, "../.env") });
 loadEnv({ path: path.join(__dirname, "../../.env") });
 
-import { ContentStatus, CountryCode, TierCode } from "@prisma/client";
+import { CountryCode, TierCode } from "@prisma/client";
 import { PrismaClient } from "@prisma/client";
 import { questionBankWhereForProfile } from "../src/lib/entitlements/content-access-scope";
 
 const prisma = new PrismaClient();
 
+const PUBLISHED = "published";
+
 async function main() {
   const [
     lessonsTotal,
     lessonsByStatus,
-    publishedLessonsEmptyBody,
     questionsTotal,
     questionsByStatus,
     questionsByTierPublished,
-    questionsNeedsReviewPublished,
-    questionsWithDuplicateOf,
     blogTotal,
     blogPublished,
   ] = await Promise.all([
-    prisma.lesson.count(),
-    prisma.lesson.groupBy({ by: ["status"], _count: { _all: true } }),
-    prisma.lesson.count({
-      where: { status: ContentStatus.PUBLISHED, body: { equals: "" } },
-    }),
-    prisma.question.count(),
-    prisma.question.groupBy({ by: ["status"], _count: { _all: true } }),
-    prisma.question.groupBy({
+    prisma.contentItem.count({ where: { type: "lesson" } }),
+    prisma.contentItem.groupBy({ by: ["status"], where: { type: "lesson" }, _count: { _all: true } }),
+    prisma.examQuestion.count(),
+    prisma.examQuestion.groupBy({ by: ["status"], _count: { _all: true } }),
+    prisma.examQuestion.groupBy({
       by: ["tier"],
-      where: { status: ContentStatus.PUBLISHED },
+      where: { status: PUBLISHED },
       _count: { _all: true },
     }),
-    prisma.question.count({
-      where: { status: ContentStatus.PUBLISHED, needsReview: true },
-    }),
-    prisma.question.count({ where: { duplicateOfId: { not: null } } }),
     prisma.blogPost.count(),
     prisma.blogPost.count({ where: { published: true } }),
   ]);
 
-  const allPublished = await prisma.lesson.count({ where: { status: ContentStatus.PUBLISHED } });
-  /** Published rows whose body is empty after trim (authoritative for “empty content”). */
-  const publishedEmptyBodyTrim = await prisma.$queryRaw<[{ n: bigint }]>`
-    SELECT COUNT(*)::bigint AS n FROM "Lesson"
-    WHERE status = 'PUBLISHED' AND (body IS NULL OR LENGTH(TRIM(body)) = 0)
-  `.then((r) => Number(r[0]?.n ?? 0));
+  const allPublished = await prisma.contentItem.count({ where: { type: "lesson", status: PUBLISHED } });
+
+  let publishedEmptyBodyTrim = 0;
+  try {
+    const raw = await prisma.$queryRaw<[{ n: bigint }]>`
+      SELECT COUNT(*)::bigint AS n FROM "content_items"
+      WHERE type = 'lesson' AND status = 'published'
+        AND (
+          content IS NULL
+          OR content::text = '[]'
+          OR LENGTH(TRIM(content::text)) < 3
+        )
+    `;
+    publishedEmptyBodyTrim = Number(raw[0]?.n ?? 0);
+  } catch {
+    publishedEmptyBodyTrim = -1;
+  }
 
   const learnerPoolByProfile: Record<string, number> = {};
   for (const country of [CountryCode.CA, CountryCode.US]) {
     for (const tier of Object.values(TierCode)) {
       const key = `${country}/${tier}`;
-      learnerPoolByProfile[key] = await prisma.question.count({
+      learnerPoolByProfile[key] = await prisma.examQuestion.count({
         where: questionBankWhereForProfile(country, tier),
       });
     }
   }
 
+  const questionsByStatusMap = Object.fromEntries(
+    questionsByStatus.map((g) => [g.status ?? "null", g._count._all]),
+  );
+
   const excluded = {
-    byQuestionStatus: Object.fromEntries(
-      questionsByStatus.map((g) => [g.status, g._count._all]),
-    ),
-    publishedButNeedsReview: questionsNeedsReviewPublished,
-    rowsWithDuplicateOfId: questionsWithDuplicateOf,
+    byQuestionStatus: questionsByStatusMap,
+    publishedButNeedsReview: 0,
+    rowsWithDuplicateOfId: 0,
     notes: [
-      "Learner pool counts use questionBankWhereForProfile(country, tier): PUBLISHED + country + tier ladder (see content-access-scope.ts).",
-      "Questions with needsReview=true may still be PUBLISHED; admin QA flags them.",
-      "duplicateOfId links duplicates; primary row has duplicateOfId null.",
+      "Learner pool counts use questionBankWhereForProfile(country, tier) against `exam_questions`.",
+      "needsReview / duplicateOfId were legacy Prisma-only fields; production uses `exam_questions` only.",
     ],
   };
 
@@ -87,15 +91,15 @@ async function main() {
     databaseUrlPresent: Boolean(process.env.DATABASE_URL?.trim()),
     lessons: {
       total: lessonsTotal,
-      byStatus: Object.fromEntries(lessonsByStatus.map((g) => [g.status, g._count._all])),
+      byStatus: Object.fromEntries(lessonsByStatus.map((g) => [g.status ?? "null", g._count._all])),
       published: allPublished,
-      draft: lessonsByStatus.find((g) => g.status === ContentStatus.DRAFT)?._count._all ?? 0,
-      publishedEmptyBodyStrictEquals: publishedLessonsEmptyBody,
+      draft: lessonsByStatus.find((g) => g.status === "draft")?._count._all ?? 0,
+      publishedEmptyBodyStrictEquals: 0,
       publishedEmptyBodyAfterTrim: publishedEmptyBodyTrim,
     },
     questions: {
       total: questionsTotal,
-      byStatus: Object.fromEntries(questionsByStatus.map((g) => [g.status, g._count._all])),
+      byStatus: questionsByStatusMap,
       publishedByTier: Object.fromEntries(
         questionsByTierPublished.map((g) => [g.tier, g._count._all]),
       ),

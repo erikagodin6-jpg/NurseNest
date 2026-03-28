@@ -4,6 +4,9 @@ import { z } from "zod";
 import { requireAdmin } from "@/lib/admin/ensure-admin";
 import { validateLessonForPublish } from "@/lib/content/publish-validation";
 import { prisma } from "@/lib/db";
+import { bodyStringToContentJson } from "@/lib/prisma/content-item-body";
+import { contentStatusToDb } from "@/lib/prisma/content-status";
+import { tierCodeToContentItemTier } from "@/lib/prisma/exam-question-maps";
 
 const createSchema = z.object({
   title: z.string().min(4),
@@ -29,13 +32,14 @@ export async function GET(req: NextRequest) {
   const sp = req.nextUrl.searchParams;
   const page = Math.max(1, Number(sp.get("page") ?? "1"));
   const pageSize = Math.min(100, Math.max(10, Number(sp.get("pageSize") ?? "50")));
-  const status = sp.get("status") as ContentStatus | null;
+  const statusParam = sp.get("status") as ContentStatus | null;
 
-  const where = status ? { status } : {};
+  const where: { type: string; status?: string } = { type: "lesson" };
+  if (statusParam) where.status = contentStatusToDb(statusParam);
 
   const [total, lessons] = await Promise.all([
-    prisma.lesson.count({ where }),
-    prisma.lesson.findMany({
+    prisma.contentItem.count({ where }),
+    prisma.contentItem.findMany({
       where,
       select: {
         id: true,
@@ -43,8 +47,8 @@ export async function GET(req: NextRequest) {
         slug: true,
         status: true,
         tier: true,
-        country: true,
-        categoryId: true,
+        regionScope: true,
+        category: true,
         updatedAt: true,
       },
       orderBy: { updatedAt: "desc" },
@@ -69,11 +73,20 @@ export async function POST(req: Request) {
     if (!v.ok) return NextResponse.json({ error: "Publish validation failed", reasons: v.reasons }, { status: 400 });
   }
 
-  const lesson = await prisma.lesson.create({
+  const cat = await prisma.category.findUnique({ where: { id: data.categoryId } });
+  const lesson = await prisma.contentItem.create({
     data: {
-      ...data,
-      examFamily: data.examFamily ?? "GENERIC",
+      title: data.title,
+      slug: data.slug,
+      summary: data.summary,
+      type: "lesson",
+      content: bodyStringToContentJson(data.body),
+      tier: tierCodeToContentItemTier(data.tier),
+      status: contentStatusToDb(data.status),
+      regionScope: data.country === "CA" ? "CA_ONLY" : "US_ONLY",
       tags: data.tags ?? [],
+      category: cat?.name ?? cat?.slug,
+      bodySystem: data.systemTag ?? data.topicTag,
     },
   });
 

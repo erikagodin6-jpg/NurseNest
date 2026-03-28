@@ -53,7 +53,6 @@ export async function POST(req: Request, ctx: Props) {
       status: ContentStatus.DRAFT,
       examFamily: draft.examFamily,
       categoryId,
-      lessonId: draft.lessonId,
     },
   });
 

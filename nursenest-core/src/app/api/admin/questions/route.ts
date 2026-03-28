@@ -5,6 +5,13 @@ import { requireAdmin } from "@/lib/admin/ensure-admin";
 import { stemHash } from "@/lib/content/stem-hash";
 import { validateQuestionForPublish } from "@/lib/content/publish-validation";
 import { prisma } from "@/lib/db";
+import { contentStatusToDb } from "@/lib/prisma/content-status";
+import {
+  adminQuestionTypeToDb,
+  difficultyBandToInt,
+  examFamilyToExamColumn,
+  tierCodeToExamDbTier,
+} from "@/lib/prisma/exam-question-maps";
 
 const tierEnum = z.enum(["RPN", "LVN_LPN", "RN", "NP", "ALLIED"]);
 const qTypeEnum = z.enum(["MCQ", "SATA", "NGN_CASE", "ORDERING", "FIB_NUMERIC"]);
@@ -36,29 +43,28 @@ export async function GET(req: NextRequest) {
   const sp = req.nextUrl.searchParams;
   const page = Math.max(1, Number(sp.get("page") ?? "1"));
   const pageSize = Math.min(100, Math.max(10, Number(sp.get("pageSize") ?? "50")));
-  const status = sp.get("status") as ContentStatus | null;
-  const categoryId = sp.get("categoryId");
+  const statusParam = sp.get("status") as ContentStatus | null;
+  const topicFilter = sp.get("topic");
 
   const where = {
-    ...(status ? { status } : {}),
-    ...(categoryId ? { categoryId } : {}),
+    ...(statusParam ? { status: contentStatusToDb(statusParam) } : {}),
+    ...(topicFilter ? { topic: topicFilter } : {}),
   };
 
   const [total, questions] = await Promise.all([
-    prisma.question.count({ where }),
-    prisma.question.findMany({
+    prisma.examQuestion.count({ where }),
+    prisma.examQuestion.findMany({
       where,
       select: {
         id: true,
         stem: true,
         status: true,
         tier: true,
-        country: true,
+        countryCode: true,
         questionType: true,
-        needsReview: true,
-        examFamily: true,
-        categoryId: true,
-        lessonId: true,
+        exam: true,
+        topic: true,
+        tags: true,
         updatedAt: true,
       },
       orderBy: { updatedAt: "desc" },
@@ -90,26 +96,26 @@ export async function POST(req: Request) {
   }
 
   const hash = stemHash(data.stem);
+  const cat = await prisma.category.findUnique({ where: { id: data.categoryId } });
+  const topic = [cat?.name, data.topicTag].filter(Boolean).join(" — ") || cat?.slug;
 
-  const question = await prisma.question.create({
+  const question = await prisma.examQuestion.create({
     data: {
       stem: data.stem,
       rationale: data.rationale,
       options: data.options,
-      answerKey: data.answerKey,
-      questionType: data.questionType as QuestionType,
-      country: data.country,
-      tier: data.tier,
-      categoryId: data.categoryId,
-      status: data.status,
-      examFamily: data.examFamily ?? "GENERIC",
-      difficulty: data.difficulty,
-      topicTag: data.topicTag,
-      systemTag: data.systemTag,
+      correctAnswer: data.answerKey,
+      questionType: adminQuestionTypeToDb(data.questionType),
+      countryCode: data.country,
+      tier: tierCodeToExamDbTier(data.tier),
+      status: contentStatusToDb(data.status),
+      exam: examFamilyToExamColumn(data.examFamily),
+      difficulty: difficultyBandToInt(data.difficulty) ?? 3,
+      topic: topic ?? undefined,
+      subtopic: data.systemTag,
       tags: data.tags ?? [],
-      lessonId: data.lessonId,
-      sourceNotes: data.sourceNotes,
-      generationBatchId: data.generationBatchId,
+      careerType: "nursing",
+      regionScope: "BOTH",
       stemHash: hash,
     },
   });

@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { ContentStatus } from "@prisma/client";
 import { requireAdmin } from "@/lib/admin/ensure-admin";
 import { prisma } from "@/lib/db";
 
@@ -12,22 +11,21 @@ export async function GET(req: Request) {
   const take = Math.min(2000, Math.max(50, Number(url.searchParams.get("take") ?? "500")));
   const cursor = url.searchParams.get("cursor");
 
-  const rows = await prisma.question.findMany({
+  const rows = await prisma.examQuestion.findMany({
     take: take + 1,
     ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
     orderBy: { id: "asc" },
-    where: { status: { in: [ContentStatus.PUBLISHED, ContentStatus.IN_REVIEW, ContentStatus.DRAFT] } },
+    where: { status: { in: ["published", "in_review", "draft"] } },
     select: {
       id: true,
       stem: true,
       rationale: true,
       questionType: true,
-      country: true,
+      countryCode: true,
       tier: true,
       status: true,
-      examFamily: true,
-      categoryId: true,
-      lessonId: true,
+      exam: true,
+      topic: true,
       tags: true,
       updatedAt: true,
     },

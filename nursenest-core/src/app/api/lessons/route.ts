@@ -36,7 +36,7 @@ export async function GET(req: NextRequest) {
 
     try {
       const lessons = await withRetry(() =>
-        prisma.lesson.findMany({
+        prisma.contentItem.findMany({
           where: lessonAccessWhere(gate.entitlement),
           select: { id: true, slug: true, title: true, summary: true },
           orderBy: { updatedAt: "desc" },
@@ -80,7 +80,7 @@ export async function GET(req: NextRequest) {
   try {
     const where = lessonBankWhereForProfile(user.country as CountryCode, user.tier as TierCode);
     const lessons = await withRetry(() =>
-      prisma.lesson.findMany({
+      prisma.contentItem.findMany({
         where,
         select: { id: true, slug: true, title: true, summary: true },
         orderBy: { updatedAt: "desc" },
@@ -101,7 +101,9 @@ export async function GET(req: NextRequest) {
     const trimmedSummary = lessons.map((l) => ({
       ...l,
       summary:
-        l.summary.length > 220 ? `${l.summary.slice(0, 220).trim()}… — unlock full lessons with a subscription.` : l.summary,
+        (l.summary ?? "").length > 220
+          ? `${(l.summary ?? "").slice(0, 220).trim()}… — unlock full lessons with a subscription.`
+          : l.summary ?? "",
     }));
 
     return NextResponse.json({

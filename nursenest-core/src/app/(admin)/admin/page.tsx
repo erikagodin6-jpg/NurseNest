@@ -7,10 +7,10 @@ export default async function AdminPage() {
   await requireAdmin();
 
   const [lessonCount, questionCount, draftQuestions, reviewQuestions, jobPending] = await Promise.all([
-    prisma.lesson.count(),
-    prisma.question.count(),
-    prisma.question.count({ where: { status: ContentStatus.DRAFT } }),
-    prisma.question.count({ where: { needsReview: true } }),
+    prisma.contentItem.count({ where: { type: "lesson" } }),
+    prisma.examQuestion.count(),
+    prisma.examQuestion.count({ where: { status: "draft" } }),
+    prisma.examQuestion.count({ where: { status: "published", rationale: null } }),
     prisma.backgroundJob.count({ where: { status: JobStatus.PENDING } }).catch(() => 0),
   ]);
 

@@ -63,7 +63,7 @@ export async function GET(req: NextRequest) {
     }
 
     const questions = await withRetry(() =>
-      prisma.question.findMany({
+      prisma.examQuestion.findMany({
         where: { id: { in: ids } },
         select: { id: true, stem: true, options: true, questionType: true },
       }),

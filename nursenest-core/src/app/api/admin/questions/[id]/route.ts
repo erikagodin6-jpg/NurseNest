@@ -5,6 +5,13 @@ import { requireAdmin } from "@/lib/admin/ensure-admin";
 import { stemHash } from "@/lib/content/stem-hash";
 import { validateQuestionForPublish } from "@/lib/content/publish-validation";
 import { prisma } from "@/lib/db";
+import { contentStatusToDb } from "@/lib/prisma/content-status";
+import {
+  adminQuestionTypeToDb,
+  difficultyBandToInt,
+  examFamilyToExamColumn,
+  tierCodeToExamDbTier,
+} from "@/lib/prisma/exam-question-maps";
 
 const patchSchema = z
   .object({
@@ -22,9 +29,6 @@ const patchSchema = z
     topicTag: z.string().nullable().optional(),
     systemTag: z.string().nullable().optional(),
     tags: z.array(z.string()).optional(),
-    lessonId: z.string().nullable().optional(),
-    sourceNotes: z.string().nullable().optional(),
-    needsReview: z.boolean().optional(),
   })
   .strict();
 
@@ -36,19 +40,23 @@ export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }>
   const parsed = patchSchema.safeParse(await req.json());
   if (!parsed.success) return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
 
-  const existing = await prisma.question.findUnique({ where: { id } });
+  const existing = await prisma.examQuestion.findUnique({ where: { id } });
   if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
+  const d = parsed.data;
+  const qtDb = d.questionType ? adminQuestionTypeToDb(d.questionType) : existing.questionType;
+  const qtForValidation = (d.questionType ?? "MCQ") as QuestionType;
+
   const merged = {
-    stem: parsed.data.stem ?? existing.stem,
-    rationale: parsed.data.rationale ?? existing.rationale,
-    questionType: (parsed.data.questionType ?? existing.questionType) as QuestionType,
-    options: parsed.data.options ?? (existing.options as unknown[]),
-    answerKey: parsed.data.answerKey ?? (existing.answerKey as unknown[]),
+    stem: d.stem ?? existing.stem,
+    rationale: d.rationale ?? existing.rationale ?? "",
+    questionType: qtForValidation,
+    options: d.options ?? (existing.options as unknown[]),
+    answerKey: d.answerKey ?? (existing.correctAnswer as unknown[]),
   };
 
-  const nextStatus = parsed.data.status ?? existing.status;
-  if (nextStatus === ContentStatus.PUBLISHED) {
+  const nextStatusDb = d.status ? contentStatusToDb(d.status) : existing.status;
+  if (d.status === ContentStatus.PUBLISHED) {
     const v = validateQuestionForPublish({
       stem: merged.stem,
       rationale: merged.rationale,
@@ -59,27 +67,30 @@ export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }>
     if (!v.ok) return NextResponse.json({ error: "Publish validation failed", reasons: v.reasons }, { status: 400 });
   }
 
-  const d = parsed.data;
-  const question = await prisma.question.update({
+  let topic = existing.topic;
+  if (d.categoryId) {
+    const cat = await prisma.category.findUnique({ where: { id: d.categoryId } });
+    topic = [cat?.name, d.topicTag ?? undefined].filter(Boolean).join(" — ") || cat?.slug || topic;
+  } else if (d.topicTag !== undefined) {
+    topic = d.topicTag ?? existing.topic;
+  }
+
+  const question = await prisma.examQuestion.update({
     where: { id },
     data: {
       stem: d.stem,
       rationale: d.rationale,
       options: d.options,
-      answerKey: d.answerKey,
-      questionType: d.questionType as QuestionType | undefined,
-      country: d.country,
-      tier: d.tier,
-      categoryId: d.categoryId,
-      status: d.status,
-      examFamily: d.examFamily,
-      difficulty: d.difficulty ?? undefined,
-      topicTag: d.topicTag ?? undefined,
-      systemTag: d.systemTag ?? undefined,
+      correctAnswer: d.answerKey,
+      questionType: d.questionType ? qtDb : undefined,
+      countryCode: d.country,
+      tier: d.tier ? tierCodeToExamDbTier(d.tier) : undefined,
+      status: d.status ? nextStatusDb : undefined,
+      exam: d.examFamily ? examFamilyToExamColumn(d.examFamily) : undefined,
+      difficulty: d.difficulty !== undefined ? difficultyBandToInt(d.difficulty) : undefined,
+      topic: topic ?? undefined,
+      subtopic: d.systemTag ?? undefined,
       tags: d.tags,
-      lessonId: d.lessonId ?? undefined,
-      sourceNotes: d.sourceNotes ?? undefined,
-      needsReview: d.needsReview,
       ...(d.stem !== undefined ? { stemHash: stemHash(d.stem) } : {}),
     },
   });
@@ -92,7 +103,7 @@ export async function DELETE(_req: Request, ctx: { params: Promise<{ id: string 
   if (!gate.ok) return gate.response;
   const { id } = await ctx.params;
   try {
-    await prisma.question.delete({ where: { id } });
+    await prisma.examQuestion.delete({ where: { id } });
   } catch {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }

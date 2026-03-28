@@ -2,80 +2,58 @@
  * Run: npx tsx scripts/content-inventory.ts
  * Requires DATABASE_URL. Outputs JSON inventory for gap analysis (no auto-publish).
  */
-import { ContentStatus } from "@prisma/client";
-import { PrismaClient } from "@prisma/client";
+import { ContentStatus, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+const PUBLISHED = "published";
+const DRAFT = "draft";
+
 async function main() {
-  const tiers = ["RPN", "LVN_LPN", "RN", "NP", "ALLIED"] as const;
-  const families = ["NCLEX_RN", "NCLEX_PN", "REX_PN", "NP", "ALLIED", "GENERIC"] as const;
+  const tiers = ["rpn", "lvn", "rn", "np", "allied"] as const;
+  const exams = ["NCLEX_RN", "NCLEX_PN", "REX_PN", "NP", "ALLIED", "GENERIC"] as const;
 
   const byTier = await Promise.all(
     tiers.map(async (tier) => ({
       tier,
-      published: await prisma.question.count({ where: { status: ContentStatus.PUBLISHED, tier } }),
-      draft: await prisma.question.count({ where: { status: ContentStatus.DRAFT, tier } }),
+      published: await prisma.examQuestion.count({ where: { status: PUBLISHED, tier } }),
+      draft: await prisma.examQuestion.count({ where: { status: DRAFT, tier } }),
     })),
   );
 
-  const byFamily = await Promise.all(
-    families.map(async (examFamily) => ({
-      examFamily,
-      published: await prisma.question.count({ where: { status: ContentStatus.PUBLISHED, examFamily } }),
+  const byExam = await Promise.all(
+    exams.map(async (exam) => ({
+      exam,
+      published: await prisma.examQuestion.count({ where: { status: PUBLISHED, exam } }),
     })),
   );
 
-  const rationaleMissing = await prisma.question.count({
-    where: { status: ContentStatus.PUBLISHED, rationale: "" },
+  const rationaleMissing = await prisma.examQuestion.count({
+    where: { status: PUBLISHED, OR: [{ rationale: null }, { rationale: "" }] },
   });
-
-  const categoryCounts = await prisma.category.findMany({
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      _count: {
-        select: {
-          questions: { where: { status: ContentStatus.PUBLISHED } },
-          flashcards: { where: { status: ContentStatus.PUBLISHED } },
-        },
-      },
-    },
-    take: 200,
-  });
-
-  const lowCategories = categoryCounts
-    .filter((c) => c._count.questions < 5)
-    .map((c) => ({
-      id: c.id,
-      name: c.name,
-      slug: c.slug,
-      publishedQuestions: c._count.questions,
-    }));
 
   const examsPublished = await prisma.exam.count({ where: { status: ContentStatus.PUBLISHED } });
 
   const report = {
     generatedAt: new Date().toISOString(),
     totals: {
-      questionsPublished: await prisma.question.count({ where: { status: ContentStatus.PUBLISHED } }),
-      questionsDraft: await prisma.question.count({ where: { status: ContentStatus.DRAFT } }),
-      lessonsPublished: await prisma.lesson.count({ where: { status: ContentStatus.PUBLISHED } }),
+      questionsPublished: await prisma.examQuestion.count({ where: { status: PUBLISHED } }),
+      questionsDraft: await prisma.examQuestion.count({ where: { status: DRAFT } }),
+      lessonsPublished: await prisma.contentItem.count({ where: { status: PUBLISHED, type: "lesson" } }),
       flashcardsPublished: await prisma.flashcard.count({ where: { status: ContentStatus.PUBLISHED } }),
       examsPublished,
     },
     byTier,
-    byExamFamily: byFamily,
+    byExamColumn: byExam,
     dataQuality: {
       publishedQuestionsWithEmptyRationale: rationaleMissing,
     },
     risk: {
-      categoriesWithUnder5Questions: lowCategories,
+      categoriesWithUnder5Questions: [] as { id: string; name: string; slug: string; publishedQuestions: number }[],
     },
     notes: [
-      "Tier columns are direct Question.tier; learner APIs also apply accessibleTiersForUserTier() for ladder access.",
-      "Gap remediation: import or draft in admin, validate, publish — never auto-publish from this script.",
+      "Tier / exam columns map to `exam_questions.tier` and `exam_questions.exam` (lowercase tier strings in DB).",
+      "Category ↔ question counts require a join table in production; this script reports global totals only.",
     ],
   };
 

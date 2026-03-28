@@ -45,7 +45,7 @@ export async function POST(req: Request) {
 
   try {
     const questionPool = await withRetry(() =>
-      prisma.question.findMany({
+      prisma.examQuestion.findMany({
         where: questionAccessWhere(gate.entitlement),
         select: { id: true, stem: true, options: true, questionType: true },
         take: POOL_LIMIT,

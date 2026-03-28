@@ -7,7 +7,7 @@ import { setSentryServerContext } from "@/lib/observability/sentry-server-contex
 import { withRetry } from "@/lib/resilience/with-retry";
 
 /**
- * Lightweight bank discovery: category buckets + counts + exam-family breakdown (no question bodies).
+ * Lightweight bank discovery: topic buckets + counts + exam code breakdown (no question bodies).
  */
 export async function GET() {
   const gate = await requireSubscriberSession();
@@ -18,52 +18,39 @@ export async function GET() {
   const base = questionAccessWhere(gate.entitlement);
 
   try {
-    const byCategory = await withRetry(() =>
-      prisma.question.groupBy({
-        by: ["categoryId"],
-        where: base,
-        _count: { id: true },
+    const byTopic = await withRetry(() =>
+      prisma.examQuestion.groupBy({
+        by: ["topic"],
+        where: { ...base, topic: { not: null } },
+        _count: { _all: true },
       }),
     );
 
-    const byFamily = await withRetry(() =>
-      prisma.question.groupBy({
-        by: ["examFamily"],
+    const byExam = await withRetry(() =>
+      prisma.examQuestion.groupBy({
+        by: ["exam"],
         where: base,
-        _count: { id: true },
+        _count: { _all: true },
       }),
     );
 
     const total = await withRetry(() =>
-      prisma.question.count({ where: base }),
+      prisma.examQuestion.count({ where: base }),
     );
 
-    const categories = await withRetry(() =>
-      prisma.category.findMany({
-        where: { id: { in: byCategory.map((r) => r.categoryId) } },
-        select: { id: true, name: true, slug: true },
-      }),
-    );
-    const catMap = new Map(categories.map((c) => [c.id, c]));
-
-    const buckets = byCategory
-      .map((row) => {
-        const c = catMap.get(row.categoryId);
-        return {
-          categoryId: row.categoryId,
-          categoryName: c?.name ?? "Unknown",
-          slug: c?.slug ?? "",
-          count: row._count.id,
-        };
-      })
+    const buckets = byTopic
+      .map((row) => ({
+        topic: row.topic ?? "Unknown",
+        count: row._count._all,
+      }))
       .sort((a, b) => b.count - a.count);
 
     return NextResponse.json({
       total,
       buckets,
-      examFamily: byFamily.map((r) => ({
-        examFamily: r.examFamily,
-        count: r._count.id,
+      examFamily: byExam.map((r) => ({
+        exam: r.exam,
+        count: r._count._all,
       })),
     });
   } catch (e) {

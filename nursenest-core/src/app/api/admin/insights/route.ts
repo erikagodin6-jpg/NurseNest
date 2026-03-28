@@ -27,8 +27,8 @@ export async function GET() {
   ] = await Promise.all([
     prisma.user.count(),
     prisma.subscription.count({ where: { status: SubscriptionStatus.ACTIVE } }),
-    prisma.lesson.count({ where: { status: ContentStatus.PUBLISHED } }),
-    prisma.question.count({ where: { status: ContentStatus.PUBLISHED } }),
+    prisma.contentItem.count({ where: { type: "lesson" } }),
+    prisma.examQuestion.count(),
     prisma.exam.count({ where: { status: ContentStatus.PUBLISHED } }),
     prisma.examAttempt.count({ where: { createdAt: { gte: since7d } } }),
     prisma.user.groupBy({

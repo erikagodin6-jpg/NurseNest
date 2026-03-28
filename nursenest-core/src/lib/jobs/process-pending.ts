@@ -65,14 +65,14 @@ async function handleJob(type: string, payload: unknown): Promise<void> {
     case "analytics.recompute_stub":
       return;
     case "content.recompute_stem_hashes": {
-      const rows = await prisma.question.findMany({
+      const rows = await prisma.examQuestion.findMany({
         where: { stemHash: null },
         select: { id: true, stem: true },
         take: 500,
       });
       for (const r of rows) {
         const hash = stemHash(r.stem);
-        await prisma.question.update({ where: { id: r.id }, data: { stemHash: hash } });
+        await prisma.examQuestion.update({ where: { id: r.id }, data: { stemHash: hash } });
       }
       return;
     }

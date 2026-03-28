@@ -39,7 +39,7 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
 
     try {
       const q = await withRetry(() =>
-        prisma.question.findFirst({
+        prisma.examQuestion.findFirst({
           where: questionIdWhereIfAllowed(id, gate.entitlement),
           select: {
             id: true,
@@ -48,8 +48,9 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
             rationale: true,
             options: true,
             difficulty: true,
-            examFamily: true,
-            category: { select: { name: true, slug: true } },
+            exam: true,
+            topic: true,
+            bodySystem: true,
           },
         }),
       );
@@ -89,7 +90,7 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
 
   try {
     const q = await withRetry(() =>
-      prisma.question.findFirst({
+      prisma.examQuestion.findFirst({
         where,
         select: {
           id: true,
@@ -97,7 +98,8 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
           questionType: true,
           rationale: true,
           options: true,
-          category: { select: { name: true } },
+          topic: true,
+          exam: true,
         },
       }),
     );

@@ -10,7 +10,7 @@ import { safeServerLog } from "@/lib/observability/safe-server-log";
 export function questionIdWhereIfAllowed(
   questionId: string,
   entitlement: AccessScope,
-): Prisma.QuestionWhereInput {
+): Prisma.ExamQuestionWhereInput {
   return {
     AND: [{ id: questionId }, questionAccessWhere(entitlement)],
   };
@@ -21,7 +21,7 @@ export async function isQuestionReadableByEntitlement(
   entitlement: AccessScope,
 ): Promise<boolean> {
   if (!entitlement.hasAccess) return false;
-  const row = await prisma.question.findFirst({
+  const row = await prisma.examQuestion.findFirst({
     where: questionIdWhereIfAllowed(questionId, entitlement),
     select: { id: true },
   });

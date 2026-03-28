@@ -9,24 +9,24 @@ export async function GET() {
   if (!gate.ok) return gate.response;
 
   const [missingRationale, needsReview, draftWithShortStem, lessonsDraft] = await Promise.all([
-    prisma.question.count({
+    prisma.examQuestion.count({
       where: {
         OR: [{ rationale: "" }, { rationale: { startsWith: " " } }],
       },
     }),
-    prisma.question.count({ where: { needsReview: true } }),
-    prisma.question.count({
-      where: { status: ContentStatus.DRAFT, stem: { lte: "__________" } },
+    prisma.examQuestion.count({ where: { status: "draft" } }),
+    prisma.examQuestion.count({
+      where: { status: "draft", stem: { lte: "__________" } },
     }),
-    prisma.lesson.count({ where: { status: ContentStatus.DRAFT } }),
+    prisma.contentItem.count({ where: { type: "lesson", status: "draft" } }),
   ]);
 
   let duplicateStemHashGroups = 0;
   try {
     const rows = await prisma.$queryRaw<{ n: bigint }[]>`
       SELECT COUNT(*)::bigint AS n FROM (
-        SELECT "stemHash" FROM "Question" WHERE "stemHash" IS NOT NULL
-        GROUP BY "stemHash" HAVING COUNT(*) > 1
+        SELECT stem_hash FROM exam_questions WHERE stem_hash IS NOT NULL
+        GROUP BY stem_hash HAVING COUNT(*) > 1
       ) t`;
     duplicateStemHashGroups = Number(rows[0]?.n ?? 0);
   } catch {

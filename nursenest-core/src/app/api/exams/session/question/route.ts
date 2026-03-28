@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
 
     const qid = ids[index];
     const question = await withRetry(() =>
-      prisma.question.findFirst({
+      prisma.examQuestion.findFirst({
         where: questionIdWhereIfAllowed(qid, gate.entitlement),
         select: { id: true, stem: true, options: true, questionType: true },
       }),

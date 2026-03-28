@@ -141,7 +141,7 @@ Return ONLY a JSON array, no markdown.`;
 
       const sh = stemHash(norm.value.stem);
       const [existingQ, existingDraft] = await Promise.all([
-        prisma.question.findFirst({ where: { stemHash: sh }, select: { id: true } }),
+        prisma.examQuestion.findFirst({ where: { stemHash: sh }, select: { id: true } }),
         prisma.generatedQuestionDraft.findFirst({
           where: {
             stemHash: sh,

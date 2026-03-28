@@ -36,9 +36,9 @@ export default async function LessonsPage() {
     );
   }
 
-  let lessons: { id: string; title: string; summary: string }[] = [];
+  let lessons: { id: string; title: string; summary: string | null }[] = [];
   try {
-    lessons = await prisma.lesson.findMany({
+    lessons = await prisma.contentItem.findMany({
       where: lessonAccessWhere(entitlement),
       select: { id: true, title: true, summary: true },
       orderBy: { updatedAt: "desc" },
