@@ -3,6 +3,7 @@
  * legacy marketing origins, and documentation for lesson images.
  */
 import catalog from "./marketing-cdn.catalog.json";
+import { NURSENEST_DEFAULT_THEME } from "@/lib/theme/theme-registry";
 
 export const DIGITALOCEAN_SPACES_NURSENEST_IMAGES = catalog.digitalOceanSpaces.nursenestImages;
 
@@ -17,8 +18,24 @@ export const COMMITTED_MARKETING_SCREENSHOTS_PREFIX =
 
 export const LOGO_LEGACY_FALLBACK_URL = catalog.logo.legacyFallbackUrl;
 
-/** Spaces object key for header brand mark (see logo.notes in JSON). */
-export const BRAND_LOGO_BLUE_OBJECT_KEY = catalog.logo.blueBrandMarkObjectKey;
+/** Optional aliases when a label maps to an existing theme file (e.g. “black” → midnight). */
+const THEME_LOGO_THEME_ALIASES: Record<string, string> = {
+  black: "midnight",
+};
+
+/**
+ * Spaces object key for the pre-colored header logo for `themeId` (`data-theme` / next-themes).
+ * Falls back to `defaultFallbackThemeId` (lavender) when unknown.
+ */
+export function getThemeLogoObjectKey(themeId: string): string {
+  const map = catalog.logo.themeBrandLogoObjectKeys as Record<string, string>;
+  const fallbackId =
+    (catalog.logo as { defaultFallbackThemeId?: string }).defaultFallbackThemeId ?? NURSENEST_DEFAULT_THEME;
+  const normalized = THEME_LOGO_THEME_ALIASES[themeId] ?? themeId;
+  const key = map[normalized] ?? map[fallbackId];
+  if (key) return key;
+  return map[fallbackId] ?? map[NURSENEST_DEFAULT_THEME];
+}
 
 export const HOMEPAGE_SCREENSHOT_SLOT_STEMS = catalog.homepageScreenshots.slotToLegacyStem;
 

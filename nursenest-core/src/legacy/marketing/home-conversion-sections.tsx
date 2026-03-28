@@ -1051,8 +1051,8 @@ function TestimonialsSection() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-sm text-gray-500">
           <div className="flex items-center gap-2.5">
             <div className="flex -space-x-2">
-              {["bg-blue-400", "bg-emerald-400", "bg-purple-400", "bg-amber-400"].map((bg, i) => (
-                <div key={i} className={`w-7 h-7 rounded-full ${bg} border-2 border-white flex items-center justify-center text-white text-[10px] font-bold`}>
+              {["bg-primary", "bg-primary/80", "bg-primary/60", "bg-primary/90"].map((bg, i) => (
+                <div key={i} className={`flex h-7 w-7 items-center justify-center rounded-full border-2 border-white text-[10px] font-bold text-[var(--theme-primary-foreground)] ${bg}`}>
                   {["P", "J", "A", "S"][i]}
                 </div>
               ))}

@@ -39,18 +39,18 @@ export default function HeroExpansionTracker() {
   const npQ = 0;
 
   const tierRows = [
-    { label: `${NURSING_TIERS.rpn.shortLabel} Question Bank`, current: rpnQ, goal: NURSING_TIERS.rpn.goalQuestions, color: "bg-emerald-500" },
-    { label: `${NURSING_TIERS.rn.shortLabel} Question Bank`, current: rnQ, goal: NURSING_TIERS.rn.goalQuestions, color: "bg-blue-500" },
-    { label: `${NURSING_TIERS.np.shortLabel} Question Bank`, current: npQ, goal: NURSING_TIERS.np.goalQuestions, color: "bg-violet-500" },
-    { label: "Pre-Nursing", current: 0, goal: PRE_NURSING_GOAL.goalQuestions, color: "bg-sky-500" },
-    { label: "New Grad Scenarios", current: 0, goal: NEW_GRAD_GOAL.goalScenarios, color: "bg-purple-500" },
+    { label: `${NURSING_TIERS.rpn.shortLabel} Question Bank`, current: rpnQ, goal: NURSING_TIERS.rpn.goalQuestions, color: "bg-primary" },
+    { label: `${NURSING_TIERS.rn.shortLabel} Question Bank`, current: rnQ, goal: NURSING_TIERS.rn.goalQuestions, color: "bg-primary" },
+    { label: `${NURSING_TIERS.np.shortLabel} Question Bank`, current: npQ, goal: NURSING_TIERS.np.goalQuestions, color: "bg-primary" },
+    { label: "Pre-Nursing", current: 0, goal: PRE_NURSING_GOAL.goalQuestions, color: "bg-primary" },
+    { label: "New Grad Scenarios", current: 0, goal: NEW_GRAD_GOAL.goalScenarios, color: "bg-primary" },
   ];
 
   const alliedRows = ALLIED_HEALTH_CAREERS.filter((c) => c.tier === "major").map((c) => ({
     label: c.label.replace(/ \(.*\)/, ""),
     current: 0,
     goal: c.goalQuestions,
-    color: "bg-teal-500",
+    color: "bg-primary",
   }));
 
   return (

@@ -31,14 +31,14 @@ function formatStat(n: number | undefined): string {
  */
 export default function HeroPlatformStats() {
   const stats = [
-    { icon: HelpCircle, label: "Practice Questions", value: formatStat(undefined), color: "text-blue-600", bg: "bg-blue-50" },
-    { icon: ClipboardCheck, label: "Mock Exams", value: "50+", color: "text-indigo-600", bg: "bg-indigo-50" },
-    { icon: Layers, label: "Flashcards", value: formatStat(undefined), color: "text-violet-600", bg: "bg-violet-50" },
-    { icon: BookOpen, label: "Lessons", value: formatStat(undefined), color: "text-emerald-600", bg: "bg-emerald-50" },
-    { icon: Stethoscope, label: "Clinical Simulations", value: "25+", color: "text-rose-600", bg: "bg-rose-50" },
-    { icon: FileText, label: "Supported Exams", value: "30+", color: "text-amber-600", bg: "bg-amber-50" },
-    { icon: Globe, label: "Countries", value: "10+", color: "text-teal-600", bg: "bg-teal-50" },
-    { icon: Languages, label: "Languages", value: "20", color: "text-purple-600", bg: "bg-purple-50" },
+    { icon: HelpCircle, label: "Practice Questions", value: formatStat(undefined) },
+    { icon: ClipboardCheck, label: "Mock Exams", value: "50+" },
+    { icon: Layers, label: "Flashcards", value: formatStat(undefined) },
+    { icon: BookOpen, label: "Lessons", value: formatStat(undefined) },
+    { icon: Stethoscope, label: "Clinical Simulations", value: "25+" },
+    { icon: FileText, label: "Supported Exams", value: "30+" },
+    { icon: Globe, label: "Countries", value: "10+" },
+    { icon: Languages, label: "Languages", value: "20" },
   ];
 
   return (
@@ -64,8 +64,8 @@ export default function HeroPlatformStats() {
               className="rounded-2xl border border-gray-100 bg-white p-5 text-center shadow-[var(--shadow-card)] transition-shadow duration-200 hover:shadow-[var(--shadow-card-hover)]"
               data-testid={`stat-card-${stat.label.toLowerCase().replace(/\s+/g, "-")}`}
             >
-              <div className={`mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-xl ${stat.bg}`}>
-                <stat.icon className={`h-5 w-5 ${stat.color}`} />
+              <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10">
+                <stat.icon className="h-5 w-5 text-primary" />
               </div>
               <div
                 className="mb-1 text-2xl font-extrabold text-gray-900 sm:text-3xl"

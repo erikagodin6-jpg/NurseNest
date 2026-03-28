@@ -32,19 +32,6 @@ const FEATURE_ICONS: Record<string, LucideIcon> = {
   mockExams: ClipboardCheck,
 };
 
-const FEATURE_COLORS: Record<string, { color: string; bg: string; gradient: string }> = {
-  adaptiveTesting: { color: "text-blue-600", bg: "bg-blue-50", gradient: "from-blue-500 to-indigo-600" },
-  explanationEngine: { color: "text-emerald-600", bg: "bg-emerald-50", gradient: "from-emerald-500 to-teal-600" },
-  studyGuides: { color: "text-violet-600", bg: "bg-violet-50", gradient: "from-violet-500 to-purple-600" },
-  flashcards: { color: "text-amber-600", bg: "bg-amber-50", gradient: "from-amber-500 to-orange-600" },
-  readinessPredictor: { color: "text-indigo-600", bg: "bg-indigo-50", gradient: "from-indigo-500 to-blue-600" },
-  aiTutor: { color: "text-purple-600", bg: "bg-purple-50", gradient: "from-purple-500 to-violet-600" },
-  clinicalSimulator: { color: "text-rose-600", bg: "bg-rose-50", gradient: "from-rose-500 to-red-600" },
-  globalQuestionBanks: { color: "text-teal-600", bg: "bg-teal-50", gradient: "from-teal-500 to-cyan-600" },
-  multiLanguage: { color: "text-sky-600", bg: "bg-sky-50", gradient: "from-sky-500 to-blue-600" },
-  mockExams: { color: "text-orange-600", bg: "bg-orange-50", gradient: "from-orange-500 to-amber-600" },
-};
-
 export default function HeroFeaturesGrid() {
   const { t } = useMarketingI18n();
   return (
@@ -66,7 +53,6 @@ export default function HeroFeaturesGrid() {
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {PLATFORM_FEATURES.map((feature) => {
             const Icon = FEATURE_ICONS[feature.key] || Globe;
-            const colors = FEATURE_COLORS[feature.key] || { color: "text-gray-600", bg: "bg-gray-50", gradient: "from-gray-500 to-gray-600" };
 
             return (
               <Link
@@ -75,8 +61,8 @@ export default function HeroFeaturesGrid() {
                 className="group no-underline rounded-2xl border border-gray-100 bg-white p-6 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
                 data-testid={`card-feature-${feature.key}`}
               >
-                <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${colors.gradient} shadow-sm transition-transform group-hover:scale-110`}>
-                  <Icon className="h-6 w-6 text-white" />
+                <div className="nn-theme-gradient-br mb-4 flex h-12 w-12 items-center justify-center rounded-xl shadow-sm transition-transform group-hover:scale-110">
+                  <Icon className="h-6 w-6 text-[var(--theme-primary-foreground)]" />
                 </div>
                 <h3 className="mb-2 text-base font-bold text-gray-900">{feature.headline}</h3>
                 <p className="mb-3 text-sm leading-relaxed text-gray-500">{feature.description}</p>

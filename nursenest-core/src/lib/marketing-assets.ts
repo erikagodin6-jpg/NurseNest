@@ -34,11 +34,11 @@ export {
 import { LOGO_PRIMARY as LOGO_PRIMARY_GENERATED, MARKETING_HERO_CAROUSEL_SLIDES } from "./marketing-assets.generated";
 
 import {
-  BRAND_LOGO_BLUE_OBJECT_KEY,
   COMMITTED_MARKETING_ASSET_ORIGIN,
   COMMITTED_MARKETING_SCREENSHOTS_PREFIX,
   HOMEPAGE_SCREENSHOT_SLOT_STEMS,
   LOGO_LEGACY_FALLBACK_URL,
+  getThemeLogoObjectKey,
   nursenestImagesSpaceObjectUrl,
 } from "@/config/marketing-cdn.catalog";
 import { resolveMarketingAbsoluteUrl } from "./marketing-resolve-image-url";
@@ -49,7 +49,6 @@ const LOGO_PRIMARY_FALLBACK = LOGO_LEGACY_FALLBACK_URL;
 export const LOGO_PRIMARY = LOGO_PRIMARY_GENERATED ?? LOGO_PRIMARY_FALLBACK;
 
 export {
-  BRAND_LOGO_BLUE_OBJECT_KEY,
   DIGITALOCEAN_SPACES_NURSENEST_IMAGES,
   NURSENEST_IMAGES_SPACE_PUBLIC_BASE_URL,
   COMMITTED_MARKETING_ASSET_ORIGIN,
@@ -57,17 +56,14 @@ export {
   HOMEPAGE_SCREENSHOT_SLOT_STEMS,
   LESSON_IMAGES_RESOLUTION,
   LOGO_LEGACY_FALLBACK_URL,
+  getThemeLogoObjectKey,
   nursenestImagesSpaceObjectUrl,
 } from "@/config/marketing-cdn.catalog";
 
-/** Public Spaces URL for the blue brand mark (before proxy rewrite). */
-export function getBrandLogoMarkAbsoluteUrl(): string {
-  return nursenestImagesSpaceObjectUrl(BRAND_LOGO_BLUE_OBJECT_KEY);
-}
-
-/** Same-origin proxy path or direct CDN URL for `<img>` / CSS `mask-image` (respects NEXT_PUBLIC_MARKETING_USE_SPACES_PROXY). */
-export function getBrandLogoMarkResolvedUrl(): string {
-  return resolveMarketingAbsoluteUrl(getBrandLogoMarkAbsoluteUrl());
+/** Resolved URL for the pre-colored header logo for a theme id (proxy + CDN rules). */
+export function getResolvedThemeLogoUrl(themeId: string): string {
+  const key = getThemeLogoObjectKey(themeId);
+  return resolveMarketingAbsoluteUrl(nursenestImagesSpaceObjectUrl(key));
 }
 
 /** OG default still; path matches `homepageScreenshots.slotToLegacyStem.screenshotTest` in the catalog. */
