@@ -37,9 +37,10 @@
   "logo": {
     "generatedPrimary": null,
     "defaultFallbackThemeId": "lavender",
-    "primaryBrandMarkObjectKey": null,
-    "primaryBrandMarkThemeTinted": false,
-    "notes": "Theme logos: source of truth is `src/config/theme-brand-logo-cdn.ts` (full CDN URLs). No CSS mask or tint. Optional same-origin proxy when NEXT_PUBLIC_MARKETING_USE_SPACES_PROXY is set.",
+    "primaryBrandMarkObjectKey": "bluebrandlogo.png",
+    "primaryBrandMarkThemeTinted": true,
+    "spacesBlueBrandLogoObjectKey": "bluebrandlogo.jpg",
+    "notes": "Per-theme rasters: `branding/themes/logo-{themeId}.png` via `THEME_BRAND_LOGO_CDN_BY_ID`. When `primaryBrandMarkThemeTinted` is true, the header uses stem from `primaryBrandMarkObjectKey` (e.g. bluebrandlogo) with extension probing (.svg, .png, .webp, .jpg), CSS mask-image, and fill `var(--theme-primary)`. Otherwise the header uses `getThemeLogoLoadChain` (per-theme PNG + lavender fallback). Optional proxy: NEXT_PUBLIC_MARKETING_USE_SPACES_PROXY.",
     "legacyFallbackUrl": "https://www.nursenest.ca/brand-logo.gif",
     "discoveryFilenamePattern": "Objects whose key matches /logo/i (see scripts/generate-marketing-assets.mjs CATEGORY_TESTS.LOGO_PRIMARY).",
     "themeBrandLogoObjectKeys": {}

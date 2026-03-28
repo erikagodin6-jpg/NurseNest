@@ -2,7 +2,7 @@
 
 import { useTheme } from "next-themes";
 import { useMemo, useSyncExternalStore } from "react";
-import { getThemeLogoLoadChain } from "@/lib/theme/theme-logo-url";
+import { getHeaderBrandLogoLoadChain } from "@/lib/theme/theme-logo-url";
 import { normalizeThemeIdForLogo } from "@/lib/theme/theme-logo-resolve";
 import { NURSENEST_DEFAULT_THEME, THEME_STORAGE_KEY } from "@/lib/theme/theme-registry";
 
@@ -52,7 +52,7 @@ export function useThemeLogo(): {
   const { resolvedTheme, theme } = useTheme();
   const domThemeId = useSyncExternalStore(subscribe, readDomThemeId, getServerSnapshot);
   const activeId = normalizeThemeIdForLogo(resolvedTheme ?? theme ?? domThemeId);
-  const loadChain = useMemo(() => getThemeLogoLoadChain(activeId), [activeId]);
+  const loadChain = useMemo(() => getHeaderBrandLogoLoadChain(activeId), [activeId]);
 
   return {
     themeId: activeId,

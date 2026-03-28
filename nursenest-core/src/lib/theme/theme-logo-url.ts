@@ -1,7 +1,13 @@
 /**
- * Resolved logo URL for a theme — public DigitalOcean CDN first (`theme-brand-logo-cdn.ts`), optional proxy.
- * Server-safe: no React hooks.
+ * Theme → logo URL resolution: per-theme rasters in `theme-brand-logo-cdn.ts`, or (when catalog
+ * enables tinting) a single blue-brand stem for mask + `var(--theme-primary)`.
+ * Optional proxy order: `marketing-resolve-image-url.ts`. Server-safe (no React hooks).
  */
+import {
+  getPrimaryBrandMarkObjectKey,
+  headerUsesThemeTintedBrandMark,
+  nursenestImagesSpaceObjectUrl,
+} from "@/config/marketing-cdn.catalog";
 import {
   getThemeBrandLogoCdnUrlForCanonicalId,
   getThemeLogoObjectKeyFromNormalizedId,
@@ -25,20 +31,20 @@ function uniqueStrings(urls: string[]): string[] {
   return out;
 }
 
-/** Spaces object key (filename) for the theme logo — for optional same-origin proxy fallback. */
+/** Spaces object key for the theme logo — for `/api/marketing-assets/...`. */
 export function getThemeLogoObjectKey(themeId: string): string {
   const id = normalizeThemeIdForLogo(themeId);
   return getThemeLogoObjectKeyFromNormalizedId(id);
 }
 
-/** Public CDN URL for the theme logo. */
+/** Public CDN URL for the active theme’s pre-colored logo raster. */
 export function getThemeLogoPublicUrl(themeId: string): string {
   const id = normalizeThemeIdForLogo(themeId);
   return getThemeBrandLogoCdnUrlForCanonicalId(id);
 }
 
 /**
- * Ordered candidate URLs: direct CDN first, then optional proxy paths when env enables them.
+ * Ordered URLs for `<img src>`: theme-specific asset, then lavender fallback, with optional proxy variants.
  */
 export function getThemeLogoLoadChain(themeId?: string | null): string[] {
   const id = normalizeThemeIdForLogo(themeId ?? NURSENEST_DEFAULT_THEME);
@@ -57,9 +63,46 @@ export function getThemeLogoLoadChain(themeId?: string | null): string[] {
   return uniqueStrings([pub, pubFb]);
 }
 
+const PRIMARY_BRAND_MARK_EXTENSIONS = [".svg", ".png", ".webp", ".jpg"] as const;
+
+function stemFromObjectKey(objectKey: string): string {
+  return objectKey.replace(/\.[^/.]+$/, "");
+}
+
 /**
- * Primary URL for `<img src>` — first candidate in `getThemeLogoLoadChain`.
+ * Mask-tinted mark: URLs for `primaryBrandMarkObjectKey` stem with multiple extensions (Spaces upload may differ).
  */
+export function getBlueBrandMarkLoadChain(): string[] {
+  const key = getPrimaryBrandMarkObjectKey();
+  if (!key) return [];
+  const stem = stemFromObjectKey(key);
+  const out: string[] = [];
+  for (const ext of PRIMARY_BRAND_MARK_EXTENSIONS) {
+    const k = `${stem}${ext}`;
+    const pub = nursenestImagesSpaceObjectUrl(k);
+    const proxy = marketingProxyPathForKey(k);
+    if (marketingImageUsesProxy()) {
+      out.push(proxy, pub);
+    } else if (marketingProxyFallbackEnabled()) {
+      out.push(pub, proxy);
+    } else {
+      out.push(pub);
+    }
+  }
+  return uniqueStrings(out);
+}
+
+/**
+ * Header mark load order: blue-brand mask chain when `headerUsesThemeTintedBrandMark()`; else per-theme rasters.
+ */
+export function getHeaderBrandLogoLoadChain(themeId?: string | null): string[] {
+  if (headerUsesThemeTintedBrandMark()) {
+    return getBlueBrandMarkLoadChain();
+  }
+  return getThemeLogoLoadChain(themeId);
+}
+
+/** Primary URL — first candidate in `getThemeLogoLoadChain`. */
 export function getThemeLogo(themeId?: string | null): string {
   const chain = getThemeLogoLoadChain(themeId);
   if (chain.length > 0) return chain[0];
