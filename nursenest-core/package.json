@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "prisma generate && env I18N_QUIET=1 npx tsx scripts/i18n/validate-marketing-i18n.ts && next build",
     "start": "next start -H 0.0.0.0 -p ${PORT:-3000}",
     "lint": "eslint",
     "generate:marketing-assets": "node scripts/generate-marketing-assets.mjs",
@@ -23,7 +23,11 @@
     "content:audit-reports": "node scripts/run-content-audit-reports.mjs",
     "import:questions": "tsx scripts/import-questions.ts",
     "import:lessons": "tsx scripts/import-lessons.ts",
-    "content:inventory-legacy": "node scripts/inventory-legacy-content.mjs"
+    "content:inventory-legacy": "node scripts/inventory-legacy-content.mjs",
+    "i18n:sync": "node scripts/i18n/sync-marketing-overlays.mjs",
+    "i18n:validate": "tsx scripts/i18n/validate-marketing-i18n.ts",
+    "i18n:inventory": "node scripts/i18n/generate-localization-inventory.mjs",
+    "i18n:audit": "npx tsx scripts/i18n/validate-marketing-i18n.ts && node scripts/i18n/generate-localization-inventory.mjs"
   },
   "dependencies": {
     "@auth/core": "0.37.2",

@@ -1,0 +1,181 @@
+{
+  "generatedAt": "2026-03-28T05:44:01.712Z",
+  "baseKeyCount": 664,
+  "locales": {
+    "ar": {
+      "missingKeys": 0,
+      "emptyValues": 0,
+      "placeholderMismatches": 0,
+      "extraKeys": 0,
+      "criticalStillEnglish": 184,
+      "criticalKeysInBase": 184,
+      "totalStillEnglish": 664
+    },
+    "de": {
+      "missingKeys": 0,
+      "emptyValues": 0,
+      "placeholderMismatches": 0,
+      "extraKeys": 0,
+      "criticalStillEnglish": 184,
+      "criticalKeysInBase": 184,
+      "totalStillEnglish": 664
+    },
+    "es": {
+      "missingKeys": 0,
+      "emptyValues": 0,
+      "placeholderMismatches": 0,
+      "extraKeys": 0,
+      "criticalStillEnglish": 184,
+      "criticalKeysInBase": 184,
+      "totalStillEnglish": 664
+    },
+    "fa": {
+      "missingKeys": 0,
+      "emptyValues": 0,
+      "placeholderMismatches": 0,
+      "extraKeys": 0,
+      "criticalStillEnglish": 184,
+      "criticalKeysInBase": 184,
+      "totalStillEnglish": 664
+    },
+    "fr": {
+      "missingKeys": 0,
+      "emptyValues": 0,
+      "placeholderMismatches": 0,
+      "extraKeys": 0,
+      "criticalStillEnglish": 184,
+      "criticalKeysInBase": 184,
+      "totalStillEnglish": 664
+    },
+    "hi": {
+      "missingKeys": 0,
+      "emptyValues": 0,
+      "placeholderMismatches": 0,
+      "extraKeys": 0,
+      "criticalStillEnglish": 184,
+      "criticalKeysInBase": 184,
+      "totalStillEnglish": 664
+    },
+    "ht": {
+      "missingKeys": 0,
+      "emptyValues": 0,
+      "placeholderMismatches": 0,
+      "extraKeys": 0,
+      "criticalStillEnglish": 184,
+      "criticalKeysInBase": 184,
+      "totalStillEnglish": 664
+    },
+    "id": {
+      "missingKeys": 0,
+      "emptyValues": 0,
+      "placeholderMismatches": 0,
+      "extraKeys": 0,
+      "criticalStillEnglish": 184,
+      "criticalKeysInBase": 184,
+      "totalStillEnglish": 664
+    },
+    "ja": {
+      "missingKeys": 0,
+      "emptyValues": 0,
+      "placeholderMismatches": 0,
+      "extraKeys": 0,
+      "criticalStillEnglish": 184,
+      "criticalKeysInBase": 184,
+      "totalStillEnglish": 664
+    },
+    "ko": {
+      "missingKeys": 0,
+      "emptyValues": 0,
+      "placeholderMismatches": 0,
+      "extraKeys": 0,
+      "criticalStillEnglish": 184,
+      "criticalKeysInBase": 184,
+      "totalStillEnglish": 664
+    },
+    "pa": {
+      "missingKeys": 0,
+      "emptyValues": 0,
+      "placeholderMismatches": 0,
+      "extraKeys": 0,
+      "criticalStillEnglish": 184,
+      "criticalKeysInBase": 184,
+      "totalStillEnglish": 664
+    },
+    "pt": {
+      "missingKeys": 0,
+      "emptyValues": 0,
+      "placeholderMismatches": 0,
+      "extraKeys": 0,
+      "criticalStillEnglish": 184,
+      "criticalKeysInBase": 184,
+      "totalStillEnglish": 664
+    },
+    "th": {
+      "missingKeys": 0,
+      "emptyValues": 0,
+      "placeholderMismatches": 0,
+      "extraKeys": 0,
+      "criticalStillEnglish": 184,
+      "criticalKeysInBase": 184,
+      "totalStillEnglish": 664
+    },
+    "tl": {
+      "missingKeys": 0,
+      "emptyValues": 0,
+      "placeholderMismatches": 0,
+      "extraKeys": 0,
+      "criticalStillEnglish": 184,
+      "criticalKeysInBase": 184,
+      "totalStillEnglish": 664
+    },
+    "tr": {
+      "missingKeys": 0,
+      "emptyValues": 0,
+      "placeholderMismatches": 0,
+      "extraKeys": 0,
+      "criticalStillEnglish": 184,
+      "criticalKeysInBase": 184,
+      "totalStillEnglish": 664
+    },
+    "ur": {
+      "missingKeys": 0,
+      "emptyValues": 0,
+      "placeholderMismatches": 0,
+      "extraKeys": 0,
+      "criticalStillEnglish": 184,
+      "criticalKeysInBase": 184,
+      "totalStillEnglish": 664
+    },
+    "vi": {
+      "missingKeys": 0,
+      "emptyValues": 0,
+      "placeholderMismatches": 0,
+      "extraKeys": 0,
+      "criticalStillEnglish": 184,
+      "criticalKeysInBase": 184,
+      "totalStillEnglish": 664
+    },
+    "zh-tw": {
+      "missingKeys": 0,
+      "emptyValues": 0,
+      "placeholderMismatches": 0,
+      "extraKeys": 0,
+      "criticalStillEnglish": 184,
+      "criticalKeysInBase": 184,
+      "totalStillEnglish": 664
+    },
+    "zh": {
+      "missingKeys": 0,
+      "emptyValues": 0,
+      "placeholderMismatches": 0,
+      "extraKeys": 0,
+      "criticalStillEnglish": 184,
+      "criticalKeysInBase": 184,
+      "totalStillEnglish": 664
+    }
+  },
+  "errorCount": 0,
+  "warningCount": 0,
+  "failOnEnglishLeakage": false,
+  "criticalKeysInBase": 184
+}

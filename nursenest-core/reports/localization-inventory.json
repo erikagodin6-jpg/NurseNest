@@ -1,0 +1,143 @@
+{
+  "generatedAt": "2026-03-28T05:45:42.274Z",
+  "supportedMarketingLocales": [
+    "en",
+    "fr",
+    "tl",
+    "hi",
+    "es",
+    "zh",
+    "zh-tw",
+    "ar",
+    "ko",
+    "pt",
+    "pa",
+    "vi",
+    "ht",
+    "ur",
+    "ja",
+    "fa",
+    "de",
+    "th",
+    "tr",
+    "id"
+  ],
+  "defaultLocale": "en",
+  "prefixedRouteLocales": [
+    "fr",
+    "tl",
+    "hi",
+    "es",
+    "zh",
+    "zh-tw",
+    "ar",
+    "ko",
+    "pt",
+    "pa",
+    "vi",
+    "ht",
+    "ur",
+    "ja",
+    "fa",
+    "de",
+    "th",
+    "tr",
+    "id"
+  ],
+  "marketingUi": {
+    "baseFile": "src/content/marketing-en.json",
+    "baseKeyCount": 664,
+    "overlayFiles": {
+      "ar": {
+        "path": "src/content/locale/marketing-ar.json",
+        "keyCount": 664
+      },
+      "de": {
+        "path": "src/content/locale/marketing-de.json",
+        "keyCount": 664
+      },
+      "es": {
+        "path": "src/content/locale/marketing-es.json",
+        "keyCount": 664
+      },
+      "fa": {
+        "path": "src/content/locale/marketing-fa.json",
+        "keyCount": 664
+      },
+      "fr": {
+        "path": "src/content/locale/marketing-fr.json",
+        "keyCount": 664
+      },
+      "hi": {
+        "path": "src/content/locale/marketing-hi.json",
+        "keyCount": 664
+      },
+      "ht": {
+        "path": "src/content/locale/marketing-ht.json",
+        "keyCount": 664
+      },
+      "id": {
+        "path": "src/content/locale/marketing-id.json",
+        "keyCount": 664
+      },
+      "ja": {
+        "path": "src/content/locale/marketing-ja.json",
+        "keyCount": 664
+      },
+      "ko": {
+        "path": "src/content/locale/marketing-ko.json",
+        "keyCount": 664
+      },
+      "pa": {
+        "path": "src/content/locale/marketing-pa.json",
+        "keyCount": 664
+      },
+      "pt": {
+        "path": "src/content/locale/marketing-pt.json",
+        "keyCount": 664
+      },
+      "th": {
+        "path": "src/content/locale/marketing-th.json",
+        "keyCount": 664
+      },
+      "tl": {
+        "path": "src/content/locale/marketing-tl.json",
+        "keyCount": 664
+      },
+      "tr": {
+        "path": "src/content/locale/marketing-tr.json",
+        "keyCount": 664
+      },
+      "ur": {
+        "path": "src/content/locale/marketing-ur.json",
+        "keyCount": 664
+      },
+      "vi": {
+        "path": "src/content/locale/marketing-vi.json",
+        "keyCount": 664
+      },
+      "zh-tw": {
+        "path": "src/content/locale/marketing-zh-tw.json",
+        "keyCount": 664
+      },
+      "zh": {
+        "path": "src/content/locale/marketing-zh.json",
+        "keyCount": 664
+      }
+    },
+    "layers": {
+      "uiStrings": "Flat key/value JSON merged in loadMarketingMessages (en base + locale overlay).",
+      "seoMetadata": "Per-route generateMetadata in (marketing) routes; programmatic SEO uses programmatic-metadata.ts hreflang.",
+      "contentBacked": "Lessons, questions, flashcards: single-language string fields in Postgres (no locale column in schema). Localization would require schema + import pipeline changes. Use npm run content:inventory / content:quality when DB is available."
+    }
+  },
+  "studentApp": {
+    "status": "not_marketing_i18n",
+    "note": "Authenticated student surfaces (app routes) primarily use English copy in components; audit separately if multi-language app UI is required."
+  },
+  "validation": {
+    "script": "scripts/i18n/validate-marketing-i18n.ts",
+    "output": "reports/marketing-i18n-validation.json",
+    "buildGate": "Runs before next build via package.json build script."
+  }
+}

@@ -45,6 +45,7 @@ const EXACT: Record<string, string> = {
   "/rrt": `${PUBLIC_SITE}/allied-health/rrt`,
   "/mlt": `${PUBLIC_SITE}/allied-health/mlt`,
   "/imaging": `${PUBLIC_SITE}/allied-health/imaging`,
+  "/med-math": "/tools",
 };
 
 export function mapLegacyMarketingHref(href: string): string {
@@ -66,6 +67,7 @@ export function resolveMarketingHref(href: string): string {
   if (
     mapped.startsWith("/app/") ||
     mapped === "/app" ||
+    mapped.startsWith("/tools") ||
     mapped === "/pricing" ||
     mapped === "/login" ||
     mapped === "/signup" ||

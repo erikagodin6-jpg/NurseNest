@@ -15,17 +15,29 @@ export default async function LearnerShellLayout({ children }: { children: React
     <SentryLearnerShell userId={userId}>
     <div className="mx-auto w-full max-w-6xl px-6 py-8">
       <header className="nn-card mb-6 flex flex-wrap items-center justify-between gap-4 rounded-2xl p-4">
-        <nav className="flex flex-wrap items-center gap-2 text-sm font-medium">
-          <Link className="rounded-full border border-primary/15 bg-primary/8 px-3 py-2 text-primary" href="/app">
+        <nav className="flex flex-wrap items-center gap-2 text-sm font-medium" aria-label="App">
+          <Link
+            className="inline-flex min-h-11 min-w-[44px] items-center justify-center rounded-full border border-primary/15 bg-primary/8 px-3 py-2 text-primary"
+            href="/app"
+          >
             Dashboard
           </Link>
-          <Link className="rounded-full border border-border bg-white px-3 py-2 hover:bg-gray-50" href="/app/lessons">
+          <Link
+            className="inline-flex min-h-11 min-w-[44px] items-center justify-center rounded-full border border-border bg-white px-3 py-2 hover:bg-gray-50"
+            href="/app/lessons"
+          >
             Lessons
           </Link>
-          <Link className="rounded-full border border-border bg-white px-3 py-2 hover:bg-gray-50" href="/app/questions">
+          <Link
+            className="inline-flex min-h-11 min-w-[44px] items-center justify-center rounded-full border border-border bg-white px-3 py-2 hover:bg-gray-50"
+            href="/app/questions"
+          >
             Question Bank
           </Link>
-          <Link className="rounded-full border border-border bg-white px-3 py-2 hover:bg-gray-50" href="/app/exams">
+          <Link
+            className="inline-flex min-h-11 min-w-[44px] items-center justify-center rounded-full border border-border bg-white px-3 py-2 hover:bg-gray-50"
+            href="/app/exams"
+          >
             Practice Exams
           </Link>
         </nav>

@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { DocumentLangFromLocale } from "@/components/i18n/document-lang-from-locale";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { MarketingI18nProvider } from "@/components/marketing/marketing-i18n-provider";
@@ -18,6 +19,7 @@ export default async function MarketingLocaleLayout({
   const messages = await loadMarketingMessages(locale);
   return (
     <MarketingI18nProvider locale={locale} messages={messages}>
+      <DocumentLangFromLocale locale={locale} />
       <OrganizationJsonLd />
       <WebSiteJsonLd />
       <div className="nn-marketing-surface flex min-h-screen flex-col bg-[var(--theme-page-bg)]">

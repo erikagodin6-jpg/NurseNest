@@ -7,6 +7,16 @@ export const metadata: Metadata = {
   alternates: { canonical: "/login" },
 };
 
-export default function LoginPage() {
-  return <MarketingLoginPage locale="en" recoveryPathPrefix="" />;
+type Props = { searchParams: Promise<{ callbackUrl?: string; registered?: string }> };
+
+export default async function LoginPage({ searchParams }: Props) {
+  const q = await searchParams;
+  return (
+    <MarketingLoginPage
+      locale="en"
+      recoveryPathPrefix=""
+      callbackUrl={q.callbackUrl}
+      registered={q.registered === "1"}
+    />
+  );
 }

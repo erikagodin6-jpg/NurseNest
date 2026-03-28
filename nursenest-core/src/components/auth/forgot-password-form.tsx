@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { trackAuthEvent } from "@/lib/observability/client-auth-events";
 
 const GENERIC =
   "If an account exists for that email, a reset link has been sent. Check your inbox and spam folder.";
@@ -21,12 +22,21 @@ export function ForgotPasswordForm({ pathPrefix = "" }: { pathPrefix?: string })
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
-      const data = (await res.json()) as { message?: string };
+      let data: { message?: string } = {};
+      try {
+        data = (await res.json()) as { message?: string };
+      } catch {
+        trackAuthEvent("auth_forgot_password_client_error", { reason: "bad_json" });
+        setStatus("error");
+        setMessage("We couldn’t complete that request. Check your connection and try again.");
+        return;
+      }
       setMessage(data.message ?? GENERIC);
       setStatus("done");
     } catch {
+      trackAuthEvent("auth_forgot_password_client_error", { reason: "network" });
       setStatus("error");
-      setMessage("Something went wrong. Please try again.");
+      setMessage("Something went wrong. Check your connection and try again.");
     }
   }
 
@@ -44,6 +54,7 @@ export function ForgotPasswordForm({ pathPrefix = "" }: { pathPrefix?: string })
               name="email"
               autoComplete="email"
               required
+              disabled={status === "loading"}
             />
           </label>
           {status === "error" && message ? <p className="text-sm text-red-600">{message}</p> : null}

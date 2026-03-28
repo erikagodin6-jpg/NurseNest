@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { auth } from "@/lib/auth";
+import { RefreshRetryButton } from "@/components/student/refresh-retry-button";
 import { resolveEntitlementForPage } from "@/lib/entitlements/resolve-entitlement-for-page";
 import { prisma } from "@/lib/db";
 import { SOCIAL_PROOF } from "@/lib/conversion/pricing-catalog";
@@ -20,8 +21,11 @@ export default async function DashboardPage() {
       <main className="space-y-5">
         <h1 className="text-3xl font-bold">Learner dashboard</h1>
         <section className="nn-card p-6">
-          <h2 className="text-xl font-semibold">Access Status</h2>
-          <p className="mt-2 text-sm text-muted">Subscription status could not be loaded. Refresh the page.</p>
+          <h2 className="text-xl font-semibold">Access status</h2>
+          <p className="mt-2 text-sm text-muted">
+            We couldn’t verify your subscription just now. This is usually temporary — try again, or contact support if it persists.
+          </p>
+          <RefreshRetryButton />
         </section>
       </main>
     );

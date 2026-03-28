@@ -63,7 +63,7 @@ export function SiteFooter() {
                 <FLink href="/pre-nursing">{t("footer.preNursing")}</FLink>
               </li>
               <li>
-                <FLink href="/med-math">{t("footer.medMath")}</FLink>
+                <FLink href="/tools">{t("footer.medMath")}</FLink>
               </li>
               <li>
                 <FLink href="/anatomy">{t("footer.anatomyExplorer")}</FLink>

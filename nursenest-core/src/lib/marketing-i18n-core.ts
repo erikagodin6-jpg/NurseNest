@@ -7,7 +7,9 @@ type Params = Record<string, string | number | undefined>;
 const baseEn = marketingEn as Record<string, string>;
 
 /**
- * Resolves copy without ever returning raw i18n keys in production UI (missing keys fall back to English, then empty).
+ * Resolves copy without ever returning raw i18n keys in production UI.
+ * Non-default locales should ship full overlays (see `npm run i18n:sync`) so keys are explicit;
+ * merge order in `loadMarketingMessages` still applies base then overlay for safety.
  */
 export function formatMarketingMessage(messages: MarketingMessages, key: string, params?: Params): string {
   let raw = messages[key];

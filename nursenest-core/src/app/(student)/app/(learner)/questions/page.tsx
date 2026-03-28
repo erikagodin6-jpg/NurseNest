@@ -1,4 +1,5 @@
 import { auth } from "@/lib/auth";
+import { RefreshRetryButton } from "@/components/student/refresh-retry-button";
 import { questionLearnerPoolWhere } from "@/lib/entitlements/content-access-scope";
 import { getFreemiumSnapshot } from "@/lib/entitlements/freemium";
 import { resolveEntitlementForPage } from "@/lib/entitlements/resolve-entitlement-for-page";
@@ -14,9 +15,10 @@ export default async function QuestionBankPage() {
 
   if (entitlement === "error") {
     return (
-      <p className="nn-card p-6 text-sm text-muted">
-        We could not verify your subscription right now. Refresh the page or try again in a moment.
-      </p>
+      <div className="nn-card p-6 text-sm text-muted">
+        <p>We couldn’t verify your subscription just now. Try again in a moment.</p>
+        <RefreshRetryButton />
+      </div>
     );
   }
 

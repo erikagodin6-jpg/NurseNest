@@ -1,5 +1,8 @@
 import type { MetadataRoute } from "next";
 import { CORE_HOSTED_MARKETING_LOCALES } from "@/lib/i18n/marketing-locale-policy";
+import { isClinicalToolsSurfaceEnabled } from "@/lib/feature-flags/restored-modules";
+import { toolsForSitemap } from "@/lib/platform-tools/tool-registry";
+import { isToolSlugEnabled } from "@/lib/platform-tools/tool-flags";
 import { getAllProgrammaticSlugs } from "@/lib/seo/programmatic-registry";
 import { MARKETING_SITE_ORIGIN } from "@/lib/seo/site-origin";
 
@@ -18,12 +21,20 @@ export default async function sitemap(props: { id: Promise<number> }): Promise<M
   const now = new Date();
 
   if (id === 0) {
-    const paths = ["/", "/pricing", "/login", "/signup"];
+    const toolPaths = isClinicalToolsSurfaceEnabled()
+      ? [
+          "/tools",
+          ...toolsForSitemap()
+            .filter((t) => isToolSlugEnabled(t.slug))
+            .map((t) => `/tools/${t.slug}`),
+        ]
+      : [];
+    const paths = ["/", "/pricing", "/login", "/signup", ...toolPaths];
     const entries: MetadataRoute.Sitemap = paths.map((path) => ({
       url: `${base}${path}`,
       lastModified: now,
       changeFrequency: path === "/" ? "daily" : "weekly",
-      priority: path === "/" ? 1 : 0.8,
+      priority: path === "/" ? 1 : path.startsWith("/tools") ? 0.72 : 0.8,
     }));
     for (const loc of CORE_HOSTED_MARKETING_LOCALES) {
       entries.push(
@@ -52,6 +63,14 @@ export default async function sitemap(props: { id: Promise<number> }): Promise<M
           priority: 0.75,
         },
       );
+      for (const p of toolPaths) {
+        entries.push({
+          url: `${base}/${loc}${p}`,
+          lastModified: now,
+          changeFrequency: "weekly",
+          priority: 0.68,
+        });
+      }
     }
     return entries;
   }

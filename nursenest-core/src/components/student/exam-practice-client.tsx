@@ -1,7 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { QuestionType } from "@prisma/client";
+import { trackAuthEvent } from "@/lib/observability/client-auth-events";
 
 type ExamQuestion = {
   id: string;
@@ -25,7 +27,8 @@ export function ExamPracticeClient({
   examId: string | null;
   examTitle?: string | null;
 }) {
-  const [phase, setPhase] = useState<"loading" | "ready" | "empty" | "error">("loading");
+  type Phase = "loading" | "ready" | "empty" | "error" | "unauthorized" | "paywall" | "service";
+  const [phase, setPhase] = useState<Phase>("loading");
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [resolvedExamId, setResolvedExamId] = useState<string | null>(examId);
   const [questionIds, setQuestionIds] = useState<string[]>([]);
@@ -108,7 +111,35 @@ export function ExamPracticeClient({
             `/api/exams/session?sessionId=${encodeURIComponent(storedSession)}&mode=minimal`,
             { signal: ac.signal },
           );
+          if (res.status === 401) {
+            localStorage.removeItem(STORAGE_SESSION);
+            localStorage.removeItem(STORAGE_EXAM);
+            if (!cancelled) {
+              trackAuthEvent("exam_session_recover_failed", { reason: "401" });
+              setPhase("unauthorized");
+            }
+            return;
+          }
+          if (res.status === 403) {
+            localStorage.removeItem(STORAGE_SESSION);
+            localStorage.removeItem(STORAGE_EXAM);
+            if (!cancelled) {
+              trackAuthEvent("exam_session_recover_failed", { reason: "403" });
+              setPhase("paywall");
+            }
+            return;
+          }
           if (res.status === 404) {
+            localStorage.removeItem(STORAGE_SESSION);
+            localStorage.removeItem(STORAGE_EXAM);
+          } else if (!res.ok) {
+            if (res.status === 503) {
+              if (!cancelled) {
+                trackAuthEvent("exam_session_recover_failed", { reason: "503" });
+                setPhase("service");
+              }
+              return;
+            }
             localStorage.removeItem(STORAGE_SESSION);
             localStorage.removeItem(STORAGE_EXAM);
           }
@@ -140,15 +171,39 @@ export function ExamPracticeClient({
           body: JSON.stringify({ examId: examId ?? undefined, hydrate: "window" }),
           signal: ac.signal,
         });
-        const payload = (await start.json()) as {
+        let payload: {
           sessionId?: string;
           examId?: string | null;
           questionIds?: string[];
           questions?: ExamQuestion[];
           poolEmpty?: boolean;
-        };
+          error?: string;
+        } = {};
+        try {
+          payload = (await start.json()) as typeof payload;
+        } catch {
+          if (!cancelled) {
+            trackAuthEvent("exam_start_failed", { status: start.status });
+            setPhase("error");
+          }
+          return;
+        }
         if (!start.ok) {
-          if (!cancelled) setPhase("error");
+          if (!cancelled) {
+            if (start.status === 401) {
+              trackAuthEvent("exam_start_unauthorized", {});
+              setPhase("unauthorized");
+            } else if (start.status === 403) {
+              trackAuthEvent("exam_start_paywall", {});
+              setPhase("paywall");
+            } else if (start.status === 503) {
+              trackAuthEvent("exam_start_failed", { status: 503 });
+              setPhase("service");
+            } else {
+              trackAuthEvent("exam_start_failed", { status: start.status });
+              setPhase("error");
+            }
+          }
           return;
         }
         if (cancelled) return;
@@ -171,6 +226,7 @@ export function ExamPracticeClient({
         localStorage.setItem(STORAGE_EXAM, payload.examId ?? examId ?? "");
       } catch (e) {
         if (cancelled || (e instanceof DOMException && e.name === "AbortError")) return;
+        trackAuthEvent("exam_start_failed", { status: 0 });
         setPhase("error");
       }
     }
@@ -201,6 +257,7 @@ export function ExamPracticeClient({
       });
       const data = (await res.json()) as { attempt?: { score: number; total: number }; error?: string };
       if (!res.ok) {
+        trackAuthEvent("exam_submit_failed", { status: res.status });
         setPhase("error");
         return;
       }
@@ -216,6 +273,46 @@ export function ExamPracticeClient({
 
   if (phase === "loading") {
     return <p className="text-sm text-muted">Preparing your practice session…</p>;
+  }
+
+  if (phase === "unauthorized") {
+    return (
+      <div className="nn-card mt-4 space-y-3 p-6">
+        <p className="text-sm text-muted">Your session may have expired. Sign in again to continue practice exams.</p>
+        <Link
+          href="/login?callbackUrl=/app/exams"
+          className="inline-block rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white"
+        >
+          Sign in
+        </Link>
+      </div>
+    );
+  }
+
+  if (phase === "paywall") {
+    return (
+      <div className="nn-card mt-4 space-y-3 p-6">
+        <p className="text-sm text-muted">An active subscription is required to start or resume full mock exams.</p>
+        <Link href="/pricing" className="inline-block rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold hover:bg-gray-50">
+          View plans
+        </Link>
+      </div>
+    );
+  }
+
+  if (phase === "service") {
+    return (
+      <div className="nn-card mt-4 space-y-3 p-6">
+        <p className="text-sm text-muted">We couldn’t verify access just now. This is usually temporary.</p>
+        <button
+          type="button"
+          className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white"
+          onClick={() => window.location.reload()}
+        >
+          Retry
+        </button>
+      </div>
+    );
   }
 
   if (phase === "error") {

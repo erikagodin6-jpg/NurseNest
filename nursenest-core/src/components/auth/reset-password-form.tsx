@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { trackAuthEvent } from "@/lib/observability/client-auth-events";
 
 type Props = { token: string | null; pathPrefix?: string };
 
@@ -31,12 +32,15 @@ export function ResetPasswordForm({ token, pathPrefix = "" }: Props) {
       if (!res.ok) {
         setError(data.message ?? "This link is invalid or has expired.");
         setStatus("error");
+        trackAuthEvent("auth_reset_failed", { status: res.status });
         return;
       }
+      trackAuthEvent("auth_reset_success", {});
       setStatus("done");
     } catch {
       setError("Something went wrong. Please try again.");
       setStatus("error");
+      trackAuthEvent("auth_reset_failed", { status: 0 });
     }
   }
 
