@@ -2,7 +2,7 @@
 
 import { useTheme } from "next-themes";
 import { useSyncExternalStore } from "react";
-import { getThemeLogo } from "@/lib/theme/theme-logo-url";
+import { getThemeLogo, getThemeLogoPublicUrl } from "@/lib/theme/theme-logo-url";
 import { normalizeThemeIdForLogo } from "@/lib/theme/theme-logo-resolve";
 import { NURSENEST_DEFAULT_THEME, THEME_STORAGE_KEY } from "@/lib/theme/theme-registry";
 
@@ -48,6 +48,9 @@ export function useThemeLogo(): {
   themeId: string;
   src: string;
   fallbackSrc: string;
+  /** Canonical Spaces HTTPS URL (no proxy) — used if `/api/marketing-assets/...` fails but the bucket allows anonymous GET. */
+  directSrc: string;
+  directFallbackSrc: string;
 } {
   const { resolvedTheme, theme } = useTheme();
   const domThemeId = useSyncExternalStore(subscribe, readDomThemeId, getServerSnapshot);
@@ -57,5 +60,7 @@ export function useThemeLogo(): {
     themeId: activeId,
     src: getThemeLogo(activeId),
     fallbackSrc: getThemeLogo(NURSENEST_DEFAULT_THEME),
+    directSrc: getThemeLogoPublicUrl(activeId),
+    directFallbackSrc: getThemeLogoPublicUrl(NURSENEST_DEFAULT_THEME),
   };
 }

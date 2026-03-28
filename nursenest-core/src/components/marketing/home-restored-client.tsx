@@ -93,6 +93,8 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
   const [isHovered, setIsHovered] = useState(false);
   const [failed, setFailed] = useState<Set<number>>(() => new Set());
   const failedRef = useRef(failed);
+  /** After same-origin proxy fails (e.g. missing SPACES_*), retry canonical HTTPS URL (works if the Space is public). */
+  const [directUrlFallback, setDirectUrlFallback] = useState<Set<number>>(() => new Set());
   const [hasLoaded, setHasLoaded] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const unavailableReported = useRef(false);
@@ -190,11 +192,12 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
         ) : null}
         {slides.map((slide, index) => {
           if (failed.has(index)) return null;
-          const src = resolveHeroImgSrc(slide.publicUrl);
+          const proxied = resolveHeroImgSrc(slide.publicUrl);
+          const src = directUrlFallback.has(index) ? slide.publicUrl : proxied;
           const active = index === current;
             return (
             <img
-              key={slide.objectKey}
+              key={`${slide.objectKey}-${directUrlFallback.has(index) ? "direct" : "proxy"}`}
               src={src}
               alt={slide.alt}
               width={1200}
@@ -208,7 +211,13 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
               data-testid={`img-hero-slide-${index}`}
               aria-hidden={!active}
               referrerPolicy="no-referrer"
-              onError={() => handleImgError(index)}
+              onError={() => {
+                if (marketingImageUsesProxy() && !directUrlFallback.has(index)) {
+                  setDirectUrlFallback((prev) => new Set(prev).add(index));
+                  return;
+                }
+                handleImgError(index);
+              }}
               onLoad={handleImgLoad}
             />
           );

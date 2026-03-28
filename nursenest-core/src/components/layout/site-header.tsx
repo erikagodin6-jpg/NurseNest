@@ -20,7 +20,7 @@ import { useMarketingI18n } from "@/lib/marketing-i18n";
 import { MARKETING_LANGUAGES } from "@/lib/i18n/marketing-languages";
 import { DEFAULT_MARKETING_LOCALE } from "@/lib/i18n/marketing-locale-policy";
 import { stripMarketingLocalePrefix, withMarketingLocale } from "@/lib/i18n/marketing-path";
-import { SiteBrandLogoMark } from "@/components/brand/site-brand-logo";
+import { SiteBrandLogoMark, type BrandMarkLoadState } from "@/components/brand/site-brand-logo";
 import { ThemePicker } from "@/components/theme/theme-picker";
 import { Button } from "@/components/ui/button";
 
@@ -56,6 +56,23 @@ function NavLinkItem({ href, children }: { href: string; children: React.ReactNo
     >
       {children}
     </Link>
+  );
+}
+
+/** Visible wordmark when the logo is loading or failed; screen-reader-only when the image mark is ready. */
+function HeaderBrandWordmark({
+  children,
+  wordmarkClassName,
+}: {
+  children: React.ReactNode;
+  wordmarkClassName: string;
+}) {
+  const [markState, setMarkState] = useState<BrandMarkLoadState>("loading");
+  return (
+    <>
+      <SiteBrandLogoMark onMarkState={setMarkState} />
+      <span className={markState === "ready" ? "sr-only" : wordmarkClassName}>{children}</span>
+    </>
   );
 }
 
@@ -111,9 +128,10 @@ export function SiteHeader() {
       </div>
 
       <div className="mx-auto flex h-11 max-w-7xl items-center justify-between gap-2 px-2 sm:h-16 sm:px-4 lg:px-8">
-        <Link href={localizeHref("/")} className="group flex min-w-0 items-center gap-2">
-          <SiteBrandLogoMark />
-          <span className="truncate text-xl font-extrabold tracking-tight text-primary group-hover:text-[var(--theme-menu-hover-text)]">NurseNest</span>
+        <Link href={localizeHref("/")} className="group flex min-w-0 items-center gap-2" aria-label="NurseNest home">
+          <HeaderBrandWordmark wordmarkClassName="truncate text-xl font-extrabold tracking-tight text-primary group-hover:text-[var(--theme-menu-hover-text)]">
+            NurseNest
+          </HeaderBrandWordmark>
         </Link>
 
         <nav className="hidden items-center gap-0.5 md:flex lg:gap-1">
@@ -263,8 +281,7 @@ export function SiteHeader() {
           <div className="absolute right-0 top-0 flex h-full w-[min(100%,20rem)] flex-col border-l border-[var(--theme-separator)] bg-[var(--theme-card-bg)] shadow-xl">
             <div className="flex items-center justify-between border-b border-[var(--theme-separator)] p-4">
               <span className="flex items-center gap-2">
-                <SiteBrandLogoMark />
-                <span className="text-lg font-extrabold text-primary">NurseNest</span>
+                <HeaderBrandWordmark wordmarkClassName="text-lg font-extrabold text-primary">NurseNest</HeaderBrandWordmark>
               </span>
               <Button type="button" variant="ghost" className="h-9 w-9 p-0" aria-label={t("nav.closeMenu")} onClick={() => setMobileOpen(false)}>
                 <X className="h-5 w-5" />
