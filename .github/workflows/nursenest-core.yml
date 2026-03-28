@@ -1,0 +1,45 @@
+name: nursenest-core i18n + build
+
+on:
+  push:
+    paths:
+      - "nursenest-core/**"
+      - ".github/workflows/nursenest-core.yml"
+  pull_request:
+    paths:
+      - "nursenest-core/**"
+      - ".github/workflows/nursenest-core.yml"
+
+jobs:
+  nursenest-core:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: nursenest-core
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: nursenest-core/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Localization validation (strict certified locales)
+        env:
+          CI: "true"
+          I18N_ENFORCE_CERTIFIED: "1"
+        run: npm run i18n:validate
+
+      - name: Production surface audit
+        run: npm run i18n:surfaces
+
+      - name: Production build
+        env:
+          CI: "true"
+          I18N_ENFORCE_CERTIFIED: "1"
+        run: npm run build

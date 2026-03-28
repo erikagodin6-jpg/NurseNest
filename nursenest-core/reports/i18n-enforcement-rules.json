@@ -1,0 +1,54 @@
+{
+  "generated": "2026-03-28",
+  "description": "Recommended enforcement for NurseNest marketing i18n. Adjust certified-locales.json as locales complete QA.",
+  "rules": [
+    {
+      "id": "STRUCT-001",
+      "severity": "error",
+      "when": "always",
+      "check": "Every non-English overlay must contain every key from marketing-en.json; values must be non-empty strings.",
+      "fails": "npm run build (validate-marketing-i18n.ts)"
+    },
+    {
+      "id": "STRUCT-002",
+      "severity": "error",
+      "when": "always",
+      "check": "Interpolation tokens {{name}} in each locale must match the English template for that key.",
+      "fails": "npm run build"
+    },
+    {
+      "id": "P0-LEAK-001",
+      "severity": "error",
+      "when": "I18N_ENFORCE_CERTIFIED is not 0/false AND locale is listed in src/content/i18n/certified-locales.json",
+      "check": "P0 keys (nav, auth, pricing, recovery, tools hub/errors/common/disclaimer, metadata titles) must not equal the English string.",
+      "fails": "npm run build",
+      "mitigation": "Remove locale from certified-locales until translated, or set I18N_ENFORCE_CERTIFIED=0 for local experiments only."
+    },
+    {
+      "id": "P1-LEAK-001",
+      "severity": "warn",
+      "when": "i18n:validate without I18N_QUIET",
+      "check": "P1 keys (footer, hero, home marketing, calculator body copy under tools.*) may still match English; reported as warnings.",
+      "fails": "never (non-blocking)"
+    },
+    {
+      "id": "P2-LEAK-001",
+      "severity": "info",
+      "when": "reports only",
+      "check": "Long-tail keys; parity tracked structurally only.",
+      "fails": "never"
+    },
+    {
+      "id": "SURFACE-001",
+      "severity": "info",
+      "when": "npm run i18n:surfaces",
+      "check": "Learner shell, checkout, and other non-marketing surfaces documented in i18n-production-surface-audit.json.",
+      "fails": "never"
+    }
+  ],
+  "environmentVariables": {
+    "I18N_ENFORCE_CERTIFIED": "Default on: set to 0 to skip P0 leakage enforcement for certified locales (not recommended for release branches).",
+    "I18N_QUIET": "Set to 1 to suppress warning spam during validate (used in npm run build).",
+    "CI": "Typical CI should run full nursenest-core build with defaults (structural + certified P0 leakage)."
+  }
+}

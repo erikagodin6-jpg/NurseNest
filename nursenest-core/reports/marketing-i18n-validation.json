@@ -1,181 +1,246 @@
 {
-  "generatedAt": "2026-03-28T05:44:01.712Z",
+  "generatedAt": "2026-03-28T06:00:06.741Z",
   "baseKeyCount": 664,
+  "severityKeyCounts": {
+    "P0": 74,
+    "P1": 222,
+    "P2": 368
+  },
+  "p0KeyCount": 74,
+  "certifiedLocales": [
+    "fr"
+  ],
+  "enforceCertifiedP0Leakage": true,
   "locales": {
     "ar": {
       "missingKeys": 0,
       "emptyValues": 0,
       "placeholderMismatches": 0,
       "extraKeys": 0,
-      "criticalStillEnglish": 184,
-      "criticalKeysInBase": 184,
-      "totalStillEnglish": 664
+      "p0StillEnglish": 74,
+      "p1StillEnglish": 222,
+      "p2StillEnglish": 368,
+      "p0KeyCount": 74,
+      "certified": false,
+      "p0LeakageFailures": []
     },
     "de": {
       "missingKeys": 0,
       "emptyValues": 0,
       "placeholderMismatches": 0,
       "extraKeys": 0,
-      "criticalStillEnglish": 184,
-      "criticalKeysInBase": 184,
-      "totalStillEnglish": 664
+      "p0StillEnglish": 74,
+      "p1StillEnglish": 222,
+      "p2StillEnglish": 368,
+      "p0KeyCount": 74,
+      "certified": false,
+      "p0LeakageFailures": []
     },
     "es": {
       "missingKeys": 0,
       "emptyValues": 0,
       "placeholderMismatches": 0,
       "extraKeys": 0,
-      "criticalStillEnglish": 184,
-      "criticalKeysInBase": 184,
-      "totalStillEnglish": 664
+      "p0StillEnglish": 74,
+      "p1StillEnglish": 222,
+      "p2StillEnglish": 368,
+      "p0KeyCount": 74,
+      "certified": false,
+      "p0LeakageFailures": []
     },
     "fa": {
       "missingKeys": 0,
       "emptyValues": 0,
       "placeholderMismatches": 0,
       "extraKeys": 0,
-      "criticalStillEnglish": 184,
-      "criticalKeysInBase": 184,
-      "totalStillEnglish": 664
+      "p0StillEnglish": 74,
+      "p1StillEnglish": 222,
+      "p2StillEnglish": 368,
+      "p0KeyCount": 74,
+      "certified": false,
+      "p0LeakageFailures": []
     },
     "fr": {
       "missingKeys": 0,
       "emptyValues": 0,
       "placeholderMismatches": 0,
       "extraKeys": 0,
-      "criticalStillEnglish": 184,
-      "criticalKeysInBase": 184,
-      "totalStillEnglish": 664
+      "p0StillEnglish": 0,
+      "p1StillEnglish": 222,
+      "p2StillEnglish": 368,
+      "p0KeyCount": 74,
+      "certified": true,
+      "p0LeakageFailures": []
     },
     "hi": {
       "missingKeys": 0,
       "emptyValues": 0,
       "placeholderMismatches": 0,
       "extraKeys": 0,
-      "criticalStillEnglish": 184,
-      "criticalKeysInBase": 184,
-      "totalStillEnglish": 664
+      "p0StillEnglish": 74,
+      "p1StillEnglish": 222,
+      "p2StillEnglish": 368,
+      "p0KeyCount": 74,
+      "certified": false,
+      "p0LeakageFailures": []
     },
     "ht": {
       "missingKeys": 0,
       "emptyValues": 0,
       "placeholderMismatches": 0,
       "extraKeys": 0,
-      "criticalStillEnglish": 184,
-      "criticalKeysInBase": 184,
-      "totalStillEnglish": 664
+      "p0StillEnglish": 74,
+      "p1StillEnglish": 222,
+      "p2StillEnglish": 368,
+      "p0KeyCount": 74,
+      "certified": false,
+      "p0LeakageFailures": []
     },
     "id": {
       "missingKeys": 0,
       "emptyValues": 0,
       "placeholderMismatches": 0,
       "extraKeys": 0,
-      "criticalStillEnglish": 184,
-      "criticalKeysInBase": 184,
-      "totalStillEnglish": 664
+      "p0StillEnglish": 74,
+      "p1StillEnglish": 222,
+      "p2StillEnglish": 368,
+      "p0KeyCount": 74,
+      "certified": false,
+      "p0LeakageFailures": []
     },
     "ja": {
       "missingKeys": 0,
       "emptyValues": 0,
       "placeholderMismatches": 0,
       "extraKeys": 0,
-      "criticalStillEnglish": 184,
-      "criticalKeysInBase": 184,
-      "totalStillEnglish": 664
+      "p0StillEnglish": 74,
+      "p1StillEnglish": 222,
+      "p2StillEnglish": 368,
+      "p0KeyCount": 74,
+      "certified": false,
+      "p0LeakageFailures": []
     },
     "ko": {
       "missingKeys": 0,
       "emptyValues": 0,
       "placeholderMismatches": 0,
       "extraKeys": 0,
-      "criticalStillEnglish": 184,
-      "criticalKeysInBase": 184,
-      "totalStillEnglish": 664
+      "p0StillEnglish": 74,
+      "p1StillEnglish": 222,
+      "p2StillEnglish": 368,
+      "p0KeyCount": 74,
+      "certified": false,
+      "p0LeakageFailures": []
     },
     "pa": {
       "missingKeys": 0,
       "emptyValues": 0,
       "placeholderMismatches": 0,
       "extraKeys": 0,
-      "criticalStillEnglish": 184,
-      "criticalKeysInBase": 184,
-      "totalStillEnglish": 664
+      "p0StillEnglish": 74,
+      "p1StillEnglish": 222,
+      "p2StillEnglish": 368,
+      "p0KeyCount": 74,
+      "certified": false,
+      "p0LeakageFailures": []
     },
     "pt": {
       "missingKeys": 0,
       "emptyValues": 0,
       "placeholderMismatches": 0,
       "extraKeys": 0,
-      "criticalStillEnglish": 184,
-      "criticalKeysInBase": 184,
-      "totalStillEnglish": 664
+      "p0StillEnglish": 74,
+      "p1StillEnglish": 222,
+      "p2StillEnglish": 368,
+      "p0KeyCount": 74,
+      "certified": false,
+      "p0LeakageFailures": []
     },
     "th": {
       "missingKeys": 0,
       "emptyValues": 0,
       "placeholderMismatches": 0,
       "extraKeys": 0,
-      "criticalStillEnglish": 184,
-      "criticalKeysInBase": 184,
-      "totalStillEnglish": 664
+      "p0StillEnglish": 74,
+      "p1StillEnglish": 222,
+      "p2StillEnglish": 368,
+      "p0KeyCount": 74,
+      "certified": false,
+      "p0LeakageFailures": []
     },
     "tl": {
       "missingKeys": 0,
       "emptyValues": 0,
       "placeholderMismatches": 0,
       "extraKeys": 0,
-      "criticalStillEnglish": 184,
-      "criticalKeysInBase": 184,
-      "totalStillEnglish": 664
+      "p0StillEnglish": 74,
+      "p1StillEnglish": 222,
+      "p2StillEnglish": 368,
+      "p0KeyCount": 74,
+      "certified": false,
+      "p0LeakageFailures": []
     },
     "tr": {
       "missingKeys": 0,
       "emptyValues": 0,
       "placeholderMismatches": 0,
       "extraKeys": 0,
-      "criticalStillEnglish": 184,
-      "criticalKeysInBase": 184,
-      "totalStillEnglish": 664
+      "p0StillEnglish": 74,
+      "p1StillEnglish": 222,
+      "p2StillEnglish": 368,
+      "p0KeyCount": 74,
+      "certified": false,
+      "p0LeakageFailures": []
     },
     "ur": {
       "missingKeys": 0,
       "emptyValues": 0,
       "placeholderMismatches": 0,
       "extraKeys": 0,
-      "criticalStillEnglish": 184,
-      "criticalKeysInBase": 184,
-      "totalStillEnglish": 664
+      "p0StillEnglish": 74,
+      "p1StillEnglish": 222,
+      "p2StillEnglish": 368,
+      "p0KeyCount": 74,
+      "certified": false,
+      "p0LeakageFailures": []
     },
     "vi": {
       "missingKeys": 0,
       "emptyValues": 0,
       "placeholderMismatches": 0,
       "extraKeys": 0,
-      "criticalStillEnglish": 184,
-      "criticalKeysInBase": 184,
-      "totalStillEnglish": 664
+      "p0StillEnglish": 74,
+      "p1StillEnglish": 222,
+      "p2StillEnglish": 368,
+      "p0KeyCount": 74,
+      "certified": false,
+      "p0LeakageFailures": []
     },
     "zh-tw": {
       "missingKeys": 0,
       "emptyValues": 0,
       "placeholderMismatches": 0,
       "extraKeys": 0,
-      "criticalStillEnglish": 184,
-      "criticalKeysInBase": 184,
-      "totalStillEnglish": 664
+      "p0StillEnglish": 74,
+      "p1StillEnglish": 222,
+      "p2StillEnglish": 368,
+      "p0KeyCount": 74,
+      "certified": false,
+      "p0LeakageFailures": []
     },
     "zh": {
       "missingKeys": 0,
       "emptyValues": 0,
       "placeholderMismatches": 0,
       "extraKeys": 0,
-      "criticalStillEnglish": 184,
-      "criticalKeysInBase": 184,
-      "totalStillEnglish": 664
+      "p0StillEnglish": 74,
+      "p1StillEnglish": 222,
+      "p2StillEnglish": 368,
+      "p0KeyCount": 74,
+      "certified": false,
+      "p0LeakageFailures": []
     }
   },
   "errorCount": 0,
-  "warningCount": 0,
-  "failOnEnglishLeakage": false,
-  "criticalKeysInBase": 184
+  "warningCount": 37
 }

@@ -1,0 +1,4 @@
+{
+  "certifiedLocales": ["fr"],
+  "description": "Locales listed here must have P0 strings translated (value must differ from marketing-en.json for all P0 keys). Add a locale only after QA. Non-listed locales are not subject to P0 English-leakage failure."
+}

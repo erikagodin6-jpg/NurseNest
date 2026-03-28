@@ -5,6 +5,7 @@ import { signOut } from "@/lib/auth";
 import { CheckoutSuccessBanner } from "@/components/student/checkout-success-banner";
 import { LearnerThemeControl } from "@/components/student/learner-theme-control";
 import { SentryLearnerShell } from "@/components/observability/sentry-learner-shell";
+import { LEARNER_SHELL_COPY } from "@/lib/i18n/learner-shell-copy";
 
 export default async function LearnerShellLayout({ children }: { children: React.ReactNode }) {
   await requireUser();
@@ -50,7 +51,7 @@ export default async function LearnerShellLayout({ children }: { children: React
             }}
           >
             <button type="submit" className="rounded-full border border-border bg-white px-3 py-2 text-sm hover:bg-gray-50">
-              Logout
+              {LEARNER_SHELL_COPY.logout}
             </button>
           </form>
         </div>
