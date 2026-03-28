@@ -55,6 +55,10 @@ const nextConfig: NextConfig = {
       { source: "/sitemap/0.xml", destination: "/sitemap.xml", permanent: true },
       { source: "/sitemap/1.xml", destination: "/sitemap.xml", permanent: true },
       ...seoCanonicalRedirects,
+      /** Institutional pricing: canonical path `/for-institutions` (footer + marketing). */
+      { source: "/institutional-pricing", destination: "/for-institutions", permanent: true },
+      { source: "/pricing/institutional", destination: "/for-institutions", permanent: true },
+      { source: "/for-schools", destination: "/for-institutions", permanent: true },
     ];
   },
   async rewrites() {

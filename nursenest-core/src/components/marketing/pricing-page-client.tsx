@@ -1,8 +1,11 @@
 "use client";
 
 import type { TierCode } from "@prisma/client";
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { SOCIAL_PROOF, TRUST_BLOCK, getTierPricingNarrative } from "@/lib/conversion/pricing-catalog";
+import { useMarketingI18n } from "@/lib/marketing-i18n";
+import { withMarketingLocale } from "@/lib/i18n/marketing-path";
 import type { BillingDuration } from "@/lib/stripe/pricing-map";
 
 type PlanRow = {
@@ -55,6 +58,8 @@ export function PricingPageClient({
   const [loadError, setLoadError] = useState<string | null>(null);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const { locale, t } = useMarketingI18n();
+  const institutionalHref = withMarketingLocale(locale, "/for-institutions");
 
   useEffect(() => {
     let cancelled = false;
@@ -116,6 +121,12 @@ export function PricingPageClient({
       <p className="text-xs font-semibold uppercase tracking-wide text-primary">Pricing</p>
       <h1 className="mt-2 text-4xl font-bold">{heading}</h1>
       <p className="mt-3 max-w-2xl text-muted">{intro}</p>
+      <div className="mt-4 rounded-xl border border-primary/25 bg-primary/5 px-4 py-3 text-sm text-muted">
+        <p>{t("pages.pricing.institutionalBanner")}</p>
+        <Link href={institutionalHref} className="mt-2 inline-block font-semibold text-primary hover:underline">
+          {t("pages.pricing.institutionalLink")} →
+        </Link>
+      </div>
       <p className="mt-4 max-w-3xl text-sm text-muted">{SOCIAL_PROOF.passRateLine}</p>
 
       <div className="mt-8 flex flex-wrap gap-2">

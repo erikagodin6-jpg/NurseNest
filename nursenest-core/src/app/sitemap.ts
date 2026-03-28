@@ -20,6 +20,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const corePaths: { path: string; priority: number; changeFrequency: ChangeFreq }[] = [
     { path: "/", priority: 1, changeFrequency: "daily" },
     { path: "/pricing", priority: 0.85, changeFrequency: "weekly" },
+    { path: "/for-institutions", priority: 0.8, changeFrequency: "monthly" },
     { path: "/blog", priority: 0.85, changeFrequency: "weekly" },
     { path: "/tools", priority: 0.85, changeFrequency: "weekly" },
   ];
@@ -94,6 +95,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: now,
         changeFrequency: "weekly",
         priority: 0.75,
+      },
+      {
+        url: `${base}/${loc}/for-institutions`,
+        lastModified: now,
+        changeFrequency: "monthly",
+        priority: 0.72,
       },
       {
         url: `${base}/${loc}/tools`,

@@ -7,6 +7,10 @@ import { isProgrammaticSeoSlug } from "@/lib/seo/programmatic-registry";
 const PUBLIC_SITE = process.env.NEXT_PUBLIC_NURSENEST_ASSETS_BASE?.replace(/\/$/, "") ?? "https://www.nursenest.ca";
 
 const EXACT: Record<string, string> = {
+  /** Legacy / alternate URLs → canonical institutional page */
+  "/institutional-pricing": "/for-institutions",
+  "/pricing/institutional": "/for-institutions",
+  "/for-schools": "/for-institutions",
   "/exam-prep": "/pricing",
   "/register": "/signup",
   "/rex-pn": "/pricing",
@@ -71,6 +75,7 @@ export function resolveMarketingHref(href: string): string {
     mapped.startsWith("/app/") ||
     mapped === "/app" ||
     mapped === "/pricing" ||
+    mapped === "/for-institutions" ||
     mapped === "/login" ||
     mapped === "/signup" ||
     mapped === "/"
