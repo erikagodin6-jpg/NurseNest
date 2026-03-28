@@ -62,6 +62,34 @@ export default async function AdminPage() {
         </p>
       </section>
 
+      <section className="mt-8 nn-card p-6">
+        <h2 className="text-lg font-semibold">AI → draft pipeline</h2>
+        <p className="mt-1 text-sm text-muted">
+          Review-first: drafts live in Prisma draft tables until promoted. Set{" "}
+          <code className="rounded bg-black/5 px-1">AI_ADMIN_GENERATION_ENABLED=true</code>.
+        </p>
+        <ul className="mt-3 space-y-2 text-sm">
+          <li>
+            <Link className="text-primary underline" href="/admin/ai/exam-questions">
+              Exam question batch
+            </Link>
+            <span className="ml-2 text-muted">/api/admin/ai/exam-questions/generate</span>
+          </li>
+          <li>
+            <Link className="text-primary underline" href="/admin/ai/flashcards">
+              Flashcard batch
+            </Link>
+            <span className="ml-2 text-muted">/api/admin/ai/flashcards/generate</span>
+          </li>
+          <li>
+            <Link className="text-primary underline" href="/admin/ai/review">
+              Review queue
+            </Link>
+            <span className="ml-2 text-muted">approve → promote to Question / Flashcard (DRAFT)</span>
+          </li>
+        </ul>
+      </section>
+
       <section className="mt-8">
         <h2 className="text-lg font-semibold">API quick links</h2>
         <ul className="mt-3 space-y-2 text-sm">

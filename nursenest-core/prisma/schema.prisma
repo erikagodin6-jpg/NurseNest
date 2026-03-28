@@ -75,6 +75,14 @@ enum ExamSessionStatus {
   COMPLETED
 }
 
+/** AI-generated content review workflow — never auto-published to learner pools. */
+enum DraftReviewStatus {
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+  PROMOTED
+}
+
 model User {
   id                      String         @id @default(cuid())
   email                   String         @unique
@@ -96,6 +104,13 @@ model User {
   attempts                ExamAttempt[]
   examSessions            ExamSession[]
   progress                Progress[]
+  aiGenerationJobs        AiGenerationJob[]           @relation("AiJobCreatedBy")
+  questionDraftsCreated   GeneratedQuestionDraft[]    @relation("QuestionDraftCreatedBy")
+  questionDraftsReviewed  GeneratedQuestionDraft[]    @relation("QuestionDraftReviewedBy")
+  flashcardDraftsCreated  GeneratedFlashcardDraft[]   @relation("FlashcardDraftCreatedBy")
+  flashcardDraftsReviewed GeneratedFlashcardDraft[]   @relation("FlashcardDraftReviewedBy")
+  lessonDraftsCreated     GeneratedLessonDraft[]      @relation("LessonDraftCreatedBy")
+  lessonDraftsReviewed    GeneratedLessonDraft[]      @relation("LessonDraftReviewedBy")
 }
 
 model Subscription {
@@ -119,6 +134,8 @@ model Category {
   lessons   Lesson[]
   questions Question[]
   flashcards Flashcard[]
+  generatedQuestionDrafts  GeneratedQuestionDraft[]
+  generatedFlashcardDrafts GeneratedFlashcardDraft[]
 }
 
 /** Public SEO blog posts (migrated from legacy content_items / static allied data). Separate from Lesson. */
@@ -161,6 +178,9 @@ model Lesson {
   updatedAt   DateTime       @updatedAt
   questions   Question[]     @relation("LessonQuestions")
   flashcards  Flashcard[]
+  aiQuestionDrafts   GeneratedQuestionDraft[]
+  aiFlashcardDrafts  GeneratedFlashcardDraft[]
+  lessonEnhancementDrafts GeneratedLessonDraft[] @relation("LessonEnhancementTarget")
 
   @@index([status, country, tier])
   @@index([categoryId])
@@ -295,4 +315,144 @@ model BackgroundJob {
 
   @@index([status, scheduledFor])
   @@index([type])
+}
+
+/** One admin AI generation run (batch). */
+model AiGenerationJob {
+  id             String    @id @default(cuid())
+  tool           String
+  status         JobStatus @default(COMPLETED)
+  model          String?
+  sourcePrompt   String    @db.Text
+  inputPayload   Json
+  resultSummary  Json?
+  error          String?   @db.Text
+  tokensUsed     Int?
+  createdById    String
+  createdBy      User      @relation("AiJobCreatedBy", fields: [createdById], references: [id])
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  logs           AiGenerationLog[]
+  questionDrafts GeneratedQuestionDraft[]
+  flashcardDrafts GeneratedFlashcardDraft[]
+  lessonDrafts   GeneratedLessonDraft[]
+
+  @@index([tool, createdAt])
+  @@index([createdById])
+}
+
+/** Audit trail for AI steps (granular events under a job). */
+model AiGenerationLog {
+  id        String          @id @default(cuid())
+  jobId     String
+  job       AiGenerationJob @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  step      String
+  detail    Json?
+  createdAt DateTime        @default(now())
+
+  @@index([jobId])
+}
+
+model GeneratedQuestionDraft {
+  id               String   @id @default(cuid())
+  jobId            String?
+  job              AiGenerationJob? @relation(fields: [jobId], references: [id], onDelete: SetNull)
+  tool             String
+  batchId          String?
+  payloadJson      Json
+  normalizedJson   Json?
+  validationJson   Json
+  reviewStatus     DraftReviewStatus @default(PENDING_REVIEW)
+  reviewNotes      String?  @db.Text
+  reviewedById     String?
+  reviewedBy       User?    @relation("QuestionDraftReviewedBy", fields: [reviewedById], references: [id])
+  reviewedAt       DateTime?
+  promotedEntityId String?
+  promotedAt       DateTime?
+  stemHash         String?
+  stemPreview      String?
+  lessonId         String?
+  lesson           Lesson?  @relation(fields: [lessonId], references: [id], onDelete: SetNull)
+  categoryId       String?
+  category         Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  examFamily       ExamFamily @default(GENERIC)
+  tier             TierCode
+  country          CountryCode
+  sourcePrompt     String   @db.Text
+  model            String
+  createdById      String
+  createdBy        User     @relation("QuestionDraftCreatedBy", fields: [createdById], references: [id])
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([reviewStatus, createdAt])
+  @@index([stemHash])
+  @@index([jobId])
+  @@index([lessonId])
+}
+
+model GeneratedFlashcardDraft {
+  id               String   @id @default(cuid())
+  jobId            String?
+  job              AiGenerationJob? @relation(fields: [jobId], references: [id], onDelete: SetNull)
+  tool             String
+  batchId          String?
+  payloadJson      Json
+  normalizedJson   Json?
+  validationJson   Json
+  reviewStatus     DraftReviewStatus @default(PENDING_REVIEW)
+  reviewNotes      String?  @db.Text
+  reviewedById     String?
+  reviewedBy       User?    @relation("FlashcardDraftReviewedBy", fields: [reviewedById], references: [id])
+  reviewedAt       DateTime?
+  promotedEntityId String?
+  promotedAt       DateTime?
+  frontPreview     String?
+  lessonId         String?
+  lesson           Lesson?  @relation(fields: [lessonId], references: [id], onDelete: SetNull)
+  categoryId       String?
+  category         Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  examFamily       ExamFamily @default(GENERIC)
+  tier             TierCode
+  country          CountryCode
+  sourcePrompt     String   @db.Text
+  model            String
+  createdById      String
+  createdBy        User     @relation("FlashcardDraftCreatedBy", fields: [createdById], references: [id])
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([reviewStatus, createdAt])
+  @@index([jobId])
+  @@index([lessonId])
+}
+
+/** Optional: lesson enhancement / repair drafts — not promoted until review. */
+model GeneratedLessonDraft {
+  id               String   @id @default(cuid())
+  jobId            String?
+  job              AiGenerationJob? @relation(fields: [jobId], references: [id], onDelete: SetNull)
+  tool             String
+  payloadJson      Json
+  normalizedJson   Json?
+  validationJson   Json
+  reviewStatus     DraftReviewStatus @default(PENDING_REVIEW)
+  reviewNotes      String?  @db.Text
+  reviewedById     String?
+  reviewedBy       User?    @relation("LessonDraftReviewedBy", fields: [reviewedById], references: [id])
+  reviewedAt       DateTime?
+  promotedEntityId String?
+  promotedAt       DateTime?
+  titlePreview     String?
+  targetLessonId   String?
+  targetLesson     Lesson?  @relation("LessonEnhancementTarget", fields: [targetLessonId], references: [id], onDelete: SetNull)
+  sourcePrompt     String   @db.Text
+  model            String
+  createdById      String
+  createdBy        User     @relation("LessonDraftCreatedBy", fields: [createdById], references: [id])
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([reviewStatus, createdAt])
+  @@index([jobId])
 }
