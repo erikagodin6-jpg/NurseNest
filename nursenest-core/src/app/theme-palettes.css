@@ -388,3 +388,54 @@
   --theme-focus-ring: #818cf8;
   --theme-separator: #374151;
 }
+
+/* Shared light-UI surfaces: every non-dark theme gets the same neutral shell so `--theme-primary` drives accents consistently. */
+:is(
+  [data-theme="lavender"],
+  [data-theme="mint"],
+  [data-theme="blush"],
+  [data-theme="slate"],
+  [data-theme="midnight"],
+  [data-theme="ocean"],
+  [data-theme="forest"],
+  [data-theme="clinical-light"],
+  [data-theme="pastel-blush"],
+  [data-theme="pastel-lavender"],
+  [data-theme="pastel-mint"],
+  [data-theme="pastel-lilac"],
+  [data-theme="lavender-dream"],
+  [data-theme="soft-sage"],
+  [data-theme="neutral-sand"],
+  [data-theme="neutral-slate"],
+  [data-theme="rose-gold"],
+  [data-theme="coral"],
+  [data-theme="indigo"],
+  [data-theme="teal"],
+  [data-theme="berry"]
+) {
+  --theme-primary-foreground: #ffffff;
+  --theme-page-bg: #fdfcfa;
+  --theme-nav-bg: #ffffff;
+  --theme-nav-text: #6b7280;
+  --theme-nav-border: color-mix(in srgb, var(--theme-primary) 10%, transparent);
+  --theme-menu-text: #374151;
+  --theme-menu-hover-bg: color-mix(in srgb, var(--theme-primary) 8%, transparent);
+  --theme-menu-hover-text: var(--theme-primary);
+  --theme-menu-active-bg: color-mix(in srgb, var(--theme-primary) 12%, transparent);
+  --theme-card-bg: #ffffff;
+  --theme-card-border: color-mix(in srgb, var(--theme-border) 60%, transparent);
+  --theme-card-text: #6b7280;
+  --theme-input-bg: #ffffff;
+  --theme-input-border: #e5e7eb;
+  --theme-heading-text: #111827;
+  --theme-body-text: #6b7280;
+  --theme-muted-text: #9ca3af;
+  --theme-focus-ring: var(--theme-primary);
+  --theme-separator: #f3f4f6;
+  --color-warmwhite: #fdfcfa;
+  --color-softgray: #6b7280;
+  --color-card-base: #ffffff;
+  --color-card-fg-base: #6b7280;
+  --color-popover-base: #ffffff;
+  --color-popover-fg-base: #6b7280;
+}

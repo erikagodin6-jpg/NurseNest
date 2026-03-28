@@ -11,6 +11,18 @@ function isGoogleCloudStoragePublicUrl(urlString: string): boolean {
   }
 }
 
+/** `gs://` and similar are never valid in the browser — never pass them to `<img src>`. */
+export function isForbiddenBrowserImageScheme(url: string): boolean {
+  const s = url.trim().toLowerCase();
+  return (
+    s.startsWith("gs://") ||
+    s.startsWith("gs:") ||
+    s.startsWith("blob:") ||
+    s.startsWith("chrome-extension:") ||
+    s.startsWith("file:")
+  );
+}
+
 /**
  * When true (default), hero and marketing images use same-origin `/api/marketing-assets/...`
  * so the server can stream objects from DigitalOcean Spaces with SPACES_KEY/SPACES_SECRET.
@@ -35,13 +47,19 @@ export function marketingProxyPathForKey(objectKey: string): string {
 
 /** Rewrite an absolute Spaces/CDN URL to the local proxy path when proxy mode is on. */
 export function resolveMarketingAbsoluteUrl(absoluteUrl: string): string {
+  if (isForbiddenBrowserImageScheme(absoluteUrl)) {
+    return "/marketing/hero-fallback.svg";
+  }
   if (!marketingImageUsesProxy()) return absoluteUrl;
   if (isGoogleCloudStoragePublicUrl(absoluteUrl)) return absoluteUrl;
   try {
     const u = new URL(absoluteUrl);
+    if (u.protocol !== "https:" && u.protocol !== "http:") {
+      return "/marketing/hero-fallback.svg";
+    }
     return `${PROXY_PREFIX}${u.pathname}`;
   } catch {
-    return absoluteUrl;
+    return "/marketing/hero-fallback.svg";
   }
 }
 

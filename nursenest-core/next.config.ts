@@ -24,6 +24,11 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "nursenest-images.tor1.digitaloceanspaces.com",
+        pathname: "/branding/**",
+      },
+      {
+        protocol: "https",
+        hostname: "nursenest-images.tor1.digitaloceanspaces.com",
         pathname: "/screenshots/**",
       },
       {

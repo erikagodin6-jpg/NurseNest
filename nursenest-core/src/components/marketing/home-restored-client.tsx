@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, Suspense } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, Suspense } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import {
@@ -30,11 +30,14 @@ import { useNursenestRegion } from "@/lib/region/use-nursenest-region";
 import { LazySection } from "@/legacy/marketing/lazy-section";
 import {
   HOMEPAGE_HERO_SLIDES,
+  isForbiddenBrowserImageScheme,
   marketingImageUsesProxy,
   resolveMarketingAbsoluteUrl,
 } from "@/lib/marketing-assets";
 
+/** HTTPS (or same-origin) only — never `gs://` / blob / file in `<img src>`. */
 function resolveHeroImgSrc(publicUrl: string): string {
+  if (isForbiddenBrowserImageScheme(publicUrl)) return "/marketing/hero-fallback.svg";
   return marketingImageUsesProxy() ? resolveMarketingAbsoluteUrl(publicUrl) : publicUrl;
 }
 
@@ -91,7 +94,6 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
   const [failed, setFailed] = useState<Set<number>>(() => new Set());
   const failedRef = useRef(failed);
   const [hasLoaded, setHasLoaded] = useState(false);
-  const [showGlobalFallback, setShowGlobalFallback] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const unavailableReported = useRef(false);
 
@@ -145,15 +147,13 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
     }
   }, [failed, current, slides.length]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (slides.length === 0) return;
     if (validCount > 0) return;
     if (!unavailableReported.current) {
       unavailableReported.current = true;
       onMediaUnavailable?.();
     }
-    setShowGlobalFallback(true);
-    setHasLoaded(true);
   }, [validCount, slides.length, onMediaUnavailable]);
 
   const handleImgError = useCallback((index: number) => {
@@ -171,11 +171,15 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
     });
   }, [slides]);
 
-  const mediaOk = validCount > 0 && !showGlobalFallback;
+  if (validCount === 0) {
+    return null;
+  }
+
+  const mediaOk = validCount > 0;
 
   return (
     <div
-      className="relative w-full min-w-0"
+      className="relative w-full min-w-0 min-h-0"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       data-testid="hero-carousel"
@@ -191,41 +195,30 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
             aria-hidden
           />
         ) : null}
-        {showGlobalFallback || validCount === 0 ? (
-          <img
-            src="/marketing/hero-fallback.svg"
-            alt="NurseNest product preview"
-            width={1200}
-            height={750}
-            className="absolute inset-0 h-full w-full object-cover"
-            data-testid="img-hero-fallback"
-          />
-        ) : (
-          slides.map((slide, index) => {
-            if (failed.has(index)) return null;
-            const src = resolveHeroImgSrc(slide.publicUrl);
-            const active = index === current;
-            return (
-              <img
-                key={slide.objectKey}
-                src={src}
-                alt={slide.alt}
-                width={1200}
-                height={750}
-                decoding={index === 0 ? "sync" : "async"}
-                className={`pointer-events-none absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-in-out will-change-[opacity] ${
-                  active ? "opacity-100" : "opacity-0"
-                }`}
-                loading={index === 0 ? "eager" : "lazy"}
-                fetchPriority={index === 0 ? "high" : "low"}
-                data-testid={`img-hero-slide-${index}`}
-                aria-hidden={!active}
-                onError={() => handleImgError(index)}
-                onLoad={handleImgLoad}
-              />
-            );
-          })
-        )}
+        {slides.map((slide, index) => {
+          if (failed.has(index)) return null;
+          const src = resolveHeroImgSrc(slide.publicUrl);
+          const active = index === current;
+          return (
+            <img
+              key={slide.objectKey}
+              src={src}
+              alt={slide.alt}
+              width={1200}
+              height={750}
+              decoding={index === 0 ? "sync" : "async"}
+              className={`pointer-events-none absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-in-out will-change-[opacity] ${
+                active ? "opacity-100" : "opacity-0"
+              }`}
+              loading={index === 0 ? "eager" : "lazy"}
+              fetchPriority={index === 0 ? "high" : "low"}
+              data-testid={`img-hero-slide-${index}`}
+              aria-hidden={!active}
+              onError={() => handleImgError(index)}
+              onLoad={handleImgLoad}
+            />
+          );
+        })}
       </div>
       {hasLoaded && mediaOk ? (
         <>
