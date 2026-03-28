@@ -36,9 +36,16 @@ import {
   marketingProxyPathForKey,
 } from "@/lib/marketing-assets";
 
-/** Primary: public Spaces HTTPS; alternate tier: proxy path when configured (see `marketing-resolve-image-url.ts`). */
+/** Same-origin SVG — never gs://, always loads. */
+const HERO_LOCAL_FALLBACK_SRC = "/marketing/hero-fallback.svg";
+
+/**
+ * Tier 0/1: public HTTPS CDN or `/api/marketing-assets/...` proxy (never gs://).
+ * Tier 2+: bundled fallback so `<img>` never ends on a broken icon.
+ */
 function getHeroSlideSrc(slide: { publicUrl: string; objectKey: string }, tier: number): string {
-  if (isForbiddenBrowserImageScheme(slide.publicUrl)) return "/marketing/hero-fallback.svg";
+  if (tier >= 2) return HERO_LOCAL_FALLBACK_SRC;
+  if (isForbiddenBrowserImageScheme(slide.publicUrl)) return HERO_LOCAL_FALLBACK_SRC;
   const proxy = marketingProxyPathForKey(slide.objectKey);
   if (marketingImageUsesProxy()) {
     return tier === 0 ? proxy : slide.publicUrl;
@@ -103,7 +110,7 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
   const [isHovered, setIsHovered] = useState(false);
   const [failed, setFailed] = useState<Set<number>>(() => new Set());
   const failedRef = useRef(failed);
-  /** 0 = primary URL; 1 = alternate (direct↔proxy) when `heroCanRetryAlternateTier()` allows. */
+  /** 0 = primary; 1 = alternate (direct↔proxy); 2+ = local SVG fallback (see `getHeroSlideSrc`). */
   const [heroTierByIndex, setHeroTierByIndex] = useState<Record<number, number>>({});
   const [hasLoaded, setHasLoaded] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -177,7 +184,21 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
   }, []);
 
   if (validCount === 0) {
-    return null;
+    return (
+      <div className="relative w-full min-w-0" data-testid="hero-carousel-fallback">
+        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-[var(--theme-card-border)] bg-[var(--theme-card-bg)] shadow-[var(--shadow-elevated)]">
+          <img
+            src={HERO_LOCAL_FALLBACK_SRC}
+            alt=""
+            width={1200}
+            height={750}
+            className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+            loading="eager"
+            decoding="async"
+          />
+        </div>
+      </div>
+    );
   }
 
   const mediaOk = validCount > 0;
@@ -224,6 +245,10 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
               onError={() => {
                 if (tier === 0 && heroCanRetryAlternateTier()) {
                   setHeroTierByIndex((prev) => ({ ...prev, [index]: 1 }));
+                  return;
+                }
+                if (tier < 2) {
+                  setHeroTierByIndex((prev) => ({ ...prev, [index]: 2 }));
                   return;
                 }
                 handleImgError(index);
