@@ -51,7 +51,7 @@ export function nursenestImagesSpaceObjectUrl(objectKey: string): string {
 
 export const LESSON_IMAGES_RESOLUTION = catalog.lessonImages;
 
-/** Homepage hero fallback stills (768w WebP) — mirrors `MARKETING_HERO_CAROUSEL_SLIDES` in marketing-assets.generated.ts. */
+/** Documented canonical hero URLs — source of truth: `src/config/home-hero-carousel.ts`. */
 export const HOMEPAGE_HERO_CAROUSEL_PUBLIC_URLS = catalog.homepageHeroCarousel.canonicalPublicFallbackUrls;
 
 export type MarketingCdnCatalog = typeof catalog;

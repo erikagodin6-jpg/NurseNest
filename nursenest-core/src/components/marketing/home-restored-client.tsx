@@ -29,31 +29,14 @@ import { mapLegacyMarketingHref } from "@/lib/legacy-marketing-routes";
 import { useNursenestRegion } from "@/lib/region/use-nursenest-region";
 import { LazySection } from "@/legacy/marketing/lazy-section";
 import {
-  MARKETING_HERO_CAROUSEL_SLIDES,
-  MARKETING_HERO_IMAGE_FALLBACK,
+  HOMEPAGE_HERO_SLIDES,
   marketingImageUsesProxy,
   resolveMarketingAbsoluteUrl,
-  resolveMarketingSrcSet,
 } from "@/lib/marketing-assets";
 
-const HERO_CAROUSEL_ALTS = [
-  "NurseNest question interface",
-  "NurseNest flashcard deck",
-  "NurseNest mock exam report",
-  "NurseNest progress analytics dashboard",
-  "NurseNest study dashboard screenshot",
-  "NurseNest practice exam screenshot",
-  "NurseNest review screen",
-  "NurseNest analytics view",
-  "NurseNest content browser",
-  "NurseNest learning path",
-  "NurseNest product screenshot",
-] as const;
-
-const heroCarouselSlides = MARKETING_HERO_CAROUSEL_SLIDES.map((slide, index) => ({
-  ...slide,
-  alt: HERO_CAROUSEL_ALTS[index] ?? "NurseNest product screenshot",
-}));
+function resolveHeroImgSrc(publicUrl: string): string {
+  return marketingImageUsesProxy() ? resolveMarketingAbsoluteUrl(publicUrl) : publicUrl;
+}
 
 const HeroFeatureStrip = dynamic(() => import("@/legacy/marketing/hero-feature-strip"), {
   loading: () => <div className="min-h-[60px]" />,
@@ -101,85 +84,46 @@ const HomeBottomSections = dynamic(() => import("@/legacy/marketing/home-bottom-
   loading: () => <div className="min-h-[800px]" />,
 });
 
-type HeroLoadPhase = "proxy" | "direct" | "heroFbProxy" | "heroFbDirect" | "local" | "dead";
-
-function nextHeroPhase(p: HeroLoadPhase, useSpacesProxy: boolean): HeroLoadPhase {
-  if (useSpacesProxy) {
-    switch (p) {
-      case "proxy":
-        return "direct";
-      case "direct":
-        return "heroFbProxy";
-      case "heroFbProxy":
-        return "heroFbDirect";
-      case "heroFbDirect":
-        return "local";
-      case "local":
-        return "dead";
-      default:
-        return "dead";
-    }
-  }
-  switch (p) {
-    case "direct":
-      return "heroFbDirect";
-    case "heroFbDirect":
-      return "local";
-    case "local":
-      return "dead";
-    default:
-      return "dead";
-  }
-}
-
-function heroSlideSrc(
-  slide: (typeof heroCarouselSlides)[0],
-  phase: HeroLoadPhase,
-): { src: string; srcSet?: string } | null {
-  const fb = MARKETING_HERO_IMAGE_FALLBACK;
-
-  if (phase === "dead") return null;
-  if (phase === "proxy") {
-    return { src: resolveMarketingAbsoluteUrl(slide.fallback), srcSet: resolveMarketingSrcSet(slide.srcSet) };
-  }
-  if (phase === "direct") {
-    return { src: slide.fallback, srcSet: slide.srcSet };
-  }
-  if (phase === "heroFbProxy" && fb) {
-    return { src: resolveMarketingAbsoluteUrl(fb), srcSet: undefined };
-  }
-  if (phase === "heroFbDirect" && fb) {
-    return { src: fb, srcSet: undefined };
-  }
-  if (phase === "local") {
-    return { src: "/marketing/hero-fallback.svg", srcSet: undefined };
-  }
-  return null;
-}
-
 function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void }) {
+  const slides = HOMEPAGE_HERO_SLIDES;
   const [current, setCurrent] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const [phaseBySlide, setPhaseBySlide] = useState<Record<number, HeroLoadPhase>>({});
-  const [hasSuccessfulLoad, setHasSuccessfulLoad] = useState(false);
+  const [failed, setFailed] = useState<Set<number>>(() => new Set());
+  const failedRef = useRef(failed);
+  const [hasLoaded, setHasLoaded] = useState(false);
+  const [showGlobalFallback, setShowGlobalFallback] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const unavailableReported = useRef(false);
-  const useSpacesProxy = marketingImageUsesProxy();
+
+  useEffect(() => {
+    failedRef.current = failed;
+  }, [failed]);
+
+  const validCount = slides.length - failed.size;
+  const currentSlide = slides[current];
 
   const startTimer = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current);
+    if (slides.length === 0) return;
     timerRef.current = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % heroCarouselSlides.length);
+      setCurrent((prev) => {
+        const f = failedRef.current;
+        for (let step = 1; step <= slides.length; step++) {
+          const idx = (prev + step) % slides.length;
+          if (!f.has(idx)) return idx;
+        }
+        return prev;
+      });
     }, 5000);
-  }, []);
+  }, [slides.length]);
 
   useEffect(() => {
-    if (!hasSuccessfulLoad || heroCarouselSlides.length === 0) return;
+    if (!hasLoaded || validCount === 0) return;
     if (!isHovered) startTimer();
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [isHovered, startTimer, hasSuccessfulLoad]);
+  }, [isHovered, startTimer, hasLoaded, validCount, slides.length]);
 
   const handleMouseEnter = useCallback(() => {
     setIsHovered(true);
@@ -191,101 +135,124 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
   }, []);
 
   useEffect(() => {
-    const allDead = heroCarouselSlides.every((_, index) => {
-      const p = phaseBySlide[index] ?? (useSpacesProxy ? "proxy" : "direct");
-      return p === "dead";
-    });
-    if (allDead && heroCarouselSlides.length > 0 && !unavailableReported.current) {
-      unavailableReported.current = true;
-      onMediaUnavailable?.();
-    }
-  }, [phaseBySlide, onMediaUnavailable, useSpacesProxy]);
-
-  /** Skip slides with no renderable URL (e.g. all phases exhausted) so we never show an empty frame. */
-  useEffect(() => {
-    if (heroCarouselSlides.length === 0) return;
-    const p = phaseBySlide[current] ?? (useSpacesProxy ? "proxy" : "direct");
-    if (heroSlideSrc(heroCarouselSlides[current], p) !== null) return;
-    for (let step = 1; step < heroCarouselSlides.length; step++) {
-      const idx = (current + step) % heroCarouselSlides.length;
-      const p2 = phaseBySlide[idx] ?? (useSpacesProxy ? "proxy" : "direct");
-      if (heroSlideSrc(heroCarouselSlides[idx], p2) !== null) {
+    if (slides.length === 0 || !failed.has(current)) return;
+    for (let step = 0; step < slides.length; step++) {
+      const idx = (current + step) % slides.length;
+      if (!failed.has(idx)) {
         setCurrent(idx);
         return;
       }
     }
-  }, [current, phaseBySlide, useSpacesProxy]);
+  }, [failed, current, slides.length]);
 
-  const handleImgError = useCallback(
-    (index: number) => {
-      setPhaseBySlide((prev) => {
-        const cur = prev[index] ?? (useSpacesProxy ? "proxy" : "direct");
-        const next = nextHeroPhase(cur, useSpacesProxy);
-        return { ...prev, [index]: next };
-      });
-    },
-    [useSpacesProxy],
-  );
+  useEffect(() => {
+    if (slides.length === 0) return;
+    if (validCount > 0) return;
+    if (!unavailableReported.current) {
+      unavailableReported.current = true;
+      onMediaUnavailable?.();
+    }
+    setShowGlobalFallback(true);
+    setHasLoaded(true);
+  }, [validCount, slides.length, onMediaUnavailable]);
 
-  const handleImgLoad = useCallback(() => {
-    setHasSuccessfulLoad(true);
+  const handleImgError = useCallback((index: number) => {
+    setFailed((prev) => new Set(prev).add(index));
   }, []);
 
+  const handleImgLoad = useCallback(() => {
+    setHasLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "development") return;
+    slides.forEach((slide) => {
+      console.debug("[HeroCarousel] canonical src", slide.index, resolveHeroImgSrc(slide.publicUrl));
+    });
+  }, [slides]);
+
+  const mediaOk = validCount > 0 && !showGlobalFallback;
+
   return (
-    <div className="relative w-full min-w-0" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} data-testid="hero-carousel">
+    <div
+      className="relative w-full min-w-0"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      data-testid="hero-carousel"
+    >
       <div
-        className={
-          hasSuccessfulLoad
-            ? "relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-[var(--theme-card-border)] bg-[var(--theme-card-bg)] shadow-[var(--shadow-elevated)]"
-            : "relative h-0 max-h-0 w-full overflow-hidden border-0 shadow-none"
-        }
+        className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-[var(--theme-card-border)] bg-[var(--theme-card-bg)] shadow-[var(--shadow-elevated)]"
         style={{ overflowAnchor: "none" }}
-        aria-busy={!hasSuccessfulLoad}
+        aria-busy={!hasLoaded && mediaOk}
       >
-        {heroCarouselSlides.map((slide, index) => {
-          const p = phaseBySlide[index] ?? (useSpacesProxy ? "proxy" : "direct");
-          const resolved = heroSlideSrc(slide, p);
-          if (!resolved) {
-            return null;
-          }
-          return (
-            <img
-              key={`${index}-${p}`}
-              srcSet={resolved.srcSet}
-              sizes="(max-width: 768px) 100vw, min(600px, 45vw)"
-              src={resolved.src}
-              alt={slide.alt}
-              width={1200}
-              height={750}
-              decoding={index === 0 ? "sync" : "async"}
-              className={`pointer-events-none absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-in-out will-change-[opacity] ${
-                index === current ? "opacity-100" : "opacity-0"
-              }`}
-              loading={index === 0 ? "eager" : "lazy"}
-              fetchPriority={index === 0 ? "high" : "low"}
-              data-testid={`img-hero-slide-${index}`}
-              aria-hidden={index !== current}
-              onError={() => handleImgError(index)}
-              onLoad={handleImgLoad}
-            />
-          );
-        })}
+        {!hasLoaded && mediaOk ? (
+          <div
+            className="absolute inset-0 animate-pulse bg-gradient-to-br from-gray-100 via-gray-50 to-gray-200"
+            aria-hidden
+          />
+        ) : null}
+        {showGlobalFallback || validCount === 0 ? (
+          <img
+            src="/marketing/hero-fallback.svg"
+            alt="NurseNest product preview"
+            width={1200}
+            height={750}
+            className="absolute inset-0 h-full w-full object-cover"
+            data-testid="img-hero-fallback"
+          />
+        ) : (
+          slides.map((slide, index) => {
+            if (failed.has(index)) return null;
+            const src = resolveHeroImgSrc(slide.publicUrl);
+            const active = index === current;
+            return (
+              <img
+                key={slide.objectKey}
+                src={src}
+                alt={slide.alt}
+                width={1200}
+                height={750}
+                decoding={index === 0 ? "sync" : "async"}
+                className={`pointer-events-none absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-in-out will-change-[opacity] ${
+                  active ? "opacity-100" : "opacity-0"
+                }`}
+                loading={index === 0 ? "eager" : "lazy"}
+                fetchPriority={index === 0 ? "high" : "low"}
+                data-testid={`img-hero-slide-${index}`}
+                aria-hidden={!active}
+                onError={() => handleImgError(index)}
+                onLoad={handleImgLoad}
+              />
+            );
+          })
+        )}
       </div>
-      {hasSuccessfulLoad ? (
-        <div className="mt-3 flex justify-center gap-2" data-testid="hero-carousel-dots">
-          {heroCarouselSlides.map((_, index) => (
-            <button
-              key={index}
-              type="button"
-              onClick={() => setCurrent(index)}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                index === current ? "w-6 bg-primary" : "w-2 bg-gray-300 hover:bg-gray-400"
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-              data-testid={`button-carousel-dot-${index}`}
-            />
-          ))}
-        </div>
+      {hasLoaded && mediaOk ? (
+        <>
+          {currentSlide ? (
+            <div className="mt-3 space-y-1 text-center px-1" data-testid="hero-carousel-caption">
+              <p className="text-sm font-semibold text-gray-900">{currentSlide.title}</p>
+              <p className="text-xs leading-relaxed text-gray-600">{currentSlide.caption}</p>
+            </div>
+          ) : null}
+          <div className="mt-3 flex flex-wrap justify-center gap-2" data-testid="hero-carousel-dots">
+            {slides.map((_, index) => (
+              <button
+                key={index}
+                type="button"
+                disabled={failed.has(index)}
+                onClick={() => {
+                  if (!failed.has(index)) setCurrent(index);
+                }}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  index === current ? "w-6 bg-primary" : "w-2 bg-gray-300 hover:bg-gray-400"
+                } ${failed.has(index) ? "cursor-not-allowed opacity-40" : ""}`}
+                aria-label={`Go to slide ${index + 1}`}
+                data-testid={`button-carousel-dot-${index}`}
+              />
+            ))}
+          </div>
+        </>
       ) : null}
     </div>
   );
@@ -321,7 +288,7 @@ export default function HomeRestoredClient() {
   const [questionCount, setQuestionCount] = useState(0);
   const [storeProductCount, setStoreProductCount] = useState(0);
   const [flashcardCount, setFlashcardCount] = useState(10_000);
-  const [heroMediaVisible, setHeroMediaVisible] = useState(() => MARKETING_HERO_CAROUSEL_SLIDES.length > 0);
+  const [heroMediaVisible, setHeroMediaVisible] = useState(() => HOMEPAGE_HERO_SLIDES.length > 0);
 
   const [email, setEmail] = useState("");
   const [emailFrequency, setEmailFrequency] = useState("weekly");

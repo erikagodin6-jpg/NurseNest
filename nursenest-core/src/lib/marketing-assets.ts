@@ -2,7 +2,7 @@
  * Central marketing image URLs. Regenerate from DigitalOcean Spaces:
  * `npm run generate:marketing-assets` (requires SPACES_KEY, SPACES_SECRET, SPACES_REGION, SPACES_BUCKET).
  *
- * Committed `marketing-assets.generated.ts` uses legacy nursenest.ca screenshots until discovery runs.
+ * Committed `marketing-assets.generated.ts` supplements discovery output. Homepage hero stills: `home-hero-carousel.ts`.
  *
  * Canonical bucket hostname, legacy stems, and lesson-image documentation: `src/config/marketing-cdn.catalog.json`.
  */
@@ -28,10 +28,20 @@ export {
   MARKETING_SCREENSHOT_SOURCES,
   MARKETING_ASSETS_TODOS,
   MARKETING_ASSETS_UNMATCHED_KEYS,
-  MARKETING_HERO_CAROUSEL_SLIDES,
 } from "./marketing-assets.generated";
 
-import { LOGO_PRIMARY as LOGO_PRIMARY_GENERATED, MARKETING_HERO_CAROUSEL_SLIDES } from "./marketing-assets.generated";
+import { LOGO_PRIMARY as LOGO_PRIMARY_GENERATED, HERO_DASHBOARD_SCREENSHOT } from "./marketing-assets.generated";
+
+export {
+  HOMEPAGE_HERO_SLIDES,
+  homeHeroOgImageUrl,
+  homeHeroScreenshotPublicUrl,
+  homeHeroScreenshotObjectKey,
+  HOME_HERO_SCREENSHOT_COUNT,
+  type HomeHeroSlide,
+} from "@/config/home-hero-carousel";
+
+import { homeHeroOgImageUrl } from "@/config/home-hero-carousel";
 
 import {
   COMMITTED_MARKETING_ASSET_ORIGIN,
@@ -66,17 +76,19 @@ export function getResolvedThemeLogoUrl(themeId: string): string {
   return resolveMarketingAbsoluteUrl(nursenestImagesSpaceObjectUrl(key));
 }
 
-/** OG default still; path matches `homepageScreenshots.slotToLegacyStem.screenshotTest` in the catalog. */
-const OG_FALLBACK = `${COMMITTED_MARKETING_ASSET_ORIGIN}${COMMITTED_MARKETING_SCREENSHOTS_PREFIX}${HOMEPAGE_SCREENSHOT_SLOT_STEMS.screenshotTest.stem}-1200w.webp`;
+/** Legacy OG still if Spaces hero screenshot is unset. */
+const OG_FALLBACK =
+  `${COMMITTED_MARKETING_ASSET_ORIGIN}${COMMITTED_MARKETING_SCREENSHOTS_PREFIX}${HOMEPAGE_SCREENSHOT_SLOT_STEMS.screenshotTest.stem}-1200w.webp`;
 
 /** Absolute URL for Open Graph / Twitter cards (server-safe). */
 export function marketingOpenGraphImageUrl(): string {
-  return LOGO_PRIMARY ?? MARKETING_HERO_CAROUSEL_SLIDES[0]?.fallback ?? OG_FALLBACK;
+  return (
+    LOGO_PRIMARY ?? (homeHeroOgImageUrl() || HERO_DASHBOARD_SCREENSHOT) ?? OG_FALLBACK
+  );
 }
 
-/** First carousel still image; used when a slide URL fails in production. */
-export const MARKETING_HERO_IMAGE_FALLBACK =
-  MARKETING_HERO_CAROUSEL_SLIDES[0]?.fallback ?? OG_FALLBACK;
+/** First canonical hero still (`screenshots/screenshot1.webp`) for fallbacks. */
+export const MARKETING_HERO_IMAGE_FALLBACK = homeHeroOgImageUrl() || HERO_DASHBOARD_SCREENSHOT || OG_FALLBACK;
 
 export {
   marketingImageUsesProxy,
