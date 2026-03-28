@@ -41,6 +41,7 @@ export const authConfig = {
           role: user.role,
           country: user.country,
           tier: user.tier,
+          authVersion: user.authVersion,
         };
       },
     }),
@@ -55,6 +56,7 @@ export const authConfig = {
           role: string;
           country: string;
           tier: string;
+          authVersion?: number;
         };
         token.sub = u.id;
         token.email = u.email;
@@ -62,20 +64,33 @@ export const authConfig = {
         token.role = u.role;
         token.country = u.country;
         token.tier = u.tier;
+        token.authVersion = typeof u.authVersion === "number" ? u.authVersion : 0;
       }
-      // Keep JWT claims in sync with DB (e.g. ADMIN promotion) without requiring a password reset.
+      // Keep JWT claims in sync with DB; invalidate session if password was reset (authVersion bump).
       if (token.sub) {
         try {
           const row = await prisma.user.findUnique({
             where: { id: token.sub as string },
-            select: { role: true, country: true, tier: true, name: true, email: true },
+            select: { role: true, country: true, tier: true, name: true, email: true, authVersion: true },
           });
-          if (row) {
-            token.role = row.role;
-            token.country = row.country;
-            token.tier = row.tier;
-            token.name = row.name;
-            token.email = row.email;
+          if (!row) {
+            delete token.sub;
+            delete token.email;
+            delete token.role;
+          } else {
+            const jwtVersion = typeof token.authVersion === "number" ? token.authVersion : 0;
+            if (row.authVersion !== jwtVersion) {
+              delete token.sub;
+              delete token.email;
+              delete token.role;
+            } else {
+              token.authVersion = row.authVersion;
+              token.role = row.role;
+              token.country = row.country;
+              token.tier = row.tier;
+              token.name = row.name;
+              token.email = row.email;
+            }
           }
         } catch {
           // Edge / transient DB: keep existing token claims.
@@ -85,6 +100,10 @@ export const authConfig = {
     },
     async session({ session, token }) {
       if (session.user) {
+        if (!token.sub) {
+          (session.user as { id: string }).id = "";
+          return session;
+        }
         (session.user as { id: string }).id = token.sub as string;
         session.user.email = (token.email as string) ?? session.user.email;
         session.user.name = (token.name as string) ?? session.user.name;

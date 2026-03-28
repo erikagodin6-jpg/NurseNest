@@ -18,5 +18,7 @@ declare module "next-auth/jwt" {
     role?: "LEARNER" | "ADMIN";
     country?: "CA" | "US";
     tier?: "RPN" | "LVN_LPN" | "RN" | "NP";
+    /** Must match User.authVersion; mismatch invalidates the session (e.g. after password reset). */
+    authVersion?: number;
   }
 }

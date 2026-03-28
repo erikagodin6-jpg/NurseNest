@@ -5,6 +5,8 @@ export type ProductEventName =
   | "exam_start"
   | "exam_submit"
   | "exam_pool_empty"
+  | "exam_pool_schema_all_invalid"
+  | "exam_pool_empty_after_cat"
   | "exam_session_save"
   | "entitlement_resolve_failed"
   | "stripe_webhook_ok"

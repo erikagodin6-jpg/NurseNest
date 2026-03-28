@@ -18,7 +18,12 @@
     "db:seed": "tsx prisma/seed.ts",
     "db:grant-admin": "tsx scripts/grant-admin-by-email.ts",
     "content:inventory": "tsx scripts/content-inventory.ts",
-    "content:quality": "tsx scripts/content-quality-report.ts"
+    "content:quality": "tsx scripts/content-quality-report.ts",
+    "content:integrity-audit": "tsx scripts/content-integrity-audit.ts",
+    "content:audit-reports": "node scripts/run-content-audit-reports.mjs",
+    "import:questions": "tsx scripts/import-questions.ts",
+    "import:lessons": "tsx scripts/import-lessons.ts",
+    "content:inventory-legacy": "node scripts/inventory-legacy-content.mjs"
   },
   "dependencies": {
     "@auth/core": "0.37.2",
@@ -46,6 +51,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "dotenv": "^17.3.1",
+    "esbuild": "^0.25.12",
     "eslint": "^9",
     "eslint-config-next": "16.2.1",
     "prisma": "^6.7.0",

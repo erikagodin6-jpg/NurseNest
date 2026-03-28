@@ -2,8 +2,19 @@
  * Run: npx tsx scripts/content-inventory.ts
  * Requires DATABASE_URL. Outputs JSON inventory for gap analysis (no auto-publish).
  */
+import { config as loadEnv } from "dotenv";
 import { ContentStatus } from "@prisma/client";
 import { PrismaClient } from "@prisma/client";
+
+loadEnv({ path: ".env.local" });
+loadEnv();
+
+if (!process.env.DATABASE_URL?.trim()) {
+  console.error(
+    JSON.stringify({ error: "DATABASE_URL is not set", hint: "DATABASE_URL=postgresql://... npx tsx scripts/content-inventory.ts" }, null, 2),
+  );
+  process.exit(1);
+}
 
 const prisma = new PrismaClient();
 

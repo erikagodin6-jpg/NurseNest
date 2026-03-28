@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { lessonAccessWhere } from "@/lib/entitlements/content-access-scope";
 import { getFreemiumSnapshot } from "@/lib/entitlements/freemium";
@@ -97,21 +98,28 @@ export default async function LessonsPage() {
             categorySlug: lesson.category.slug,
           });
           return (
-            <article className="nn-card flex gap-4 overflow-hidden p-4" key={lesson.id}>
-              <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-border/60 bg-muted/30">
-                <LessonCoverImage
-                  src={cover.src}
-                  srcSet={cover.srcSet}
-                  alt={`Illustration for ${lesson.title}`}
-                  className="h-full w-full object-cover"
-                  loading="lazy"
-                />
-              </div>
-              <div className="min-w-0 flex-1">
-                <h2 className="font-semibold">{lesson.title}</h2>
-                <p className="mt-2 text-sm text-muted">{lesson.summary}</p>
-              </div>
-            </article>
+            <Link
+              key={lesson.id}
+              href={`/app/lessons/${lesson.slug}`}
+              className="block rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            >
+              <article className="nn-card flex gap-4 overflow-hidden p-4 transition-colors hover:border-primary/25">
+                <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-border/60 bg-muted/30">
+                  <LessonCoverImage
+                    src={cover.src}
+                    srcSet={cover.srcSet}
+                    alt={`Illustration for ${lesson.title}`}
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h2 className="font-semibold">{lesson.title}</h2>
+                  <p className="mt-2 text-sm text-muted">{lesson.summary}</p>
+                  <p className="mt-2 text-xs font-medium text-primary">Open full lesson →</p>
+                </div>
+              </article>
+            </Link>
           );
         })}
       </div>

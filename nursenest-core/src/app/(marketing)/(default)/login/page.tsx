@@ -8,5 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function LoginPage() {
-  return <MarketingLoginPage locale="en" />;
+  return <MarketingLoginPage locale="en" recoveryPathPrefix="" />;
 }

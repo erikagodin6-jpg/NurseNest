@@ -16,5 +16,5 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function LocalizedLoginPage({ params }: Props) {
   const { locale } = await params;
-  return <MarketingLoginPage locale={locale} />;
+  return <MarketingLoginPage locale={locale} recoveryPathPrefix={`/${locale}`} />;
 }

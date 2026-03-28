@@ -8,6 +8,7 @@ import { computeReadiness } from "@/lib/learning/readiness";
 import { questionLearnerPoolWhere, userCanAccessExam } from "@/lib/entitlements/content-access-scope";
 import { requireSubscriberSession } from "@/lib/entitlements/require-subscriber-session";
 import { logPaywallDeny } from "@/lib/entitlements/assert-question-access";
+import { validateQuestionPayload } from "@/lib/content/question-schema";
 import { safeServerLogCritical } from "@/lib/observability/safe-server-log";
 import { productEvent } from "@/lib/observability/product-events";
 import { setSentryServerContext } from "@/lib/observability/sentry-server-context";
@@ -63,6 +64,8 @@ export async function POST(req: Request) {
             difficulty: true,
             systemTag: true,
             categoryId: true,
+            options: true,
+            answerKey: true,
           },
           take: CANDIDATE_POOL,
           orderBy: { updatedAt: "desc" },
@@ -81,10 +84,46 @@ export async function POST(req: Request) {
       }),
     ]);
 
+    const schemaOk = candidates.filter(
+      (c) => !validateQuestionPayload(c.questionType, c.options, c.answerKey),
+    );
+    if (schemaOk.length === 0 && candidates.length > 0) {
+      productEvent("exam_pool_schema_all_invalid", { rawCandidates: candidates.length });
+      return NextResponse.json(
+        {
+          error: "NO_ELIGIBLE_QUESTIONS",
+          message:
+            "No questions passed schema validation in the candidate pool. Fix invalid options/answerKey on published rows (see /api/admin/qa publishedQuestionSchemaValidation).",
+          poolEmpty: true,
+          rawCandidates: candidates.length,
+        },
+        { status: 422 },
+      );
+    }
+    const pool = schemaOk.length > 0 ? schemaOk : candidates;
+
     const profile = profileRow ? parseLearningProfileRow(profileRow) : null;
     const signals = buildLearningSignals(profile);
     const readiness = computeReadiness(profile);
-    const pickedIds = pickAdaptiveCatQuestionIds(candidates, examFamily, POOL_LIMIT, signals);
+    const pickedIds = pickAdaptiveCatQuestionIds(pool, examFamily, POOL_LIMIT, signals);
+    if (pickedIds.length === 0) {
+      productEvent("exam_pool_empty_after_cat", {
+        eligibleAfterSchema: schemaOk.length,
+        rawCandidates: candidates.length,
+      });
+      return NextResponse.json(
+        {
+          error: "NO_ELIGIBLE_QUESTIONS",
+          message:
+            "Adaptive selection returned an empty pool (no questions after blueprint/CAT filters). Check published inventory for this country/tier and exam family.",
+          poolEmpty: true,
+          eligibleAfterSchema: schemaOk.length,
+          rawCandidates: candidates.length,
+        },
+        { status: 422 },
+      );
+    }
+
     const questionPool = await withRetry(() =>
       prisma.question.findMany({
         where: { id: { in: pickedIds } },
@@ -131,9 +170,6 @@ export async function POST(req: Request) {
       },
     });
 
-    if (questionPool.length === 0) {
-      productEvent("exam_pool_empty", { hasExamId: !!examId });
-    }
     productEvent("exam_start", { total: questionPool.length });
 
     const questionIds = questionPool.map((q) => q.id);

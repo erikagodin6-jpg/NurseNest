@@ -80,6 +80,8 @@ model User {
   email                   String         @unique
   name                    String
   passwordHash            String?
+  /** Incremented on password change / reset to invalidate existing JWTs. */
+  authVersion             Int            @default(0)
   role                    UserRole       @default(LEARNER)
   country                 CountryCode
   tier                    TierCode
@@ -97,6 +99,37 @@ model User {
   examSessions            ExamSession[]
   progress                Progress[]
   learningProfile         UserLearningProfile?
+  passwordResetTokens     PasswordResetToken[]
+}
+
+/// Single-use password reset; only tokenHash stored (never raw token).
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+/// Support-assisted "forgot email" / account hints — no automatic email disclosure.
+model AccountRecoveryRequest {
+  id          String    @id @default(cuid())
+  fullName    String
+  details     String    @db.Text
+  countryHint String?
+  tierHint    String?
+  last4Hint   String?
+  status      String    @default("PENDING")
+  handledById String?
+  handledAt   DateTime?
+  createdAt   DateTime  @default(now())
+
+  @@index([status, createdAt])
 }
 
 model UserLearningProfile {

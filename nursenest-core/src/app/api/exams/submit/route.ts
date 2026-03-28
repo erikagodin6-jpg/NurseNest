@@ -44,7 +44,12 @@ export async function POST(req: Request) {
   }
 
   const parsed = schema.safeParse(body);
-  if (!parsed.success) return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: "Invalid payload", issues: parsed.error.flatten(), zodIssues: parsed.error.issues },
+      { status: 400 },
+    );
+  }
 
   let score: number;
   let total: number;

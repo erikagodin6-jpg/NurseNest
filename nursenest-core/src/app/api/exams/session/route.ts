@@ -103,7 +103,12 @@ export async function PATCH(req: Request) {
   }
 
   const parsed = patchSchema.safeParse(body);
-  if (!parsed.success) return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: "Invalid payload", issues: parsed.error.flatten(), zodIssues: parsed.error.issues },
+      { status: 400 },
+    );
+  }
 
   try {
     const existing = await prisma.examSession.findFirst({

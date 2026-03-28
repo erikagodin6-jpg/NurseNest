@@ -15,6 +15,7 @@ export default async function AdminPage() {
   ]);
 
   const api = [
+    { href: "/admin/account-recovery", label: "Account recovery queue (UI)" },
     { href: "/api/admin/insights", label: "Insights JSON" },
     { href: "/api/admin/qa", label: "QA summary" },
     { href: "/api/admin/gaps", label: "Coverage gaps" },
@@ -23,6 +24,7 @@ export default async function AdminPage() {
     { href: "/api/admin/exams?page=1&pageSize=20", label: "Exams (paged)" },
     { href: "/api/admin/flashcards", label: "Flashcards" },
     { href: "/api/admin/jobs", label: "Background jobs" },
+    { href: "/api/admin/account-recovery-requests?page=1&pageSize=20", label: "Account recovery (JSON)" },
     { href: "/api/admin/export/content?take=100", label: "Export sample" },
   ];
 

@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local DB audit outputs (run: npm run content:audit-reports)
+integrity-report.json
+inventory-report.json
+
+# legacy import temp bundles
+.migration-tmp/
