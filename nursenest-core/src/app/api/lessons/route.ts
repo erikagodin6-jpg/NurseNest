@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { lessonAccessWhere, lessonBankWhereForProfile } from "@/lib/entitlements/content-access-scope";
+import { freemiumLessonWhereForProfile, lessonAccessWhere } from "@/lib/entitlements/content-access-scope";
 import { getFreemiumSnapshot } from "@/lib/entitlements/freemium";
 import { requireSubscriberSession } from "@/lib/entitlements/require-subscriber-session";
 import { resolveEntitlement } from "@/lib/entitlements/resolve-entitlement";
@@ -78,7 +78,7 @@ export async function GET(req: NextRequest) {
   const take = Math.min(pageSize, snap.lessonRemaining);
 
   try {
-    const where = lessonBankWhereForProfile(user.country as CountryCode, user.tier as TierCode);
+    const where = freemiumLessonWhereForProfile(user.country as CountryCode, user.tier as TierCode);
     const lessons = await withRetry(() =>
       prisma.contentItem.findMany({
         where,

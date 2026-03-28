@@ -80,6 +80,10 @@ export function lessonAccessWhere(entitlement: AccessScope): Prisma.ContentItemW
   };
 }
 
+/**
+ * Tier-scoped lesson pool for analytics/audit (simulates a subscriber at `tier`).
+ * Not for freemium preview — use {@link freemiumLessonWhereForProfile}.
+ */
 export function lessonBankWhereForProfile(country: CountryCode, tier: TierCode): Prisma.ContentItemWhereInput {
   const tiers = contentItemTiersForUserTier(tier);
   return {
@@ -90,6 +94,28 @@ export function lessonBankWhereForProfile(country: CountryCode, tier: TierCode):
       },
       {
         OR: [{ tier: null }, { tier: { in: tiers } }],
+      },
+    ],
+  };
+}
+
+/**
+ * Complimentary lesson rows: public/starter tiers only (never RN/NP depth from profile `tier`).
+ * ALLIED learners stay on allied + free/general; nursing uses rpn/lvn + free/general.
+ */
+export function freemiumLessonWhereForProfile(country: CountryCode, tier: TierCode): Prisma.ContentItemWhereInput {
+  const tiers =
+    tier === "ALLIED"
+      ? contentItemTiersForUserTier("ALLIED")
+      : (["free", "general", "rpn", "lvn"] as const);
+  return {
+    AND: [
+      lessonPublishedWhere(),
+      {
+        OR: [{ regionScope: "BOTH" }, { regionScope: country === "CA" ? "CA_ONLY" : "US_ONLY" }],
+      },
+      {
+        OR: [{ tier: null }, { tier: { in: [...tiers] } }],
       },
     ],
   };
@@ -111,10 +137,27 @@ export function questionAccessWhere(entitlement: AccessScope): Prisma.ExamQuesti
   };
 }
 
+/**
+ * Tier-scoped question pool for analytics/audit (simulates a subscriber at `tier`).
+ * Not for freemium preview — use {@link freemiumQuestionWhereForProfile}.
+ */
 export function questionBankWhereForProfile(country: CountryCode, tier: TierCode): Prisma.ExamQuestionWhereInput {
   return {
     status: DB_PUBLISHED,
     tier: { in: examQuestionTiersForUserTier(tier) },
+    OR: [{ regionScope: "BOTH" }, { regionScope: country === "CA" ? "CA_ONLY" : "US_ONLY" }],
+  };
+}
+
+/**
+ * Complimentary question previews: LVN_LPN ladder (rpn + lvn) for nursing paths; ALLIED only for allied.
+ * Does not use profile tier depth (avoids NP/RN preview leaks for unpaid users).
+ */
+export function freemiumQuestionWhereForProfile(country: CountryCode, tier: TierCode): Prisma.ExamQuestionWhereInput {
+  const tiers = tier === "ALLIED" ? examQuestionTiersForUserTier("ALLIED") : examQuestionTiersForUserTier("LVN_LPN");
+  return {
+    status: DB_PUBLISHED,
+    tier: { in: tiers },
     OR: [{ regionScope: "BOTH" }, { regionScope: country === "CA" ? "CA_ONLY" : "US_ONLY" }],
   };
 }

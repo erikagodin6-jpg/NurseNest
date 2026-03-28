@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { questionAccessWhere, questionBankWhereForProfile } from "@/lib/entitlements/content-access-scope";
+import { freemiumQuestionWhereForProfile, questionAccessWhere } from "@/lib/entitlements/content-access-scope";
 import { getFreemiumSnapshot } from "@/lib/entitlements/freemium";
 import { requireSubscriberSession } from "@/lib/entitlements/require-subscriber-session";
 import { resolveEntitlement } from "@/lib/entitlements/resolve-entitlement";
@@ -112,7 +112,7 @@ export async function GET(req: NextRequest) {
   const take = Math.min(pageSize, snap.questionRemaining);
 
   try {
-    const where = questionBankWhereForProfile(user.country as CountryCode, user.tier as TierCode);
+    const where = freemiumQuestionWhereForProfile(user.country as CountryCode, user.tier as TierCode);
     const freemiumMode = searchParams.get("mode") === "full" ? "full" : "summary";
     const questions = await withRetry(() =>
       prisma.examQuestion.findMany({

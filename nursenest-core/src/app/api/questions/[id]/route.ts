@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { questionAccessWhere, questionBankWhereForProfile } from "@/lib/entitlements/content-access-scope";
+import { freemiumQuestionWhereForProfile, questionAccessWhere } from "@/lib/entitlements/content-access-scope";
 import { getFreemiumSnapshot } from "@/lib/entitlements/freemium";
 import { logPaywallDeny, questionIdWhereIfAllowed } from "@/lib/entitlements/assert-question-access";
 import { requireSubscriberSession } from "@/lib/entitlements/require-subscriber-session";
@@ -85,7 +85,7 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
   }
 
   const where = {
-    AND: [{ id }, questionBankWhereForProfile(user.country as CountryCode, user.tier as TierCode)],
+    AND: [{ id }, freemiumQuestionWhereForProfile(user.country as CountryCode, user.tier as TierCode)],
   };
 
   try {

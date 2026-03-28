@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { ExamSessionStatus } from "@prisma/client";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
+import { questionAccessWhere } from "@/lib/entitlements/content-access-scope";
 import { requireSubscriberSession } from "@/lib/entitlements/require-subscriber-session";
 import { safeServerLogCritical } from "@/lib/observability/safe-server-log";
 import { setSentryServerContext } from "@/lib/observability/sentry-server-context";
@@ -64,7 +65,7 @@ export async function GET(req: NextRequest) {
 
     const questions = await withRetry(() =>
       prisma.examQuestion.findMany({
-        where: { id: { in: ids } },
+        where: { AND: [{ id: { in: ids } }, questionAccessWhere(gate.entitlement)] },
         select: { id: true, stem: true, options: true, questionType: true },
       }),
     );

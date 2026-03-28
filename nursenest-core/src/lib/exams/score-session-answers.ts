@@ -1,4 +1,6 @@
 import type { Prisma } from "@prisma/client";
+import { questionAccessWhere } from "@/lib/entitlements/content-access-scope";
+import type { AccessScope } from "@/lib/entitlements/resolve-entitlement";
 import { prisma } from "@/lib/db";
 
 function asStringArray(v: Prisma.JsonValue): string[] {
@@ -36,6 +38,7 @@ export async function scoreSessionAnswers(
   userId: string,
   examId: string,
   answers: Record<string, unknown>,
+  entitlement: AccessScope,
 ): Promise<{ score: number; total: number } | null> {
   const session = await prisma.examSession.findFirst({
     where: { id: sessionId, userId },
@@ -47,13 +50,18 @@ export async function scoreSessionAnswers(
   if (ids.length === 0) return { score: 0, total: 0 };
 
   const qs = await prisma.examQuestion.findMany({
-    where: { id: { in: ids } },
+    where: { AND: [{ id: { in: ids } }, questionAccessWhere(entitlement)] },
     select: { id: true, correctAnswer: true, questionType: true },
   });
+  const byId = new Map(qs.map((q) => [q.id, q]));
 
   let score = 0;
-  for (const q of qs) {
+  let total = 0;
+  for (const id of ids) {
+    const q = byId.get(id);
+    if (!q) continue;
+    total += 1;
     if (answerMatches(q.questionType, q.correctAnswer, answers[q.id])) score += 1;
   }
-  return { score, total: qs.length };
+  return { score, total };
 }

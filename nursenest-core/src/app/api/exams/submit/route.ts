@@ -49,7 +49,13 @@ export async function POST(req: Request) {
   let total: number;
   if (parsed.data.sessionId && parsed.data.answers) {
     try {
-      const graded = await scoreSessionAnswers(parsed.data.sessionId, gate.userId, parsed.data.examId, parsed.data.answers);
+      const graded = await scoreSessionAnswers(
+        parsed.data.sessionId,
+        gate.userId,
+        parsed.data.examId,
+        parsed.data.answers,
+        gate.entitlement,
+      );
       if (!graded) {
         return NextResponse.json({ error: "Could not grade session" }, { status: 400 });
       }
