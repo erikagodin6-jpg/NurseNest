@@ -2,10 +2,12 @@
  * Deterministic tier/exam enrichment for legacy ai_cache MCQ line items **before** mapLegacyItemToExamQuestion.
  * No silent defaults to NCLEX-RN or free tier. Low-confidence cases remain missing → strict mapper rejects.
  *
- * Priority: explicit item → parent row → deterministic inference → manual mapping → path/filename signals.
+ * Priority: explicit item → parent row → deterministic cache_key inference →
+ * generation_jobs pipeline hash resolution → manual mapping → path/filename signals.
  */
 import * as fs from "fs";
 import * as path from "path";
+import { clearPipelineCacheKeyIndexCache, resolveCacheKeyFromExportBundle } from "./nursing-cache-key-source-resolve";
 
 export type MetadataProvenanceSource =
   | "explicit_item_field"
@@ -14,6 +16,7 @@ export type MetadataProvenanceSource =
   | "path_segment"
   | "cache_key"
   | "inferred_rule"
+  | "resolved_origin"
   | "manual_mapping";
 
 export type NursingEnrichmentContext = {
@@ -99,6 +102,7 @@ export function loadManualMappingCached(repoRoot: string = process.cwd()): Manua
 /** For tests / CLI that reset module state. */
 export function clearManualMappingCache(): void {
   cachedManual = undefined;
+  clearPipelineCacheKeyIndexCache();
 }
 
 /**
@@ -219,7 +223,7 @@ export function enrichNursingExamItemMetadata(
     }
   }
 
-  /** Deterministic cache_key rules before hand-maintained overrides. */
+  /** Deterministic cache_key substring rules (readable keys only). */
   if (!tier || !exam) {
     const inf = inferFromCacheKey(ctx.cacheKey);
     if (inf) {
@@ -238,7 +242,22 @@ export function enrichNursingExamItemMetadata(
     }
   }
 
-  /** Manual mapping overrides / fills gaps after inference (reviewed file only). */
+  /**
+   * Verifiable tier from recomputed pipeline keys + generation_jobs.json (same export dir).
+   * Does not set exam from tier (no NCLEX/RN/PN defaults).
+   */
+  if (!tier || !exam) {
+    const ro = resolveCacheKeyFromExportBundle(ctx.cacheKey, ctx.exportDirAbs);
+    if (ro) {
+      if (!tier && ro.tier) {
+        tier = ro.tier;
+        tierSource = "resolved_origin";
+        tierDetail = ro.detail;
+      }
+    }
+  }
+
+  /** Manual mapping (reviewed file only). */
   if (!tier || !exam) {
     const man = applyManualMapping(ctx.cacheKey, manual);
     if (man) {
@@ -256,7 +275,7 @@ export function enrichNursingExamItemMetadata(
     }
   }
 
-  /** Optional: export bundle folder name as weak signal — only when single segment matches REx-PN / NCLEX (strict). */
+  /** Optional: export bundle folder name — only when segment matches strict inference rules. */
   if (!tier || !exam) {
     const base = path.basename(ctx.exportDirAbs);
     const sub = inferFromCacheKey(base);

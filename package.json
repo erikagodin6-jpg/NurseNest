@@ -49,8 +49,10 @@
     "nursing:preview": "npx tsx scripts/replit-import/nursing-dry-run-preview.ts",
     "nursing:preview:db": "npx tsx scripts/replit-import/nursing-dry-run-preview.ts --check-db-duplicates",
     "nursing:audit": "npx tsx scripts/replit-import/nursing-pre-import-audit.ts",
+    "nursing:resolution-report": "npx tsx scripts/replit-import/nursing-export-resolution-report.ts",
     "nursing:audit:db": "npx tsx scripts/replit-import/nursing-pre-import-audit.ts --check-db",
-    "clean:generated": "node scripts/clean-generated-artifacts.mjs"
+    "clean:generated": "node scripts/clean-generated-artifacts.mjs",
+    "backfill:question-bank-content-tier": "npx tsx scripts/backfill-question-bank-content-tier.ts"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.19.0",

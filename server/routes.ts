@@ -119,13 +119,8 @@ import type { AdminRole, OperatorActionParams } from "./admin-auth";
 import { requireEntitlement, requireAnyPremium, requireAuthenticated, handleEntitlementDebug, handleEntitlementResolve, resolveEntitlementSync } from "./entitlements";
 import { allowedNursingFlashcardBankTiersForUser } from "./paywall-tier-rules";
 import { wrapWithOrchestrator, getOrchestratorStats } from "./access-delivery-orchestrator";
-import {
-  validateQuestionBankImport,
-  getCountryForUserRegion,
-  getExamTypeForCountry,
-  getLegacyQuestionBankScopeForUser,
-  legacyQuestionBankItemMatchesUserScope,
-} from "./question-bank-validation";
+import { validateQuestionBankImport } from "./question-bank-validation";
+import { resolveQuestionBankLearnerGate, learnerCanAccessQuestionBankItem } from "./question-bank-access";
 import { examRequestIdMiddleware, getExamRequestId, withAssemblyConcurrencyLimit, timedExamQuery, buildExamShell, examDeliveryLog, getAssemblyStats } from "./exam-delivery";
 import { isCircuitOpen, recordExamFailure, recordExamSuccess, getCircuitStatus } from "./exam-resilience-engine";
 import { getAllowedContentTiers } from "../shared/tier-config";
@@ -24863,12 +24858,20 @@ Return ONLY valid JSON with this exact structure:
         if (req.query.examType) filters.examType = req.query.examType;
         if (req.query.country) filters.country = req.query.country;
       } else {
-        const scope = getLegacyQuestionBankScopeForUser(user);
-        if (!scope) {
+        const gate = resolveQuestionBankLearnerGate(user, false);
+        if (gate.kind !== "learner") {
+          return res.status(500).json({ error: "Unexpected gate state" });
+        }
+        if (!gate.scope) {
           return res.status(400).json({ error: "User region not set. Please update your profile." });
         }
-        filters.country = scope.country;
-        filters.examType = scope.examType;
+        if (gate.contentTiers.length === 0) {
+          return res.json([]);
+        }
+        filters.country = gate.scope.country;
+        filters.examType = gate.scope.examType;
+        filters.contentTiersIn = gate.contentTiers;
+        filters.requireNonNullContentTier = true;
         if (req.query.category) filters.category = req.query.category;
         if (req.query.difficulty) filters.difficulty = req.query.difficulty;
         if (req.query.topic) filters.topic = req.query.topic;
@@ -24887,8 +24890,8 @@ Return ONLY valid JSON with this exact structure:
       const item = await storage.getQuestionBankItem(req.params.id);
       if (!item) return res.status(404).json({ error: "Question not found" });
       if (!(await isAdminUser(req))) {
-        const scope = getLegacyQuestionBankScopeForUser(user);
-        if (!legacyQuestionBankItemMatchesUserScope(item, scope)) {
+        const gate = resolveQuestionBankLearnerGate(user, false);
+        if (!learnerCanAccessQuestionBankItem(item, gate)) {
           return res.status(404).json({ error: "Question not found" });
         }
       }
@@ -25015,11 +25018,21 @@ Return ONLY valid JSON with this exact structure:
         return res.json(transformed);
       }
 
-      const country = getCountryForUserRegion(user.region);
-      if (!country) return res.status(400).json({ error: "User region not set. Please update your profile." });
-      const examType = getExamTypeForCountry(country);
+      const gate = resolveQuestionBankLearnerGate(user, false);
+      if (gate.kind !== "learner") {
+        return res.status(500).json({ error: "Unexpected gate state" });
+      }
+      if (!gate.scope) return res.status(400).json({ error: "User region not set. Please update your profile." });
+      if (gate.contentTiers.length === 0) {
+        return res.json([]);
+      }
       const count = Math.min(parseInt(req.query.count as string) || 25, 100);
-      const filters: any = { country, examType };
+      const filters: any = {
+        country: gate.scope.country,
+        examType: gate.scope.examType,
+        contentTiersIn: gate.contentTiers,
+        requireNonNullContentTier: true,
+      };
       if (req.query.category) filters.category = req.query.category;
       if (req.query.difficulty) filters.difficulty = req.query.difficulty;
       const questions = await storage.getQuestionBankRandomSubset(filters, count);
