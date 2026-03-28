@@ -640,7 +640,10 @@ export class DatabaseStorage implements IStorage {
     const LIMIT = 2000;
     const rows = await db.select().from(users).limit(LIMIT);
     if (rows.length >= LIMIT) console.warn(`[Storage] getAllUsers hit safety limit of ${LIMIT} rows`);
-    return rows.map(({ password, ...rest }) => rest);
+    return rows.map((row: User) => {
+      const { password: _p, ...rest } = row;
+      return rest;
+    });
   }
 
   async getAllTestResults(): Promise<TestResult[]> {
@@ -1048,7 +1051,7 @@ export class DatabaseStorage implements IStorage {
     const [updated] = await db.execute(sql`
       UPDATE user_feedback SET upvotes = upvotes + 1, updated_at = NOW()
       WHERE id = ${id} RETURNING *
-    `).then(r => r.rows);
+    `).then((r: { rows: unknown[] }) => r.rows);
     return updated as unknown as UserFeedback;
   }
 
@@ -1078,7 +1081,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async recordQotdAnswer(data: InsertQotdUserAnswer, isCorrect: boolean): Promise<{ answer: QotdUserAnswer; streak: QotdStreak }> {
-    return await db.transaction(async (tx) => {
+    return await db.transaction(async (tx: typeof db) => {
       const existing = await tx.select().from(qotdUserAnswers)
         .where(and(eq(qotdUserAnswers.userId, data.userId), eq(qotdUserAnswers.questionDate, data.questionDate)));
       if (existing.length > 0) {
@@ -1614,7 +1617,7 @@ export class DatabaseStorage implements IStorage {
   async getUserStudyGroups(userId: string): Promise<StudyGroup[]> {
     const memberships = await db.select({ groupId: studyGroupMembers.groupId }).from(studyGroupMembers).where(eq(studyGroupMembers.userId, userId)).limit(100);
     if (memberships.length === 0) return [];
-    const groupIds = memberships.map(m => m.groupId);
+    const groupIds = memberships.map((m: { groupId: string }) => m.groupId);
     const result = await pool.query(
       `SELECT id, name, description, invite_code, owner_id, max_members, created_at FROM study_groups WHERE id = ANY($1) LIMIT 100`,
       [groupIds]
