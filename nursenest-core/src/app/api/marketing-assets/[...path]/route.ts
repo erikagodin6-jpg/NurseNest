@@ -2,7 +2,7 @@ import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { NextResponse } from "next/server";
 
 /** Allowed object key prefixes in the marketing bucket (screens + brand marks). */
-const ALLOW_PREFIXES = ["screenshots/", "brand/"] as const;
+const ALLOW_PREFIXES = ["screenshots/", "brand/", "branding/"] as const;
 
 function isAllowedKey(key: string): boolean {
   if (key.includes("..")) return false;
@@ -38,7 +38,7 @@ function contentTypeForKey(key: string): string {
 
 /**
  * Streams marketing images from DigitalOcean Spaces (private bucket safe).
- * Path must start with `screenshots/` or `brand/` — matches keys in `nursenest-images`.
+ * Path must start with `screenshots/`, `brand/`, or `branding/` — matches keys in `nursenest-images`.
  */
 export async function GET(
   _req: Request,
