@@ -136,7 +136,7 @@ Columns: **feature** | **old / legacy location** | **current location** | **stat
 | Feature | Legacy / old | Current | Status | Action | Pri |
 |---------|--------------|---------|--------|--------|-----|
 | Admin dashboards | — | `client/src/pages/admin*.tsx`, APIs under `/api/admin/*` | Preserved | Incremental | Medium |
-| i18n diagnostics | — | `/admin/i18n`, `server/i18n-diagnostics-*.ts` | Added | Keep | Medium |
+| i18n diagnostics | Monolith `/admin/i18n` | Monolith + **Next** `/admin/i18n`, `server/i18n-diagnostics-report.ts`, Next `/api/admin/i18n-diagnostics` | Active | Keep single builder | Medium |
 
 ---
 

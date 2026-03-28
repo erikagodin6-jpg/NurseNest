@@ -1,18 +1,23 @@
 import Link from "next/link";
 import { requireAdmin } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
-import { ContentStatus, JobStatus } from "@prisma/client";
+import { withDatabaseFallback } from "@/lib/db/safe-database";
+import { JobStatus } from "@prisma/client";
 
 export default async function AdminPage() {
   await requireAdmin();
 
-  const [lessonCount, questionCount, draftQuestions, reviewQuestions, jobPending] = await Promise.all([
-    prisma.contentItem.count({ where: { type: "lesson" } }),
-    prisma.examQuestion.count(),
-    prisma.examQuestion.count({ where: { status: "draft" } }),
-    prisma.examQuestion.count({ where: { status: "published", rationale: null } }),
-    prisma.backgroundJob.count({ where: { status: JobStatus.PENDING } }).catch(() => 0),
-  ]);
+  const [lessonCount, questionCount, draftQuestions, reviewQuestions, jobPending] = await withDatabaseFallback(
+    () =>
+      Promise.all([
+        prisma.contentItem.count({ where: { type: "lesson" } }),
+        prisma.examQuestion.count(),
+        prisma.examQuestion.count({ where: { status: "draft" } }),
+        prisma.examQuestion.count({ where: { status: "published", rationale: null } }),
+        prisma.backgroundJob.count({ where: { status: JobStatus.PENDING } }).catch(() => 0),
+      ]),
+    [0, 0, 0, 0, 0],
+  );
 
   const api = [
     { href: "/api/admin/insights", label: "Insights JSON" },
@@ -88,6 +93,16 @@ export default async function AdminPage() {
             <span className="ml-2 text-muted">approve → promote to Question / Flashcard (DRAFT)</span>
           </li>
         </ul>
+      </section>
+
+      <section className="mt-8 nn-card p-6">
+        <h2 className="text-lg font-semibold">Translations (i18n)</h2>
+        <p className="mt-1 text-sm text-muted">
+          Live diagnostics from the monolith report builder (missing keys, drift, compile status).
+        </p>
+        <Link className="mt-3 inline-flex text-primary underline" href="/admin/i18n">
+          Open i18n diagnostics dashboard →
+        </Link>
       </section>
 
       <section className="mt-8">
