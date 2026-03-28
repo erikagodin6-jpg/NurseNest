@@ -12,8 +12,10 @@ import {
   normalizeAiCacheOutputJson,
   iterateAiCacheOutputItems,
   parseAiCacheNursingExamItem,
+  buildNursingParseContext,
   type MappedExamQuestion,
 } from "./nursing-ai-cache-extract";
+import type { EnrichmentAudit } from "./nursing-exam-metadata-enrich";
 
 function getDbUrl(): string | null {
   return process.env.PROD_DATABASE_URL?.trim() || process.env.DATABASE_URL?.trim() || null;
@@ -70,6 +72,8 @@ function parseArgs() {
 function simulateExamInsertCap(
   rows: Record<string, unknown>[],
   maxExamInserts: number | undefined,
+  exportDirAbs: string,
+  repoRoot: string,
 ): {
   maxExamInserts: number | null;
   simulatedSuccessfulInserts: number;
@@ -81,11 +85,22 @@ function simulateExamInsertCap(
   const seenStem = new Set<string>();
   let examInsertCount = 0;
   let stoppedByCap = false;
+  let rowIndex = -1;
   outer: for (const row of rows) {
+    rowIndex += 1;
     const oj = normalizeAiCacheOutputJson(row.output_json ?? row.outputJson);
     if (oj === null || oj === undefined) continue;
+    let outputItemIndex = -1;
     for (const item of iterateAiCacheOutputItems(oj)) {
-      const parsed = parseAiCacheNursingExamItem(item);
+      outputItemIndex += 1;
+      const ctx = buildNursingParseContext(row, {
+        exportDirAbs,
+        sourceFileName: "ai_cache.json",
+        rowIndex,
+        outputItemIndex,
+        repoRoot,
+      });
+      const parsed = parseAiCacheNursingExamItem(item as Record<string, unknown>, ctx);
       if (parsed.kind === "flashcard" || parsed.kind === "inconclusive") continue;
       const h = parsed.value.stemHash;
       if (seenStem.has(h)) continue;
@@ -102,6 +117,7 @@ function simulateExamInsertCap(
 
 async function main() {
   const { dirAbs, sampleOut, checkDb, sampleLimit, maxExamInserts } = parseArgs();
+  const repoRoot = process.cwd();
   const filePath = path.join(dirAbs, "ai_cache.json");
   if (!fs.existsSync(filePath)) {
     console.error(JSON.stringify({ error: "file_not_found", filePath }, null, 2));
@@ -121,7 +137,10 @@ async function main() {
   const byTrack: Record<string, number> = {};
 
   /** First occurrence per stem_hash (global export order). */
-  const firstSeenStem = new Map<string, { cacheKey: string | null; rowIndex: number; value: MappedExamQuestion }>();
+  const firstSeenStem = new Map<
+    string,
+    { cacheKey: string | null; rowIndex: number; value: MappedExamQuestion; enrichment?: EnrichmentAudit }
+  >();
   /** Global order: which stem appeared first — Map insertion order = would-insert order. */
   const seenStemForDup = new Set<string>();
   /** Per cache_key: exam MCQ items; items that are 2nd+ occurrence of same stem (batch dup). */
@@ -149,9 +168,18 @@ async function main() {
       continue;
     }
 
+    let outputItemIndex = -1;
     for (const item of iterateAiCacheOutputItems(oj)) {
+      outputItemIndex += 1;
       totalOutputItems += 1;
-      const parsed = parseAiCacheNursingExamItem(item);
+      const ctx = buildNursingParseContext(row, {
+        exportDirAbs: dirAbs,
+        sourceFileName: "ai_cache.json",
+        rowIndex,
+        outputItemIndex,
+        repoRoot,
+      });
+      const parsed = parseAiCacheNursingExamItem(item as Record<string, unknown>, ctx);
 
       if (parsed.kind === "flashcard") {
         flashcardShapes += 1;
@@ -180,7 +208,12 @@ async function main() {
       bump(byTrack, tr);
 
       if (!firstSeenStem.has(v.stemHash)) {
-        firstSeenStem.set(v.stemHash, { cacheKey, rowIndex, value: v });
+        firstSeenStem.set(v.stemHash, {
+          cacheKey,
+          rowIndex,
+          value: v,
+          enrichment: parsed.enrichment,
+        });
       }
     }
   }
@@ -190,7 +223,7 @@ async function main() {
   const wouldInsertHashes = Array.from(firstSeenStem.keys());
   const wouldInsertCount = wouldInsertHashes.length;
 
-  const capSim = simulateExamInsertCap(rows, maxExamInserts);
+  const capSim = simulateExamInsertCap(rows, maxExamInserts, dirAbs, repoRoot);
 
   let inDb = new Set<string>();
   const dbUrlPresent = Boolean(getDbUrl());
@@ -255,6 +288,7 @@ async function main() {
           correctAnswer: s.mapped.correctAnswer,
           options: s.mapped.options,
           rationalePreview: s.mapped.rationale?.slice(0, 200) ?? null,
+          enrichment: firstSeenStem.get(s.stemHash)?.enrichment ?? null,
         })),
       },
       null,

@@ -56,6 +56,13 @@ data/replit-exports/
 scripts/replit-export-audit-report.json
 scripts/replit-export-audit-report.md
 
+# Local nursing import previews (never commit)
+scripts/replit-import/*-local.json
+scripts/replit-import/nursing-preview-output.json
+
+# Next.js build output (also cleaned by npm run clean:generated)
+nursenest-core/.next/
+
 # Optional local exports / scans (keep out of git)
 artifacts/
 scan.txt

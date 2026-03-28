@@ -13,7 +13,9 @@ import {
   normalizeAiCacheOutputJson,
   iterateAiCacheOutputItems,
   parseAiCacheNursingExamItem,
+  buildNursingParseContext,
 } from "./nursing-ai-cache-extract";
+import type { EnrichmentAudit } from "./nursing-exam-metadata-enrich";
 
 export type NursingPreviewRow = {
   sourceFile: string;
@@ -28,6 +30,7 @@ export type NursingPreviewRow = {
   targetTable: string;
   would: "insert" | "skip";
   reason: string;
+  enrichment?: EnrichmentAudit | null;
 };
 
 function getDuplicateCheckDatabaseUrl(): string | null {
@@ -82,6 +85,7 @@ Examples:
   }
 
   const { dirAbs, limit, checkDbDuplicates, maxExamInserts } = parseArgs(argv);
+  const repoRoot = process.cwd();
   const filePath = path.join(dirAbs, "ai_cache.json");
   if (!fs.existsSync(filePath)) {
     console.error(JSON.stringify({ type: "nursing_preview_error", error: "file_not_found", path: filePath }, null, 2));
@@ -129,7 +133,14 @@ Examples:
       let outputItemIndex = -1;
       for (const item of iterateAiCacheOutputItems(oj)) {
         outputItemIndex += 1;
-        const parsed = parseAiCacheNursingExamItem(item);
+        const ctx = buildNursingParseContext(row as Record<string, unknown>, {
+          exportDirAbs: dirAbs,
+          sourceFileName: "ai_cache.json",
+          rowIndex,
+          outputItemIndex,
+          repoRoot,
+        });
+        const parsed = parseAiCacheNursingExamItem(item as Record<string, unknown>, ctx);
         if (parsed.kind === "flashcard") {
           const previewRow: NursingPreviewRow = {
             sourceFile: "ai_cache.json",
@@ -163,6 +174,7 @@ Examples:
             targetTable: NURSING_EXAM_TARGET_TABLE,
             would: "skip",
             reason: `map_failed:${parsed.mapErrors.join(",")}`,
+            enrichment: parsed.enrichment ?? null,
           });
           if (limit !== undefined && preview.length >= limit) break outer;
           continue;
@@ -207,6 +219,7 @@ Examples:
           targetTable: NURSING_EXAM_TARGET_TABLE,
           would,
           reason,
+          enrichment: parsed.enrichment ?? null,
         });
         if (limit !== undefined && preview.length >= limit) break outer;
         if (stoppedByExamInsertCap) break outer;

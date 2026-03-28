@@ -7,6 +7,7 @@ import {
   iterateAiCacheOutputItems,
   normalizeAiCacheOutputJson,
   parseAiCacheNursingExamItem,
+  buildNursingParseContext,
 } from "./nursing-ai-cache-extract";
 
 export type FileValidationResult = {
@@ -40,6 +41,16 @@ export type ValidationReport = {
     failed: number;
   };
   nursingStemHashesSeen: number;
+  /** Populated when ai_cache.json is validated with enrichment enabled. */
+  nursingEnrichmentSummary?: {
+    examMapSucceeded: number;
+    alreadyHadTierExamOnItem: number;
+    enrichedSuccessfully: number;
+    stillRejectedMissingTier: number;
+    stillRejectedMissingExam: number;
+    ambiguousAfterEnrichment: number;
+    topAmbiguousKeyPatterns: [string, number][];
+  };
 };
 
 const MAX_ERROR_SAMPLES = 30;
@@ -62,6 +73,17 @@ export function validateStagedExports(repoRoot: string, sourceDirRel: string): V
 
   const globalStemHashes = new Set<string>();
   const files: FileValidationResult[] = [];
+  const exportDirAbs = sourceDir;
+  const ambiguousKeyBump: Record<string, number> = {};
+
+  let ne = {
+    examMapSucceeded: 0,
+    alreadyHadTierExamOnItem: 0,
+    enrichedSuccessfully: 0,
+    stillRejectedMissingTier: 0,
+    stillRejectedMissingExam: 0,
+    ambiguousAfterEnrichment: 0,
+  };
 
   for (const fileName of names) {
     const reg = getRegistryEntry(fileName);
@@ -90,15 +112,27 @@ export function validateStagedExports(repoRoot: string, sourceDirRel: string): V
     };
 
     if (fileName === "ai_cache.json") {
+      let rowIndex = -1;
       for (const row of rows) {
+        rowIndex += 1;
         const oj = normalizeAiCacheOutputJson(row.output_json ?? row.outputJson);
         if (oj === null || oj === undefined) {
           result.skipped += 1;
           bump(result.skipReasons, "missing_or_invalid_output_json");
           continue;
         }
+        let outputItemIndex = -1;
         for (const item of iterateAiCacheOutputItems(oj)) {
-          const parsed = parseAiCacheNursingExamItem(item);
+          outputItemIndex += 1;
+          const r = row as Record<string, unknown>;
+          const ctx = buildNursingParseContext(r, {
+            exportDirAbs,
+            sourceFileName: fileName,
+            rowIndex,
+            outputItemIndex,
+            repoRoot,
+          });
+          const parsed = parseAiCacheNursingExamItem(item as Record<string, unknown>, ctx);
           if (parsed.kind === "flashcard") {
             result.skipped += 1;
             bump(result.skipReasons, "flashcard_shape_not_nursing_exam_question");
@@ -108,7 +142,21 @@ export function validateStagedExports(repoRoot: string, sourceDirRel: string): V
             result.invalid += 1;
             bump(result.skipReasons, parsed.mapErrors.join(",") || "map_failed");
             pushErr(`${fileName}: ${parsed.mapErrors.join(",")}`);
+            const en = parsed.enrichment;
+            if (en?.ambiguous) {
+              ne.ambiguousAfterEnrichment += 1;
+              const ck = ctx.cacheKey ?? "__null_cache_key__";
+              bump(ambiguousKeyBump, ck);
+            }
+            if (parsed.mapErrors.some((e) => e.includes("missing_tier"))) ne.stillRejectedMissingTier += 1;
+            if (parsed.mapErrors.some((e) => e.includes("missing_exam"))) ne.stillRejectedMissingExam += 1;
             continue;
+          }
+          ne.examMapSucceeded += 1;
+          const en = parsed.enrichment;
+          if (en) {
+            if (en.originalTier && en.originalExam) ne.alreadyHadTierExamOnItem += 1;
+            else if (en.mergedTier && en.mergedExam) ne.enrichedSuccessfully += 1;
           }
           const h = parsed.value.stemHash;
           if (globalStemHashes.has(h)) {
@@ -170,6 +218,10 @@ export function validateStagedExports(repoRoot: string, sourceDirRel: string): V
     { valid: 0, invalid: 0, skipped: 0, duplicates: 0, failed: 0 },
   );
 
+  const topAmbiguous = Object.entries(ambiguousKeyBump)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 25) as [string, number][];
+
   return {
     generatedAt: new Date().toISOString(),
     sourceDir,
@@ -177,6 +229,10 @@ export function validateStagedExports(repoRoot: string, sourceDirRel: string): V
     files,
     totals,
     nursingStemHashesSeen: globalStemHashes.size,
+    nursingEnrichmentSummary: {
+      ...ne,
+      topAmbiguousKeyPatterns: topAmbiguous,
+    },
   };
 }
 
