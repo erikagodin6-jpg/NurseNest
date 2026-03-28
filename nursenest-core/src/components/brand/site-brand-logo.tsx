@@ -6,8 +6,9 @@ import { getResolvedThemeLogoUrl } from "@/lib/marketing-assets";
 import { NURSENEST_DEFAULT_THEME } from "@/lib/theme/theme-registry";
 
 /**
- * Header brand mark: pre-colored raster per theme from `marketing-cdn.catalog.json` → `logo.themeBrandLogoObjectKeys`.
- * Uses next-themes `resolvedTheme` / `theme` (same source as `data-theme` on `<html>`).
+ * Header brand mark: separate Spaces asset per theme (`logo.themeBrandLogoObjectKeys`).
+ * No dynamic tinting and no single bluebrandlogo for all themes—only `<img src>` to the mapped file.
+ * Theme source: next-themes `resolvedTheme` / `theme` (`data-theme` on `<html>`).
  */
 export function SiteBrandLogoMark({ className = "" }: { className?: string }) {
   const { resolvedTheme, theme } = useTheme();

@@ -26,7 +26,7 @@
   "logo": {
     "generatedPrimary": null,
     "defaultFallbackThemeId": "lavender",
-    "notes": "Pre-colored raster logos per theme (WebP). Upload to Spaces at the listed keys. Header picks the file for active data-theme (next-themes). Unknown themes fall back to defaultFallbackThemeId.",
+    "notes": "One uploaded raster per theme (e.g. brand/logos/mint.webp). Do not use a single bluebrandlogo with dynamic tinting; each theme has its own pre-colored file. Header selects by active data-theme (next-themes). Unknown themes fall back to defaultFallbackThemeId.",
     "legacyFallbackUrl": "https://www.nursenest.ca/brand-logo.gif",
     "discoveryFilenamePattern": "Objects whose key matches /logo/i (see scripts/generate-marketing-assets.mjs CATEGORY_TESTS.LOGO_PRIMARY).",
     "themeBrandLogoObjectKeys": {

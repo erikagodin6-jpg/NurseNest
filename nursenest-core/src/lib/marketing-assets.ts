@@ -60,7 +60,7 @@ export {
   nursenestImagesSpaceObjectUrl,
 } from "@/config/marketing-cdn.catalog";
 
-/** Resolved URL for the pre-colored header logo for a theme id (proxy + CDN rules). */
+/** Resolved URL for the theme-specific uploaded logo (not a shared asset tinted per theme). */
 export function getResolvedThemeLogoUrl(themeId: string): string {
   const key = getThemeLogoObjectKey(themeId);
   return resolveMarketingAbsoluteUrl(nursenestImagesSpaceObjectUrl(key));
