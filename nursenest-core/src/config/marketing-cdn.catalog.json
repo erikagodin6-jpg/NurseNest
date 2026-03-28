@@ -1,12 +1,21 @@
 {
-  "description": "Single source for DigitalOcean Spaces marketing CDN facts and legacy fallbacks used by nursenest-core. Regenerate marketing-assets.generated.ts via `npm run generate:marketing-assets` (requires SPACES_*).",
+  "description": "Single source for marketing CDN facts, homepage hero screenshots, and legacy fallbacks. Hero carousel uses URL-safe WebP paths on DigitalOcean Spaces (see marketing-assets.generated.ts MARKETING_HERO_CAROUSEL_SLIDES). Regenerate via `npm run generate:marketing-assets` (requires SPACES_*).",
+  "homepageHeroCarousel": {
+    "notes": "Documentation only — source of truth is marketing-assets.generated.ts. Paths use ASCII filenames under screenshots/ (no spaces). Browser loads via /api/marketing-assets/... when NEXT_PUBLIC_MARKETING_USE_SPACES_PROXY is not false.",
+    "canonicalPublicFallbackUrls": [
+      "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-768w.webp",
+      "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-768w.webp",
+      "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-768w.webp",
+      "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-768w.webp"
+    ]
+  },
   "digitalOceanSpaces": {
     "nursenestImages": {
       "publicBaseUrl": "https://nursenest-images.tor1.digitaloceanspaces.com",
       "bucket": "nursenest-images",
       "region": "tor1",
       "objectUrlPattern": "{publicBaseUrl}/{objectKey}",
-      "notes": "Public URL joins the base (no trailing slash) with the S3 object key; path segments are encoded per segment. Matches DEFAULT_MARKETING_CDN_BASE in scripts/generate-marketing-assets.mjs when bucket is nursenest-images in tor1."
+      "notes": "Anonymous GET to this hostname often returns 403 until the bucket is public. nursenest-core serves the same keys through /api/marketing-assets/... using SPACES_KEY/SPACES_SECRET (see marketing-resolve-image-url.ts). Set NEXT_PUBLIC_MARKETING_USE_SPACES_PROXY=false only for a fully public bucket."
     }
   },
   "committedMarketingAssets": {
@@ -16,6 +25,8 @@
   },
   "logo": {
     "generatedPrimary": null,
+    "blueBrandMarkObjectKey": "brand/bluebrandlogo.svg",
+    "notes": "Upload the Spaces object at this key (SVG with monochrome shapes, or PNG/WebP with transparency for mask tinting). Header tints via CSS mask + --theme-primary. Change extension in key if you use bluebrandlogo.png/webp.",
     "legacyFallbackUrl": "https://www.nursenest.ca/brand-logo.gif",
     "discoveryFilenamePattern": "Objects whose key matches /logo/i (see scripts/generate-marketing-assets.mjs CATEGORY_TESTS.LOGO_PRIMARY)."
   },

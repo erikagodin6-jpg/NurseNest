@@ -45,7 +45,7 @@ export function ThemePicker({ className = "", labels }: { className?: string; la
           className="flex items-center gap-1.5 rounded-full border border-[var(--theme-nav-border)] bg-[var(--theme-nav-bg)] px-2.5 py-1.5 text-xs font-semibold text-[var(--theme-menu-text)] opacity-80"
           aria-label={L.navTheme}
         >
-          <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-[#9d82dd]" />
+          <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--theme-primary)]" />
           <span className="max-w-[7rem] truncate">{L.navTheme}</span>
           <span className="text-[10px] opacity-70">▾</span>
         </button>
@@ -65,7 +65,7 @@ export function ThemePicker({ className = "", labels }: { className?: string; la
         aria-expanded={open}
         aria-haspopup="listbox"
       >
-        <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: THEME_OPTIONS.find((o) => o.id === current)?.color ?? "#9d82dd" }} />
+        <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--theme-primary)]" />
         <span className="max-w-[7rem] truncate">{L.navTheme}</span>
         <span className="text-[10px] opacity-70">▾</span>
       </button>

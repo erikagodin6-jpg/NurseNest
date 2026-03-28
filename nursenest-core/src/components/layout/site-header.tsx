@@ -20,9 +20,9 @@ import { useMarketingI18n } from "@/lib/marketing-i18n";
 import { MARKETING_LANGUAGES } from "@/lib/i18n/marketing-languages";
 import { DEFAULT_MARKETING_LOCALE } from "@/lib/i18n/marketing-locale-policy";
 import { stripMarketingLocalePrefix, withMarketingLocale } from "@/lib/i18n/marketing-path";
+import { SiteBrandLogoMark } from "@/components/brand/site-brand-logo";
 import { ThemePicker } from "@/components/theme/theme-picker";
 import { Button } from "@/components/ui/button";
-import { LOGO_PRIMARY } from "@/lib/marketing-assets";
 
 function NavDetails({
   label,
@@ -112,17 +112,7 @@ export function SiteHeader() {
 
       <div className="mx-auto flex h-11 max-w-7xl items-center justify-between gap-2 px-2 sm:h-16 sm:px-4 lg:px-8">
         <Link href={localizeHref("/")} className="group flex min-w-0 items-center gap-2">
-          {LOGO_PRIMARY ? (
-            <img
-              src={LOGO_PRIMARY}
-              alt="NurseNest"
-              width={32}
-              height={32}
-              className="h-8 w-8 shrink-0 object-contain"
-              loading="eager"
-              decoding="async"
-            />
-          ) : null}
+          <SiteBrandLogoMark />
           <span className="truncate text-xl font-extrabold tracking-tight text-primary group-hover:text-[var(--theme-menu-hover-text)]">NurseNest</span>
         </Link>
 
@@ -272,7 +262,10 @@ export function SiteHeader() {
           <button type="button" className="absolute inset-0 bg-black/40" aria-label={t("nav.closeMenu")} onClick={() => setMobileOpen(false)} />
           <div className="absolute right-0 top-0 flex h-full w-[min(100%,20rem)] flex-col border-l border-[var(--theme-separator)] bg-[var(--theme-card-bg)] shadow-xl">
             <div className="flex items-center justify-between border-b border-[var(--theme-separator)] p-4">
-              <span className="text-lg font-extrabold text-primary">NurseNest</span>
+              <span className="flex items-center gap-2">
+                <SiteBrandLogoMark />
+                <span className="text-lg font-extrabold text-primary">NurseNest</span>
+              </span>
               <Button type="button" variant="ghost" className="h-9 w-9 p-0" aria-label={t("nav.closeMenu")} onClick={() => setMobileOpen(false)}>
                 <X className="h-5 w-5" />
               </Button>
@@ -284,7 +277,7 @@ export function SiteHeader() {
                   type="button"
                   onClick={() => setRegion("US")}
                   className={`flex flex-1 items-center justify-center gap-2 rounded-xl border px-3 py-2 text-sm font-semibold ${
-                    region === "US" ? "border-primary bg-primary/10 text-primary" : "border-gray-200 text-gray-600"
+                    region === "US" ? "border-primary bg-primary/10 text-primary" : "border-[var(--theme-card-border)] text-[var(--theme-muted-text)]"
                   }`}
                 >
                   {t("home.region.us")}
@@ -294,7 +287,7 @@ export function SiteHeader() {
                   type="button"
                   onClick={() => setRegion("CA")}
                   className={`flex flex-1 items-center justify-center gap-2 rounded-xl border px-3 py-2 text-sm font-semibold ${
-                    region === "CA" ? "border-primary bg-primary/10 text-primary" : "border-gray-200 text-gray-600"
+                    region === "CA" ? "border-primary bg-primary/10 text-primary" : "border-[var(--theme-card-border)] text-[var(--theme-muted-text)]"
                   }`}
                 >
                   {t("home.region.ca")}

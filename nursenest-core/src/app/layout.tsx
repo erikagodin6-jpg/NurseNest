@@ -58,7 +58,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const themeBoot = `(function(){try{var k=${JSON.stringify(THEME_STORAGE_KEY)};var v=localStorage.getItem(k);if(!v){v=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark-mode":"lavender";localStorage.setItem(k,v);}document.documentElement.setAttribute("data-theme",v);}catch(e){}})();`;
+  const themeBoot = `(function(){try{var k=${JSON.stringify(THEME_STORAGE_KEY)};var v=localStorage.getItem(k);if(v==null||v===""){v="lavender";localStorage.setItem(k,v);}document.documentElement.setAttribute("data-theme",v);}catch(e){}})();`;
 
   return (
     <html lang="en" className={`${dmSans.variable} h-full antialiased`} suppressHydrationWarning>

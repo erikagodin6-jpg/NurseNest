@@ -162,15 +162,15 @@ a {
 }
 
 .nn-btn-secondary {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  color: #374151;
+  background: var(--theme-card-bg);
+  border: 1px solid var(--theme-input-border);
+  color: var(--theme-menu-text);
   border-radius: 9999px;
 }
 
 .nn-btn-secondary:hover {
-  background: #f9fafb;
-  border-color: #d1d5db;
+  background: color-mix(in srgb, var(--theme-primary) 6%, var(--theme-card-bg));
+  border-color: color-mix(in srgb, var(--theme-primary) 22%, var(--theme-input-border));
 }
 
 .animate-page-enter {
