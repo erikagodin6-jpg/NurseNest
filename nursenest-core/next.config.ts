@@ -30,7 +30,13 @@ const nextConfig: NextConfig = {
     externalDir: true,
   },
   async redirects() {
-    return [legacyMedMathRedirect, ...seoCanonicalRedirects];
+    return [
+      legacyMedMathRedirect,
+      /** Older Next split-sitemap routes → unified `/sitemap.xml` for GSC + bookmarks. */
+      { source: "/sitemap/0.xml", destination: "/sitemap.xml", permanent: true },
+      { source: "/sitemap/1.xml", destination: "/sitemap.xml", permanent: true },
+      ...seoCanonicalRedirects,
+    ];
   },
   async rewrites() {
     return { beforeFiles: programmaticSeoRewrites };

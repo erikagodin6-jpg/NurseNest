@@ -3,23 +3,25 @@
  *
  * Sources:
  * 1. Static paramedic articles from monolith `client/src/allied/data/paramedic-blog-data.ts`
- * 2. Optional JSON export: `content/blog-legacy-export.json` (from legacy `content_items` query)
+ * 2. JSON export: `content/blog-legacy-export.json` (from `export-monolith-blog-to-json.ts` or manual)
  *
  * Usage: `npx tsx scripts/import-blog.ts`
  * Env: DATABASE_URL
  *
  * Does not modify Lesson or Question models.
  */
-import "dotenv/config";
+import { config as loadEnv } from "dotenv";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { PrismaClient } from "@prisma/client";
 import { PARAMEDIC_BLOG_ARTICLES } from "../../client/src/allied/data/paramedic-blog-data";
 import { excerptFromParamedic, paramedicArticleToHtml } from "../src/lib/blog/serialize-paramedic";
-import { legacyContentBlocksToHtml, normalizeBlogAssetUrls } from "../src/lib/blog/serialize-content";
+import { legacyBlogHtmlFromRow, normalizeBlogAssetUrls } from "../src/lib/blog/serialize-content";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+loadEnv({ path: path.join(__dirname, "../.env") });
+loadEnv({ path: path.join(__dirname, "../../.env") });
 const prisma = new PrismaClient();
 
 type LegacyExportRow = {
@@ -30,10 +32,15 @@ type LegacyExportRow = {
   category?: string | null;
   tags?: string[] | null;
   content?: unknown;
+  body?: string | null;
+  content_html?: string | null;
   status?: string | null;
   published_at?: string | null;
   created_at?: string | null;
+  scheduled_at?: string | null;
+  updated_at?: string | null;
   cover_image?: string | null;
+  legacy_source?: string | null;
 };
 
 function readLegacyJson(): LegacyExportRow[] {
@@ -55,9 +62,30 @@ function scanImageRefs(html: string): { imgTags: number; nonAbsoluteSrc: number 
   return { imgTags: imgs.length, nonAbsoluteSrc };
 }
 
+const MIN_BODY_CHARS = 80;
+
+function rowShouldPublish(row: LegacyExportRow): boolean {
+  const st = (row.status || "").toLowerCase();
+  if (st === "published") return true;
+  if (st === "scheduled") {
+    if (!row.scheduled_at) return false;
+    return new Date(row.scheduled_at) <= new Date();
+  }
+  return false;
+}
+
+function pickCreatedAt(row: LegacyExportRow): Date {
+  if (row.created_at) return new Date(row.created_at);
+  if (row.published_at) return new Date(row.published_at);
+  if (row.scheduled_at) return new Date(row.scheduled_at);
+  return new Date();
+}
+
 async function main() {
   let imported = 0;
-  let skipped = 0;
+  let skippedDuplicate = 0;
+  let skippedDraft = 0;
+  let skippedThin = 0;
   const errors: string[] = [];
 
   const legacyRows = readLegacyJson();
@@ -81,7 +109,7 @@ async function main() {
     }
     const existing = await prisma.blogPost.findUnique({ where: { slug: article.slug } });
     if (existing) {
-      skipped += 1;
+      skippedDuplicate += 1;
       continue;
     }
     await prisma.blogPost.create({
@@ -106,17 +134,26 @@ async function main() {
       errors.push("legacy: missing slug or title");
       continue;
     }
-    const htmlRaw = legacyContentBlocksToHtml(row.content);
-    const body = normalizeBlogAssetUrls(htmlRaw);
-    const excerpt = (row.seo_description || row.summary || "").trim().slice(0, 2000) || "(No excerpt)";
-    const published = row.status === "published" && body.trim().length > 0;
-    if (!published && body.trim().length === 0) {
-      errors.push(`legacy:${row.slug} skipped (empty body)`);
+    if (!rowShouldPublish(row)) {
+      skippedDraft += 1;
       continue;
     }
+
+    const htmlRaw = legacyBlogHtmlFromRow(row);
+    const body = normalizeBlogAssetUrls(htmlRaw);
+    if (body.trim().length < MIN_BODY_CHARS) {
+      skippedThin += 1;
+      errors.push(`legacy:${row.slug} skipped (body under ${MIN_BODY_CHARS} chars)`);
+      continue;
+    }
+
+    const excerpt =
+      (row.seo_description || row.summary || "").trim().slice(0, 2000) || "(No excerpt)";
+    const legacySource = row.legacy_source || "legacy-json";
+
     const existing = await prisma.blogPost.findUnique({ where: { slug: row.slug } });
     if (existing) {
-      skipped += 1;
+      skippedDuplicate += 1;
       continue;
     }
     await prisma.blogPost.create({
@@ -128,17 +165,16 @@ async function main() {
         coverImage: row.cover_image || null,
         tags: row.tags ?? [],
         category: row.category ?? null,
-        published,
-        legacySource: "legacy-json",
-        createdAt: row.created_at ? new Date(row.created_at) : row.published_at ? new Date(row.published_at) : new Date(),
+        published: true,
+        legacySource,
+        createdAt: pickCreatedAt(row),
       },
     });
     imported += 1;
   }
 
   const paramedicSlugs = PARAMEDIC_BLOG_ARTICLES.map((a) => a.slug);
-  const totalLegacySourcesFound =
-    PARAMEDIC_BLOG_ARTICLES.length + legacyRows.length;
+  const totalLegacySourcesFound = PARAMEDIC_BLOG_ARTICLES.length + legacyRows.length;
 
   let imageReport = { totalImgTagsInBodies: 0, nonAbsoluteAfterImport: 0, coverImagesHttp: 0, coverImagesRelative: 0 };
   try {
@@ -156,22 +192,27 @@ async function main() {
     /* optional post-import scan */
   }
 
+  const total = await prisma.blogPost.count();
+  const published = await prisma.blogPost.count({ where: { published: true } });
+
   console.log(
     JSON.stringify(
       {
         imported,
-        skipped,
+        skippedDuplicate,
+        skippedDraft,
+        skippedThin,
         errors,
         totalLegacySourcesFound,
         paramedicSourceCount: paramedicSlugs.length,
         legacyJsonRows: legacyRows.length,
         legacyPublishedInExportFile: legacyPublishedInFile,
         legacyDraftInExportFile: legacyDraftInFile,
-        remainingNotInCore:
-          "Export content_items (type blog/article/blog-post) and allied tables into blog-legacy-export.json or separate pipelines; not auto-scanned here.",
+        prismaTotalBlogPosts: total,
+        prismaPublishedBlogPosts: published,
         imageReport,
         note:
-          "Monolith DB posts require SQL export into content/blog-legacy-export.json. See script header for shape.",
+          "Run scripts/export-monolith-blog-to-json.ts with LEGACY_DATABASE_URL to refresh content/blog-legacy-export.json from content_items, imaging_blog_articles, and mlt_blog_posts.",
       },
       null,
       2,

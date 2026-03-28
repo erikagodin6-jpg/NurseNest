@@ -18,7 +18,9 @@
     "db:seed": "tsx prisma/seed.ts",
     "content:inventory": "tsx scripts/content-inventory.ts",
     "content:audit": "tsx scripts/content-audit-authoritative.ts",
-    "import:blog": "tsx scripts/import-blog.ts"
+    "import:blog": "tsx scripts/import-blog.ts",
+    "export:blog-json": "tsx scripts/export-monolith-blog-to-json.ts",
+    "db:rewrite-lesson-screenshots": "tsx scripts/rewrite-lesson-screenshot-urls.ts"
   },
   "dependencies": {
     "@auth/core": "0.37.2",
@@ -43,11 +45,13 @@
     "@tailwindcss/postcss": "^4",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
+    "@types/pg": "^8.20.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "dotenv": "^17.3.1",
     "eslint": "^9",
     "eslint-config-next": "16.2.1",
+    "pg": "^8.20.0",
     "prisma": "^6.7.0",
     "tailwindcss": "^4",
     "tsx": "^4.19.4",

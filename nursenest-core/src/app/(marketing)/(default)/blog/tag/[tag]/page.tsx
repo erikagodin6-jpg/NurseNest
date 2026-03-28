@@ -9,10 +9,14 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { tag } = await params;
-  const decoded = decodeURIComponent(tag);
+  const decoded = decodeURIComponent(tag).trim();
+  const count = await prisma.blogPost.count({
+    where: { published: true, tags: { has: decoded } },
+  });
   return {
     title: `Posts tagged “${decoded}” | NurseNest blog`,
     alternates: { canonical: `/blog/tag/${encodeURIComponent(decoded)}` },
+    ...(count === 0 ? { robots: { index: false, follow: true } } : {}),
   };
 }
 
