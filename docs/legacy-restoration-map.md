@@ -173,7 +173,7 @@ Layer **5** — run after each meaningful restoration slice, not only at the end
 
 | Check | Command / note |
 |-------|----------------|
-| Server TS | `npm run check:server` (uses `tsconfig.server.json`; lighter than full `tsc`) |
+| Server TS | `npm run check:server` (uses `tsconfig.server.json`; lighter than full `tsc`). Keep `server/storage.ts` free of implicit-`any` parameters so this stays green. |
 | Full TS | `npm run check` (may require `NODE_OPTIONS=--max-old-space-size=8192` on large workspaces) |
 | i18n | `npm run i18n:status`, `npm run i18n:compile` per `docs/i18n-architecture.md` |
 | Build | `npm run build` / nursenest-core build per CI |
