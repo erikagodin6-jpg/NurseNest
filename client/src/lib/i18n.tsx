@@ -146,7 +146,7 @@ const enReady: Promise<void> = (async () => {
   } catch {}
 })();
 
-type TranslationStatus = "translated" | "fallback" | "missing";
+type TranslationStatus = "translated" | "missing";
 
 type I18nContextType = {
   language: LanguageCode;
@@ -265,7 +265,6 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     }
     const langStrings = translations[language];
     if (langStrings && langStrings[key]) return "translated";
-    if (translations.en[key]) return "fallback";
     return "missing";
   }, [language, langLoaded]);
 
@@ -284,7 +283,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
         return val;
       }
       trackMissingKey(language, key);
-      return TRANSLATION_UNAVAILABLE_MARKER;
+      return `[missing:${key}]`;
     }
 
     let val = translations.en[key];
@@ -331,10 +330,12 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     }
 
     trackMissingKey(language, key);
-    const enVal = translations.en[key];
+    if (import.meta.env.PROD) {
+      console.error(`[i18n] missing translation for ${language}: ${key}`);
+    }
     return {
-      text: enVal || humanizeKey(key),
-      status: enVal ? "fallback" : "missing",
+      text: `[missing:${key}]`,
+      status: "missing",
       isUnavailable: true,
     };
   }, [language, langLoaded]);
@@ -357,5 +358,5 @@ export function useI18n() {
 }
 
 export function isTranslationUnavailable(text: string): boolean {
-  return text === TRANSLATION_UNAVAILABLE_MARKER;
+  return text === TRANSLATION_UNAVAILABLE_MARKER || text.startsWith("[missing:");
 }

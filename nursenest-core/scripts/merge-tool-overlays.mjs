@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Merges `src/content/locale/overlay-tools-*.json` into `marketing-*.json` for each locale code.
+ * Merges `tools/i18n/marketing/locale/overlay-tools-*.json` into `marketing-*.json` for each locale code.
  * Run after editing overlay fragments: `node scripts/merge-tool-overlays.mjs`
  */
 import fs from "node:fs";
@@ -8,7 +8,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const localeDir = path.join(__dirname, "../src/content/locale");
+const localeDir = path.join(__dirname, "../../../tools/i18n/marketing/locale");
 
 const files = fs.readdirSync(localeDir).filter((f) => /^overlay-tools-[a-z-]+\.json$/i.test(f));
 

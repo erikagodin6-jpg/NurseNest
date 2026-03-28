@@ -1,22 +1,18 @@
-import marketingEnBase from "@/content/marketing-en.json";
-
 export type MarketingMessages = Record<string, string>;
 
 type Params = Record<string, string | number | undefined>;
 
-const BASE_EN = marketingEnBase as MarketingMessages;
+const missingToken = (key: string) => `[missing:${key}]`;
 
 /**
- * Resolves copy for a flat key. Never returns the raw key in production UI (missing keys → English, then empty).
+ * Resolves copy for a flat key. No English fallback — missing keys log and return
+ * a visible placeholder (production-safe: does not crash the tree).
  */
 export function formatMarketingMessage(messages: MarketingMessages, key: string, params?: Params): string {
-  let raw = messages[key];
-  if (raw === undefined) raw = BASE_EN[key];
+  const raw = messages[key];
   if (raw === undefined) {
-    if (process.env.NODE_ENV === "development") {
-      console.warn(`[marketing-i18n] missing key: ${key}`);
-    }
-    return "";
+    console.error(`[marketing-i18n] missing key: ${key} (locale bundle)`);
+    return missingToken(key);
   }
   let s = raw;
   if (params) {

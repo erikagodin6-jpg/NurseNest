@@ -1,8 +1,10 @@
 # Locale, region, and theme (Phase 3)
 
+Canonical static i18n pipeline (compile paths, loaders, locales): **[docs/i18n-architecture.md](../../../../docs/i18n-architecture.md)** (repo root).
+
 ## Resolution order
 
-1. **Marketing UI locale** — Taken from the URL prefix: paths under `/{locale}/…` use that `locale` for `MarketingI18nProvider` (with messages = `marketing-en.json` merged with `content/locale/marketing-{locale}.json`). Paths without a prefix (`/`, `/pricing`, …) use **`en`**.
+1. **Marketing UI locale** — Taken from the URL prefix: paths under `/{locale}/…` use that `locale` for `MarketingI18nProvider` with messages loaded from the **merged** flat map at `public/i18n/{locale}.json` (built from `tools/i18n/source` + `tools/i18n/marketing`). Paths without a prefix (`/`, `/pricing`, …) use **`en`**.
 2. **Clinical / catalog region (US vs CA)** — `useNursenestRegion()` (client persistence). Independent of marketing locale; it only affects copy that references measurements, exam names, and similar region-specific content.
 3. **Theme** — `AppThemeProvider` (`next-themes`, `data-theme` on `<html>`). Default theme is **lavender** (`NURSENEST_DEFAULT_THEME`). Region and locale do not change the theme automatically.
 
@@ -14,5 +16,4 @@
 
 ## Payload loading
 
-- **English (`en`)**: `marketing-en.json` is loaded on the server for `(default)` and `[locale]` marketing layouts and for the admin shell (same messages object passed into the client provider).
-- **Other locales**: the same English base is merged with a **lazy** dynamic import of `content/locale/marketing-{locale}.json` when rendering a `/{locale}/…` route (separate webpack chunk per locale file).
+- **All locales**: `loadMarketingMessages(locale)` reads the merged JSON bundle from disk (`nursenest-core/public/i18n/{locale}.json`). Regenerate with `npm run i18n:compile` from the repository root after editing `tools/i18n/source` or `tools/i18n/marketing`.

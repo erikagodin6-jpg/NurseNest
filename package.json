@@ -38,7 +38,8 @@
     "i18n:scan:ci": "tsx scripts/i18n-scan.ts --ci",
     "build:guard": "tsx scripts/i18n-scan.ts --build-guard",
     "precommit:i18n": "tsx scripts/i18n-scan.ts --ci --threshold=0",
-    "migrate:images": "node scripts/migrate-images.js"
+    "migrate:images": "node scripts/migrate-images.js",
+    "import:replit-exports": "npx tsx scripts/replit-export-import/cli.ts"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.19.0",

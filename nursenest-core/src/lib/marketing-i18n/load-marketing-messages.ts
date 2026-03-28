@@ -1,68 +1,35 @@
-import marketingEn from "@/content/marketing-en.json";
+import "server-only";
+import { existsSync, readFileSync } from "fs";
+import path from "path";
 import type { MarketingMessages } from "@/lib/marketing-i18n-core";
-import { DEFAULT_MARKETING_LOCALE } from "@/lib/i18n/marketing-locale-policy";
 import { safeServerLog } from "@/lib/observability/safe-server-log";
 
-const base = marketingEn as MarketingMessages;
-
-/** Explicit dynamic imports so each overlay is a separate chunk (route-loaded for non-`en`). */
-async function importOverlay(locale: string): Promise<MarketingMessages> {
-  try {
-    return await importOverlayInner(locale);
-  } catch {
-    safeServerLog("i18n", "marketing_overlay_failed", { locale });
-    return {};
+/**
+ * Canonical merged bundles live at `public/i18n/{locale}.json` (built by
+ * `script/compile-i18n.ts` + `script/merge-marketing-i18n.ts`).
+ * Supports cwd = repo root or `nursenest-core/` when running Next.js.
+ */
+function resolveMergedI18nPath(locale: string): string {
+  const root = process.cwd();
+  const candidates = [
+    path.join(root, "public", "i18n", `${locale}.json`),
+    path.join(root, "nursenest-core", "public", "i18n", `${locale}.json`),
+  ];
+  for (const p of candidates) {
+    if (existsSync(p)) return p;
   }
+  const msg = `[i18n] merged bundle not found for locale "${locale}"`;
+  safeServerLog("i18n", "merged_bundle_missing", { locale });
+  throw new Error(`${msg} (tried: ${candidates.join(", ")})`);
 }
 
-async function importOverlayInner(locale: string): Promise<MarketingMessages> {
-  switch (locale) {
-    case "fr":
-      return (await import("@/content/locale/marketing-fr.json")).default as MarketingMessages;
-    case "tl":
-      return (await import("@/content/locale/marketing-tl.json")).default as MarketingMessages;
-    case "hi":
-      return (await import("@/content/locale/marketing-hi.json")).default as MarketingMessages;
-    case "es":
-      return (await import("@/content/locale/marketing-es.json")).default as MarketingMessages;
-    case "zh":
-      return (await import("@/content/locale/marketing-zh.json")).default as MarketingMessages;
-    case "zh-tw":
-      return (await import("@/content/locale/marketing-zh-tw.json")).default as MarketingMessages;
-    case "ar":
-      return (await import("@/content/locale/marketing-ar.json")).default as MarketingMessages;
-    case "ko":
-      return (await import("@/content/locale/marketing-ko.json")).default as MarketingMessages;
-    case "pt":
-      return (await import("@/content/locale/marketing-pt.json")).default as MarketingMessages;
-    case "pa":
-      return (await import("@/content/locale/marketing-pa.json")).default as MarketingMessages;
-    case "vi":
-      return (await import("@/content/locale/marketing-vi.json")).default as MarketingMessages;
-    case "ht":
-      return (await import("@/content/locale/marketing-ht.json")).default as MarketingMessages;
-    case "ur":
-      return (await import("@/content/locale/marketing-ur.json")).default as MarketingMessages;
-    case "ja":
-      return (await import("@/content/locale/marketing-ja.json")).default as MarketingMessages;
-    case "fa":
-      return (await import("@/content/locale/marketing-fa.json")).default as MarketingMessages;
-    case "de":
-      return (await import("@/content/locale/marketing-de.json")).default as MarketingMessages;
-    case "th":
-      return (await import("@/content/locale/marketing-th.json")).default as MarketingMessages;
-    case "tr":
-      return (await import("@/content/locale/marketing-tr.json")).default as MarketingMessages;
-    case "id":
-      return (await import("@/content/locale/marketing-id.json")).default as MarketingMessages;
-    default:
-      return {};
-  }
+/** Server / Node: load merged monolith + marketing strings for one locale. */
+export function loadMarketingMessagesSync(locale: string): MarketingMessages {
+  const fp = resolveMergedI18nPath(locale);
+  const raw = readFileSync(fp, "utf8");
+  return JSON.parse(raw) as MarketingMessages;
 }
 
-/** Server-only merge: English base + optional overlay (Phase 3 stubs may be `{}`). */
 export async function loadMarketingMessages(locale: string): Promise<MarketingMessages> {
-  if (locale === DEFAULT_MARKETING_LOCALE) return { ...base };
-  const overlay = await importOverlay(locale);
-  return { ...base, ...overlay };
+  return loadMarketingMessagesSync(locale);
 }

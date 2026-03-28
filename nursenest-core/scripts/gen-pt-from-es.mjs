@@ -5,7 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const es = JSON.parse(fs.readFileSync(path.join(__dirname, "../src/content/locale/marketing-es.json"), "utf8"));
+const es = JSON.parse(fs.readFileSync(path.join(__dirname, "../../../tools/i18n/marketing/locale/marketing-es.json"), "utf8"));
 
 function pt(s) {
   return s
@@ -90,5 +90,5 @@ for (const [k, v] of Object.entries(es)) {
   out[k] = pt(v);
 }
 
-fs.writeFileSync(path.join(__dirname, "../src/content/locale/marketing-pt.json"), JSON.stringify(out, null, 2) + "\n");
+fs.writeFileSync(path.join(__dirname, "../../../tools/i18n/marketing/locale/marketing-pt.json"), JSON.stringify(out, null, 2) + "\n");
 console.log("wrote marketing-pt.json", Object.keys(out).length);

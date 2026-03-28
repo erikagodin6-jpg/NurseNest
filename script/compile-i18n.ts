@@ -55,6 +55,10 @@ export async function compileI18n() {
     throw new Error(`i18n compilation failed: ${errors.length} error(s)`);
   }
   console.log(`compiled ${LANGUAGES.length} i18n files to JSON (${totalKeys} total keys)`);
+
+  const { mergeMarketingIntoI18n } = await import("./merge-marketing-i18n");
+  mergeMarketingIntoI18n();
+  console.log("merged marketing strings into client/public/i18n and nursenest-core/public/i18n");
 }
 
 if (import.meta.url === `file://${process.argv[1]}` || process.argv[1]?.endsWith("compile-i18n.ts")) {

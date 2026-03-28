@@ -1,17 +1,17 @@
 #!/usr/bin/env node
 /**
  * Reads `src/content/tools-overlays-all.json` as { "fr": { key: val }, ... }
- * and merges each locale object into `src/content/locale/marketing-{locale}.json`.
+ * and merges each locale object into `tools/i18n/marketing/locale/marketing-{locale}.json`.
  */
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const root = path.join(__dirname, "../src/content");
-const allPath = path.join(root, "tools-overlays-all.json");
+const contentRoot = path.join(__dirname, "../src/content");
+const allPath = path.join(contentRoot, "tools-overlays-all.json");
 const data = JSON.parse(fs.readFileSync(allPath, "utf8"));
-const localeDir = path.join(root, "locale");
+const localeDir = path.join(__dirname, "../../../tools/i18n/marketing/locale");
 
 for (const [locale, overlay] of Object.entries(data)) {
   const marketingPath = path.join(localeDir, `marketing-${locale}.json`);

@@ -1,19 +1,19 @@
 #!/usr/bin/env node
 /**
- * Builds `src/content/tools-overlays-all.json` by scanning `src/content/locale/marketing-*.json`
+ * Builds `src/content/tools-overlays-all.json` by scanning `tools/i18n/marketing/locale/marketing-*.json`
  * for files that define ≥50 of the tools-related keys (nav.tools, footer.toolsHub, tools.*).
- * Missing keys fall back to English at runtime; each shipped locale file should define all 89 keys.
+ * Run `npm run i18n:compile` after editing overlays so merged runtime JSON is updated.
  */
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const enPath = path.join(__dirname, "../src/content/marketing-en.json");
+const enPath = path.join(__dirname, "../../../tools/i18n/marketing/marketing-en.json");
 const en = JSON.parse(fs.readFileSync(enPath, "utf8"));
 const KEYS = Object.keys(en).filter((k) => k.startsWith("tools.") || k === "nav.tools" || k === "footer.toolsHub");
 
-const localeDir = path.join(__dirname, "../src/content/locale");
+const localeDir = path.join(__dirname, "../../../tools/i18n/marketing/locale");
 
 function buildFromMap(map) {
   const out = {};
