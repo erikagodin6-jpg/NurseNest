@@ -29,7 +29,7 @@ export default function HeroGlobalCoverage() {
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="mb-10 text-center">
-          <h2 className="mb-2 font-bold text-gray-900" style={{ fontSize: "var(--text-section)" }} data-testid="text-global-coverage-heading">
+          <h2 className="mb-2 font-bold text-[var(--theme-heading-text)]" style={{ fontSize: "var(--text-section)" }} data-testid="text-global-coverage-heading">
             Global Exam Coverage
           </h2>
           <p className="mx-auto max-w-2xl text-base text-gray-500 lg:text-lg">
@@ -43,7 +43,7 @@ export default function HeroGlobalCoverage() {
               <div className="nn-accent-icon-wrap flex h-10 w-10 items-center justify-center rounded-xl">
                 <Globe className="nn-accent-icon h-5 w-5" />
               </div>
-              <h3 className="text-lg font-bold text-gray-900">{t("components.heroGlobalCoverage.supportedCountries")}</h3>
+              <h3 className="text-lg font-bold text-[var(--theme-heading-text)]">{t("components.heroGlobalCoverage.supportedCountries")}</h3>
             </div>
             <div className="grid grid-cols-2 gap-3">
               {SUPPORTED_COUNTRIES.map((country) => (
@@ -66,7 +66,7 @@ export default function HeroGlobalCoverage() {
               <div className="nn-accent-icon-wrap flex h-10 w-10 items-center justify-center rounded-xl">
                 <Languages className="nn-accent-icon h-5 w-5" />
               </div>
-              <h3 className="text-lg font-bold text-gray-900">{t("components.heroGlobalCoverage.supportedLanguages")}</h3>
+              <h3 className="text-lg font-bold text-[var(--theme-heading-text)]">{t("components.heroGlobalCoverage.supportedLanguages")}</h3>
             </div>
             <div className="flex flex-wrap gap-2">
               {SUPPORTED_LANGUAGES.map((lang) => (

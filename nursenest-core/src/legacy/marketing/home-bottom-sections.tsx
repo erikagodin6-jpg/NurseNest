@@ -127,7 +127,7 @@ export function HomeBottomSections({
                 <Sparkles className="h-3.5 w-3.5 text-primary" />
                 <span className="text-xs font-bold uppercase tracking-wider text-primary">{t("components.homeBottomSections.builtForYou")}</span>
               </div>
-              <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-study-tools-heading">
+              <h2 className="font-bold text-[var(--theme-heading-text)] mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-study-tools-heading">
                 Your Personalized Exam Toolkit
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -148,7 +148,7 @@ export function HomeBottomSections({
                 <div className="nn-accent-icon-wrap mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110">
                   <Brain className="nn-accent-icon h-6 w-6" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("components.homeBottomSections.customStudyPlanner")}</h3>
+                <h3 className="text-lg font-bold text-[var(--theme-heading-text)] mb-2">{t("components.homeBottomSections.customStudyPlanner")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">
                   Get a personalized study schedule built around your exam date, available hours, and weak areas. Your plan adapts as you progress.
                 </p>
@@ -175,7 +175,7 @@ export function HomeBottomSections({
                 <div className="nn-accent-icon-wrap mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110">
                   <ShieldCheck className="nn-accent-icon h-6 w-6" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("components.homeBottomSections.freeReadinessExam")}</h3>
+                <h3 className="text-lg font-bold text-[var(--theme-heading-text)] mb-2">{t("components.homeBottomSections.freeReadinessExam")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">
                   Take a 25-question readiness check to gauge your exam preparedness. Instant results with a detailed performance breakdown. No account required.
                 </p>
@@ -199,7 +199,7 @@ export function HomeBottomSections({
                 <div className="nn-accent-icon-wrap mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110">
                   <BarChart3 className="nn-accent-icon h-6 w-6" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("components.homeBottomSections.performanceReportCard")}</h3>
+                <h3 className="text-lg font-bold text-[var(--theme-heading-text)] mb-2">{t("components.homeBottomSections.performanceReportCard")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">
                   Track your progress across every body system and competency domain. Identify strengths, target weaknesses, and watch your readiness score climb.
                 </p>
@@ -239,7 +239,7 @@ export function HomeBottomSections({
                 <Globe className="w-3.5 h-3.5 text-primary" />
                 <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("home.examPath.badge")}</span>
               </div>
-              <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-exam-path-heading">{t("home.examPath.heading")}</h2>
+              <h2 className="font-bold text-[var(--theme-heading-text)] mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-exam-path-heading">{t("home.examPath.heading")}</h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">{t("home.examPath.subtitle")}</p>
             </div>
             <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
@@ -259,7 +259,7 @@ export function HomeBottomSections({
                       <span className="text-2xl" role="img" aria-label={t("components.homeBottomSections.canada")}>🍁</span>
                     </div>
                     <div>
-                      <h3 className="font-bold text-gray-900 text-lg" data-testid="text-exam-path-ca-title">{t("home.examPath.ca.title")}</h3>
+                      <h3 className="font-bold text-[var(--theme-heading-text)] text-lg" data-testid="text-exam-path-ca-title">{t("home.examPath.ca.title")}</h3>
                       <p className="text-xs text-gray-500 font-medium">{t("home.examPath.ca.subtitle")}</p>
                     </div>
                   </div>
@@ -292,7 +292,7 @@ export function HomeBottomSections({
                       <span className="text-2xl" role="img" aria-label={t("components.homeBottomSections.unitedStates")}>🇺🇸</span>
                     </div>
                     <div>
-                      <h3 className="font-bold text-gray-900 text-lg" data-testid="text-exam-path-us-title">{t("home.examPath.us.title")}</h3>
+                      <h3 className="font-bold text-[var(--theme-heading-text)] text-lg" data-testid="text-exam-path-us-title">{t("home.examPath.us.title")}</h3>
                       <p className="text-xs text-gray-500 font-medium">{t("home.examPath.us.subtitle")}</p>
                     </div>
                   </div>
@@ -321,7 +321,7 @@ export function HomeBottomSections({
                 <Zap className="w-3.5 h-3.5 text-primary" />
                 <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("home.howItWorks.badge")}</span>
               </div>
-              <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-how-it-works-heading">{t("home.howItWorks.heading")}</h2>
+              <h2 className="font-bold text-[var(--theme-heading-text)] mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-how-it-works-heading">{t("home.howItWorks.heading")}</h2>
               <p className="text-lg text-gray-600">{t("home.howItWorks.subtitle")}</p>
             </div>
             <div className="grid md:grid-cols-3 gap-8">
@@ -339,7 +339,7 @@ export function HomeBottomSections({
                       <item.icon className="h-9 w-9 text-white" />
                     </div>
                     <div className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gray-900 text-white text-xs font-bold mb-3">{item.step}</div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
+                    <h3 className="text-xl font-bold text-[var(--theme-heading-text)] mb-2">{item.title}</h3>
                     <p className="text-sm text-gray-600 leading-relaxed max-w-xs mx-auto">{item.desc}</p>
                   </div>
                 </div>
@@ -356,27 +356,27 @@ export function HomeBottomSections({
                 <Star className="h-3.5 w-3.5 fill-primary text-primary" />
                 <span className="text-xs font-bold uppercase tracking-wider text-primary">{t("home.socialProof.badge")}</span>
               </div>
-              <h2 className="font-bold text-gray-900" style={{ fontSize: 'var(--text-section)' }} data-testid="text-social-proof-heading">{t("home.socialProof.heading")}</h2>
+              <h2 className="font-bold text-[var(--theme-heading-text)]" style={{ fontSize: 'var(--text-section)' }} data-testid="text-social-proof-heading">{t("home.socialProof.heading")}</h2>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               <div className="rounded-2xl border border-primary/20 bg-gradient-to-b from-primary/8 to-white p-5 text-center" data-testid="stat-social-students">
                 <Users className="mx-auto mb-2 h-7 w-7 text-primary" />
-                <div className="text-3xl font-extrabold text-gray-900">5,000+</div>
+                <div className="text-3xl font-extrabold text-[var(--theme-heading-text)]">5,000+</div>
                 <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">{t("home.socialProof.students")}</div>
               </div>
               <div className="rounded-2xl border border-primary/20 bg-gradient-to-b from-primary/8 to-white p-5 text-center" data-testid="stat-social-pass-rate">
                 <BadgeCheck className="mx-auto mb-2 h-7 w-7 text-primary" />
-                <div className="text-3xl font-extrabold text-gray-900">{t("home.socialProof.passRateValue")}</div>
+                <div className="text-3xl font-extrabold text-[var(--theme-heading-text)]">{t("home.socialProof.passRateValue")}</div>
                 <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">{t("home.socialProof.passRate")}</div>
               </div>
               <div className="rounded-2xl border border-primary/20 bg-gradient-to-b from-primary/8 to-white p-5 text-center" data-testid="stat-social-questions">
                 <Target className="mx-auto mb-2 h-7 w-7 text-primary" />
-                <div className="text-3xl font-extrabold text-gray-900">{formatCount(questionCount)}</div>
+                <div className="text-3xl font-extrabold text-[var(--theme-heading-text)]">{formatCount(questionCount)}</div>
                 <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">{t("home.socialProof.questions")}</div>
               </div>
               <div className="rounded-2xl border border-primary/20 bg-gradient-to-b from-primary/8 to-white p-5 text-center" data-testid="stat-social-lessons">
                 <BookOpen className="mx-auto mb-2 h-7 w-7 text-primary" />
-                <div className="text-3xl font-extrabold text-gray-900">{formatCount(lessonCount)}</div>
+                <div className="text-3xl font-extrabold text-[var(--theme-heading-text)]">{formatCount(lessonCount)}</div>
                 <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">{t("home.socialProof.lessons")}</div>
               </div>
             </div>
@@ -413,7 +413,7 @@ export function HomeBottomSections({
                   </div>
                   <span className="rounded-full bg-primary px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary-foreground">{t("home.new.label")}</span>
                 </div>
-                <h3 className="text-base font-bold text-gray-900 mb-1.5">{t("home.new.decks.title")}</h3>
+                <h3 className="text-base font-bold text-[var(--theme-heading-text)] mb-1.5">{t("home.new.decks.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed">{t("home.new.decks.desc")}</p>
               </div>
 
@@ -428,7 +428,7 @@ export function HomeBottomSections({
                   </div>
                   <span className="rounded-full bg-primary px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary-foreground">{t("home.new.label")}</span>
                 </div>
-                <h3 className="text-base font-bold text-gray-900 mb-1.5">{t("home.new.blog.title")}</h3>
+                <h3 className="text-base font-bold text-[var(--theme-heading-text)] mb-1.5">{t("home.new.blog.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed">{t("home.new.blog.desc")}</p>
               </div>
 
@@ -443,7 +443,7 @@ export function HomeBottomSections({
                   </div>
                   <span className="rounded-full bg-primary px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary-foreground">{t("home.new.label")}</span>
                 </div>
-                <h3 className="text-base font-bold text-gray-900 mb-1.5">{t("home.new.languages.title")}</h3>
+                <h3 className="text-base font-bold text-[var(--theme-heading-text)] mb-1.5">{t("home.new.languages.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed">{t("home.new.languages.desc")}</p>
               </div>
             </div>
@@ -458,7 +458,7 @@ export function HomeBottomSections({
                 <Award className="w-4 h-4 text-primary" />
                 <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("home.platform.badge")}</span>
               </div>
-              <h2 className="font-bold text-gray-900 mb-5" style={{ fontSize: 'var(--text-section)' }} data-testid="text-features-heading">
+              <h2 className="font-bold text-[var(--theme-heading-text)] mb-5" style={{ fontSize: 'var(--text-section)' }} data-testid="text-features-heading">
                 {t("home.features.title")}
               </h2>
               <p className="text-lg text-gray-600 leading-relaxed">
@@ -483,7 +483,7 @@ export function HomeBottomSections({
                   <div className="nn-accent-icon-wrap mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-xl transition-transform group-hover:scale-110">
                     <stat.icon className="nn-accent-icon h-5 w-5" />
                   </div>
-                  <div className="text-2xl sm:text-3xl font-extrabold text-gray-900">{stat.value}</div>
+                  <div className="text-2xl sm:text-3xl font-extrabold text-[var(--theme-heading-text)]">{stat.value}</div>
                   <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">{stat.label}</div>
                 </div>
               ))}
@@ -501,7 +501,7 @@ export function HomeBottomSections({
                 <div className="nn-accent-icon-wrap mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110">
                   <ClipboardCheck className="nn-accent-icon h-6 w-6" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("home.exams.title")}</h3>
+                <h3 className="text-lg font-bold text-[var(--theme-heading-text)] mb-2">{t("home.exams.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.exams.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.examFormat")}</span>
@@ -520,7 +520,7 @@ export function HomeBottomSections({
                 <div className="nn-accent-icon-wrap mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110">
                   <Stethoscope className="nn-accent-icon h-6 w-6" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("home.simulators.title")}</h3>
+                <h3 className="text-lg font-bold text-[var(--theme-heading-text)] mb-2">{t("home.simulators.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.simulators.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.branching")}</span>
@@ -539,7 +539,7 @@ export function HomeBottomSections({
                 <div className="nn-accent-icon-wrap mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110">
                   <Target className="nn-accent-icon h-6 w-6" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{formatCount(questionCount)} {t("home.qbank.title")}</h3>
+                <h3 className="text-lg font-bold text-[var(--theme-heading-text)] mb-2">{formatCount(questionCount)} {t("home.qbank.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.qbank.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">
@@ -561,7 +561,7 @@ export function HomeBottomSections({
                 <div className="nn-accent-icon-wrap mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110">
                   <Layers className="nn-accent-icon h-6 w-6" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("home.flashcards.title")}</h3>
+                <h3 className="text-lg font-bold text-[var(--theme-heading-text)] mb-2">{t("home.flashcards.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.flashcards.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.learnMode")}</span>
@@ -581,7 +581,7 @@ export function HomeBottomSections({
                 <div className="nn-accent-icon-wrap mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110">
                   <Calculator className="nn-accent-icon h-6 w-6" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("home.tools.title")}</h3>
+                <h3 className="text-lg font-bold text-[var(--theme-heading-text)] mb-2">{t("home.tools.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.tools.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.stepwise")}</span>
@@ -600,7 +600,7 @@ export function HomeBottomSections({
                 <div className="nn-accent-icon-wrap mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110">
                   <PlayCircle className="nn-accent-icon h-6 w-6" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("home.lessons.title")}</h3>
+                <h3 className="text-lg font-bold text-[var(--theme-heading-text)] mb-2">{t("home.lessons.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.lessons.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.videoLectures")}</span>
@@ -617,7 +617,7 @@ export function HomeBottomSections({
                   <LayoutDashboard className="nn-accent-icon h-5 w-5" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-gray-900">{t("home.secondary.dashboard")}</h4>
+                  <h4 className="text-sm font-bold text-[var(--theme-heading-text)]">{t("home.secondary.dashboard")}</h4>
                   <p className="text-xs text-gray-500">{t("home.secondary.dashboardDesc")}</p>
                 </div>
               </div>
@@ -627,7 +627,7 @@ export function HomeBottomSections({
                   <BarChart3 className="nn-accent-icon h-5 w-5" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-gray-900">{t("home.secondary.analytics")}</h4>
+                  <h4 className="text-sm font-bold text-[var(--theme-heading-text)]">{t("home.secondary.analytics")}</h4>
                   <p className="text-xs text-gray-500">{t("home.secondary.analyticsDesc")}</p>
                 </div>
               </div>
@@ -637,7 +637,7 @@ export function HomeBottomSections({
                   <MessageSquareQuote className="nn-accent-icon h-5 w-5" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-gray-900">{t("home.secondary.qotd")}</h4>
+                  <h4 className="text-sm font-bold text-[var(--theme-heading-text)]">{t("home.secondary.qotd")}</h4>
                   <p className="text-xs text-gray-500">{t("home.secondary.qotdDesc")}</p>
                 </div>
               </div>
@@ -648,7 +648,7 @@ export function HomeBottomSections({
                   <Newspaper className="nn-accent-icon h-5 w-5" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-gray-900">{t("home.secondary.blog")}</h4>
+                  <h4 className="text-sm font-bold text-[var(--theme-heading-text)]">{t("home.secondary.blog")}</h4>
                   <p className="text-xs text-gray-500">{t("home.secondary.blogDesc")}</p>
                 </div>
               </div>
@@ -662,7 +662,7 @@ export function HomeBottomSections({
                     <Globe className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-gray-900">{t("home.diff.region")}</h4>
+                    <h4 className="text-sm font-bold text-[var(--theme-heading-text)]">{t("home.diff.region")}</h4>
                     <p className="text-xs text-gray-500 mt-0.5">{t("home.diff.regionDesc")}</p>
                   </div>
                 </div>
@@ -671,7 +671,7 @@ export function HomeBottomSections({
                     <Microscope className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-gray-900">{t("home.diff.patho")}</h4>
+                    <h4 className="text-sm font-bold text-[var(--theme-heading-text)]">{t("home.diff.patho")}</h4>
                     <p className="text-xs text-gray-500 mt-0.5">{t("home.diff.pathoDesc")}</p>
                   </div>
                 </div>
@@ -680,7 +680,7 @@ export function HomeBottomSections({
                     <Shield className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-gray-900">{t("home.diff.scope")}</h4>
+                    <h4 className="text-sm font-bold text-[var(--theme-heading-text)]">{t("home.diff.scope")}</h4>
                     <p className="text-xs text-gray-500 mt-0.5">RPN/LVN {t("home.diff.scopeDesc")}</p>
                   </div>
                 </div>
@@ -689,7 +689,7 @@ export function HomeBottomSections({
                     <Globe className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-gray-900">{t("home.diff.languages")}</h4>
+                    <h4 className="text-sm font-bold text-[var(--theme-heading-text)]">{t("home.diff.languages")}</h4>
                     <p className="text-xs text-gray-500 mt-0.5">{t("home.diff.languagesDesc")}</p>
                   </div>
                 </div>
@@ -718,7 +718,7 @@ export function HomeBottomSections({
                 <Sparkles className="w-3.5 h-3.5 text-primary" />
                 <span className="text-xs font-semibold text-primary uppercase tracking-wide">{t("home.free.badge")}</span>
               </div>
-              <h2 className="font-bold text-gray-900 mb-4" style={{ fontSize: 'var(--text-section)' }} data-testid="text-free-learning-heading">{t("home.free.title")}</h2>
+              <h2 className="font-bold text-[var(--theme-heading-text)] mb-4" style={{ fontSize: 'var(--text-section)' }} data-testid="text-free-learning-heading">{t("home.free.title")}</h2>
               <p className="text-lg text-gray-600 leading-relaxed">
                 {t("home.free.subtitle")}
               </p>
@@ -730,7 +730,7 @@ export function HomeBottomSections({
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                     <GraduationCap className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{t("home.free.preNursing")}</h3>
+                  <h3 className="text-lg font-semibold text-[var(--theme-heading-text)] mb-2">{t("home.free.preNursing")}</h3>
                   <p className="text-sm text-gray-600 mb-3">{t("home.free.preNursingDesc")}</p>
                   <span className="text-xs text-primary font-medium">{t("home.free.preNursingMeta")}</span>
                 </CardContent>
@@ -741,7 +741,7 @@ export function HomeBottomSections({
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                     <HeartPulse className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{t("home.free.anatomy")}</h3>
+                  <h3 className="text-lg font-semibold text-[var(--theme-heading-text)] mb-2">{t("home.free.anatomy")}</h3>
                   <p className="text-sm text-gray-600 mb-3">{t("home.free.anatomyDesc")}</p>
                   <span className="text-xs text-primary font-medium">{t("home.free.anatomyMeta")}</span>
                 </CardContent>
@@ -752,7 +752,7 @@ export function HomeBottomSections({
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                     <Lightbulb className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{t("home.free.clarity")}</h3>
+                  <h3 className="text-lg font-semibold text-[var(--theme-heading-text)] mb-2">{t("home.free.clarity")}</h3>
                   <p className="text-sm text-gray-600 mb-3">{t("home.free.clarityDesc")}</p>
                   <span className="text-xs text-primary font-medium">{t("home.free.clarityMeta")}</span>
                 </CardContent>
@@ -772,7 +772,7 @@ export function HomeBottomSections({
         <section className="py-24 bg-white/50 backdrop-blur-sm relative z-10" data-testid="section-study-topics">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-6">
-              <h2 className="font-bold text-gray-900 mb-4" style={{ fontSize: 'var(--text-section)' }} data-testid="text-study-heading">{t("home.study.heading")}</h2>
+              <h2 className="font-bold text-[var(--theme-heading-text)] mb-4" style={{ fontSize: 'var(--text-section)' }} data-testid="text-study-heading">{t("home.study.heading")}</h2>
               <p className="text-lg text-gray-600 leading-relaxed">
                 {t("home.study.subtitle")}
               </p>
@@ -799,7 +799,7 @@ export function HomeBottomSections({
                     <div className="nn-accent-icon-wrap mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110">
                       <topic.icon className="nn-accent-icon h-6 w-6" />
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">{topic.title}</h3>
+                    <h3 className="text-lg font-semibold text-[var(--theme-heading-text)] mb-2">{topic.title}</h3>
                     <p className="text-sm text-gray-600 leading-relaxed">{topic.desc}</p>
                   </CardContent>
                 </Card>
@@ -822,7 +822,7 @@ export function HomeBottomSections({
                 <AlertTriangle className="h-3.5 w-3.5 text-primary" />
                 <span className="text-xs font-semibold uppercase tracking-wide text-primary">{t("home.mostTested.badge")}</span>
               </div>
-              <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-most-tested-heading">{t("home.mostTested.heading")}</h2>
+              <h2 className="font-bold text-[var(--theme-heading-text)] mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-most-tested-heading">{t("home.mostTested.heading")}</h2>
               <p className="text-gray-600">{t("home.mostTested.subtitle")}</p>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -846,7 +846,7 @@ export function HomeBottomSections({
                         <topic.icon className="nn-accent-icon h-5 w-5" />
                       </div>
                       <div className="min-w-0">
-                        <h3 className="font-semibold text-gray-900 text-sm mb-1">{topic.title}</h3>
+                        <h3 className="font-semibold text-[var(--theme-heading-text)] text-sm mb-1">{topic.title}</h3>
                         <p className="text-xs text-gray-500 leading-relaxed">{topic.desc}</p>
                       </div>
                     </div>
@@ -866,7 +866,7 @@ export function HomeBottomSections({
                   <Users className="w-3.5 h-3.5 text-primary" />
                   <span className="text-xs font-semibold text-primary uppercase tracking-wide">{t("home.nurses.badge")}</span>
                 </div>
-                <h2 className="font-bold text-gray-900 mb-6" style={{ fontSize: 'var(--text-section)' }} data-testid="text-new-nurses-heading">
+                <h2 className="font-bold text-[var(--theme-heading-text)] mb-6" style={{ fontSize: 'var(--text-section)' }} data-testid="text-new-nurses-heading">
                   {t("home.nurses.heading")}
                 </h2>
                 <p className="text-lg text-gray-600 mb-6 leading-relaxed">
@@ -884,7 +884,7 @@ export function HomeBottomSections({
                         <CheckCircle2 className="w-3.5 h-3.5 text-primary" />
                       </div>
                       <div>
-                        <h4 className="font-semibold text-gray-900 text-sm">{item.title}</h4>
+                        <h4 className="font-semibold text-[var(--theme-heading-text)] text-sm">{item.title}</h4>
                         <p className="text-sm text-gray-600">{item.desc}</p>
                       </div>
                     </div>
@@ -902,7 +902,7 @@ export function HomeBottomSections({
                     <div className="mx-auto w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-3">
                       <stat.icon className="w-5 h-5" />
                     </div>
-                    <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
+                    <div className="text-2xl font-bold text-[var(--theme-heading-text)]">{stat.value}</div>
                     <div className="text-xs font-medium text-gray-500 uppercase tracking-wide mt-1">{stat.label}</div>
                   </div>
                 ))}
@@ -915,7 +915,7 @@ export function HomeBottomSections({
         <section className="py-24 bg-white" data-testid="section-why-nursenest">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-16">
-              <h2 className="font-bold text-gray-900 mb-4" style={{ fontSize: 'var(--text-section)' }} data-testid="text-why-heading">{t("home.why.heading")}</h2>
+              <h2 className="font-bold text-[var(--theme-heading-text)] mb-4" style={{ fontSize: 'var(--text-section)' }} data-testid="text-why-heading">{t("home.why.heading")}</h2>
               <p className="text-lg text-gray-600 leading-relaxed">
                 {t("home.why.subtitle")}
               </p>
@@ -934,7 +934,7 @@ export function HomeBottomSections({
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-5">
                     <feature.icon className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">{feature.title}</h3>
+                  <h3 className="text-lg font-semibold text-[var(--theme-heading-text)] mb-3">{feature.title}</h3>
                   <p className="text-gray-600 text-sm leading-relaxed">{feature.desc}</p>
                 </div>
               ))}
@@ -950,7 +950,7 @@ export function HomeBottomSections({
                 <AlertTriangle className="h-4 w-4" aria-hidden="true" />
                 {t("home.flashcardTrust.warningBadge")}
               </div>
-              <h2 className="font-bold text-gray-900 mb-4" style={{ fontSize: 'var(--text-section)' }} data-testid="text-flashcard-trust-heading">
+              <h2 className="font-bold text-[var(--theme-heading-text)] mb-4" style={{ fontSize: 'var(--text-section)' }} data-testid="text-flashcard-trust-heading">
                 {t("home.flashcardTrust.heading")}
               </h2>
               <p className="text-lg text-gray-600 leading-relaxed" data-testid="text-flashcard-trust-subtitle">
@@ -964,7 +964,7 @@ export function HomeBottomSections({
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-200/80">
                     <XCircle className="h-5 w-5 text-gray-600" aria-hidden="true" />
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900">{t("home.flashcardTrust.otherPlatforms")}</h3>
+                  <h3 className="text-lg font-bold text-[var(--theme-heading-text)]">{t("home.flashcardTrust.otherPlatforms")}</h3>
                 </div>
                 <ul className="space-y-4">
                   {[
@@ -986,7 +986,7 @@ export function HomeBottomSections({
                   <div className="nn-accent-icon-wrap flex h-10 w-10 items-center justify-center rounded-xl">
                     <ShieldCheck className="nn-accent-icon h-5 w-5" aria-hidden="true" />
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900">{t("home.flashcardTrust.nurseNest")}</h3>
+                  <h3 className="text-lg font-bold text-[var(--theme-heading-text)]">{t("home.flashcardTrust.nurseNest")}</h3>
                 </div>
                 <ul className="space-y-4">
                   {[
@@ -1009,7 +1009,7 @@ export function HomeBottomSections({
                 <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
                   <Sparkles className="w-5 h-5 text-primary" aria-hidden="true" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900" data-testid="text-flashcard-user-created-heading">
+                <h3 className="text-xl font-bold text-[var(--theme-heading-text)]" data-testid="text-flashcard-user-created-heading">
                   {t("home.flashcardTrust.userCreated.heading")}
                 </h3>
               </div>
@@ -1033,7 +1033,7 @@ export function HomeBottomSections({
 
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 max-w-3xl mx-auto text-center" data-testid="card-flashcard-trust-cta">
               <ShieldCheck className="w-10 h-10 text-primary mx-auto mb-4" aria-hidden="true" />
-              <h3 className="text-xl font-bold text-gray-900 mb-3" data-testid="text-flashcard-trust-cta">
+              <h3 className="text-xl font-bold text-[var(--theme-heading-text)] mb-3" data-testid="text-flashcard-trust-cta">
                 {t("home.flashcardTrust.ctaTitle")}
               </h3>
               <p className="text-sm text-gray-600 leading-relaxed mb-6" data-testid="text-flashcard-trust-cta-desc">
@@ -1059,7 +1059,7 @@ export function HomeBottomSections({
                 <BarChart3 className="h-3.5 w-3.5 text-primary" />
                 <span className="text-xs font-bold uppercase tracking-wider text-primary">{t("home.competitive.badge")}</span>
               </div>
-              <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-competitive-heading">{t("home.competitive.heading")}</h2>
+              <h2 className="font-bold text-[var(--theme-heading-text)] mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-competitive-heading">{t("home.competitive.heading")}</h2>
               <p className="text-lg text-gray-600">{t("home.competitive.subtitle")}</p>
             </div>
             <div className="overflow-x-auto">
@@ -1120,7 +1120,7 @@ export function HomeBottomSections({
                   <ShoppingBag className="w-3.5 h-3.5 text-primary" />
                   <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("home.featured.badge")}</span>
                 </div>
-                <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-featured-heading">{t("home.featured.heading")}</h2>
+                <h2 className="font-bold text-[var(--theme-heading-text)] mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-featured-heading">{t("home.featured.heading")}</h2>
                 <p className="text-lg text-gray-600 max-w-2xl mx-auto">{t("home.featured.subtitle")}</p>
               </div>
               <div className={`grid gap-6 ${featuredProducts.length === 1 ? 'max-w-sm mx-auto' : featuredProducts.length === 2 ? 'md:grid-cols-2 max-w-2xl mx-auto' : featuredProducts.length === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2 lg:grid-cols-4'}`}>
@@ -1151,7 +1151,7 @@ export function HomeBottomSections({
                           <span className="text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">{product.tierTarget}</span>
                         )}
                       </div>
-                      <h3 className="text-base font-bold text-gray-900 mb-1.5 line-clamp-2 group-hover:text-primary transition-colors">{product.title}</h3>
+                      <h3 className="text-base font-bold text-[var(--theme-heading-text)] mb-1.5 line-clamp-2 group-hover:text-primary transition-colors">{product.title}</h3>
                       <p className="text-sm text-gray-600 line-clamp-2 mb-3">{product.shortDescription || product.description}</p>
                       <div className="flex items-center gap-2">
                         <span className="text-lg font-extrabold text-primary">${(product.price / 100).toFixed(2)}</span>
@@ -1182,13 +1182,13 @@ export function HomeBottomSections({
         <section className="py-24 bg-gradient-to-b from-white to-gray-50" data-testid="section-faq-home">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="font-bold text-gray-900 mb-4" style={{ fontSize: 'var(--text-section)' }} data-testid="text-faq-heading">{t("home.faq.heading")}</h2>
+              <h2 className="font-bold text-[var(--theme-heading-text)] mb-4" style={{ fontSize: 'var(--text-section)' }} data-testid="text-faq-heading">{t("home.faq.heading")}</h2>
               <p className="text-lg text-gray-600">{t("home.faq.subtitle")}</p>
             </div>
 
             <Accordion type="single" collapsible className="space-y-3">
               <AccordionItem value="faq-1" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
-                <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
+                <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q1")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
@@ -1197,7 +1197,7 @@ export function HomeBottomSections({
               </AccordionItem>
 
               <AccordionItem value="faq-2" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
-                <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
+                <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q2")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
@@ -1206,7 +1206,7 @@ export function HomeBottomSections({
               </AccordionItem>
 
               <AccordionItem value="faq-3" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
-                <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
+                <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q3")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
@@ -1215,7 +1215,7 @@ export function HomeBottomSections({
               </AccordionItem>
 
               <AccordionItem value="faq-4" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
-                <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
+                <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q4")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
@@ -1224,7 +1224,7 @@ export function HomeBottomSections({
               </AccordionItem>
 
               <AccordionItem value="faq-5" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
-                <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
+                <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q5")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
@@ -1233,7 +1233,7 @@ export function HomeBottomSections({
               </AccordionItem>
 
               <AccordionItem value="faq-6" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
-                <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
+                <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q6")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
@@ -1242,7 +1242,7 @@ export function HomeBottomSections({
               </AccordionItem>
 
               <AccordionItem value="faq-6b" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
-                <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
+                <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q6b")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
@@ -1251,7 +1251,7 @@ export function HomeBottomSections({
               </AccordionItem>
 
               <AccordionItem value="faq-7" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
-                <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
+                <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q7")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
@@ -1260,7 +1260,7 @@ export function HomeBottomSections({
               </AccordionItem>
 
               <AccordionItem value="faq-8" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
-                <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
+                <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q8")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
@@ -1269,7 +1269,7 @@ export function HomeBottomSections({
               </AccordionItem>
 
               <AccordionItem value="faq-9" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
-                <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
+                <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q9")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
@@ -1278,7 +1278,7 @@ export function HomeBottomSections({
               </AccordionItem>
 
               <AccordionItem value="faq-10" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
-                <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
+                <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q10")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
@@ -1287,7 +1287,7 @@ export function HomeBottomSections({
               </AccordionItem>
 
               <AccordionItem value="faq-11" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
-                <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
+                <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q11")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
@@ -1296,7 +1296,7 @@ export function HomeBottomSections({
               </AccordionItem>
 
               <AccordionItem value="faq-12" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
-                <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
+                <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q12")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
@@ -1305,7 +1305,7 @@ export function HomeBottomSections({
               </AccordionItem>
 
               <AccordionItem value="faq-13" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
-                <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
+                <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q13")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
@@ -1314,7 +1314,7 @@ export function HomeBottomSections({
               </AccordionItem>
 
               <AccordionItem value="faq-14" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
-                <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
+                <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q14")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
@@ -1339,7 +1339,7 @@ export function HomeBottomSections({
               <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-6">
                 <Mail className="w-7 h-7 text-primary" />
               </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-email-heading">{t("home.email.title")}</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[var(--theme-heading-text)] mb-3" data-testid="text-email-heading">{t("home.email.title")}</h2>
               <p className="text-gray-600 mb-8 leading-relaxed">
                 {t("home.email.subtitle")}
               </p>
@@ -1399,7 +1399,7 @@ export function HomeBottomSections({
         {/* Final CTA Section */}
         <section className="py-24 relative overflow-hidden bg-gradient-to-b from-white to-primary/5" data-testid="section-final-cta">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <h2 className="font-bold text-gray-900 mb-6" style={{ fontSize: 'var(--text-section)' }} data-testid="text-cta-heading">
+            <h2 className="font-bold text-[var(--theme-heading-text)] mb-6" style={{ fontSize: 'var(--text-section)' }} data-testid="text-cta-heading">
               {t("home.cta.title")}
             </h2>
             <p className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">

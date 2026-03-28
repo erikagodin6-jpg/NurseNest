@@ -16,7 +16,7 @@ export default function HeroCertifications() {
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 text-center">
-          <h2 className="mb-2 font-bold text-gray-900" style={{ fontSize: "var(--text-section)" }} data-testid="text-certifications-heading">
+          <h2 className="mb-2 font-bold text-[var(--theme-heading-text)]" style={{ fontSize: "var(--text-section)" }} data-testid="text-certifications-heading">
             Nursing Certification Prep
           </h2>
           <p className="mx-auto max-w-2xl text-base text-gray-500 lg:text-lg">
@@ -36,7 +36,7 @@ export default function HeroCertifications() {
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-amber-50">
                   <Award className="h-4 w-4 text-amber-600" />
                 </div>
-                <h3 className="text-sm font-bold leading-tight text-gray-900">{cert.label}</h3>
+                <h3 className="text-sm font-bold leading-tight text-[var(--theme-heading-text)]">{cert.label}</h3>
               </div>
               <p className="text-xs text-gray-500">
                 <span className="font-semibold text-gray-700">{cert.goalQuestions.toLocaleString()}+</span> questions

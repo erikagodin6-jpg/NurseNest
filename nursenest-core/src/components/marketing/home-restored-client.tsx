@@ -164,13 +164,6 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
     setHasLoaded(true);
   }, []);
 
-  useEffect(() => {
-    if (process.env.NODE_ENV !== "development") return;
-    slides.forEach((slide) => {
-      console.debug("[HeroCarousel] canonical src", slide.index, resolveHeroImgSrc(slide.publicUrl));
-    });
-  }, [slides]);
-
   if (validCount === 0) {
     return null;
   }
@@ -191,7 +184,7 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
       >
         {!hasLoaded && mediaOk ? (
           <div
-            className="absolute inset-0 animate-pulse bg-gradient-to-br from-gray-100 via-gray-50 to-gray-200"
+            className="absolute inset-0 animate-pulse bg-gradient-to-br from-[var(--theme-separator)] via-[var(--theme-muted-surface)] to-[var(--theme-input-border)]"
             aria-hidden
           />
         ) : null}
@@ -199,7 +192,7 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
           if (failed.has(index)) return null;
           const src = resolveHeroImgSrc(slide.publicUrl);
           const active = index === current;
-          return (
+            return (
             <img
               key={slide.objectKey}
               src={src}
@@ -214,6 +207,7 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
               fetchPriority={index === 0 ? "high" : "low"}
               data-testid={`img-hero-slide-${index}`}
               aria-hidden={!active}
+              referrerPolicy="no-referrer"
               onError={() => handleImgError(index)}
               onLoad={handleImgLoad}
             />
@@ -224,8 +218,8 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
         <>
           {currentSlide ? (
             <div className="mt-3 space-y-1 text-center px-1" data-testid="hero-carousel-caption">
-              <p className="text-sm font-semibold text-gray-900">{currentSlide.title}</p>
-              <p className="text-xs leading-relaxed text-gray-600">{currentSlide.caption}</p>
+              <p className="text-sm font-semibold text-[var(--theme-heading-text)]">{currentSlide.title}</p>
+              <p className="text-xs leading-relaxed text-[var(--theme-body-text)]">{currentSlide.caption}</p>
             </div>
           ) : null}
           <div className="mt-3 flex flex-wrap justify-center gap-2" data-testid="hero-carousel-dots">
@@ -238,7 +232,7 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
                   if (!failed.has(index)) setCurrent(index);
                 }}
                 className={`h-2 rounded-full transition-all duration-300 ${
-                  index === current ? "w-6 bg-primary" : "w-2 bg-gray-300 hover:bg-gray-400"
+                  index === current ? "w-6 bg-primary" : "w-2 bg-[var(--theme-muted-text)]/35 hover:bg-[var(--theme-muted-text)]/55"
                 } ${failed.has(index) ? "cursor-not-allowed opacity-40" : ""}`}
                 aria-label={`Go to slide ${index + 1}`}
                 data-testid={`button-carousel-dot-${index}`}
@@ -339,7 +333,7 @@ export default function HomeRestoredClient() {
   const enabledCareers = getEnabledCareers();
 
   return (
-    <div className="font-sans md:animate-page-enter flex min-h-screen flex-col overflow-x-hidden bg-warmwhite">
+    <div className="font-sans md:animate-page-enter flex min-h-screen flex-col overflow-x-hidden bg-[var(--theme-page-bg)]">
       <main className="flex-grow overflow-x-hidden">
         <section
           className="relative overflow-hidden"
@@ -372,14 +366,14 @@ export default function HomeRestoredClient() {
 
                 <div className="space-y-4">
                   <h1
-                    className="font-bold leading-[1.08] tracking-tight text-gray-900"
+                    className="font-bold leading-[1.08] tracking-tight text-[var(--theme-heading-text)]"
                     style={{ fontSize: "var(--text-hero)" }}
                     data-testid="text-hero-heading"
                   >
                     {t("home.hero.mainTitle")}
                   </h1>
 
-                  <p className="max-w-xl text-base leading-relaxed text-gray-700 lg:text-lg" data-testid="text-hero-subheading">
+                  <p className="max-w-xl text-base leading-relaxed text-[var(--theme-body-text)] lg:text-lg" data-testid="text-hero-subheading">
                     {t("home.hero.newSubheadline")}
                   </p>
                 </div>
@@ -395,21 +389,21 @@ export default function HomeRestoredClient() {
                   ).map((feat) => (
                     <div
                       key={feat.key}
-                      className="flex items-start gap-2.5 rounded-xl border border-gray-100 bg-white p-3 shadow-[var(--shadow-card)]"
+                      className="flex items-start gap-2.5 rounded-xl border border-[var(--theme-card-border)] bg-card p-3 shadow-[var(--shadow-card)]"
                       data-testid={`feature-${feat.key}`}
                     >
                       <div className="nn-accent-icon-wrap mt-0.5 h-8 w-8 shrink-0">
                         <feat.icon className="nn-accent-icon h-4 w-4" />
                       </div>
                       <div className="min-w-0">
-                        <p className="text-xs font-semibold leading-tight text-gray-900 sm:text-sm">{t(`home.hero.${feat.key}`)}</p>
-                        <p className="mt-0.5 hidden text-[11px] leading-snug text-gray-600 sm:block">{t(`home.hero.${feat.descKey}`)}</p>
+                        <p className="text-xs font-semibold leading-tight text-[var(--theme-heading-text)] sm:text-sm">{t(`home.hero.${feat.key}`)}</p>
+                        <p className="mt-0.5 hidden text-[11px] leading-snug text-[var(--theme-body-text)] sm:block">{t(`home.hero.${feat.descKey}`)}</p>
                       </div>
                     </div>
                   ))}
                 </div>
 
-                <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-[var(--shadow-card)]" data-testid="region-toggle-hero">
+                <div className="overflow-hidden rounded-2xl border border-[var(--theme-input-border)] bg-card shadow-[var(--shadow-card)]" data-testid="region-toggle-hero">
                   <div className="flex">
                     <button
                       type="button"
@@ -417,7 +411,7 @@ export default function HomeRestoredClient() {
                       className={`relative flex flex-1 items-center justify-center gap-2.5 px-4 py-3.5 text-sm font-semibold transition-all duration-200 sm:py-4 sm:text-base ${
                         region === "US"
                           ? "border-b-2 border-primary bg-primary/10 text-primary"
-                          : "border-b-2 border-transparent text-gray-500 hover:bg-gray-50 hover:text-gray-600"
+                          : "border-b-2 border-transparent text-[var(--theme-muted-text)] hover:bg-[var(--theme-muted-surface)] hover:text-[var(--theme-body-text)]"
                       }`}
                       data-testid="button-region-us"
                     >
@@ -427,14 +421,14 @@ export default function HomeRestoredClient() {
                       <span>{t("home.region.us")}</span>
                       {region === "US" && <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />}
                     </button>
-                    <div className="w-px bg-gray-200" />
+                    <div className="w-px bg-[var(--theme-input-border)]" />
                     <button
                       type="button"
                       onClick={() => setRegion("CA")}
                       className={`relative flex flex-1 items-center justify-center gap-2.5 px-4 py-3.5 text-sm font-semibold transition-all duration-200 sm:py-4 sm:text-base ${
                         region === "CA"
                           ? "border-b-2 border-primary bg-primary/10 text-primary"
-                          : "border-b-2 border-transparent text-gray-500 hover:bg-gray-50 hover:text-gray-600"
+                          : "border-b-2 border-transparent text-[var(--theme-muted-text)] hover:bg-[var(--theme-muted-surface)] hover:text-[var(--theme-body-text)]"
                       }`}
                       data-testid="button-region-ca"
                     >
@@ -445,10 +439,10 @@ export default function HomeRestoredClient() {
                       {region === "CA" && <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />}
                     </button>
                   </div>
-                  <div className="border-t border-gray-100 bg-gray-50/80 px-4 py-3">
+                  <div className="border-t border-[var(--theme-card-border)] bg-[var(--theme-muted-surface)] px-4 py-3">
                     <div className="flex items-start gap-2">
-                      <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gray-600" />
-                      <p className="text-xs leading-relaxed text-gray-600">
+                      <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[var(--theme-body-text)]" />
+                      <p className="text-xs leading-relaxed text-[var(--theme-body-text)]">
                         {region === "US" ? t("home.region.usDesc") : t("home.region.caDesc")}
                       </p>
                     </div>
@@ -466,7 +460,7 @@ export default function HomeRestoredClient() {
                   </Link>
                   <Link
                     href={mapLegacyMarketingHref("/exam-prep")}
-                    className="flex min-h-[52px] w-full items-center justify-center rounded-full border border-gray-200 bg-white px-7 py-3 text-base font-medium text-gray-700 hover:border-gray-300 hover:bg-gray-50 sm:min-h-[56px] sm:w-auto sm:px-9 sm:text-lg"
+                    className="flex min-h-[52px] w-full items-center justify-center rounded-full border border-[var(--theme-input-border)] bg-card px-7 py-3 text-base font-medium text-[var(--theme-body-text)] hover:border-[color-mix(in_srgb,var(--theme-primary)_22%,var(--theme-input-border))] hover:bg-[var(--theme-muted-surface)] sm:min-h-[56px] sm:w-auto sm:px-9 sm:text-lg"
                     data-testid="button-hero-browse"
                   >
                     <BookOpen className="mr-2 h-4 w-4 text-primary sm:h-5 sm:w-5" />
@@ -474,11 +468,11 @@ export default function HomeRestoredClient() {
                   </Link>
                 </div>
 
-                <p className="text-center text-xs text-gray-600 sm:text-left" data-testid="text-urgency-microcopy">
+                <p className="text-center text-xs text-[var(--theme-body-text)] sm:text-left" data-testid="text-urgency-microcopy">
                   {t("home.hero.urgencyMicrocopy")}
                 </p>
 
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-gray-600 sm:gap-x-5">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-[var(--theme-body-text)] sm:gap-x-5">
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />
                     <span>{t("home.hero.noCreditCard")}</span>
@@ -494,14 +488,14 @@ export default function HomeRestoredClient() {
                 </div>
 
                 <div
-                  className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs text-gray-700 sm:justify-start sm:gap-x-4"
+                  className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs text-[var(--theme-body-text)] sm:justify-start sm:gap-x-4"
                   data-testid="hero-trust-indicators"
                 >
                   <div className="flex items-center gap-1.5">
                     <Trophy className="h-3.5 w-3.5 shrink-0" />
                     <span data-testid="text-trust-pass-rate">{t("home.hero.trustPassRate")}</span>
                   </div>
-                  <span className="hidden text-gray-400 sm:inline" aria-hidden="true">
+                  <span className="hidden text-[var(--theme-muted-text)] sm:inline" aria-hidden="true">
                     ·
                   </span>
                   <div className="flex items-center gap-1.5">
@@ -512,7 +506,7 @@ export default function HomeRestoredClient() {
                         : t("home.hero.trustQuestions")}
                     </span>
                   </div>
-                  <span className="hidden text-gray-400 sm:inline" aria-hidden="true">
+                  <span className="hidden text-[var(--theme-muted-text)] sm:inline" aria-hidden="true">
                     ·
                   </span>
                   <div className="flex items-center gap-1.5">
@@ -523,7 +517,7 @@ export default function HomeRestoredClient() {
                         : t("home.hero.trustFlashcards")}
                     </span>
                   </div>
-                  <span className="hidden text-gray-400 sm:inline" aria-hidden="true">
+                  <span className="hidden text-[var(--theme-muted-text)] sm:inline" aria-hidden="true">
                     ·
                   </span>
                   <div className="flex items-center gap-1.5">
@@ -532,8 +526,8 @@ export default function HomeRestoredClient() {
                   </div>
                 </div>
 
-                <div className="rounded-xl border border-gray-100 bg-white/60 p-4 shadow-[var(--shadow-card)]" data-testid="hero-built-for-bar">
-                  <p className="mb-2.5 text-[10px] font-bold uppercase tracking-wider text-gray-600">{t("home.hero.builtForLabel")}</p>
+                <div className="rounded-xl border border-[var(--theme-card-border)] bg-card/60 p-4 shadow-[var(--shadow-card)]" data-testid="hero-built-for-bar">
+                  <p className="mb-2.5 text-[10px] font-bold uppercase tracking-wider text-[var(--theme-body-text)]">{t("home.hero.builtForLabel")}</p>
                   <div className="flex flex-wrap gap-2">
                     {(
                       [
@@ -546,15 +540,15 @@ export default function HomeRestoredClient() {
                     ).map((seg) => (
                       <span
                         key={seg.key}
-                        className="inline-flex items-center gap-1.5 rounded-full border border-gray-100 bg-gray-50 px-2 py-1 text-[11px] font-medium text-gray-700 sm:px-2.5 sm:text-xs"
+                        className="inline-flex items-center gap-1.5 rounded-full border border-[var(--theme-card-border)] bg-[var(--theme-muted-surface)] px-2 py-1 text-[11px] font-medium text-[var(--theme-body-text)] sm:px-2.5 sm:text-xs"
                         data-testid={`built-for-${seg.key}`}
                       >
-                        <seg.icon className="h-3 w-3 shrink-0 text-gray-500" />
+                        <seg.icon className="h-3 w-3 shrink-0 text-[var(--theme-muted-text)]" />
                         {t(`home.hero.${seg.key}`)}
                       </span>
                     ))}
                   </div>
-                  <p className="mt-2 text-[11px] leading-relaxed text-gray-600">{t("home.hero.builtForMicrocopy")}</p>
+                  <p className="mt-2 text-[11px] leading-relaxed text-[var(--theme-body-text)]">{t("home.hero.builtForMicrocopy")}</p>
                 </div>
               </div>
 
@@ -563,16 +557,16 @@ export default function HomeRestoredClient() {
                 style={{ overflowAnchor: "none" }}
               >
                 <HeroCarousel onMediaUnavailable={() => setHeroMediaVisible(false)} />
-                <div className="absolute -bottom-5 -left-5 z-10 flex items-center gap-3 rounded-2xl border border-gray-100/80 bg-white px-5 py-3.5 shadow-[var(--shadow-card-hover)]">
+                <div className="absolute -bottom-5 -left-5 z-10 flex items-center gap-3 rounded-2xl border border-[var(--theme-card-border)]/80 bg-card px-5 py-3.5 shadow-[var(--shadow-card-hover)]">
                   <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10">
                     <CheckCircle2 className="h-4.5 w-4.5 text-primary" />
                   </div>
                   <div>
-                    <div className="text-sm font-bold text-gray-900">{t("home.hero.passRate")}</div>
-                    <div className="text-xs text-gray-600">{t("home.hero.firstAttempt")}</div>
+                    <div className="text-sm font-bold text-[var(--theme-heading-text)]">{t("home.hero.passRate")}</div>
+                    <div className="text-xs text-[var(--theme-body-text)]">{t("home.hero.firstAttempt")}</div>
                   </div>
                 </div>
-                <div className="absolute -right-3 -top-3 z-10 flex items-center gap-2 rounded-2xl border border-gray-100/80 bg-white px-4 py-2.5 shadow-[var(--shadow-card-hover)]">
+                <div className="absolute -right-3 -top-3 z-10 flex items-center gap-2 rounded-2xl border border-[var(--theme-card-border)]/80 bg-card px-4 py-2.5 shadow-[var(--shadow-card-hover)]">
                   <div className="flex -space-x-1.5">
                     {["bg-primary/60", "bg-primary/45", "bg-primary/70"].map((bg, i) => (
                       <div
@@ -583,7 +577,7 @@ export default function HomeRestoredClient() {
                       </div>
                     ))}
                   </div>
-                  <span className="text-xs font-semibold text-gray-700">{t("home.hero.studentCount")}</span>
+                  <span className="text-xs font-semibold text-[var(--theme-body-text)]">{t("home.hero.studentCount")}</span>
                 </div>
                 <div
                   className="nn-accent-soft-ring pointer-events-none absolute -bottom-10 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full px-4 py-2 shadow-sm"
@@ -600,7 +594,7 @@ export default function HomeRestoredClient() {
             </div>
 
             <div className="mt-10 sm:mt-12" data-testid="section-careers-supported">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-600">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-[var(--theme-body-text)]">
                 {t("home.hero.examPrepFor", {
                   region: region === "CA" ? t("home.region.ca") : t("home.region.us"),
                 })}
@@ -609,7 +603,7 @@ export default function HomeRestoredClient() {
                 {enabledCareers.slice(0, 8).map((career) => (
                   <span
                     key={career.id}
-                    className="inline-flex items-center rounded-full border border-gray-100 bg-white px-3 py-1.5 text-xs font-medium text-gray-600 shadow-sm"
+                    className="inline-flex items-center rounded-full border border-[var(--theme-card-border)] bg-card px-3 py-1.5 text-xs font-medium text-[var(--theme-body-text)] shadow-sm"
                   >
                     {career.shortName}
                   </span>
@@ -625,12 +619,12 @@ export default function HomeRestoredClient() {
         </section>
 
         <section
-          className="border-t border-gray-100 bg-gradient-to-b from-gray-50/80 to-white"
+          className="border-t border-[var(--theme-card-border)] bg-gradient-to-b from-[var(--theme-muted-surface)] to-[var(--theme-card-bg)]"
           style={{ paddingTop: "var(--space-block)", paddingBottom: "var(--space-block)" }}
           data-testid="section-hero-benefits"
         >
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-            <h2 className="mb-6 text-center text-lg font-bold text-gray-900 sm:text-xl" data-testid="text-benefits-heading">
+            <h2 className="mb-6 text-center text-lg font-bold text-[var(--theme-heading-text)] sm:text-xl" data-testid="text-benefits-heading">
               {t("home.hero.benefitsHeading")}
             </h2>
             <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
@@ -644,13 +638,13 @@ export default function HomeRestoredClient() {
               ).map((item) => (
                 <div
                   key={item.key}
-                  className="flex items-start gap-3 rounded-xl border border-gray-100 bg-white p-3.5 shadow-[var(--shadow-card)]"
+                  className="flex items-start gap-3 rounded-xl border border-[var(--theme-card-border)] bg-card p-3.5 shadow-[var(--shadow-card)]"
                   data-testid={`hero-${item.key}`}
                 >
                   <div className="nn-accent-icon-wrap mt-0.5 h-8 w-8 shrink-0">
                     <item.icon className="nn-accent-icon h-4 w-4" />
                   </div>
-                  <p className="text-sm leading-relaxed text-gray-700">{t(`home.hero.${item.key}`)}</p>
+                  <p className="text-sm leading-relaxed text-[var(--theme-body-text)]">{t(`home.hero.${item.key}`)}</p>
                 </div>
               ))}
             </div>

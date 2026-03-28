@@ -46,7 +46,7 @@ export default function HeroNursingTiers() {
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="mb-10 text-center">
-          <h2 className="mb-2 font-bold text-gray-900" style={{ fontSize: "var(--text-section)" }} data-testid="text-nursing-tiers-heading">
+          <h2 className="mb-2 font-bold text-[var(--theme-heading-text)]" style={{ fontSize: "var(--text-section)" }} data-testid="text-nursing-tiers-heading">
             Nursing Exam Question Banks
           </h2>
           <p className="mx-auto max-w-2xl text-base text-gray-500 lg:text-lg">
@@ -67,7 +67,7 @@ export default function HeroNursingTiers() {
                 <div className={`${TIER_SURFACE.bg} px-6 py-5`}>
                   <h3 className={`text-lg font-bold ${TIER_SURFACE.accent}`}>{tier.label}</h3>
                   <div className="mt-1 flex items-baseline gap-1">
-                    <span className="text-3xl font-extrabold text-gray-900">{formatK(tier.goalQuestions)}+</span>
+                    <span className="text-3xl font-extrabold text-[var(--theme-heading-text)]">{formatK(tier.goalQuestions)}+</span>
                     <span className="text-sm text-gray-500">{t("components.heroNursingTiers.questionsGoal")}</span>
                   </div>
                   {current > 0 && (

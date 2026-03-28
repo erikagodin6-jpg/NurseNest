@@ -17,7 +17,7 @@ export default function HomeCareerCta() {
             <ArrowRight className="h-3.5 w-3.5 text-primary" />
             <span className="text-xs font-medium text-primary sm:text-sm">{t("home.career.journeyBadge")}</span>
           </div>
-          <h2 className="mb-3 font-bold text-gray-900" style={{ fontSize: "var(--text-section)" }}>
+          <h2 className="mb-3 font-bold text-[var(--theme-heading-text)]" style={{ fontSize: "var(--text-section)" }}>
             {t("home.career.journeyTitle")}
           </h2>
           <p className="mx-auto mb-8 max-w-2xl text-base text-gray-500 lg:text-lg">{t("home.career.journeySubtitle")}</p>

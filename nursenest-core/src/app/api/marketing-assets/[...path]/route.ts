@@ -1,6 +1,9 @@
 import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { NextResponse } from "next/server";
 
+/** Avoid sticky caches for JSON error bodies (404/502/503). Successful images use long-lived immutable caching. */
+const NO_STORE = { "Cache-Control": "no-store" } as const;
+
 /** Allowed object key prefixes in the marketing bucket (screens + brand marks). */
 const ALLOW_PREFIXES = ["screenshots/", "brand/", "branding/"] as const;
 
@@ -37,6 +40,18 @@ function contentTypeForKey(key: string): string {
 }
 
 /**
+ * For known image extensions (e.g. `.webp`), always use the key — Spaces metadata can be wrong.
+ * For unknown extensions, prefer S3 `image/*` when present, else `application/octet-stream`.
+ */
+function resolvedImageContentType(s3ContentType: string | undefined, key: string): string {
+  const byKey = contentTypeForKey(key);
+  if (byKey !== "application/octet-stream") return byKey;
+  const raw = s3ContentType?.trim() ?? "";
+  if (raw.toLowerCase().startsWith("image/")) return raw;
+  return byKey;
+}
+
+/**
  * Streams marketing images from DigitalOcean Spaces (private bucket safe).
  * Path must start with `screenshots/`, `brand/`, or `branding/` — matches keys in `nursenest-images`.
  */
@@ -48,7 +63,7 @@ export async function GET(
   const key = segments.map((s) => decodeURIComponent(s)).join("/");
 
   if (!isAllowedKey(key)) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    return NextResponse.json({ error: "Forbidden" }, { status: 403, headers: NO_STORE });
   }
 
   const bucket = process.env.SPACES_BUCKET?.trim() || "nursenest-images";
@@ -60,7 +75,7 @@ export async function GET(
         error: "Marketing asset proxy not configured",
         hint: "Set SPACES_KEY and SPACES_SECRET on the server, or set NEXT_PUBLIC_MARKETING_USE_SPACES_PROXY=false and make the Space public.",
       },
-      { status: 503 },
+      { status: 503, headers: NO_STORE },
     );
   }
 
@@ -74,10 +89,10 @@ export async function GET(
 
     const body = out.Body;
     if (!body) {
-      return NextResponse.json({ error: "Empty object" }, { status: 502 });
+      return NextResponse.json({ error: "Empty object" }, { status: 502, headers: NO_STORE });
     }
 
-    const ct = out.ContentType || contentTypeForKey(key);
+    const ct = resolvedImageContentType(out.ContentType, key);
     const buf = await body.transformToByteArray();
 
     return new NextResponse(Buffer.from(buf), {
@@ -85,15 +100,16 @@ export async function GET(
       headers: {
         "Content-Type": ct,
         "Cache-Control": "public, max-age=31536000, immutable",
+        "X-Content-Type-Options": "nosniff",
       },
     });
   } catch (e: unknown) {
     const name = (e as { name?: string })?.name;
     const status = (e as { $metadata?: { httpStatusCode?: number } })?.$metadata?.httpStatusCode;
     if (name === "NoSuchKey" || name === "NotFound" || status === 404) {
-      return NextResponse.json({ error: "Not found" }, { status: 404 });
+      return NextResponse.json({ error: "Not found" }, { status: 404, headers: NO_STORE });
     }
     console.error("[marketing-assets]", key, e);
-    return NextResponse.json({ error: "Upstream error" }, { status: 502 });
+    return NextResponse.json({ error: "Upstream error" }, { status: 502, headers: NO_STORE });
   }
 }

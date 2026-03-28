@@ -4,7 +4,11 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useMarketingI18n } from "@/lib/marketing-i18n";
 import { mapLegacyMarketingHref } from "@/lib/legacy-marketing-routes";
-import { MARKETING_SCREENSHOT_SOURCES } from "@/lib/marketing-assets";
+import {
+  MARKETING_SCREENSHOT_SOURCES,
+  resolveMarketingAbsoluteUrl,
+  resolveMarketingSrcSet,
+} from "@/lib/marketing-assets";
 import {
   ArrowRight,
   Star,
@@ -149,10 +153,10 @@ export function HomeConversionSections({
 
 function TrustCounterSkeleton() {
   return (
-    <div className="text-center p-5 rounded-2xl bg-white/60 border border-gray-100 animate-pulse">
-      <div className="w-10 h-10 rounded-xl bg-gray-200 mx-auto mb-3" />
-      <div className="h-8 w-24 bg-gray-200 rounded mx-auto mb-2" />
-      <div className="h-4 w-20 bg-gray-100 rounded mx-auto" />
+    <div className="text-center p-5 rounded-2xl bg-white/60 border border-[var(--theme-card-border)] animate-pulse">
+      <div className="mx-auto mb-3 h-10 w-10 rounded-xl bg-[var(--theme-input-border)]" />
+      <div className="mx-auto mb-2 h-8 w-24 rounded bg-[var(--theme-input-border)]" />
+      <div className="mx-auto h-4 w-20 rounded bg-[var(--theme-separator)]" />
     </div>
   );
 }
@@ -192,7 +196,7 @@ function DynamicTrustCounters({
 
   return (
     <section
-      className="border-t border-gray-100"
+      className="border-t border-[var(--theme-card-border)]"
       style={{ paddingTop: 'var(--space-block)', paddingBottom: 'var(--space-block)' }}
       data-testid="section-trust-counters"
     >
@@ -203,13 +207,13 @@ function DynamicTrustCounters({
             <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("components.homeConversionSections.platformScale")}</span>
           </div>
           <h2
-            className="font-bold text-gray-900 mb-3"
+            className="font-bold text-[var(--theme-heading-text)] mb-3"
             style={{ fontSize: 'var(--text-section)' }}
             data-testid="text-trust-counters-heading"
           >
             Built for Serious Healthcare Exam Preparation
           </h2>
-          <p className="text-gray-500 max-w-2xl mx-auto text-base lg:text-lg">
+          <p className="text-[var(--theme-muted-text)] max-w-2xl mx-auto text-base lg:text-lg">
             A growing library of questions, flashcards, lessons, and study tools for nursing, NP, allied health, and certification exams — all in one place.
           </p>
         </div>
@@ -220,14 +224,14 @@ function DynamicTrustCounters({
             : counters.map((counter) => (
                 <div
                   key={counter.label}
-                  className="text-center p-6 rounded-2xl bg-white border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200"
+                  className="text-center p-6 rounded-2xl bg-white border border-[var(--theme-card-border)]/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200"
                   data-testid={`trust-counter-${counter.label.toLowerCase().replace(/\s+/g, "-")}`}
                 >
                   <div className="nn-theme-gradient-br mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-xl shadow-sm">
                     <counter.icon className="h-5 w-5 text-white" />
                   </div>
-                  <div className="text-2xl sm:text-3xl font-extrabold text-gray-900">{counter.value}</div>
-                  <div className="text-xs font-semibold text-gray-400 uppercase tracking-wide mt-1.5">{counter.label}</div>
+                  <div className="text-2xl sm:text-3xl font-extrabold text-[var(--theme-heading-text)]">{counter.value}</div>
+                  <div className="text-xs font-semibold text-[var(--theme-muted-text)] uppercase tracking-wide mt-1.5">{counter.label}</div>
                 </div>
               ))}
         </div>
@@ -263,7 +267,7 @@ function ConversionProofBlock({
 
   return (
     <section
-      className="border-t border-gray-100"
+      className="border-t border-[var(--theme-card-border)]"
       style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }}
       data-testid="section-conversion-proof"
     >
@@ -274,13 +278,13 @@ function ConversionProofBlock({
             <span className="text-xs font-bold uppercase tracking-wider text-primary">{t("components.homeConversionSections.everythingYouNeed")}</span>
           </div>
           <h2
-            className="font-bold text-gray-900 mb-3"
+            className="font-bold text-[var(--theme-heading-text)] mb-3"
             style={{ fontSize: 'var(--text-section)' }}
             data-testid="text-conversion-proof-heading"
           >
             Thousands of questions. Thousands of flashcards. One platform for every healthcare exam.
           </h2>
-          <p className="text-gray-500 max-w-2xl mx-auto text-base lg:text-lg leading-relaxed">
+          <p className="text-[var(--theme-muted-text)] max-w-2xl mx-auto text-base lg:text-lg leading-relaxed">
             Stop juggling scattered resources. NurseNest brings {formatMarketingCount(questions)} exam-style questions,
             {" "}{formatMarketingCount(flashcards)} flashcards across {formatMarketingCount(decks)} decks, adaptive CAT exams,
             clinical images, and detailed rationales into a single study environment — covering nursing, NP certification, allied health, and more.
@@ -322,14 +326,14 @@ function ConversionProofBlock({
           ].map((item) => (
             <div
               key={item.title}
-              className="bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-7"
+              className="bg-white rounded-2xl border border-[var(--theme-card-border)]/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-7"
               data-testid={`card-proof-${item.title.toLowerCase().replace(/\s+/g, "-")}`}
             >
               <div className="nn-theme-gradient-br mb-4 flex h-11 w-11 items-center justify-center rounded-xl shadow-sm">
                 <item.icon className="h-5 w-5 text-white" />
               </div>
-              <h3 className="font-bold text-gray-900 mb-2" style={{ fontSize: 'var(--text-card-title)' }}>{item.title}</h3>
-              <p className="text-sm text-gray-500 leading-relaxed">{item.desc}</p>
+              <h3 className="font-bold text-[var(--theme-heading-text)] mb-2" style={{ fontSize: 'var(--text-card-title)' }}>{item.title}</h3>
+              <p className="text-sm text-[var(--theme-muted-text)] leading-relaxed">{item.desc}</p>
             </div>
           ))}
         </div>
@@ -344,7 +348,7 @@ function ConversionProofBlock({
             Start Free — Explore the Full Library
             <ArrowRight className="ml-2 w-5 h-5" />
           </button>
-          <p className="text-xs text-gray-400 mt-4">{t("components.homeConversionSections.noCreditCardRequiredFree")}</p>
+          <p className="text-xs text-[var(--theme-muted-text)] mt-4">{t("components.homeConversionSections.noCreditCardRequiredFree")}</p>
         </div>
       </div>
     </section>
@@ -402,7 +406,7 @@ function CompetitivePositioningSection({
 
   return (
     <section
-      className="border-t border-gray-100"
+      className="border-t border-[var(--theme-card-border)]"
       style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }}
       data-testid="section-competitive-positioning"
     >
@@ -413,13 +417,13 @@ function CompetitivePositioningSection({
             <span className="text-xs font-bold uppercase tracking-wider text-primary">{t("components.homeConversionSections.whyNursenest")}</span>
           </div>
           <h2
-            className="font-bold text-gray-900 mb-3"
+            className="font-bold text-[var(--theme-heading-text)] mb-3"
             style={{ fontSize: 'var(--text-section)' }}
             data-testid="text-competitive-heading"
           >
             More content. More disciplines. One subscription.
           </h2>
-          <p className="text-gray-500 max-w-2xl mx-auto text-base lg:text-lg">
+          <p className="text-[var(--theme-muted-text)] max-w-2xl mx-auto text-base lg:text-lg">
             Most study platforms cover one exam. NurseNest combines questions, flashcards, CAT exams, lessons, and analytics for nursing, NP, and allied health into a single study ecosystem.
           </p>
         </div>
@@ -428,23 +432,23 @@ function CompetitivePositioningSection({
           {comparisons.map((item) => (
             <div
               key={item.feature}
-              className="bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200 p-6"
+              className="bg-white rounded-2xl border border-[var(--theme-card-border)]/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200 p-6"
               data-testid={`card-compare-${item.feature.toLowerCase().replace(/\s+/g, "-")}`}
             >
               <div className="flex items-center gap-2.5 mb-4">
                 <div className="nn-accent-icon-wrap flex h-9 w-9 shrink-0 items-center justify-center rounded-xl">
                   <item.icon className="nn-accent-icon h-4 w-4" />
                 </div>
-                <h3 className="font-bold text-gray-900 text-sm">{item.feature}</h3>
+                <h3 className="font-bold text-[var(--theme-heading-text)] text-sm">{item.feature}</h3>
               </div>
               <div className="space-y-2.5">
                 <div className="flex items-start gap-2">
                   <CheckCircle2 className="nn-trust-check mt-0.5 h-4 w-4 shrink-0" />
-                  <p className="text-sm text-gray-700 leading-relaxed">{item.ours}</p>
+                  <p className="text-sm text-[var(--theme-body-text)] leading-relaxed">{item.ours}</p>
                 </div>
                 <div className="flex items-start gap-2 opacity-50">
-                  <div className="w-4 h-4 rounded-full border-2 border-gray-300 shrink-0 mt-0.5" />
-                  <p className="text-sm text-gray-400 leading-relaxed">{item.typical}</p>
+                  <div className="w-4 h-4 rounded-full border-2 border-[var(--theme-input-border)] shrink-0 mt-0.5" />
+                  <p className="text-sm text-[var(--theme-muted-text)] leading-relaxed">{item.typical}</p>
                 </div>
               </div>
             </div>
@@ -491,31 +495,31 @@ function HowItWorksSection() {
   ];
 
   return (
-    <section id="how-it-works" className="border-t border-gray-100" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-how-it-works">
+    <section id="how-it-works" className="border-t border-[var(--theme-card-border)]" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-how-it-works">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/8 border border-primary/15 shadow-[var(--shadow-card)] mb-5">
             <Zap className="w-3.5 h-3.5 text-primary" />
             <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("components.homeConversionSections.howItWorks")}</span>
           </div>
-          <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-how-it-works-heading">
+          <h2 className="font-bold text-[var(--theme-heading-text)] mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-how-it-works-heading">
             Three Steps to Exam Readiness
           </h2>
-          <p className="text-base lg:text-lg text-gray-500">{t("components.homeConversionSections.aProvenSystemToPrepare")}</p>
+          <p className="text-base lg:text-lg text-[var(--theme-muted-text)]">{t("components.homeConversionSections.aProvenSystemToPrepare")}</p>
         </div>
         <div className="grid md:grid-cols-3 gap-10">
           {steps.map((item, i) => (
             <div key={i} className="relative text-center" data-testid={`step-how-it-works-${i}`}>
               {i < 2 && (
-                <div className="hidden md:block absolute top-12 left-[60%] w-[80%] h-px bg-gradient-to-r from-gray-200 to-transparent z-0" />
+                <div className="hidden md:block absolute top-12 left-[60%] w-[80%] h-px bg-gradient-to-r from-[var(--theme-input-border)] to-transparent z-0" />
               )}
               <div className="relative z-10">
                 <div className="nn-theme-gradient-br mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl shadow-[var(--shadow-elevated)]">
                   <item.icon className="h-9 w-9 text-white" />
                 </div>
-                <div className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gray-900 text-white text-xs font-bold mb-3">{item.step}</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed max-w-xs mx-auto">{item.desc}</p>
+                <div className="mb-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">{item.step}</div>
+                <h3 className="text-xl font-bold text-[var(--theme-heading-text)] mb-2">{item.title}</h3>
+                <p className="text-sm text-[var(--theme-muted-text)] leading-relaxed max-w-xs mx-auto">{item.desc}</p>
               </div>
             </div>
           ))}
@@ -563,10 +567,10 @@ function FeatureCardsSection({ questionCount }: { questionCount: number }) {
     <section style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-feature-cards">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-feature-cards-heading">
+          <h2 className="font-bold text-[var(--theme-heading-text)] mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-feature-cards-heading">
             Everything You Need to Pass
           </h2>
-          <p className="text-base lg:text-lg text-gray-500 max-w-3xl mx-auto">
+          <p className="text-base lg:text-lg text-[var(--theme-muted-text)] max-w-3xl mx-auto">
             A complete exam prep toolkit built for nursing, NP, and allied health students.
           </p>
         </div>
@@ -576,7 +580,7 @@ function FeatureCardsSection({ questionCount }: { questionCount: number }) {
               key={i}
               role="button"
               tabIndex={0}
-              className="group cursor-pointer overflow-hidden rounded-xl border border-gray-100/80 bg-white shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
+              className="group cursor-pointer overflow-hidden rounded-xl border border-[var(--theme-card-border)]/80 bg-white shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
               onClick={() => router.push(mapLegacyMarketingHref(feature.href))}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") router.push(mapLegacyMarketingHref(feature.href));
@@ -587,15 +591,15 @@ function FeatureCardsSection({ questionCount }: { questionCount: number }) {
                 <div className="nn-accent-icon-wrap mb-5 flex h-12 w-12 items-center justify-center transition-transform group-hover:scale-110">
                   <feature.icon className="nn-accent-icon h-6 w-6" />
                 </div>
-                <h3 className="mb-2 font-bold text-gray-900" style={{ fontSize: "var(--text-card-title)" }}>
+                <h3 className="mb-2 font-bold text-[var(--theme-heading-text)]" style={{ fontSize: "var(--text-card-title)" }}>
                   {feature.title}
                 </h3>
-                <p className="mb-4 text-sm leading-relaxed text-gray-500">{feature.desc}</p>
+                <p className="mb-4 text-sm leading-relaxed text-[var(--theme-muted-text)]">{feature.desc}</p>
                 <div className="flex flex-wrap gap-1.5">
                   {feature.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-full border border-gray-100 bg-gray-50/80 px-2.5 py-1 text-[10px] font-semibold text-gray-500"
+                      className="rounded-full border border-[var(--theme-card-border)] bg-[var(--theme-muted-surface)]/80 px-2.5 py-1 text-[10px] font-semibold text-[var(--theme-muted-text)]"
                     >
                       {tag}
                     </span>
@@ -666,25 +670,25 @@ function ScreenshotCarouselSection() {
   const currentSrc = screenshotData[current.imageKey];
 
   return (
-    <section className="overflow-hidden border-t border-gray-100" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-screenshot-carousel">
+    <section className="overflow-hidden border-t border-[var(--theme-card-border)]" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-screenshot-carousel">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-screenshots-heading">
+          <h2 className="font-bold text-[var(--theme-heading-text)] mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-screenshots-heading">
             See the Platform in Action
           </h2>
-          <p className="text-base lg:text-lg text-gray-500 max-w-2xl mx-auto">
+          <p className="text-base lg:text-lg text-[var(--theme-muted-text)] max-w-2xl mx-auto">
             From adaptive analytics to exam-style practice, explore what NurseNest looks like inside.
           </p>
         </div>
 
         <div className="max-w-4xl mx-auto">
           <div className="relative group">
-            <div className="relative rounded-2xl overflow-hidden bg-white shadow-[var(--shadow-elevated)] border border-gray-100/80">
-              <div className="relative aspect-[16/10] overflow-hidden bg-gray-50">
+            <div className="relative rounded-2xl overflow-hidden bg-white shadow-[var(--shadow-elevated)] border border-[var(--theme-card-border)]/80">
+              <div className="relative aspect-[16/10] overflow-hidden bg-[var(--theme-muted-surface)]">
                 <img
-                  srcSet={currentSrc.srcSet}
+                  srcSet={resolveMarketingSrcSet(currentSrc.srcSet)}
                   sizes="(max-width: 640px) 480px, (max-width: 1024px) 768px, 1200px"
-                  src={currentSrc.fallback}
+                  src={resolveMarketingAbsoluteUrl(currentSrc.fallback)}
                   alt={current.title}
                   width={currentSrc.width}
                   height={currentSrc.height}
@@ -699,33 +703,33 @@ function ScreenshotCarouselSection() {
 
               <button
                 onClick={goPrev}
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 backdrop-blur-sm shadow-[var(--shadow-card)] border border-gray-100 flex items-center justify-center hover:bg-white transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 backdrop-blur-sm shadow-[var(--shadow-card)] border border-[var(--theme-card-border)] flex items-center justify-center hover:bg-white transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
                 aria-label={t("components.homeConversionSections.previousScreenshot")}
                 data-testid="button-carousel-prev"
               >
-                <ChevronLeft className="w-5 h-5 text-gray-600" />
+                <ChevronLeft className="w-5 h-5 text-[var(--theme-body-text)]" />
               </button>
               <button
                 onClick={goNext}
-                className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 backdrop-blur-sm shadow-[var(--shadow-card)] border border-gray-100 flex items-center justify-center hover:bg-white transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 backdrop-blur-sm shadow-[var(--shadow-card)] border border-[var(--theme-card-border)] flex items-center justify-center hover:bg-white transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
                 aria-label={t("components.homeConversionSections.nextScreenshot")}
                 data-testid="button-carousel-next"
               >
-                <ChevronRight className="w-5 h-5 text-gray-600" />
+                <ChevronRight className="w-5 h-5 text-[var(--theme-body-text)]" />
               </button>
             </div>
 
             <div className="mt-5 text-center">
-              <h3 className="font-bold text-gray-900" style={{ fontSize: 'var(--text-card-title)' }} data-testid="text-carousel-title">
+              <h3 className="font-bold text-[var(--theme-heading-text)]" style={{ fontSize: 'var(--text-card-title)' }} data-testid="text-carousel-title">
                 {current.title}
               </h3>
-              <p className="text-sm text-gray-500 mt-1.5">{current.blurb}</p>
+              <p className="text-sm text-[var(--theme-muted-text)] mt-1.5">{current.blurb}</p>
             </div>
           </div>
 
           <div
             ref={thumbnailStripRef}
-            className="flex gap-2.5 overflow-x-auto pb-2 mt-5 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent -mx-1 px-1 snap-x snap-mandatory justify-center"
+            className="flex gap-2.5 overflow-x-auto pb-2 mt-5 scrollbar-thin scrollbar-thumb-[var(--theme-muted-text)] scrollbar-track-transparent -mx-1 px-1 snap-x snap-mandatory justify-center"
           >
             {screenshotItems.map((item, idx) => {
               const thumbSrc = screenshotData[item.imageKey];
@@ -737,13 +741,13 @@ function ScreenshotCarouselSection() {
                   className={`shrink-0 w-16 h-12 sm:w-20 sm:h-14 rounded-xl overflow-hidden border-2 transition-all duration-200 snap-start ${
                     idx === activeIndex
                       ? "border-primary ring-2 ring-primary/20 shadow-[var(--shadow-card)] scale-105"
-                      : "border-gray-200 hover:border-primary/30 opacity-70 hover:opacity-100"
+                      : "border-[var(--theme-input-border)] hover:border-primary/30 opacity-70 hover:opacity-100"
                   }`}
                   data-testid={`thumb-carousel-${item.id}`}
                 >
                   <img
-                    src={thumbSrc.thumbFallback}
-                    srcSet={thumbSrc.thumbSrcSet}
+                    src={resolveMarketingAbsoluteUrl(thumbSrc.thumbFallback)}
+                    srcSet={resolveMarketingSrcSet(thumbSrc.thumbSrcSet)}
                     sizes="80px"
                     alt={item.title}
                     width={80}
@@ -777,17 +781,17 @@ function ProfessionSelectorSection() {
   ];
 
   return (
-    <section className="border-t border-gray-100" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-profession-selector">
+    <section className="border-t border-[var(--theme-card-border)]" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-profession-selector">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/8 border border-primary/15 shadow-[var(--shadow-card)] mb-5">
             <Brain className="w-3.5 h-3.5 text-primary" />
             <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("components.homeConversionSections.chooseYourPath")}</span>
           </div>
-          <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-profession-heading">
+          <h2 className="font-bold text-[var(--theme-heading-text)] mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-profession-heading">
             Exam Prep for Every Healthcare Career
           </h2>
-          <p className="text-base lg:text-lg text-gray-500 max-w-3xl mx-auto">
+          <p className="text-base lg:text-lg text-[var(--theme-muted-text)] max-w-3xl mx-auto">
             Select your profession to access tailored content, practice questions, and study plans.
           </p>
         </div>
@@ -808,7 +812,7 @@ function ProfessionSelectorSection() {
             return (
               <div
                 key={prof.id}
-                className="relative bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group overflow-hidden"
+                className="relative bg-white rounded-2xl border border-[var(--theme-card-border)]/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group overflow-hidden"
                 onClick={handleClick}
                 data-testid={`card-profession-${prof.id}`}
               >
@@ -822,8 +826,8 @@ function ProfessionSelectorSection() {
                 <div className="nn-accent-icon-wrap mb-4 flex h-11 w-11 items-center justify-center rounded-xl">
                   <IconComp className="nn-accent-icon h-5 w-5" />
                 </div>
-                <h3 className="font-bold text-gray-900 text-base mb-0.5">{prof.label}</h3>
-                <p className="text-xs text-gray-400">{prof.sublabel}</p>
+                <h3 className="font-bold text-[var(--theme-heading-text)] text-base mb-0.5">{prof.label}</h3>
+                <p className="text-xs text-[var(--theme-muted-text)]">{prof.sublabel}</p>
                 <div className="mt-3 flex items-center text-xs font-medium text-primary transition-all group-hover:gap-1.5">
                   <span>{t("components.homeConversionSections.explore")}</span>
                   <ArrowRight className="w-3.5 h-3.5 ml-0.5 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -859,37 +863,37 @@ function SampleQuestionSection() {
   };
 
   return (
-    <section className="border-t border-gray-100" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-sample-question">
+    <section className="border-t border-[var(--theme-card-border)]" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-sample-question">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
           <div className="nn-accent-soft-ring mb-5 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 shadow-[var(--shadow-card)]">
             <FileText className="h-3.5 w-3.5 text-primary" />
             <span className="text-xs font-bold uppercase tracking-wider text-primary">{t("components.homeConversionSections.tryItFree")}</span>
           </div>
-          <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-sample-question-heading">
+          <h2 className="font-bold text-[var(--theme-heading-text)] mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-sample-question-heading">
             Sample Exam Question
           </h2>
-          <p className="text-base lg:text-lg text-gray-500">
+          <p className="text-base lg:text-lg text-[var(--theme-muted-text)]">
             Experience the quality of our questions and rationales — no signup required.
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-elevated)] overflow-hidden" data-testid="card-sample-question">
-          <div className="bg-gray-50 px-6 py-3 border-b border-gray-200 flex items-center justify-between">
+        <div className="bg-white rounded-2xl border border-[var(--theme-card-border)]/80 shadow-[var(--shadow-elevated)] overflow-hidden" data-testid="card-sample-question">
+          <div className="bg-[var(--theme-muted-surface)] px-6 py-3 border-b border-[var(--theme-input-border)] flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="rounded-md border border-gray-200 px-2 py-0.5 text-xs">{sampleQuestion.category}</span>
+              <span className="rounded-md border border-[var(--theme-input-border)] px-2 py-0.5 text-xs">{sampleQuestion.category}</span>
               <span className="rounded-md border border-emerald-200 px-2 py-0.5 text-xs text-emerald-600">{sampleQuestion.difficulty}</span>
             </div>
           </div>
 
           <div className="p-6">
-            <p className="text-gray-900 leading-relaxed mb-6 font-medium" data-testid="text-sample-stem">
+            <p className="text-[var(--theme-heading-text)] leading-relaxed mb-6 font-medium" data-testid="text-sample-stem">
               {sampleQuestion.stem}
             </p>
 
             <div className="space-y-3">
               {sampleQuestion.options.map((option) => {
-                let borderClass = "border-gray-200 hover:border-primary/40 hover:bg-primary/5";
+                let borderClass = "border-[var(--theme-input-border)] hover:border-primary/40 hover:bg-primary/5";
                 let bgClass = "";
 
                 if (selectedAnswer === option.id && !revealed) {
@@ -905,7 +909,7 @@ function SampleQuestionSection() {
                     borderClass = "border-red-300 ring-2 ring-red-200";
                     bgClass = "bg-red-50";
                   } else {
-                    borderClass = "border-gray-200 opacity-60";
+                    borderClass = "border-[var(--theme-input-border)] opacity-60";
                   }
                 }
 
@@ -918,10 +922,10 @@ function SampleQuestionSection() {
                     data-testid={`option-sample-${option.id}`}
                   >
                     <div className="flex items-start gap-3">
-                      <span className="w-7 h-7 rounded-full border-2 border-gray-300 flex items-center justify-center text-xs font-bold text-gray-500 shrink-0 mt-0.5">
+                      <span className="w-7 h-7 rounded-full border-2 border-[var(--theme-input-border)] flex items-center justify-center text-xs font-bold text-[var(--theme-muted-text)] shrink-0 mt-0.5">
                         {option.id}
                       </span>
-                      <span className="text-sm text-gray-700">{option.text}</span>
+                      <span className="text-sm text-[var(--theme-body-text)]">{option.text}</span>
                     </div>
                   </button>
                 );
@@ -958,18 +962,18 @@ function SampleQuestionSection() {
                     ) : (
                       <Lightbulb className="h-5 w-5 text-primary" />
                     )}
-                    <span className="font-bold text-gray-900">
+                    <span className="font-bold text-[var(--theme-heading-text)]">
                       {selectedAnswer === sampleQuestion.correctAnswer ? "Correct!" : `Correct Answer: ${sampleQuestion.correctAnswer}`}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-700 leading-relaxed">{sampleQuestion.rationale}</p>
+                  <p className="text-sm text-[var(--theme-body-text)] leading-relaxed">{sampleQuestion.rationale}</p>
                 </div>
 
                 <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
                   <button
                     type="button"
                     onClick={handleReset}
-                    className="rounded-full border border-gray-200 bg-white px-6 py-2"
+                    className="rounded-full border border-[var(--theme-input-border)] bg-white px-6 py-2"
                     data-testid="button-try-again"
                   >
                     Try Again
@@ -1005,17 +1009,17 @@ function TestimonialsSection() {
   ];
 
   return (
-    <section className="border-t border-gray-100" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-testimonials">
+    <section className="border-t border-[var(--theme-card-border)]" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-testimonials">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <div className="nn-accent-soft-ring mb-5 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 shadow-[var(--shadow-card)]">
             <Star className="h-3.5 w-3.5 fill-primary text-primary" />
             <span className="text-xs font-bold uppercase tracking-wider text-primary">{t("components.homeConversionSections.studentReviews")}</span>
           </div>
-          <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-testimonials-heading">
+          <h2 className="font-bold text-[var(--theme-heading-text)] mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-testimonials-heading">
             Trusted by Nursing Students Across North America
           </h2>
-          <p className="text-base lg:text-lg text-gray-500 max-w-2xl mx-auto">
+          <p className="text-base lg:text-lg text-[var(--theme-muted-text)] max-w-2xl mx-auto">
             Real results from real students preparing for their nursing exams.
           </p>
         </div>
@@ -1024,31 +1028,31 @@ function TestimonialsSection() {
           {reviews.map((review, i) => (
             <div
               key={i}
-              className="rounded-xl border border-gray-100/80 bg-white shadow-[var(--shadow-card)] transition-shadow duration-200 hover:shadow-[var(--shadow-card-hover)]"
+              className="rounded-xl border border-[var(--theme-card-border)]/80 bg-white shadow-[var(--shadow-card)] transition-shadow duration-200 hover:shadow-[var(--shadow-card-hover)]"
               data-testid={`card-testimonial-${i}`}
             >
               <div className="p-6">
                 <div className="mb-4 flex items-center gap-1">
                   {Array.from({ length: 5 }).map((_, s) => (
-                    <Star key={s} className={`h-4 w-4 ${s < review.rating ? "fill-primary text-primary" : "text-gray-200"}`} />
+                    <Star key={s} className={`h-4 w-4 ${s < review.rating ? "fill-primary text-primary" : "text-[var(--theme-separator)]"}`} />
                   ))}
                 </div>
-                <p className="mb-5 text-sm leading-relaxed text-gray-600" data-testid={`text-testimonial-${i}`}>
+                <p className="mb-5 text-sm leading-relaxed text-[var(--theme-body-text)]" data-testid={`text-testimonial-${i}`}>
                   &quot;{review.text}&quot;
                 </p>
-                <div className="flex items-center justify-between border-t border-gray-100 pt-4">
+                <div className="flex items-center justify-between border-t border-[var(--theme-card-border)] pt-4">
                   <div>
-                    <p className="text-sm font-semibold text-gray-900">{review.name}</p>
-                    <p className="text-xs text-gray-400">{review.role}</p>
+                    <p className="text-sm font-semibold text-[var(--theme-heading-text)]">{review.name}</p>
+                    <p className="text-xs text-[var(--theme-muted-text)]">{review.role}</p>
                   </div>
-                  <span className="rounded-md border border-gray-200 px-2 py-0.5 text-xs">{review.tier}</span>
+                  <span className="rounded-md border border-[var(--theme-input-border)] px-2 py-0.5 text-xs">{review.tier}</span>
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-sm text-gray-500">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-sm text-[var(--theme-muted-text)]">
           <div className="flex items-center gap-2.5">
             <div className="flex -space-x-2">
               {["bg-primary", "bg-primary/80", "bg-primary/60", "bg-primary/90"].map((bg, i) => (
@@ -1061,7 +1065,7 @@ function TestimonialsSection() {
           </div>
           <div className="flex items-center gap-1.5">
             <Star className="h-4 w-4 fill-primary text-primary" />
-            <span className="font-semibold text-gray-700">4.9/5</span>
+            <span className="font-semibold text-[var(--theme-body-text)]">4.9/5</span>
             <span>{t("components.homeConversionSections.averageRating")}</span>
           </div>
         </div>
@@ -1077,10 +1081,10 @@ function FinalCTASection() {
   return (
     <section className="relative overflow-hidden" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-final-cta">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <h2 className="font-bold text-gray-900 mb-5" style={{ fontSize: 'var(--text-section)' }} data-testid="text-final-cta-heading">
+        <h2 className="font-bold text-[var(--theme-heading-text)] mb-5" style={{ fontSize: 'var(--text-section)' }} data-testid="text-final-cta-heading">
           Ready to Start Your Exam Prep Journey?
         </h2>
-        <p className="text-lg lg:text-xl text-gray-500 mb-10 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-lg lg:text-xl text-[var(--theme-muted-text)] mb-10 max-w-2xl mx-auto leading-relaxed">
           Join thousands of nursing students who passed their exams with NurseNest. Start for free — no credit card required.
         </p>
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -1095,7 +1099,7 @@ function FinalCTASection() {
           </button>
           <button
             type="button"
-            className="h-14 rounded-full border border-gray-200 bg-white px-8 text-lg font-medium text-gray-700 hover:border-gray-300 hover:bg-gray-50"
+            className="h-14 rounded-full border border-[var(--theme-input-border)] bg-card px-8 text-lg font-medium text-[var(--theme-body-text)] hover:border-[color-mix(in_srgb,var(--theme-primary)_22%,var(--theme-input-border))] hover:bg-[var(--theme-muted-surface)]"
             onClick={() => router.push(mapLegacyMarketingHref("/pricing"))}
             data-testid="button-final-cta-pricing"
           >
@@ -1106,7 +1110,7 @@ function FinalCTASection() {
           <ShieldCheck className="h-5 w-5 text-primary" />
           <span className="text-sm font-semibold text-primary">{t("components.homeConversionSections.7dayMoneybackGuarantee")}</span>
         </div>
-        <p className="text-sm text-gray-400">{t("components.homeConversionSections.freeAccountIncludesPracticeQuestions")}</p>
+        <p className="text-sm text-[var(--theme-muted-text)]">{t("components.homeConversionSections.freeAccountIncludesPracticeQuestions")}</p>
       </div>
 
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-primary/4 to-accent-foreground/4 rounded-full blur-[100px] -z-10 opacity-40" />

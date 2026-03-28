@@ -12,10 +12,6 @@ body {
   --radius: 0.75rem;
   --color-warmwhite: #fdfcfa;
   --color-softgray: #6b7280;
-  --color-card-base: #ffffff;
-  --color-card-fg-base: #6b7280;
-  --color-popover-base: #ffffff;
-  --color-popover-fg-base: #6b7280;
 
   --theme-primary: #9d82dd;
   --theme-primary-foreground: #ffffff;
@@ -47,6 +43,12 @@ body {
   --theme-focus-ring: var(--theme-primary);
   --theme-separator: #f3f4f6;
 
+  /* Legacy aliases — after `--theme-*` so they track the active palette */
+  --color-card-base: var(--theme-card-bg);
+  --color-card-fg-base: var(--theme-card-text);
+  --color-popover-base: var(--theme-card-bg);
+  --color-popover-fg-base: var(--theme-body-text);
+
   --text-hero: clamp(2.1rem, 4.6vw, 3.45rem);
   --text-section: clamp(1.7rem, 3.4vw, 2.4rem);
   --space-hero-top: clamp(2rem, 4vw, 3rem);
@@ -56,6 +58,11 @@ body {
   --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
   --shadow-card-hover: 0 8px 30px -8px rgba(0, 0, 0, 0.08), 0 4px 12px -4px rgba(0, 0, 0, 0.04);
   --shadow-elevated: 0 12px 40px -12px rgba(0, 0, 0, 0.12), 0 4px 16px -4px rgba(0, 0, 0, 0.06);
+}
+
+/* Subtle tinted surface (chips, strips) — always derived from active theme */
+:where([data-theme]) {
+  --theme-muted-surface: color-mix(in srgb, var(--theme-primary) 8%, var(--theme-page-bg));
 }
 
 @theme inline {
@@ -70,10 +77,11 @@ body {
   /* Page surface follows active theme (lavender default + data-theme overrides) */
   --color-background: var(--theme-page-bg);
   --color-foreground: var(--theme-body-text);
-  --color-card: var(--color-card-base);
-  --color-card-foreground: var(--color-card-fg-base);
-  --color-popover: var(--color-popover-base);
-  --color-popover-foreground: var(--color-popover-fg-base);
+  /* Single chain: Tailwind semantic tokens track `--theme-*` so bg-card / text-primary move with the picker */
+  --color-card: var(--theme-card-bg);
+  --color-card-foreground: var(--theme-card-text);
+  --color-popover: var(--theme-card-bg);
+  --color-popover-foreground: var(--theme-body-text);
   --color-primary: var(--theme-primary);
   --color-primary-foreground: var(--theme-primary-foreground);
   --color-secondary: var(--theme-secondary);

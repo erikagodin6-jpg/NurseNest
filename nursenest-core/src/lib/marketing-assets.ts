@@ -93,9 +93,6 @@ export function marketingOpenGraphImageUrl(): string {
   );
 }
 
-/** First canonical hero still (`screenshots/screenshot1.webp`) for fallbacks. */
-export const MARKETING_HERO_IMAGE_FALLBACK = homeHeroOgImageUrl() || HERO_DASHBOARD_SCREENSHOT || OG_FALLBACK;
-
 export {
   marketingImageUsesProxy,
   resolveMarketingAbsoluteUrl,

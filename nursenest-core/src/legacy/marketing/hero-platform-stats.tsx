@@ -49,7 +49,7 @@ export default function HeroPlatformStats() {
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 text-center">
-          <h2 className="mb-2 font-bold text-gray-900" style={{ fontSize: "var(--text-section)" }} data-testid="text-platform-stats-heading">
+          <h2 className="mb-2 font-bold text-[var(--theme-heading-text)]" style={{ fontSize: "var(--text-section)" }} data-testid="text-platform-stats-heading">
             Your Complete Healthcare Exam Preparation Platform
           </h2>
           <p className="mx-auto max-w-2xl text-base text-gray-500 lg:text-lg">
@@ -68,7 +68,7 @@ export default function HeroPlatformStats() {
                 <stat.icon className="h-5 w-5 text-primary" />
               </div>
               <div
-                className="mb-1 text-2xl font-extrabold text-gray-900 sm:text-3xl"
+                className="mb-1 text-2xl font-extrabold text-[var(--theme-heading-text)] sm:text-3xl"
                 data-testid={`stat-value-${stat.label.toLowerCase().replace(/\s+/g, "-")}`}
               >
                 {stat.value}

@@ -42,7 +42,7 @@ export default function HeroFeaturesGrid() {
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="mb-10 text-center">
-          <h2 className="mb-2 font-bold text-gray-900" style={{ fontSize: "var(--text-section)" }} data-testid="text-features-grid-heading">
+          <h2 className="mb-2 font-bold text-[var(--theme-heading-text)]" style={{ fontSize: "var(--text-section)" }} data-testid="text-features-grid-heading">
             Every Tool You Need to Pass
           </h2>
           <p className="mx-auto max-w-2xl text-base text-gray-500 lg:text-lg">
@@ -64,7 +64,7 @@ export default function HeroFeaturesGrid() {
                 <div className="nn-theme-gradient-br mb-4 flex h-12 w-12 items-center justify-center rounded-xl shadow-sm transition-transform group-hover:scale-110">
                   <Icon className="h-6 w-6 text-[var(--theme-primary-foreground)]" />
                 </div>
-                <h3 className="mb-2 text-base font-bold text-gray-900">{feature.headline}</h3>
+                <h3 className="mb-2 text-base font-bold text-[var(--theme-heading-text)]">{feature.headline}</h3>
                 <p className="mb-3 text-sm leading-relaxed text-gray-500">{feature.description}</p>
                 <div className="flex items-center text-xs font-semibold text-primary opacity-0 transition-opacity group-hover:opacity-100">
                   <span>{t("components.heroFeaturesGrid.learnMore")}</span>

@@ -87,7 +87,7 @@ function WhyNurseNestGrid({ headline, subtitle, context = "general" }: WhyNurseN
               {t("components.competitiveDifferentiation.clinicalLearningSystem")}
             </span>
           </div>
-          <h2 className="mb-3 font-bold text-gray-900" style={{ fontSize: "var(--text-section)" }} data-testid="text-why-grid-heading">
+          <h2 className="mb-3 font-bold text-[var(--theme-heading-text)]" style={{ fontSize: "var(--text-section)" }} data-testid="text-why-grid-heading">
             {headline || defaultHeadline}
           </h2>
           <p className="mx-auto max-w-2xl text-base text-gray-500 lg:text-lg" data-testid="text-why-grid-subtitle">
@@ -104,7 +104,7 @@ function WhyNurseNestGrid({ headline, subtitle, context = "general" }: WhyNurseN
               <div className="nn-theme-gradient-br mb-4 flex h-11 w-11 items-center justify-center rounded-xl shadow-sm">
                 <item.icon className="h-5 w-5 text-white" />
               </div>
-              <h3 className="mb-2 font-bold text-gray-900" style={{ fontSize: "var(--text-card-title)" }}>
+              <h3 className="mb-2 font-bold text-[var(--theme-heading-text)]" style={{ fontSize: "var(--text-card-title)" }}>
                 {item.title}
               </h3>
               <p className="text-sm leading-relaxed text-gray-500">{item.description}</p>
@@ -180,7 +180,7 @@ function ComparisonTable({ headline, subtitle }: ComparisonTableProps) {
               {t("components.competitiveDifferentiation.platformComparison")}
             </span>
           </div>
-          <h2 className="mb-3 font-bold text-gray-900" style={{ fontSize: "var(--text-section)" }} data-testid="text-comparison-table-heading">
+          <h2 className="mb-3 font-bold text-[var(--theme-heading-text)]" style={{ fontSize: "var(--text-section)" }} data-testid="text-comparison-table-heading">
             {headline || "How NurseNest Compares"}
           </h2>
           <p className="mx-auto max-w-2xl text-base text-gray-500 lg:text-lg" data-testid="text-comparison-table-subtitle">
@@ -226,7 +226,7 @@ function ComparisonTable({ headline, subtitle }: ComparisonTableProps) {
               className="rounded-xl border border-gray-100 bg-white p-5 shadow-[var(--shadow-card)]"
               data-testid={`card-comparison-mobile-${idx}`}
             >
-              <h4 className="mb-3 text-sm font-bold text-gray-900">{row.feature}</h4>
+              <h4 className="mb-3 text-sm font-bold text-[var(--theme-heading-text)]">{row.feature}</h4>
               <div className="space-y-2">
                 <div className="flex items-start gap-2">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />

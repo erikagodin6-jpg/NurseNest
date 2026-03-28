@@ -118,6 +118,20 @@ export const HOMEPAGE_HERO_SLIDES: readonly HomeHeroSlide[] = SLIDE_COPY.map((co
   };
 });
 
+if (process.env.NODE_ENV === "development") {
+  HOMEPAGE_HERO_SLIDES.forEach((slide) => {
+    const expected = homeHeroScreenshotObjectKey(slide.index);
+    if (slide.objectKey !== expected) {
+      throw new Error(
+        `[home-hero-carousel] objectKey mismatch for slide ${slide.index}: got "${slide.objectKey}", expected "${expected}"`,
+      );
+    }
+    if (!/^https:\/\//i.test(slide.publicUrl)) {
+      throw new Error(`[home-hero-carousel] publicUrl must be HTTPS: ${slide.publicUrl}`);
+    }
+  });
+}
+
 /** Open Graph / Twitter default image when no uploaded logo is set. */
 export function homeHeroOgImageUrl(): string {
   return HOMEPAGE_HERO_SLIDES[0]?.publicUrl ?? "";

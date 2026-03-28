@@ -42,10 +42,10 @@ export default function HeroAlliedHealth() {
               <div className="nn-accent-icon-wrap flex h-10 w-10 items-center justify-center rounded-xl">
                 <BookOpen className="nn-accent-icon h-5 w-5" />
               </div>
-              <h3 className="text-lg font-bold text-gray-900">{t("components.heroAlliedHealth.prenursing")}</h3>
+              <h3 className="text-lg font-bold text-[var(--theme-heading-text)]">{t("components.heroAlliedHealth.prenursing")}</h3>
             </div>
             <div className="mb-3 flex items-baseline gap-1">
-              <span className="text-3xl font-extrabold text-gray-900">{PRE_NURSING_GOAL.goalQuestions.toLocaleString()}+</span>
+              <span className="text-3xl font-extrabold text-[var(--theme-heading-text)]">{PRE_NURSING_GOAL.goalQuestions.toLocaleString()}+</span>
               <span className="text-sm text-gray-500">{t("components.heroAlliedHealth.questionsGoal")}</span>
             </div>
             <div className="mb-4 flex flex-wrap gap-1.5">
@@ -73,10 +73,10 @@ export default function HeroAlliedHealth() {
               <div className="nn-accent-icon-wrap flex h-10 w-10 items-center justify-center rounded-xl">
                 <GraduationCap className="nn-accent-icon h-5 w-5" />
               </div>
-              <h3 className="text-lg font-bold text-gray-900">{t("components.heroAlliedHealth.newGraduate")}</h3>
+              <h3 className="text-lg font-bold text-[var(--theme-heading-text)]">{t("components.heroAlliedHealth.newGraduate")}</h3>
             </div>
             <div className="mb-3 flex items-baseline gap-1">
-              <span className="text-3xl font-extrabold text-gray-900">{NEW_GRAD_GOAL.goalScenarios.toLocaleString()}+</span>
+              <span className="text-3xl font-extrabold text-[var(--theme-heading-text)]">{NEW_GRAD_GOAL.goalScenarios.toLocaleString()}+</span>
               <span className="text-sm text-gray-500">{t("components.heroAlliedHealth.careerreadinessScenariosGoal")}</span>
             </div>
             <div className="mb-4 flex flex-wrap gap-1.5">
@@ -99,7 +99,7 @@ export default function HeroAlliedHealth() {
 
         <div>
           <div className="mb-8 text-center">
-            <h2 className="mb-2 font-bold text-gray-900" style={{ fontSize: "var(--text-section)" }} data-testid="text-allied-health-heading">
+            <h2 className="mb-2 font-bold text-[var(--theme-heading-text)]" style={{ fontSize: "var(--text-section)" }} data-testid="text-allied-health-heading">
               Allied Health Exam Prep
             </h2>
             <p className="mx-auto max-w-2xl text-base text-gray-500 lg:text-lg">
@@ -128,7 +128,7 @@ export default function HeroAlliedHealth() {
                         <Briefcase className="nn-accent-icon h-5 w-5" />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <h4 className="truncate text-sm font-bold text-gray-900">{career.label}</h4>
+                        <h4 className="truncate text-sm font-bold text-[var(--theme-heading-text)]">{career.label}</h4>
                         <p className="text-xs text-gray-500">
                           {count > 0 ? (
                             <>
@@ -166,7 +166,7 @@ export default function HeroAlliedHealth() {
                         <Briefcase className="nn-accent-icon h-5 w-5" />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <h4 className="truncate text-sm font-bold text-gray-900">{career.label}</h4>
+                        <h4 className="truncate text-sm font-bold text-[var(--theme-heading-text)]">{career.label}</h4>
                         <p className="text-xs text-gray-500">
                           {count > 0 ? (
                             <>

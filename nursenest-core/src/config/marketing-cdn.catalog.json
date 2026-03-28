@@ -38,8 +38,8 @@
     "generatedPrimary": null,
     "defaultFallbackThemeId": "lavender",
     "primaryBrandMarkObjectKey": "branding/bluebrandlogo.png",
-    "primaryBrandMarkThemeTinted": false,
-    "notes": "Header uses per-theme PNGs from `themeBrandLogoObjectKeys` (pre-colored assets in Spaces). Set `primaryBrandMarkThemeTinted` true only if using a single mask-tinted `primaryBrandMarkObjectKey` (not default). Proxy: /api/marketing-assets/branding/...",
+    "primaryBrandMarkThemeTinted": true,
+    "notes": "Header uses one Spaces key (`bluebrandlogo`) masked and filled with `var(--theme-primary)` (see SiteBrandLogoMark). PNG must use transparency around the mark (alpha mask). Per-theme `themeBrandLogoObjectKeys` are fallback when tinting is off. Proxy: /api/marketing-assets/branding/...",
     "legacyFallbackUrl": "https://www.nursenest.ca/brand-logo.gif",
     "discoveryFilenamePattern": "Objects whose key matches /logo/i (see scripts/generate-marketing-assets.mjs CATEGORY_TESTS.LOGO_PRIMARY).",
     "themeBrandLogoObjectKeys": {
