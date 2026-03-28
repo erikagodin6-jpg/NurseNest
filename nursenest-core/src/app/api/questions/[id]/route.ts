@@ -96,7 +96,6 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
           id: true,
           stem: true,
           questionType: true,
-          rationale: true,
           options: true,
           topic: true,
           exam: true,
@@ -115,7 +114,7 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
     });
 
     return NextResponse.json({
-      question: { ...q, rationale: "" },
+      question: q,
       mode: "freemium" as const,
     });
   } catch (e) {

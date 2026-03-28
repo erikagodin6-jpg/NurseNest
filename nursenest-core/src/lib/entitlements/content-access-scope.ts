@@ -121,6 +121,29 @@ export function freemiumLessonWhereForProfile(country: CountryCode, tier: TierCo
   };
 }
 
+/** Published lessons in freemium-visible tiers only (no RN/NP-only depth). For public marketing aggregates. */
+export function publicMarketingLessonWhere(): Prisma.ContentItemWhereInput {
+  return {
+    AND: [
+      lessonPublishedWhere(),
+      {
+        OR: [
+          { tier: null },
+          { tier: { in: ["free", "general", "rpn", "lvn", "allied"] } },
+        ],
+      },
+    ],
+  };
+}
+
+/** Published questions in freemium preview pools (rpn/lvn ladder + allied; no RN/NP subscriber depth). */
+export function publicMarketingExamQuestionWhere(): Prisma.ExamQuestionWhereInput {
+  return {
+    status: DB_PUBLISHED,
+    tier: { in: ["rpn", "lvn", "allied"] },
+  };
+}
+
 /** Prisma filter for `exam_questions` rows the entitlement may load. */
 export function questionAccessWhere(entitlement: AccessScope): Prisma.ExamQuestionWhereInput {
   if (!entitlement.hasAccess) return { id: { in: [] } };

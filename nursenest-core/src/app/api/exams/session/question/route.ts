@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ExamSessionStatus } from "@prisma/client";
 import { prisma } from "@/lib/db";
-import { questionIdWhereIfAllowed } from "@/lib/entitlements/assert-question-access";
+import { filterSessionQuestionIdsInScope, questionIdWhereIfAllowed } from "@/lib/entitlements/assert-question-access";
 import { requireSubscriberSession } from "@/lib/entitlements/require-subscriber-session";
 import { safeServerLogCritical } from "@/lib/observability/safe-server-log";
 import { setSentryServerContext } from "@/lib/observability/sentry-server-context";
@@ -38,7 +38,11 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Session not found" }, { status: 404 });
     }
 
-    const ids = row.questionIds as string[];
+    const rawIds = row.questionIds as string[];
+    const ids = await filterSessionQuestionIdsInScope(rawIds, gate.entitlement);
+    if (ids.length === 0) {
+      return NextResponse.json({ error: "No questions in scope for current access" }, { status: 404 });
+    }
     if (index >= ids.length) {
       return NextResponse.json({ error: "index out of range" }, { status: 400 });
     }
@@ -55,7 +59,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Question not available" }, { status: 404 });
     }
 
-    return NextResponse.json({ index, total: ids.length, question });
+    return NextResponse.json({ index, total: ids.length, question, entitlementFiltered: rawIds.length !== ids.length });
   } catch (e) {
     safeServerLogCritical("api_exams_session_question", "failed", {}, e);
     return NextResponse.json({ error: "Unable to load question" }, { status: 503 });

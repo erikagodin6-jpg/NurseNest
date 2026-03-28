@@ -2,6 +2,7 @@ import type { Prisma } from "@prisma/client";
 import { questionAccessWhere } from "@/lib/entitlements/content-access-scope";
 import type { AccessScope } from "@/lib/entitlements/resolve-entitlement";
 import { prisma } from "@/lib/db";
+import { safeServerLog } from "@/lib/observability/safe-server-log";
 
 function asStringArray(v: Prisma.JsonValue): string[] {
   if (Array.isArray(v)) return v.map((x) => String(x));
@@ -53,6 +54,16 @@ export async function scoreSessionAnswers(
     where: { AND: [{ id: { in: ids } }, questionAccessWhere(entitlement)] },
     select: { id: true, correctAnswer: true, questionType: true },
   });
+  const allowedIds = new Set(qs.map((q) => q.id));
+  const dropped = ids.filter((id) => !allowedIds.has(id)).length;
+  if (dropped > 0) {
+    safeServerLog("score_session_answers", "session_ids_filtered_by_entitlement", {
+      sessionId,
+      dropped,
+      sessionIdCount: ids.length,
+      inScopeCount: qs.length,
+    });
+  }
   const byId = new Map(qs.map((q) => [q.id, q]));
 
   let score = 0;

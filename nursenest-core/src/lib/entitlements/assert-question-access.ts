@@ -5,6 +5,22 @@ import type { AccessScope } from "@/lib/entitlements/resolve-entitlement";
 import { safeServerLog } from "@/lib/observability/safe-server-log";
 
 /**
+ * Preserves session order; drops question IDs the current entitlement no longer allows (downgrade / tier change).
+ */
+export async function filterSessionQuestionIdsInScope(
+  sessionIds: string[],
+  entitlement: AccessScope,
+): Promise<string[]> {
+  if (sessionIds.length === 0) return [];
+  const rows = await prisma.examQuestion.findMany({
+    where: { AND: [{ id: { in: sessionIds } }, questionAccessWhere(entitlement)] },
+    select: { id: true },
+  });
+  const allowed = new Set(rows.map((r) => r.id));
+  return sessionIds.filter((id) => allowed.has(id));
+}
+
+/**
  * Returns a where clause that restricts to this question id if and only if the learner may read it.
  */
 export function questionIdWhereIfAllowed(

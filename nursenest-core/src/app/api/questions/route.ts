@@ -123,7 +123,6 @@ export async function GET(req: NextRequest) {
                 id: true,
                 stem: true,
                 questionType: true,
-                rationale: true,
                 options: true,
                 topic: true,
                 exam: true,
@@ -158,7 +157,7 @@ export async function GET(req: NextRequest) {
     const remaining = Math.max(0, snap.questionRemaining - used);
     const sanitized =
       freemiumMode === "full"
-        ? questions.map((q) => ({ ...q, rationale: "" }))
+        ? questions
         : questions.map((q) => ({
             ...q,
             stem: q.stem.length > 280 ? `${q.stem.slice(0, 280).trim()}…` : q.stem,

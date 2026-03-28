@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { ExamSessionStatus } from "@prisma/client";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
+import { filterSessionQuestionIdsInScope } from "@/lib/entitlements/assert-question-access";
 import { questionAccessWhere } from "@/lib/entitlements/content-access-scope";
 import { requireSubscriberSession } from "@/lib/entitlements/require-subscriber-session";
 import { safeServerLogCritical } from "@/lib/observability/safe-server-log";
@@ -47,19 +48,29 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Session not found or completed" }, { status: 404 });
     }
 
-    const ids = row.questionIds as string[];
+    const rawIds = row.questionIds as string[];
+    const ids = await filterSessionQuestionIdsInScope(rawIds, gate.entitlement);
+    const dropped = rawIds.length - ids.length;
+    if (dropped > 0) {
+      safeServerLogCritical("api_exams_session", "session_question_ids_filtered", {
+        sessionId: row.id,
+        dropped,
+        remaining: ids.length,
+      });
+    }
 
     if (mode === "minimal") {
       return NextResponse.json({
         sessionId: row.id,
         examId: row.examId,
-        currentIndex: row.currentIndex,
+        currentIndex: Math.min(row.currentIndex, Math.max(0, ids.length - 1)),
         answers: row.answers,
         questionIds: ids,
         total: ids.length,
         updatedAt: row.updatedAt,
         mode: "minimal" as const,
         poolEmpty: ids.length === 0,
+        entitlementFiltered: dropped > 0,
       });
     }
 
@@ -75,13 +86,14 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({
       sessionId: row.id,
       examId: row.examId,
-      currentIndex: row.currentIndex,
+      currentIndex: Math.min(row.currentIndex, Math.max(0, ids.length - 1)),
       answers: row.answers,
       questionIds: ids,
       total: ids.length,
       questions,
       updatedAt: row.updatedAt,
       mode: "full" as const,
+      entitlementFiltered: dropped > 0,
     });
   } catch (e) {
     safeServerLogCritical("api_exams_session", "get_failed", {}, e);
