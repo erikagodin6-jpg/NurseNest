@@ -121,6 +121,25 @@ model Category {
   flashcards Flashcard[]
 }
 
+/** Public SEO blog posts (migrated from legacy content_items / static allied data). Separate from Lesson. */
+model BlogPost {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  title        String
+  excerpt      String
+  body         String   @db.Text
+  coverImage   String?
+  tags         String[] @default([])
+  category     String?
+  published    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  /** e.g. content_items, paramedic-static, legacy-json */
+  legacySource String?
+
+  @@index([published, createdAt])
+}
+
 model Lesson {
   id          String         @id @default(cuid())
   title       String

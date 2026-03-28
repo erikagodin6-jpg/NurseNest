@@ -25,7 +25,7 @@ const EXACT: Record<string, string> = {
   "/clinical-scenarios": "/app/lessons",
   "/languages": `${PUBLIC_SITE}/languages`,
   "/free-practice": "/app/questions",
-  "/study-plan": "/app",
+  "/study-plan": "/app/study-plan",
   "/reports": "/app",
   "/career-journey": `${PUBLIC_SITE}/career-journey`,
   "/career-journey/nursing": `${PUBLIC_SITE}/career-journey/nursing`,
@@ -41,6 +41,7 @@ const EXACT: Record<string, string> = {
   "/new-graduate-support": `${PUBLIC_SITE}/new-graduate-support`,
   "/healthcare-careers": `${PUBLIC_SITE}/healthcare-careers`,
   "/allied-health": `${PUBLIC_SITE}/allied-health`,
+  "/blog": "/blog",
   "/paramedic": `${PUBLIC_SITE}/allied-health/paramedic`,
   "/rrt": `${PUBLIC_SITE}/allied-health/rrt`,
   "/mlt": `${PUBLIC_SITE}/allied-health/mlt`,
@@ -62,6 +63,9 @@ export function resolveMarketingHref(href: string): string {
   const segments = mapped.split("/").filter(Boolean);
   if (segments.length === 1 && isProgrammaticSeoSlug(segments[0]!)) {
     return `/${segments[0]}`;
+  }
+  if (mapped === "/blog" || mapped.startsWith("/blog/")) {
+    return mapped;
   }
   if (
     mapped.startsWith("/app/") ||

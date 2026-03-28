@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { prisma } from "@/lib/db";
 import { CORE_HOSTED_MARKETING_LOCALES } from "@/lib/i18n/marketing-locale-policy";
 import { getAllProgrammaticSlugs } from "@/lib/seo/programmatic-registry";
 import { MARKETING_SITE_ORIGIN } from "@/lib/seo/site-origin";
@@ -18,13 +19,31 @@ export default async function sitemap(props: { id: Promise<number> }): Promise<M
   const now = new Date();
 
   if (id === 0) {
-    const paths = ["/", "/pricing", "/login", "/signup"];
+    const paths = ["/", "/pricing", "/login", "/signup", "/blog"];
     const entries: MetadataRoute.Sitemap = paths.map((path) => ({
       url: `${base}${path}`,
       lastModified: now,
       changeFrequency: path === "/" ? "daily" : "weekly",
-      priority: path === "/" ? 1 : 0.8,
+      priority: path === "/" ? 1 : path === "/blog" ? 0.85 : 0.8,
     }));
+
+    let blogPosts: { slug: string; updatedAt: Date }[] = [];
+    try {
+      blogPosts = await prisma.blogPost.findMany({
+        where: { published: true },
+        select: { slug: true, updatedAt: true },
+      });
+    } catch {
+      /* e.g. migrate not applied or no DATABASE_URL at build */
+    }
+    for (const p of blogPosts) {
+      entries.push({
+        url: `${base}/blog/${p.slug}`,
+        lastModified: p.updatedAt,
+        changeFrequency: "monthly",
+        priority: 0.75,
+      });
+    }
     for (const loc of CORE_HOSTED_MARKETING_LOCALES) {
       entries.push(
         {

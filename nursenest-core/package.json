@@ -16,7 +16,8 @@
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:seed": "tsx prisma/seed.ts",
-    "content:inventory": "tsx scripts/content-inventory.ts"
+    "content:inventory": "tsx scripts/content-inventory.ts",
+    "import:blog": "tsx scripts/import-blog.ts"
   },
   "dependencies": {
     "@auth/core": "0.37.2",
