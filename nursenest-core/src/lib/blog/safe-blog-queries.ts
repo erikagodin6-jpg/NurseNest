@@ -1,21 +1,12 @@
 import type { BlogPost, Prisma } from "@prisma/client";
 import { prisma } from "@/lib/db";
+import { isDatabaseUrlConfigured, withDatabaseFallback } from "@/lib/db/safe-database";
 
-/**
- * When false, blog Prisma calls are skipped so `next build` does not invoke Prisma without
- * `DATABASE_URL` (avoids validation error noise). Connection failures when URL is set still use try/catch.
- */
-export function isBlogDatabaseConfigured(): boolean {
-  return typeof process.env.DATABASE_URL === "string" && process.env.DATABASE_URL.trim().length > 0;
-}
+/** @deprecated Use `isDatabaseUrlConfigured` from `@/lib/db/safe-database`. */
+export const isBlogDatabaseConfigured = isDatabaseUrlConfigured;
 
 async function withBlogFallback<T>(run: () => Promise<T>, fallback: T): Promise<T> {
-  if (!isBlogDatabaseConfigured()) return fallback;
-  try {
-    return await run();
-  } catch {
-    return fallback;
-  }
+  return withDatabaseFallback(run, fallback);
 }
 
 const indexSelect = {

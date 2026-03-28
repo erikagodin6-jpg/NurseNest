@@ -1,5 +1,6 @@
 import { SubscriptionStatus, UserRole } from "@prisma/client";
 import { prisma } from "@/lib/db";
+import { isDatabaseUrlConfigured } from "@/lib/db/safe-database";
 import { withRetry } from "@/lib/resilience/with-retry";
 
 export type AccessScope = {
@@ -10,6 +11,10 @@ export type AccessScope = {
 };
 
 export async function resolveEntitlement(userId: string): Promise<AccessScope> {
+  if (!isDatabaseUrlConfigured()) {
+    return { hasAccess: false, reason: "no_access", tier: null, country: null };
+  }
+
   const user = await withRetry(() =>
     prisma.user.findUnique({
       where: { id: userId },

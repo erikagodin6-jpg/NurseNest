@@ -3,6 +3,7 @@ import { lessonAccessWhere } from "@/lib/entitlements/content-access-scope";
 import { getFreemiumSnapshot } from "@/lib/entitlements/freemium";
 import { resolveEntitlementForPage } from "@/lib/entitlements/resolve-entitlement-for-page";
 import { prisma } from "@/lib/db";
+import { withDatabaseFallback } from "@/lib/db/safe-database";
 import { safeServerLog } from "@/lib/observability/safe-server-log";
 import { FreemiumLessonPeek } from "@/components/student/freemium-lesson-peek";
 import { SubscriptionPaywall } from "@/components/student/subscription-paywall";
@@ -36,15 +37,18 @@ export default async function LessonsPage() {
     );
   }
 
-  let lessons: { id: string; title: string; summary: string | null }[] = [];
-  try {
-    lessons = await prisma.contentItem.findMany({
-      where: lessonAccessWhere(entitlement),
-      select: { id: true, title: true, summary: true },
-      orderBy: { updatedAt: "desc" },
-      take: 15,
-    });
-  } catch {
+  const lessonsLoad = await withDatabaseFallback(
+    () =>
+      prisma.contentItem.findMany({
+        where: lessonAccessWhere(entitlement),
+        select: { id: true, title: true, summary: true },
+        orderBy: { updatedAt: "desc" },
+        take: 15,
+      }),
+    null,
+  );
+
+  if (lessonsLoad === null) {
     safeServerLog("page_lessons", "prisma_find_failed", {});
     return (
       <main>
@@ -55,6 +59,8 @@ export default async function LessonsPage() {
       </main>
     );
   }
+
+  const lessons = lessonsLoad;
 
   return (
     <main>

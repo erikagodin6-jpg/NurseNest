@@ -3,6 +3,7 @@ import { questionAccessWhere } from "@/lib/entitlements/content-access-scope";
 import { getFreemiumSnapshot } from "@/lib/entitlements/freemium";
 import { resolveEntitlementForPage } from "@/lib/entitlements/resolve-entitlement-for-page";
 import { prisma } from "@/lib/db";
+import { withDatabaseFallback } from "@/lib/db/safe-database";
 import { safeServerLog } from "@/lib/observability/safe-server-log";
 import { FreemiumQuestionPeek } from "@/components/student/freemium-question-peek";
 import { SubscriptionPaywall } from "@/components/student/subscription-paywall";
@@ -39,23 +40,18 @@ export default async function QuestionBankPage() {
     );
   }
 
-  let questions: { id: string; stem: string; questionType: string; rationale: string }[] = [];
-  try {
-    const raw = await prisma.examQuestion.findMany({
-      where: questionAccessWhere(entitlement),
-      select: { id: true, stem: true, questionType: true, rationale: true },
-      orderBy: { updatedAt: "desc" },
-      take: 15,
-    });
-    const maxRationale = 360;
-    questions = raw.map((q) => {
-      const r = q.rationale ?? "";
-      return {
-        ...q,
-        rationale: r.length > maxRationale ? `${r.slice(0, maxRationale).trim()}…` : r,
-      };
-    });
-  } catch {
+  const rawRows = await withDatabaseFallback(
+    () =>
+      prisma.examQuestion.findMany({
+        where: questionAccessWhere(entitlement),
+        select: { id: true, stem: true, questionType: true, rationale: true },
+        orderBy: { updatedAt: "desc" },
+        take: 15,
+      }),
+    null,
+  );
+
+  if (rawRows === null) {
     safeServerLog("page_questions", "prisma_find_failed", {});
     return (
       <main>
@@ -66,6 +62,15 @@ export default async function QuestionBankPage() {
       </main>
     );
   }
+
+  const maxRationale = 360;
+  const questions = rawRows.map((q) => {
+    const r = q.rationale ?? "";
+    return {
+      ...q,
+      rationale: r.length > maxRationale ? `${r.slice(0, maxRationale).trim()}…` : r,
+    };
+  });
 
   return (
     <main>

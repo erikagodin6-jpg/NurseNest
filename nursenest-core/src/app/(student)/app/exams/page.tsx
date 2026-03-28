@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { getFreemiumSnapshot } from "@/lib/entitlements/freemium";
 import { resolveEntitlementForPage } from "@/lib/entitlements/resolve-entitlement-for-page";
 import { prisma } from "@/lib/db";
+import { withDatabaseFallback } from "@/lib/db/safe-database";
 import { safeServerLog } from "@/lib/observability/safe-server-log";
 import { ExamPracticeClient } from "@/components/student/exam-practice-client";
 import { SubscriptionPaywall } from "@/components/student/subscription-paywall";
@@ -47,15 +48,18 @@ export default async function ExamsPage() {
     );
   }
 
-  let attempts: { id: string; score: number; total: number; createdAt: Date }[] = [];
-  try {
-    attempts = await prisma.examAttempt.findMany({
-      where: { userId },
-      select: { id: true, score: true, total: true, createdAt: true },
-      orderBy: { createdAt: "desc" },
-      take: 10,
-    });
-  } catch {
+  const attemptsLoad = await withDatabaseFallback(
+    () =>
+      prisma.examAttempt.findMany({
+        where: { userId },
+        select: { id: true, score: true, total: true, createdAt: true },
+        orderBy: { createdAt: "desc" },
+        take: 10,
+      }),
+    null,
+  );
+
+  if (attemptsLoad === null) {
     safeServerLog("page_exams", "attempts_find_failed", {});
     return (
       <main>
@@ -67,15 +71,19 @@ export default async function ExamsPage() {
     );
   }
 
+  const attempts = attemptsLoad;
+
   const last = attempts[0];
   const pct = last && last.total > 0 ? Math.round((last.score / last.total) * 100) : null;
 
-  const userRow = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { country: true, tier: true },
-  });
-  const primaryExam = userRow
-    ? await prisma.exam.findFirst({
+  const examContext = await withDatabaseFallback(
+    async () => {
+      const userRow = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { country: true, tier: true },
+      });
+      if (!userRow) return { primaryExam: null };
+      const primaryExam = await prisma.exam.findFirst({
         where: {
           status: ContentStatus.PUBLISHED,
           country: userRow.country,
@@ -83,8 +91,12 @@ export default async function ExamsPage() {
         },
         orderBy: { updatedAt: "desc" },
         select: { id: true, title: true },
-      })
-    : null;
+      });
+      return { primaryExam };
+    },
+    { primaryExam: null },
+  );
+  const primaryExam = examContext.primaryExam;
 
   return (
     <main>

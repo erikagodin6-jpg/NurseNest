@@ -2,6 +2,7 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { resolveEntitlementForPage } from "@/lib/entitlements/resolve-entitlement-for-page";
 import { prisma } from "@/lib/db";
+import { isDatabaseUrlConfigured } from "@/lib/db/safe-database";
 import { SOCIAL_PROOF } from "@/lib/conversion/pricing-catalog";
 
 export default async function DashboardPage() {
@@ -30,7 +31,7 @@ export default async function DashboardPage() {
     dailyStudyMinutes: number | null;
   } | null = null;
 
-  if (userId) {
+  if (userId && isDatabaseUrlConfigured()) {
     try {
       const [userRow, progressCount, incomplete, attemptsN] = await Promise.all([
         prisma.user.findUnique({
