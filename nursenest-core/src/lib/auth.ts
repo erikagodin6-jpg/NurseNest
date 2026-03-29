@@ -50,7 +50,8 @@ export const authConfig: NextAuthConfig = {
             });
           }
         } catch (e) {
-          safeServerLogCritical("auth", "user_lookup_failed", { surface: "credentials" }, e);
+          const detail = e instanceof Error ? e.message.slice(0, 800) : String(e).slice(0, 800);
+          safeServerLogCritical("auth", "user_lookup_failed", { surface: "credentials", detail }, e);
           return null;
         }
 

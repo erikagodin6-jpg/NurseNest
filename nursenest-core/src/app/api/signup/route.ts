@@ -1,9 +1,11 @@
 import { hash } from "bcryptjs";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/db";
 import { checkRateLimit } from "@/lib/http/rate-limit-in-memory";
 import { productEvent } from "@/lib/observability/product-events";
+import { safeServerLog, safeServerLogCritical } from "@/lib/observability/safe-server-log";
 
 function clientIp(req: Request): string {
   return (
@@ -49,22 +51,40 @@ export async function POST(req: Request) {
   const { email, name, password, country, tier, examFocus, studyGoal, dailyStudyMinutes, learnerPath } = parsed.data;
   const passwordHash = await hash(password, 12);
 
-  await prisma.user.create({
-    data: {
-      email: email.toLowerCase(),
-      name,
-      passwordHash,
-      country,
-      tier,
-      role: "LEARNER",
-      examFocus: examFocus ?? null,
-      studyGoal: studyGoal ?? null,
-      dailyStudyMinutes: dailyStudyMinutes ?? null,
-      learnerPath: learnerPath ?? null,
-      onboardingCompletedAt:
-        examFocus && studyGoal && dailyStudyMinutes && learnerPath ? new Date() : null,
-    },
-  });
+  try {
+    await prisma.user.create({
+      data: {
+        email: email.toLowerCase(),
+        name,
+        passwordHash,
+        country,
+        tier,
+        role: "LEARNER",
+        examFocus: examFocus ?? null,
+        studyGoal: studyGoal ?? null,
+        dailyStudyMinutes: dailyStudyMinutes ?? null,
+        learnerPath: learnerPath ?? null,
+        onboardingCompletedAt:
+          examFocus && studyGoal && dailyStudyMinutes && learnerPath ? new Date() : null,
+      },
+    });
+  } catch (e) {
+    const prismaCode = e instanceof Prisma.PrismaClientKnownRequestError ? e.code : undefined;
+    const prismaMeta = e instanceof Prisma.PrismaClientKnownRequestError ? e.meta : undefined;
+    safeServerLogCritical(
+      "signup",
+      "user_create_failed",
+      { surface: "api", prismaCode, prismaMeta: prismaMeta ? JSON.stringify(prismaMeta).slice(0, 400) : undefined },
+      e,
+    );
+    if (e instanceof Error) {
+      safeServerLog("signup", "user_create_failed_message", { detail: e.message.slice(0, 800) });
+    }
+    return NextResponse.json(
+      { error: "Unable to create account. Try again shortly.", code: prismaCode ?? "unknown" },
+      { status: 503 },
+    );
+  }
 
   productEvent("signup_ok", {});
   return NextResponse.json({ ok: true }, { status: 201 });

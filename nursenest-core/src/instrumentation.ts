@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/nextjs";
+import { logDatabaseEnvOnce } from "@/lib/db/database-env";
 
 function validateAuthEnv(): void {
   if (process.env.NODE_ENV !== "production") return;
@@ -18,6 +19,7 @@ function validateAuthEnv(): void {
 
 export async function register() {
   if (process.env.NEXT_RUNTIME === "nodejs") {
+    logDatabaseEnvOnce();
     validateAuthEnv();
     await import("./sentry.server.config");
     process.on("unhandledRejection", (reason) => {
