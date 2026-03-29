@@ -180,5 +180,9 @@ export async function POST(req: Request) {
   }
 
   productEvent("signup_ok", {});
+  safeServerLog("signup", "user_created_ok", {
+    tier: String(parsed.data.tier),
+    country: String(parsed.data.country),
+  });
   return NextResponse.json({ ok: true }, { status: 201 });
 }

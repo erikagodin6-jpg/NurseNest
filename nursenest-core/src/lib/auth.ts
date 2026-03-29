@@ -101,6 +101,10 @@ export const authConfig: NextAuthConfig = {
           return null;
         }
 
+        safeServerLog("auth", "credentials_ok", {
+          mode: isEmailLikeIdentifier(identifier) ? "email" : "username",
+        });
+
         return {
           id: user.id,
           email: user.email,

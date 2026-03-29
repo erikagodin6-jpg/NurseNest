@@ -28,7 +28,9 @@
     "import:blog": "tsx scripts/import-blog.ts",
     "export:blog-json": "tsx scripts/export-monolith-blog-to-json.ts",
     "db:rewrite-lesson-screenshots": "tsx scripts/rewrite-lesson-screenshot-urls.ts",
-    "test:entitlements": "tsx --test src/lib/entitlements/*.test.ts"
+    "test:entitlements": "tsx --test src/lib/entitlements/*.test.ts",
+    "clean:next": "rm -rf .next",
+    "verify:auth-db": "tsx scripts/verify-auth-db.ts"
   },
   "dependencies": {
     "@auth/core": "0.37.2",

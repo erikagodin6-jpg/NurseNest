@@ -1,8 +1,13 @@
 import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { NextResponse } from "next/server";
+import { getMissingSpacesProxyEnvKeys } from "@/lib/marketing/spaces-proxy-env";
+import { safeServerLog } from "@/lib/observability/safe-server-log";
 
 /** Avoid sticky caches for JSON error bodies (404/502/503). Successful images use long-lived immutable caching. */
 const NO_STORE = { "Cache-Control": "no-store" } as const;
+
+/** Log missing Spaces credentials once per process (avoid log spam on every asset request). */
+let loggedMissingSpacesProxy = false;
 
 /** Allowed object key prefixes in the marketing bucket (screens + brand marks). */
 const ALLOW_PREFIXES = ["screenshots/", "brand/", "branding/"] as const;
@@ -77,6 +82,13 @@ export async function GET(
   const client = getS3Client();
 
   if (!client) {
+    if (!loggedMissingSpacesProxy) {
+      loggedMissingSpacesProxy = true;
+      safeServerLog("marketing_assets", "spaces_proxy_unconfigured", {
+        proxyPrimary: process.env.NEXT_PUBLIC_MARKETING_USE_SPACES_PROXY === "true",
+        missingKeys: getMissingSpacesProxyEnvKeys().join(","),
+      });
+    }
     return NextResponse.json(
       {
         error: "Marketing asset proxy not configured",
