@@ -10,3 +10,4 @@
 - Server-side entitlement checks only.
 - API pagination and bounded queries for memory safety.
 - Degraded-safe DB health behavior at `/api/health`.
+- **Storage boundary:** see `ARCHITECTURE_STORAGE.md` (app vs DB vs Spaces; no production content growth on container disk).

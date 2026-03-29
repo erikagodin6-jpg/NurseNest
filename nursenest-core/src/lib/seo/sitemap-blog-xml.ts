@@ -17,11 +17,18 @@ export async function buildBlogSitemapXmlSafe(): Promise<string> {
   const origin = normalizeOrigin(resolveSitemapOrigin());
   const urls: string[] = [`${origin}/blog`];
 
+  /** Sitemaps support at most ~50k URLs per file; split into multiple sitemaps if you exceed this. */
+  const SITEMAP_BLOG_CAP = 50_000;
   try {
     const rows = await prisma.blogPost.findMany({
       where: { published: true },
       select: { slug: true },
+      orderBy: { slug: "asc" },
+      take: SITEMAP_BLOG_CAP,
     });
+    if (rows.length >= SITEMAP_BLOG_CAP) {
+      safeServerLog("seo", "sitemap_blog_url_cap_reached", { cap: SITEMAP_BLOG_CAP });
+    }
     for (const r of rows) {
       if (r.slug?.trim()) {
         urls.push(`${origin}/blog/${encodeURIComponent(r.slug.trim())}`);

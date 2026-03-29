@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { ContentStatus } from "@prisma/client";
 import { z } from "zod";
 import { requireAdmin } from "@/lib/admin/ensure-admin";
@@ -14,15 +14,27 @@ const createSchema = z.object({
   examFamily: z.enum(["NCLEX_RN", "NCLEX_PN", "REX_PN", "NP", "ALLIED", "GENERIC"]).optional(),
 });
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   const gate = await requireAdmin();
   if (!gate.ok) return gate.response;
-  const flashcards = await prisma.flashcard.findMany({
-    take: 100,
-    orderBy: { updatedAt: "desc" },
-    select: { id: true, front: true, status: true, tier: true, country: true, updatedAt: true },
-  });
-  return NextResponse.json({ flashcards });
+
+  const sp = req.nextUrl.searchParams;
+  const page = Math.max(1, Number(sp.get("page") ?? "1"));
+  const pageSize = Math.min(100, Math.max(10, Number(sp.get("pageSize") ?? "50")));
+
+  const where = {};
+  const [total, flashcards] = await Promise.all([
+    prisma.flashcard.count({ where }),
+    prisma.flashcard.findMany({
+      where,
+      orderBy: { updatedAt: "desc" },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      select: { id: true, front: true, status: true, tier: true, country: true, updatedAt: true },
+    }),
+  ]);
+
+  return NextResponse.json({ page, pageSize, total, flashcards });
 }
 
 export async function POST(req: Request) {

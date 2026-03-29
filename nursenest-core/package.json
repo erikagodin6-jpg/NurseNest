@@ -31,7 +31,8 @@
     "db:rewrite-lesson-screenshots": "tsx scripts/rewrite-lesson-screenshot-urls.ts",
     "test:entitlements": "tsx --test src/lib/entitlements/*.test.ts",
     "clean:next": "rm -rf .next",
-    "verify:auth-db": "tsx scripts/verify-auth-db.ts"
+    "verify:auth-db": "tsx scripts/verify-auth-db.ts",
+    "disk:audit": "node scripts/disk-audit.mjs"
   },
   "dependencies": {
     "@auth/core": "0.37.2",

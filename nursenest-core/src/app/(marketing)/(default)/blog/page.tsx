@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getPublishedBlogPostsForIndex } from "@/lib/blog/safe-blog-queries";
+import {
+  BLOG_LIST_PAGE_SIZE,
+  getPublishedBlogPostsPage,
+} from "@/lib/blog/safe-blog-queries";
 
 export const metadata: Metadata = {
   title: "Clinical education blog | NurseNest",
@@ -10,8 +13,14 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-export default async function BlogIndexPage() {
-  const posts = await getPublishedBlogPostsForIndex();
+type Props = { searchParams: Promise<{ page?: string }> };
+
+export default async function BlogIndexPage({ searchParams }: Props) {
+  const sp = await searchParams;
+  const raw = Number(sp.page ?? "1");
+  const page = Number.isFinite(raw) && raw >= 1 ? Math.floor(raw) : 1;
+  const { posts, total, pageSize } = await getPublishedBlogPostsPage(page, BLOG_LIST_PAGE_SIZE);
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
@@ -22,20 +31,48 @@ export default async function BlogIndexPage() {
       {posts.length === 0 ? (
         <p className="text-sm text-[var(--theme-muted-text)]">No posts yet. Run <code className="rounded bg-[var(--theme-page-bg)] px-1">npx tsx scripts/import-blog.ts</code> after migrating content.</p>
       ) : (
-        <ul className="space-y-6">
-          {posts.map((p) => (
-            <li key={p.slug} className="border-b border-[var(--theme-separator)] pb-6">
-              <Link href={`/blog/${p.slug}`} className="text-lg font-semibold text-primary hover:underline">
-                {p.title}
-              </Link>
-              {p.category ? (
-                <p className="mt-1 text-xs font-medium uppercase tracking-wide text-[var(--theme-muted-text)]">{p.category}</p>
-              ) : null}
-              <p className="mt-2 line-clamp-3 text-sm text-[var(--theme-muted-text)]">{p.excerpt}</p>
-              <p className="mt-2 text-xs text-[var(--theme-muted-text)]">{p.createdAt.toISOString().slice(0, 10)}</p>
-            </li>
-          ))}
-        </ul>
+        <>
+          <ul className="space-y-6">
+            {posts.map((p) => (
+              <li key={p.slug} className="border-b border-[var(--theme-separator)] pb-6">
+                <Link href={`/blog/${p.slug}`} className="text-lg font-semibold text-primary hover:underline">
+                  {p.title}
+                </Link>
+                {p.category ? (
+                  <p className="mt-1 text-xs font-medium uppercase tracking-wide text-[var(--theme-muted-text)]">{p.category}</p>
+                ) : null}
+                <p className="mt-2 line-clamp-3 text-sm text-[var(--theme-muted-text)]">{p.excerpt}</p>
+                <p className="mt-2 text-xs text-[var(--theme-muted-text)]">{p.createdAt.toISOString().slice(0, 10)}</p>
+              </li>
+            ))}
+          </ul>
+          {totalPages > 1 ? (
+            <nav className="mt-10 flex flex-wrap items-center justify-between gap-4 text-sm" aria-label="Blog pagination">
+              <span className="text-[var(--theme-muted-text)]">
+                Page {page} of {totalPages}
+              </span>
+              <div className="flex gap-3">
+                {page > 1 ? (
+                  <Link
+                    href={page === 2 ? "/blog" : `/blog?page=${page - 1}`}
+                    className="font-medium text-primary hover:underline"
+                  >
+                    Previous
+                  </Link>
+                ) : (
+                  <span className="text-[var(--theme-muted-text)]">Previous</span>
+                )}
+                {page < totalPages ? (
+                  <Link href={`/blog?page=${page + 1}`} className="font-medium text-primary hover:underline">
+                    Next
+                  </Link>
+                ) : (
+                  <span className="text-[var(--theme-muted-text)]">Next</span>
+                )}
+              </div>
+            </nav>
+          ) : null}
+        </>
       )}
     </div>
   );

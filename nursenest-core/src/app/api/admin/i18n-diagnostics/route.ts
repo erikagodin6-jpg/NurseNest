@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync, statSync } from "fs";
 import path from "path";
 import { NextResponse } from "next/server";
+import { allowDiagnosticsDiskWrite } from "@/lib/admin/diagnostics-disk-policy";
 import { requireAdmin } from "@/lib/admin/ensure-admin";
 import { getMonorepoRoot } from "@/lib/monorepo-root";
 import { buildI18nDiagnosticsReport, type I18nDiagnosticsReport } from "../../../../../../server/i18n-diagnostics-report";
@@ -12,6 +13,7 @@ function reportPath(root: string): string {
 }
 
 function writeReportArtifact(root: string, report: I18nDiagnosticsReport): void {
+  if (!allowDiagnosticsDiskWrite()) return;
   try {
     const p = reportPath(root);
     mkdirSync(path.dirname(p), { recursive: true });
