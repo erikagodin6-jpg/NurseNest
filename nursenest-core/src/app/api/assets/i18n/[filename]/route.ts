@@ -1,5 +1,6 @@
 import { readFileSync, existsSync } from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 import { NextResponse } from "next/server";
 
 /** Must match `script/compile-i18n.ts` / `script/merge-marketing-i18n.ts`. */
@@ -8,17 +9,23 @@ const ALLOWED = new Set<string>([
   "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr", "id",
 ]);
 
+/** From `…/i18n/[filename]/route.ts` → package `public/i18n` (no `process.cwd()` — avoids Turbopack NFT / next.config false trace). */
+const I18N_DIR = path.join(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "..",
+  "..",
+  "..",
+  "..",
+  "..",
+  "..",
+  "public",
+  "i18n",
+);
+
 function resolvePath(lang: string): string | null {
   if (!ALLOWED.has(lang)) return null;
-  const root = process.cwd();
-  const candidates = [
-    path.join(/* turbopackIgnore: true */ root, "public", "i18n", `${lang}.json`),
-    path.join(/* turbopackIgnore: true */ root, "nursenest-core", "public", "i18n", `${lang}.json`),
-  ];
-  for (const p of candidates) {
-    if (existsSync(p)) return p;
-  }
-  return null;
+  const fp = path.join(I18N_DIR, `${lang}.json`);
+  return existsSync(fp) ? fp : null;
 }
 
 /**

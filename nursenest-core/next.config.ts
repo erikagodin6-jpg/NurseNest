@@ -1,3 +1,8 @@
+/**
+ * Build context: run `npm run build` from this directory (`nursenest-core`), or set DigitalOcean App Platform
+ * **Source directory** to `nursenest-core` so `process.cwd()` and `@shared/*` → `../shared` resolve like local dev.
+ * Setting `turbopack.root` to this folder breaks `@shared/*` imports (monorepo siblings live outside the package).
+ */
 import type { NextConfig } from "next";
 import { getAllProgrammaticSlugs } from "./src/lib/seo/programmatic-registry";
 const programmaticSeoRewrites = getAllProgrammaticSlugs().map((slug) => ({
