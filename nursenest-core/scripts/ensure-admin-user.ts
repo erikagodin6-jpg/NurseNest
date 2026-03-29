@@ -1,18 +1,39 @@
+import "../src/lib/db/env-bootstrap";
+
 /**
  * Idempotent: upserts by email (single row). bcrypt cost 12 — same as signup / Credentials auth.
- * Uses DATABASE_URL from the environment (same as Prisma CLI / Next.js `prisma` client).
+ * Uses effective DATABASE_URL (production may copy from PROD_DATABASE_URL — see `env-bootstrap`).
  *
  * Update path: passwordHash, role ADMIN, optional username; does not change country/tier/subscription fields.
  * Create path: sets defaults for country/tier only for new rows.
  *
- *   BOOTSTRAP_ADMIN_EMAIL=you@example.com BOOTSTRAP_ADMIN_PASSWORD='…' BOOTSTRAP_ADMIN_USERNAME=handle npx tsx scripts/ensure-admin-user.ts
+ *   BOOTSTRAP_ADMIN_EMAIL=you@example.com BOOTSTRAP_ADMIN_PASSWORD='…' BOOTSTRAP_ADMIN_USERNAME=handle npm run db:ensure-admin
+ *
+ * CLI (optional, overrides env for that run):
+ *   npm run admin:promote -- --email=you@example.com --password='…' --name=Admin
  */
 import { hash } from "bcryptjs";
 import { PrismaClient, type CountryCode, type Prisma, type TierCode } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+function applyCliArgs(): void {
+  for (const a of process.argv.slice(2)) {
+    const m = /^--([\w-]+)=(.*)$/.exec(a);
+    if (!m) continue;
+    const key = m[1];
+    const val = m[2];
+    if (key === "email") process.env.BOOTSTRAP_ADMIN_EMAIL = val;
+    else if (key === "password") process.env.BOOTSTRAP_ADMIN_PASSWORD = val;
+    else if (key === "name") process.env.BOOTSTRAP_ADMIN_NAME = val;
+    else if (key === "username") process.env.BOOTSTRAP_ADMIN_USERNAME = val;
+    else if (key === "country") process.env.BOOTSTRAP_ADMIN_COUNTRY = val;
+    else if (key === "tier") process.env.BOOTSTRAP_ADMIN_TIER = val;
+  }
+}
+
 async function main() {
+  applyCliArgs();
   const email = process.env.BOOTSTRAP_ADMIN_EMAIL?.trim().toLowerCase();
   const password = process.env.BOOTSTRAP_ADMIN_PASSWORD ?? "";
   const nameFromEnv = process.env.BOOTSTRAP_ADMIN_NAME?.trim();

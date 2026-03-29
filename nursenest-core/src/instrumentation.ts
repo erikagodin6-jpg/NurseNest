@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/nextjs";
+import "@/lib/db/env-bootstrap";
 import { logDatabaseEnvOnce } from "@/lib/db/database-env";
 
 function validateAuthEnv(): void {

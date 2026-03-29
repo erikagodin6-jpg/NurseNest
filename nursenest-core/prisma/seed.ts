@@ -1,3 +1,4 @@
+import "../src/lib/db/env-bootstrap";
 import { hash } from "bcryptjs";
 import { ContentStatus } from "@prisma/client";
 import { PrismaClient } from "@prisma/client";

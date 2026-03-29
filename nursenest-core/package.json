@@ -20,6 +20,7 @@
     "db:migrate": "prisma migrate dev",
     "db:seed": "tsx prisma/seed.ts",
     "db:ensure-admin": "tsx scripts/ensure-admin-user.ts",
+    "admin:promote": "tsx scripts/ensure-admin-user.ts",
     "content:inventory": "tsx scripts/content-inventory.ts",
     "content:audit": "tsx scripts/content-audit-authoritative.ts",
     "import:blog": "tsx scripts/import-blog.ts",

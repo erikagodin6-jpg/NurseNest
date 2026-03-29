@@ -15,16 +15,21 @@ function clientIp(req: Request): string {
   );
 }
 
+const emptyToUndef = (v: unknown) => (v === "" || v === null ? undefined : v);
+
 const schema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
-  name: z.string().min(2),
+  name: z.preprocess((v) => (typeof v === "string" ? v.trim() : v), z.string().min(1).max(200)),
   country: z.enum(["CA", "US"]),
   tier: z.enum(["RPN", "LVN_LPN", "RN", "NP", "ALLIED"]),
-  examFocus: z.string().max(120).optional(),
-  studyGoal: z.string().max(120).optional(),
-  dailyStudyMinutes: z.coerce.number().int().min(5).max(600).optional(),
-  learnerPath: z.enum(["new_grad", "experienced", "career_change"]).optional(),
+  examFocus: z.preprocess(emptyToUndef, z.string().max(120).optional()),
+  studyGoal: z.preprocess(emptyToUndef, z.string().max(120).optional()),
+  dailyStudyMinutes: z.preprocess(
+    (v) => (v === "" || v === null ? undefined : v),
+    z.coerce.number().int().min(5).max(600).optional(),
+  ),
+  learnerPath: z.preprocess(emptyToUndef, z.enum(["new_grad", "experienced", "career_change"]).optional()),
 });
 
 export async function POST(req: Request) {
@@ -35,15 +40,36 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Too many requests. Try again shortly." }, { status: 429 });
   }
 
-  const parsed = schema.safeParse(await req.json());
+  let body: unknown;
+  try {
+    body = await req.json();
+  } catch {
+    safeServerLog("signup", "invalid_json_body", {});
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
+
+  const parsed = schema.safeParse(body);
   if (!parsed.success) {
+    safeServerLog("signup", "validation_failed", {
+      issueCount: parsed.error.issues.length,
+      codes: parsed.error.issues
+        .map((i) => i.code)
+        .slice(0, 8)
+        .join(","),
+    });
     return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
   }
 
-  const exists = await prisma.user.findUnique({
-    where: { email: parsed.data.email.toLowerCase() },
-    select: { id: true },
-  });
+  let exists: { id: string } | null;
+  try {
+    exists = await prisma.user.findUnique({
+      where: { email: parsed.data.email.toLowerCase() },
+      select: { id: true },
+    });
+  } catch (e) {
+    safeServerLogCritical("signup", "email_lookup_failed", { surface: "api" }, e);
+    return NextResponse.json({ error: "Unable to sign up. Try again shortly." }, { status: 503 });
+  }
   if (exists) {
     return NextResponse.json({ error: "Email already in use" }, { status: 409 });
   }

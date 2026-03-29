@@ -2,12 +2,21 @@ import Link from "next/link";
 import { requireAdmin } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 import { withDatabaseFallback } from "@/lib/db/safe-database";
-import { JobStatus } from "@prisma/client";
+import { ContentStatus, JobStatus } from "@prisma/client";
 
 export default async function AdminPage() {
   await requireAdmin();
 
-  const [lessonCount, questionCount, draftQuestions, reviewQuestions, jobPending] = await withDatabaseFallback(
+  const [
+    lessonCount,
+    questionCount,
+    draftQuestions,
+    reviewQuestions,
+    jobPending,
+    userCount,
+    flashcardPublished,
+    examsPublished,
+  ] = await withDatabaseFallback(
     () =>
       Promise.all([
         prisma.contentItem.count({ where: { type: "lesson" } }),
@@ -15,8 +24,11 @@ export default async function AdminPage() {
         prisma.examQuestion.count({ where: { status: "draft" } }),
         prisma.examQuestion.count({ where: { status: "published", rationale: null } }),
         prisma.backgroundJob.count({ where: { status: JobStatus.PENDING } }).catch(() => 0),
+        prisma.user.count(),
+        prisma.flashcard.count({ where: { status: ContentStatus.PUBLISHED } }),
+        prisma.exam.count({ where: { status: ContentStatus.PUBLISHED } }),
       ]),
-    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
   );
 
   const api = [
@@ -41,12 +53,24 @@ export default async function AdminPage() {
 
       <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <article className="nn-card p-6">
+          <p className="text-sm text-muted">Users</p>
+          <p className="mt-1 text-3xl font-bold">{userCount}</p>
+        </article>
+        <article className="nn-card p-6">
           <p className="text-sm text-muted">Lessons</p>
           <p className="mt-1 text-3xl font-bold">{lessonCount}</p>
         </article>
         <article className="nn-card p-6">
           <p className="text-sm text-muted">Questions</p>
           <p className="mt-1 text-3xl font-bold">{questionCount}</p>
+        </article>
+        <article className="nn-card p-6">
+          <p className="text-sm text-muted">Published exams</p>
+          <p className="mt-1 text-3xl font-bold">{examsPublished}</p>
+        </article>
+        <article className="nn-card p-6">
+          <p className="text-sm text-muted">Published flashcards</p>
+          <p className="mt-1 text-3xl font-bold">{flashcardPublished}</p>
         </article>
         <article className="nn-card p-6">
           <p className="text-sm text-muted">Draft questions</p>

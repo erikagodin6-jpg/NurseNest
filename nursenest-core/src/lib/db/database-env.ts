@@ -1,6 +1,8 @@
+import { databaseUrlSource } from "@/lib/db/env-bootstrap";
+
 /**
- * Prisma reads only `DATABASE_URL` (see `prisma/schema.prisma`). `PROD_DATABASE_URL` is never used
- * unless you duplicate its value into `DATABASE_URL` in the deployment UI.
+ * Masked logging for operators. Effective URL follows `env-bootstrap` (production may copy
+ * `PROD_DATABASE_URL` → `DATABASE_URL`).
  */
 
 export function maskDatabaseUrl(url: string): string {
@@ -27,12 +29,12 @@ export function logDatabaseEnvOnce(): void {
   const prod = process.env.PROD_DATABASE_URL?.trim();
 
   console.error(
-    `[nursenest-core] prisma: datasource env("DATABASE_URL") only — masked=${db ? maskDatabaseUrl(db) : "(MISSING)"} PROD_DATABASE_URL=${prod ? `set_ignored_by_prisma masked=${maskDatabaseUrl(prod)}` : "unset"}`,
+    `[nursenest-core] prisma: effectiveConnection masked=${db ? maskDatabaseUrl(db) : "(MISSING)"} source=${databaseUrlSource} PROD_DATABASE_URL=${prod ? "set" : "unset"}`,
   );
 
-  if (prod && db && prod !== db) {
+  if (prod && db && prod !== db && databaseUrlSource !== "prod_override") {
     console.error(
-      "[nursenest-core] prisma: WARNING DATABASE_URL and PROD_DATABASE_URL differ. Runtime uses DATABASE_URL only; align them or remove PROD_DATABASE_URL to avoid confusion.",
+      "[nursenest-core] prisma: WARNING DATABASE_URL and PROD_DATABASE_URL differ and prod override was not applied — check NODE_ENV and env ordering.",
     );
   }
 }
