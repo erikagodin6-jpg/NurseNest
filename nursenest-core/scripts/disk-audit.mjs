@@ -61,4 +61,5 @@ console.log("\n=== Safe cleanup targets (manual) ===");
 console.log("- rm -rf .next/cache   (also done by npm run build:deploy)");
 console.log("- rm -rf .next         (npm run clean:next)");
 console.log("- npm prune --omit=dev after production install on builders");
-console.log("- Keep repo root attached_assets/, data/imports/ out of deploy context\n");
+console.log("- Keep repo root attached_assets/, data/imports/ out of deploy context");
+console.log("- npm run storage:check  (oversized public/ assets; use storage:check:strict in CI)\n");

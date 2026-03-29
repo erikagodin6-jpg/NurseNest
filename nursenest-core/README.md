@@ -2,6 +2,17 @@
 
 Production-focused NurseNest rebuild using Next.js App Router, TypeScript, Tailwind, Prisma, NextAuth, and Stripe.
 
+## Storage & content (scalability)
+
+Growing content (**questions, flashcards, lessons, blog, media**) must not bloat the **deploy container**. See:
+
+- `ARCHITECTURE_STORAGE.md` — app vs **Postgres** vs **Spaces/CDN**
+- `docs/STORAGE_POLICY.md` — enforceable rules
+- `docs/CONTENT_WORKFLOWS.md` — how to add blog posts, test banks, media safely
+- `docs/STORAGE_OPERATIONS.md` — checklists (imports, uploads, cleanup)
+
+Commands: `npm run disk:audit`, `npm run storage:check` (use `storage:check:strict` in CI).
+
 ## Stability-First Architecture
 
 - Route isolation:

@@ -9,6 +9,9 @@
  * Env: DATABASE_URL
  *
  * Does not modify Lesson or Question models.
+ *
+ * Storage policy: production blog content lives in the **database**, not in `public/`.
+ * See `docs/CONTENT_WORKFLOWS.md` (blog) and `docs/STORAGE_POLICY.md`.
  */
 import { config as loadEnv } from "dotenv";
 import fs from "node:fs";

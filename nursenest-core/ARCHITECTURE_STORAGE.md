@@ -2,6 +2,14 @@
 
 This document defines **where content and binaries live** so the app container stays small and does not grow with test banks, blog posts, or media.
 
+**Related docs**
+
+| Doc | Purpose |
+|-----|---------|
+| [docs/STORAGE_POLICY.md](docs/STORAGE_POLICY.md) | Enforceable rules (no repo blobs, no public as CMS, etc.) |
+| [docs/CONTENT_WORKFLOWS.md](docs/CONTENT_WORKFLOWS.md) | End-to-end workflows by content type (blog, questions, media, …) |
+| [docs/STORAGE_OPERATIONS.md](docs/STORAGE_OPERATIONS.md) | Checklists: add content, clean artifacts, debug growth |
+
 ## App container (deploy artifact)
 
 **Keep:** application code, Prisma client, Next.js output, minimal static fallbacks (`public/marketing/hero-fallback.svg`, `public/branding/*` small marks), and optional merged locale JSON under `public/i18n` (or load via `MARKETING_I18N_CDN_BASE`).
@@ -44,5 +52,13 @@ Large folders at **monorepo root** (`attached_assets/`, legacy `client/`, `.loca
 ## Operational scripts
 
 - `npm run disk:audit` — largest paths under `nursenest-core` and build outputs.
+- `npm run storage:check` — warn on oversized `public/` files; `npm run storage:check -- --strict` fails CI if non‑i18n assets exceed 512 KiB.
 - `npm run build:deploy` — build then removes `.next/cache` (see `scripts/post-build-prune.mjs`).
 - `npm run clean:next` — remove `.next` locally when reclaiming disk.
+
+## Runtime resilience (summary)
+
+- **Homepage** — `/api/public/home-stats` uses **counts** only, not full table scans of content.
+- **Sitemaps** — blog URLs capped (50k); static sitemap builders avoid Prisma where possible.
+- **Admin** — list routes use **pagination** (questions, lessons, exams, flashcards, drafts).
+- **Optional failures** — DB optional reads log and degrade where patterns exist (`safePrismaCount`, blog fallbacks).
