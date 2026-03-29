@@ -38,6 +38,16 @@ export async function GET(
 ): Promise<Response> {
   const { filename } = await context.params;
   const lang = filename.replace(/\.json$/i, "");
+  if (!ALLOWED.has(lang)) {
+    return new NextResponse("Not found", { status: 404 });
+  }
+
+  const cdnBase = process.env.MARKETING_I18N_CDN_BASE?.trim()?.replace(/\/$/, "");
+  if (cdnBase && /^https?:\/\//i.test(cdnBase)) {
+    const target = `${cdnBase}/${encodeURIComponent(lang)}.json`;
+    return NextResponse.redirect(target, 307);
+  }
+
   const fp = resolvePath(lang);
   if (!fp) {
     return new NextResponse("Not found", { status: 404 });

@@ -3,13 +3,15 @@ import { notFound } from "next/navigation";
 import { ToolsToolShell } from "@/components/tools/tools-tool-shell";
 import { isToolSlug } from "@/lib/tools/tool-registry";
 import { DEFAULT_MARKETING_LOCALE } from "@/lib/i18n/marketing-locale-policy";
-import { loadMarketingMessagesSync } from "@/lib/marketing-i18n/load-marketing-messages";
+import { loadMarketingMessages } from "@/lib/marketing-i18n/load-marketing-messages";
+import type { MarketingMessages } from "@/lib/marketing-i18n-core";
 
 type Props = { params: Promise<{ slug: string }> };
 
-const enMessages = loadMarketingMessagesSync(DEFAULT_MARKETING_LOCALE);
-
-function metaForSlug(slug: string): { title: string; description: string; canonical: string } | null {
+async function metaForSlug(
+  slug: string,
+  enMessages: MarketingMessages,
+): Promise<{ title: string; description: string; canonical: string } | null> {
   if (slug === "med-math") {
     return {
       title: enMessages["tools.medMath.metaTitle"] ?? "Medication math",
@@ -36,7 +38,8 @@ function metaForSlug(slug: string): { title: string; description: string; canoni
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const m = metaForSlug(slug);
+  const enMessages = await loadMarketingMessages(DEFAULT_MARKETING_LOCALE);
+  const m = await metaForSlug(slug, enMessages);
   if (!m) return {};
   return {
     title: m.title,
