@@ -6,6 +6,7 @@ import NextAuth, { type NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { NextRequest } from "next/server";
 import { authCallbacks } from "@/lib/auth-callbacks";
+import { isEmailLikeIdentifier, normalizeLoginIdentifier } from "@/lib/auth/normalize-login-identifier";
 import { prisma } from "@/lib/db";
 import { safeServerLog, safeServerLogCritical } from "@/lib/observability/safe-server-log";
 
@@ -26,22 +27,28 @@ export const authConfig: NextAuthConfig = {
   providers: [
     Credentials({
       credentials: {
-        email: { label: "Email", type: "email" },
+        email: { label: "Email or username", type: "text" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const email = String(credentials.email ?? "").toLowerCase();
+        const identifier = normalizeLoginIdentifier(String(credentials.email ?? ""));
         const password = String(credentials.password ?? "");
-        if (!email || !password) {
+        if (!identifier || !password) {
           safeServerLog("auth", "credentials_rejected", { reason: "missing_fields" });
           return null;
         }
 
         let user;
         try {
-          user = await prisma.user.findUnique({
-            where: { email },
-          });
+          if (isEmailLikeIdentifier(identifier)) {
+            user = await prisma.user.findUnique({
+              where: { email: identifier },
+            });
+          } else {
+            user = await prisma.user.findUnique({
+              where: { username: identifier },
+            });
+          }
         } catch (e) {
           safeServerLogCritical("auth", "user_lookup_failed", { surface: "credentials" }, e);
           return null;

@@ -2,7 +2,8 @@
  * One-off: upsert an ADMIN user (bcrypt password, same cost as signup).
  *
  * Usage (from nursenest-core, with DATABASE_URL set):
- *   BOOTSTRAP_ADMIN_EMAIL=you@example.com BOOTSTRAP_ADMIN_PASSWORD='your-secure-password' npx tsx scripts/ensure-admin-user.ts
+ *   BOOTSTRAP_ADMIN_EMAIL=you@example.com BOOTSTRAP_ADMIN_PASSWORD='your-secure-password' \\
+ *     BOOTSTRAP_ADMIN_USERNAME=myhandle npx tsx scripts/ensure-admin-user.ts
  *
  * Do not commit real passwords. Rotate after first login.
  */
@@ -17,6 +18,8 @@ async function main() {
   const name = process.env.BOOTSTRAP_ADMIN_NAME?.trim() || "Admin";
   const country = (process.env.BOOTSTRAP_ADMIN_COUNTRY as CountryCode) || "US";
   const tier = (process.env.BOOTSTRAP_ADMIN_TIER as TierCode) || "RN";
+  const usernameRaw = process.env.BOOTSTRAP_ADMIN_USERNAME?.trim();
+  const username = usernameRaw ? usernameRaw.toLowerCase() : null;
 
   if (!email || !email.includes("@")) {
     console.error("Set BOOTSTRAP_ADMIN_EMAIL to a valid email.");
@@ -25,6 +28,14 @@ async function main() {
   if (password.length < 8) {
     console.error("Set BOOTSTRAP_ADMIN_PASSWORD (min 8 characters).");
     process.exit(1);
+  }
+
+  if (username) {
+    const holder = await prisma.user.findUnique({ where: { username }, select: { id: true, email: true } });
+    if (holder && holder.email !== email) {
+      console.error(`Username "${username}" is already taken by another account (${holder.email}).`);
+      process.exit(1);
+    }
   }
 
   const passwordHash = await hash(password, 12);
@@ -37,6 +48,7 @@ async function main() {
       name,
       country,
       tier,
+      ...(username ? { username } : {}),
     },
     create: {
       email,
@@ -45,10 +57,11 @@ async function main() {
       role: "ADMIN",
       country,
       tier,
+      username: username ?? undefined,
     },
   });
 
-  console.log("Admin user ready:", user.email, "role=", user.role);
+  console.log("Admin user ready:", user.email, "username=", user.username ?? "(none)", "role=", user.role);
 }
 
 main()

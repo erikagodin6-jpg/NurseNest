@@ -86,6 +86,8 @@ enum DraftReviewStatus {
 model User {
   id                      String         @id @default(cuid())
   email                   String         @unique
+  /** Lowercase login handle; optional. PostgreSQL allows multiple NULLs under UNIQUE. */
+  username                String?        @unique
   name                    String
   passwordHash            String?
   role                    UserRole       @default(LEARNER)
@@ -111,6 +113,19 @@ model User {
   flashcardDraftsReviewed GeneratedFlashcardDraft[]   @relation("FlashcardDraftReviewedBy")
   lessonDraftsCreated     GeneratedLessonDraft[]      @relation("LessonDraftCreatedBy")
   lessonDraftsReviewed    GeneratedLessonDraft[]      @relation("LessonDraftReviewedBy")
+  passwordResetTokens     PasswordResetToken[]
+}
+
+/** One-time password reset tokens; raw token is never stored (only SHA-256 hex). */
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
 }
 
 model Subscription {
