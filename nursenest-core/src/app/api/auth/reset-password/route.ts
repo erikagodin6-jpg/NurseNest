@@ -1,11 +1,20 @@
 import { NextResponse } from "next/server";
 import { hash } from "bcryptjs";
 import { z } from "zod";
+import { checkRateLimit } from "@/lib/http/rate-limit-in-memory";
 import { prisma } from "@/lib/db";
 import { hashPasswordResetToken } from "@/lib/password-reset-crypto";
 import { safeServerLogCritical } from "@/lib/observability/safe-server-log";
 
 export const runtime = "nodejs";
+
+function clientIp(req: Request): string {
+  return (
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    req.headers.get("x-real-ip") ??
+    "unknown"
+  );
+}
 
 const bodySchema = z.object({
   token: z.string().min(20).max(512),
@@ -13,6 +22,15 @@ const bodySchema = z.object({
 });
 
 export async function POST(req: Request) {
+  const ip = clientIp(req);
+  const rl = checkRateLimit(`reset-password:${ip}`, { windowMs: 60_000, max: 10 });
+  if (!rl.ok) {
+    return NextResponse.json(
+      { ok: false, error: "Too many requests. Try again shortly." },
+      { status: 429 },
+    );
+  }
+
   let json: unknown;
   try {
     json = await req.json();

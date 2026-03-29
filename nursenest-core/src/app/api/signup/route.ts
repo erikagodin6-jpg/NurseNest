@@ -2,6 +2,8 @@ import { hash } from "bcryptjs";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { Prisma } from "@prisma/client";
+import { validateUsernameForSignup } from "@/lib/auth/username-rules";
+import { isTurnstileEnforced, verifyTurnstileToken } from "@/lib/captcha/verify-turnstile";
 import { prisma } from "@/lib/db";
 import { checkRateLimit } from "@/lib/http/rate-limit-in-memory";
 import { productEvent } from "@/lib/observability/product-events";
@@ -20,6 +22,7 @@ const emptyToUndef = (v: unknown) => (v === "" || v === null ? undefined : v);
 const schema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
+  username: z.string(),
   name: z.preprocess((v) => (typeof v === "string" ? v.trim() : v), z.string().min(1).max(200)),
   country: z.enum(["CA", "US"]),
   tier: z.enum(["RPN", "LVN_LPN", "RN", "NP", "ALLIED"]),
@@ -30,6 +33,7 @@ const schema = z.object({
     z.coerce.number().int().min(5).max(600).optional(),
   ),
   learnerPath: z.preprocess(emptyToUndef, z.enum(["new_grad", "experienced", "career_change"]).optional()),
+  captchaToken: z.string().optional(),
 });
 
 export async function POST(req: Request) {
@@ -60,6 +64,33 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
   }
 
+  const usernameCheck = validateUsernameForSignup(parsed.data.username);
+  if (!usernameCheck.ok) {
+    const msg =
+      usernameCheck.reason === "empty"
+        ? "Enter a username."
+        : usernameCheck.reason === "length"
+          ? "Username must be 3–30 characters."
+          : usernameCheck.reason === "chars"
+            ? "Username may only use letters, numbers, underscores, and dots."
+            : usernameCheck.reason === "dots"
+              ? "Username cannot start or end with a dot or contain consecutive dots."
+              : "That username is reserved.";
+    return NextResponse.json({ error: msg, code: "invalid_username" }, { status: 400 });
+  }
+  const normalizedUsername = usernameCheck.normalized;
+
+  if (isTurnstileEnforced()) {
+    const ok = await verifyTurnstileToken(parsed.data.captchaToken);
+    if (!ok) {
+      productEvent("signup_captcha_failed", {});
+      return NextResponse.json(
+        { error: "Captcha verification failed. Refresh and try again.", code: "captcha" },
+        { status: 400 },
+      );
+    }
+  }
+
   let exists: { id: string } | null;
   try {
     exists = await prisma.user.findUnique({
@@ -68,10 +99,24 @@ export async function POST(req: Request) {
     });
   } catch (e) {
     safeServerLogCritical("signup", "email_lookup_failed", { surface: "api" }, e);
-    return NextResponse.json({ error: "Unable to sign up. Try again shortly." }, { status: 503 });
+    return NextResponse.json({ error: "Unable to sign up. Try again shortly.", code: "db" }, { status: 503 });
   }
   if (exists) {
-    return NextResponse.json({ error: "Email already in use" }, { status: 409 });
+    return NextResponse.json({ error: "Email already in use", code: "duplicate_email" }, { status: 409 });
+  }
+
+  let usernameTaken: { id: string } | null;
+  try {
+    usernameTaken = await prisma.user.findUnique({
+      where: { username: normalizedUsername },
+      select: { id: true },
+    });
+  } catch (e) {
+    safeServerLogCritical("signup", "username_lookup_failed", { surface: "api" }, e);
+    return NextResponse.json({ error: "Unable to sign up. Try again shortly.", code: "db" }, { status: 503 });
+  }
+  if (usernameTaken) {
+    return NextResponse.json({ error: "Username already taken", code: "duplicate_username" }, { status: 409 });
   }
 
   const { email, name, password, country, tier, examFocus, studyGoal, dailyStudyMinutes, learnerPath } = parsed.data;
@@ -81,6 +126,7 @@ export async function POST(req: Request) {
     await prisma.user.create({
       data: {
         email: email.toLowerCase(),
+        username: normalizedUsername,
         name,
         passwordHash,
         country,
@@ -105,6 +151,21 @@ export async function POST(req: Request) {
     );
     if (e instanceof Error) {
       safeServerLog("signup", "user_create_failed_message", { detail: e.message.slice(0, 800) });
+    }
+    if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002") {
+      const target = Array.isArray(e.meta?.target) ? (e.meta?.target as string[]).join(",") : "";
+      if (target.includes("email")) {
+        return NextResponse.json({ error: "Email already in use", code: "duplicate_email" }, { status: 409 });
+      }
+      if (target.includes("username")) {
+        return NextResponse.json({ error: "Username already taken", code: "duplicate_username" }, { status: 409 });
+      }
+    }
+    if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2021") {
+      return NextResponse.json(
+        { error: "Account service is not ready. Try again later.", code: "missing_table" },
+        { status: 503 },
+      );
     }
     return NextResponse.json(
       { error: "Unable to create account. Try again shortly.", code: prismaCode ?? "unknown" },

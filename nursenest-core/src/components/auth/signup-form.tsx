@@ -1,16 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
+import { TurnstileSignup } from "@/components/auth/turnstile-signup";
 
 export function SignupForm() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const onCaptcha = useCallback((t: string | null) => setCaptchaToken(t), []);
 
   async function onSubmit(formData: FormData) {
     setError(null);
     const payload = {
       name: String(formData.get("name") ?? ""),
+      username: String(formData.get("username") ?? ""),
       email: String(formData.get("email") ?? ""),
       password: String(formData.get("password") ?? ""),
       country: String(formData.get("country") ?? "CA"),
@@ -19,6 +23,7 @@ export function SignupForm() {
       studyGoal: String(formData.get("studyGoal") ?? ""),
       dailyStudyMinutes: Number(formData.get("dailyStudyMinutes") ?? 30),
       learnerPath: String(formData.get("learnerPath") ?? ""),
+      ...(captchaToken ? { captchaToken } : {}),
     };
 
     const res = await fetch("/api/signup", {
@@ -27,8 +32,10 @@ export function SignupForm() {
       body: JSON.stringify(payload),
     });
 
+    const data = (await res.json().catch(() => ({}))) as { error?: string };
+
     if (!res.ok) {
-      setError("Unable to create account. Please check your details.");
+      setError(typeof data.error === "string" ? data.error : "Unable to create account. Please check your details.");
       return;
     }
     router.push("/login");
@@ -37,6 +44,14 @@ export function SignupForm() {
   return (
     <form action={onSubmit} className="mt-6 space-y-4">
       <input className="w-full rounded-xl border border-border bg-white px-3 py-2" type="text" name="name" placeholder="Full name" required />
+      <input
+        className="w-full rounded-xl border border-border bg-white px-3 py-2"
+        type="text"
+        name="username"
+        placeholder="Username (3–30 characters)"
+        required
+        autoComplete="username"
+      />
       <input className="w-full rounded-xl border border-border bg-white px-3 py-2" type="email" name="email" placeholder="Email" required />
       <input className="w-full rounded-xl border border-border bg-white px-3 py-2" type="password" name="password" placeholder="Password (8+ chars)" required />
       <div className="grid gap-3 sm:grid-cols-2">
@@ -80,6 +95,7 @@ export function SignupForm() {
           </select>
         </div>
       </div>
+      <TurnstileSignup onToken={onCaptcha} />
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
       <button className="w-full rounded-xl bg-primary px-4 py-2 font-semibold" type="submit">
         Create account

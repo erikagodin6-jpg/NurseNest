@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { checkRateLimit } from "@/lib/http/rate-limit-in-memory";
 import { prisma } from "@/lib/db";
 import { generatePasswordResetRawToken, hashPasswordResetToken } from "@/lib/password-reset-crypto";
 import { safeServerLogCritical } from "@/lib/observability/safe-server-log";
@@ -13,6 +14,14 @@ const bodySchema = z.object({
 
 const RESET_TTL_MS = 60 * 60 * 1000;
 
+function clientIp(req: Request): string {
+  return (
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    req.headers.get("x-real-ip") ??
+    "unknown"
+  );
+}
+
 function normalizeEmail(raw: string): string {
   return raw.trim().toLowerCase();
 }
@@ -22,6 +31,15 @@ function normalizeEmail(raw: string): string {
  * Development + no email provider: includes `_devResetUrl` for manual testing only.
  */
 export async function POST(req: Request) {
+  const ip = clientIp(req);
+  const rl = checkRateLimit(`forgot-password:${ip}`, { windowMs: 60_000, max: 8 });
+  if (!rl.ok) {
+    return NextResponse.json(
+      { ok: false, error: "Too many requests. Try again shortly." },
+      { status: 429 },
+    );
+  }
+
   let json: unknown;
   try {
     json = await req.json();

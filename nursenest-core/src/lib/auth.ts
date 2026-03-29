@@ -1,14 +1,22 @@
 import "./auth-trust-env";
 import { Auth } from "@auth/core";
-import { PrismaAdapter } from "@auth/prisma-adapter";
 import { compare } from "bcryptjs";
 import NextAuth, { type NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { NextRequest } from "next/server";
 import { authCallbacks } from "@/lib/auth-callbacks";
 import { isEmailLikeIdentifier, normalizeLoginIdentifier } from "@/lib/auth/normalize-login-identifier";
+import { checkRateLimit } from "@/lib/http/rate-limit-in-memory";
 import { prisma } from "@/lib/db";
 import { safeServerLog, safeServerLogCritical } from "@/lib/observability/safe-server-log";
+
+function clientIpFromRequest(req: Request): string {
+  return (
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    req.headers.get("x-real-ip") ??
+    "unknown"
+  );
+}
 
 /** Same behavior as next-auth/lib/env `reqWithEnvURL` (not a public export). */
 function reqWithEnvURL(req: NextRequest): NextRequest {
@@ -20,7 +28,11 @@ function reqWithEnvURL(req: NextRequest): NextRequest {
 }
 
 export const authConfig: NextAuthConfig = {
-  adapter: PrismaAdapter(prisma),
+  /**
+   * No Prisma adapter: schema has no Account/Session/VerificationToken models required by
+   * @auth/prisma-adapter. Credentials + JWT persist the session in the cookie only; users
+   * are written via /api/signup and read here.
+   */
   trustHost: true,
   session: { strategy: "jwt" },
   pages: { signIn: "/login" },
@@ -30,7 +42,14 @@ export const authConfig: NextAuthConfig = {
         email: { label: "Email or username", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
+      async authorize(credentials, request) {
+        const ip = clientIpFromRequest(request);
+        const rl = checkRateLimit(`login:${ip}`, { windowMs: 60_000, max: 40 });
+        if (!rl.ok) {
+          safeServerLog("auth", "login_rate_limited", { ip: ip.slice(0, 64) });
+          return null;
+        }
+
         const identifier = normalizeLoginIdentifier(String(credentials.email ?? ""));
         const password = String(credentials.password ?? "");
         if (!identifier || !password) {

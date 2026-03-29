@@ -11,7 +11,8 @@ export type ProductEventName =
   | "stripe_webhook_failed"
   | "cron_jobs_batch"
   | "signup_ok"
-  | "signup_rate_limited";
+  | "signup_rate_limited"
+  | "signup_captcha_failed";
 
 /**
  * Lightweight product/system signals: stderr + optional Sentry breadcrumb (no PII).
