@@ -17,7 +17,7 @@ export default async function MarketingLocaleLayout({
   if (!isCoreHostedNonDefaultLocale(locale)) notFound();
   const messages = await loadMarketingMessages(locale);
   return (
-    <MarketingI18nProvider locale={locale} messages={messages}>
+    <MarketingI18nProvider key={locale} locale={locale} messages={messages}>
       <OrganizationJsonLd />
       <WebSiteJsonLd />
       <div className="nn-marketing-surface flex min-h-screen flex-col bg-[var(--theme-page-bg)]">

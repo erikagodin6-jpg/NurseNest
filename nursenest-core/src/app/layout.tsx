@@ -61,14 +61,19 @@ export default function RootLayout({
   const themeBoot = `(function(){try{var k=${JSON.stringify(THEME_STORAGE_KEY)};var v=localStorage.getItem(k);if(v==null||v===""){v="lavender";localStorage.setItem(k,v);}document.documentElement.setAttribute("data-theme",v);}catch(e){}})();`;
 
   return (
-    <html lang="en" className={`${dmSans.variable} h-full antialiased`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${dmSans.variable} h-full antialiased`}
+      data-theme="lavender"
+      suppressHydrationWarning
+    >
       <body className="min-h-full flex flex-col bg-[var(--theme-page-bg)] text-[var(--theme-body-text)] transition-colors duration-200">
         <Script id="nursenest-theme-boot" strategy="beforeInteractive">
           {themeBoot}
         </Script>
-        <AuthSessionProvider>
-          <AppThemeProvider>{children}</AppThemeProvider>
-        </AuthSessionProvider>
+        <AppThemeProvider>
+          <AuthSessionProvider>{children}</AuthSessionProvider>
+        </AppThemeProvider>
       </body>
     </html>
   );

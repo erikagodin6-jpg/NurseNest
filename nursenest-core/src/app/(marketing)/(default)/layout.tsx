@@ -8,7 +8,7 @@ import { loadMarketingMessages } from "@/lib/marketing-i18n/load-marketing-messa
 export default async function MarketingDefaultLocaleLayout({ children }: { children: React.ReactNode }) {
   const messages = await loadMarketingMessages(DEFAULT_MARKETING_LOCALE);
   return (
-    <MarketingI18nProvider locale={DEFAULT_MARKETING_LOCALE} messages={messages}>
+    <MarketingI18nProvider key={DEFAULT_MARKETING_LOCALE} locale={DEFAULT_MARKETING_LOCALE} messages={messages}>
       <OrganizationJsonLd />
       <WebSiteJsonLd />
       <div className="nn-marketing-surface flex min-h-screen flex-col bg-[var(--theme-page-bg)]">

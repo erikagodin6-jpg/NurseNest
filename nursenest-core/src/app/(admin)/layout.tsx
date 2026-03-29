@@ -8,7 +8,7 @@ import "../(marketing)/marketing-dark-utilities.css";
 export default async function AdminGroupLayout({ children }: { children: React.ReactNode }) {
   const messages = await loadMarketingMessages(DEFAULT_MARKETING_LOCALE);
   return (
-    <MarketingI18nProvider locale={DEFAULT_MARKETING_LOCALE} messages={messages}>
+    <MarketingI18nProvider key={DEFAULT_MARKETING_LOCALE} locale={DEFAULT_MARKETING_LOCALE} messages={messages}>
       <div className="nn-marketing-surface flex min-h-screen flex-col bg-[var(--theme-page-bg)]">
         <SiteHeader />
         <div className="flex-1">{children}</div>
