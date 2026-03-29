@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { hash } from "bcryptjs";
 import { z } from "zod";
+import { strongPasswordSchema } from "@/lib/auth/password-policy";
 import { checkRateLimit } from "@/lib/http/rate-limit-in-memory";
 import { prisma } from "@/lib/db";
 import { hashPasswordResetToken } from "@/lib/password-reset-crypto";
@@ -18,7 +19,7 @@ function clientIp(req: Request): string {
 
 const bodySchema = z.object({
   token: z.string().min(20).max(512),
-  password: z.string().min(8).max(200),
+  password: strongPasswordSchema,
 });
 
 export async function POST(req: Request) {
@@ -40,10 +41,12 @@ export async function POST(req: Request) {
 
   const parsed = bodySchema.safeParse(json);
   if (!parsed.success) {
-    return NextResponse.json(
-      { ok: false, error: "Invalid token or password (password must be at least 8 characters)." },
-      { status: 400 },
-    );
+    const first = parsed.error.issues[0];
+    const hint =
+      typeof first?.message === "string" && first.message.length > 0 && first.message !== "Required"
+        ? first.message
+        : "Invalid token or password.";
+    return NextResponse.json({ ok: false, error: hint }, { status: 400 });
   }
 
   const { token, password } = parsed.data;

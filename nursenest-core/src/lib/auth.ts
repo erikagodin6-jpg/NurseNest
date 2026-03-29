@@ -27,6 +27,8 @@ function reqWithEnvURL(req: NextRequest): NextRequest {
   return new NextRequest(href.replace(origin, envOrigin), req);
 }
 
+const isProd = process.env.NODE_ENV === "production";
+
 export const authConfig: NextAuthConfig = {
   /**
    * No Prisma adapter: schema has no Account/Session/VerificationToken models required by
@@ -34,7 +36,21 @@ export const authConfig: NextAuthConfig = {
    * are written via /api/signup and read here.
    */
   trustHost: true,
-  session: { strategy: "jwt" },
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60,
+    updateAge: 24 * 60 * 60,
+  },
+  cookies: {
+    sessionToken: {
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: isProd,
+      },
+    },
+  },
   pages: { signIn: "/login" },
   providers: [
     Credentials({

@@ -14,6 +14,7 @@ import "../src/lib/db/env-bootstrap";
  */
 import { hash } from "bcryptjs";
 import { PrismaClient, type CountryCode, type Prisma, type TierCode } from "@prisma/client";
+import { strongPasswordSchema } from "../src/lib/auth/password-policy";
 
 const prisma = new PrismaClient();
 
@@ -46,8 +47,9 @@ async function main() {
     console.error("Set BOOTSTRAP_ADMIN_EMAIL to a valid email.");
     process.exit(1);
   }
-  if (password.length < 8) {
-    console.error("Set BOOTSTRAP_ADMIN_PASSWORD (min 8 characters).");
+  const pw = strongPasswordSchema.safeParse(password);
+  if (!pw.success) {
+    console.error(pw.error.issues[0]?.message ?? "Invalid BOOTSTRAP_ADMIN_PASSWORD.");
     process.exit(1);
   }
 

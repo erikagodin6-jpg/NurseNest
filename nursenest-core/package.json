@@ -20,6 +20,8 @@
     "db:migrate": "prisma migrate dev",
     "db:seed": "tsx prisma/seed.ts",
     "db:ensure-admin": "tsx scripts/ensure-admin-user.ts",
+    "db:bootstrap-if-empty": "tsx scripts/bootstrap-admin-if-empty.ts",
+    "db:sanity": "tsx scripts/db-sanity-check.ts",
     "admin:promote": "tsx scripts/ensure-admin-user.ts",
     "content:inventory": "tsx scripts/content-inventory.ts",
     "content:audit": "tsx scripts/content-audit-authoritative.ts",

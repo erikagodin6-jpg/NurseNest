@@ -2,6 +2,7 @@ import { hash } from "bcryptjs";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { Prisma } from "@prisma/client";
+import { strongPasswordSchema } from "@/lib/auth/password-policy";
 import { validateUsernameForSignup } from "@/lib/auth/username-rules";
 import { isTurnstileEnforced, verifyTurnstileToken } from "@/lib/captcha/verify-turnstile";
 import { prisma } from "@/lib/db";
@@ -21,7 +22,7 @@ const emptyToUndef = (v: unknown) => (v === "" || v === null ? undefined : v);
 
 const schema = z.object({
   email: z.string().email(),
-  password: z.string().min(8),
+  password: strongPasswordSchema,
   username: z.string(),
   name: z.preprocess((v) => (typeof v === "string" ? v.trim() : v), z.string().min(1).max(200)),
   country: z.enum(["CA", "US"]),
@@ -61,7 +62,12 @@ export async function POST(req: Request) {
         .slice(0, 8)
         .join(","),
     });
-    return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+    const first = parsed.error.issues[0];
+    const hint =
+      typeof first?.message === "string" && first.message.length > 0 && first.message !== "Required"
+        ? first.message
+        : "Invalid payload";
+    return NextResponse.json({ error: hint, code: "validation" }, { status: 400 });
   }
 
   const usernameCheck = validateUsernameForSignup(parsed.data.username);
