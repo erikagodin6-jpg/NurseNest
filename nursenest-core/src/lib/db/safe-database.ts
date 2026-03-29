@@ -22,6 +22,7 @@ export async function withDatabaseFallback<T>(run: () => Promise<T>, fallback: T
   try {
     return await run();
   } catch {
+    /* Optional tables / schema drift: callers return empty defaults; avoid throwing from marketing paths. */
     return fallback;
   }
 }
