@@ -1,15 +1,29 @@
 import Link from "next/link";
 import { auth } from "@/lib/auth";
-import { requireUser } from "@/lib/auth/guards";
 import { signOut } from "@/lib/auth";
 import { CheckoutSuccessBanner } from "@/components/student/checkout-success-banner";
 import { LearnerThemeControl } from "@/components/student/learner-theme-control";
 import { SentryLearnerShell } from "@/components/observability/sentry-learner-shell";
 
+/** Auth is enforced in `src/middleware.ts` so this layout never calls `redirect()` for missing session. */
+export const dynamic = "force-dynamic";
+
 export default async function LearnerShellLayout({ children }: { children: React.ReactNode }) {
-  await requireUser();
   const session = await auth();
   const userId = (session?.user as { id?: string })?.id ?? "";
+
+  if (!userId) {
+    return (
+      <div className="mx-auto w-full max-w-6xl px-6 py-8">
+        <p className="text-sm text-[var(--theme-muted-text)]">
+          <Link className="font-medium text-primary underline" href="/login">
+            Sign in
+          </Link>{" "}
+          to access the learner app.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <SentryLearnerShell userId={userId}>

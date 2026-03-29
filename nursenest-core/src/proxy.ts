@@ -6,6 +6,7 @@ import "@/lib/auth-trust-env";
 
 export { middlewareAuth as proxy } from "@/lib/auth-middleware";
 
+/** Include bare `/app` and `/admin` — `/app/:path*` alone can miss the dashboard root on some matchers. */
 export const config = {
-  matcher: ["/app/:path*", "/admin/:path*"],
+  matcher: ["/app", "/app/:path*", "/admin", "/admin/:path*"],
 };

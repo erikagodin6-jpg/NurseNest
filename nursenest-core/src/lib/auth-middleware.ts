@@ -26,7 +26,11 @@ export const { auth: middlewareAuth } = NextAuth({
   ],
   callbacks: {
     ...authCallbacks,
-    /** Matcher is only /app/* and /admin/* — require a session with a user id or email. */
+    /**
+     * Matcher must include bare `/app` and `/admin` (see `src/proxy.ts`). If those roots are skipped,
+     * layouts could run without a session and use `redirect("/login")` in RSC, which has caused raw
+     * Flight payloads to appear in the browser document (Next.js 16).
+     */
     authorized({ auth, request }) {
       const path = request.nextUrl.pathname;
       const hasUser =

@@ -1,10 +1,15 @@
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 
+/**
+ * Server-only session check. Unauthenticated `/app/*` and `/admin/*` requests are turned away in
+ * `src/middleware.ts` (HTTP redirect) before RSC runs — do not use `redirect("/login")` here for missing
+ * session: it interacted with Next.js 16 streaming and surfaced raw Flight payloads in the document.
+ */
 export async function requireUser() {
   const session = await auth();
   if (!session?.user || !(session.user as any).id) {
-    redirect("/login");
+    notFound();
   }
   return session;
 }
