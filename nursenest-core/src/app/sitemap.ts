@@ -4,7 +4,6 @@ import { CORE_HOSTED_MARKETING_LOCALES } from "@/lib/i18n/marketing-locale-polic
 import { getAllProgrammaticSlugs } from "@/lib/seo/programmatic-registry";
 import { MARKETING_SITE_ORIGIN } from "@/lib/seo/site-origin";
 import { getAllToolSlugs } from "@/lib/tools/tool-registry";
-import { PRE_NURSING_MODULE_REGISTRY } from "@/content/pre-nursing/pre-nursing-registry";
 
 const base = MARKETING_SITE_ORIGIN;
 
@@ -39,15 +38,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.78,
-    });
-  }
-
-  for (const m of PRE_NURSING_MODULE_REGISTRY) {
-    entries.push({
-      url: `${base}/pre-nursing/${m.slug}`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.76,
     });
   }
 
