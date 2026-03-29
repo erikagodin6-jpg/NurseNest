@@ -67,7 +67,13 @@ export {
   nursenestImagesSpaceObjectUrl,
 } from "@/config/marketing-cdn.catalog";
 
-export { MARKETING_CDN_PUBLIC_BASE, THEME_BRAND_LOGO_CDN_BY_ID } from "@/config/theme-brand-logo-cdn";
+export {
+  MARKETING_CDN_PUBLIC_BASE,
+  THEME_BRAND_LOGO_CDN_BY_ID,
+  THEME_BRAND_LOGO_PREFIX,
+  THEME_LOGO_FALLBACK_ID,
+  themeBrandLogoObjectKey,
+} from "@/config/theme-brand-logo-cdn";
 
 /** @deprecated Use `getThemeLogo` from `@/lib/theme/theme-logo-url` */
 export function getResolvedThemeLogoUrl(themeId: string): string {
@@ -75,6 +81,7 @@ export function getResolvedThemeLogoUrl(themeId: string): string {
 }
 
 export {
+  getHeaderBrandLogoLoadChain,
   getThemeLogo,
   getThemeLogoLoadChain,
   getThemeLogoObjectKey,

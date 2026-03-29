@@ -78,6 +78,8 @@ export function resolveMarketingHref(href: string): string {
     mapped === "/for-institutions" ||
     mapped === "/login" ||
     mapped === "/signup" ||
+    mapped === "/forgot-password" ||
+    mapped === "/reset-password" ||
     mapped === "/"
   ) {
     return mapped;
