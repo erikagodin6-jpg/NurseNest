@@ -29,7 +29,8 @@ export function logStartupContext(): void {
   if (process.env.NODE_ENV !== "production") return;
 
   const db = process.env.DATABASE_URL?.trim();
+  const port = process.env.PORT ?? "(unset)";
   console.error(
-    `[nursenest-core] startup: NODE_ENV=${process.env.NODE_ENV ?? "(unset)"} databaseUrl=${db ? `configured masked=${maskDatabaseUrl(db)}` : "missing"}`,
+    `[nursenest-core] startup: NODE_ENV=${process.env.NODE_ENV ?? "(unset)"} PORT=${port} bind=0.0.0.0 (next start) databaseUrl=${db ? `configured masked=${maskDatabaseUrl(db)}` : "missing"}`,
   );
 }

@@ -23,6 +23,9 @@ export async function register() {
   if (process.env.NEXT_RUNTIME === "nodejs") {
     logStartupContext();
     logDatabaseEnvOnce();
+    console.error(
+      `[nursenest-core] instrumentation: nodejs runtime registered PORT=${process.env.PORT ?? "(unset)"}`,
+    );
     validateAuthEnv();
     await import("./sentry.server.config");
     process.on("unhandledRejection", (reason) => {

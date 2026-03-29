@@ -1,10 +1,16 @@
 import { NextResponse } from "next/server";
 
+let loggedFirstProbe = false;
+
 /**
- * Public, dependency-free health endpoint for deploy readiness checks.
- * No auth/session/DB calls; always returns 200 when process is alive.
+ * Liveness for App Platform / load balancers. No DB, auth, or Prisma — always fast 200.
+ * Configure `health_check.http_path: /healthz` (not `/api/health`).
  */
 export async function GET() {
+  if (process.env.NODE_ENV === "production" && !loggedFirstProbe) {
+    loggedFirstProbe = true;
+    console.error("[nursenest-core] healthz: first probe (liveness)");
+  }
   return NextResponse.json(
     {
       status: "ok",

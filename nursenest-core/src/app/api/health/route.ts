@@ -12,7 +12,9 @@ function requiredEnvOk(): { ok: boolean; missing: string[] } {
 }
 
 /**
- * Deep health: DB probe, env sanity, memory snapshot. Safe for internal monitors (no secrets in body).
+ * Detailed status for operators. **Always HTTP 200** so misconfigured load balancers
+ * (or App Platform probes pointed at `/api/health`) do not mark the instance unhealthy
+ * while the Node process is up. Use `ready` for readiness; prefer `/healthz` for liveness.
  */
 export async function GET() {
   const env = requiredEnvOk();
@@ -21,7 +23,6 @@ export async function GET() {
   let maskedConnection: string | undefined;
   let userTableReady: boolean | undefined;
   let databaseError: string | undefined;
-  // Avoid Prisma engine/query when DATABASE_URL is absent (deploy probes, misconfigured previews).
   if (isDatabaseUrlConfigured()) {
     maskedConnection = maskDatabaseUrl(process.env.DATABASE_URL!.trim());
     try {
@@ -40,14 +41,14 @@ export async function GET() {
     }
   }
 
-  const degraded = !env.ok || db === "disconnected";
-  const status = degraded ? 503 : 200;
+  const ready = env.ok && db === "connected";
 
   return NextResponse.json(
     {
-      ok: !degraded,
+      ok: true,
+      ready,
       service: "nursenest-core",
-      degraded,
+      degraded: !ready,
       db,
       database: {
         maskedConnection: maskedConnection ?? null,
@@ -62,6 +63,6 @@ export async function GET() {
       uptimeSeconds: Math.floor(process.uptime()),
       timestamp: new Date().toISOString(),
     },
-    { status },
+    { status: 200 },
   );
 }

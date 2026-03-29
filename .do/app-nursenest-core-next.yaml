@@ -23,13 +23,14 @@ services:
     http_port: 8080
     routes:
       - path: /
+    # Liveness: GET /healthz (no DB). Next cold start + first-route compile can exceed short delays.
     health_check:
       http_path: /healthz
-      initial_delay_seconds: 30
+      initial_delay_seconds: 120
       period_seconds: 10
-      timeout_seconds: 5
+      timeout_seconds: 10
       success_threshold: 1
-      failure_threshold: 5
+      failure_threshold: 9
     envs:
       - key: NODE_ENV
         value: production
