@@ -2,7 +2,19 @@
 
 import { useEffect, useState } from "react";
 import { headerUsesThemeTintedBrandMark } from "@/config/marketing-cdn.catalog";
+import { BRAND_NAME } from "@/lib/branding/logo-config";
 import { useThemeLogo } from "@/lib/theme/use-theme-logo";
+
+const LOGO_DEV_PREFIX = "[NurseNest logo]";
+
+function warnDevRemoteFailure(message: string, detail?: unknown): void {
+  if (process.env.NODE_ENV !== "development") return;
+  if (detail !== undefined) {
+    console.warn(`${LOGO_DEV_PREFIX} ${message}`, detail);
+  } else {
+    console.warn(`${LOGO_DEV_PREFIX} ${message}`);
+  }
+}
 
 export type BrandMarkLoadState = "loading" | "ready" | "error";
 
@@ -38,6 +50,7 @@ function ThemeTintedBrandMark({
     setFailedFinal(false);
 
     if (loadChain.length === 0) {
+      warnDevRemoteFailure("Logo load chain is empty; using text fallback in header.");
       setFailedFinal(true);
       onMarkState?.("error");
       return;
@@ -64,6 +77,7 @@ function ThemeTintedBrandMark({
           return;
         }
       }
+      warnDevRemoteFailure("All logo URLs failed (tinted mask chain). Using header wordmark fallback.", loadChain);
       setFailedFinal(true);
       onMarkState?.("error");
     })();
@@ -76,11 +90,9 @@ function ThemeTintedBrandMark({
   if (failedFinal) {
     return (
       <span
-        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-[var(--theme-card-border)] bg-[var(--theme-card-bg)] text-sm font-extrabold text-[var(--theme-primary)] ${className}`}
+        className={`inline-block h-8 w-[7.5rem] max-w-[40vw] shrink-0 ${className}`}
         aria-hidden
-      >
-        N
-      </span>
+      />
     );
   }
 
@@ -95,9 +107,10 @@ function ThemeTintedBrandMark({
 
   return (
     <span
-      className={`inline-block h-8 w-8 shrink-0 bg-[var(--theme-primary)] ${className}`}
-      style={maskStyle(resolvedUrl)}
-      aria-hidden
+      className={`inline-block h-8 w-auto min-w-8 max-w-[10rem] shrink-0 bg-[var(--theme-primary)] ${className}`}
+      style={{ ...maskStyle(resolvedUrl), aspectRatio: "400 / 119" }}
+      role="img"
+      aria-label={BRAND_NAME}
     />
   );
 }
@@ -138,11 +151,9 @@ export function SiteBrandLogoMark({
   if (failedFinal) {
     return (
       <span
-        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-[var(--theme-card-border)] bg-[var(--theme-card-bg)] text-sm font-extrabold text-[var(--theme-primary)] ${className}`}
+        className={`inline-block h-8 w-[7.5rem] max-w-[40vw] shrink-0 ${className}`}
         aria-hidden
-      >
-        N
-      </span>
+      />
     );
   }
 
@@ -150,18 +161,22 @@ export function SiteBrandLogoMark({
     <img
       key={`${imgSrc}-${attempt}`}
       src={imgSrc}
-      alt=""
-      width={32}
-      height={32}
-      className={`h-8 w-8 shrink-0 object-contain ${className}`}
+      alt={BRAND_NAME}
+      width={160}
+      height={48}
+      className={`h-8 w-auto max-h-8 max-w-[10rem] shrink-0 object-contain object-left ${className}`}
       loading="eager"
       decoding="async"
       suppressHydrationWarning
       onLoad={() => setImgStatus("ready")}
       onError={() => {
+        if (attempt === 0) {
+          warnDevRemoteFailure("Primary logo failed to load; advancing fallback chain.", imgSrc);
+        }
         if (attempt + 1 < loadChain.length) {
           setAttempt((a) => a + 1);
         } else {
+          warnDevRemoteFailure("All logo URLs in chain failed. Using header wordmark fallback.", loadChain);
           setFailedFinal(true);
           setImgStatus("error");
         }

@@ -7,8 +7,10 @@ import {
   getPrimaryBrandMarkObjectKey,
   getSpacesBlueBrandLogoObjectKey,
   headerUsesThemeTintedBrandMark,
+  LOGO_LEGACY_FALLBACK_URL,
   nursenestImagesSpaceObjectUrl,
 } from "@/config/marketing-cdn.catalog";
+import { FALLBACK_LOGO_PATH, PRIMARY_LOGO_URL } from "@/lib/branding/logo-config";
 import {
   getThemeBrandLogoCdnUrlForCanonicalId,
   getThemeLogoObjectKeyFromNormalizedId,
@@ -20,6 +22,9 @@ import {
 } from "@/lib/marketing-resolve-image-url";
 import { NURSENEST_DEFAULT_THEME } from "@/lib/theme/theme-registry";
 import { normalizeThemeIdForLogo } from "@/lib/theme/theme-logo-resolve";
+
+/** @deprecated Use `FALLBACK_LOGO_PATH` from `@/lib/branding/logo-config`. */
+export const CANONICAL_BRAND_LOGO_LOCAL_PATH = FALLBACK_LOGO_PATH;
 
 function uniqueStrings(urls: string[]): string[] {
   const seen = new Set<string>();
@@ -103,12 +108,22 @@ export function getBlueBrandMarkLoadChain(): string[] {
 
 /**
  * Header mark load order: blue-brand mask chain when `headerUsesThemeTintedBrandMark()`; else per-theme rasters.
+ * Always appends per-theme rasters, legacy site URL, and a same-origin public asset so a single CDN miss
+ * cannot blank the mark.
  */
 export function getHeaderBrandLogoLoadChain(themeId?: string | null): string[] {
+  const id = normalizeThemeIdForLogo(themeId ?? NURSENEST_DEFAULT_THEME);
+  const themeRasterChain = getThemeLogoLoadChain(id);
+  const universalTail = uniqueStrings([
+    ...themeRasterChain,
+    LOGO_LEGACY_FALLBACK_URL,
+    FALLBACK_LOGO_PATH,
+  ]);
   if (headerUsesThemeTintedBrandMark()) {
-    return getBlueBrandMarkLoadChain();
+    const blue = getBlueBrandMarkLoadChain();
+    return uniqueStrings([PRIMARY_LOGO_URL, ...blue, ...universalTail]);
   }
-  return getThemeLogoLoadChain(themeId);
+  return uniqueStrings([PRIMARY_LOGO_URL, ...universalTail]);
 }
 
 /** Primary URL — first candidate in `getThemeLogoLoadChain`. */
