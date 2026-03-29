@@ -28,34 +28,19 @@ import { useMarketingI18n } from "@/lib/marketing-i18n";
 import { mapLegacyMarketingHref } from "@/lib/legacy-marketing-routes";
 import { useNursenestRegion } from "@/lib/region/use-nursenest-region";
 import { LazySection } from "@/legacy/marketing/lazy-section";
-import {
-  HOMEPAGE_HERO_SLIDES,
-  isForbiddenBrowserImageScheme,
-  marketingImageUsesProxy,
-  marketingProxyFallbackEnabled,
-  marketingProxyPathForKey,
-} from "@/lib/marketing-assets";
+import { HOMEPAGE_HERO_SLIDES, isForbiddenBrowserImageScheme } from "@/lib/marketing-assets";
 
 /** Same-origin SVG — never gs://, always loads. */
 const HERO_LOCAL_FALLBACK_SRC = "/marketing/hero-fallback.svg";
 
 /**
- * Tier 0/1: public HTTPS CDN or `/api/marketing-assets/...` proxy (never gs://).
- * Tier 2+: bundled fallback so `<img>` never ends on a broken icon.
+ * Tier 0: direct DigitalOcean CDN HTTPS URL (see `home-hero-carousel.ts`).
+ * Tier 1: same-origin SVG fallback (never `/api/marketing-assets`).
  */
 function getHeroSlideSrc(slide: { publicUrl: string; objectKey: string }, tier: number): string {
-  if (tier >= 2) return HERO_LOCAL_FALLBACK_SRC;
+  if (tier >= 1) return HERO_LOCAL_FALLBACK_SRC;
   if (isForbiddenBrowserImageScheme(slide.publicUrl)) return HERO_LOCAL_FALLBACK_SRC;
-  const proxy = marketingProxyPathForKey(slide.objectKey);
-  if (marketingImageUsesProxy()) {
-    return tier === 0 ? proxy : slide.publicUrl;
-  }
-  return tier === 0 ? slide.publicUrl : proxy;
-}
-
-function heroCanRetryAlternateTier(): boolean {
-  if (marketingImageUsesProxy()) return true;
-  return marketingProxyFallbackEnabled();
+  return slide.publicUrl;
 }
 
 const HeroFeatureStrip = dynamic(() => import("@/legacy/marketing/hero-feature-strip"), {
@@ -110,7 +95,7 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
   const [isHovered, setIsHovered] = useState(false);
   const [failed, setFailed] = useState<Set<number>>(() => new Set());
   const failedRef = useRef(failed);
-  /** 0 = primary; 1 = alternate (direct↔proxy); 2+ = local SVG fallback (see `getHeroSlideSrc`). */
+  /** 0 = direct CDN; 1 = local SVG fallback (`getHeroSlideSrc`). */
   const [heroTierByIndex, setHeroTierByIndex] = useState<Record<number, number>>({});
   const [hasLoaded, setHasLoaded] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -243,12 +228,10 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
               aria-hidden={!active}
               referrerPolicy="no-referrer"
               onError={() => {
-                if (tier === 0 && heroCanRetryAlternateTier()) {
+                const src = getHeroSlideSrc(slide, tier);
+                console.error("[hero-carousel] image failed", { index, tier, src, objectKey: slide.objectKey });
+                if (tier === 0) {
                   setHeroTierByIndex((prev) => ({ ...prev, [index]: 1 }));
-                  return;
-                }
-                if (tier < 2) {
-                  setHeroTierByIndex((prev) => ({ ...prev, [index]: 2 }));
                   return;
                 }
                 handleImgError(index);

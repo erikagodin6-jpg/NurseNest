@@ -1,12 +1,10 @@
 /**
- * Homepage hero carousel — public DigitalOcean Spaces CDN assets (PNG at bucket root).
+ * Homepage hero carousel — direct DigitalOcean Spaces CDN (no app proxy).
  *
- * Pattern: {NURSENEST_IMAGES_SPACE_PUBLIC_BASE_URL}/screenshot{N}.png
- * e.g. https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshot1.png
- *
- * Optional proxy / fallback: see `marketing-resolve-image-url.ts` and `home-restored-client.tsx`.
+ * Exact pattern: https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshot{N}.png
+ * for N = 1 … 15.
  */
-import { nursenestImagesSpaceObjectUrl } from "./marketing-cdn.catalog";
+export const HOME_HERO_CDN_BASE_URL = "https://nursenest-images.tor1.cdn.digitaloceanspaces.com" as const;
 
 export const HOME_HERO_SCREENSHOT_COUNT = 15 as const;
 
@@ -18,9 +16,10 @@ export function homeHeroScreenshotObjectKey(index1To15: number): string {
   return `screenshot${index1To15}.png`;
 }
 
-/** Canonical public CDN URL for `screenshot{N}.png`. */
+/** Direct CDN URL for `screenshot{N}.png` (always HTTPS; never `/api/marketing-assets`). */
 export function homeHeroScreenshotPublicUrl(index1To15: number): string {
-  return nursenestImagesSpaceObjectUrl(homeHeroScreenshotObjectKey(index1To15));
+  const key = homeHeroScreenshotObjectKey(index1To15);
+  return `${HOME_HERO_CDN_BASE_URL.replace(/\/$/, "")}/${key}`;
 }
 
 export type HomeHeroSlide = {
@@ -105,7 +104,7 @@ function buildAlt(title: string, caption: string): string {
 export const HOMEPAGE_HERO_SLIDES: readonly HomeHeroSlide[] = SLIDE_COPY.map((copy, i) => {
   const index = i + 1;
   const objectKey = homeHeroScreenshotObjectKey(index);
-  const publicUrl = nursenestImagesSpaceObjectUrl(objectKey);
+  const publicUrl = homeHeroScreenshotPublicUrl(index);
   return {
     index,
     objectKey,
@@ -126,6 +125,9 @@ if (process.env.NODE_ENV === "development") {
     }
     if (!/^https:\/\//i.test(slide.publicUrl)) {
       throw new Error(`[home-hero-carousel] publicUrl must be HTTPS: ${slide.publicUrl}`);
+    }
+    if (!slide.publicUrl.startsWith(HOME_HERO_CDN_BASE_URL)) {
+      throw new Error(`[home-hero-carousel] publicUrl must use HOME_HERO_CDN_BASE_URL: ${slide.publicUrl}`);
     }
   });
 }
