@@ -1,21 +1,21 @@
 /**
- * One-off: upsert an ADMIN user (bcrypt password, same cost as signup).
+ * Idempotent: upserts by email (single row). bcrypt cost 12 — same as signup / Credentials auth.
+ * Uses DATABASE_URL from the environment (same as Prisma CLI / Next.js `prisma` client).
  *
- * Usage (from nursenest-core, with DATABASE_URL set):
- *   BOOTSTRAP_ADMIN_EMAIL=you@example.com BOOTSTRAP_ADMIN_PASSWORD='your-secure-password' \\
- *     BOOTSTRAP_ADMIN_USERNAME=myhandle npx tsx scripts/ensure-admin-user.ts
+ * Update path: passwordHash, role ADMIN, optional username; does not change country/tier/subscription fields.
+ * Create path: sets defaults for country/tier only for new rows.
  *
- * Do not commit real passwords. Rotate after first login.
+ *   BOOTSTRAP_ADMIN_EMAIL=you@example.com BOOTSTRAP_ADMIN_PASSWORD='…' BOOTSTRAP_ADMIN_USERNAME=handle npx tsx scripts/ensure-admin-user.ts
  */
 import { hash } from "bcryptjs";
-import { PrismaClient, type CountryCode, type TierCode } from "@prisma/client";
+import { PrismaClient, type CountryCode, type Prisma, type TierCode } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 async function main() {
   const email = process.env.BOOTSTRAP_ADMIN_EMAIL?.trim().toLowerCase();
   const password = process.env.BOOTSTRAP_ADMIN_PASSWORD ?? "";
-  const name = process.env.BOOTSTRAP_ADMIN_NAME?.trim() || "Admin";
+  const nameFromEnv = process.env.BOOTSTRAP_ADMIN_NAME?.trim();
   const country = (process.env.BOOTSTRAP_ADMIN_COUNTRY as CountryCode) || "US";
   const tier = (process.env.BOOTSTRAP_ADMIN_TIER as TierCode) || "RN";
   const usernameRaw = process.env.BOOTSTRAP_ADMIN_USERNAME?.trim();
@@ -40,26 +40,35 @@ async function main() {
 
   const passwordHash = await hash(password, 12);
 
-  const user = await prisma.user.upsert({
-    where: { email },
-    update: {
-      passwordHash,
-      role: "ADMIN",
-      name,
-      country,
-      tier,
-      ...(username ? { username } : {}),
-    },
-    create: {
-      email,
-      name,
-      passwordHash,
-      role: "ADMIN",
-      country,
-      tier,
-      username: username ?? undefined,
-    },
-  });
+  const existing = await prisma.user.findUnique({ where: { email }, select: { id: true } });
+
+  const updateData: Prisma.UserUpdateInput = {
+    passwordHash,
+    role: "ADMIN",
+  };
+  if (username !== null) {
+    updateData.username = username;
+  }
+  if (nameFromEnv) {
+    updateData.name = nameFromEnv;
+  }
+
+  const createData = {
+    email,
+    name: nameFromEnv || "Admin",
+    passwordHash,
+    role: "ADMIN" as const,
+    country,
+    tier,
+    username: username ?? undefined,
+  };
+
+  const user = existing
+    ? await prisma.user.update({
+        where: { email },
+        data: updateData,
+      })
+    : await prisma.user.create({ data: createData });
 
   console.log("Admin user ready:", user.email, "username=", user.username ?? "(none)", "role=", user.role);
 }
