@@ -9,9 +9,9 @@ const ALLOWED = new Set<string>([
   "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr", "id",
 ]);
 
-/** From `…/i18n/[filename]/route.ts` → package `public/i18n` (no `process.cwd()` — avoids Turbopack NFT / next.config false trace). */
+/** From `…/i18n/[filename]/route.ts` → package `public/i18n` (no `process.cwd()`). */
 const I18N_DIR = path.join(
-  path.dirname(fileURLToPath(import.meta.url)),
+  /*turbopackIgnore: true*/ path.dirname(fileURLToPath(import.meta.url)),
   "..",
   "..",
   "..",

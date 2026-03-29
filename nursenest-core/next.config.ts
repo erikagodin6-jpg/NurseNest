@@ -1,10 +1,16 @@
 /**
  * Build context: run `npm run build` from this directory (`nursenest-core`), or set DigitalOcean App Platform
  * **Source directory** to `nursenest-core` so `process.cwd()` and `@shared/*` → `../shared` resolve like local dev.
- * Setting `turbopack.root` to this folder breaks `@shared/*` imports (monorepo siblings live outside the package).
+ * `turbopack.root` / `outputFileTracingRoot` point at the **repo root** (parent of this package), not at
+ * `nursenest-core` alone — the latter breaks `@shared/*` resolution; the parent matches the primary lockfile
+ * and silences “multiple lockfiles” warnings without changing import paths.
  */
+import { fileURLToPath } from "url";
 import type { NextConfig } from "next";
 import { getAllProgrammaticSlugs } from "./src/lib/seo/programmatic-registry";
+
+/** Parent of `nursenest-core/` (repo root); avoids `path` in config bundle (fixes ESM load). */
+const monorepoRoot = fileURLToPath(new URL("..", import.meta.url));
 const programmaticSeoRewrites = getAllProgrammaticSlugs().map((slug) => ({
   source: `/${slug}`,
   destination: `/seo/${slug}`,
@@ -24,6 +30,10 @@ const seoCanonicalRedirects = getAllProgrammaticSlugs().map((slug) => ({
 }));
 
 const nextConfig: NextConfig = {
+  turbopack: {
+    root: monorepoRoot,
+  },
+  outputFileTracingRoot: monorepoRoot,
   images: {
     remotePatterns: [
       {
