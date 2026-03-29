@@ -107,23 +107,19 @@ export function getBlueBrandMarkLoadChain(): string[] {
 }
 
 /**
- * Header mark load order: blue-brand mask chain when `headerUsesThemeTintedBrandMark()`; else per-theme rasters.
- * Always appends per-theme rasters, legacy site URL, and a same-origin public asset so a single CDN miss
- * cannot blank the mark.
+ * Header mark load order: per-theme colored rasters first (correct brand color per theme), then optional
+ * blue-brand stem variants when the catalog marks the mark as theme-tinted, then legacy single URL + local SVG.
+ * `<img>` marks must not prefer `PRIMARY_LOGO_URL` ahead of theme rasters — that caused the wrong (blue-only) color.
  */
 export function getHeaderBrandLogoLoadChain(themeId?: string | null): string[] {
   const id = normalizeThemeIdForLogo(themeId ?? NURSENEST_DEFAULT_THEME);
   const themeRasterChain = getThemeLogoLoadChain(id);
-  const universalTail = uniqueStrings([
-    ...themeRasterChain,
-    LOGO_LEGACY_FALLBACK_URL,
-    FALLBACK_LOGO_PATH,
-  ]);
+  const legacyAndLocal = uniqueStrings([LOGO_LEGACY_FALLBACK_URL, FALLBACK_LOGO_PATH]);
   if (headerUsesThemeTintedBrandMark()) {
     const blue = getBlueBrandMarkLoadChain();
-    return uniqueStrings([PRIMARY_LOGO_URL, ...blue, ...universalTail]);
+    return uniqueStrings([...themeRasterChain, ...blue, PRIMARY_LOGO_URL, ...legacyAndLocal]);
   }
-  return uniqueStrings([PRIMARY_LOGO_URL, ...universalTail]);
+  return uniqueStrings([...themeRasterChain, PRIMARY_LOGO_URL, ...legacyAndLocal]);
 }
 
 /** Primary URL — first candidate in `getThemeLogoLoadChain`. */

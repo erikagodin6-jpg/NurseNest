@@ -28,20 +28,11 @@ import { useMarketingI18n } from "@/lib/marketing-i18n";
 import { mapLegacyMarketingHref } from "@/lib/legacy-marketing-routes";
 import { useNursenestRegion } from "@/lib/region/use-nursenest-region";
 import { LazySection } from "@/legacy/marketing/lazy-section";
-import { HOMEPAGE_HERO_SLIDES, isForbiddenBrowserImageScheme } from "@/lib/marketing-assets";
-
-/** Same-origin SVG — never gs://, always loads. */
-const HERO_LOCAL_FALLBACK_SRC = "/marketing/hero-fallback.svg";
-
-/**
- * Tier 0: direct DigitalOcean CDN HTTPS URL (see `home-hero-carousel.ts`).
- * Tier 1: same-origin SVG fallback (never `/api/marketing-assets`).
- */
-function getHeroSlideSrc(slide: { publicUrl: string; objectKey: string }, tier: number): string {
-  if (tier >= 1) return HERO_LOCAL_FALLBACK_SRC;
-  if (isForbiddenBrowserImageScheme(slide.publicUrl)) return HERO_LOCAL_FALLBACK_SRC;
-  return slide.publicUrl;
-}
+import { HOMEPAGE_HERO_SLIDES } from "@/lib/marketing-assets";
+import {
+  getMarketingHeroImageUrlChain,
+  MARKETING_HERO_LOCAL_FALLBACK,
+} from "@/lib/marketing-hero-image";
 
 const HeroFeatureStrip = dynamic(() => import("@/legacy/marketing/hero-feature-strip"), {
   loading: () => <div className="min-h-[60px]" />,
@@ -173,7 +164,7 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
       <div className="relative w-full min-w-0" data-testid="hero-carousel-fallback">
         <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-[var(--theme-card-border)] bg-[var(--theme-card-bg)] shadow-[var(--shadow-elevated)]">
           <img
-            src={HERO_LOCAL_FALLBACK_SRC}
+            src={MARKETING_HERO_LOCAL_FALLBACK}
             alt=""
             width={1200}
             height={750}
@@ -208,10 +199,14 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
         ) : null}
         {slides.map((slide, index) => {
           if (failed.has(index)) return null;
-          const tier = heroTierByIndex[index] ?? 0;
-          const src = getHeroSlideSrc(slide, tier);
+          const chain = getMarketingHeroImageUrlChain({
+            objectKey: slide.objectKey,
+            publicCdnUrl: slide.publicUrl,
+          });
+          const tier = Math.min(heroTierByIndex[index] ?? 0, chain.length - 1);
+          const src = chain[tier];
           const active = index === current;
-            return (
+          return (
             <img
               key={`${slide.objectKey}-${tier}`}
               src={src}
@@ -228,10 +223,9 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
               aria-hidden={!active}
               referrerPolicy="no-referrer"
               onError={() => {
-                const src = getHeroSlideSrc(slide, tier);
-                console.error("[hero-carousel] image failed", { index, tier, src, objectKey: slide.objectKey });
-                if (tier === 0) {
-                  setHeroTierByIndex((prev) => ({ ...prev, [index]: 1 }));
+                console.error("[hero-carousel] image failed", { index, tier, src, objectKey: slide.objectKey, chain });
+                if (tier < chain.length - 1) {
+                  setHeroTierByIndex((prev) => ({ ...prev, [index]: tier + 1 }));
                   return;
                 }
                 handleImgError(index);

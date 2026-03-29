@@ -4,11 +4,11 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useMarketingI18n } from "@/lib/marketing-i18n";
 import { mapLegacyMarketingHref } from "@/lib/legacy-marketing-routes";
+import { MARKETING_SCREENSHOT_SOURCES, resolveMarketingSrcSet } from "@/lib/marketing-assets";
 import {
-  MARKETING_SCREENSHOT_SOURCES,
-  resolveMarketingAbsoluteUrl,
-  resolveMarketingSrcSet,
-} from "@/lib/marketing-assets";
+  getMarketingHeroImageUrlChain,
+  objectKeyFromPublicCdnUrl,
+} from "@/lib/marketing-hero-image";
 import {
   ArrowRight,
   Star,
@@ -618,6 +618,8 @@ function ScreenshotCarouselSection() {
   const { t } = useMarketingI18n();
   const [activeIndex, setActiveIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [featuredTier, setFeaturedTier] = useState(0);
+  const [thumbTiers, setThumbTiers] = useState<Record<string, number>>({});
   const thumbnailStripRef = useRef<HTMLDivElement>(null);
 
   const goTo = useCallback(
@@ -669,6 +671,19 @@ function ScreenshotCarouselSection() {
   const current = screenshotItems[activeIndex];
   const currentSrc = screenshotData[current.imageKey];
 
+  const featuredChain = getMarketingHeroImageUrlChain({
+    objectKey: objectKeyFromPublicCdnUrl(currentSrc.fallback),
+    publicCdnUrl: currentSrc.fallback,
+  });
+  const featuredTierSafe = Math.min(featuredTier, featuredChain.length - 1);
+  const featuredImgSrc = featuredChain[featuredTierSafe];
+  const featuredCanUseSrcSet =
+    featuredTierSafe === 0 && (featuredChain[0]?.startsWith("https://") ?? false);
+
+  useEffect(() => {
+    setFeaturedTier(0);
+  }, [activeIndex]);
+
   return (
     <section className="overflow-hidden border-t border-[var(--theme-card-border)]" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-screenshot-carousel">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -686,9 +701,9 @@ function ScreenshotCarouselSection() {
             <div className="relative rounded-2xl overflow-hidden bg-white shadow-[var(--shadow-elevated)] border border-[var(--theme-card-border)]/80">
               <div className="relative aspect-[16/10] overflow-hidden bg-[var(--theme-muted-surface)]">
                 <img
-                  srcSet={resolveMarketingSrcSet(currentSrc.srcSet)}
+                  srcSet={featuredCanUseSrcSet ? resolveMarketingSrcSet(currentSrc.srcSet) : undefined}
                   sizes="(max-width: 640px) 480px, (max-width: 1024px) 768px, 1200px"
-                  src={resolveMarketingAbsoluteUrl(currentSrc.fallback)}
+                  src={featuredImgSrc}
                   alt={current.title}
                   width={currentSrc.width}
                   height={currentSrc.height}
@@ -698,6 +713,11 @@ function ScreenshotCarouselSection() {
                   loading="lazy"
                   decoding="async"
                   data-testid="img-carousel-featured"
+                  onError={() => {
+                    if (featuredTierSafe < featuredChain.length - 1) {
+                      setFeaturedTier((t) => t + 1);
+                    }
+                  }}
                 />
               </div>
 
@@ -733,6 +753,12 @@ function ScreenshotCarouselSection() {
           >
             {screenshotItems.map((item, idx) => {
               const thumbSrc = screenshotData[item.imageKey];
+              const thumbChain = getMarketingHeroImageUrlChain({
+                objectKey: objectKeyFromPublicCdnUrl(thumbSrc.thumbFallback),
+                publicCdnUrl: thumbSrc.thumbFallback,
+              });
+              const tt = Math.min(thumbTiers[item.id] ?? 0, thumbChain.length - 1);
+              const thumbCanUseSrcSet = tt === 0 && (thumbChain[0]?.startsWith("https://") ?? false);
               return (
                 <button
                   key={item.id}
@@ -746,8 +772,8 @@ function ScreenshotCarouselSection() {
                   data-testid={`thumb-carousel-${item.id}`}
                 >
                   <img
-                    src={resolveMarketingAbsoluteUrl(thumbSrc.thumbFallback)}
-                    srcSet={resolveMarketingSrcSet(thumbSrc.thumbSrcSet)}
+                    src={thumbChain[tt]}
+                    srcSet={thumbCanUseSrcSet ? resolveMarketingSrcSet(thumbSrc.thumbSrcSet) : undefined}
                     sizes="80px"
                     alt={item.title}
                     width={80}
@@ -755,6 +781,11 @@ function ScreenshotCarouselSection() {
                     className="w-full h-full object-cover object-top"
                     loading="lazy"
                     decoding="async"
+                    onError={() => {
+                      if (tt < thumbChain.length - 1) {
+                        setThumbTiers((prev) => ({ ...prev, [item.id]: tt + 1 }));
+                      }
+                    }}
                   />
                 </button>
               );
