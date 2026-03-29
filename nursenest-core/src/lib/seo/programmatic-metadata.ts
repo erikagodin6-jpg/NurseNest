@@ -16,8 +16,9 @@ function hreflangAlternates(slug: string): Record<string, string> {
 
 export function buildProgrammaticMetadata(page: SeoPageDefinition, locale: string): Metadata {
   const slug = page.slug;
-  const canonicalPath = `/${slug}`;
   const isDefaultLocale = locale === DEFAULT_MARKETING_LOCALE;
+  /** Self-referencing canonical per locale (public URL is `/{slug}` or `/{locale}/{slug}`). */
+  const canonicalPath = isDefaultLocale ? `/${slug}` : `/${locale}/${slug}`;
 
   return {
     title: page.title,
@@ -30,7 +31,7 @@ export function buildProgrammaticMetadata(page: SeoPageDefinition, locale: strin
     openGraph: {
       title: page.title,
       description: page.description,
-      url: isDefaultLocale ? absoluteUrl(canonicalPath) : absoluteUrl(`/${locale}/${slug}`),
+      url: absoluteUrl(canonicalPath),
       type: "article",
     },
   };

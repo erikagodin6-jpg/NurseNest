@@ -1,4 +1,4 @@
-import { MARKETING_LANGUAGES } from "@/lib/i18n/marketing-languages";
+import { MARKETING_LANGUAGES } from "./marketing-languages";
 
 /** Default marketing locale: URL has no `/[locale]` prefix; lavender theme remains app default via `AppThemeProvider`. */
 export const DEFAULT_MARKETING_LOCALE = "en" as const;

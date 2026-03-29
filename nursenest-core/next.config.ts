@@ -7,6 +7,7 @@
  */
 import { fileURLToPath } from "url";
 import type { NextConfig } from "next";
+import { CORE_HOSTED_MARKETING_LOCALES } from "./src/lib/i18n/marketing-locale-policy";
 import { getAllProgrammaticSlugs } from "./src/lib/seo/programmatic-registry";
 
 /** Parent of `nursenest-core/` (repo root); avoids `path` in config bundle (fixes ESM load). */
@@ -77,7 +78,11 @@ const nextConfig: NextConfig = {
     ];
   },
   async rewrites() {
-    return { beforeFiles: programmaticSeoRewrites };
+    const localeSitemapRewrites = CORE_HOSTED_MARKETING_LOCALES.map((locale) => ({
+      source: `/sitemaps/locale-${locale}.xml`,
+      destination: `/sitemaps/locales/${locale}`,
+    }));
+    return { beforeFiles: [...programmaticSeoRewrites, ...localeSitemapRewrites] };
   },
 };
 

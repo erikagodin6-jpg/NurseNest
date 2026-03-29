@@ -1,39 +1,36 @@
 /**
- * Synchronous sitemap URL list for `/sitemap.xml`. No Prisma, no filesystem i18n, no network.
- * Used only by `src/app/sitemap.xml/route.ts` so Google always gets a fast 200.
+ * Synchronous sitemap URL lists: no Prisma, no filesystem i18n, no network.
+ * Split into index + child sitemaps by route family for GSC reliability.
  */
 
+import { resolveCanonicalSiteOrigin } from "@/lib/seo/canonical-site";
 import { CORE_HOSTED_MARKETING_LOCALES } from "@/lib/i18n/marketing-locale-policy";
 import { getAllProgrammaticSlugs } from "@/lib/seo/programmatic-registry";
 import { getAllToolSlugs } from "@/lib/tools/tool-registry";
 
-const FALLBACK_ORIGIN = "https://www.nursenest.ca";
+const SORTED_LOCALES = [...CORE_HOSTED_MARKETING_LOCALES].sort();
 
 export function resolveSitemapOrigin(): string {
-  try {
-    const raw = process.env.NEXT_PUBLIC_APP_URL?.trim();
-    if (!raw) return FALLBACK_ORIGIN;
-    const u = raw.replace(/\/$/, "");
-    return u.length > 0 ? u : FALLBACK_ORIGIN;
-  } catch {
-    return FALLBACK_ORIGIN;
-  }
+  return resolveCanonicalSiteOrigin();
 }
 
-/** Minimal valid sitemap (single home URL). */
-export function minimalSitemapXml(): string {
-  const base = resolveSitemapOrigin();
-  const home = base.endsWith("/") ? base.slice(0, -1) : base;
-  const loc = escapeXml(`${home}/`);
-  const lastmod = safeLastmodDate();
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>${loc}</loc>
-    <lastmod>${lastmod}</lastmod>
-  </url>
-</urlset>
-`;
+export function normalizeOrigin(origin: string): string {
+  return origin.endsWith("/") ? origin.slice(0, -1) : origin;
+}
+
+/** Child sitemap `<loc>` entries (stable order for deterministic index). */
+export function getChildSitemapLocs(origin: string): string[] {
+  const o = normalizeOrigin(origin);
+  const children: string[] = [
+    `${o}/sitemaps/core.xml`,
+    `${o}/sitemaps/seo-pages.xml`,
+    `${o}/sitemaps/blog.xml`,
+    `${o}/sitemaps/tools.xml`,
+  ];
+  for (const code of SORTED_LOCALES) {
+    children.push(`${o}/sitemaps/locale-${code}.xml`);
+  }
+  return children;
 }
 
 function safeLastmodDate(): string {
@@ -53,56 +50,10 @@ function escapeXml(s: string): string {
     .replace(/'/g, "&apos;");
 }
 
-/**
- * Build full sitemap XML. Any failure → caller should use `minimalSitemapXml`.
- * Fully synchronous: no await, no DB.
- */
-export function buildFullSitemapXml(): string {
-  const base = resolveSitemapOrigin();
-  const origin = base.endsWith("/") ? base.slice(0, -1) : base;
+/** Public: reusable urlset builder from absolute URLs (used by blog sitemap). */
+export function buildSitemapUrlsetFromAbsoluteUrls(urls: string[]): string {
+  if (urls.length === 0) return minimalUrlsetSingleHome();
   const lastmod = safeLastmodDate();
-  const urls: string[] = [];
-
-  const add = (path: string) => {
-    const p = path.startsWith("/") ? path : `/${path}`;
-    urls.push(`${origin}${p}`);
-  };
-
-  try {
-    add("/");
-    add("/pricing");
-    add("/for-institutions");
-    add("/blog");
-    add("/tools");
-    add("/pre-nursing");
-
-    for (const slug of getAllToolSlugs()) {
-      add(`/tools/${slug}`);
-    }
-
-    for (const loc of CORE_HOSTED_MARKETING_LOCALES) {
-      add(`/${loc}`);
-      add(`/${loc}/pricing`);
-      add(`/${loc}/for-institutions`);
-      add(`/${loc}/tools`);
-      for (const slug of getAllToolSlugs()) {
-        add(`/${loc}/tools/${slug}`);
-      }
-    }
-
-    const slugs = getAllProgrammaticSlugs();
-    for (const slug of slugs) {
-      add(`/${slug}`);
-    }
-    for (const loc of CORE_HOSTED_MARKETING_LOCALES) {
-      for (const slug of slugs) {
-        add(`/${loc}/${slug}`);
-      }
-    }
-  } catch {
-    return minimalSitemapXml();
-  }
-
   const body = urls
     .map((u) => {
       const loc = escapeXml(u);
@@ -118,4 +69,165 @@ export function buildFullSitemapXml(): string {
 ${body}
 </urlset>
 `;
+}
+
+/** Sitemap index document. */
+export function buildSitemapIndexXml(): string {
+  const origin = normalizeOrigin(resolveSitemapOrigin());
+  const lastmod = safeLastmodDate();
+  const locs = getChildSitemapLocs(origin);
+  const body = locs
+    .map((loc) => {
+      const escaped = escapeXml(loc);
+      return `  <sitemap>
+    <loc>${escaped}</loc>
+    <lastmod>${lastmod}</lastmod>
+  </sitemap>`;
+    })
+    .join("\n");
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${body}
+</sitemapindex>
+`;
+}
+
+/**
+ * core.xml — Default-locale marketing shell only (no locale prefix, no programmatic slugs).
+ */
+export function collectCoreUrls(origin: string): string[] {
+  const o = normalizeOrigin(origin);
+  const add = (path: string) => {
+    const p = path.startsWith("/") ? path : `/${path}`;
+    return `${o}${p}`;
+  };
+  return [
+    add("/"),
+    add("/pricing"),
+    add("/for-institutions"),
+    add("/blog"),
+    add("/pre-nursing"),
+  ];
+}
+
+/** seo-pages.xml — English canonical programmatic URLs at `/{slug}` (rewritten to /seo/[slug] internally). */
+export function collectSeoPagesUrls(origin: string): string[] {
+  const o = normalizeOrigin(origin);
+  return getAllProgrammaticSlugs().map((slug) => `${o}/${slug}`);
+}
+
+/**
+ * Per-locale marketing + programmatic (tools live in tools.xml).
+ * `locale` must be a non-default hosted locale code (e.g. fr, es).
+ */
+export function collectLocaleMarketingUrls(origin: string, locale: string): string[] {
+  const o = normalizeOrigin(origin);
+  const add = (path: string) => {
+    const p = path.startsWith("/") ? path : `/${path}`;
+    return `${o}${p}`;
+  };
+  const urls: string[] = [];
+  urls.push(add(`/${locale}`));
+  urls.push(add(`/${locale}/pricing`));
+  urls.push(add(`/${locale}/for-institutions`));
+  for (const slug of getAllProgrammaticSlugs()) {
+    urls.push(add(`/${locale}/${slug}`));
+  }
+  return urls;
+}
+
+export function collectToolsUrls(origin: string): string[] {
+  const o = normalizeOrigin(origin);
+  const add = (path: string) => {
+    const p = path.startsWith("/") ? path : `/${path}`;
+    return `${o}${p}`;
+  };
+  const urls: string[] = [];
+  urls.push(add("/tools"));
+  for (const slug of getAllToolSlugs()) {
+    urls.push(add(`/tools/${slug}`));
+  }
+  for (const loc of CORE_HOSTED_MARKETING_LOCALES) {
+    urls.push(add(`/${loc}/tools`));
+    for (const slug of getAllToolSlugs()) {
+      urls.push(add(`/${loc}/tools/${slug}`));
+    }
+  }
+  return urls;
+}
+
+export function buildCoreSitemapXml(): string {
+  try {
+    return buildSitemapUrlsetFromAbsoluteUrls(collectCoreUrls(resolveSitemapOrigin()));
+  } catch {
+    return minimalUrlsetSingleHome();
+  }
+}
+
+export function buildSeoPagesSitemapXml(): string {
+  try {
+    const urls = collectSeoPagesUrls(resolveSitemapOrigin());
+    if (urls.length === 0) return minimalUrlsetSingleHome();
+    return buildSitemapUrlsetFromAbsoluteUrls(urls);
+  } catch {
+    return minimalUrlsetSingleHome();
+  }
+}
+
+export function buildToolsSitemapXml(): string {
+  try {
+    return buildSitemapUrlsetFromAbsoluteUrls(collectToolsUrls(resolveSitemapOrigin()));
+  } catch {
+    return minimalUrlsetSingleHome();
+  }
+}
+
+export function buildLocaleSitemapXml(locale: string): string {
+  try {
+    return buildSitemapUrlsetFromAbsoluteUrls(collectLocaleMarketingUrls(resolveSitemapOrigin(), locale));
+  } catch {
+    return minimalUrlsetSingleHome();
+  }
+}
+
+export function buildSitemapIndexXmlSafe(): string {
+  try {
+    return buildSitemapIndexXml();
+  } catch {
+    return minimalSitemapIndexXml();
+  }
+}
+
+export function minimalUrlsetSingleHome(): string {
+  const base = normalizeOrigin(resolveSitemapOrigin());
+  const loc = escapeXml(`${base}/`);
+  const lastmod = safeLastmodDate();
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${loc}</loc>
+    <lastmod>${lastmod}</lastmod>
+  </url>
+</urlset>
+`;
+}
+
+export function minimalSitemapIndexXml(): string {
+  const origin = normalizeOrigin(resolveSitemapOrigin());
+  const lastmod = safeLastmodDate();
+  const loc = escapeXml(`${origin}/sitemaps/core.xml`);
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+    <loc>${loc}</loc>
+    <lastmod>${lastmod}</lastmod>
+  </sitemap>
+</sitemapindex>
+`;
+}
+
+/** @deprecated */
+export function minimalSitemapXml(): string {
+  return minimalUrlsetSingleHome();
 }
