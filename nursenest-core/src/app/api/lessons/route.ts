@@ -2,12 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { freemiumLessonWhereForProfile, lessonAccessWhere } from "@/lib/entitlements/content-access-scope";
 import { getFreemiumSnapshot } from "@/lib/entitlements/freemium";
-import { requireSubscriberSession } from "@/lib/entitlements/require-subscriber-session";
 import { resolveEntitlement } from "@/lib/entitlements/resolve-entitlement";
 import { prisma } from "@/lib/db";
+import { withDatabaseFallback } from "@/lib/db/safe-database";
 import { safeServerLogCritical } from "@/lib/observability/safe-server-log";
 import { setSentryServerContext } from "@/lib/observability/sentry-server-context";
-import { withRetry } from "@/lib/resilience/with-retry";
 import type { CountryCode, TierCode } from "@prisma/client";
 
 export async function GET(req: NextRequest) {
@@ -20,50 +19,76 @@ export async function GET(req: NextRequest) {
   const page = Math.max(1, Number(req.nextUrl.searchParams.get("page") ?? "1"));
   const pageSize = Math.min(20, Math.max(5, Number(req.nextUrl.searchParams.get("pageSize") ?? "10")));
 
-  let entitlement;
-  try {
-    entitlement = await resolveEntitlement(userId);
-  } catch (e) {
-    safeServerLogCritical("api_lessons", "entitlement_resolve_failed", { page }, e);
-    return NextResponse.json({ error: "Unable to verify access. Try again shortly." }, { status: 503 });
+  setSentryServerContext({ route: "/api/lessons", feature: "lesson", userId });
+
+  const entitlement = await withDatabaseFallback(() => resolveEntitlement(userId), null);
+  if (!entitlement) {
+    safeServerLogCritical("api_lessons", "entitlement_resolve_failed", { page });
+    return NextResponse.json({
+      page,
+      pageSize,
+      lessons: [],
+      mode: "unavailable" as const,
+      freemiumRemainingAfterBatch: 0,
+      error: "Lessons are temporarily unavailable.",
+    });
   }
 
   if (entitlement.hasAccess) {
-    const gate = await requireSubscriberSession();
-    if (!gate.ok) return gate.response;
-
-    setSentryServerContext({ route: "/api/lessons", feature: "lesson", userId: gate.userId });
-
-    try {
-      const lessons = await withRetry(() =>
+    const lessons = await withDatabaseFallback(
+      () =>
         prisma.contentItem.findMany({
-          where: lessonAccessWhere(gate.entitlement),
+          where: lessonAccessWhere(entitlement),
           select: { id: true, slug: true, title: true, summary: true },
           orderBy: { updatedAt: "desc" },
           skip: (page - 1) * pageSize,
           take: pageSize,
         }),
-      );
+      null,
+    );
 
-      return NextResponse.json({ page, pageSize, lessons, mode: "subscriber" as const });
-    } catch (e) {
-      safeServerLogCritical("api_lessons", "prisma_find_failed", { page }, e);
-      return NextResponse.json({ error: "Unable to load lessons. Try again shortly." }, { status: 503 });
+    if (lessons === null) {
+      safeServerLogCritical("api_lessons", "prisma_find_failed", { page });
+      return NextResponse.json({
+        page,
+        pageSize,
+        lessons: [],
+        mode: "subscriber" as const,
+        unavailable: true,
+        error: "Lessons are temporarily unavailable.",
+      });
     }
+
+    return NextResponse.json({ page, pageSize, lessons, mode: "subscriber" as const });
   }
 
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { country: true, tier: true, freeLessonOpens: true },
-  });
+  const user = await withDatabaseFallback(
+    () =>
+      prisma.user.findUnique({
+        where: { id: userId },
+        select: { country: true, tier: true, freeLessonOpens: true },
+      }),
+    null,
+  );
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  setSentryServerContext({ route: "/api/lessons", feature: "lesson", userId });
+  const snap = await withDatabaseFallback(() => getFreemiumSnapshot(userId), null);
+  if (!snap) {
+    safeServerLogCritical("api_lessons", "freemium_snapshot_failed", { page });
+    return NextResponse.json({
+      page: 1,
+      pageSize: 0,
+      lessons: [],
+      mode: "freemium" as const,
+      freemiumRemainingAfterBatch: 0,
+      unavailable: true,
+      error: "Lesson previews are temporarily unavailable.",
+    });
+  }
 
-  const snap = await getFreemiumSnapshot(userId);
-  if (!snap || snap.lessonRemaining <= 0) {
+  if (snap.lessonRemaining <= 0) {
     return NextResponse.json(
       {
         error: "Subscription required",
@@ -76,10 +101,9 @@ export async function GET(req: NextRequest) {
   }
 
   const take = Math.min(pageSize, snap.lessonRemaining);
-
-  try {
-    const where = freemiumLessonWhereForProfile(user.country as CountryCode, user.tier as TierCode);
-    const lessons = await withRetry(() =>
+  const where = freemiumLessonWhereForProfile(user.country as CountryCode, user.tier as TierCode);
+  const lessons = await withDatabaseFallback(
+    () =>
       prisma.contentItem.findMany({
         where,
         select: { id: true, slug: true, title: true, summary: true },
@@ -87,34 +111,35 @@ export async function GET(req: NextRequest) {
         skip: 0,
         take,
       }),
-    );
+    null,
+  );
 
-    const used = lessons.length;
-    if (used > 0) {
-      await prisma.user.update({
-        where: { id: userId },
-        data: { freeLessonOpens: { increment: used } },
-      });
-    }
-
-    const remaining = Math.max(0, snap.lessonRemaining - used);
-    const trimmedSummary = lessons.map((l) => ({
-      ...l,
-      summary:
-        (l.summary ?? "").length > 220
-          ? `${(l.summary ?? "").slice(0, 220).trim()}… — unlock full lessons with a subscription.`
-          : l.summary ?? "",
-    }));
-
+  if (lessons === null) {
+    safeServerLogCritical("api_lessons", "prisma_find_failed_freemium", { page });
     return NextResponse.json({
       page: 1,
-      pageSize: take,
-      lessons: trimmedSummary,
+      pageSize: 0,
+      lessons: [],
       mode: "freemium" as const,
-      freemiumRemainingAfterBatch: remaining,
+      freemiumRemainingAfterBatch: snap.lessonRemaining,
+      unavailable: true,
+      error: "Lesson previews are temporarily unavailable.",
     });
-  } catch (e) {
-    safeServerLogCritical("api_lessons", "prisma_find_failed_freemium", { page }, e);
-    return NextResponse.json({ error: "Unable to load lessons. Try again shortly." }, { status: 503 });
   }
+
+  const trimmedSummary = lessons.map((l) => ({
+    ...l,
+    summary:
+      (l.summary ?? "").length > 220
+        ? `${(l.summary ?? "").slice(0, 220).trim()}… — unlock full lessons with a subscription.`
+        : l.summary ?? "",
+  }));
+
+  return NextResponse.json({
+    page: 1,
+    pageSize: take,
+    lessons: trimmedSummary,
+    mode: "freemium" as const,
+    freemiumRemainingAfterBatch: snap.lessonRemaining,
+  });
 }
