@@ -1,19 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { flashcardAccessWhere } from "@/lib/entitlements/content-access-scope";
-import { requireSubscriberSession } from "@/lib/entitlements/require-subscriber-session";
 import { resolveEntitlement } from "@/lib/entitlements/resolve-entitlement";
 import { prisma } from "@/lib/db";
+import { withDatabaseFallback } from "@/lib/db/safe-database";
 import { safeServerLogCritical } from "@/lib/observability/safe-server-log";
 import { setSentryServerContext } from "@/lib/observability/sentry-server-context";
-import { withRetry } from "@/lib/resilience/with-retry";
 
-/**
- * Subscriber-only flashcard list (backend-enforced; no freemium bypass of full backs).
- */
 export async function GET(req: NextRequest) {
   const session = await auth();
   const userId = (session?.user as { id?: string } | undefined)?.id;
+
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -21,27 +18,29 @@ export async function GET(req: NextRequest) {
   const page = Math.max(1, Number(req.nextUrl.searchParams.get("page") ?? "1"));
   const pageSize = Math.min(30, Math.max(5, Number(req.nextUrl.searchParams.get("pageSize") ?? "12")));
 
-  let entitlement;
-  try {
-    entitlement = await resolveEntitlement(userId);
-  } catch (e) {
-    safeServerLogCritical("api_flashcards", "entitlement_resolve_failed", { page }, e);
-    return NextResponse.json({ error: "Unable to verify access. Try again shortly." }, { status: 503 });
+  setSentryServerContext({ route: "/api/flashcards", feature: "lesson", userId });
+
+  const entitlement = await withDatabaseFallback(() => resolveEntitlement(userId), null);
+
+  if (!entitlement) {
+    safeServerLogCritical("api_flashcards", "entitlement_resolve_failed", { page });
+
+    return NextResponse.json({
+      page,
+      pageSize,
+      flashcards: [],
+      unavailable: true,
+    });
   }
 
   if (!entitlement.hasAccess) {
     return NextResponse.json({ error: "Subscription required", code: "paywall" }, { status: 403 });
   }
 
-  const gate = await requireSubscriberSession();
-  if (!gate.ok) return gate.response;
-
-  setSentryServerContext({ route: "/api/flashcards", feature: "lesson", userId: gate.userId });
-
-  try {
-    const flashcards = await withRetry(() =>
+  const flashcards = await withDatabaseFallback(
+    () =>
       prisma.flashcard.findMany({
-        where: flashcardAccessWhere(gate.entitlement),
+        where: flashcardAccessWhere(entitlement),
         select: {
           id: true,
           front: true,
@@ -53,11 +52,13 @@ export async function GET(req: NextRequest) {
         skip: (page - 1) * pageSize,
         take: pageSize,
       }),
-    );
+    [],
+  );
 
-    return NextResponse.json({ page, pageSize, flashcards, mode: "subscriber" as const });
-  } catch (e) {
-    safeServerLogCritical("api_flashcards", "find_failed", { page }, e);
-    return NextResponse.json({ error: "Unable to load flashcards" }, { status: 503 });
-  }
+  return NextResponse.json({
+    page,
+    pageSize,
+    flashcards,
+    mode: "subscriber" as const,
+  });
 }
