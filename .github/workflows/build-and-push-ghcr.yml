@@ -1,4 +1,4 @@
-name: Build and Push GHCR Image
+name: Build → GHCR → Deploy DigitalOcean
 
 on:
   push:
@@ -14,10 +14,14 @@ concurrency:
   group: ghcr-build-main
   cancel-in-progress: true
 
+env:
+  IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/nursenest
+  DIGITALOCEAN_APP_ID: ${{ vars.DIGITALOCEAN_APP_ID || 'd6a4b825-4d70-4dd4-8d71-04b354d36f43' }}
+
 jobs:
   docker:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 60
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -72,8 +76,31 @@ jobs:
           DOCKER_BUILDKIT: "0"
         run: |
           set -euxo pipefail
-          IMAGE="ghcr.io/${{ github.repository_owner }}/nursenest"
           SHORT_SHA="${GITHUB_SHA::7}"
-          docker build -f Dockerfile.runtime -t "${IMAGE}:latest" -t "${IMAGE}:sha-${SHORT_SHA}" .
-          docker push "${IMAGE}:latest"
-          docker push "${IMAGE}:sha-${SHORT_SHA}"
+          docker build -f Dockerfile.runtime -t "${IMAGE_NAME}:latest" -t "${IMAGE_NAME}:sha-${SHORT_SHA}" .
+          docker push "${IMAGE_NAME}:latest"
+          docker push "${IMAGE_NAME}:sha-${SHORT_SHA}"
+
+      - name: Validate DigitalOcean deployment configuration
+        run: |
+          set -euo pipefail
+          if [ -z "${DIGITALOCEAN_ACCESS_TOKEN:-}" ]; then
+            echo "::error title=Missing DIGITALOCEAN_ACCESS_TOKEN::Add a GitHub Actions repository secret named DIGITALOCEAN_ACCESS_TOKEN with Apps write access so CI can trigger DigitalOcean after GHCR push."
+            exit 1
+          fi
+          if [ -z "${DIGITALOCEAN_APP_ID:-}" ]; then
+            echo "::error title=Missing DIGITALOCEAN_APP_ID::Set repository variable DIGITALOCEAN_APP_ID or keep the workflow fallback app id current."
+            exit 1
+          fi
+        env:
+          DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Trigger DigitalOcean deployment
+        run: |
+          set -euxo pipefail
+          doctl apps create-deployment "${DIGITALOCEAN_APP_ID}"
