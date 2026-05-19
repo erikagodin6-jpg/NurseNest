@@ -1,106 +1,21 @@
-name: Build → GHCR → Deploy DigitalOcean
+name: Build GHCR Deploy DigitalOcean disabled
+
+# Disabled intentionally.
+# DigitalOcean serves ghcr.io/erikagodin6-jpg/nursenest:latest.
+# That image is now built from erikagodin6-jpg/nursenest-core instead.
+# This older repository must not overwrite the live latest image.
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
-
-permissions:
-  contents: read
-  packages: write
-
-concurrency:
-  group: ghcr-build-main
-  cancel-in-progress: true
-
-env:
-  IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/nursenest
-  DIGITALOCEAN_APP_ID: ${{ vars.DIGITALOCEAN_APP_ID || 'd6a4b825-4d70-4dd4-8d71-04b354d36f43' }}
+    inputs:
+      acknowledgement:
+        description: "Disabled. Use erikagodin6-jpg/nursenest-core instead."
+        required: true
+        default: "disabled"
 
 jobs:
-  docker:
+  disabled:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-          sparse-checkout-cone-mode: false
-          sparse-checkout: |
-            Dockerfile
-            Dockerfile.runtime
-            .dockerignore
-            package.json
-            package-lock.json
-            tsconfig.json
-            tsconfig.server.json
-            vite.config.ts
-            postcss.config.js
-            components.json
-            drizzle.config.ts
-            i18n-scan.config.json
-            vite-plugin-meta-images.ts
-            client/**
-            !client/src/assets/**
-            server
-            shared
-            script
-            scripts
-            config
-            migrations
-            backup-system
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: npm
-
-      - name: Build app artifacts on runner
-        run: |
-          set -euxo pipefail
-          npm ci --no-audit --no-fund
-          npm run build
-
-      - name: Log in to GHCR
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push image
-        env:
-          DOCKER_BUILDKIT: "0"
-        run: |
-          set -euxo pipefail
-          SHORT_SHA="${GITHUB_SHA::7}"
-          docker build -f Dockerfile.runtime -t "${IMAGE_NAME}:latest" -t "${IMAGE_NAME}:sha-${SHORT_SHA}" .
-          docker push "${IMAGE_NAME}:latest"
-          docker push "${IMAGE_NAME}:sha-${SHORT_SHA}"
-
-      - name: Validate DigitalOcean deployment configuration
-        run: |
-          set -euo pipefail
-          if [ -z "${DIGITALOCEAN_ACCESS_TOKEN:-}" ]; then
-            echo "::error title=Missing DIGITALOCEAN_ACCESS_TOKEN::Add a GitHub Actions repository secret named DIGITALOCEAN_ACCESS_TOKEN with Apps write access so CI can trigger DigitalOcean after GHCR push."
-            exit 1
-          fi
-          if [ -z "${DIGITALOCEAN_APP_ID:-}" ]; then
-            echo "::error title=Missing DIGITALOCEAN_APP_ID::Set repository variable DIGITALOCEAN_APP_ID or keep the workflow fallback app id current."
-            exit 1
-          fi
-        env:
-          DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-
-      - name: Install doctl
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-
-      - name: Trigger DigitalOcean deployment
-        run: |
-          set -euxo pipefail
-          doctl apps create-deployment "${DIGITALOCEAN_APP_ID}"
+      - name: Deployment source moved
+        run: echo "This workflow is disabled. Build and deploy from erikagodin6-jpg/nursenest-core instead."
