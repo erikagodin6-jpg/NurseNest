@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
+import { cookies } from "next/headers";
 import Script from "next/script";
 import { AuthSessionProvider } from "@/components/auth/auth-session-provider";
 import { AppThemeProvider } from "@/components/theme/app-theme-provider";
 import { marketingOpenGraphImageUrl } from "@/lib/marketing-assets";
 import { MARKETING_SITE_ORIGIN } from "@/lib/seo/site-origin";
-import { THEME_STORAGE_KEY } from "@/lib/theme/theme-registry";
+import {
+  NURSENEST_DEFAULT_THEME,
+  THEME_COOKIE_NAME,
+  THEME_STORAGE_KEY,
+  resolveThemeIdFromUnknown,
+} from "@/lib/theme/theme-registry";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -24,9 +30,6 @@ export const metadata: Metadata = {
   },
   description:
     "Stable, premium nursing exam prep for CA and US learners across RPN, LVN/LPN, RN, and NP pathways.",
-  icons: {
-    icon: [{ url: `${siteUrl}/favicon.ico`, sizes: "any" }],
-  },
   openGraph: {
     type: "website",
     locale: "en_CA",
@@ -53,18 +56,20 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const themeBoot = `(function(){try{var k=${JSON.stringify(THEME_STORAGE_KEY)};var v=localStorage.getItem(k);if(v==null||v===""){v="lavender";localStorage.setItem(k,v);}document.documentElement.setAttribute("data-theme",v);}catch(e){}})();`;
+  const cookieStore = await cookies();
+  const cookieTheme = resolveThemeIdFromUnknown(cookieStore.get(THEME_COOKIE_NAME)?.value);
+  const themeBoot = `(function(){try{var k=${JSON.stringify(THEME_STORAGE_KEY)};var fb=${JSON.stringify(cookieTheme)};var v=localStorage.getItem(k);if(v==null||v===""){v=fb||${JSON.stringify(NURSENEST_DEFAULT_THEME)};localStorage.setItem(k,v);}document.documentElement.setAttribute("data-theme",v);}catch(e){document.documentElement.setAttribute("data-theme",${JSON.stringify(NURSENEST_DEFAULT_THEME)});}})();`;
 
   return (
     <html
       lang="en"
       className={`${dmSans.variable} h-full antialiased`}
-      data-theme="lavender"
+      data-theme={cookieTheme}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-[var(--theme-page-bg)] text-[var(--theme-body-text)] transition-colors duration-200">

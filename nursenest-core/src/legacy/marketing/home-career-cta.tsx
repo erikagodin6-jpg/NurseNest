@@ -10,7 +10,7 @@ export default function HomeCareerCta() {
   const { t } = useMarketingI18n();
 
   return (
-    <section className="border-t border-gray-100" style={{ paddingTop: "var(--space-block)", paddingBottom: "var(--space-block)" }} data-testid="section-career-journey-cta">
+    <section className="border-t border-border" style={{ paddingTop: "var(--space-block)", paddingBottom: "var(--space-block)" }} data-testid="section-career-journey-cta">
       <div className="mx-auto max-w-5xl px-4 text-center sm:px-6">
         <div className="rounded-3xl border border-primary/20 bg-gradient-to-r from-primary/[0.08] via-primary/[0.04] to-secondary/40 p-8 shadow-[var(--shadow-card)] sm:p-12">
           <div className="nn-accent-soft-ring mb-5 inline-flex items-center gap-2 rounded-full px-3 py-1.5 shadow-[var(--shadow-card)]">

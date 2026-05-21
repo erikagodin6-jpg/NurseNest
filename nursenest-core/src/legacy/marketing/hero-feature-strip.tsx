@@ -16,7 +16,7 @@ export default function HeroFeatureStrip() {
 
   return (
     <section
-      className="border-t border-gray-100 bg-gradient-to-b from-gray-50/80 to-white py-4 sm:py-5"
+      className="border-t border-border bg-gradient-to-b from-muted/80 to-card py-4 sm:py-5"
       data-testid="section-hero-feature-strip"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">

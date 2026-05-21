@@ -16,10 +16,21 @@
  * Fallback when an id is unknown: `NURSENEST_DEFAULT_THEME` (lavender) logo.
  */
 import {
+  LOGO_AURORA_URL,
+  LOGO_BLOSSOM_URL,
+} from "@/lib/branding/cdn-brand-assets";
+import {
   NURSENEST_IMAGES_SPACE_PUBLIC_BASE_URL,
   nursenestImagesSpaceObjectUrl,
 } from "./marketing-cdn.catalog";
 import { NURSENEST_DEFAULT_THEME, THEME_OPTIONS } from "@/lib/theme/theme-registry";
+
+/** Production brand marks uploaded to Spaces (override generated `branding/themes/logo-*.png`). */
+const THEME_LOGO_CDN_OVERRIDES: Partial<Record<string, string>> = {
+  blossom: LOGO_BLOSSOM_URL,
+  aurora: LOGO_AURORA_URL,
+  blush: LOGO_BLOSSOM_URL,
+};
 
 export const MARKETING_CDN_PUBLIC_BASE = NURSENEST_IMAGES_SPACE_PUBLIC_BASE_URL;
 
@@ -46,6 +57,8 @@ export const THEME_BRAND_LOGO_CDN_BY_ID = Object.fromEntries(
 ) as Record<ThemeId, string>;
 
 export function getThemeBrandLogoCdnUrlForCanonicalId(themeId: string): string {
+  const override = THEME_LOGO_CDN_OVERRIDES[themeId];
+  if (override) return override;
   const id = themeId as ThemeId;
   return THEME_BRAND_LOGO_CDN_BY_ID[id] ?? THEME_BRAND_LOGO_CDN_BY_ID[NURSENEST_DEFAULT_THEME];
 }

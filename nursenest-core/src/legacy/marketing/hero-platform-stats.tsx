@@ -43,7 +43,7 @@ export default function HeroPlatformStats() {
 
   return (
     <section
-      className="border-y border-gray-100 bg-gradient-to-b from-gray-50 to-white"
+      className="border-y border-border bg-gradient-to-b from-muted to-card"
       style={{ paddingTop: "var(--space-block)", paddingBottom: "var(--space-block)" }}
       data-testid="section-platform-stats"
     >
@@ -61,7 +61,7 @@ export default function HeroPlatformStats() {
           {stats.map((stat) => (
             <div
               key={stat.label}
-              className="rounded-2xl border border-gray-100 bg-white p-5 text-center shadow-[var(--shadow-card)] transition-shadow duration-200 hover:shadow-[var(--shadow-card-hover)]"
+              className="rounded-2xl border border-border bg-card p-5 text-center shadow-[var(--shadow-card)] transition-shadow duration-200 hover:shadow-[var(--shadow-card-hover)]"
               data-testid={`stat-card-${stat.label.toLowerCase().replace(/\s+/g, "-")}`}
             >
               <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10">

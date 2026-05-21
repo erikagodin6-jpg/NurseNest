@@ -1,5 +1,5 @@
 import { LocaleLink } from "@/lib/LocaleLink";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
@@ -21,6 +21,11 @@ import {
   Mail,
   CheckCircle2,
   Bell,
+  Brain,
+  Activity,
+  FlaskConical,
+  ClipboardList,
+  Stethoscope,
 } from "lucide-react";
 import { InlineLeadCapture, StickyLeadBanner } from "@/components/lead-capture";
 import { ContextualRelatedResources } from "@/components/related-resources";
@@ -37,20 +42,6 @@ const CATEGORY_KEYS: Record<string, string> = {
   "nursing-fundamentals": "blog.categoryNursingFundamentals",
   "nursing-education": "blog.categoryNursingEducation",
   "allied-health": "blog.categoryAlliedHealth",
-};
-
-const CATEGORY_COLORS: Record<string, string> = {
-  "clinical-reasoning": "bg-blue-50 text-blue-700 border-blue-200",
-  "pharmacology": "bg-purple-50 text-purple-700 border-purple-200",
-  "lab-interpretation": "bg-amber-50 text-amber-700 border-amber-200",
-  "exam-prep": "bg-green-50 text-green-700 border-green-200",
-  "patient-safety": "bg-red-50 text-red-700 border-red-200",
-  "pathophysiology": "bg-indigo-50 text-indigo-700 border-indigo-200",
-  "assessment-skills": "bg-teal-50 text-teal-700 border-teal-200",
-  "medication-safety": "bg-rose-50 text-rose-700 border-rose-200",
-  "nursing-fundamentals": "bg-slate-50 text-slate-700 border-slate-200",
-  "nursing-education": "bg-emerald-50 text-emerald-700 border-emerald-200",
-  "allied-health": "bg-cyan-50 text-cyan-700 border-cyan-200",
 };
 
 function estimateReadTime(content: any[]): number {
@@ -168,6 +159,27 @@ export default function BlogPage() {
     return matchesSearch && matchesCategory && matchesTier;
   });
 
+  const featuredArticles = useMemo(() => articles.slice(0, 3), [articles]);
+  const highYieldArticles = useMemo(() => {
+    return articles
+      .filter(
+        (a: any) =>
+          a.category === "exam-prep" ||
+          a.category === "pharmacology" ||
+          a.category === "patient-safety" ||
+          (Array.isArray(a.tags) &&
+            a.tags.some((tg: string) => /nclex|rex|exam|priority|safety|pharm/i.test(String(tg).toLowerCase())))
+      )
+      .slice(0, 4);
+  }, [articles]);
+
+  const featuredIdSet = useMemo(() => new Set(featuredArticles.map((a: any) => a.id)), [featuredArticles]);
+  const listArticles = useMemo(() => {
+    if (searchQuery || selectedCategory || selectedTier) return filteredArticles;
+    const deduped = filteredArticles.filter((a: any) => !featuredIdSet.has(a.id));
+    return deduped.length > 0 ? deduped : filteredArticles;
+  }, [filteredArticles, featuredIdSet, searchQuery, selectedCategory, selectedTier]);
+
   const baseUrl = "https://www.nursenest.ca";
 
   const blogPostingItems = filteredArticles.slice(0, 10).map((article: any) => ({
@@ -202,8 +214,20 @@ export default function BlogPage() {
     return key ? t(key) : cat;
   }
 
+  const learningTiles = [
+    { href: "/lessons", title: t("blog.tileLessons"), desc: t("blog.tileLessonsDesc"), Icon: BookOpen },
+    { href: "/flashcards", title: t("blog.tileFlashcards"), desc: t("blog.tileFlashcardsDesc"), Icon: Brain },
+    { href: "/lab-values", title: t("blog.tileLabs"), desc: t("blog.tileLabsDesc"), Icon: FlaskConical },
+    { href: "/clinical-clarity", title: t("blog.tileRhythm"), desc: t("blog.tileRhythmDesc"), Icon: Activity },
+    { href: "/nursing-clinical-scenarios", title: t("blog.tileScenarios"), desc: t("blog.tileScenariosDesc"), Icon: Stethoscope },
+    { href: "/mock-exams", title: t("blog.tileMocks"), desc: t("blog.tileMocksDesc"), Icon: ClipboardList },
+  ];
+
   return (
-    <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+    <div
+      className="flex min-h-screen flex-col font-sans"
+      style={{ background: "var(--theme-page-bg)", color: "var(--theme-heading-text)" }}
+    >
       <SEO
         title={t("pages.blog.nursingEducationBlogClinicalReasoning")}
         description={t("pages.blog.evidencebasedNursingArticlesOnClinical")}
@@ -218,28 +242,31 @@ export default function BlogPage() {
       <Navigation />
 
       <main className="flex-grow" data-testid="section-blog">
-        <section className="bg-gradient-to-b from-primary/5 to-transparent py-16">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <BookOpen className="w-6 h-6 text-primary" />
-              <span className="text-sm font-semibold text-primary uppercase tracking-wider">{t("blog.badge")}</span>
+        <section className="border-b border-[var(--theme-border)] bg-gradient-to-b from-primary/10 via-[var(--theme-page-bg)] to-[var(--theme-page-bg)] py-14 sm:py-16">
+          <div className="mx-auto max-w-6xl px-4 text-center sm:px-6 lg:px-8">
+            <div className="mb-4 flex items-center justify-center gap-2">
+              <BookOpen className="h-6 w-6 text-primary" />
+              <span className="text-sm font-semibold uppercase tracking-wider text-primary">{t("blog.badge")}</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4" data-testid="text-blog-heading">
+            <h1
+              className="mb-4 text-4xl font-bold text-[var(--theme-heading-text)] md:text-5xl"
+              data-testid="text-blog-heading"
+            >
               {t("blog.heading")}
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
-              {t("blog.subtitle")}
-            </p>
+            <p className="mx-auto mb-3 max-w-2xl text-lg text-[var(--theme-body-text)]">{t("blog.subtitle")}</p>
+            <p className="mx-auto mb-8 max-w-2xl text-sm text-[var(--theme-muted-text)]">{t("blog.pathwaysHint")}</p>
 
-            <div className="flex items-center justify-center gap-2 mb-6" data-testid="section-tier-filters">
+            <div className="mb-6 flex flex-wrap items-center justify-center gap-2" data-testid="section-tier-filters">
               {TIER_FILTERS.map((tier) => (
                 <button
                   key={tier.key || "all"}
+                  type="button"
                   onClick={() => setSelectedTier(selectedTier === tier.key ? null : tier.key)}
-                  className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${
+                  className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-all ${
                     selectedTier === tier.key || (!selectedTier && !tier.key)
-                      ? "bg-primary text-white shadow-md shadow-primary/25"
-                      : "bg-white text-gray-600 border border-gray-200 hover:border-primary/30 hover:text-primary hover:shadow-sm"
+                      ? "bg-primary text-primary-foreground shadow-md shadow-primary/25"
+                      : "border border-[var(--theme-border)] bg-[var(--theme-card-bg)] text-[var(--theme-body-text)] hover:border-primary/40 hover:text-primary"
                   }`}
                   data-testid={`filter-tier-${tier.key || "all"}`}
                 >
@@ -248,30 +275,60 @@ export default function BlogPage() {
               ))}
             </div>
 
-            <div className="relative max-w-lg mx-auto">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <div className="relative mx-auto max-w-lg">
+              <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[var(--theme-muted-text)]" />
               <Input
                 type="text"
                 placeholder={t("blog.searchPlaceholder")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 h-12 text-base rounded-xl border-primary/20 bg-white shadow-sm"
+                className="h-12 rounded-xl border-[var(--theme-border)] bg-[var(--theme-input-bg)] pl-12 text-base text-[var(--theme-heading-text)] shadow-sm"
                 data-testid="input-search-blog"
               />
             </div>
           </div>
         </section>
 
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <Card className="mb-8 border border-primary/15 bg-gradient-to-r from-primary/5 via-white to-primary/5 shadow-sm overflow-hidden" data-testid="card-blog-subscribe">
+        <section className="border-b border-[var(--theme-border)] py-10" aria-label={t("blog.learningStripTitle")}>
+          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <div className="mb-6 text-center">
+              <h2 className="text-xl font-bold text-[var(--theme-heading-text)]">{t("blog.learningStripTitle")}</h2>
+              <p className="mx-auto mt-2 max-w-3xl text-sm text-[var(--theme-body-text)]">{t("blog.learningStripSubtitle")}</p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {learningTiles.map(({ href, title, desc, Icon }) => (
+                <LocaleLink key={href} href={href}>
+                  <Card className="h-full border border-[var(--theme-border)] bg-[var(--theme-card-bg)] shadow-sm transition-all hover:border-primary/40 hover:shadow-md">
+                    <CardContent className="flex gap-3 p-4">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <div className="min-w-0 text-left">
+                        <h3 className="font-semibold text-[var(--theme-heading-text)]">{title}</h3>
+                        <p className="mt-1 text-xs leading-snug text-[var(--theme-muted-text)]">{desc}</p>
+                      </div>
+                      <ArrowRight className="ml-auto h-4 w-4 shrink-0 text-[var(--theme-muted-text)]" />
+                    </CardContent>
+                  </Card>
+                </LocaleLink>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+          <Card
+            className="mb-10 overflow-hidden border border-[var(--theme-border)] bg-[var(--theme-card-bg)] shadow-sm"
+            data-testid="card-blog-subscribe"
+          >
             <CardContent className="p-6 sm:p-8">
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
                     <Bell className="w-5 h-5 text-primary" />
-                    <h3 className="text-lg font-bold text-gray-900">{t("blog.subscribeTitle")}</h3>
+                    <h3 className="text-lg font-bold text-[var(--theme-heading-text)]">{t("blog.subscribeTitle")}</h3>
                   </div>
-                  <p className="text-sm text-gray-600">{t("blog.subscribeDesc")}</p>
+                  <p className="text-sm text-[var(--theme-body-text)]">{t("blog.subscribeDesc")}</p>
                 </div>
                 {subStatus === "success" ? (
                   <div className="flex items-center gap-2 px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-xl" data-testid="text-subscribe-success">
@@ -287,7 +344,7 @@ export default function BlogPage() {
                         placeholder={t("blog.subscribePlaceholder")}
                         value={subEmail}
                         onChange={(e) => { setSubEmail(e.target.value); if (subStatus === "error") setSubStatus("idle"); }}
-                        className="h-11 pl-10 pr-4 w-full sm:w-64 rounded-full border border-gray-200 dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-sm bg-white dark:bg-gray-800 dark:text-white"
+                        className="h-11 w-full rounded-full border border-[var(--theme-border)] bg-[var(--theme-input-bg)] pl-10 pr-4 text-sm text-[var(--theme-heading-text)] outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:w-64"
                         data-testid="input-blog-subscribe-email"
                       />
                     </div>
@@ -304,17 +361,17 @@ export default function BlogPage() {
                   </form>
                 ) : (
                   <div className="flex flex-col gap-3 w-full sm:w-auto shrink-0" data-testid="section-subscribe-frequency">
-                    <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{t("blog.freqPrompt")}</p>
+                    <p className="text-sm font-medium text-[var(--theme-heading-text)]">{t("blog.freqPrompt")}</p>
                     <div className="flex flex-wrap gap-2">
                       {FREQUENCY_OPTIONS.map((opt) => (
                         <button
                           key={opt.value}
                           type="button"
                           onClick={() => setSubFrequency(opt.value)}
-                          className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                          className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
                             subFrequency === opt.value
-                              ? "bg-primary text-white shadow-sm"
-                              : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+                              ? "bg-primary text-primary-foreground shadow-sm"
+                              : "border border-[var(--theme-border)] bg-[var(--theme-card-bg)] text-[var(--theme-body-text)] hover:border-primary/30"
                           }`}
                           data-testid={`button-freq-${opt.value}`}
                         >
@@ -352,13 +409,14 @@ export default function BlogPage() {
           </Card>
 
           {categories.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-8" data-testid="section-blog-categories">
+            <div className="mb-8 flex flex-wrap gap-2" data-testid="section-blog-categories">
               <button
+                type="button"
                 onClick={() => setSelectedCategory(null)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
                   !selectedCategory
-                    ? "bg-primary text-white"
-                    : "bg-white text-gray-600 border border-gray-200 hover:bg-gray-50"
+                    ? "bg-primary text-primary-foreground"
+                    : "border border-[var(--theme-border)] bg-[var(--theme-card-bg)] text-[var(--theme-body-text)] hover:border-primary/30"
                 }`}
                 data-testid="filter-category-all"
               >
@@ -366,12 +424,13 @@ export default function BlogPage() {
               </button>
               {categories.map((cat: string) => (
                 <button
+                  type="button"
                   key={cat}
                   onClick={() => setSelectedCategory(selectedCategory === cat ? null : cat)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
                     selectedCategory === cat
-                      ? "bg-primary text-white"
-                      : "bg-white text-gray-600 border border-gray-200 hover:bg-gray-50"
+                      ? "bg-primary text-primary-foreground"
+                      : "border border-[var(--theme-border)] bg-[var(--theme-card-bg)] text-[var(--theme-body-text)] hover:border-primary/30"
                   }`}
                   data-testid={`filter-category-${cat}`}
                 >
@@ -381,23 +440,105 @@ export default function BlogPage() {
             </div>
           )}
 
+          {!isLoading &&
+            featuredArticles.length > 0 &&
+            !(searchQuery || selectedCategory || selectedTier) && (
+              <section className="mb-12" data-testid="section-blog-featured">
+                <div className="mb-4">
+                  <h2 className="text-2xl font-bold text-[var(--theme-heading-text)]">{t("blog.featuredTitle")}</h2>
+                  <p className="mt-1 text-sm text-[var(--theme-body-text)]">{t("blog.featuredSubtitle")}</p>
+                </div>
+                <div className="grid gap-4 md:grid-cols-3">
+                  {featuredArticles.map((article: any) => (
+                    <LocaleLink key={article.id} href={`/learn/${article.slug}`}>
+                      <Card className="group h-full cursor-pointer overflow-hidden border border-[var(--theme-border)] bg-[var(--theme-card-bg)] transition-all hover:border-primary/40 hover:shadow-lg">
+                        <CardContent className="flex h-full flex-col p-5">
+                          {article.category && (
+                            <Badge
+                              variant="outline"
+                              className="mb-3 w-fit border-[var(--theme-border)] bg-[var(--theme-secondary)] text-xs text-[var(--theme-secondary-foreground)]"
+                            >
+                              {getCategoryLabel(article.category)}
+                            </Badge>
+                          )}
+                          <h3 className="line-clamp-3 flex-1 text-lg font-bold text-[var(--theme-heading-text)] transition-colors group-hover:text-primary">
+                            {article.title}
+                          </h3>
+                          {article.summary && (
+                            <p className="mt-2 line-clamp-2 text-sm text-[var(--theme-body-text)]">{article.summary}</p>
+                          )}
+                          <div className="mt-4 flex items-center justify-between text-xs text-[var(--theme-muted-text)]">
+                            <span className="flex items-center gap-1">
+                              <Clock className="h-3.5 w-3.5" />
+                              {estimateReadTime(article.content)} {t("blog.minRead")}
+                            </span>
+                            <ArrowRight className="h-4 w-4 text-primary/60 transition-transform group-hover:translate-x-0.5 group-hover:text-primary" />
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </LocaleLink>
+                  ))}
+                </div>
+              </section>
+            )}
+
+          {!isLoading &&
+            highYieldArticles.length > 0 &&
+            !(searchQuery || selectedCategory || selectedTier) && (
+              <section className="mb-12" data-testid="section-blog-high-yield">
+                <div className="mb-4 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
+                    <h2 className="text-xl font-bold text-[var(--theme-heading-text)]">{t("blog.highYieldTitle")}</h2>
+                    <p className="text-sm text-[var(--theme-body-text)]">{t("blog.highYieldSubtitle")}</p>
+                  </div>
+                </div>
+                <div className="flex gap-4 overflow-x-auto pb-2">
+                  {highYieldArticles.map((article: any) => (
+                    <LocaleLink key={article.id} href={`/learn/${article.slug}`} className="min-w-[260px] max-w-xs shrink-0">
+                      <Card className="group h-full cursor-pointer border border-[var(--theme-border)] bg-[var(--theme-card-bg)] transition-all hover:border-primary/40 hover:shadow-md">
+                        <CardContent className="p-4">
+                          <div className="mb-2 flex flex-wrap gap-2">
+                            {article.category && (
+                              <Badge variant="secondary" className="text-[10px] uppercase tracking-wide">
+                                {getCategoryLabel(article.category)}
+                              </Badge>
+                            )}
+                          </div>
+                          <h3 className="line-clamp-2 font-semibold text-[var(--theme-heading-text)] group-hover:text-primary">
+                            {article.title}
+                          </h3>
+                          <p className="mt-2 line-clamp-2 text-xs text-[var(--theme-muted-text)]">{article.summary}</p>
+                        </CardContent>
+                      </Card>
+                    </LocaleLink>
+                  ))}
+                </div>
+              </section>
+            )}
+
           {isLoading ? (
             <div className="flex items-center justify-center py-20">
               <div className="w-8 h-8 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
             </div>
           ) : filteredArticles.length === 0 ? (
-            <div className="text-center py-20">
-              <BookOpen className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <h2 className="text-xl font-semibold text-gray-600 mb-2">
-                {searchQuery || selectedCategory ? t("blog.noMatchTitle") : t("blog.noArticlesTitle")}
+            <div className="py-20 text-center">
+              <BookOpen className="mx-auto mb-4 h-16 w-16 text-[var(--theme-muted-text)]" />
+              <h2 className="mb-2 text-xl font-semibold text-[var(--theme-heading-text)]">
+                {searchQuery || selectedCategory || selectedTier ? t("blog.noMatchTitle") : t("blog.noArticlesTitle")}
               </h2>
-              <p className="text-gray-400">
-                {searchQuery || selectedCategory ? t("blog.noMatchDesc") : t("blog.noArticlesDesc")}
+              <p className="text-[var(--theme-muted-text)]">
+                {searchQuery || selectedCategory || selectedTier ? t("blog.noMatchDesc") : t("blog.noArticlesDesc")}
               </p>
             </div>
           ) : (
             <div className="space-y-6">
-              {filteredArticles.length > 3 && (
+              <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+                <h2 className="text-2xl font-bold text-[var(--theme-heading-text)]">{t("blog.allArticlesTitle")}</h2>
+                <p className="text-sm text-[var(--theme-muted-text)]">
+                  {listArticles.length} {listArticles.length === 1 ? "article" : "articles"}
+                </p>
+              </div>
+              {listArticles.length > 3 && (
                 <div className="hidden sm:block">
                   <InlineLeadCapture
                     leadMagnetType="practice_questions"
@@ -406,20 +547,20 @@ export default function BlogPage() {
                   />
                 </div>
               )}
-              {filteredArticles.map((article: any, idx: number) => (
+              {listArticles.map((article: any) => (
                 <LocaleLink key={article.id} href={`/learn/${article.slug}`}>
                   <Card
-                    className="border border-primary/10 hover:shadow-lg hover:border-primary/20 transition-all cursor-pointer group overflow-hidden"
+                    className="group cursor-pointer overflow-hidden border border-[var(--theme-border)] bg-[var(--theme-card-bg)] transition-all hover:border-primary/40 hover:shadow-lg"
                     data-testid={`card-article-${article.slug}`}
                   >
                     <CardContent className="p-6 sm:p-8">
-                      <div className="flex flex-col sm:flex-row sm:items-start gap-4">
-                        <div className="flex-grow min-w-0">
-                          <div className="flex flex-wrap items-center gap-2 mb-3">
+                      <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+                        <div className="min-w-0 flex-grow">
+                          <div className="mb-3 flex flex-wrap items-center gap-2">
                             {article.category && (
                               <Badge
                                 variant="outline"
-                                className={`text-xs ${CATEGORY_COLORS[article.category] || "bg-gray-50 text-gray-600"}`}
+                                className="border-[var(--theme-border)] bg-[var(--theme-secondary)] text-xs text-[var(--theme-secondary-foreground)]"
                               >
                                 {getCategoryLabel(article.category)}
                               </Badge>
@@ -431,42 +572,45 @@ export default function BlogPage() {
                             )}
                           </div>
 
-                          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors line-clamp-2" data-testid={`text-article-title-${article.slug}`}>
+                          <h2
+                            className="mb-2 line-clamp-2 text-xl font-bold text-[var(--theme-heading-text)] transition-colors group-hover:text-primary sm:text-2xl"
+                            data-testid={`text-article-title-${article.slug}`}
+                          >
                             {article.title}
                           </h2>
 
                           {article.summary && (
-                            <p className="text-gray-600 mb-4 line-clamp-2">{article.summary}</p>
+                            <p className="mb-4 line-clamp-2 text-[var(--theme-body-text)]">{article.summary}</p>
                           )}
 
-                          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400">
+                          <div className="flex flex-wrap items-center gap-4 text-sm text-[var(--theme-muted-text)]">
                             {article.authorName && (
                               <span className="flex items-center gap-1.5">
-                                <User className="w-3.5 h-3.5" />
+                                <User className="h-3.5 w-3.5" />
                                 {article.authorName}
                               </span>
                             )}
                             {article.publishedAt && (
                               <span className="flex items-center gap-1.5">
-                                <Calendar className="w-3.5 h-3.5" />
+                                <Calendar className="h-3.5 w-3.5" />
                                 {formatDate(article.publishedAt)}
                               </span>
                             )}
                             <span className="flex items-center gap-1.5">
-                              <Clock className="w-3.5 h-3.5" />
+                              <Clock className="h-3.5 w-3.5" />
                               {estimateReadTime(article.content)} {t("blog.minRead")}
                             </span>
                             {article.tags && article.tags.length > 0 && (
                               <span className="flex items-center gap-1.5">
-                                <Tag className="w-3.5 h-3.5" />
+                                <Tag className="h-3.5 w-3.5" />
                                 {article.tags.slice(0, 3).join(", ")}
                               </span>
                             )}
                           </div>
                         </div>
 
-                        <div className="hidden sm:flex items-center text-primary/50 group-hover:text-primary transition-colors">
-                          <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                        <div className="hidden items-center text-primary/50 transition-colors group-hover:text-primary sm:flex">
+                          <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1" />
                         </div>
                       </div>
                     </CardContent>
@@ -478,11 +622,8 @@ export default function BlogPage() {
         </div>
       </main>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
-        <ContextualRelatedResources
-          pageType="blog"
-          className="border-t border-gray-200"
-        />
+      <div className="mx-auto max-w-6xl px-4 pb-8 sm:px-6 lg:px-8">
+        <ContextualRelatedResources pageType="blog" className="border-t border-[var(--theme-border)]" />
       </div>
 
       <AdminEditButton />

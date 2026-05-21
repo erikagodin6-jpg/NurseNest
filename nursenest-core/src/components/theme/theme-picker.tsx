@@ -2,6 +2,7 @@
 
 import { useTheme } from "next-themes";
 import { useEffect, useRef, useState } from "react";
+import { writeThemePreferenceCookieClient } from "@/lib/theme/theme-cookie";
 import { THEME_OPTIONS } from "@/lib/theme/theme-registry";
 
 const DEFAULT_THEME_LABELS = {
@@ -43,6 +44,7 @@ export function ThemePicker({ className = "", labels }: { className?: string; la
         <button
           type="button"
           disabled
+          data-testid="theme-picker-trigger"
           className="flex items-center gap-1.5 rounded-full border border-[var(--theme-nav-border)] bg-[var(--theme-nav-bg)] px-2.5 py-1.5 text-xs font-semibold text-[var(--theme-menu-text)] opacity-80"
           aria-label={L.navTheme}
         >
@@ -58,6 +60,7 @@ export function ThemePicker({ className = "", labels }: { className?: string; la
     <div className={`relative ${className}`} ref={ref}>
       <button
         type="button"
+        data-testid="theme-picker-trigger"
         onClick={(e) => {
           e.stopPropagation();
           setOpen((o) => !o);
@@ -89,6 +92,7 @@ export function ThemePicker({ className = "", labels }: { className?: string; la
                   onClick={(e) => {
                     e.stopPropagation();
                     setTheme(opt.id);
+                    writeThemePreferenceCookieClient(opt.id);
                     setOpen(false);
                   }}
                   className={`flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-[var(--theme-menu-hover-bg)] ${

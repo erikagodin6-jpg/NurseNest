@@ -55,6 +55,68 @@
   --theme-topbar-text: #ffffff;
 }
 
+[data-theme="blossom"] {
+  --theme-primary: #ff4fa3;
+  --theme-primary-foreground: #ffffff;
+  --theme-secondary: #ffe8f3;
+  --theme-secondary-foreground: #ff4fa3;
+  --theme-accent: #fff5fa;
+  --theme-accent-foreground: #ff4fa3;
+  --theme-border: #ffcce6;
+  --theme-ring: #ff4fa3;
+  --theme-page-bg: #fff9fc;
+  --theme-nav-bg: #ffffff;
+  --theme-nav-text: #6b7280;
+  --theme-nav-border: color-mix(in srgb, var(--theme-primary) 12%, transparent);
+  --theme-topbar-bg: var(--theme-primary);
+  --theme-topbar-text: #ffffff;
+  --theme-menu-text: #374151;
+  --theme-menu-hover-bg: color-mix(in srgb, var(--theme-primary) 8%, transparent);
+  --theme-menu-hover-text: var(--theme-primary);
+  --theme-menu-active-bg: color-mix(in srgb, var(--theme-primary) 12%, transparent);
+  --theme-card-bg: #ffffff;
+  --theme-card-border: color-mix(in srgb, var(--theme-border) 60%, transparent);
+  --theme-card-text: #6b7280;
+  --theme-input-bg: #ffffff;
+  --theme-input-border: #e5e7eb;
+  --theme-heading-text: #111827;
+  --theme-body-text: #6b7280;
+  --theme-muted-text: #9ca3af;
+  --theme-focus-ring: var(--theme-primary);
+  --theme-separator: #f3f4f6;
+}
+
+[data-theme="aurora"] {
+  --theme-primary: #00e0dc;
+  --theme-primary-foreground: #042f2e;
+  --theme-secondary: #e6fffe;
+  --theme-secondary-foreground: #0d9488;
+  --theme-accent: #f0fffe;
+  --theme-accent-foreground: #0d9488;
+  --theme-border: #b8f3f1;
+  --theme-ring: #00e0dc;
+  --theme-page-bg: #f8fffe;
+  --theme-nav-bg: #ffffff;
+  --theme-nav-text: #6b7280;
+  --theme-nav-border: color-mix(in srgb, var(--theme-primary) 12%, transparent);
+  --theme-topbar-bg: var(--theme-primary);
+  --theme-topbar-text: #042f2e;
+  --theme-menu-text: #374151;
+  --theme-menu-hover-bg: color-mix(in srgb, var(--theme-primary) 10%, transparent);
+  --theme-menu-hover-text: #0d9488;
+  --theme-menu-active-bg: color-mix(in srgb, var(--theme-primary) 14%, transparent);
+  --theme-card-bg: #ffffff;
+  --theme-card-border: color-mix(in srgb, var(--theme-border) 60%, transparent);
+  --theme-card-text: #6b7280;
+  --theme-input-bg: #ffffff;
+  --theme-input-border: #e5e7eb;
+  --theme-heading-text: #111827;
+  --theme-body-text: #6b7280;
+  --theme-muted-text: #9ca3af;
+  --theme-focus-ring: var(--theme-primary);
+  --theme-separator: #f3f4f6;
+}
+
 [data-theme="slate"] {
   --theme-primary: #64748b;
   --theme-secondary: #f1f5f9;
@@ -78,13 +140,13 @@
 }
 
 [data-theme="ocean"] {
-  --theme-primary: #0ea5e9;
-  --theme-secondary: #f0f9ff;
-  --theme-secondary-foreground: #0ea5e9;
-  --theme-accent: #e0f2fe;
-  --theme-accent-foreground: #0ea5e9;
-  --theme-border: #bae6fd;
-  --theme-ring: #0ea5e9;
+  --theme-primary: #22d3ee;
+  --theme-secondary: #ecfeff;
+  --theme-secondary-foreground: #0891b2;
+  --theme-accent: #cffafe;
+  --theme-accent-foreground: #06b6d4;
+  --theme-border: #67e8f9;
+  --theme-ring: #22d3ee;
   --theme-topbar-bg: var(--theme-primary);
   --theme-topbar-text: #ffffff;
 }
@@ -441,4 +503,80 @@
   --color-card-fg-base: #6b7280;
   --color-popover-base: #ffffff;
   --color-popover-fg-base: #6b7280;
+}
+
+/*
+ * Marketing trio: distinct surfaces after the shared light shell so Ocean / Blush / Midnight
+ * visibly diverge while layout primitives stay the same (token-only deltas).
+ */
+[data-theme="ocean"] {
+  --theme-page-bg: #f0f9ff;
+  --theme-nav-bg: #ffffff;
+  --theme-card-bg: #ffffff;
+  --theme-accent: #e0f2fe;
+  --theme-separator: #cffafe;
+  --theme-nav-border: color-mix(in srgb, var(--theme-primary) 14%, transparent);
+  --theme-menu-hover-bg: color-mix(in srgb, var(--theme-primary) 10%, transparent);
+  --theme-menu-active-bg: color-mix(in srgb, var(--theme-primary) 16%, transparent);
+}
+
+/* "Blossom" product name → Blush id: dusty rose accents, no neon/hot pink */
+[data-theme="blush"] {
+  --theme-primary: #a85d6e;
+  --theme-primary-foreground: #ffffff;
+  --theme-secondary: #f4eaec;
+  --theme-secondary-foreground: #7a4452;
+  --theme-accent: #faf5f6;
+  --theme-accent-foreground: #7a4452;
+  --theme-border: #e8d4d9;
+  --theme-ring: #a85d6e;
+  --theme-page-bg: #fcf7f8;
+  --theme-nav-bg: #ffffff;
+  --theme-card-bg: #ffffff;
+  --theme-topbar-bg: var(--theme-primary);
+  --theme-topbar-text: #ffffff;
+}
+
+[data-theme="midnight"] {
+  color-scheme: dark;
+  --theme-primary: #38bdf8;
+  --theme-primary-foreground: #0f172a;
+  --theme-secondary: #1e293b;
+  --theme-secondary-foreground: #7dd3fc;
+  --theme-accent: #0f172a;
+  --theme-accent-foreground: #7dd3fc;
+  --theme-border: #334155;
+  --theme-ring: #38bdf8;
+  --theme-page-bg: #0f172a;
+  --theme-nav-bg: #111c2f;
+  --theme-nav-text: #cbd5e1;
+  --theme-nav-border: #334155;
+  --theme-topbar-bg: #0f172a;
+  --theme-topbar-text: #38bdf8;
+  --theme-menu-text: #e2e8f0;
+  --theme-menu-hover-bg: color-mix(in srgb, var(--theme-primary) 14%, transparent);
+  --theme-menu-hover-text: #7dd3fc;
+  --theme-menu-active-bg: color-mix(in srgb, var(--theme-primary) 22%, transparent);
+  --theme-card-bg: #1e293b;
+  --theme-card-border: #334155;
+  --theme-card-text: #cbd5e1;
+  --theme-input-bg: #1e293b;
+  --theme-input-border: #475569;
+  --theme-heading-text: #f8fafc;
+  --theme-body-text: #cbd5e1;
+  --theme-muted-text: #94a3b8;
+  --theme-focus-ring: #38bdf8;
+  --theme-separator: #334155;
+  --color-warmwhite: #0f172a;
+  --color-softgray: #cbd5e1;
+  --color-background: #0f172a;
+  --color-foreground: #cbd5e1;
+  --color-card: #1e293b;
+  --color-card-foreground: #cbd5e1;
+  --color-popover: #1e293b;
+  --color-popover-foreground: #cbd5e1;
+  --color-card-base: #1e293b;
+  --color-card-fg-base: #cbd5e1;
+  --color-popover-base: #1e293b;
+  --color-popover-fg-base: #cbd5e1;
 }

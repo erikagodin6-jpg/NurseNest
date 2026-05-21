@@ -4,6 +4,7 @@ import { signOut } from "@/lib/auth";
 import { CheckoutSuccessBanner } from "@/components/student/checkout-success-banner";
 import { LearnerThemeControl } from "@/components/student/learner-theme-control";
 import { SentryLearnerShell } from "@/components/observability/sentry-learner-shell";
+import { learnerTierAllowsEcgPrimarySurface } from "@/lib/ecg/ecg-learner-visibility";
 
 /** Auth is enforced in `src/middleware.ts` so this layout never calls `redirect()` for missing session. */
 export const dynamic = "force-dynamic";
@@ -11,6 +12,8 @@ export const dynamic = "force-dynamic";
 export default async function LearnerShellLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
   const userId = (session?.user as { id?: string })?.id ?? "";
+  const tier = (session?.user as { tier?: string })?.tier;
+  const showEcgNav = learnerTierAllowsEcgPrimarySurface(tier);
 
   if (!userId) {
     return (
@@ -45,6 +48,15 @@ export default async function LearnerShellLayout({ children }: { children: React
           <Link className="rounded-full border border-border bg-white px-3 py-2 hover:bg-gray-50" href="/app/study-plan">
             Study plan
           </Link>
+          {showEcgNav ? (
+            <Link
+              className="rounded-full border border-primary/20 bg-primary/8 px-3 py-2 text-primary hover:bg-primary/12"
+              href="/app/ecg"
+              data-testid="nav-ecg"
+            >
+              ECG
+            </Link>
+          ) : null}
         </nav>
         <div className="flex flex-wrap items-center gap-3">
           <LearnerThemeControl />

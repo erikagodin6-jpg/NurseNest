@@ -33,6 +33,9 @@ body {
 /* Subtle tinted surface + legacy aliases — only when a theme palette is active on `html` */
 :where([data-theme]) {
   --theme-muted-surface: color-mix(in srgb, var(--theme-primary) 8%, var(--theme-page-bg));
+  /* Section bands / FAQ strips / CTA shells — use instead of fixed gray-* section backgrounds */
+  --theme-section-subtle-bg: color-mix(in srgb, var(--theme-primary) 5%, var(--theme-page-bg));
+  --theme-cta-band-bg: color-mix(in srgb, var(--theme-primary) 8%, var(--theme-page-bg));
   --color-card-base: var(--theme-card-bg);
   --color-card-fg-base: var(--theme-card-text);
   --color-popover-base: var(--theme-card-bg);

@@ -18,9 +18,11 @@ export const THEME_OPTIONS: ThemeOption[] = [
   { id: "lavender", label: "Lavender", color: "#9d82dd", group: "light" },
   { id: "mint", label: "Mint", color: "#5ed3ae", group: "light" },
   { id: "blush", label: "Blush", color: "#f4909f", group: "light" },
+  { id: "blossom", label: "Blossom", color: "#ff4fa3", group: "light" },
+  { id: "aurora", label: "Aurora", color: "#00e0dc", group: "light" },
   { id: "slate", label: "Slate", color: "#64748b", group: "light" },
   { id: "midnight", label: "Midnight", color: "#1e293b", group: "light" },
-  { id: "ocean", label: "Ocean", color: "#0ea5e9", group: "light" },
+  { id: "ocean", label: "Ocean", color: "#22d3ee", group: "light" },
   { id: "forest", label: "Forest", color: "#10b981", group: "light" },
   { id: "clinical-light", label: "Clinical", color: "#3b82f6", group: "light" },
   { id: "pastel-blush", label: "Pastel Blush", color: "#ec8899", group: "light" },
@@ -42,3 +44,12 @@ export const THEME_OPTIONS: ThemeOption[] = [
 ];
 
 export const THEME_STORAGE_KEY = "nursenest-theme";
+
+/** Same name as localStorage key so SSR (`cookies()`) and client stay aligned. */
+export const THEME_COOKIE_NAME = THEME_STORAGE_KEY;
+
+export function resolveThemeIdFromUnknown(raw: string | null | undefined): string {
+  if (raw == null) return NURSENEST_DEFAULT_THEME;
+  const t = raw.trim();
+  return THEME_OPTIONS.some((o) => o.id === t) ? t : NURSENEST_DEFAULT_THEME;
+}

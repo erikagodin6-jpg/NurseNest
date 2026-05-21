@@ -1,5 +1,5 @@
 import { LocaleLink } from "@/lib/LocaleLink";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useParams } from "wouter";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Navigation } from "@/components/navigation";
@@ -47,6 +47,10 @@ import {
   ChevronDown,
   GripVertical,
   Loader2,
+  Brain,
+  Activity,
+  FlaskConical,
+  ClipboardList,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
@@ -160,20 +164,71 @@ function getBlockItems(block: any): string[] {
   return content.split("\n").filter((item: string) => item.trim());
 }
 
-function ContentBlockRenderer({ block }: { block: ContentBlock }) {
+function slugifyHeading(text: string): string {
+  const s = text
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return s || "section";
+}
+
+function buildHeadingIdByBlockIndex(blocks: ContentBlock[]): Map<number, string> {
+  const map = new Map<number, string>();
+  const counts = new Map<string, number>();
+  blocks.forEach((block, index) => {
+    if (block.type !== "heading") return;
+    const label = getBlockContent(block).trim();
+    if (!label) return;
+    const base = slugifyHeading(label);
+    const n = (counts.get(base) || 0) + 1;
+    counts.set(base, n);
+    map.set(index, n === 1 ? base : `${base}-${n}`);
+  });
+  return map;
+}
+
+function extractBlogTakeaways(blocks: ContentBlock[], summary: string | null | undefined): string[] {
+  const early = blocks.slice(0, 12);
+  const listBlock = early.find((b) => b.type === "list");
+  if (listBlock) {
+    const items = getBlockItems(listBlock).map((s) => s.trim()).filter(Boolean);
+    if (items.length) return items.slice(0, 6);
+  }
+  const pearl = early.find((b) => b.type === "clinical-pearl" || b.type === "callout");
+  if (pearl) {
+    const text = getBlockContent(pearl).trim();
+    if (text.length > 24) return [text];
+  }
+  if (summary && summary.trim().length > 24) {
+    return summary
+      .split(/(?<=[.!?])\s+/)
+      .map((s) => s.trim())
+      .filter((s) => s.length > 16)
+      .slice(0, 4);
+  }
+  return [];
+}
+
+function ContentBlockRenderer({ block, tocId }: { block: ContentBlock; tocId?: string }) {
+  const { t } = useI18n();
   const content = getBlockContent(block);
 
   switch (block.type) {
     case "heading":
       return (
-        <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4" data-testid="text-content-heading">
+        <h2
+          id={tocId}
+          className="text-2xl font-bold text-[var(--theme-heading-text)] mt-8 mb-4 scroll-mt-28"
+          data-testid="text-content-heading"
+        >
           {content}
         </h2>
       );
 
     case "paragraph":
       return (
-        <p className="text-gray-700 leading-relaxed mb-4" data-testid="text-content-paragraph">
+        <p className="text-[var(--theme-body-text)] leading-relaxed mb-4" data-testid="text-content-paragraph">
           {content}
         </p>
       );
@@ -349,6 +404,7 @@ function InlineEditorPanel({
   onClose: () => void;
   onSaved: () => void;
 }) {
+  const { t } = useI18n();
   const rawBlocks = (contentItem.content as any[]) || [];
   const [title, setTitle] = useState(contentItem.title);
   const [summary, setSummary] = useState(contentItem.summary || "");
@@ -619,10 +675,52 @@ function formatDate(dateStr: string | null | undefined): string {
   return d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 }
 
+function BlogStudyNextRail() {
+  const { t } = useI18n();
+  const items: { href: string; title: string; desc: string; Icon: typeof BookOpen }[] = [
+    { href: "/lessons", title: t("blog.studyNextLessons"), desc: t("blog.studyNextLessonsDesc"), Icon: BookOpen },
+    { href: "/flashcards", title: t("blog.studyNextFlashcards"), desc: t("blog.studyNextFlashcardsDesc"), Icon: Brain },
+    { href: "/lab-values", title: t("blog.studyNextLabs"), desc: t("blog.studyNextLabsDesc"), Icon: FlaskConical },
+    { href: "/clinical-clarity", title: t("blog.studyNextRhythm"), desc: t("blog.studyNextRhythmDesc"), Icon: Activity },
+    { href: "/mock-exams", title: t("blog.studyNextMocks"), desc: t("blog.studyNextMocksDesc"), Icon: ClipboardList },
+  ];
+  return (
+    <div
+      className="rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-card-bg)] p-4 shadow-sm"
+      data-testid="section-blog-study-next"
+    >
+      <p className="text-xs font-semibold uppercase tracking-wider text-[var(--theme-muted-text)] mb-1">
+        {t("pages.contentPage.studyNext")}
+      </p>
+      <p className="text-xs text-[var(--theme-body-text)] mb-4">{t("pages.contentPage.studyNextHint")}</p>
+      <ul className="space-y-2">
+        {items.map(({ href, title, desc, Icon }) => (
+          <li key={href}>
+            <LocaleLink
+              href={href}
+              className="group flex gap-3 rounded-xl p-2 -mx-2 transition-colors hover:bg-[var(--theme-menu-hover-bg)]"
+            >
+              <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <Icon className="h-4 w-4" />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-sm font-semibold text-[var(--theme-heading-text)] transition-colors group-hover:text-primary">
+                  {title}
+                </span>
+                <span className="block text-xs leading-snug text-[var(--theme-muted-text)]">{desc}</span>
+              </span>
+            </LocaleLink>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export default function ContentPage() {
   const { slug } = useParams<{ slug: string }>();
   const { user, isAdmin } = useAuth();
-  const { language } = useI18n();
+  const { t, language } = useI18n();
   const queryClient = useQueryClient();
   const [showEditor, setShowEditor] = useState(false);
 
@@ -646,6 +744,25 @@ export default function ContentPage() {
     },
     enabled: !!slug && !!contentItem,
   });
+
+  const draftBlocks: ContentBlock[] = (contentItem?.content as ContentBlock[]) || [];
+  const isBlogDraft = !!contentItem && ["blog", "blog-post", "article"].includes(contentItem.type || "");
+  const headingIdByIndex = useMemo(() => buildHeadingIdByBlockIndex(draftBlocks), [draftBlocks]);
+  const blogToc = useMemo(() => {
+    if (!isBlogDraft) return [] as { id: string; label: string }[];
+    const entries: { id: string; label: string }[] = [];
+    draftBlocks.forEach((block, index) => {
+      if (block.type !== "heading") return;
+      const id = headingIdByIndex.get(index);
+      const label = getBlockContent(block).trim();
+      if (id && label) entries.push({ id, label });
+    });
+    return entries;
+  }, [isBlogDraft, draftBlocks, headingIdByIndex]);
+  const blogTakeawaysPreview = useMemo(() => {
+    if (!isBlogDraft || !contentItem) return [] as string[];
+    return extractBlogTakeaways(draftBlocks, contentItem.summary);
+  }, [isBlogDraft, draftBlocks, contentItem]);
 
   const isNotFound = !isLoading && (!contentItem || contentItem.status !== "published");
 
@@ -760,7 +877,10 @@ export default function ContentPage() {
     contentItem!.tier === "np" ? "NP" : contentItem!.tier === "rn" ? "RN" : contentItem!.tier === "free" ? "Free" : "RPN";
 
   return (
-    <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
+    <div
+      className="flex min-h-screen flex-col font-sans"
+      style={{ background: "var(--theme-page-bg)", color: "var(--theme-heading-text)" }}
+    >
       <AdminEditButton />
       <SEO
         title={`${title} - NurseNest`}
@@ -791,90 +911,206 @@ export default function ContentPage() {
         onContextMenu={user?.tier !== "admin" ? (e) => e.preventDefault() : undefined}
         data-testid="article-content"
       >
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-          <nav aria-label={t("pages.contentPage.breadcrumb")} className="mb-6 text-sm text-gray-500" data-testid="nav-breadcrumb">
-            <ol className="flex items-center gap-1 flex-wrap">
+        <div
+          className={`mx-auto w-full px-4 py-8 sm:px-6 lg:px-8 ${isBlogType ? "max-w-6xl" : "max-w-4xl"}`}
+        >
+          <nav
+            aria-label={t("pages.contentPage.breadcrumb")}
+            className="mb-6 text-sm text-[var(--theme-muted-text)]"
+            data-testid="nav-breadcrumb"
+          >
+            <ol className="flex flex-wrap items-center gap-1">
               <li>
-                <LocaleLink href="/" className="hover:text-primary transition-colors">
+                <LocaleLink href="/" className="transition-colors hover:text-primary">
                   Home
                 </LocaleLink>
               </li>
-              <li>
-                <ChevronRight className="w-3 h-3 text-gray-300 mx-1" />
+              <li className="flex items-center">
+                <ChevronRight className="mx-1 h-3 w-3 shrink-0 text-[var(--theme-border)]" />
               </li>
-              <li>
-                <LocaleLink href="/lessons" className="hover:text-primary transition-colors">
-                  Learn
-                </LocaleLink>
+              {isBlogType ? (
+                <>
+                  <li>
+                    <LocaleLink href="/blog" className="transition-colors hover:text-primary">
+                      Blog
+                    </LocaleLink>
+                  </li>
+                  <li className="flex items-center">
+                    <ChevronRight className="mx-1 h-3 w-3 shrink-0 text-[var(--theme-border)]" />
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li>
+                    <LocaleLink href="/lessons" className="transition-colors hover:text-primary">
+                      Learn
+                    </LocaleLink>
+                  </li>
+                  <li className="flex items-center">
+                    <ChevronRight className="mx-1 h-3 w-3 shrink-0 text-[var(--theme-border)]" />
+                  </li>
+                </>
+              )}
+              <li className="max-w-[min(100%,42rem)] truncate font-medium text-[var(--theme-heading-text)]">
+                {contentItem!.title}
               </li>
-              <li>
-                <ChevronRight className="w-3 h-3 text-gray-300 mx-1" />
-              </li>
-              <li className="text-gray-900 font-medium">{contentItem!.title}</li>
             </ol>
           </nav>
 
-          <header className="mb-10 space-y-4">
-            <div className="flex items-center gap-3 flex-wrap">
+          <header
+            className={`mb-10 space-y-4 ${isBlogType ? "rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-card-bg)] p-6 shadow-sm sm:p-8" : ""}`}
+          >
+            <div className="flex flex-wrap items-center gap-3">
               {contentItem!.bodySystem && (
                 <Badge variant="secondary" className="text-sm" data-testid="badge-body-system">
                   {contentItem!.bodySystem}
                 </Badge>
               )}
-              <Badge
-                variant="outline"
-                className="text-sm"
-                data-testid="badge-tier"
-              >
+              {isBlogType && contentItem!.category && (
+                <Badge
+                  variant="outline"
+                  className="text-sm border-[var(--theme-border)] text-[var(--theme-secondary-foreground)]"
+                  data-testid="badge-article-category"
+                >
+                  {contentItem!.category}
+                </Badge>
+              )}
+              <Badge variant="outline" className="text-sm" data-testid="badge-tier">
                 {tierLabel}
               </Badge>
               {contentItem!.publishedAt && (
-                <span className="flex items-center gap-1 text-sm text-gray-400" data-testid="text-published-date">
-                  <Calendar className="w-3.5 h-3.5" />
+                <span
+                  className="flex items-center gap-1 text-sm text-[var(--theme-muted-text)]"
+                  data-testid="text-published-date"
+                >
+                  <Calendar className="h-3.5 w-3.5" />
                   {formatDate(contentItem!.publishedAt as unknown as string)}
                 </span>
               )}
               {(contentItem as any).authorName && (
-                <span className="flex items-center gap-1 text-sm text-gray-400" data-testid="text-author-name">
-                  <User className="w-3.5 h-3.5" />
+                <span
+                  className="flex items-center gap-1 text-sm text-[var(--theme-muted-text)]"
+                  data-testid="text-author-name"
+                >
+                  <User className="h-3.5 w-3.5" />
                   {(contentItem as any).authorName}
                 </span>
               )}
             </div>
-            <h1 className="text-4xl sm:text-5xl font-bold text-gray-900" data-testid="text-content-title">
+            <h1 className="text-4xl font-bold text-[var(--theme-heading-text)] sm:text-5xl" data-testid="text-content-title">
               {contentItem!.title}
             </h1>
             {contentItem!.summary && (
-              <p className="text-lg text-gray-600 leading-relaxed" data-testid="text-content-summary">
+              <p className="text-lg leading-relaxed text-[var(--theme-body-text)]" data-testid="text-content-summary">
                 {contentItem!.summary}
               </p>
             )}
           </header>
 
-          <div className="flex items-center gap-3 mb-8" data-testid="section-cite-top">
-            <CiteThisPage
-              title={contentItem!.title}
-              publishedDate={contentItem!.publishedAt as unknown as string}
-            />
-            {isAdmin && (
-              <Button
-                variant="outline"
-                size="sm"
-                className="gap-2 rounded-full"
-                onClick={() => setShowEditor(true)}
-                data-testid="button-admin-edit"
-              >
-                <Pencil className="w-4 h-4" />
-                Edit Page
-              </Button>
+          {isBlogType && blogTakeawaysPreview.length > 0 && (
+            <div
+              className="mb-10 rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-card-bg)] p-6 shadow-sm"
+              data-testid="section-key-takeaways"
+            >
+              <h2 className="mb-3 text-sm font-bold uppercase tracking-wider text-primary">
+                {t("pages.contentPage.keyTakeaways")}
+              </h2>
+              <ul className="space-y-2">
+                {blogTakeawaysPreview.map((line, i) => (
+                  <li key={i} className="flex gap-2 text-sm leading-relaxed text-[var(--theme-body-text)]">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                    <span>{line}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {isBlogType && blogToc.length > 0 && (
+            <div className="mb-6 flex gap-2 overflow-x-auto pb-1 lg:hidden" data-testid="section-mobile-toc">
+              <span className="shrink-0 py-1.5 text-xs font-semibold uppercase tracking-wider text-[var(--theme-muted-text)]">
+                {t("blog.jumpToSection")}
+              </span>
+              {blogToc.map(({ id, label }) => (
+                <a
+                  key={id}
+                  href={`#${id}`}
+                  className="shrink-0 rounded-full border border-[var(--theme-border)] bg-[var(--theme-card-bg)] px-3 py-1.5 text-xs font-medium text-[var(--theme-heading-text)] hover:border-primary"
+                >
+                  {label.length > 42 ? `${label.slice(0, 40)}…` : label}
+                </a>
+              ))}
+            </div>
+          )}
+
+          <div
+            className={
+              isBlogType
+                ? "lg:grid lg:grid-cols-[minmax(0,1fr)_17rem] lg:items-start lg:gap-10 xl:grid-cols-[minmax(0,1fr)_19rem]"
+                : ""
+            }
+          >
+            <div>
+              <div className="mb-8 flex items-center gap-3" data-testid="section-cite-top">
+                <CiteThisPage
+                  title={contentItem!.title}
+                  publishedDate={contentItem!.publishedAt as unknown as string}
+                />
+                {isAdmin && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="gap-2 rounded-full"
+                    onClick={() => setShowEditor(true)}
+                    data-testid="button-admin-edit"
+                  >
+                    <Pencil className="h-4 w-4" />
+                    Edit Page
+                  </Button>
+                )}
+              </div>
+
+              <section className="prose-lg max-w-none" data-testid="section-content-blocks">
+                {contentBlocks.map((block, index) => (
+                  <ContentBlockRenderer key={index} block={block} tocId={headingIdByIndex.get(index)} />
+                ))}
+              </section>
+            </div>
+
+            {isBlogType && (
+              <aside className="mt-10 hidden space-y-8 lg:sticky lg:top-28 lg:mt-0 lg:block" data-testid="aside-blog-toc">
+                {blogToc.length > 0 && (
+                  <nav
+                    className="rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-card-bg)] p-4 shadow-sm"
+                    aria-label={t("pages.contentPage.onThisPage")}
+                  >
+                    <p className="text-xs font-semibold uppercase tracking-wider text-[var(--theme-muted-text)]">
+                      {t("pages.contentPage.onThisPage")}
+                    </p>
+                    <ul className="mt-3 space-y-2">
+                      {blogToc.map(({ id, label }) => (
+                        <li key={id}>
+                          <a
+                            href={`#${id}`}
+                            className="block text-sm text-[var(--theme-body-text)] transition-colors hover:text-primary"
+                          >
+                            {label}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </nav>
+                )}
+                <BlogStudyNextRail />
+              </aside>
             )}
           </div>
 
-          <section className="prose-lg max-w-none" data-testid="section-content-blocks">
-            {contentBlocks.map((block, index) => (
-              <ContentBlockRenderer key={index} block={block} />
-            ))}
-          </section>
+          {isBlogType && (
+            <div className="mt-8 lg:hidden">
+              <BlogStudyNextRail />
+            </div>
+          )}
 
           {showApplyNestBacklink && (
             <div className="mt-8 p-5 bg-purple-50/50 border border-purple-100 rounded-xl" data-testid="section-applynest-backlink">
@@ -903,6 +1139,37 @@ export default function ContentPage() {
               publishedDate={contentItem!.publishedAt as unknown as string}
             />
           </div>
+
+          {isBlogType && (
+            <div
+              className="mt-10 rounded-2xl border border-[var(--theme-border)] bg-gradient-to-br from-primary/10 via-[var(--theme-card-bg)] to-[var(--theme-card-bg)] p-6 text-center shadow-sm sm:p-8"
+              data-testid="section-blog-cta"
+            >
+              <h2 className="text-xl font-bold text-[var(--theme-heading-text)]">
+                {t("pages.contentPage.continueLearningCta")}
+              </h2>
+              <p className="mx-auto mt-2 max-w-xl text-sm text-[var(--theme-body-text)]">
+                {t("pages.contentPage.continueLearningBody")}
+              </p>
+              <div className="mt-6 flex flex-wrap justify-center gap-3">
+                <LocaleLink href="/lessons">
+                  <Button className="rounded-full px-6" size="lg" data-testid="button-cta-lessons">
+                    {t("pages.contentPage.openLessonHub")}
+                  </Button>
+                </LocaleLink>
+                <LocaleLink href="/blog">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="rounded-full border-[var(--theme-border)] px-6"
+                    data-testid="button-cta-blog"
+                  >
+                    {t("pages.contentPage.openBlogHub")}
+                  </Button>
+                </LocaleLink>
+              </div>
+            </div>
+          )}
 
           {relatedItems && relatedItems.length > 0 && (
             <section className="mt-12 pt-8 border-t border-gray-200" data-testid="section-related-content">

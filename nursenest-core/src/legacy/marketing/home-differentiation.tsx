@@ -75,7 +75,7 @@ function WhyNurseNestGrid({ headline, subtitle, context = "general" }: WhyNurseN
 
   return (
     <section
-      className="border-t border-gray-100"
+      className="border-t border-border"
       style={{ paddingTop: "var(--space-section)", paddingBottom: "var(--space-section)" }}
       data-testid="section-why-nursenest-grid"
     >
@@ -98,7 +98,7 @@ function WhyNurseNestGrid({ headline, subtitle, context = "general" }: WhyNurseN
           {GRID_ITEMS.map((item) => (
             <div
               key={item.title}
-              className="rounded-2xl border border-gray-100/80 bg-white p-7 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
+              className="rounded-2xl border border-border/80 bg-card p-7 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
               data-testid={`card-why-${item.title.toLowerCase().replace(/\s+/g, "-")}`}
             >
               <div className="nn-theme-gradient-br mb-4 flex h-11 w-11 items-center justify-center rounded-xl shadow-sm">
@@ -168,7 +168,7 @@ function ComparisonTable({ headline, subtitle }: ComparisonTableProps) {
   const { t } = useMarketingI18n();
   return (
     <section
-      className="border-t border-gray-100"
+      className="border-t border-border"
       style={{ paddingTop: "var(--space-section)", paddingBottom: "var(--space-section)" }}
       data-testid="section-comparison-table"
     >
@@ -188,10 +188,10 @@ function ComparisonTable({ headline, subtitle }: ComparisonTableProps) {
           </p>
         </div>
 
-        <div className="hidden overflow-hidden rounded-2xl border border-gray-200/60 bg-white shadow-[var(--shadow-card)] md:block">
+        <div className="hidden overflow-hidden rounded-2xl border border-border/60 bg-card shadow-[var(--shadow-card)] md:block">
           <table className="w-full text-sm" data-testid="table-platform-comparison">
             <thead>
-              <tr className="border-b border-gray-200 bg-gray-50/50">
+              <tr className="border-b border-border bg-muted/50">
                 <th className="w-[200px] px-6 py-4 text-left font-semibold text-gray-700">{t("components.competitiveDifferentiation.feature")}</th>
                 <th className="bg-primary/5 px-6 py-4 text-left font-bold text-primary">NurseNest</th>
                 <th className="px-6 py-4 text-left font-semibold text-gray-500">{t("components.competitiveDifferentiation.typicalPlatforms")}</th>
@@ -199,7 +199,7 @@ function ComparisonTable({ headline, subtitle }: ComparisonTableProps) {
             </thead>
             <tbody>
               {COMPARISON_ROWS.map((row, idx) => (
-                <tr key={idx} className="border-b border-gray-100 last:border-0" data-testid={`row-comparison-${idx}`}>
+                <tr key={idx} className="border-b border-border last:border-0" data-testid={`row-comparison-${idx}`}>
                   <td className="px-6 py-4 font-semibold text-gray-800">{row.feature}</td>
                   <td className="bg-primary/[0.02] px-6 py-4">
                     <div className="flex items-start gap-2">
@@ -223,7 +223,7 @@ function ComparisonTable({ headline, subtitle }: ComparisonTableProps) {
           {COMPARISON_ROWS.map((row, idx) => (
             <div
               key={idx}
-              className="rounded-xl border border-gray-100 bg-white p-5 shadow-[var(--shadow-card)]"
+              className="rounded-xl border border-border bg-card p-5 shadow-[var(--shadow-card)]"
               data-testid={`card-comparison-mobile-${idx}`}
             >
               <h4 className="mb-3 text-sm font-bold text-[var(--theme-heading-text)]">{row.feature}</h4>

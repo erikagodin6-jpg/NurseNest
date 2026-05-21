@@ -1,9 +1,16 @@
 import Link from "next/link";
+import { Activity } from "lucide-react";
 import { auth } from "@/lib/auth";
 import { resolveEntitlementForPage } from "@/lib/entitlements/resolve-entitlement-for-page";
 import { prisma } from "@/lib/db";
 import { isDatabaseUrlConfigured } from "@/lib/db/safe-database";
 import { SOCIAL_PROOF } from "@/lib/conversion/pricing-catalog";
+import {
+  defaultExamTargetForTier,
+  examFocusSuggestsCardiacEcg,
+  learnerTierAllowsEcgPrimarySurface,
+} from "@/lib/ecg/ecg-learner-visibility";
+import { EcgWaveformPreview } from "@/components/student/ecg/ecg-waveform-preview";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -29,6 +36,7 @@ export default async function DashboardPage() {
     examFocus: string | null;
     studyGoal: string | null;
     dailyStudyMinutes: number | null;
+    tier: string | null;
   } | null = null;
 
   if (userId && isDatabaseUrlConfigured()) {
@@ -36,7 +44,7 @@ export default async function DashboardPage() {
       const [userRow, progressCount, incomplete, attemptsN] = await Promise.all([
         prisma.user.findUnique({
           where: { id: userId },
-          select: { examFocus: true, studyGoal: true, dailyStudyMinutes: true },
+          select: { examFocus: true, studyGoal: true, dailyStudyMinutes: true, tier: true },
         }),
         prisma.progress.count({ where: { userId, completed: true } }),
         prisma.progress.findFirst({
@@ -46,7 +54,14 @@ export default async function DashboardPage() {
         }),
         prisma.examAttempt.count({ where: { userId } }),
       ]);
-      userPrefs = userRow;
+      userPrefs = userRow
+        ? {
+            examFocus: userRow.examFocus,
+            studyGoal: userRow.studyGoal,
+            dailyStudyMinutes: userRow.dailyStudyMinutes,
+            tier: userRow.tier,
+          }
+        : null;
       completedLessons = progressCount;
       const lessonRow = incomplete?.lessonId
         ? await prisma.contentItem.findFirst({
@@ -60,6 +75,14 @@ export default async function DashboardPage() {
       /* keep dashboard usable */
     }
   }
+
+  const tier = userPrefs?.tier ?? (session?.user as { tier?: string })?.tier ?? null;
+  const examTargetQs = `examTarget=${encodeURIComponent(defaultExamTargetForTier(tier))}`;
+  const showEcgSurfaces = learnerTierAllowsEcgPrimarySurface(tier);
+  const showAdaptiveEcgRail =
+    showEcgSurfaces &&
+    entitlement.hasAccess &&
+    (examFocusSuggestsCardiacEcg(userPrefs?.examFocus ?? null) || attemptCount > 0);
 
   return (
     <main className="space-y-5">
@@ -80,6 +103,61 @@ export default async function DashboardPage() {
 
       {entitlement.hasAccess ? (
         <>
+          {showEcgSurfaces ? (
+            <section className="nn-card p-6" aria-labelledby="dash-quick-modules-heading">
+              <h2 id="dash-quick-modules-heading" className="text-xl font-semibold">
+                Quick modules
+              </h2>
+              <p className="mt-2 text-sm text-muted">
+                Same Ocean card structure as pathway hubs — token-driven colors only.
+              </p>
+              <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <Link
+                  href={`/app/ecg`}
+                  data-testid="dashboard-quick-ecg"
+                  className="group flex flex-col rounded-2xl border border-[var(--theme-card-border)] bg-[var(--theme-card-bg)] p-5 shadow-sm transition-colors hover:border-primary/30"
+                >
+                  <div className="flex items-center gap-2 text-sm font-semibold text-[var(--theme-body-text)]">
+                    <Activity className="h-4 w-4 shrink-0 text-primary" aria-hidden />
+                    ECG hub
+                  </div>
+                  <p className="mt-2 flex-1 text-sm leading-relaxed text-[var(--theme-body-text)]/82">
+                    Rhythm drills, interpretation scaffolding, and progression milestones.
+                  </p>
+                  <span className="mt-3 text-sm font-semibold text-primary underline-offset-4 group-hover:underline">
+                    Open ECG workspace
+                  </span>
+                  <div className="mt-4">
+                    <EcgWaveformPreview />
+                  </div>
+                </Link>
+              </div>
+            </section>
+          ) : null}
+
+          {showAdaptiveEcgRail ? (
+            <section className="nn-card border border-primary/15 bg-primary/[0.04] p-6" data-testid="dashboard-adaptive-ecg">
+              <h2 className="text-xl font-semibold text-[var(--theme-body-text)]">Adaptive suggestion</h2>
+              <p className="mt-2 text-sm text-[var(--theme-body-text)]/80">
+                Cardiac interpretation benefits from short, frequent ECG passes alongside your bank work.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <Link
+                  className="inline-flex rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-95"
+                  href={`/app/ecg`}
+                >
+                  Go to ECG hub
+                </Link>
+                <Link
+                  className="inline-flex rounded-full border border-[var(--theme-card-border)] bg-[var(--theme-card-bg)] px-4 py-2 text-sm font-semibold text-[var(--theme-body-text)] hover:border-primary/35"
+                  href={`/app/lessons?${examTargetQs}`}
+                >
+                  Cardiac lessons
+                </Link>
+              </div>
+            </section>
+          ) : null}
+
           <section className="nn-card p-6">
             <h2 className="text-xl font-semibold">Continue where you left off</h2>
             {nextLessonTitle ? (

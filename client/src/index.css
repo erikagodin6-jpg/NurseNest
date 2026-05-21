@@ -51,6 +51,44 @@ img:not([loading]) {
   --shadow-elevated: 0 12px 40px -12px rgba(0,0,0,0.12), 0 4px 16px -4px rgba(0,0,0,0.06);
   --shadow-pricing: 0 4px 24px -4px rgba(0,0,0,0.06), 0 2px 8px -2px rgba(0,0,0,0.03);
   --shadow-pricing-hover: 0 12px 40px -8px rgba(0,0,0,0.1), 0 4px 16px -4px rgba(0,0,0,0.05);
+
+  /* RN Lesson Section Color System */
+  --rn-patho-bg: linear-gradient(135deg, #f5f3ff 0%, #eef2ff 100%);
+  --rn-patho-border: #c4b5fd;
+  --rn-risk-bg: linear-gradient(135deg, #fff1f2 0%, #fce7f3 100%);
+  --rn-risk-border: #fca5a5;
+  --rn-dx-bg: linear-gradient(135deg, #ecfeff 0%, #e0f2fe 100%);
+  --rn-dx-border: #67e8f9;
+  --rn-mgmt-bg: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  --rn-mgmt-border: #86efac;
+  --rn-nursing-bg: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%);
+  --rn-nursing-border: #a5b4fc;
+  --rn-assessment-bg: linear-gradient(135deg, #f0fdfa 0%, #ecfeff 100%);
+  --rn-assessment-border: #5eead4;
+  --rn-pharm-bg: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+  --rn-pharm-border: #d8b4fe;
+  --rn-nclex-bg: linear-gradient(135deg, #fffbeb 0%, #fef9c3 100%);
+  --rn-nclex-border: #fbbf24;
+  --rn-safety-bg: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+  --rn-safety-border: #fb923c;
+}
+
+/* RN Lesson Page — Wider readable text */
+@media (min-width: 1024px) {
+  .rn-lesson-content {
+    font-size: 1.0125rem;
+    line-height: 1.75;
+  }
+}
+
+/* RN Section Cards — base style */
+.rn-section-card {
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 0;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border-width: 1px;
+  border-style: solid;
 }
 
 @media (min-width: 1024px) {
@@ -134,13 +172,13 @@ img:not([loading]) {
 }
 
 [data-theme="ocean"] {
-  --theme-primary: #0ea5e9;
-  --theme-secondary: #f0f9ff;
-  --theme-secondary-foreground: #0ea5e9;
-  --theme-accent: #e0f2fe;
-  --theme-accent-foreground: #0ea5e9;
-  --theme-border: #bae6fd;
-  --theme-ring: #0ea5e9;
+  --theme-primary: #22d3ee;
+  --theme-secondary: #ecfeff;
+  --theme-secondary-foreground: #0891b2;
+  --theme-accent: #cffafe;
+  --theme-accent-foreground: #06b6d4;
+  --theme-border: #67e8f9;
+  --theme-ring: #22d3ee;
 }
 
 [data-theme="forest"] {

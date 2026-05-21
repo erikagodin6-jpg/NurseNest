@@ -117,7 +117,7 @@ export function PricingPageClient({
   );
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-6 py-12">
+    <div data-testid="marketing-pricing-root" className="mx-auto w-full max-w-6xl px-6 py-12">
       <p className="text-xs font-semibold uppercase tracking-wide text-primary">Pricing</p>
       <h1 className="mt-2 text-4xl font-bold">{heading}</h1>
       <p className="mt-3 max-w-2xl text-muted">{intro}</p>
@@ -264,6 +264,6 @@ export function PricingPageClient({
       </section>
 
       <p className="mt-10 text-center text-xs text-muted">{SOCIAL_PROOF.testimonialPlaceholder}</p>
-    </main>
+    </div>
   );
 }

@@ -15,7 +15,7 @@ export default function HeroTrustIndicator() {
   const { t } = useMarketingI18n();
 
   return (
-    <section className="border-y border-gray-100 bg-white py-4 sm:py-5" data-testid="section-hero-trust-indicator">
+    <section className="border-y border-border bg-card py-4 sm:py-5" data-testid="section-hero-trust-indicator">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
           <div className="flex shrink-0 items-center gap-2">
@@ -35,7 +35,7 @@ export default function HeroTrustIndicator() {
               return (
                 <span
                   key={item.key}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-gray-100 bg-gray-50 px-3 py-1 text-xs font-medium text-gray-600"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium text-muted-foreground"
                   data-testid={`audience-${label.toLowerCase().replace(/\s+/g, "-")}`}
                 >
                   <Users className="h-3 w-3 text-gray-400" />

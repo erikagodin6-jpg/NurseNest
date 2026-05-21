@@ -87,18 +87,18 @@ export default function HomeChoosePath() {
   ];
 
   return (
-    <section className="border-t border-gray-100" style={{ paddingTop: "var(--space-block)", paddingBottom: "var(--space-block)" }} data-testid="section-choose-your-path">
+    <section className="border-t border-border" style={{ paddingTop: "var(--space-block)", paddingBottom: "var(--space-block)" }} data-testid="section-choose-your-path">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="mb-10 text-center">
           <h2 className="mb-3 text-2xl font-bold text-[var(--theme-heading-text)] sm:text-3xl">{t("components.homeChoosePath.chooseYourPath")}</h2>
-          <p className="mx-auto max-w-2xl text-base text-gray-600 sm:text-lg">{t("components.homeChoosePath.whetherYoureANursingStudent")}</p>
+          <p className="mx-auto max-w-2xl text-base text-muted-foreground sm:text-lg">{t("components.homeChoosePath.whetherYoureANursingStudent")}</p>
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {paths.map((path) => (
             <div
               key={path.id}
-              className="flex flex-col rounded-2xl border border-gray-150 bg-white p-6 shadow-[var(--shadow-card)] transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:p-8"
+              className="flex flex-col rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:p-8"
               data-testid={path.testId}
             >
               <div className="mb-1 flex items-center gap-3">
@@ -108,7 +108,7 @@ export default function HomeChoosePath() {
                 <h3 className="text-lg font-semibold text-[var(--theme-heading-text)]">{path.title}</h3>
               </div>
               <p className="mb-3 ml-[52px] text-xs font-medium uppercase tracking-wide text-gray-400">{path.subtitle}</p>
-              <p className="mb-6 flex-1 text-sm text-gray-600">{path.desc}</p>
+              <p className="mb-6 flex-1 text-sm text-muted-foreground">{path.desc}</p>
               <button
                 type="button"
                 className="inline-flex w-full items-center justify-center rounded-md bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition hover:brightness-110"

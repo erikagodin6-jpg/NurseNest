@@ -44,6 +44,7 @@ import {
 import { generateNewGradPages } from "./newgrad-site";
 import { generateLanguageSitemap } from "./language-sitemaps";
 import { sitemapHealthCheck, sitemapValidate, seoDebug } from "./health";
+import { ROOT_SEGMENT_DEFS, resetSegmentTopicCache } from "./segment-generators";
 
 interface CacheEntry {
   xml: string;
@@ -215,33 +216,35 @@ async function generateChildSitemap(def: SitemapDef, chunkIndex: number): Promis
   return xml;
 }
 
-async function buildMainSitemapIndex(): Promise<string> {
+/** Primary public index: thematic segments at /sitemap-{name}.xml (plus per-locale legacy lang files). */
+async function buildSegmentedMainSitemapIndex(): Promise<string> {
   const base = getSiteBase();
   const today = todayDate();
   const entries: string[] = [];
+
+  for (const def of ROOT_SEGMENT_DEFS) {
+    try {
+      const urls = await getGeneratorUrls({ name: `segment-${def.name}`, generator: def.generator });
+      const chunkCount = Math.max(1, Math.ceil(urls.length / SITEMAP_SPLIT_LIMIT));
+      for (let i = 0; i < chunkCount; i++) {
+        const suffix = chunkCount > 1 ? `-${i + 1}` : "";
+        entries.push(sitemapIndexEntry(`${base}/sitemap-${def.name}${suffix}.xml`, today));
+      }
+    } catch (error) {
+      console.error(`[Sitemap] Segment index count error for ${def.name}:`, error);
+      entries.push(sitemapIndexEntry(`${base}/sitemap-${def.name}.xml`, today));
+    }
+  }
 
   for (const locale of LANGUAGE_SITEMAP_LOCALES) {
     entries.push(sitemapIndexEntry(`${base}/sitemaps/sitemap-lang-${locale}.xml`, today));
   }
 
-  for (const def of mainSitemapDefs) {
-    try {
-      const urls = await getGeneratorUrls(def);
-      const chunkCount = Math.max(1, Math.ceil(urls.length / SITEMAP_SPLIT_LIMIT));
-
-      for (let i = 0; i < chunkCount; i++) {
-        const suffix = chunkCount > 1 ? `-${i + 1}` : "";
-        entries.push(
-          sitemapIndexEntry(`${base}/sitemaps/sitemap-${def.name}${suffix}.xml`, today),
-        );
-      }
-    } catch (error) {
-      console.error(`[Sitemap] Main index count error for ${def.name}:`, error);
-      entries.push(sitemapIndexEntry(`${base}/sitemaps/sitemap-${def.name}.xml`, today));
-    }
-  }
-
   return wrapSitemapIndex(entries);
+}
+
+async function buildMainSitemapIndex(): Promise<string> {
+  return buildSegmentedMainSitemapIndex();
 }
 
 async function buildAlliedSitemapIndex(): Promise<string> {
@@ -380,9 +383,49 @@ function getRobotsTxt(isNewGrad: boolean, isAllied: boolean): string {
     "",
     "Crawl-delay: 1",
     "",
-    `Sitemap: ${base}/sitemap-index.xml`,
+    `Sitemap: ${base}/sitemap.xml`,
     "",
   ].join("\n");
+}
+
+function registerRootSegmentSitemapRoutes(app: Express): void {
+  for (const def of ROOT_SEGMENT_DEFS) {
+    const segmentDef: SitemapDef = { name: `segment-${def.name}`, generator: def.generator };
+
+    app.get(`/sitemap-${def.name}.xml`, async (_req: Request, res: Response) => {
+      try {
+        const cacheKey = `segment-${def.name}-0`;
+        const cached = getCachedXml(cacheKey);
+        if (cached) return sendXml(res, cached, true);
+        const xml = await generateChildSitemap(segmentDef, 0);
+        return sendXml(res, xml, false);
+      } catch (error: any) {
+        return handleSitemapError(res, `segment-${def.name}-0`, `Sitemap ${def.name}`, error);
+      }
+    });
+
+    app.get(`/sitemap-${def.name}-:page.xml`, async (req: Request, res: Response) => {
+      const pageNum = parsePageParam(req.params.page);
+      if (!pageNum) return res.status(404).send("Not found");
+      const chunkIndex = pageNum - 1;
+      const cacheKey = `segment-${def.name}-${chunkIndex}`;
+      try {
+        const cached = getCachedXml(cacheKey);
+        if (cached) return sendXml(res, cached, true);
+        const urls = await getGeneratorUrls(segmentDef);
+        if (urls.length === 0 && isDegradedState()) {
+          return serveStaleCacheOr503(res, cacheKey, `Sitemap ${def.name}-${pageNum}`);
+        }
+        const chunkCount = Math.ceil(urls.length / SITEMAP_SPLIT_LIMIT);
+        if (chunkIndex >= chunkCount) return res.status(404).send("Not found");
+        const xml = buildChunkXml(urls, chunkIndex);
+        setCachedXml(cacheKey, xml);
+        return sendXml(res, xml, false);
+      } catch (error: any) {
+        return handleSitemapError(res, cacheKey, `Sitemap ${def.name}-${pageNum}`, error);
+      }
+    });
+  }
 }
 
 function registerChunkedSitemapRoutes(app: Express, defs: SitemapDef[]): void {
@@ -429,13 +472,34 @@ function registerChunkedSitemapRoutes(app: Express, defs: SitemapDef[]): void {
   }
 }
 
+const LEGACY_SITEMAP_REDIRECTS: Record<string, string> = {
+  "/sitemaps/sitemap-pages.xml": "/sitemap-marketing.xml",
+  "/sitemaps/sitemap-lessons.xml": "/sitemap-lessons.xml",
+  "/sitemaps/sitemap-questions.xml": "/sitemap-questions.xml",
+  "/sitemaps/sitemap-flashcards.xml": "/sitemap-flashcards.xml",
+  "/sitemaps/sitemap-specialties.xml": "/sitemap-pathways.xml",
+  "/sitemaps/sitemap-glossary.xml": "/sitemap-marketing.xml",
+  "/sitemaps/sitemap-medical-abbreviations.xml": "/sitemap-marketing.xml",
+  "/sitemaps/sitemap-nursing-skill-checklists.xml": "/sitemap-marketing.xml",
+  "/sitemaps/sitemap-clinical-clarity.xml": "/sitemap-marketing.xml",
+  "/sitemaps/sitemap-blog.xml": "/sitemap-blog.xml",
+  "/sitemaps/sitemap-medical-imaging.xml": "/sitemap-marketing.xml",
+  "/sitemaps/sitemap-seo-content.xml": "/sitemap-marketing.xml",
+  "/sitemaps/sitemap-topics.xml": "/sitemap-pathways.xml",
+  "/sitemaps/sitemap-programmatic.xml": "/sitemap-marketing.xml",
+  "/sitemaps/sitemap-seo-content-pages.xml": "/sitemap-marketing.xml",
+  "/sitemaps/sitemap-exam-blueprint-seo.xml": "/sitemap-pathways.xml",
+  "/sitemaps/sitemap-clinical-seo.xml": "/sitemap-marketing.xml",
+  "/sitemaps/sitemap-allied-health.xml": "/sitemap-allied.xml",
+};
+
 export function registerSitemapRoutes(app: Express): void {
   app.get("/robots.txt", (req: Request, res: Response) => {
     res.setHeader("Cache-Control", "public, max-age=300");
     res.type("text/plain").send(getRobotsTxt(!!(req as any).isNewGrad, !!(req as any).isAllied));
   });
 
-  app.get("/sitemap-index.xml", async (req: Request, res: Response) => {
+  const serveMainSitemapIndex = async (req: Request, res: Response) => {
     try {
       let xml: string;
       let cacheKey: string;
@@ -451,7 +515,7 @@ export function registerSitemapRoutes(app: Express): void {
         if (cached) return sendXml(res, cached, true);
         xml = await buildAlliedSitemapIndex();
       } else {
-        cacheKey = "main-index";
+        cacheKey = "main-index-segmented";
         const cached = getCachedXml(cacheKey);
         if (cached) return sendXml(res, cached, true);
         xml = await buildMainSitemapIndex();
@@ -461,10 +525,13 @@ export function registerSitemapRoutes(app: Express): void {
       return sendXml(res, xml, false);
     } catch (error: any) {
       const indexKey =
-        (req as any).isNewGrad ? "newgrad-index" : (req as any).isAllied ? "allied-index" : "main-index";
+        (req as any).isNewGrad ? "newgrad-index" : (req as any).isAllied ? "allied-index" : "main-index-segmented";
       return handleSitemapError(res, indexKey, "Sitemap index", error);
     }
-  });
+  };
+
+  app.get("/sitemap.xml", serveMainSitemapIndex);
+  app.get("/sitemap-index.xml", serveMainSitemapIndex);
 
   for (const locale of LANGUAGE_SITEMAP_LOCALES) {
     app.get(`/sitemaps/sitemap-lang-${locale}.xml`, async (_req: Request, res: Response) => {
@@ -487,7 +554,14 @@ export function registerSitemapRoutes(app: Express): void {
     });
   }
 
-  registerChunkedSitemapRoutes(app, mainSitemapDefs);
+  registerRootSegmentSitemapRoutes(app);
+
+  for (const [from, to] of Object.entries(LEGACY_SITEMAP_REDIRECTS)) {
+    app.get(from, (_req: Request, res: Response) => {
+      res.redirect(301, to);
+    });
+  }
+
   registerChunkedSitemapRoutes(app, alliedSitemapDefs);
 
   app.get("/sitemaps/sitemap-allied-content.xml", (_req: Request, res: Response) => {
@@ -546,9 +620,8 @@ export function registerSitemapRoutes(app: Express): void {
   });
 
   const legacyRedirects: Record<string, string> = {
-    "/sitemap.xml": "/sitemap-index.xml",
-    "/sitemap_index.xml": "/sitemap-index.xml",
-    "/sitemap-content.xml": "/sitemaps/sitemap-seo-content.xml",
+    "/sitemap_index.xml": "/sitemap.xml",
+    "/sitemap-content.xml": "/sitemap-marketing.xml",
   };
 
   for (const [oldPath, newPath] of Object.entries(legacyRedirects)) {

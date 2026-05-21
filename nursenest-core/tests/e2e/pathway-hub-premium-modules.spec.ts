@@ -12,6 +12,8 @@ test.describe("Pathway hub premium module grid", () => {
     await expect(page.getByTestId("premium-module-ngn")).toBeVisible();
     await expect(page.locator('[data-testid="premium-module-osce"]')).toHaveCount(0);
     await expect(page.getByTestId("premium-module-osce-locked")).toBeVisible();
+    const ecgLink = page.getByTestId("premium-module-ecg").getByRole("link", { name: /open module/i });
+    await expect(ecgLink).toHaveAttribute("href", /\/app\/ecg/);
     const hubMarkup = await page.getByTestId("section-exam-pathway-premium-modules").innerHTML();
     expect(hubMarkup).not.toContain("/admin");
     expect(hubMarkup).not.toContain('href="/app/osce"');

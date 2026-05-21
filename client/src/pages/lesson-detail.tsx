@@ -2999,8 +2999,8 @@ export default function LessonDetail() {
         ]}
       />
       <Navigation />
-      
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+      <main className={`w-full px-4 sm:px-6 lg:px-8 py-8 ${lessonTier === "rn" ? "max-w-[1400px]" : "max-w-4xl"} mx-auto`}>
         <nav aria-label={t("pages.lessonDetail.breadcrumb2")} className="mb-2 text-sm text-gray-500" data-testid="nav-breadcrumb">
           <ol className="flex items-center gap-1 flex-wrap">
             <li><LocaleLink href="/" className="hover:text-primary transition-colors">{t("pages.lessonDetail.home2")}</LocaleLink></li>
@@ -3138,12 +3138,25 @@ export default function LessonDetail() {
                 const config = difficultyConfig[diff];
                 return (
                   <div className="flex items-center gap-2 flex-wrap" data-testid="lesson-chips">
-                    <span className="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-bold" data-testid="chip-tier">
-                      {lessonTier === "np" ? "NP Focus" : lessonTier === "rn" ? "RN Focus" : "RPN Focus"}
-                    </span>
+                    {lessonTier === "rn" && (
+                      <span className="px-3 py-1 rounded-full bg-blue-600 text-white text-xs font-bold tracking-wide" data-testid="chip-tier">
+                        NCLEX-RN
+                      </span>
+                    )}
+                    {lessonTier !== "rn" && (
+                      <span className="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-bold" data-testid="chip-tier">
+                        {lessonTier === "np" ? "NP Focus" : "RPN Focus"}
+                      </span>
+                    )}
                     <span data-testid="lesson-difficulty-badge" className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${config.bg} ${config.color}`}>
-                      Difficulty: {config.label}
+                      {config.label}
                     </span>
+                    {lessonTier === "rn" && (
+                      <>
+                        <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold">Clinical Judgment</span>
+                        <span className="px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-700 text-xs font-bold">Priority &amp; Safety</span>
+                      </>
+                    )}
                     <span className="px-2.5 py-0.5 rounded-full bg-gray-100 text-gray-600 text-xs font-bold" data-testid="chip-region">
                       {region === "CA" ? "Canadian Guidelines" : "US Guidelines"}
                     </span>
@@ -3178,6 +3191,35 @@ export default function LessonDetail() {
             </div>
             )}
           </div>
+
+          {lessonTier === "rn" && !isPreviewOnly && (
+            <div className="rounded-2xl border border-blue-200 bg-gradient-to-r from-blue-50 via-indigo-50 to-violet-50 p-5 shadow-sm" data-testid="rn-learning-objectives">
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shrink-0">
+                  <BookOpen className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-bold text-blue-700 uppercase tracking-widest mb-1">Learning Objectives — RN Level</p>
+                  <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-1 text-sm text-gray-700">
+                    {lessonContent.riskFactors && lessonContent.riskFactors.length > 0 && (
+                      <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-blue-500 shrink-0" />Identify risk factors and pathophysiology</li>
+                    )}
+                    {lessonContent.assessmentFindings && lessonContent.assessmentFindings.length > 0 && (
+                      <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-blue-500 shrink-0" />Interpret assessment findings and labs</li>
+                    )}
+                    {lessonContent.nursingActions && lessonContent.nursingActions.length > 0 && (
+                      <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-blue-500 shrink-0" />Apply priority nursing interventions</li>
+                    )}
+                    {lessonContent.medications && lessonContent.medications.length > 0 && (
+                      <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-blue-500 shrink-0" />Safely administer and monitor medications</li>
+                    )}
+                    <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-blue-500 shrink-0" />Recognize deterioration and escalate appropriately</li>
+                    <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-blue-500 shrink-0" />Apply NCLEX-RN clinical judgment framework</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          )}
 
           {!isPreviewOnly && (
           <Card className="bg-primary/5 border-none">
@@ -3300,10 +3342,12 @@ export default function LessonDetail() {
                   </div>
                 </div>
               )}
-              <div className="space-y-12">
-                <section id="pathophysiology" className="space-y-6">
-                  <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
-                    <Microscope className="text-primary w-8 h-8" />
+              <div className={lessonTier === "rn" ? "space-y-10" : "space-y-12"}>
+                <section id="pathophysiology" className="space-y-4">
+                  <div className={`flex items-center gap-3 ${lessonTier === "rn" ? "text-xl font-bold" : "text-2xl font-bold"} text-gray-900`}>
+                    <div className={lessonTier === "rn" ? "w-10 h-10 rounded-xl bg-violet-100 flex items-center justify-center shrink-0" : ""}>
+                      <Microscope className={lessonTier === "rn" ? "text-violet-600 w-5 h-5" : "text-primary w-8 h-8"} />
+                    </div>
                     {ed ? (
                       <EditableText value={ed.cellular.title} onChange={(v) => setEditData({ ...ed, cellular: { ...ed.cellular, title: v } })} className="text-2xl font-bold" />
                     ) : (
@@ -3311,9 +3355,9 @@ export default function LessonDetail() {
                     )}
                     <SectionAIButton section="pathophysiology" label={t("pages.lessonDetail.pathophysiology2")} />
                   </div>
-                  <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.pathophysiologyAtTheCellularLevel2")}</p>
-                  <Card className="border-none shadow-sm bg-violet-50/50">
-                    <CardContent className="p-8 leading-relaxed text-gray-700">
+                  {lessonTier !== "rn" && <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.pathophysiologyAtTheCellularLevel2")}</p>}
+                  <Card className={lessonTier === "rn" ? "border border-violet-200 shadow-md bg-gradient-to-br from-violet-50 to-indigo-50/40 rounded-2xl" : "border-none shadow-sm bg-violet-50/50"}>
+                    <CardContent className={`${lessonTier === "rn" ? "p-7" : "p-8"} leading-relaxed text-gray-700`}>
                     {ed ? (
                       <EditableText value={ed.cellular.content} onChange={(v) => setEditData({ ...ed, cellular: { ...ed.cellular, content: v } })} multiline className="min-h-[200px]" />
                     ) : (
@@ -3355,15 +3399,17 @@ export default function LessonDetail() {
 
                 {!isPreviewOnly && <>
                 {(ed || (lessonContent.riskFactors && lessonContent.riskFactors.length > 0)) ? (
-                  <section id="risk-factors" data-testid="section-risk-factors" className="space-y-6">
-                    <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
-                      <ShieldAlert className="text-rose-500 w-8 h-8" />
+                  <section id="risk-factors" data-testid="section-risk-factors" className="space-y-4">
+                    <div className={`flex items-center gap-3 ${lessonTier === "rn" ? "text-xl font-bold" : "text-2xl font-bold"} text-gray-900`}>
+                      <div className={lessonTier === "rn" ? "w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center shrink-0" : ""}>
+                        <ShieldAlert className={lessonTier === "rn" ? "text-rose-600 w-5 h-5" : "text-rose-500 w-8 h-8"} />
+                      </div>
                       <h2>{t("pages.lessonDetail.riskFactors2")}</h2>
                       <SectionAIButton section="riskFactors" label={t("pages.lessonDetail.riskFactors3")} />
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.keyPredisposingAndContributingFactors2")}</p>
-                    <Card className="border-none shadow-sm bg-rose-50/60">
-                      <CardContent className="p-8">
+                    {lessonTier !== "rn" && <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.keyPredisposingAndContributingFactors2")}</p>}
+                    <Card className={lessonTier === "rn" ? "border border-rose-200 shadow-md bg-gradient-to-br from-rose-50 to-pink-50/40 rounded-2xl" : "border-none shadow-sm bg-rose-50/60"}>
+                      <CardContent className={lessonTier === "rn" ? "p-7" : "p-8"}>
                         {ed ? (
                           <EditableList items={ed.riskFactors || []} onChange={(items) => setEditData({ ...ed, riskFactors: items })} placeholder={t("pages.lessonDetail.riskFactor")} />
                         ) : (
@@ -3390,15 +3436,17 @@ export default function LessonDetail() {
                 ) : null}
 
                 {(ed || (lessonContent.diagnostics && lessonContent.diagnostics.length > 0)) ? (
-                  <section id="diagnostics" data-testid="section-diagnostics" className="space-y-6">
-                    <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
-                      <Search className="text-cyan-600 w-8 h-8" />
+                  <section id="diagnostics" data-testid="section-diagnostics" className="space-y-4">
+                    <div className={`flex items-center gap-3 ${lessonTier === "rn" ? "text-xl font-bold" : "text-2xl font-bold"} text-gray-900`}>
+                      <div className={lessonTier === "rn" ? "w-10 h-10 rounded-xl bg-cyan-100 flex items-center justify-center shrink-0" : ""}>
+                        <Search className={lessonTier === "rn" ? "text-cyan-700 w-5 h-5" : "text-cyan-600 w-8 h-8"} />
+                      </div>
                       <h2>{t("pages.lessonDetail.diagnosticStudiesAmpLabFindings")}</h2>
                       <SectionAIButton section="diagnostics" label={t("pages.lessonDetail.diagnostics2")} />
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.confirmatoryDiagnosticTestsLabValues")}</p>
-                    <Card className="border-none shadow-sm bg-cyan-50/60">
-                      <CardContent className="p-8">
+                    {lessonTier !== "rn" && <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.confirmatoryDiagnosticTestsLabValues")}</p>}
+                    <Card className={lessonTier === "rn" ? "border border-cyan-200 shadow-md bg-gradient-to-br from-cyan-50 to-sky-50/40 rounded-2xl" : "border-none shadow-sm bg-cyan-50/60"}>
+                      <CardContent className={lessonTier === "rn" ? "p-7" : "p-8"}>
                         {ed ? (
                           <EditableList items={ed.diagnostics || []} onChange={(items) => setEditData({ ...ed, diagnostics: items })} placeholder={t("pages.lessonDetail.diagnosticFinding")} />
                         ) : (
@@ -3425,15 +3473,17 @@ export default function LessonDetail() {
                 ) : null}
 
                 {(ed || (lessonContent.management && lessonContent.management.length > 0)) ? (
-                  <section id="management" data-testid="section-management" className="space-y-6">
-                    <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
-                      <ClipboardList className="text-emerald-600 w-8 h-8" />
+                  <section id="management" data-testid="section-management" className="space-y-4">
+                    <div className={`flex items-center gap-3 ${lessonTier === "rn" ? "text-xl font-bold" : "text-2xl font-bold"} text-gray-900`}>
+                      <div className={lessonTier === "rn" ? "w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0" : ""}>
+                        <ClipboardList className={lessonTier === "rn" ? "text-emerald-700 w-5 h-5" : "text-emerald-600 w-8 h-8"} />
+                      </div>
                       <h2>{t("pages.lessonDetail.clinicalManagementAmpTreatment")}</h2>
                       <SectionAIButton section="management" label={t("pages.lessonDetail.management2")} />
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.evidencebasedInterventionsTreatmentProtocols")}</p>
-                    <Card className="border-none shadow-sm bg-emerald-50/60">
-                      <CardContent className="p-8">
+                    {lessonTier !== "rn" && <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.evidencebasedInterventionsTreatmentProtocols")}</p>}
+                    <Card className={lessonTier === "rn" ? "border border-emerald-200 shadow-md bg-gradient-to-br from-emerald-50 to-green-50/40 rounded-2xl" : "border-none shadow-sm bg-emerald-50/60"}>
+                      <CardContent className={lessonTier === "rn" ? "p-7" : "p-8"}>
                         {ed ? (
                           <EditableList items={ed.management || []} onChange={(items) => setEditData({ ...ed, management: items })} placeholder={t("pages.lessonDetail.managementStep")} />
                         ) : (
@@ -3462,22 +3512,24 @@ export default function LessonDetail() {
                 ) : null}
 
                 {(ed || (lessonContent.nursingActions && lessonContent.nursingActions.length > 0)) ? (
-                  <section id="nursing-actions" data-testid="section-nursing-actions" className="space-y-6">
-                    <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
-                      <HeartPulse className="text-violet-600 w-8 h-8" />
+                  <section id="nursing-actions" data-testid="section-nursing-actions" className="space-y-4">
+                    <div className={`flex items-center gap-3 ${lessonTier === "rn" ? "text-xl font-bold" : "text-2xl font-bold"} text-gray-900`}>
+                      <div className={lessonTier === "rn" ? "w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center shrink-0" : ""}>
+                        <HeartPulse className={lessonTier === "rn" ? "text-indigo-700 w-5 h-5" : "text-violet-600 w-8 h-8"} />
+                      </div>
                       <h2>{t("pages.lessonDetail.nursingInterventionsAmpScopeOf")}</h2>
                       <SectionAIButton section="nursingActions" label={t("pages.lessonDetail.nursingActions")} />
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.priorityNursingAssessmentsClinicalInterventio")}</p>
-                    <Card className="border-none shadow-sm bg-violet-50/60">
-                      <CardContent className="p-8">
+                    {lessonTier !== "rn" && <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.priorityNursingAssessmentsClinicalInterventio")}</p>}
+                    <Card className={lessonTier === "rn" ? "border border-indigo-200 shadow-md bg-gradient-to-br from-indigo-50 to-violet-50/40 rounded-2xl" : "border-none shadow-sm bg-violet-50/60"}>
+                      <CardContent className={lessonTier === "rn" ? "p-7" : "p-8"}>
                         {ed ? (
                           <EditableList items={ed.nursingActions || []} onChange={(items) => setEditData({ ...ed, nursingActions: items })} placeholder={t("pages.lessonDetail.nursingAction")} />
                         ) : (
                           <ul className="space-y-3">
                             {lessonContent.nursingActions!.map((na, i) => (
                               <li key={i} className="flex items-start gap-3 text-gray-700">
-                                <HeartPulse className="w-4 h-4 text-violet-500 mt-1 shrink-0" />
+                                <HeartPulse className={`w-4 h-4 mt-1 shrink-0 ${lessonTier === "rn" ? "text-indigo-500" : "text-violet-500"}`} />
                                 <RichTextDisplay html={na} />
                               </li>
                             ))}
@@ -3485,6 +3537,19 @@ export default function LessonDetail() {
                         )}
                       </CardContent>
                     </Card>
+                    {lessonTier === "rn" && !isEditing && (
+                      <div className="rounded-xl border border-indigo-300 bg-indigo-600 px-5 py-4 flex gap-3 items-start shadow-sm" data-testid="rn-delegation-callout">
+                        <Users className="w-5 h-5 text-indigo-200 shrink-0 mt-0.5" />
+                        <div>
+                          <p className="text-white font-bold text-sm mb-1">Prioritization &amp; Delegation — RN Scope</p>
+                          <p className="text-indigo-100 text-sm leading-relaxed">
+                            <strong className="text-white">RN:</strong> Unstable patients, initial assessments, IV medications, care planning, teaching. &nbsp;
+                            <strong className="text-white">LPN/RPN:</strong> Stable patients, routine meds, wound care, reinforcing teaching. &nbsp;
+                            <strong className="text-white">UAP:</strong> Vital signs (stable), hygiene, positioning, transport, ADLs.
+                          </p>
+                        </div>
+                      </div>
+                    )}
                     {id && (
                       <LessonImageManager
                         lessonId={id}
@@ -3497,15 +3562,17 @@ export default function LessonDetail() {
                 ) : null}
 
                 {(ed || (lessonContent.assessmentFindings && lessonContent.assessmentFindings.length > 0)) ? (
-                  <section id="assessment-findings" data-testid="section-assessment-findings" className="space-y-6">
-                    <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
-                      <ClipboardList className="text-teal-600 w-8 h-8" />
+                  <section id="assessment-findings" data-testid="section-assessment-findings" className="space-y-4">
+                    <div className={`flex items-center gap-3 ${lessonTier === "rn" ? "text-xl font-bold" : "text-2xl font-bold"} text-gray-900`}>
+                      <div className={lessonTier === "rn" ? "w-10 h-10 rounded-xl bg-teal-100 flex items-center justify-center shrink-0" : ""}>
+                        <ClipboardList className={lessonTier === "rn" ? "text-teal-700 w-5 h-5" : "text-teal-600 w-8 h-8"} />
+                      </div>
                       <h2>{t("pages.lessonDetail.clinicalAssessmentFindings")}</h2>
                       <SectionAIButton section="assessmentFindings" label={t("pages.lessonDetail.assessmentFindings2")} />
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.keyNursingAssessmentDataVital2")}</p>
-                    <Card className="border-none shadow-sm bg-teal-50/60">
-                      <CardContent className="p-8">
+                    {lessonTier !== "rn" && <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.keyNursingAssessmentDataVital2")}</p>}
+                    <Card className={lessonTier === "rn" ? "border border-teal-200 shadow-md bg-gradient-to-br from-teal-50 to-cyan-50/40 rounded-2xl" : "border-none shadow-sm bg-teal-50/60"}>
+                      <CardContent className={lessonTier === "rn" ? "p-7" : "p-8"}>
                         {ed ? (
                           <EditableList items={ed.assessmentFindings || []} onChange={(items) => setEditData({ ...ed, assessmentFindings: items })} placeholder={t("pages.lessonDetail.assessmentFinding")} />
                         ) : (
@@ -3560,16 +3627,18 @@ export default function LessonDetail() {
                 {id === "vital-signs-red-flags" && <VitalSignsReferenceCharts />}
                 {id === "infection-prevention-ppe" && <IsolationTypesGuide />}
 
-                <section id="clinical-findings" className="space-y-6">
-                  <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
-                    <AlertCircle className="text-orange-500 w-8 h-8" />
+                <section id="clinical-findings" className="space-y-4">
+                  <div className={`flex items-center gap-3 ${lessonTier === "rn" ? "text-xl font-bold" : "text-2xl font-bold"} text-gray-900`}>
+                    <div className={lessonTier === "rn" ? "w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center shrink-0" : ""}>
+                      <AlertCircle className={lessonTier === "rn" ? "text-orange-600 w-5 h-5" : "text-orange-500 w-8 h-8"} />
+                    </div>
                     <h2>{t("pages.lessonDetail.signsSymptomsAmpClinicalRed")}</h2>
                     <SectionAIButton section="signs" label={t("pages.lessonDetail.signsSymptoms")} />
                   </div>
-                  <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.keyClinicalPresentationsWarningSigns")}</p>
-                  <div className="grid md:grid-cols-2 gap-8">
-                    <Card className="border-none shadow-md bg-white">
-                      <CardContent className="p-8 space-y-4">
+                  {lessonTier !== "rn" && <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.keyClinicalPresentationsWarningSigns")}</p>}
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <Card className={lessonTier === "rn" ? "border border-blue-200 shadow-md bg-gradient-to-br from-blue-50 to-sky-50/40 rounded-2xl" : "border-none shadow-md bg-white"}>
+                      <CardContent className={`${lessonTier === "rn" ? "p-7" : "p-8"} space-y-4`}>
                         <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                           <AlertCircle className="text-blue-500 w-6 h-6" />
                           <h3>{t("pages.lessonDetail.clinicalFindings3")}</h3>
@@ -3588,8 +3657,8 @@ export default function LessonDetail() {
                         )}
                       </CardContent>
                     </Card>
-                    <Card className="border-none shadow-md bg-white border-l-4 border-l-orange-400">
-                      <CardContent className="p-8 space-y-4">
+                    <Card className={lessonTier === "rn" ? "border border-red-200 shadow-md bg-gradient-to-br from-red-50 to-orange-50/40 rounded-2xl" : "border-none shadow-md bg-white border-l-4 border-l-orange-400"}>
+                      <CardContent className={`${lessonTier === "rn" ? "p-7" : "p-8"} space-y-4`}>
                         <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                           <AlertCircle className="text-orange-500 w-6 h-6" />
                           <h3>{t("pages.lessonDetail.redFlagsWhenToEscalate3")}</h3>
@@ -3626,17 +3695,19 @@ export default function LessonDetail() {
                   </section>
                 )}
 
-                <section id="pharmacology" className="space-y-6">
-                  <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
-                    <Pill className="text-primary w-8 h-8" />
+                <section id="pharmacology" className="space-y-4">
+                  <div className={`flex items-center gap-3 ${lessonTier === "rn" ? "text-xl font-bold" : "text-2xl font-bold"} text-gray-900`}>
+                    <div className={lessonTier === "rn" ? "w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center shrink-0" : ""}>
+                      <Pill className={lessonTier === "rn" ? "text-purple-700 w-5 h-5" : "text-primary w-8 h-8"} />
+                    </div>
                     <h2>{t("pages.lessonDetail.pharmacologyMedicationsAmpSafety")}</h2>
                   </div>
-                  <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.keyMedicationsDrugClassesMechanisms")}</p>
+                  {lessonTier !== "rn" && <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.keyMedicationsDrugClassesMechanisms")}</p>}
                   <SectionAIButton section="medications" label={t("pages.lessonDetail.medications")} />
                   <div className="space-y-4">
                     {(ed || lessonContent).medications.map((med, i) => (
-                      <Card key={i} className="border-none shadow-sm bg-white overflow-hidden text-gray-900">
-                        <div className="bg-primary/5 px-6 py-3 border-b border-primary/10 flex items-center justify-between">
+                      <Card key={i} className={lessonTier === "rn" ? "border border-purple-200 shadow-md bg-white overflow-hidden text-gray-900 rounded-2xl" : "border-none shadow-sm bg-white overflow-hidden text-gray-900"}>
+                        <div className={`${lessonTier === "rn" ? "bg-purple-50" : "bg-primary/5"} px-6 py-3 border-b ${lessonTier === "rn" ? "border-purple-100" : "border-primary/10"} flex items-center justify-between`}>
                           {ed ? (
                             <div className="flex gap-2 flex-1">
                               <Input value={med.name} onChange={(e) => { const meds = [...ed.medications]; meds[i] = { ...meds[i], name: e.target.value }; setEditData({ ...ed, medications: meds }); }} placeholder={t("pages.lessonDetail.drugName2")} className="font-bold w-40" />
@@ -3701,6 +3772,45 @@ export default function LessonDetail() {
                   )}
                 </section>
 
+                {lessonTier === "rn" ? (
+                  <section id="exam-readiness" className="space-y-4">
+                    <div className="flex items-center gap-3 text-xl font-bold text-gray-900">
+                      <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center shrink-0">
+                        <GraduationCap className="text-amber-700 w-5 h-5" />
+                      </div>
+                      <h2>NCLEX-RN Pearls &amp; Exam Readiness</h2>
+                      <SectionAIButton section="pearls" label={t("pages.lessonDetail.examPearls")} />
+                    </div>
+                    <Card className="border border-amber-200 shadow-md bg-gradient-to-br from-amber-50 to-yellow-50/40 rounded-2xl overflow-hidden">
+                      <div className="bg-amber-500 px-7 py-3 flex items-center gap-2">
+                        <GraduationCap className="w-5 h-5 text-white shrink-0" />
+                        <span className="text-white font-bold text-sm uppercase tracking-widest">High-Yield NCLEX Reasoning</span>
+                      </div>
+                      <CardContent className="p-7">
+                        {ed ? (
+                          <EditableList items={ed.pearls} onChange={(items) => setEditData({ ...ed, pearls: items })} placeholder={t("pages.lessonDetail.examPearl")} />
+                        ) : (
+                          <ul className="space-y-3">
+                            {lessonContent.pearls.map((p, i) => (
+                              <li key={i} className="flex gap-3 items-start">
+                                <div className="w-6 h-6 rounded-full bg-amber-500 flex items-center justify-center shrink-0 mt-0.5">
+                                  <CheckCircle2 className="w-4 h-4 text-white" />
+                                </div>
+                                <span className="text-gray-800 font-medium leading-snug"><RichTextDisplay html={p} /></span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                        <div className="mt-6 pt-5 border-t border-amber-200">
+                          <p className="text-xs font-bold text-amber-700 uppercase tracking-widest mb-2">Clinical Judgment Tip</p>
+                          <p className="text-sm text-amber-900 leading-relaxed italic">
+                            Focus on: What changed? What is most unstable? What is the priority action? What must you delegate vs. handle yourself?
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </section>
+                ) : (
                 <section id="exam-readiness" className="bg-gray-900 text-white p-10 rounded-3xl space-y-6 shadow-2xl">
                   <div className="flex items-center gap-3 text-2xl font-bold">
                     <FileText className="text-primary w-8 h-8" />
@@ -3731,6 +3841,7 @@ export default function LessonDetail() {
                     </div>
                   </div>
                 </section>
+                )}
                 </>}
               </div>
               </ProtectedContent>

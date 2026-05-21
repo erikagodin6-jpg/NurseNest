@@ -63,7 +63,7 @@ export default function HomeHeroFeatures() {
   return (
     <>
       <section
-        className="border-t border-gray-100 bg-gradient-to-b from-gray-50/80 to-white"
+        className="border-t border-border bg-gradient-to-b from-muted/80 to-card"
         style={{ paddingTop: "var(--space-block)", paddingBottom: "var(--space-block)" }}
         data-testid="section-feature-highlight-bar"
       >
@@ -72,7 +72,7 @@ export default function HomeHeroFeatures() {
             {platformCapabilities.map((cap) => (
               <div
                 key={cap.labelKey}
-                className="flex items-center gap-2 rounded-full border border-gray-100 bg-white px-3 py-2 shadow-[var(--shadow-card)] transition-shadow duration-200 hover:shadow-[var(--shadow-card-hover)]"
+                className="flex items-center gap-2 rounded-full border border-border bg-card px-3 py-2 shadow-[var(--shadow-card)] transition-shadow duration-200 hover:shadow-[var(--shadow-card-hover)]"
                 data-testid={`feature-pill-${cap.labelKey.split(".").pop()}`}
               >
                 <div className="nn-accent-icon-wrap h-7 w-7 shrink-0">
@@ -98,11 +98,11 @@ export default function HomeHeroFeatures() {
         </div>
       </section>
 
-      <section className="border-b border-gray-100 bg-white" data-testid="section-trust-authority">
+      <section className="border-b border-border bg-card" data-testid="section-trust-authority">
         <div className="mx-auto max-w-5xl px-4 py-5 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8">
             {trustItems.map((item) => (
-              <div key={item.labelKey} className="flex items-center gap-2 text-sm text-gray-600" data-testid={`trust-item-${item.labelKey.split(".").pop()}`}>
+              <div key={item.labelKey} className="flex items-center gap-2 text-sm text-muted-foreground" data-testid={`trust-item-${item.labelKey.split(".").pop()}`}>
                 <item.icon className="text-primary h-4.5 w-4.5 shrink-0" />
                 <span className="font-medium">{t(item.labelKey)}</span>
               </div>
@@ -112,7 +112,7 @@ export default function HomeHeroFeatures() {
       </section>
 
       <section
-        className="border-b border-gray-100"
+        className="border-b border-border"
         style={{ paddingTop: "var(--space-block)", paddingBottom: "var(--space-block)" }}
         data-testid="section-learning-areas-grid"
       >
@@ -129,7 +129,7 @@ export default function HomeHeroFeatures() {
               <Link
                 key={area.labelKey}
                 href={CORE_HREF[area.href] ?? area.href}
-                className="group no-underline rounded-2xl border border-gray-100/80 bg-white p-5 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
+                className="group no-underline rounded-2xl border border-border/80 bg-card p-5 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
                 data-testid={`card-learning-area-${area.labelKey.split(".").pop()}`}
               >
                 <div className="nn-theme-gradient-br mb-3 flex h-10 w-10 items-center justify-center rounded-xl shadow-sm transition-transform group-hover:scale-110">

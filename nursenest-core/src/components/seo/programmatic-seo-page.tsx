@@ -1,6 +1,4 @@
 import Link from "next/link";
-import { ExamPathwayHubBody } from "@/components/exam-pathways/exam-pathway-hub-body";
-import { resolveNursingPathwayHubKindFromSlug } from "@/components/exam-pathways/exam-pathway-hub-premium-modules";
 import { DEFAULT_MARKETING_LOCALE } from "@/lib/i18n/marketing-locale-policy";
 import { withMarketingLocale } from "@/lib/i18n/marketing-path";
 import { mapLegacyMarketingHref } from "@/lib/legacy-marketing-routes";
@@ -25,7 +23,6 @@ export function ProgrammaticSeoPage({ page, locale }: { page: SeoPageDefinition;
   const questions = productHref(locale, "/test-bank");
   const lessons = productHref(locale, "/lessons");
   const exams = productHref(locale, "/mock-exams");
-  const pathwayHubKind = resolveNursingPathwayHubKindFromSlug(page.slug);
 
   return (
     <>
@@ -58,8 +55,6 @@ export function ProgrammaticSeoPage({ page, locale }: { page: SeoPageDefinition;
             </Link>
           </div>
         </header>
-
-        {pathwayHubKind ? <ExamPathwayHubBody locale={locale} pathwayKind={pathwayHubKind} /> : null}
 
         <div className="prose prose-neutral max-w-none dark:prose-invert prose-headings:text-[var(--theme-body-text)] prose-p:text-[var(--theme-body-text)]/90 prose-li:text-[var(--theme-body-text)]/90">
           {page.sections.map((section, idx) => {

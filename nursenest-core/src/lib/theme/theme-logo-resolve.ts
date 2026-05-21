@@ -14,7 +14,9 @@ const CANONICAL_IDS = new Set(THEME_OPTIONS.map((t) => t.id));
 export const THEME_LOGO_ALIASES: Readonly<Record<string, string>> = {
   black: "midnight",
   /** Common spoken labels */
-  pink: "blush",
+  pink: "blossom",
+  blossom: "blossom",
+  aurora: "aurora",
   blue: "clinical-light",
   grey: "slate",
   gray: "slate",

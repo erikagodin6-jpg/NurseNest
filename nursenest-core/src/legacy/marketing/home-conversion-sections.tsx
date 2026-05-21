@@ -153,7 +153,7 @@ export function HomeConversionSections({
 
 function TrustCounterSkeleton() {
   return (
-    <div className="text-center p-5 rounded-2xl bg-white/60 border border-[var(--theme-card-border)] animate-pulse">
+    <div className="text-center p-5 rounded-2xl bg-card/60 border border-[var(--theme-card-border)] animate-pulse">
       <div className="mx-auto mb-3 h-10 w-10 rounded-xl bg-[var(--theme-input-border)]" />
       <div className="mx-auto mb-2 h-8 w-24 rounded bg-[var(--theme-input-border)]" />
       <div className="mx-auto h-4 w-20 rounded bg-[var(--theme-separator)]" />
@@ -224,7 +224,7 @@ function DynamicTrustCounters({
             : counters.map((counter) => (
                 <div
                   key={counter.label}
-                  className="text-center p-6 rounded-2xl bg-white border border-[var(--theme-card-border)]/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200"
+                  className="text-center p-6 rounded-2xl bg-card border border-[var(--theme-card-border)]/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200"
                   data-testid={`trust-counter-${counter.label.toLowerCase().replace(/\s+/g, "-")}`}
                 >
                   <div className="nn-theme-gradient-br mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-xl shadow-sm">
@@ -326,7 +326,7 @@ function ConversionProofBlock({
           ].map((item) => (
             <div
               key={item.title}
-              className="bg-white rounded-2xl border border-[var(--theme-card-border)]/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-7"
+              className="bg-card rounded-2xl border border-[var(--theme-card-border)]/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-7"
               data-testid={`card-proof-${item.title.toLowerCase().replace(/\s+/g, "-")}`}
             >
               <div className="nn-theme-gradient-br mb-4 flex h-11 w-11 items-center justify-center rounded-xl shadow-sm">
@@ -432,7 +432,7 @@ function CompetitivePositioningSection({
           {comparisons.map((item) => (
             <div
               key={item.feature}
-              className="bg-white rounded-2xl border border-[var(--theme-card-border)]/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200 p-6"
+              className="bg-card rounded-2xl border border-[var(--theme-card-border)]/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200 p-6"
               data-testid={`card-compare-${item.feature.toLowerCase().replace(/\s+/g, "-")}`}
             >
               <div className="flex items-center gap-2.5 mb-4">
@@ -458,7 +458,7 @@ function CompetitivePositioningSection({
         <div className="text-center">
           <button
             type="button"
-            className="inline-flex items-center justify-center rounded-full border border-primary/25 bg-white px-9 py-3 font-medium text-primary shadow-[var(--shadow-card)] hover:border-primary/40 hover:bg-primary/5"
+            className="inline-flex items-center justify-center rounded-full border border-primary/25 bg-card px-9 py-3 font-medium text-primary shadow-[var(--shadow-card)] hover:border-primary/40 hover:bg-primary/5"
             onClick={() => router.push(mapLegacyMarketingHref("/pricing"))}
             data-testid="button-competitive-cta"
           >
@@ -580,7 +580,7 @@ function FeatureCardsSection({ questionCount }: { questionCount: number }) {
               key={i}
               role="button"
               tabIndex={0}
-              className="group cursor-pointer overflow-hidden rounded-xl border border-[var(--theme-card-border)]/80 bg-white shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
+              className="group cursor-pointer overflow-hidden rounded-xl border border-[var(--theme-card-border)]/80 bg-card shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
               onClick={() => router.push(mapLegacyMarketingHref(feature.href))}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") router.push(mapLegacyMarketingHref(feature.href));
@@ -698,7 +698,7 @@ function ScreenshotCarouselSection() {
 
         <div className="max-w-4xl mx-auto">
           <div className="relative group">
-            <div className="relative rounded-2xl overflow-hidden bg-white shadow-[var(--shadow-elevated)] border border-[var(--theme-card-border)]/80">
+            <div className="relative rounded-2xl overflow-hidden bg-card shadow-[var(--shadow-elevated)] border border-[var(--theme-card-border)]/80">
               <div className="relative aspect-[16/10] overflow-hidden bg-[var(--theme-muted-surface)]">
                 <img
                   srcSet={featuredCanUseSrcSet ? resolveMarketingSrcSet(currentSrc.srcSet) : undefined}
@@ -723,7 +723,7 @@ function ScreenshotCarouselSection() {
 
               <button
                 onClick={goPrev}
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 backdrop-blur-sm shadow-[var(--shadow-card)] border border-[var(--theme-card-border)] flex items-center justify-center hover:bg-white transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-card/95 backdrop-blur-sm shadow-[var(--shadow-card)] border border-[var(--theme-card-border)] flex items-center justify-center hover:bg-card transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
                 aria-label={t("components.homeConversionSections.previousScreenshot")}
                 data-testid="button-carousel-prev"
               >
@@ -731,7 +731,7 @@ function ScreenshotCarouselSection() {
               </button>
               <button
                 onClick={goNext}
-                className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 backdrop-blur-sm shadow-[var(--shadow-card)] border border-[var(--theme-card-border)] flex items-center justify-center hover:bg-white transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-card/95 backdrop-blur-sm shadow-[var(--shadow-card)] border border-[var(--theme-card-border)] flex items-center justify-center hover:bg-card transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
                 aria-label={t("components.homeConversionSections.nextScreenshot")}
                 data-testid="button-carousel-next"
               >
@@ -843,7 +843,7 @@ function ProfessionSelectorSection() {
             return (
               <div
                 key={prof.id}
-                className="relative bg-white rounded-2xl border border-[var(--theme-card-border)]/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group overflow-hidden"
+                className="relative bg-card rounded-2xl border border-[var(--theme-card-border)]/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group overflow-hidden"
                 onClick={handleClick}
                 data-testid={`card-profession-${prof.id}`}
               >
@@ -909,7 +909,7 @@ function SampleQuestionSection() {
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl border border-[var(--theme-card-border)]/80 shadow-[var(--shadow-elevated)] overflow-hidden" data-testid="card-sample-question">
+        <div className="bg-card rounded-2xl border border-[var(--theme-card-border)]/80 shadow-[var(--shadow-elevated)] overflow-hidden" data-testid="card-sample-question">
           <div className="bg-[var(--theme-muted-surface)] px-6 py-3 border-b border-[var(--theme-input-border)] flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="rounded-md border border-[var(--theme-input-border)] px-2 py-0.5 text-xs">{sampleQuestion.category}</span>
@@ -1004,7 +1004,7 @@ function SampleQuestionSection() {
                   <button
                     type="button"
                     onClick={handleReset}
-                    className="rounded-full border border-[var(--theme-input-border)] bg-white px-6 py-2"
+                    className="rounded-full border border-[var(--theme-input-border)] bg-card px-6 py-2"
                     data-testid="button-try-again"
                   >
                     Try Again
@@ -1059,7 +1059,7 @@ function TestimonialsSection() {
           {reviews.map((review, i) => (
             <div
               key={i}
-              className="rounded-xl border border-[var(--theme-card-border)]/80 bg-white shadow-[var(--shadow-card)] transition-shadow duration-200 hover:shadow-[var(--shadow-card-hover)]"
+              className="rounded-xl border border-[var(--theme-card-border)]/80 bg-card shadow-[var(--shadow-card)] transition-shadow duration-200 hover:shadow-[var(--shadow-card-hover)]"
               data-testid={`card-testimonial-${i}`}
             >
               <div className="p-6">

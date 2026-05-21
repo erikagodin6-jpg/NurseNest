@@ -7,6 +7,6 @@ export const metadata: Metadata = {
   alternates: { canonical: "/pricing" },
 };
 
-export default function PricingPage() {
+export default async function PricingPage() {
   return <MarketingPricingPage locale="en" />;
 }

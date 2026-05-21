@@ -23,7 +23,7 @@ export default function HeroGlobalCoverage() {
   const { t } = useMarketingI18n();
   return (
     <section
-      className="bg-gradient-to-b from-white to-gray-50/80"
+      className="bg-gradient-to-b from-card to-muted/80"
       style={{ paddingTop: "var(--space-block)", paddingBottom: "var(--space-block)" }}
       data-testid="section-global-coverage"
     >
@@ -38,7 +38,7 @@ export default function HeroGlobalCoverage() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:gap-8">
-          <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-[var(--shadow-card)] lg:p-8" data-testid="panel-countries">
+          <div className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] lg:p-8" data-testid="panel-countries">
             <div className="mb-5 flex items-center gap-3">
               <div className="nn-accent-icon-wrap flex h-10 w-10 items-center justify-center rounded-xl">
                 <Globe className="nn-accent-icon h-5 w-5" />
@@ -49,7 +49,7 @@ export default function HeroGlobalCoverage() {
               {SUPPORTED_COUNTRIES.map((country) => (
                 <div
                   key={country.flag}
-                  className="flex items-center gap-2.5 rounded-xl border border-gray-100 bg-gray-50 px-3 py-2.5"
+                  className="flex items-center gap-2.5 rounded-xl border border-border bg-muted px-3 py-2.5"
                   data-testid={`country-${country.flag.toLowerCase()}`}
                 >
                   <span className="text-lg" role="img" aria-label={`${country.name} flag`}>
@@ -61,7 +61,7 @@ export default function HeroGlobalCoverage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-[var(--shadow-card)] lg:p-8" data-testid="panel-languages">
+          <div className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] lg:p-8" data-testid="panel-languages">
             <div className="mb-5 flex items-center gap-3">
               <div className="nn-accent-icon-wrap flex h-10 w-10 items-center justify-center rounded-xl">
                 <Languages className="nn-accent-icon h-5 w-5" />

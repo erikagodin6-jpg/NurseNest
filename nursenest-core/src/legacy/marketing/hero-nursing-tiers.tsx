@@ -40,7 +40,7 @@ export default function HeroNursingTiers() {
 
   return (
     <section
-      className="bg-white"
+      className="bg-card"
       style={{ paddingTop: "var(--space-block)", paddingBottom: "var(--space-block)" }}
       data-testid="section-nursing-tiers"
     >
@@ -86,7 +86,7 @@ export default function HeroNursingTiers() {
                     <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-400">{t("components.heroNursingTiers.majorExams")}</p>
                     <div className="flex flex-wrap gap-1.5">
                       {tier.exams.map((exam) => (
-                        <span key={exam} className="inline-flex rounded-md border border-gray-100 bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600">
+                        <span key={exam} className="inline-flex rounded-md border border-border bg-muted px-2 py-1 text-xs font-medium text-muted-foreground">
                           {exam}
                         </span>
                       ))}
@@ -94,19 +94,19 @@ export default function HeroNursingTiers() {
                   </div>
 
                   <div className="grid grid-cols-2 gap-3 text-center">
-                    <div className="rounded-lg bg-gray-50 p-2.5">
+                    <div className="rounded-lg bg-muted p-2.5">
                       <ClipboardCheck className="mx-auto mb-1 h-4 w-4 text-gray-400" />
                       <div className="text-xs text-gray-500">{t("components.heroNursingTiers.mockExams")}</div>
                     </div>
-                    <div className="rounded-lg bg-gray-50 p-2.5">
+                    <div className="rounded-lg bg-muted p-2.5">
                       <BookOpen className="mx-auto mb-1 h-4 w-4 text-gray-400" />
                       <div className="text-xs text-gray-500">{t("components.heroNursingTiers.studyGuides")}</div>
                     </div>
-                    <div className="rounded-lg bg-gray-50 p-2.5">
+                    <div className="rounded-lg bg-muted p-2.5">
                       <Globe className="mx-auto mb-1 h-4 w-4 text-gray-400" />
                       <div className="text-xs text-gray-500">{tier.countries.length} Countries</div>
                     </div>
-                    <div className="rounded-lg bg-gray-50 p-2.5">
+                    <div className="rounded-lg bg-muted p-2.5">
                       <Languages className="mx-auto mb-1 h-4 w-4 text-gray-400" />
                       <div className="text-xs text-gray-500">{t("components.heroNursingTiers.20Languages")}</div>
                     </div>
