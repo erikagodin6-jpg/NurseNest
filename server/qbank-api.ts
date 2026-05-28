@@ -658,8 +658,11 @@ export function setupQBankRoutes(app: Express) {
 
       query += ` AND (quarantined_at IS NULL)`;
 
-      query += ` ORDER BY id LIMIT LEAST($${paramIdx}, 50)`;
-      params.push(count);
+      // Use a random offset into the index to vary which questions each session sees.
+      // We fetch count*4 candidates ordered by id (fast PK scan) then shuffle in-app.
+      const candidateMultiplier = 4;
+      query += ` ORDER BY id LIMIT LEAST($${paramIdx}, ${50 * candidateMultiplier})`;
+      params.push(count * candidateMultiplier);
 
       logExamRequest("exam-set-fetch", {
         userId: user.id,
@@ -764,7 +767,14 @@ export function setupQBankRoutes(app: Express) {
           return base;
         }).filter((q: any) => q !== null);
 
-      const responsePayload = { questions: parsedQuestions, count: parsedQuestions.length, tier: queryTier };
+      // Shuffle the candidate pool and slice to the requested count so each session is varied.
+      for (let i = parsedQuestions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [parsedQuestions[i], parsedQuestions[j]] = [parsedQuestions[j], parsedQuestions[i]];
+      }
+      const finalQuestions = parsedQuestions.slice(0, count);
+
+      const responsePayload = { questions: finalQuestions, count: finalQuestions.length, tier: queryTier };
       const payloadSize = JSON.stringify(responsePayload).length;
       console.log(JSON.stringify({ route: "/api/qbank/exam-set", method: "GET", userId: user.id, tier: queryTier, questionCount: parsedQuestions.length, payloadSize, memoryRSS: process.memoryUsage().rss, timestamp: new Date().toISOString() }));
       res.json(responsePayload);

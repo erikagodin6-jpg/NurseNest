@@ -1980,7 +1980,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
           const controller = new AbortController();
           const timeout = setTimeout(() => controller.abort(), 15000);
           try {
-            const resp = await fetch(`/api/flashcards?deck=${encodeURIComponent(key)}&limit=250000&offset=0`, { signal: controller.signal });
+            const resp = await fetch(`/api/flashcards?deck=${encodeURIComponent(key)}&limit=5000&offset=0`, { signal: controller.signal });
             if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
             const parsed = await resp.json();
             if (Array.isArray(parsed)) return parsed;

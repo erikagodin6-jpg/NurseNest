@@ -98,6 +98,12 @@ export function ExamPracticeClient({
     let cancelled = false;
     const ac = new AbortController();
 
+    const BOOT_TIMEOUT_MS = 25_000;
+    const bootTimer = setTimeout(() => {
+      if (!cancelled) setPhase("error");
+      ac.abort();
+    }, BOOT_TIMEOUT_MS);
+
     async function boot() {
       try {
         const storedSession = typeof window !== "undefined" ? localStorage.getItem(STORAGE_SESSION) : null;
@@ -172,12 +178,15 @@ export function ExamPracticeClient({
       } catch (e) {
         if (cancelled || (e instanceof DOMException && e.name === "AbortError")) return;
         setPhase("error");
+      } finally {
+        clearTimeout(bootTimer);
       }
     }
 
     void boot();
     return () => {
       cancelled = true;
+      clearTimeout(bootTimer);
       ac.abort();
     };
   }, [examId]);

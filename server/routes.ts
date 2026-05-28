@@ -12602,7 +12602,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
       const { attemptId } = req.params;
       const offset = Math.max(0, parseInt(req.query.offset as string) || 0);
-      const limit = Math.min(Math.max(1, parseInt(req.query.limit as string) || 25), 50);
+      const limit = Math.min(Math.max(1, parseInt(req.query.limit as string) || 25), 150);
 
       const qCircuitId = `exam-questions-${attemptId}`;
       if (isCircuitOpen(qCircuitId)) {
@@ -18010,6 +18010,8 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         params,
         { label: "flashcard-bank/count", timeoutMs: 5000 }
       );
+      const total = countResult.rows[0]?.total || 0;
+      const randomOffset = total > limit ? Math.floor(Math.random() * (total - limit)) : 0;
       const result = await timedQuery(
         `SELECT id, front, back, category, tier, difficulty, source_type,
                 question_type, options, correct_answer, rationale_correct,
@@ -18017,9 +18019,9 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
                 rationale_media, lesson_links, body_system, topic, subtopic,
                 region_scope, flashcard_enabled, source_question_id
          FROM flashcard_bank WHERE ${where}
-         ORDER BY RANDOM()
+         ORDER BY id
          LIMIT $${paramIdx++} OFFSET $${paramIdx++}`,
-        [...params, limit, offset],
+        [...params, limit, offset > 0 ? offset : randomOffset],
         { label: "flashcard-bank/fetch", timeoutMs: 5000 }
       );
       const safeItems = result.rows
@@ -18034,8 +18036,8 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         .filter(Boolean);
       res.json({
         items: safeItems,
-        total: countResult.rows[0]?.total || 0,
-        hasMore: offset + limit < (countResult.rows[0]?.total || 0),
+        total,
+        hasMore: offset + limit < total,
       });
     } catch (e: any) {
       const msg = e?.message || String(e);
@@ -18287,10 +18289,9 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     try {
       itemsRes = await pool.query(
         `SELECT
-          id, front, back, category, tier, difficulty, source_type, question_type,
+          id, front, back, category, difficulty,
           options, correct_answer, rationale_correct, distractor_rationales,
-          clinical_takeaway, rationale_media, body_system, topic, subtopic,
-          tags_json
+          clinical_takeaway, rationale_media, body_system, topic
          FROM flashcard_bank
          WHERE ${whereClause}
          ORDER BY COALESCE(sort_order, 0) ASC, id ASC
@@ -18301,10 +18302,9 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       // Backwards compatibility: if sort_order wasn't added yet, fall back to deterministic ordering.
       itemsRes = await pool.query(
         `SELECT
-          id, front, back, category, tier, difficulty, source_type, question_type,
+          id, front, back, category, difficulty,
           options, correct_answer, rationale_correct, distractor_rationales,
-          clinical_takeaway, rationale_media, body_system, topic, subtopic,
-          tags_json
+          clinical_takeaway, rationale_media, body_system, topic
          FROM flashcard_bank
          WHERE ${whereClause}
          ORDER BY id ASC
@@ -18350,7 +18350,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const rawDeck = String(req.query.deck || req.query.key || "").trim();
       const deckKey = rawDeck && FLASHCARDS_DECK_KEYS.has(rawDeck) ? rawDeck : rawDeck || undefined;
 
-      const limit = Math.min(Math.max(parseInt(String(req.query.limit || "5000"), 10) || 5000, 1), 250000);
+      const limit = Math.min(Math.max(parseInt(String(req.query.limit || "5000"), 10) || 5000, 1), 10000);
       const offset = Math.max(parseInt(String(req.query.offset || "0"), 10) || 0, 0);
 
       const tier = req.query.tier ? String(req.query.tier).trim() : undefined;
@@ -18475,9 +18475,9 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       try {
         dbRes = await pool.query(
           `SELECT
-            id, front, back, category, tier, difficulty, source_type, question_type,
+            id, front, back, category, difficulty,
             options, correct_answer, rationale_correct, distractor_rationales,
-            clinical_takeaway, rationale_media, body_system, topic, subtopic, tags_json
+            clinical_takeaway, rationale_media, body_system, topic
            FROM flashcard_bank
            WHERE ${whereClause}
            ORDER BY COALESCE(sort_order, 0) ASC, id ASC
@@ -18488,9 +18488,9 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         // Backwards compatibility: sort_order added by migration script.
         dbRes = await pool.query(
           `SELECT
-            id, front, back, category, tier, difficulty, source_type, question_type,
+            id, front, back, category, difficulty,
             options, correct_answer, rationale_correct, distractor_rationales,
-            clinical_takeaway, rationale_media, body_system, topic, subtopic, tags_json
+            clinical_takeaway, rationale_media, body_system, topic
            FROM flashcard_bank
            WHERE ${whereClause}
            ORDER BY id ASC

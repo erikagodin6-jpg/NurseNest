@@ -10,10 +10,35 @@ export type AccessScope = {
   country: string | null;
 };
 
+const CACHE_TTL_MS = 60_000; // 1-minute TTL — short enough to pick up subscription changes quickly
+const entitlementCache = new Map<string, { scope: AccessScope; expiresAt: number }>();
+
+function getCached(userId: string): AccessScope | null {
+  const entry = entitlementCache.get(userId);
+  if (!entry || Date.now() > entry.expiresAt) {
+    entitlementCache.delete(userId);
+    return null;
+  }
+  return entry.scope;
+}
+
+function setCache(userId: string, scope: AccessScope): void {
+  // Evict if cache grows too large (safety valve for high-concurrency deployments)
+  if (entitlementCache.size > 5_000) entitlementCache.clear();
+  entitlementCache.set(userId, { scope, expiresAt: Date.now() + CACHE_TTL_MS });
+}
+
+export function invalidateEntitlementCache(userId: string): void {
+  entitlementCache.delete(userId);
+}
+
 export async function resolveEntitlement(userId: string): Promise<AccessScope> {
   if (!isDatabaseUrlConfigured()) {
     return { hasAccess: false, reason: "no_access", tier: null, country: null };
   }
+
+  const cached = getCached(userId);
+  if (cached) return cached;
 
   const user = await withRetry(() =>
     prisma.user.findUnique({
@@ -23,16 +48,20 @@ export async function resolveEntitlement(userId: string): Promise<AccessScope> {
   );
 
   if (!user) {
-    return { hasAccess: false, reason: "no_access", tier: null, country: null };
+    const scope: AccessScope = { hasAccess: false, reason: "no_access", tier: null, country: null };
+    setCache(userId, scope);
+    return scope;
   }
 
   if (user.role === UserRole.ADMIN) {
-    return {
+    const scope: AccessScope = {
       hasAccess: true,
       reason: "admin_override",
       tier: user.tier,
       country: user.country,
     };
+    setCache(userId, scope);
+    return scope;
   }
 
   const subscription = await withRetry(() =>
@@ -43,13 +72,15 @@ export async function resolveEntitlement(userId: string): Promise<AccessScope> {
     }),
   );
 
+  let scope: AccessScope;
   if (subscription?.status === SubscriptionStatus.ACTIVE) {
-    return { hasAccess: true, reason: "active_subscription", tier: user.tier, country: user.country };
+    scope = { hasAccess: true, reason: "active_subscription", tier: user.tier, country: user.country };
+  } else if (subscription?.status === SubscriptionStatus.GRACE) {
+    scope = { hasAccess: true, reason: "grace_period", tier: user.tier, country: user.country };
+  } else {
+    scope = { hasAccess: false, reason: "no_access", tier: user.tier, country: user.country };
   }
 
-  if (subscription?.status === SubscriptionStatus.GRACE) {
-    return { hasAccess: true, reason: "grace_period", tier: user.tier, country: user.country };
-  }
-
-  return { hasAccess: false, reason: "no_access", tier: user.tier, country: user.country };
+  setCache(userId, scope);
+  return scope;
 }

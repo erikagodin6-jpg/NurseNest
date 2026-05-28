@@ -540,11 +540,20 @@ function MockExamSessionInner() {
           }
 
           try {
-            const batchSize = 25;
-            const firstBatchRes = await fetch(`/api/mock-exams/${attemptId}/questions?offset=0&limit=${batchSize}`, {
-              ...EXAM_FETCH_DEFAULTS,
-              headers: buildMockExamHeaders(),
-            });
+            const isCatExam = parsedBp?.examType === "cat";
+            const batchSize = isCatExam ? 150 : 25;
+            const qController = new AbortController();
+            const qTimeout = setTimeout(() => qController.abort(), 30000);
+            let firstBatchRes: Response;
+            try {
+              firstBatchRes = await fetch(`/api/mock-exams/${attemptId}/questions?offset=0&limit=${batchSize}`, {
+                ...EXAM_FETCH_DEFAULTS,
+                headers: buildMockExamHeaders(),
+                signal: qController.signal,
+              });
+            } finally {
+              clearTimeout(qTimeout);
+            }
             const firstBatchText = await firstBatchRes.text();
             let firstBatchParsed: unknown = null;
             try {
@@ -579,23 +588,8 @@ function MockExamSessionInner() {
               return;
             }
 
-            if (parsedBp?.examType === "cat") {
-              let catPool = batchQuestions;
-              if (totalQ > batchQuestions.length) {
-                try {
-                  const allRes = await fetch(`/api/mock-exams/${attemptId}/questions?offset=0&limit=${totalQ}`, {
-                    ...EXAM_FETCH_DEFAULTS,
-                    headers: buildMockExamHeaders(),
-                  });
-                  if (allRes.ok) {
-                    const allData = await allRes.json();
-                    const fullPool: PooledQuestion[] = (allData.questions || []).filter((q: any) => q && q.id);
-                    if (fullPool.length > catPool.length) {
-                      catPool = fullPool;
-                    }
-                  }
-                } catch {}
-              }
+            if (isCatExam) {
+              const catPool = batchQuestions;
               setAllPoolQuestions(catPool);
               const fullBlueprint = parsedBp?.examCode ? EXAM_BLUEPRINTS[parsedBp.examCode] : undefined;
               let existingCat: CATState | null = null;

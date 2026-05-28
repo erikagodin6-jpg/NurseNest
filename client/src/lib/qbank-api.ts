@@ -123,9 +123,17 @@ export async function fetchExamSet(params: {
   if (params.topic) query.set("topic", params.topic);
   if (params.region) query.set("region", params.region);
 
-  const res = await fetch(`/api/qbank/exam-set?${query.toString()}`, {
-    headers: getAuthHeaders(),
-  });
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 15000);
+  let res: Response;
+  try {
+    res = await fetch(`/api/qbank/exam-set?${query.toString()}`, {
+      headers: getAuthHeaders(),
+      signal: controller.signal,
+    });
+  } finally {
+    clearTimeout(timer);
+  }
   if (!res.ok) {
     const err = await res.json().catch(() => ({ error: "Request failed" }));
     if (res.status === 403) {
