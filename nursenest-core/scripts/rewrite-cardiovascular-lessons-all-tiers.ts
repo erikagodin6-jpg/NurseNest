@@ -1,14 +1,14 @@
 /**
  * Curated cardiovascular remediation for RN, practical-nursing, and NP rows.
  *
- * The script intentionally updates rows one-by-one because regionScope matters:
- * CA_ONLY receives the Canadian-scoped profile, US_ONLY receives the U.S.-scoped
- * profile, and BOTH/null receives the region-neutral profile. This prevents one
- * shared BOTH row from being overwritten twice with competing country variants.
- *
  * Run from nursenest-core:
  *   npx tsx scripts/rewrite-cardiovascular-lessons-all-tiers.ts --dry-run
+ *   npx tsx scripts/rewrite-cardiovascular-lessons-all-tiers.ts --create-missing
  *   npx tsx scripts/rewrite-cardiovascular-lessons-all-tiers.ts
+ *
+ * `--create-missing` is explicit and conservative: it creates a BOTH-scoped row
+ * only for a normalized tier that already exists in the cardiovascular estate.
+ * The normal rewrite remains fail-closed if coverage is incomplete.
  *
  * Env: DATABASE_URL
  */
@@ -29,11 +29,23 @@ loadEnv({ path: path.join(__dirname, "../../.env") });
 
 const prisma = new PrismaClient();
 const dryRun = process.argv.includes("--dry-run");
+const createMissing = process.argv.includes("--create-missing");
+
+if (dryRun && createMissing) {
+  throw new Error("CARDIOVASCULAR_MODE_CONFLICT: choose --dry-run or --create-missing, not both");
+}
 
 const productionTierValues = ["rn", "rpn", "lpn", "lvn", "np"] as const;
 
 function normalizeTitle(value: string): string {
   return value.trim().toLowerCase();
+}
+
+function slugify(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
 }
 
 function normalizeTier(value: string): CardiovascularTier {
@@ -122,8 +134,8 @@ function validateStoredFlow(
   }
 }
 
-async function main() {
-  const inventory = await prisma.contentItem.findMany({
+async function readInventory() {
+  return prisma.contentItem.findMany({
     where: {
       type: "lesson",
       tier: { in: [...productionTierValues] },
@@ -144,24 +156,18 @@ async function main() {
     },
     orderBy: [{ tier: "asc" }, { title: "asc" }, { updatedAt: "desc" }],
   });
+}
 
+function buildCoverage(inventory: Awaited<ReturnType<typeof readInventory>>) {
   const expectedByKey = new Map(
     cardiovascularRnExpectedTitles.map((title) => [normalizeTitle(title), title]),
   );
-  const unexpected = inventory.filter((row) => !expectedByKey.has(normalizeTitle(row.title)));
-  if (unexpected.length > 0) {
-    console.log(JSON.stringify({ unexpected }, null, 2));
-    throw new Error(
-      `CARDIOVASCULAR_UNEXPECTED_TITLES: ${[...new Set(unexpected.map((row) => row.title))].sort().join(", ")}`,
-    );
-  }
-
   const normalizedTierGroups = ["rn", "rpn", "np"] as const;
   const coverage = Object.fromEntries(
     normalizedTierGroups.map((tier) => {
       const titles = new Set(
         inventory
-          .filter((row) => normalizeTier(row.tier) === tier)
+          .filter((row) => normalizeTier(row.tier ?? "") === tier)
           .map((row) => expectedByKey.get(normalizeTitle(row.title))!)
           .filter(Boolean),
       );
@@ -173,18 +179,89 @@ async function main() {
         },
       ];
     }),
-  ) as Record<
-    CardiovascularTier,
-    { present: string[]; missing: string[] }
-  >;
+  ) as Record<CardiovascularTier, { present: string[]; missing: string[] }>;
+  return { expectedByKey, coverage };
+}
+
+async function createMissingRows(
+  inventory: Awaited<ReturnType<typeof readInventory>>,
+  coverage: Record<CardiovascularTier, { present: string[]; missing: string[] }>,
+) {
+  const created: Array<{ id: string; slug: string; title: string; tier: CardiovascularTier }> = [];
+  const rawTierByNormalized = new Map<CardiovascularTier, string>();
+
+  for (const row of inventory) {
+    if (!row.tier) continue;
+    const normalized = normalizeTier(row.tier);
+    if (!rawTierByNormalized.has(normalized)) rawTierByNormalized.set(normalized, row.tier);
+  }
+
+  for (const tier of ["rn", "rpn", "np"] as const) {
+    const rawTier = rawTierByNormalized.get(tier);
+    if (!rawTier) {
+      throw new Error(`CARDIOVASCULAR_CREATE_MISSING_NO_EXISTING_TIER_PROFILE: ${tier}`);
+    }
+
+    for (const title of coverage[tier].missing) {
+      const lesson = cardiovascularScopedLessons[title]?.[tier]?.BOTH;
+      if (!lesson) throw new Error(`CARDIOVASCULAR_CREATE_MISSING_SOURCE_MISSING: ${title}/${tier}`);
+      const slug = `${rawTier.toLowerCase()}-cardiovascular-${slugify(title)}`;
+
+      const existingSlug = await prisma.contentItem.findUnique({ where: { slug }, select: { id: true } });
+      if (existingSlug) {
+        throw new Error(`CARDIOVASCULAR_CREATE_MISSING_SLUG_COLLISION: ${slug}`);
+      }
+
+      const row = await prisma.contentItem.create({
+        data: {
+          title,
+          slug,
+          type: "lesson",
+          category: "Cardiovascular",
+          bodySystem: "Cardiovascular",
+          tier: rawTier,
+          status: "published",
+          tags: ["cardiovascular", "curated"],
+          summary: lesson.summary,
+          content: lesson.sections as unknown as Prisma.InputJsonValue,
+          clinicalSafetyReview: true,
+          autoPublish: false,
+          publishedAt: new Date(),
+          authorName: "DELEGATED_AI_CONTENT_OWNER",
+          regionScope: "BOTH",
+          versionKey: lesson.versionKey,
+          updatedByAi: true,
+          sourceVersion: 1,
+        },
+        select: { id: true, slug: true, title: true },
+      });
+      created.push({ ...row, tier });
+    }
+  }
+
+  console.log(JSON.stringify({ createdMissingRows: created.length, created }, null, 2));
+}
+
+async function main() {
+  let inventory = await readInventory();
+  let { expectedByKey, coverage } = buildCoverage(inventory);
+
+  const unexpected = inventory.filter((row) => !expectedByKey.has(normalizeTitle(row.title)));
+  if (unexpected.length > 0) {
+    console.log(JSON.stringify({ unexpected }, null, 2));
+    throw new Error(
+      `CARDIOVASCULAR_UNEXPECTED_TITLES: ${[...new Set(unexpected.map((row) => row.title))].sort().join(", ")}`,
+    );
+  }
 
   const report = {
     dryRun,
+    createMissing,
     expectedTitlesPerTier: cardiovascularRnExpectedTitles.length,
     discoveredRows: inventory.length,
     coverage,
     regionCounts: inventory.reduce<Record<string, number>>((acc, row) => {
-      const key = `${normalizeTier(row.tier)}:${normalizeRegion(row.regionScope)}`;
+      const key = `${normalizeTier(row.tier ?? "")}:${normalizeRegion(row.regionScope)}`;
       acc[key] = (acc[key] ?? 0) + 1;
       return acc;
     }, {}),
@@ -192,12 +269,32 @@ async function main() {
   };
   console.log(JSON.stringify(report, null, 2));
 
-  const incompleteTiers = normalizedTierGroups.filter((tier) => coverage[tier].missing.length > 0);
+  const incompleteTiers = (["rn", "rpn", "np"] as const).filter(
+    (tier) => coverage[tier].missing.length > 0,
+  );
+
+  if (createMissing) {
+    if (incompleteTiers.length === 0) {
+      console.log(JSON.stringify({ createdMissingRows: 0, note: "coverage already complete" }, null, 2));
+      return;
+    }
+    await createMissingRows(inventory, coverage);
+    inventory = await readInventory();
+    ({ expectedByKey, coverage } = buildCoverage(inventory));
+    const stillIncomplete = (["rn", "rpn", "np"] as const).filter(
+      (tier) => coverage[tier].missing.length > 0,
+    );
+    if (stillIncomplete.length > 0) {
+      throw new Error(`CARDIOVASCULAR_CREATE_MISSING_VERIFY_FAILED: ${stillIncomplete.join(",")}`);
+    }
+    return;
+  }
+
   if (incompleteTiers.length > 0) {
     throw new Error(
       `CARDIOVASCULAR_TIER_COVERAGE_INCOMPLETE: ${incompleteTiers
         .map((tier) => `${tier} missing ${coverage[tier].missing.length}`)
-        .join("; ")}. Author/create missing lessons before any bulk rewrite.`,
+        .join("; ")}. Run --create-missing after reviewing the dry-run inventory.`,
     );
   }
 
@@ -215,6 +312,7 @@ async function main() {
   for (const row of inventory) {
     const canonicalTitle = expectedByKey.get(normalizeTitle(row.title));
     if (!canonicalTitle) throw new Error(`CARDIOVASCULAR_TITLE_LOOKUP_FAILED: ${row.title}`);
+    if (!row.tier) throw new Error(`CARDIOVASCULAR_ROW_TIER_MISSING: ${row.id}`);
 
     const tier = normalizeTier(row.tier);
     const region = normalizeRegion(row.regionScope);
@@ -256,17 +354,7 @@ async function main() {
     });
   }
 
-  console.log(
-    JSON.stringify(
-      {
-        updatedRows: verification.length,
-        verifiedRows: verification.length,
-        verification,
-      },
-      null,
-      2,
-    ),
-  );
+  console.log(JSON.stringify({ updatedRows: verification.length, verifiedRows: verification.length, verification }, null, 2));
 }
 
 main()
