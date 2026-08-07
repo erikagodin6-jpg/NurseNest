@@ -1,15 +1,24 @@
 /**
- * Attach authored U.S. NP Cram projections to existing Full lessons.
+ * Audit and attach authored U.S. NP Cram projections to existing Full lessons.
  *
- * This script never creates lessons and never rewrites Full lesson prose. It only
- * replaces the three Cram projection fields on the six canonical Full sections.
- * It is fail-closed by default when an authored title is missing or a stored Full
- * lesson does not satisfy the normalized 10-section contract.
+ * Completion is deliberately bidirectional:
+ *   1. Inventory EVERY US-capable `tier=np` Full lesson.
+ *   2. Require each Full lesson to resolve to exactly one authored Cram lesson by
+ *      canonical title/slug or an explicit alias. Fuzzy matching is forbidden.
+ *   3. Validate the normalized 10-section Full contract before modifying a row.
+ *   4. Attach only the three Cram projection fields on the six target sections.
+ *   5. Re-read every write and validate Full + Cram flow after the transaction.
+ *
+ * The script never creates lessons and never rewrites Full lesson prose.
  *
  * Run from nursenest-core:
  *   npx tsx scripts/apply-us-np-cram-lessons.ts --dry-run
  *   npx tsx scripts/apply-us-np-cram-lessons.ts
  *   npx tsx scripts/apply-us-np-cram-lessons.ts --allow-partial
+ *
+ * `--allow-partial` is an explicit escape hatch for applying already-covered rows
+ * after a reviewed audit. Default mode fails closed if ANY US-capable NP Full lesson
+ * lacks an authored Cram identity.
  *
  * Env: DATABASE_URL
  */
@@ -20,8 +29,9 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import {
   attachUsNpCramToSections,
   buildUsNpCramProjection,
+  findUsNpCramLesson,
+  normalizeUsNpCramTitle,
   usNpCramLessons,
-  type UsNpCramLesson,
 } from "../src/lib/content/curated-lessons/us-np-cram";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -31,14 +41,6 @@ loadEnv({ path: path.join(__dirname, "../../.env") });
 const prisma = new PrismaClient();
 const dryRun = process.argv.includes("--dry-run");
 const allowPartial = process.argv.includes("--allow-partial");
-
-function normalizeTitle(value: string): string {
-  return value.trim().toLowerCase().replace(/\s+/g, " ");
-}
-
-const authoredByTitle = new Map<string, UsNpCramLesson>(
-  usNpCramLessons.map((lesson) => [normalizeTitle(lesson.title), lesson]),
-);
 
 const expectedFullTitles = [
   "Bottom Line",
@@ -100,32 +102,23 @@ function validateCramFlow(title: string, sections: readonly Record<string, unkno
   }
 }
 
-async function readInventory() {
-  const titleFilter: Prisma.ContentItemWhereInput = {
-    OR: usNpCramLessons.map((lesson) => ({
-      title: { equals: lesson.title, mode: "insensitive" as const },
-    })),
-  };
-
+async function readAllUsNpInventory() {
   return prisma.contentItem.findMany({
     where: {
       type: "lesson",
       tier: "np",
-      AND: [
-        titleFilter,
-        {
-          OR: [
-            { regionScope: "US_ONLY" },
-            { regionScope: "BOTH" },
-            { regionScope: null },
-          ],
-        },
+      OR: [
+        { regionScope: "US_ONLY" },
+        { regionScope: "BOTH" },
+        { regionScope: null },
       ],
     },
     select: {
       id: true,
       slug: true,
       title: true,
+      category: true,
+      bodySystem: true,
       regionScope: true,
       status: true,
       content: true,
@@ -138,20 +131,25 @@ async function readInventory() {
 }
 
 async function main(): Promise<void> {
-  const inventory = await readInventory();
-  const matchedTitles = new Set(inventory.map((row) => normalizeTitle(row.title)));
-  const missingAuthoredTitles = usNpCramLessons
-    .filter((lesson) => !matchedTitles.has(normalizeTitle(lesson.title)))
-    .map((lesson) => lesson.title);
+  const inventory = await readAllUsNpInventory();
 
-  const unknownRows = inventory.filter((row) => !authoredByTitle.has(normalizeTitle(row.title)));
-  if (unknownRows.length) {
-    throw new Error(`US_NP_CRAM_UNKNOWN_MATCHED_ROWS: ${unknownRows.map((row) => row.title).join(", ")}`);
-  }
+  const resolved = inventory.map((row) => ({
+    row,
+    lesson: findUsNpCramLesson({ title: row.title, slug: row.slug }),
+  }));
+  const uncoveredFullRows = resolved.filter(({ lesson }) => !lesson).map(({ row }) => row);
+  const covered = resolved.filter(
+    (item): item is typeof item & { lesson: NonNullable<typeof item.lesson> } => Boolean(item.lesson),
+  );
+
+  const matchedAuthoredSlugs = new Set(covered.map(({ lesson }) => lesson.slug));
+  const authoredWithoutFullRows = usNpCramLessons
+    .filter((lesson) => !matchedAuthoredSlugs.has(lesson.slug))
+    .map((lesson) => ({ slug: lesson.slug, title: lesson.title, applicableExams: lesson.applicableExams }));
 
   const duplicateRowKeys = new Map<string, number>();
-  for (const row of inventory) {
-    const key = `${normalizeTitle(row.title)}|${row.regionScope ?? "BOTH"}`;
+  for (const { row, lesson } of covered) {
+    const key = `${lesson.slug}|${row.regionScope ?? "BOTH"}`;
     duplicateRowKeys.set(key, (duplicateRowKeys.get(key) ?? 0) + 1);
   }
   const duplicates = [...duplicateRowKeys.entries()].filter(([, count]) => count > 1);
@@ -161,10 +159,7 @@ async function main(): Promise<void> {
     );
   }
 
-  const prepared = inventory.map((row) => {
-    const lesson = authoredByTitle.get(normalizeTitle(row.title));
-    if (!lesson) throw new Error(`US_NP_CRAM_SOURCE_LOOKUP_FAILED: ${row.title}`);
-
+  const prepared = covered.map(({ row, lesson }) => {
     const sections = asSectionArray(row.title, row.content);
     validateFullFlow(row.title, sections);
     const nextSections = attachUsNpCramToSections(sections, lesson);
@@ -179,17 +174,35 @@ async function main(): Promise<void> {
     };
   });
 
+  const coveragePercent = inventory.length === 0 ? 0 : Number(((covered.length / inventory.length) * 100).toFixed(2));
+  const matchedUniqueFullTitles = new Set(covered.map(({ row }) => normalizeUsNpCramTitle(row.title))).size;
+
   const report = {
     dryRun,
     allowPartial,
     authoredLessons: usNpCramLessons.length,
-    matchedRows: inventory.length,
-    matchedUniqueTitles: matchedTitles.size,
-    missingAuthoredTitles,
-    prepared: prepared.map(({ row, lesson, projectionTitles }) => ({
+    discoveredUsNpFullRows: inventory.length,
+    coveredFullRows: covered.length,
+    uncoveredFullRows: uncoveredFullRows.length,
+    coveragePercent,
+    matchedUniqueFullTitles,
+    completionGate: uncoveredFullRows.length === 0 && inventory.length > 0 ? "PASS" : "FAIL",
+    uncovered: uncoveredFullRows.map((row) => ({
       id: row.id,
       slug: row.slug,
       title: row.title,
+      category: row.category,
+      bodySystem: row.bodySystem,
+      regionScope: row.regionScope ?? "BOTH",
+      status: row.status,
+    })),
+    authoredWithoutFullRows,
+    prepared: prepared.map(({ row, lesson, projectionTitles }) => ({
+      id: row.id,
+      slug: row.slug,
+      storedTitle: row.title,
+      authoredSlug: lesson.slug,
+      authoredTitle: lesson.title,
       regionScope: row.regionScope ?? "BOTH",
       applicableExams: lesson.applicableExams,
       cramSections: projectionTitles,
@@ -197,10 +210,14 @@ async function main(): Promise<void> {
   };
   console.log(JSON.stringify(report, null, 2));
 
-  if (missingAuthoredTitles.length && !allowPartial) {
+  if (inventory.length === 0) {
+    throw new Error("US_NP_CRAM_NO_US_NP_FULL_LESSONS_DISCOVERED: inventory cannot certify completion");
+  }
+
+  if (uncoveredFullRows.length && !allowPartial) {
     throw new Error(
-      `US_NP_CRAM_DATABASE_COVERAGE_INCOMPLETE: ${missingAuthoredTitles.length} authored titles have no US-capable NP Full lesson. ` +
-        "Author/normalize those Full lessons first, or rerun with --allow-partial after reviewing --dry-run output.",
+      `US_NP_CRAM_FULL_TO_CRAM_COVERAGE_INCOMPLETE: ${uncoveredFullRows.length}/${inventory.length} US-capable NP Full rows lack authored Cram. ` +
+        "Author explicit Cram lessons or aliases for every uncovered row before applying.",
     );
   }
 
@@ -231,9 +248,15 @@ async function main(): Promise<void> {
   console.log(
     JSON.stringify(
       {
+        discoveredUsNpFullRows: inventory.length,
         appliedRows: prepared.length,
         verifiedRows: verificationRows.length,
-        status: "US_NP_CRAM_APPLY_VERIFIED",
+        uncoveredFullRows: uncoveredFullRows.length,
+        coveragePercent,
+        status:
+          uncoveredFullRows.length === 0
+            ? "US_NP_CRAM_FULL_COVERAGE_APPLY_VERIFIED"
+            : "US_NP_CRAM_PARTIAL_APPLY_VERIFIED",
       },
       null,
       2,
