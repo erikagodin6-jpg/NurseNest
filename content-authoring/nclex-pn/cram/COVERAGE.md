@@ -2,16 +2,16 @@
 
 Status: ACTIVE AUTHORING
 Baseline date: 2026-08-07
-Authored Cram lessons: 120
+Authored Cram lessons: 140
 Locale: United States
 Level: PN / LPN / LVN entry-level practice
 Exam alignment: 2026 NCLEX-PN Test Plan
 
 ## Current baseline
 
-The library now contains 120 distinct authored Cram lessons across safety and infection control, fundamentals, pharmacology, cardiovascular, respiratory, endocrine, renal, neurologic, gastrointestinal, maternity, newborn, pediatrics, mental health, musculoskeletal, integumentary, infectious disease, hematology, oncology, perioperative care, sensory care, gerontology, coordinated care, devices/lines/tubes, nutrition, reproductive health, STI care, prevention, interpersonal safety, shock/emergency care, environmental emergencies, fluids/electrolytes, and acid-base interpretation.
+The library now contains 140 distinct authored Cram lessons across safety and infection control, fundamentals, pharmacology, cardiovascular, respiratory, endocrine, renal/urologic, neurologic, gastrointestinal/hepatology, maternity, newborn, pediatrics, mental health, musculoskeletal, integumentary, infectious disease, hematology, oncology, perioperative care, sensory care, gerontology, coordinated care, devices/lines/tubes, nutrition, reproductive health, STI care, prevention, interpersonal safety, shock/emergency care, environmental emergencies, fluids/electrolytes, acid-base interpretation, chronic cardiovascular disease, chronic kidney/urologic care, common GI disorders, chronic diabetes, and routine thyroid disease.
 
-The first 100 lessons established the production baseline. Authoring has continued beyond that count. Neither 100 nor 120 is a declaration of complete coverage.
+The first 100 lessons established the production baseline. Authoring has continued beyond that count. Neither 100, 120, nor 140 is a declaration of complete coverage.
 
 ## Completion gate
 
@@ -25,6 +25,10 @@ The U.S. PN Cram estate is complete only when all of the following are true:
 6. Duplicate or near-duplicate lessons are merged or differentiated by a clinically meaningful decision pathway.
 7. High-risk clinical claims are refreshed against current authoritative U.S. guidance before publication.
 8. Topics outside entry-level PN/LPN/LVN scope are framed around recognition, monitoring, safe implementation, communication, and escalation rather than autonomous diagnosis or prescribing.
+
+## Serving-scope finding
+
+The production entitlement model identifies the American practical-nurse learner as `country=US`, `tier=LVN_LPN`. Serving lessons are restricted to published `US_ONLY` or `BOTH` content plus the applicable `lvn`, `free`, and `general` tiers. The older TypeScript `contentMap` is a mixed RN/RPN/NP/general collection and cannot by itself prove American PN coverage.
 
 ## Reconciliation work still required
 
