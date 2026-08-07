@@ -11,6 +11,19 @@ import { usNpCramBatch10 } from "./us-np-cram-batch-10";
 import { usNpCramBatch11 } from "./us-np-cram-batch-11";
 import { usNpCramBatch12 } from "./us-np-cram-batch-12";
 import { usNpCramBatch13 } from "./us-np-cram-batch-13";
+import { usNpCramBatch14 } from "./us-np-cram-batch-14";
+import { usNpCramBatch15 } from "./us-np-cram-batch-15";
+import { usNpCramBatch16 } from "./us-np-cram-batch-16";
+import { usNpCramBatch17 } from "./us-np-cram-batch-17";
+import { usNpCramBatch18 } from "./us-np-cram-batch-18";
+import { usNpCramBatch19 } from "./us-np-cram-batch-19";
+import { usNpCramBatch20 } from "./us-np-cram-batch-20";
+import { usNpCramBatch21 } from "./us-np-cram-batch-21";
+import { usNpCramBatch22 } from "./us-np-cram-batch-22";
+import { usNpCramBatch23 } from "./us-np-cram-batch-23";
+import { usNpCramBatch24 } from "./us-np-cram-batch-24";
+import { usNpCramBatch25 } from "./us-np-cram-batch-25";
+import { usNpCramBatch26 } from "./us-np-cram-batch-26";
 import {
   US_NP_EXAMS,
   buildUsNpCramProjection,
@@ -20,7 +33,7 @@ import {
 
 export * from "./us-np-cram-types";
 
-export const EXPECTED_US_NP_CRAM_LESSONS = 100;
+export const EXPECTED_US_NP_CRAM_LESSONS = 204;
 
 export const usNpCramLessons = [
   ...usNpCramBatch1,
@@ -36,6 +49,19 @@ export const usNpCramLessons = [
   ...usNpCramBatch11,
   ...usNpCramBatch12,
   ...usNpCramBatch13,
+  ...usNpCramBatch14,
+  ...usNpCramBatch15,
+  ...usNpCramBatch16,
+  ...usNpCramBatch17,
+  ...usNpCramBatch18,
+  ...usNpCramBatch19,
+  ...usNpCramBatch20,
+  ...usNpCramBatch21,
+  ...usNpCramBatch22,
+  ...usNpCramBatch23,
+  ...usNpCramBatch24,
+  ...usNpCramBatch25,
+  ...usNpCramBatch26,
 ] as const satisfies readonly UsNpCramLesson[];
 
 export const usNpCramBySlug = Object.fromEntries(
@@ -47,15 +73,15 @@ export function getUsNpCramLessonsForExam(exam: UsNpExam): readonly UsNpCramLess
 }
 
 const minimumCoverage: Record<UsNpExam, number> = {
-  "AANP-FNP": 100,
-  "ANCC-FNP": 100,
-  "AGPCNP-AANP": 54,
-  "AGPCNP-ANCC": 54,
-  "AGACNP": 43,
-  "PMHNP": 22,
-  "PNP": 41,
-  "WHNP": 28,
-  "ENP": 66,
+  "AANP-FNP": 204,
+  "ANCC-FNP": 204,
+  "AGPCNP-AANP": 149,
+  "AGPCNP-ANCC": 149,
+  "AGACNP": 89,
+  "PMHNP": 44,
+  "PNP": 57,
+  "WHNP": 47,
+  "ENP": 109,
 };
 
 function validateUsNpCramRegistry(): void {
