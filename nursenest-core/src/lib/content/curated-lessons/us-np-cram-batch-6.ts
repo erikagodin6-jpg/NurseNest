@@ -17,6 +17,8 @@ export const usNpCramBatch6 = [
   {
     slug: "sepsis",
     title: "Sepsis",
+    titleAliases: ["Sepsis: Cytokine Storm & SOFA"],
+    slugAliases: ["sepsis-mastery-np"],
     bodySystem: "Emergency",
     applicableExams: ["AANP-FNP", "ANCC-FNP", "AGACNP", "ENP", "PNP"],
     recognize: "Suspected infection plus acute organ dysfunction is sepsis. Look for altered mentation, hypotension, tachypnea, hypoxemia, oliguria, mottling, lactate elevation, or rapidly worsening clinical status.",
@@ -82,6 +84,8 @@ export const usNpCramBatch6 = [
   {
     slug: "shock",
     title: "Shock Recognition",
+    titleAliases: ["Shock: Hemodynamic Monitoring"],
+    slugAliases: ["shock-syndromes-np"],
     bodySystem: "Emergency",
     applicableExams: ["AGACNP", "ENP", "AANP-FNP", "ANCC-FNP"],
     recognize: "Shock is inadequate tissue perfusion; BP can be normal early. Use skin temperature, mentation, urine output, capillary refill, pulse pressure, lactate, and bedside ultrasound patterns to separate distributive, hypovolemic, cardiogenic, and obstructive causes.",
