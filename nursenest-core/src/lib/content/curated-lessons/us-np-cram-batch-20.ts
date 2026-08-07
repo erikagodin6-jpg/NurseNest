@@ -56,6 +56,8 @@ export const usNpCramBatch20 = [
   {
     slug: "siadh-diabetes-insipidus",
     title: "SIADH & Diabetes Insipidus",
+    titleAliases: ["Sodium Disorders: Osmoregulation"],
+    slugAliases: ["siadh-di-np"],
     bodySystem: "Endocrine",
     applicableExams: ["AANP-FNP", "ANCC-FNP", "AGPCNP-AANP", "AGPCNP-ANCC", "AGACNP", "ENP"],
     recognize: "SIADH causes hypotonic euvolemic hyponatremia with inappropriately concentrated urine; diabetes insipidus causes polyuria with dilute urine and often hypernatremia when water access is inadequate. Both require exclusion of mimics.",
