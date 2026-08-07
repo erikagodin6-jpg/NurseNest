@@ -13,6 +13,12 @@ import { rpnContentBatch054Lessons } from "./rpn-content-batch-054";
 import { rpnContentBatch055Lessons } from "./rpn-content-batch-055";
 import { rpnContentBatch056Lessons } from "./rpn-content-batch-056";
 import { rpnContentBatch057Lessons } from "./rpn-content-batch-057";
+import { rpnContentBatch058Lessons } from "./rpn-content-batch-058";
+import { rpnContentBatch059Lessons } from "./rpn-content-batch-059";
+import { rpnContentBatch060Lessons } from "./rpn-content-batch-060";
+import { rpnContentBatch061Lessons } from "./rpn-content-batch-061";
+import { rpnContentBatch062Lessons } from "./rpn-content-batch-062";
+import { rpnContentBatch063Lessons } from "./rpn-content-batch-063";
 
 /**
  * REx-PN / Canadian practical-nursing expansion aggregator.
@@ -33,4 +39,10 @@ export const rpnExtraBank: Record<string, LessonContent> = {
   ...rpnContentBatch055Lessons,
   ...rpnContentBatch056Lessons,
   ...rpnContentBatch057Lessons,
+  ...rpnContentBatch058Lessons,
+  ...rpnContentBatch059Lessons,
+  ...rpnContentBatch060Lessons,
+  ...rpnContentBatch061Lessons,
+  ...rpnContentBatch062Lessons,
+  ...rpnContentBatch063Lessons,
 };
