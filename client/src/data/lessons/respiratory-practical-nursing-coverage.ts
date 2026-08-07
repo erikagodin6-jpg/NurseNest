@@ -5,12 +5,14 @@ import {
   type PracticalNursingCramCountry,
   type PracticalNursingCramExam
 } from "./respiratory-practical-nursing-cram";
-import { rpnCaAsthmaRexpnBankBatch1 } from "../exam-questions/rpn-ca-asthma-rexpn-bank-batch1";
-import { pnUsAsthmaNclexBankBatch1 } from "../exam-questions/pn-us-asthma-nclex-bank-batch1";
-import { rpnCaCopdRexpnBankBatch1 } from "../exam-questions/rpn-ca-copd-rexpn-bank-batch1";
-import { pnUsCopdNclexBankBatch1 } from "../exam-questions/pn-us-copd-nclex-bank-batch1";
-import { rpnCaPneumoniaRexpnBankBatch1 } from "../exam-questions/rpn-ca-pneumonia-rexpn-bank-batch1";
-import { pnUsPneumoniaNclexBankBatch1 } from "../exam-questions/pn-us-pneumonia-nclex-bank-batch1";
+import {
+  rpnCaAsthmaRexpnPublishedBank,
+  pnUsAsthmaNclexPublishedBank,
+  rpnCaCopdRexpnPublishedBank,
+  pnUsCopdNclexPublishedBank,
+  rpnCaPneumoniaRexpnPublishedBank,
+  pnUsPneumoniaNclexPublishedBank
+} from "../exam-questions/practical-nursing-respiratory-published-banks";
 
 type CoverageQuestion = {
   id: string;
@@ -49,7 +51,7 @@ const cells: CoverageCell[] = [
     exam: "REX-PN",
     fullLessonKey: "acute-asthma-rpn-ca",
     topic: "Asthma",
-    questions: rpnCaAsthmaRexpnBankBatch1
+    questions: rpnCaAsthmaRexpnPublishedBank
   },
   {
     countryCode: "US",
@@ -57,7 +59,7 @@ const cells: CoverageCell[] = [
     exam: "NCLEX-PN",
     fullLessonKey: "acute-asthma-pn-us",
     topic: "Asthma",
-    questions: pnUsAsthmaNclexBankBatch1
+    questions: pnUsAsthmaNclexPublishedBank
   },
   {
     countryCode: "CA",
@@ -65,7 +67,7 @@ const cells: CoverageCell[] = [
     exam: "REX-PN",
     fullLessonKey: "copd-exacerbation-rpn-ca",
     topic: "COPD",
-    questions: rpnCaCopdRexpnBankBatch1
+    questions: rpnCaCopdRexpnPublishedBank
   },
   {
     countryCode: "US",
@@ -73,7 +75,7 @@ const cells: CoverageCell[] = [
     exam: "NCLEX-PN",
     fullLessonKey: "copd-exacerbation-pn-us",
     topic: "COPD",
-    questions: pnUsCopdNclexBankBatch1
+    questions: pnUsCopdNclexPublishedBank
   },
   {
     countryCode: "CA",
@@ -81,7 +83,7 @@ const cells: CoverageCell[] = [
     exam: "REX-PN",
     fullLessonKey: "community-acquired-pneumonia-rpn-ca",
     topic: "Community-Acquired Pneumonia",
-    questions: rpnCaPneumoniaRexpnBankBatch1
+    questions: rpnCaPneumoniaRexpnPublishedBank
   },
   {
     countryCode: "US",
@@ -89,7 +91,7 @@ const cells: CoverageCell[] = [
     exam: "NCLEX-PN",
     fullLessonKey: "community-acquired-pneumonia-pn-us",
     topic: "Community-Acquired Pneumonia",
-    questions: pnUsPneumoniaNclexBankBatch1
+    questions: pnUsPneumoniaNclexPublishedBank
   }
 ];
 
@@ -172,12 +174,8 @@ export const practicalNursingRespiratoryCoverageMatrix = cells.map((cell) => {
     answerPositionCounts[question.correctAnswer] += 1;
   }
 
-  // Fail obvious answer-position leakage: no single position may carry >80% of a 20-item cell.
-  // This is intentionally permissive enough not to force artificial answer shuffling while still
-  // catching generator failure where every answer lands in the same slot.
-  const maximumAnswerPosition = Math.max(...answerPositionCounts);
-  if (maximumAnswerPosition / cell.questions.length > 0.8) {
-    throw new Error(`PN_RESPIRATORY_ANSWER_POSITION_LEAKAGE: ${key}/${answerPositionCounts.join(",")}`);
+  if (answerPositionCounts.join(",") !== "5,5,5,5") {
+    throw new Error(`PN_RESPIRATORY_ANSWER_POSITION_BALANCE_INVALID: ${key}/${answerPositionCounts.join(",")}`);
   }
 
   return {
