@@ -2,6 +2,7 @@ import {
   cardiovascularRnExpectedTitles,
   cardiovascularRnLessons,
 } from "./cardiovascular-rn";
+import { authorUsPnCardiovascularCram } from "./cardiovascular-pn-us-cram";
 import type {
   CuratedCardiovascularLesson,
   CuratedCardiovascularSection,
@@ -23,8 +24,11 @@ function append(content: string, tail: string): string {
   return `${content}\n\n${tail}`;
 }
 
-function scopeRpn(base: CuratedCardiovascularLesson): CuratedCardiovascularSection[] {
-  return base.sections.map((current) => {
+function scopeRpn(
+  base: CuratedCardiovascularLesson,
+  region: CardiovascularRegion,
+): CuratedCardiovascularSection[] {
+  const scoped = base.sections.map((current) => {
     if (current.sectionTitle === "Diagnostics") {
       return {
         ...current,
@@ -57,6 +61,8 @@ function scopeRpn(base: CuratedCardiovascularLesson): CuratedCardiovascularSecti
     }
     return { ...current };
   });
+
+  return region === "US" ? authorUsPnCardiovascularCram(scoped) : scoped;
 }
 
 function scopeNp(base: CuratedCardiovascularLesson): CuratedCardiovascularSection[] {
@@ -115,7 +121,7 @@ export function buildScopedCardiovascularLesson(
   region: CardiovascularRegion,
 ): ScopedCardiovascularLesson {
   const tierSections =
-    tier === "rpn" ? scopeRpn(base) : tier === "np" ? scopeNp(base) : base.sections.map((s) => ({ ...s }));
+    tier === "rpn" ? scopeRpn(base, region) : tier === "np" ? scopeNp(base) : base.sections.map((s) => ({ ...s }));
   const sections = regionalize(tierSections, region);
 
   const requiredFull = [
