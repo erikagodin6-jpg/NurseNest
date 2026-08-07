@@ -7,7 +7,7 @@
   "level": "Practical Nurse / LPN / LVN",
   "authoringStatus": "ACTIVE_AUTHORING",
   "sourceRefreshDate": "2026-08-07",
-  "totalLessons": 120,
+  "totalLessons": 140,
   "files": [
     {"path": "01-safety-fundamentals-pharmacology.json", "lessons": 10},
     {"path": "02-cardiovascular-respiratory.json", "lessons": 9},
@@ -20,7 +20,9 @@
     {"path": "09-devices-lines-tubes-nutrition.json", "lessons": 10},
     {"path": "10-reproductive-sti-prevention.json", "lessons": 11},
     {"path": "11-emergency-electrolytes-shock.json", "lessons": 10},
-    {"path": "12-endocrine-acid-base.json", "lessons": 10}
+    {"path": "12-endocrine-acid-base.json", "lessons": 10},
+    {"path": "13-cardiovascular-renal-depth.json", "lessons": 10},
+    {"path": "14-gi-endocrine-depth.json", "lessons": 10}
   ],
   "nclexPnClientNeedsCoverage": {
     "safeAndEffectiveCareEnvironment": {
@@ -79,7 +81,11 @@
     "shock/emergency care",
     "environmental emergencies",
     "fluids/electrolytes",
-    "acid-base interpretation"
+    "acid-base interpretation",
+    "chronic cardiovascular disease",
+    "chronic kidney and urologic care",
+    "common GI disorders",
+    "chronic diabetes and thyroid care"
   ],
   "usLocalizationRules": {
     "usGuidanceFirst": true,
@@ -131,6 +137,6 @@
     "rendererMappingComplete": false,
     "productionMerged": false,
     "productionDeployed": false,
-    "note": "The 120-lesson library is an authored clinical baseline. It must be reconciled against serving US/LVN_LPN lesson rows and mapped into Cram mode before production-complete claims are valid."
+    "note": "The 140-lesson library is an authored clinical baseline. It must be reconciled against serving US/LVN_LPN lesson rows and mapped into Cram mode before production-complete claims are valid."
   }
 }
