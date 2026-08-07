@@ -43,6 +43,8 @@ export const usNpCramBatch13 = [
   {
     slug: "acute-kidney-injury",
     title: "Acute Kidney Injury",
+    titleAliases: ["AKI: RIFLE Criteria & Dialysis"],
+    slugAliases: ["aki-management-np"],
     bodySystem: "Renal",
     applicableExams: ["AGACNP", "ENP", "AANP-FNP", "ANCC-FNP", "AGPCNP-AANP", "AGPCNP-ANCC"],
     recognize: "AKI is an acute creatinine rise and/or reduced urine output. Think prerenal hypoperfusion, intrinsic renal injury, and postrenal obstruction while reviewing sepsis, volume loss, nephrotoxins, urinary retention, and recent procedures.",
