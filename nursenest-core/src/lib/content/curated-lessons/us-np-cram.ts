@@ -64,9 +64,60 @@ export const usNpCramLessons = [
   ...usNpCramBatch26,
 ] as const satisfies readonly UsNpCramLesson[];
 
+export function normalizeUsNpCramTitle(value: string): string {
+  return value.trim().toLowerCase().replace(/[–—]/g, "-").replace(/\s+/g, " ");
+}
+
+export function normalizeUsNpCramSlug(value: string): string {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+const titleIdentityMap = new Map<string, UsNpCramLesson>();
+const slugIdentityMap = new Map<string, UsNpCramLesson>();
+
+function registerIdentity(
+  map: Map<string, UsNpCramLesson>,
+  normalized: string,
+  lesson: UsNpCramLesson,
+  kind: "TITLE" | "SLUG",
+): void {
+  const existing = map.get(normalized);
+  if (existing && existing.slug !== lesson.slug) {
+    throw new Error(`US_NP_CRAM_${kind}_IDENTITY_COLLISION: ${normalized}; ${existing.slug}/${lesson.slug}`);
+  }
+  map.set(normalized, lesson);
+}
+
+for (const lesson of usNpCramLessons) {
+  registerIdentity(titleIdentityMap, normalizeUsNpCramTitle(lesson.title), lesson, "TITLE");
+  for (const alias of lesson.titleAliases ?? []) {
+    registerIdentity(titleIdentityMap, normalizeUsNpCramTitle(alias), lesson, "TITLE");
+  }
+  registerIdentity(slugIdentityMap, normalizeUsNpCramSlug(lesson.slug), lesson, "SLUG");
+  for (const alias of lesson.slugAliases ?? []) {
+    registerIdentity(slugIdentityMap, normalizeUsNpCramSlug(alias), lesson, "SLUG");
+  }
+}
+
 export const usNpCramBySlug = Object.fromEntries(
   usNpCramLessons.map((lesson) => [lesson.slug, lesson]),
 ) as Record<string, UsNpCramLesson>;
+
+export function findUsNpCramLesson(identity: { title?: string | null; slug?: string | null }): UsNpCramLesson | null {
+  const byTitle = identity.title ? titleIdentityMap.get(normalizeUsNpCramTitle(identity.title)) : undefined;
+  const bySlug = identity.slug ? slugIdentityMap.get(normalizeUsNpCramSlug(identity.slug)) : undefined;
+  if (byTitle && bySlug && byTitle.slug !== bySlug.slug) {
+    throw new Error(
+      `US_NP_CRAM_DATABASE_IDENTITY_CONFLICT: title=${identity.title ?? ""}; slug=${identity.slug ?? ""}; ` +
+        `${byTitle.slug}/${bySlug.slug}`,
+    );
+  }
+  return byTitle ?? bySlug ?? null;
+}
 
 export function getUsNpCramLessonsForExam(exam: UsNpExam): readonly UsNpCramLesson[] {
   return usNpCramLessons.filter((lesson) => lesson.applicableExams.includes(exam as never));
@@ -102,6 +153,22 @@ function validateUsNpCramRegistry(): void {
 
     if (!lesson.applicableExams.length) {
       throw new Error(`US_NP_CRAM_NO_EXAMS: ${lesson.slug}`);
+    }
+
+    const localTitles = new Set<string>();
+    for (const title of [lesson.title, ...(lesson.titleAliases ?? [])]) {
+      const normalized = normalizeUsNpCramTitle(title);
+      if (!normalized) throw new Error(`US_NP_CRAM_EMPTY_TITLE_IDENTITY: ${lesson.slug}`);
+      if (localTitles.has(normalized)) throw new Error(`US_NP_CRAM_DUPLICATE_LOCAL_TITLE_IDENTITY: ${lesson.slug}/${title}`);
+      localTitles.add(normalized);
+    }
+
+    const localSlugs = new Set<string>();
+    for (const slug of [lesson.slug, ...(lesson.slugAliases ?? [])]) {
+      const normalized = normalizeUsNpCramSlug(slug);
+      if (!normalized) throw new Error(`US_NP_CRAM_EMPTY_SLUG_IDENTITY: ${lesson.slug}`);
+      if (localSlugs.has(normalized)) throw new Error(`US_NP_CRAM_DUPLICATE_LOCAL_SLUG_IDENTITY: ${lesson.slug}/${slug}`);
+      localSlugs.add(normalized);
     }
 
     const examTags = new Set<UsNpExam>();
