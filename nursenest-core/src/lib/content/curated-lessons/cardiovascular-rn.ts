@@ -18,6 +18,26 @@ export const cardiovascularRnLessons = {
 
 export const cardiovascularRnExpectedTitles = Object.keys(cardiovascularRnLessons).sort();
 
+/**
+ * Expansion topics added after the initial 25-title remediation. They are kept
+ * explicit so production reporting can distinguish "rewrite an existing row"
+ * from "new curriculum row that may need creation".
+ */
+export const cardiovascularRnExpansionTitles = [
+  "Chronic Coronary Disease and Stable Angina",
+  "Myocarditis",
+  "Pericardial Effusion",
+  "Acute Aortic Dissection",
+  "Acute Limb Ischemia",
+  "Cardiogenic Shock",
+  "Cardiac Arrest and Post-Cardiac Arrest Care",
+  "Atrial Fibrillation and Flutter",
+  "Supraventricular Tachycardia",
+  "Ventricular Tachycardia and Ventricular Fibrillation",
+  "Bradyarrhythmias and Heart Block",
+  "Syncope and Orthostatic Hypotension",
+] as const;
+
 export const cardiovascularRnCurriculumSources = [
   {
     source: "2025 ACC/AHA/ACEP/NAEMSP/SCAI Guideline for Acute Coronary Syndromes",
