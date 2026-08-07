@@ -30,6 +30,8 @@ export const usNpCramBatch1 = [
   {
     slug: "acute-coronary-syndrome",
     title: "Acute Coronary Syndrome",
+    titleAliases: ["STEMI: Molecular & Pharmacology"],
+    slugAliases: ["mi-management-np"],
     bodySystem: "Cardiovascular",
     applicableExams: ["AANP-FNP", "ANCC-FNP", "AGPCNP-AANP", "AGPCNP-ANCC", "AGACNP", "ENP"],
     recognize: "Pressure, heaviness, dyspnea, diaphoresis, nausea, or atypical ischemic symptoms in older adults and women should trigger ACS thinking. A normal first ECG does not rule it out.",
@@ -95,6 +97,8 @@ export const usNpCramBatch1 = [
   {
     slug: "copd",
     title: "COPD",
+    titleAliases: ["COPD: Cellular Mechanisms"],
+    slugAliases: ["copd-exacerbation-np"],
     bodySystem: "Respiratory",
     applicableExams: ["AANP-FNP", "ANCC-FNP", "AGPCNP-AANP", "AGPCNP-ANCC", "AGACNP", "ENP"],
     recognize: "Progressive dyspnea, chronic cough/sputum, exposure history, and recurrent lower-respiratory events suggest COPD, but symptoms alone are not diagnostic.",
