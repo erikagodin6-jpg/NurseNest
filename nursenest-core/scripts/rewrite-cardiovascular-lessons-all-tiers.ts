@@ -100,21 +100,22 @@ function validateStoredFlow(
   const expectedCram = [
     "Recognize It Fast",
     "Must-Know Diagnostics",
-    "Medication Safety",
     "First Priorities",
+    "Medication Safety",
     "Red Flags",
     "Exam Traps",
   ];
   const actualCram = sections
-    .filter((value) => typeof value.cramTitle === "string" && typeof value.cramContent === "string")
+    .filter(
+      (value) =>
+        typeof value.cramTitle === "string" &&
+        typeof value.cramContent === "string" &&
+        typeof value.cramOrder === "number",
+    )
+    .sort((a, b) => Number(a.cramOrder) - Number(b.cramOrder))
     .map((value) => String(value.cramTitle));
 
-  // Stored order follows the Full-section hosts. The resolver can render Cram in
-  // its canonical order; all six projections must be present and unique.
-  if (
-    actualCram.length !== expectedCram.length ||
-    expectedCram.some((required) => !actualCram.includes(required))
-  ) {
+  if (actualCram.join("|") !== expectedCram.join("|")) {
     throw new Error(
       `CARDIOVASCULAR_POSTWRITE_CRAM_FLOW_INVALID: ${title}/${tier}/${region}; ${actualCram.join(" > ")}`,
     );
@@ -172,7 +173,10 @@ async function main() {
         },
       ];
     }),
-  );
+  ) as Record<
+    CardiovascularTier,
+    { present: string[]; missing: string[] }
+  >;
 
   const report = {
     dryRun,
