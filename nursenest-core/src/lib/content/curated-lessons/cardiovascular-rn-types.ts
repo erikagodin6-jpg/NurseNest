@@ -26,10 +26,11 @@ export interface CuratedCardiovascularSection {
   /**
    * Optional Cram-mode projection for this section. Existing Full-lesson
    * renderers can ignore these fields; the canonical Cram resolver can select
-   * only sections that carry a cram projection.
+   * only sections that carry a Cram projection and sort by cramOrder.
    */
   cramTitle?: string;
   cramContent?: string;
+  cramOrder?: number;
 }
 
 export interface CuratedCardiovascularLesson {
@@ -81,7 +82,7 @@ function numbered(items: string[]): string {
   return items.map((item, index) => `${index + 1}. ${item}`).join("\n");
 }
 
-function compact(items: string[], maximum = 4): string[] {
+function compact<T>(items: T[], maximum = 4): T[] {
   return items.slice(0, maximum);
 }
 
@@ -102,6 +103,7 @@ export function buildCardiovascularLesson(seed: CardiovascularLessonSeed): Curat
       content: seed.bottomLine,
       cramTitle: "Recognize It Fast",
       cramContent: recognizeFast,
+      cramOrder: 1,
     },
     { sectionTitle: "What Is Happening", content: bullets(seed.pathophysiology) },
     {
@@ -113,6 +115,7 @@ export function buildCardiovascularLesson(seed: CardiovascularLessonSeed): Curat
       content: bullets(seed.diagnostics),
       cramTitle: "Must-Know Diagnostics",
       cramContent: bullets(compact(seed.diagnostics, 4)),
+      cramOrder: 2,
     },
     { sectionTitle: "Management", content: bullets(seed.management) },
     {
@@ -120,24 +123,28 @@ export function buildCardiovascularLesson(seed: CardiovascularLessonSeed): Curat
       content: medicationTable(seed.medications),
       cramTitle: "Medication Safety",
       cramContent: medicationTable(compact(seed.medications, 3)),
+      cramOrder: 4,
     },
     {
       sectionTitle: "Priority Nursing Actions",
       content: bullets(seed.priorities),
       cramTitle: "First Priorities",
       cramContent: numbered(compact(seed.priorities, 4)),
+      cramOrder: 3,
     },
     {
       sectionTitle: "Red Flags: Escalate",
       content: bullets(seed.redFlags),
       cramTitle: "Red Flags",
       cramContent: bullets(compact(seed.redFlags, 4)),
+      cramOrder: 5,
     },
     {
       sectionTitle: "NCLEX Traps",
       content: numbered(seed.traps),
       cramTitle: "Exam Traps",
       cramContent: numbered(compact(seed.traps, 5)),
+      cramOrder: 6,
     },
     { sectionTitle: "Clinical Judgment", content: seed.clinicalJudgment },
   ];
@@ -171,10 +178,20 @@ export function validateCardiovascularLesson(
     }
   });
 
-  const cramSections = sections.filter(
-    (section): section is CuratedCardiovascularSection & { cramTitle: string; cramContent: string } =>
-      Boolean(section.cramTitle && section.cramContent),
-  );
+  const cramSections = sections
+    .filter(
+      (section): section is CuratedCardiovascularSection & {
+        cramTitle: string;
+        cramContent: string;
+        cramOrder: number;
+      } =>
+        Boolean(
+          section.cramTitle &&
+            section.cramContent &&
+            typeof section.cramOrder === "number",
+        ),
+    )
+    .sort((a, b) => a.cramOrder - b.cramOrder);
 
   if (cramSections.length !== CARDIOVASCULAR_CRAM_FLOW.length) {
     throw new Error(
@@ -184,7 +201,8 @@ export function validateCardiovascularLesson(
 
   CARDIOVASCULAR_CRAM_FLOW.forEach((requiredTitle, index) => {
     const actual = cramSections[index]?.cramTitle;
-    if (actual !== requiredTitle) {
+    const actualOrder = cramSections[index]?.cramOrder;
+    if (actual !== requiredTitle || actualOrder !== index + 1) {
       throw new Error(
         `${title}: Cram flow is out of order at position ${index + 1}; expected "${requiredTitle}", got "${actual ?? "missing"}"`,
       );
