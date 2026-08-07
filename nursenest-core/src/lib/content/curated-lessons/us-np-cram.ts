@@ -26,6 +26,9 @@ import { usNpCramBatch25 } from "./us-np-cram-batch-25";
 import { usNpCramBatch26 } from "./us-np-cram-batch-26";
 import { usNpCramBatch27 } from "./us-np-cram-batch-27";
 import { usNpCramBatch28 } from "./us-np-cram-batch-28";
+import { usNpCramBatch29 } from "./us-np-cram-batch-29";
+import { usNpCramBatch30 } from "./us-np-cram-batch-30";
+import { usNpCramBatch31 } from "./us-np-cram-batch-31";
 import {
   US_NP_EXAMS,
   buildUsNpCramProjection,
@@ -35,7 +38,7 @@ import {
 
 export * from "./us-np-cram-types";
 
-export const EXPECTED_US_NP_CRAM_LESSONS = 220;
+export const EXPECTED_US_NP_CRAM_LESSONS = 243;
 
 export const usNpCramLessons = [
   ...usNpCramBatch1,
@@ -66,6 +69,9 @@ export const usNpCramLessons = [
   ...usNpCramBatch26,
   ...usNpCramBatch27,
   ...usNpCramBatch28,
+  ...usNpCramBatch29,
+  ...usNpCramBatch30,
+  ...usNpCramBatch31,
 ] as const satisfies readonly UsNpCramLesson[];
 
 export function normalizeUsNpCramTitle(value: string): string {
@@ -128,15 +134,15 @@ export function getUsNpCramLessonsForExam(exam: UsNpExam): readonly UsNpCramLess
 }
 
 const minimumCoverage: Record<UsNpExam, number> = {
-  "AANP-FNP": 220,
-  "ANCC-FNP": 220,
-  "AGPCNP-AANP": 155,
-  "AGPCNP-ANCC": 155,
-  "AGACNP": 99,
-  "PMHNP": 45,
-  "PNP": 64,
-  "WHNP": 52,
-  "ENP": 123,
+  "AANP-FNP": 243,
+  "ANCC-FNP": 243,
+  "AGPCNP-AANP": 177,
+  "AGPCNP-ANCC": 177,
+  "AGACNP": 118,
+  "PMHNP": 48,
+  "PNP": 69,
+  "WHNP": 58,
+  "ENP": 140,
 };
 
 function validateUsNpCramRegistry(): void {
