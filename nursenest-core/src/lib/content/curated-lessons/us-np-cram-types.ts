@@ -23,6 +23,10 @@ export type UsNpCramTargetSection =
 export interface UsNpCramLesson {
   slug: string;
   title: string;
+  /** Explicit legacy/database title aliases only. Never fuzzy-matched. */
+  titleAliases?: readonly string[];
+  /** Explicit legacy/database slug aliases only. Never fuzzy-matched. */
+  slugAliases?: readonly string[];
   bodySystem: string;
   applicableExams: readonly UsNpExam[];
   recognize: string;
@@ -47,7 +51,7 @@ export interface UsNpCramProjection {
   targetSection: UsNpCramTargetSection;
 }
 
-export const US_NP_CRAM_VERSION = "2026-08-07.us-np-cram.v1";
+export const US_NP_CRAM_VERSION = "2026-08-07.us-np-cram.v2";
 
 export function buildUsNpCramProjection(lesson: UsNpCramLesson): readonly UsNpCramProjection[] {
   return [
