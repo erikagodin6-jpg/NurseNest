@@ -2,7 +2,10 @@ import {
   cardiovascularRnExpectedTitles,
   cardiovascularRnLessons,
 } from "./cardiovascular-rn";
-import { authorUsPnCardiovascularCram } from "./cardiovascular-pn-us-cram";
+import {
+  authorUsPnCardiovascularCram,
+  PN_US_CRAM_LEAD_BY_TITLE,
+} from "./cardiovascular-pn-us-cram";
 import type {
   CuratedCardiovascularLesson,
   CuratedCardiovascularSection,
@@ -157,6 +160,15 @@ export function buildScopedCardiovascularLesson(
     .sort((a, b) => a.cramOrder - b.cramOrder);
   if (cram.map((item) => item.cramTitle).join("|") !== requiredCram.join("|")) {
     throw new Error(`${base.title}: invalid ${tier}/${region} cardiovascular Cram flow`);
+  }
+
+  if (tier === "rpn" && region === "US") {
+    for (const item of cram) {
+      const expectedLead = PN_US_CRAM_LEAD_BY_TITLE[item.cramTitle];
+      if (!expectedLead || !item.cramContent.startsWith(expectedLead)) {
+        throw new Error(`${base.title}: PN_US_CARDIOVASCULAR_CRAM_SCOPE_MISSING: ${item.cramTitle}`);
+      }
+    }
   }
 
   const scopeSuffix = `${tier}-${region.toLowerCase()}`;
