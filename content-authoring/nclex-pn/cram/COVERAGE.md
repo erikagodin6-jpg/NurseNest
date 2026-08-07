@@ -2,16 +2,16 @@
 
 Status: ACTIVE AUTHORING
 Baseline date: 2026-08-07
-Authored Cram lessons: 100
+Authored Cram lessons: 120
 Locale: United States
 Level: PN / LPN / LVN entry-level practice
 Exam alignment: 2026 NCLEX-PN Test Plan
 
 ## Current baseline
 
-The library now contains 100 distinct authored Cram lessons across safety and infection control, fundamentals, pharmacology, cardiovascular, respiratory, endocrine, renal, neurologic, gastrointestinal, maternity, newborn, pediatrics, mental health, musculoskeletal, integumentary, infectious disease, hematology, oncology, perioperative care, sensory care, gerontology, coordinated care, devices/lines/tubes, nutrition, reproductive health, STI care, prevention, and interpersonal-safety topics.
+The library now contains 120 distinct authored Cram lessons across safety and infection control, fundamentals, pharmacology, cardiovascular, respiratory, endocrine, renal, neurologic, gastrointestinal, maternity, newborn, pediatrics, mental health, musculoskeletal, integumentary, infectious disease, hematology, oncology, perioperative care, sensory care, gerontology, coordinated care, devices/lines/tubes, nutrition, reproductive health, STI care, prevention, interpersonal safety, shock/emergency care, environmental emergencies, fluids/electrolytes, and acid-base interpretation.
 
-This count is an authoring baseline, not a declaration of complete coverage.
+The first 100 lessons established the production baseline. Authoring has continued beyond that count. Neither 100 nor 120 is a declaration of complete coverage.
 
 ## Completion gate
 
@@ -30,4 +30,4 @@ The U.S. PN Cram estate is complete only when all of the following are true:
 
 The next coverage phase must inventory the current serving U.S. PN full-lesson estate, extract its stable lesson/topic identifiers, compare them with this Cram library, and produce three sets: `MATCHED`, `MISSING_CRAM`, and `NOT_APPLICABLE_TO_US_PN`. Every `MISSING_CRAM` item must then be authored and quality-reviewed before coverage can be called complete.
 
-Do not convert this baseline count into a completion claim until that reconciliation reaches zero unexplained gaps.
+Do not convert the current lesson count into a completion claim until that reconciliation reaches zero unexplained gaps.
