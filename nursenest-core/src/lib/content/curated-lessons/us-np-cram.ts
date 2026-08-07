@@ -5,6 +5,12 @@ import { usNpCramBatch4 } from "./us-np-cram-batch-4";
 import { usNpCramBatch5 } from "./us-np-cram-batch-5";
 import { usNpCramBatch6 } from "./us-np-cram-batch-6";
 import { usNpCramBatch7 } from "./us-np-cram-batch-7";
+import { usNpCramBatch8 } from "./us-np-cram-batch-8";
+import { usNpCramBatch9 } from "./us-np-cram-batch-9";
+import { usNpCramBatch10 } from "./us-np-cram-batch-10";
+import { usNpCramBatch11 } from "./us-np-cram-batch-11";
+import { usNpCramBatch12 } from "./us-np-cram-batch-12";
+import { usNpCramBatch13 } from "./us-np-cram-batch-13";
 import {
   US_NP_EXAMS,
   buildUsNpCramProjection,
@@ -14,6 +20,8 @@ import {
 
 export * from "./us-np-cram-types";
 
+export const EXPECTED_US_NP_CRAM_LESSONS = 100;
+
 export const usNpCramLessons = [
   ...usNpCramBatch1,
   ...usNpCramBatch2,
@@ -22,6 +30,12 @@ export const usNpCramLessons = [
   ...usNpCramBatch5,
   ...usNpCramBatch6,
   ...usNpCramBatch7,
+  ...usNpCramBatch8,
+  ...usNpCramBatch9,
+  ...usNpCramBatch10,
+  ...usNpCramBatch11,
+  ...usNpCramBatch12,
+  ...usNpCramBatch13,
 ] as const satisfies readonly UsNpCramLesson[];
 
 export const usNpCramBySlug = Object.fromEntries(
@@ -33,18 +47,24 @@ export function getUsNpCramLessonsForExam(exam: UsNpExam): readonly UsNpCramLess
 }
 
 const minimumCoverage: Record<UsNpExam, number> = {
-  "AANP-FNP": 40,
-  "ANCC-FNP": 40,
-  "AGPCNP-AANP": 20,
-  "AGPCNP-ANCC": 20,
-  "AGACNP": 15,
-  "PMHNP": 10,
-  "PNP": 15,
-  "WHNP": 10,
-  "ENP": 20,
+  "AANP-FNP": 100,
+  "ANCC-FNP": 100,
+  "AGPCNP-AANP": 54,
+  "AGPCNP-ANCC": 54,
+  "AGACNP": 43,
+  "PMHNP": 22,
+  "PNP": 41,
+  "WHNP": 28,
+  "ENP": 66,
 };
 
 function validateUsNpCramRegistry(): void {
+  if (usNpCramLessons.length < EXPECTED_US_NP_CRAM_LESSONS) {
+    throw new Error(
+      `US_NP_CRAM_LESSON_COUNT_REGRESSED: ${usNpCramLessons.length}/${EXPECTED_US_NP_CRAM_LESSONS}`,
+    );
+  }
+
   const slugs = new Set<string>();
   const titles = new Set<string>();
 
