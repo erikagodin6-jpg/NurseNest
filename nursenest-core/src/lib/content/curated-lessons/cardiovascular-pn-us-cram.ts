@@ -16,7 +16,7 @@ import type { CuratedCardiovascularSection } from "./cardiovascular-rn-types";
  * Exam contract: 2026 NCLEX-PN Test Plan, effective April 2026.
  */
 
-const pnUsCramLeadByTitle: Record<string, string> = {
+export const PN_US_CRAM_LEAD_BY_TITLE: Record<string, string> = {
   "Recognize It Fast":
     "**PN exam lens:** Recognize the pattern quickly, compare it with the patient's baseline, collect the focused findings that show stability versus deterioration, and report a meaningful change promptly.",
   "Must-Know Diagnostics":
@@ -34,7 +34,7 @@ const pnUsCramLeadByTitle: Record<string, string> = {
 function addPnUsCramLead(section: CuratedCardiovascularSection): CuratedCardiovascularSection {
   if (!section.cramTitle || !section.cramContent) return { ...section };
 
-  const lead = pnUsCramLeadByTitle[section.cramTitle];
+  const lead = PN_US_CRAM_LEAD_BY_TITLE[section.cramTitle];
   if (!lead) {
     throw new Error(`PN_US_CARDIOVASCULAR_CRAM_TITLE_UNSUPPORTED: ${section.cramTitle}`);
   }
@@ -58,7 +58,7 @@ export function authorUsPnCardiovascularCram(
   }
 
   for (const section of projected) {
-    const expectedLead = pnUsCramLeadByTitle[section.cramTitle!];
+    const expectedLead = PN_US_CRAM_LEAD_BY_TITLE[section.cramTitle!];
     if (!section.cramContent!.startsWith(expectedLead)) {
       throw new Error(`PN_US_CARDIOVASCULAR_CRAM_NOT_AUTHORED: ${section.cramTitle}`);
     }
