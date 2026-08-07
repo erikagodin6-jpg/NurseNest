@@ -19,10 +19,13 @@ import { rpnContentBatch060Lessons } from "./rpn-content-batch-060";
 import { rpnContentBatch061Lessons } from "./rpn-content-batch-061";
 import { rpnContentBatch062Lessons } from "./rpn-content-batch-062";
 import { rpnContentBatch063Lessons } from "./rpn-content-batch-063";
+import { rpnContentBatch064Lessons } from "./rpn-content-batch-064";
+import { rpnContentBatch065Lessons } from "./rpn-content-batch-065";
+import { rpnContentBatch066Lessons } from "./rpn-content-batch-066";
 
 /**
  * REx-PN / Canadian practical-nursing expansion aggregator.
- * Imported by the canonical lesson content map so new RPN batches are learner-reachable.
+ * Imported by the canonical lesson content map so new RPN batches are learner-reachable by ID.
  */
 export const rpnExtraBank: Record<string, LessonContent> = {
   ...rpnContentBatch044Lessons,
@@ -45,4 +48,7 @@ export const rpnExtraBank: Record<string, LessonContent> = {
   ...rpnContentBatch061Lessons,
   ...rpnContentBatch062Lessons,
   ...rpnContentBatch063Lessons,
+  ...rpnContentBatch064Lessons,
+  ...rpnContentBatch065Lessons,
+  ...rpnContentBatch066Lessons,
 };
