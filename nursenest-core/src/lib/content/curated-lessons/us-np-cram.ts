@@ -1,0 +1,108 @@
+import { usNpCramBatch1 } from "./us-np-cram-batch-1";
+import { usNpCramBatch2 } from "./us-np-cram-batch-2";
+import { usNpCramBatch3 } from "./us-np-cram-batch-3";
+import { usNpCramBatch4 } from "./us-np-cram-batch-4";
+import { usNpCramBatch5 } from "./us-np-cram-batch-5";
+import { usNpCramBatch6 } from "./us-np-cram-batch-6";
+import { usNpCramBatch7 } from "./us-np-cram-batch-7";
+import {
+  US_NP_EXAMS,
+  buildUsNpCramProjection,
+  type UsNpCramLesson,
+  type UsNpExam,
+} from "./us-np-cram-types";
+
+export * from "./us-np-cram-types";
+
+export const usNpCramLessons = [
+  ...usNpCramBatch1,
+  ...usNpCramBatch2,
+  ...usNpCramBatch3,
+  ...usNpCramBatch4,
+  ...usNpCramBatch5,
+  ...usNpCramBatch6,
+  ...usNpCramBatch7,
+] as const satisfies readonly UsNpCramLesson[];
+
+export const usNpCramBySlug = Object.fromEntries(
+  usNpCramLessons.map((lesson) => [lesson.slug, lesson]),
+) as Record<string, UsNpCramLesson>;
+
+export function getUsNpCramLessonsForExam(exam: UsNpExam): readonly UsNpCramLesson[] {
+  return usNpCramLessons.filter((lesson) => lesson.applicableExams.includes(exam as never));
+}
+
+const minimumCoverage: Record<UsNpExam, number> = {
+  "AANP-FNP": 40,
+  "ANCC-FNP": 40,
+  "AGPCNP-AANP": 20,
+  "AGPCNP-ANCC": 20,
+  "AGACNP": 15,
+  "PMHNP": 10,
+  "PNP": 15,
+  "WHNP": 10,
+  "ENP": 20,
+};
+
+function validateUsNpCramRegistry(): void {
+  const slugs = new Set<string>();
+  const titles = new Set<string>();
+
+  for (const lesson of usNpCramLessons) {
+    if (slugs.has(lesson.slug)) throw new Error(`US_NP_CRAM_DUPLICATE_SLUG: ${lesson.slug}`);
+    if (titles.has(lesson.title)) throw new Error(`US_NP_CRAM_DUPLICATE_TITLE: ${lesson.title}`);
+    slugs.add(lesson.slug);
+    titles.add(lesson.title);
+
+    if (!lesson.applicableExams.length) {
+      throw new Error(`US_NP_CRAM_NO_EXAMS: ${lesson.slug}`);
+    }
+
+    const examTags = new Set<UsNpExam>();
+    for (const exam of lesson.applicableExams) {
+      if (!US_NP_EXAMS.includes(exam)) {
+        throw new Error(`US_NP_CRAM_UNKNOWN_EXAM: ${lesson.slug}/${exam}`);
+      }
+      if (examTags.has(exam)) {
+        throw new Error(`US_NP_CRAM_DUPLICATE_EXAM_TAG: ${lesson.slug}/${exam}`);
+      }
+      examTags.add(exam);
+    }
+
+    const fields = [
+      ["recognize", lesson.recognize],
+      ["diagnostics", lesson.diagnostics],
+      ["priorities", lesson.priorities],
+      ["medicationSafety", lesson.medicationSafety],
+      ["redFlags", lesson.redFlags],
+      ["examTraps", lesson.examTraps],
+    ] as const;
+
+    for (const [field, value] of fields) {
+      if (value.trim().length < 60) {
+        throw new Error(`US_NP_CRAM_FIELD_TOO_THIN: ${lesson.slug}/${field}`);
+      }
+    }
+
+    if (!lesson.sourceKeys.length) {
+      throw new Error(`US_NP_CRAM_SOURCELESS: ${lesson.slug}`);
+    }
+
+    const projection = buildUsNpCramProjection(lesson);
+    if (
+      projection.length !== 6 ||
+      projection.map((item) => item.cramOrder).join("|") !== "1|2|3|4|5|6"
+    ) {
+      throw new Error(`US_NP_CRAM_PROJECTION_INVALID: ${lesson.slug}`);
+    }
+  }
+
+  for (const exam of US_NP_EXAMS) {
+    const actual = getUsNpCramLessonsForExam(exam).length;
+    if (actual < minimumCoverage[exam]) {
+      throw new Error(`US_NP_CRAM_EXAM_UNDERCOVERED: ${exam}; ${actual}/${minimumCoverage[exam]}`);
+    }
+  }
+}
+
+validateUsNpCramRegistry();
