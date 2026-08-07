@@ -1,0 +1,388 @@
+[
+  {
+    "id": "nclex-pn-us-safety-001-prioritization",
+    "title": "Who Do You See First? PN Prioritization Without Guessing",
+    "system": "Coordinated Care / Safety",
+    "clientNeeds": ["Coordinated Care", "Physiological Adaptation"],
+    "clinicalJudgmentSteps": ["Recognize Cues", "Analyze Cues", "Prioritize Hypotheses", "Take Action", "Evaluate Outcomes"],
+    "bottomLine": "Prioritize the patient with the greatest immediate threat to airway, breathing, circulation, neurologic function, or rapidly worsening stability—not the loudest complaint or the longest task list. A meaningful change from baseline can outrank a chronically abnormal but stable finding.",
+    "recognize": [
+      "New respiratory distress, severe hypoxemia, major bleeding, shock, acute neurologic change, anaphylaxis, seizure, or rapidly declining level of consciousness are high-priority patterns.",
+      "New or worsening findings generally outrank expected chronic findings when the chronic condition is stable.",
+      "Unexpected deterioration after a procedure, medication, fall, transfer, or change in treatment deserves rapid reassessment."
+    ],
+    "assess": [
+      "Start with immediate stability: appearance, airway, respiratory effort, circulation/perfusion, mental status, and relevant vital signs.",
+      "Compare the current finding with the patient's baseline and recent trend.",
+      "Ask what can cause serious harm if care is delayed for the next several minutes."
+    ],
+    "actions": [
+      "Address an immediate life threat with authorized emergency nursing actions and activate the appropriate response system.",
+      "Carry out time-sensitive orders or protocols within scope while help is being mobilized.",
+      "Reassess after the intervention and report the patient's response, not only the original problem."
+    ],
+    "diagnostics": [
+      "Do not delay emergency stabilization for routine testing.",
+      "Collect ordered point-of-care or monitoring data that can clarify instability without delaying care."
+    ],
+    "medicationSafety": [
+      "When deterioration follows a medication, consider anaphylaxis, oversedation, hypotension, hypoglycemia, bleeding, or dysrhythmia and escalate accordingly."
+    ],
+    "redFlags": ["Stridor or airway swelling", "Severe work of breathing or rapidly increasing oxygen need", "Hypotension with poor perfusion", "New focal neurologic deficit", "Uncontrolled bleeding", "Acute unresponsiveness or seizure"],
+    "teaching": ["Teaching waits until immediate threats are stabilized and the patient can safely participate."],
+    "scopeAndDelegation": "The PN/LVN can recognize deterioration, collect focused data, perform authorized emergency actions, and activate the chain of command. Do not choose an answer that delays escalation because a higher-level clinician has not yet completed an assessment.",
+    "examTrap": "Choosing the patient with the most dramatic pain score, the earliest scheduled medication, or the most complex dressing instead of the patient with new physiologic instability.",
+    "oneLinePearl": "New instability beats routine urgency.",
+    "sourceBasis": ["NCSBN 2026 NCLEX-PN Test Plan"],
+    "sourceAsOf": "2026-08",
+    "statePolicyCheck": false
+  },
+  {
+    "id": "nclex-pn-us-safety-002-assignment-delegation",
+    "title": "Assignment and Delegation: Keep the Right Work With the Right Person",
+    "system": "Coordinated Care / Safety",
+    "clientNeeds": ["Coordinated Care"],
+    "clinicalJudgmentSteps": ["Analyze Cues", "Generate Solutions", "Take Action", "Evaluate Outcomes"],
+    "bottomLine": "Match the task to patient stability, predictability, required judgment, the worker's verified competency, state law, and employer policy. Delegating a task never means delegating accountability for recognizing whether the assignment remains safe.",
+    "recognize": [
+      "Stable, predictable patients and routine tasks are more appropriate for delegation than new, unstable, or rapidly changing problems.",
+      "Tasks requiring initial comprehensive assessment, independent nursing judgment, interpretation of unstable findings, or care-plan creation may be restricted by state law or employer policy.",
+      "A familiar task is not automatically delegable if the patient context makes it high risk."
+    ],
+    "assess": [
+      "Confirm patient stability and expected outcome.",
+      "Verify the delegatee's role, training, competency, and workload.",
+      "Clarify what findings must be reported immediately and what follow-up is required."
+    ],
+    "actions": [
+      "Give a clear task, patient-specific instructions, expected result, time frame, and escalation parameters.",
+      "Remain available for questions and intervene when the patient's condition changes.",
+      "Follow up and evaluate the result instead of assuming completion equals safety."
+    ],
+    "diagnostics": [],
+    "medicationSafety": ["Medication delegation rules vary substantially by state and setting; never assume unlicensed personnel can administer medications solely because the task appears routine."],
+    "redFlags": ["Unstable or newly deteriorating patient", "Unverified competency", "Task requires interpretation or judgment beyond the delegatee's role", "Delegatee reports an unexpected finding"],
+    "teaching": ["Explain to assistive personnel exactly which observations must be reported rather than asking them to make a nursing diagnosis."],
+    "scopeAndDelegation": "State Nurse Practice Acts, board rules, setting-specific regulations, and employer policy determine LPN/LVN delegation authority. On NCLEX-PN, choose the safest assignment that preserves required nursing judgment and follow-up.",
+    "examTrap": "Delegating because the task is technically simple while ignoring that the patient is unstable or the delegatee is not authorized or competent.",
+    "oneLinePearl": "Delegate the task, not the judgment or follow-up.",
+    "sourceBasis": ["NCSBN 2026 NCLEX-PN Test Plan", "State Nurse Practice Acts / Boards of Nursing"],
+    "sourceAsOf": "2026-08",
+    "statePolicyCheck": true
+  },
+  {
+    "id": "nclex-pn-us-safety-003-standard-transmission-precautions",
+    "title": "Isolation Precautions: Standard, Contact, Droplet, or Airborne?",
+    "system": "Infection Prevention / Safety",
+    "clientNeeds": ["Safety and Infection Control"],
+    "clinicalJudgmentSteps": ["Recognize Cues", "Analyze Cues", "Take Action", "Evaluate Outcomes"],
+    "bottomLine": "Standard Precautions apply to every patient. Add Contact, Droplet, or Airborne Precautions when the suspected or confirmed organism or syndrome requires another transmission barrier; initiate appropriate precautions from the clinical presentation rather than waiting for final cultures when transmission risk is meaningful.",
+    "recognize": [
+      "Contact Precautions are used for selected infections spread by direct or environmental contact.",
+      "Droplet Precautions address respiratory droplets; source control and a mask for healthcare personnel are key elements.",
+      "Airborne Precautions are used for infections such as pulmonary tuberculosis, measles, and varicella; an AIIR and fit-tested N95 or higher respirator are core protections when available."
+    ],
+    "assess": [
+      "Identify the suspected route of transmission, the patient's symptoms, draining wounds/secretions, and planned procedures.",
+      "Check whether transport is medically necessary and what source control is required.",
+      "Assess whether PPE is being selected based on anticipated exposure rather than habit."
+    ],
+    "actions": [
+      "Perform hand hygiene and use Standard Precautions for all care.",
+      "Add transmission-based precautions promptly when indicated and use the required PPE before exposure.",
+      "Limit unnecessary transport; when transport is required, use appropriate source control and communicate precautions to the receiving area."
+    ],
+    "diagnostics": ["Specimen collection and test results may refine isolation needs, but pending results do not justify delaying indicated empiric precautions."],
+    "medicationSafety": [],
+    "redFlags": ["Unprotected exposure to suspected airborne disease", "Aerosol-generating procedure without required respiratory protection", "Break in isolation during transport", "PPE failure with significant body-fluid exposure"],
+    "teaching": ["Explain the reason for precautions without stigmatizing the patient and teach visitors the PPE/hand-hygiene steps required by facility policy."],
+    "scopeAndDelegation": "The PN/LVN is expected to recognize infection-control needs, implement ordered/policy-based precautions, and report breaches or changing symptoms. Facility infection-prevention policy determines some organism-specific details.",
+    "examTrap": "Waiting for a positive test before using precautions for a patient whose presentation already requires empiric transmission-based precautions.",
+    "oneLinePearl": "Standard for everyone; add the route-specific barrier early when indicated.",
+    "sourceBasis": ["NCSBN 2026 NCLEX-PN Test Plan", "CDC Standard Precautions", "CDC Transmission-Based Precautions"],
+    "sourceAsOf": "2026-08",
+    "statePolicyCheck": false
+  },
+  {
+    "id": "nclex-pn-us-safety-004-sharps-exposure",
+    "title": "Needlestick or Blood Exposure: What Happens First?",
+    "system": "Infection Prevention / Occupational Safety",
+    "clientNeeds": ["Safety and Infection Control"],
+    "clinicalJudgmentSteps": ["Recognize Cues", "Take Action", "Evaluate Outcomes"],
+    "bottomLine": "After an occupational blood or body-fluid exposure, immediately clean or flush the exposed area, report the exposure, and obtain prompt medical evaluation through the employer's exposure pathway. Do not hide the event, squeeze the wound aggressively, or postpone evaluation until the end of the shift.",
+    "recognize": [
+      "Percutaneous injury from a contaminated sharp and blood contact with mucous membranes or non-intact skin can create occupational exposure risk.",
+      "Risk depends on the exposure type, source, pathogen, vaccination/immunity status, and timeliness of evaluation."
+    ],
+    "assess": [
+      "Identify what fluid was involved, route of exposure, device/injury type, and whether skin was intact.",
+      "Report source and employee information through the confidential occupational-health process."
+    ],
+    "actions": [
+      "Wash needlestick/cut injuries with soap and water; flush mucous membranes with water according to exposure protocol.",
+      "Report immediately and seek prompt occupational-health or emergency evaluation.",
+      "Follow the employer's testing, prophylaxis, documentation, and follow-up process."
+    ],
+    "diagnostics": ["Baseline and follow-up testing are exposure-specific and should follow the occupational-health protocol; do not independently order or interpret the entire exposure workup."],
+    "medicationSafety": ["Post-exposure prophylaxis is time sensitive when indicated; the exposed worker should be evaluated promptly rather than deciding independently that prophylaxis is unnecessary."],
+    "redFlags": ["High-risk percutaneous exposure", "Mucous-membrane exposure to blood", "Delay in reporting a potentially significant exposure"],
+    "teaching": ["Use sharps with safety features, activate the safety mechanism, and dispose of sharps promptly in an approved container. Follow workplace rules on recapping; routine two-handed recapping is unsafe."],
+    "scopeAndDelegation": "Occupational exposure management follows federal/state requirements and the employer's exposure-control plan. The learner's priority is immediate first aid, reporting, and timely medical evaluation.",
+    "examTrap": "Finishing the medication pass before reporting because the puncture is small or the source patient appears low risk.",
+    "oneLinePearl": "Clean it, report it, evaluate it—now.",
+    "sourceBasis": ["NCSBN 2026 NCLEX-PN Test Plan", "OSHA Bloodborne Pathogens Standard"],
+    "sourceAsOf": "2026-08",
+    "statePolicyCheck": false
+  },
+  {
+    "id": "nclex-pn-us-safety-005-fall-prevention",
+    "title": "Falls: Prevent the Next One, Then Look for the Cause",
+    "system": "Safety / Fundamentals",
+    "clientNeeds": ["Safety and Infection Control", "Basic Care and Comfort"],
+    "clinicalJudgmentSteps": ["Recognize Cues", "Analyze Cues", "Generate Solutions", "Take Action", "Evaluate Outcomes"],
+    "bottomLine": "Fall prevention is individualized. After a fall or near-fall, assess for injury and physiologic causes, reduce immediate hazards, and update the prevention plan instead of relying on a generic 'high fall risk' label.",
+    "recognize": [
+      "High-risk cues include new weakness, orthostasis, sedating medications, urgent toileting, delirium, impaired gait, poor vision, unfamiliar environment, and prior falls.",
+      "A new fall can be the first sign of infection, hypoglycemia, bleeding, dysrhythmia, stroke, medication toxicity, or dehydration."
+    ],
+    "assess": [
+      "After a fall, assess responsiveness, pain, visible injury, neurologic status, vital signs, and the circumstances of the event before moving the patient unnecessarily.",
+      "Review footwear, assistive devices, toileting needs, medication effects, mobility, and environmental hazards.",
+      "Trend orthostatic symptoms when clinically relevant and ordered/policy appropriate."
+    ],
+    "actions": [
+      "Address injury or instability first and notify/escalate according to findings.",
+      "Use individualized prevention: accessible call light, clear path, appropriate mobility assistance, toileting plan, adequate lighting, and prescribed assistive devices.",
+      "Reassess the plan after any change in condition or fall."
+    ],
+    "diagnostics": ["Imaging or laboratory testing after a fall is guided by symptoms, injury risk, medications such as anticoagulants, and provider evaluation rather than performed automatically for every fall."],
+    "medicationSafety": ["Review medications that can contribute to sedation, hypotension, hypoglycemia, or impaired balance and report concerning effects rather than discontinuing prescribed therapy independently."],
+    "redFlags": ["Head strike with neurologic change", "Fall while anticoagulated with concerning injury", "Syncope", "New focal deficit", "Severe pain/deformity", "Persistent hypotension"],
+    "teaching": ["Teach the patient to call for help before getting up when assistance is required and explain why the plan may change as strength or medications change."],
+    "scopeAndDelegation": "Assistive personnel may help with routine mobility/toileting when appropriately assigned, but the nurse must act on changes in gait, mentation, vital signs, or injury findings.",
+    "examTrap": "Using restraints as the routine solution for fall risk or assuming a bed alarm replaces observation, toileting, mobility assistance, and cause assessment.",
+    "oneLinePearl": "A fall is an event and a symptom—assess both.",
+    "sourceBasis": ["NCSBN 2026 NCLEX-PN Test Plan"],
+    "sourceAsOf": "2026-08",
+    "statePolicyCheck": false
+  },
+  {
+    "id": "nclex-pn-us-safety-006-restraints",
+    "title": "Restraints and Seclusion: Least Restrictive, Most Accountable",
+    "system": "Safety / Patient Rights",
+    "clientNeeds": ["Safety and Infection Control", "Coordinated Care"],
+    "clinicalJudgmentSteps": ["Analyze Cues", "Generate Solutions", "Take Action", "Evaluate Outcomes"],
+    "bottomLine": "Restraint or seclusion is not a convenience intervention. Use the least restrictive approach that safely addresses the immediate risk, follow the required order/policy and monitoring rules, protect basic needs, and discontinue as soon as the intervention is no longer necessary.",
+    "recognize": [
+      "Agitation may be caused by pain, hypoxia, hypoglycemia, delirium, urinary retention, medication effects, fear, sensory impairment, or communication barriers.",
+      "A patient pulling at equipment is not automatically an indication for restraint; first determine why the behavior is occurring and whether safer alternatives can work."
+    ],
+    "assess": [
+      "Assess the immediate danger, reversible causes, mental/physical status, and alternatives attempted.",
+      "During restraint/seclusion, monitor circulation, skin, respiratory status, comfort, hydration/nutrition, elimination, mobility, and behavior according to the governing policy and regulation."
+    ],
+    "actions": [
+      "Use de-escalation, reorientation, pain/toileting management, environmental modification, sitter/family support when appropriate, or other less restrictive measures first when safe.",
+      "If restraint/seclusion is necessary, apply only the authorized method, maintain safety, document required assessments, and seek renewal/reassessment only as permitted.",
+      "Remove the intervention as soon as criteria are no longer met."
+    ],
+    "diagnostics": ["Evaluate for physiologic causes of acute behavior change when indicated; do not label new agitation as purely behavioral without assessment."],
+    "medicationSafety": ["A medication used primarily to restrict behavior or freedom of movement may meet regulatory definitions of restraint depending on context; follow policy and do not use sedatives merely for staff convenience."],
+    "redFlags": ["Respiratory compromise", "Impaired circulation", "Entrapment risk", "Sudden decreased level of consciousness", "Escalating agitation suggesting unmet physiologic need"],
+    "teaching": ["Explain the reason for the intervention and criteria for discontinuation using calm, respectful language whenever the patient can participate."],
+    "scopeAndDelegation": "Federal rules, state law, setting, and facility policy determine ordering, renewal, monitoring, and documentation requirements. The PN/LVN must follow the applicable policy and report deterioration immediately.",
+    "examTrap": "Choosing restraint first because the patient is confused, at fall risk, or inconvenient to supervise.",
+    "oneLinePearl": "Restraint is the last safer option, not the first easier option.",
+    "sourceBasis": ["NCSBN 2026 NCLEX-PN Test Plan", "CMS Patient Rights / Restraint and Seclusion Requirements"],
+    "sourceAsOf": "2026-08",
+    "statePolicyCheck": true
+  },
+  {
+    "id": "nclex-pn-us-safety-007-informed-consent",
+    "title": "Informed Consent: Witnessing Is Not Explaining the Procedure",
+    "system": "Coordinated Care / Patient Rights",
+    "clientNeeds": ["Coordinated Care"],
+    "clinicalJudgmentSteps": ["Recognize Cues", "Take Action", "Evaluate Outcomes"],
+    "bottomLine": "The clinician responsible for the procedure obtains informed consent according to law and policy. The nurse verifies the correct process, witnesses the signature when authorized, protects voluntariness, and stops/escalates when the patient has unanswered questions, appears coerced, or may lack decision-making capacity.",
+    "recognize": [
+      "The patient should understand the proposed intervention, material risks/benefits, alternatives, and the option to refuse according to the applicable consent process.",
+      "Sedation, delirium, intoxication, severe cognitive change, language barriers, or coercion can undermine a valid consent process.",
+      "A patient may change their mind after signing."
+    ],
+    "assess": [
+      "Confirm patient identity, the planned procedure, presence of the required consent, and whether the patient is voluntarily agreeing.",
+      "Ask whether the patient has unanswered questions and obtain a qualified interpreter when needed rather than relying on a child or unqualified family interpreter for complex consent."
+    ],
+    "actions": [
+      "Pause the process and notify the responsible clinician if the patient asks for information outside the nurse's role to provide or no longer wishes to proceed.",
+      "Witness the signature only when allowed and when the witnessing requirements are met.",
+      "Document concerns and the actions taken."
+    ],
+    "diagnostics": [],
+    "medicationSafety": ["If sedating medication has already impaired the patient's ability to participate, do not simply proceed with routine elective consent; escalate according to policy."],
+    "redFlags": ["Patient says they do not understand", "Patient withdraws consent", "Suspected coercion", "Acute confusion or impaired capacity", "Procedure/consent mismatch"],
+    "teaching": ["Reinforce information already provided and direct new procedure-specific risk/benefit questions to the responsible clinician."],
+    "scopeAndDelegation": "Exact LPN/LVN roles in witnessing consent vary by state and organization. Do not assume the practical nurse independently provides the full procedural informed-consent disclosure.",
+    "examTrap": "Explaining new procedure risks yourself so the schedule is not delayed when the patient is asking questions that require the responsible clinician.",
+    "oneLinePearl": "A signature is not informed consent if understanding or voluntariness is missing.",
+    "sourceBasis": ["NCSBN 2026 NCLEX-PN Test Plan", "State consent law and facility policy"],
+    "sourceAsOf": "2026-08",
+    "statePolicyCheck": true
+  },
+  {
+    "id": "nclex-pn-us-safety-008-documentation-incident",
+    "title": "Documentation and Incident Reports: Chart the Patient, Report the Event",
+    "system": "Coordinated Care / Documentation",
+    "clientNeeds": ["Coordinated Care", "Safety and Infection Control"],
+    "clinicalJudgmentSteps": ["Recognize Cues", "Take Action", "Evaluate Outcomes"],
+    "bottomLine": "The medical record should objectively describe the patient's assessment, care, notifications, interventions, and response. An incident/safety report belongs in the organization's reporting system according to policy; do not chart blame, speculation, or a note that an incident report was completed unless policy specifically requires that wording.",
+    "recognize": [
+      "Late entries, corrections, and addenda must preserve the integrity of the original record according to the electronic or paper-record policy.",
+      "Objective documentation separates observed facts and patient statements from assumptions about cause or fault."
+    ],
+    "assess": [
+      "After an adverse event, assess the patient first and document clinically relevant findings.",
+      "Record whom you notified, when, what orders/actions followed, and the patient's response."
+    ],
+    "actions": [
+      "Correct documentation errors using the approved process; never delete, backdate, obscure, or falsify an entry.",
+      "Complete the safety/incident report promptly according to policy after immediate patient needs are addressed.",
+      "Escalate a serious safety concern through the chain of command when needed."
+    ],
+    "diagnostics": [],
+    "medicationSafety": ["Medication errors require immediate patient assessment, appropriate notification, monitoring/intervention, factual charting of patient care, and completion of the organization's safety-reporting process."],
+    "redFlags": ["Attempt to alter or conceal the record", "Unreported medication or treatment error", "Patient deterioration after an adverse event", "Request to document care that was not performed"],
+    "teaching": ["Do not discuss protected patient information outside authorized care and reporting channels."],
+    "scopeAndDelegation": "Every team member documents within role, but the nurse cannot delegate responsibility for accurately documenting nursing care that the nurse personally provided or evaluated.",
+    "examTrap": "Writing 'incident report completed' in the clinical note instead of documenting the patient's condition, actions, notifications, and response.",
+    "oneLinePearl": "The chart tells the patient's clinical story; the safety report analyzes the event.",
+    "sourceBasis": ["NCSBN 2026 NCLEX-PN Test Plan"],
+    "sourceAsOf": "2026-08",
+    "statePolicyCheck": false
+  },
+  {
+    "id": "nclex-pn-us-safety-009-handoff-transition",
+    "title": "Handoff and Transfer: Close the Loop on What Can Harm the Patient",
+    "system": "Coordinated Care / Transitions",
+    "clientNeeds": ["Coordinated Care"],
+    "clinicalJudgmentSteps": ["Recognize Cues", "Analyze Cues", "Take Action", "Evaluate Outcomes"],
+    "bottomLine": "A safe handoff communicates the patient's current condition, recent changes, time-sensitive risks, pending tests, medications/treatments, precautions, lines/devices, and what the receiving clinician must watch or do next. The transfer is not complete when critical information is missing or the patient's condition has changed in transit.",
+    "recognize": [
+      "High-risk transition items include code status, allergies, oxygen/airway support, anticoagulation, insulin, recent opioids/sedatives, abnormal labs, drains/lines, isolation, fall risk, pending tests, and recent deterioration.",
+      "A change from the report requires a fresh assessment and updated communication."
+    ],
+    "assess": [
+      "Before transfer, reassess stability and confirm the patient is appropriate for the planned level of care.",
+      "Verify that essential medications, equipment, oxygen, records, and precautions will continue safely during transport."
+    ],
+    "actions": [
+      "Use a structured handoff and state the immediate concern and required follow-up clearly.",
+      "Use read-back/closed-loop communication for critical information when required by policy.",
+      "If the patient deteriorates, address the change and escalate rather than sending the patient simply because transport has arrived."
+    ],
+    "diagnostics": ["Identify pending or critical results and who is responsible for follow-up after transfer."],
+    "medicationSafety": ["Medication reconciliation at transitions should identify omissions, duplications, dose discrepancies, allergies, and the timing of last/high-risk doses."],
+    "redFlags": ["Unstable patient sent to inappropriate level of care", "Missing critical result", "No plan for oxygen/high-risk infusion/device", "Medication discrepancy without clarification"],
+    "teaching": ["At discharge, use teach-back for high-risk instructions and make return precautions specific enough that the patient knows what symptom requires urgent help."],
+    "scopeAndDelegation": "The PN/LVN participates in handoff and continuity within role; unresolved instability or discrepancies must be escalated rather than handed off as someone else's problem.",
+    "examTrap": "Giving a long chronological report that omits the one new finding that changes the receiving nurse's immediate priority.",
+    "oneLinePearl": "Handoff is about what the next person must know and do safely.",
+    "sourceBasis": ["NCSBN 2026 NCLEX-PN Test Plan"],
+    "sourceAsOf": "2026-08",
+    "statePolicyCheck": false
+  },
+  {
+    "id": "nclex-pn-us-safety-010-abuse-neglect",
+    "title": "Suspected Abuse or Neglect: Safety Before Interrogation",
+    "system": "Coordinated Care / Psychosocial Safety",
+    "clientNeeds": ["Coordinated Care", "Psychosocial Integrity", "Safety and Infection Control"],
+    "clinicalJudgmentSteps": ["Recognize Cues", "Analyze Cues", "Generate Solutions", "Take Action", "Evaluate Outcomes"],
+    "bottomLine": "When abuse, neglect, exploitation, or trafficking is suspected, address immediate safety and medical needs, use private trauma-informed assessment, document objective findings and patient statements, and follow mandatory-reporting and safeguarding requirements for the jurisdiction and patient population. Do not confront the suspected perpetrator or promise secrecy you cannot legally keep.",
+    "recognize": [
+      "Concerning patterns can include injuries inconsistent with the history or developmental ability, repeated delays in seeking care, fearfulness around a caregiver, unexplained injuries in different healing stages, neglect of basic needs, sexual injury, coercive control, or financial exploitation.",
+      "No single finding proves abuse; the nurse's role is recognition, safety, objective documentation, and required reporting/escalation—not conducting a criminal investigation."
+    ],
+    "assess": [
+      "Interview privately when safe and use neutral, open-ended questions.",
+      "Assess immediate danger, suicidality when relevant, injuries, medical needs, safe discharge options, and whether children or dependent adults may also be at risk.",
+      "Use a qualified interpreter rather than the suspected perpetrator."
+    ],
+    "actions": [
+      "Treat urgent injuries and activate emergency/security resources when immediate danger exists.",
+      "Notify the appropriate clinician/safeguarding team and make required reports according to state law and policy.",
+      "Preserve potential evidence and follow sexual-assault/forensic protocols without performing procedures outside training or consent."
+    ],
+    "diagnostics": ["Testing and forensic evidence collection are indication-, consent-, and protocol-specific; do not delay emergency treatment for evidence collection."],
+    "medicationSafety": [],
+    "redFlags": ["Immediate threat from perpetrator", "Strangulation history with symptoms", "Head injury", "Sexual assault with acute medical needs", "Child/dependent adult unsafe to return home", "Threats of homicide or suicide"],
+    "teaching": ["Provide clear options and resources without blaming the patient for staying, returning, or not being ready to disclose more information."],
+    "scopeAndDelegation": "Mandatory-reporting duties vary by state and by population. Follow the applicable statute and facility safeguarding process; do not assume all competent adults are subject to the same mandatory-reporting rules as children or vulnerable/dependent adults.",
+    "examTrap": "Trying to obtain a detailed confession or confronting the suspected abuser before ensuring safety and following the reporting pathway.",
+    "oneLinePearl": "Protect, assess, document, report—do not investigate.",
+    "sourceBasis": ["NCSBN 2026 NCLEX-PN Test Plan", "Applicable state mandatory-reporting statutes and facility policy"],
+    "sourceAsOf": "2026-08",
+    "statePolicyCheck": true
+  },
+  {
+    "id": "nclex-pn-us-safety-011-advance-directives-code-status",
+    "title": "Advance Directives and Code Status: Follow the Patient's Goals, Not Assumptions",
+    "system": "Coordinated Care / End-of-Life",
+    "clientNeeds": ["Coordinated Care", "Psychosocial Integrity", "Basic Care and Comfort"],
+    "clinicalJudgmentSteps": ["Recognize Cues", "Analyze Cues", "Take Action", "Evaluate Outcomes"],
+    "bottomLine": "Clarify documented code status and advance-care wishes before a crisis whenever possible. Do not equate DNR/DNAR with 'do not treat': comfort care, symptom treatment, medications, oxygen when indicated, antibiotics, hospitalization, or other therapies depend on the patient's goals and orders—not the resuscitation status label alone.",
+    "recognize": [
+      "Advance directives communicate preferences or identify a surrogate according to applicable law; they do not replace current clinical communication when the patient has capacity.",
+      "Conflicting documents, family demands that contradict a capable patient's wishes, or unclear code status require prompt clarification."
+    ],
+    "assess": [
+      "Confirm the current order/documentation and the patient's ability to participate in decisions.",
+      "Assess symptoms and immediate comfort needs regardless of resuscitation status."
+    ],
+    "actions": [
+      "Honor current valid orders and patient preferences within the legal/policy framework.",
+      "Escalate discrepancies before an emergency when possible through the responsible clinician and chain of command.",
+      "Provide comfort-focused care and symptom relief consistent with the plan."
+    ],
+    "diagnostics": [],
+    "medicationSafety": ["Opioids and other symptom-relief medications may be appropriate in end-of-life care when clinically indicated; monitor and administer according to the comfort plan rather than withholding solely because the patient is dying."],
+    "redFlags": ["Unclear code status during deterioration", "Family attempting to override a capable patient's stated decision", "Uncontrolled pain or dyspnea", "Treatment inconsistent with documented goals"],
+    "teaching": ["Explain that a DNR/DNAR order addresses resuscitation after cardiopulmonary arrest and does not automatically cancel other appropriate treatment."],
+    "scopeAndDelegation": "Advance-directive forms, portable medical orders, surrogate hierarchy, and LPN/LVN roles vary by state and setting. Follow the current authorized orders and escalate uncertainty.",
+    "examTrap": "Withholding routine symptom treatment because the patient has a DNR order.",
+    "oneLinePearl": "DNR means no CPR after arrest—not no care before arrest.",
+    "sourceBasis": ["NCSBN 2026 NCLEX-PN Test Plan", "Applicable state advance-directive law and facility policy"],
+    "sourceAsOf": "2026-08",
+    "statePolicyCheck": true
+  },
+  {
+    "id": "nclex-pn-us-safety-012-disaster-triage",
+    "title": "Disaster Triage: Greatest Good When Resources Are Limited",
+    "system": "Emergency Preparedness / Coordinated Care",
+    "clientNeeds": ["Coordinated Care", "Safety and Infection Control"],
+    "clinicalJudgmentSteps": ["Recognize Cues", "Analyze Cues", "Prioritize Hypotheses", "Take Action"],
+    "bottomLine": "Mass-casualty triage is different from ordinary bedside prioritization: when resources are overwhelmed, the goal is to use the approved disaster-triage system to rapidly direct limited resources toward the greatest overall survival benefit. Follow the incident command system and do not improvise a personal triage scheme.",
+    "recognize": [
+      "A mass-casualty incident exists when patient needs exceed immediately available resources.",
+      "Triage categories and algorithms vary by system; local emergency plans determine the exact method used."
+    ],
+    "assess": [
+      "Perform only the rapid assessment required by the designated disaster-triage algorithm.",
+      "Reassess because triage categories can change as patients deteriorate or resources change."
+    ],
+    "actions": [
+      "Use the facility/community incident command structure and assigned role.",
+      "Apply the approved triage algorithm consistently and document/mark category as directed.",
+      "Use PPE and hazard controls appropriate to the event before entering an unsafe scene or contaminated zone."
+    ],
+    "diagnostics": ["Do not consume scarce time/resources on nonessential diagnostics during initial mass-casualty sorting; testing follows stabilization and incident priorities."],
+    "medicationSafety": ["Medication distribution during disasters follows emergency protocols, standing orders, and scope rules; do not independently alter doses or indications because resources are limited."],
+    "redFlags": ["Unsafe scene", "Chemical/biologic/radiologic contamination", "Resource depletion", "Triage category no longer matches current condition"],
+    "teaching": ["Provide brief, clear directions and reunification/safety information when assigned; do not promise resources or timelines you cannot guarantee."],
+    "scopeAndDelegation": "Emergency declarations may modify operations, but the PN/LVN still works within the activated legal and organizational framework. Specific expanded roles require actual authorization, not assumption.",
+    "examTrap": "Applying ordinary 'sickest patient first' bedside logic without considering the designated mass-casualty triage system and resource limits.",
+    "oneLinePearl": "In disaster triage, follow the system—not instinct alone.",
+    "sourceBasis": ["NCSBN 2026 NCLEX-PN Test Plan", "Local/state emergency preparedness and incident command protocols"],
+    "sourceAsOf": "2026-08",
+    "statePolicyCheck": true
+  }
+]
