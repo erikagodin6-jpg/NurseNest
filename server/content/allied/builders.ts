@@ -15,25 +15,15 @@ const LESSON_MODES: AlliedLessonMode[] = [
 
 const CONTEXTS = [
   "during an initial encounter",
-  "while preparing for a procedure",
-  "during a routine quality check",
-  "when a result does not match the clinical picture",
+  "while preparing for a procedure or intervention",
+  "when a result or response does not match expectations",
   "during handoff to the next team member",
   "when time pressure is high",
   "after an unexpected finding",
-  "while reassessing a patient after an intervention",
+  "while reassessing after an intervention",
   "when deciding whether escalation is required",
-  "while reviewing documentation before finalizing the record",
-  "during an exam-style case with several plausible choices",
-  "when a learner must distinguish a priority from a secondary task",
-  "when equipment or process performance is uncertain",
   "while checking for a preventable source of error",
-  "when a subtle deterioration cue appears",
-  "after receiving a borderline or discordant result",
-  "while communicating a safety-critical finding",
-  "when choosing the next best step rather than the final diagnosis",
-  "when deciding whether the current workflow can safely continue",
-  "while comparing a normal pattern with a dangerous exception",
+  "when choosing the next best step among several plausible actions",
 ] as const;
 
 function modeTitle(topic: AlliedAuthoredTopic, mode: AlliedLessonMode): string {
@@ -142,38 +132,104 @@ export function materializeAlliedLessons(topics: AlliedAuthoredTopic[]): Authore
   );
 }
 
-type Dimension = "bottomLine" | "recognition" | "workflow" | "interpretation" | "safety";
+type Dimension =
+  | "bottomLine"
+  | "coreConcept"
+  | "recognition"
+  | "workflow"
+  | "interpretation"
+  | "safety"
+  | "redFlags"
+  | "commonErrors"
+  | "examFocus"
+  | "glossary";
 
-const DIMENSIONS: Array<{ key: Dimension; label: string; cognitive: "understanding" | "application" | "analysis" }> = [
-  { key: "bottomLine", label: "central principle", cognitive: "understanding" },
-  { key: "recognition", label: "most important recognition cue", cognitive: "analysis" },
-  { key: "workflow", label: "best next workflow step", cognitive: "application" },
+type DimensionConfig = {
+  key: Dimension;
+  label: string;
+  cognitive: "understanding" | "application" | "analysis";
+};
+
+const DIMENSIONS: DimensionConfig[] = [
+  { key: "bottomLine", label: "central practice principle", cognitive: "understanding" },
+  { key: "coreConcept", label: "mechanism or core concept", cognitive: "understanding" },
+  { key: "recognition", label: "recognition pattern", cognitive: "analysis" },
+  { key: "workflow", label: "best next workflow sequence", cognitive: "application" },
   { key: "interpretation", label: "best interpretation", cognitive: "analysis" },
   { key: "safety", label: "safest priority action", cognitive: "application" },
+  { key: "redFlags", label: "finding that most clearly warrants escalation", cognitive: "analysis" },
+  { key: "commonErrors", label: "preventable error or exam trap", cognitive: "analysis" },
+  { key: "examFocus", label: "exam-relevant decision rule", cognitive: "application" },
+  { key: "glossary", label: "most accurate terminology statement", cognitive: "understanding" },
 ];
 
-function answerPool(topic: AlliedAuthoredTopic, key: Dimension): string[] {
-  const keyed: Record<Dimension, string> = {
+function glossaryStatement(topic: AlliedAuthoredTopic): string {
+  return topic.glossary
+    .map(({ term, definition }) => `${term}: ${definition}`)
+    .join(" ");
+}
+
+function keyedStatements(topic: AlliedAuthoredTopic): Record<Dimension, string> {
+  return {
     bottomLine: topic.bottomLine,
+    coreConcept: topic.coreConcept,
     recognition: topic.recognition,
     workflow: topic.workflow,
     interpretation: topic.interpretation,
     safety: topic.safety,
+    redFlags: topic.redFlags,
+    commonErrors: topic.commonErrors,
+    examFocus: topic.examFocus,
+    glossary: glossaryStatement(topic),
   };
-  const distractorCandidates = [
-    topic.commonErrors,
-    topic.examFocus,
-    topic.redFlags,
-    topic.coreConcept,
-    ...Object.entries(keyed).filter(([candidate]) => candidate !== key).map(([, value]) => value),
-  ];
-  const unique = [...new Set(distractorCandidates.filter((value) => value !== keyed[key]))];
+}
+
+function answerPool(topic: AlliedAuthoredTopic, key: Dimension): string[] {
+  const keyed = keyedStatements(topic);
+  const distractorPriority: Record<Dimension, Dimension[]> = {
+    bottomLine: ["coreConcept", "workflow", "examFocus", "recognition"],
+    coreConcept: ["interpretation", "bottomLine", "workflow", "commonErrors"],
+    recognition: ["redFlags", "interpretation", "commonErrors", "safety"],
+    workflow: ["safety", "examFocus", "recognition", "interpretation"],
+    interpretation: ["coreConcept", "recognition", "workflow", "commonErrors"],
+    safety: ["workflow", "redFlags", "commonErrors", "examFocus"],
+    redFlags: ["recognition", "safety", "commonErrors", "interpretation"],
+    commonErrors: ["workflow", "safety", "examFocus", "coreConcept"],
+    examFocus: ["bottomLine", "workflow", "commonErrors", "interpretation"],
+    glossary: ["coreConcept", "recognition", "examFocus", "bottomLine"],
+  };
+  const candidates = distractorPriority[key]
+    .map((candidate) => keyed[candidate])
+    .filter((value) => value !== keyed[key]);
+  const unique = [...new Set(candidates)];
+  if (unique.length < 3) {
+    for (const value of Object.values(keyed)) {
+      if (value !== keyed[key] && !unique.includes(value)) unique.push(value);
+      if (unique.length === 3) break;
+    }
+  }
   return [keyed[key], ...unique.slice(0, 3)];
 }
 
 function rotate<T>(items: T[], offset: number): T[] {
   const n = offset % items.length;
   return items.slice(n).concat(items.slice(0, n));
+}
+
+function stemFor(topic: AlliedAuthoredTopic, dimension: DimensionConfig, context: string): string {
+  const preface: Record<Dimension, string> = {
+    bottomLine: "The learner must identify the principle that should anchor the entire decision.",
+    coreConcept: "The learner is asked to explain why the observed pattern or intervention behaves as it does.",
+    recognition: "Several findings are present, but only one statement captures the pattern that should drive recognition.",
+    workflow: "The immediate issue is stable enough for an ordered next-step decision rather than a blind emergency action.",
+    interpretation: "The available data could be misread if the learner focuses on one value or observation in isolation.",
+    safety: "The case contains competing priorities and the learner must protect the patient, client, specimen, record, or procedure first.",
+    redFlags: "The learner must decide which feature changes the situation from routine management to escalation.",
+    commonErrors: "A colleague proposes several shortcuts; the learner must recognize the choice most likely to create a preventable error.",
+    examFocus: "The scenario is written in the style of the relevant certification examination and asks for the decision rule that best separates plausible answers.",
+    glossary: "The learner needs to use discipline-specific terminology accurately before applying it to the case.",
+  };
+  return `A ${topic.careerType} learner is working ${context} on a case involving ${topic.topic}. ${preface[dimension.key]} Which option best represents the ${dimension.label}?`;
 }
 
 export function materializeAlliedQuestions(topics: AlliedAuthoredTopic[]): AuthoredAlliedQuestion[] {
@@ -189,12 +245,12 @@ export function materializeAlliedQuestions(topics: AlliedAuthoredTopic[]): Autho
         const rotated = rotate(canonical, (contextIndex + dimensionIndex) % canonical.length);
         const correctIndex = rotated.indexOf(canonical[0]);
         const id = `allied-q-${topic.id}-${dimension.key}-${String(contextIndex + 1).padStart(2, "0")}`;
-        const stem = `A ${topic.careerType} learner is working ${context} on a case involving ${topic.topic}. Which option best represents the ${dimension.label} for this situation?`;
+        const stem = stemFor(topic, dimension, context);
         const distractorRationales: Record<string, string> = {};
 
-        rotated.forEach((option, optionIndex) => {
+        rotated.forEach((_option, optionIndex) => {
           if (optionIndex !== correctIndex) {
-            distractorRationales[String(optionIndex)] = `This statement may describe a related part of ${topic.topic}, but it does not answer the question's requested ${dimension.label}. Choosing it would blur the distinction between the immediate decision target and a secondary consideration.`;
+            distractorRationales[String(optionIndex)] = `This option contains information relevant to ${topic.topic}, but it answers a different decision layer than the requested ${dimension.label}. On ${topic.examTag}, a plausible related fact is still incorrect when it fails to resolve the exact priority, mechanism, pattern, or safety question being asked.`;
           }
         });
 
@@ -208,13 +264,13 @@ export function materializeAlliedQuestions(topics: AlliedAuthoredTopic[]): Autho
           stem,
           options: rotated,
           correctIndex,
-          rationale: `${canonical[0]} This is the best answer because the item asks specifically for the ${dimension.label}. In ${topic.topic}, the decision must stay anchored to the profession's role, the available cues, and the safety implications. ${topic.examFocus}`,
-          correctAnswerExplanation: `The keyed answer directly addresses the ${dimension.label}: ${canonical[0]}`,
+          rationale: `${canonical[0]} This is the best answer because it directly resolves the requested ${dimension.label} in ${topic.topic}. The item deliberately includes adjacent truths as distractors, so the learner must distinguish the exact decision target rather than select a statement merely because it is clinically or professionally related. ${topic.examFocus}`,
+          correctAnswerExplanation: `The keyed option directly addresses the ${dimension.label} for ${topic.topic}: ${canonical[0]}`,
           distractorRationales,
           clinicalPearl: `${topic.bottomLine} ${topic.safety}`,
           difficulty: dimension.cognitive === "understanding" ? 2 : dimension.cognitive === "application" ? 3 : 4,
           cognitiveLevel: dimension.cognitive,
-          tags: [topic.careerType, topic.category, topic.topic, topic.examTag],
+          tags: [topic.careerType, topic.category, topic.topic, topic.examTag, dimension.key],
         });
       }
     }
