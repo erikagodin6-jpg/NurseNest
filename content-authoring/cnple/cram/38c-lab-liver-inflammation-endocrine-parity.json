@@ -1,0 +1,236 @@
+[
+  {
+    "id": "lab-ast-and-alt",
+    "title": "AST and ALT: Injury Pattern Before Etiology",
+    "system": "Laboratory / Hepatology",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management"],
+    "lifespan": ["adolescent", "adult", "pregnancy", "older adult"],
+    "acuity": "mixed",
+    "bottomLine": "AST and ALT are markers of cellular injury, not direct measures of hepatic synthetic function. Interpret the magnitude, pattern, trend and clinical context before naming the cause, and remember that AST is less liver-specific than ALT.",
+    "recognize": [
+      "ALT is relatively liver-focused, whereas AST can also rise with skeletal or cardiac muscle injury and hemolysis.",
+      "A hepatocellular pattern is suggested when aminotransferase elevation predominates over cholestatic markers; the differential changes with degree, tempo and symptoms.",
+      "Normal or only mildly abnormal aminotransferases do not exclude advanced chronic liver disease."
+    ],
+    "differentiate": [
+      "Do not call elevated AST/ALT 'liver failure'; liver failure is a clinical/synthetic-function problem involving features such as coagulopathy, encephalopathy or impaired bilirubin handling.",
+      "Medication/toxin injury, viral hepatitis, ischemic injury, metabolic liver disease, alcohol-related disease and biliary disease can overlap; history and the rest of the chemistry pattern matter.",
+      "When AST is unexpectedly high relative to the rest of the liver profile, consider extrahepatic sources such as muscle injury."
+    ],
+    "assessment": [
+      "Ask about symptom onset, right-upper-quadrant pain, jaundice, pruritus, fever, hypotension, alcohol, supplements, acetaminophen and other medications, viral exposure risks, metabolic risk, pregnancy and muscle injury/exertion.",
+      "Assess for acute liver-failure features, sepsis/shock, biliary obstruction and other reasons the patient needs urgent care rather than outpatient repeat testing."
+    ],
+    "workup": [
+      "Interpret AST/ALT with ALP, bilirubin and clinically appropriate synthetic-function markers rather than as isolated numbers.",
+      "Order cause-directed viral, metabolic, autoimmune, toxicologic, muscle or imaging evaluation when the history and pattern justify it; avoid indiscriminate broad panels for a single minor incidental elevation.",
+      "Use repeat testing when the clinical question is trend/persistence, but do not delay urgent evaluation of a severe or symptomatic acute pattern simply to obtain another outpatient value."
+    ],
+    "management": [
+      "Remove or address a likely reversible exposure only when clinically safe, then follow the biochemical and clinical response.",
+      "Escalate suspected acute toxic, ischemic, viral or obstructive disease according to severity and arrange hepatology/acute-care input when synthetic dysfunction, rapid worsening or diagnostic uncertainty is significant.",
+      "For stable mild abnormalities, manage the likely cause and cardiovascular/metabolic risk while completing an evidence-based liver workup."
+    ],
+    "medicationSafety": [
+      "Medication-associated aminotransferase elevation must be interpreted against timing, dose, symptoms, bilirubin and alternative causes; do not stop essential therapy reflexively from one small isolated rise without a risk-benefit review.",
+      "Possible acetaminophen toxicity or another hepatotoxin with acute illness is time-sensitive and belongs on an emergency/toxicology pathway."
+    ],
+    "redFlags": ["Encephalopathy or new confusion with liver injury", "Rising INR/coagulopathy or hypoglycemia with acute liver injury", "Jaundice plus severe systemic illness", "Hypotension/shock with marked aminotransferase rise", "Suspected acetaminophen or toxic ingestion"],
+    "counselling": ["Explain that AST/ALT show cell injury rather than how much liver function remains.", "Review alcohol, supplements and over-the-counter medication exposure without assuming one cause before the pattern is established."],
+    "followUp": ["Trend clinically meaningful abnormalities and close the loop on cause-directed testing.", "Persistent unexplained abnormalities or evidence of advanced disease require specialist evaluation rather than indefinite repeat panels."],
+    "examTrap": "Calling a patient with high AST/ALT 'in liver failure' while ignoring normal synthetic function—or reassuring a patient with cirrhosis because AST/ALT are only mildly elevated.",
+    "oneLinePearl": "AST and ALT tell you hepatocytes may be injured; they do not tell you the liver is functioning normally or failing.",
+    "sourceBasis": ["BC Guidelines — Abnormal Liver Chemistry: Evaluation and Interpretation", "Canadian hepatology practice principles"],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "lab-bilirubin-and-jaundice",
+    "title": "Bilirubin and Jaundice: Fractionate the Problem",
+    "system": "Laboratory / Hepatology / Hematology",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management"],
+    "lifespan": ["newborn", "child", "adolescent", "adult", "pregnancy", "older adult"],
+    "acuity": "mixed",
+    "bottomLine": "Hyperbilirubinemia is not one diagnosis. Decide whether bilirubin is predominantly unconjugated or conjugated, then integrate the liver-enzyme pattern, hemolysis clues, symptoms and imaging needs; jaundice with systemic illness or obstruction features requires urgent evaluation.",
+    "recognize": [
+      "Unconjugated bilirubin can rise with increased production such as hemolysis, reduced conjugation or benign inherited patterns; conjugated hyperbilirubinemia points toward impaired excretion/cholestasis or hepatocellular disease.",
+      "Dark urine supports conjugated bilirubin because conjugated bilirubin is water-soluble; pale stool and pruritus raise cholestatic concern.",
+      "Bilirubin can rise in both hepatocellular and cholestatic disease, so it does not by itself distinguish those two patterns."
+    ],
+    "differentiate": [
+      "Isolated mild unconjugated hyperbilirubinemia in a well patient is different from jaundice with anemia/reticulocytosis, fever, abdominal pain or progressive liver abnormalities.",
+      "Conjugated bilirubin plus a cholestatic enzyme pattern raises obstruction/intrahepatic cholestasis questions; bilirubin plus predominant AST/ALT elevation raises a hepatocellular differential.",
+      "Newborn bilirubin interpretation is age-in-hours and gestational-risk dependent and must use the neonatal pathway rather than adult thresholds."
+    ],
+    "assessment": [
+      "Ask about onset, stool/urine colour, pruritus, pain, fever, weight loss, medications, alcohol, transfusion, travel/infection risk, pregnancy and hemolysis history.",
+      "Examine for pallor, hepatosplenomegaly, abdominal tenderness, fever/toxicity, chronic liver-disease signs and encephalopathy."
+    ],
+    "workup": [
+      "Fractionate total bilirubin when the cause is not clear and pair it with AST/ALT, ALP and the rest of the clinically appropriate liver profile.",
+      "If unconjugated bilirubin and anemia/hemolysis are plausible, use CBC, reticulocytes, LDH, haptoglobin and smear as clinically indicated.",
+      "Use abdominal ultrasound promptly when obstruction/cholestasis is suspected; additional imaging depends on the biliary and clinical findings."
+    ],
+    "management": [
+      "Treat the underlying cause rather than the bilirubin number itself.",
+      "Suspected cholangitis/obstructed infected biliary system requires acute-care antibiotics and urgent biliary evaluation/source control.",
+      "Stable benign unconjugated patterns can be managed conservatively only after important hemolytic/hepatic causes are reasonably excluded."
+    ],
+    "medicationSafety": ["Review drugs that can cause cholestatic or hepatocellular injury and drugs affected by significant hepatic dysfunction.", "Do not attribute jaundice automatically to a medication without checking obstruction, infection and hemolysis when clinically plausible."],
+    "redFlags": ["Jaundice with fever and right-upper-quadrant pain", "Encephalopathy or coagulopathy", "Rapidly rising bilirubin with systemic illness", "Jaundice with severe anemia/hemolysis", "Neonatal jaundice requiring age-specific urgent assessment"],
+    "counselling": ["Explain why 'yellow skin' can come from different mechanisms and why the bilirubin fraction/pattern changes the next test.", "Give explicit return precautions for fever, worsening pain, confusion, bleeding, darkening urine or pale stools."],
+    "followUp": ["Recheck bilirubin and the associated pattern when monitoring a stable reversible cause.", "Close the loop on imaging or hemolysis studies instead of repeatedly ordering bilirubin alone."],
+    "examTrap": "Using total bilirubin alone to label a patient as obstructed or hepatocellular without fractionation and the accompanying enzyme/clinical pattern.",
+    "oneLinePearl": "When bilirubin rises, first ask where the pathway is failing: production, conjugation, hepatocyte handling, or bile flow.",
+    "sourceBasis": ["BC Guidelines — Abnormal Liver Chemistry: Evaluation and Interpretation", "Canadian hepatology and hematology practice principles"],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "lab-liver-function-patterns",
+    "title": "Liver Tests: Injury, Cholestasis, or Synthetic Failure?",
+    "system": "Laboratory / Hepatology",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management"],
+    "lifespan": ["adolescent", "adult", "pregnancy", "older adult"],
+    "acuity": "mixed",
+    "bottomLine": "A 'liver panel' contains tests with different jobs. Separate hepatocellular injury, cholestasis and synthetic function before building the differential; the most dangerous patient may have worsening INR, bilirubin, glucose or encephalopathy even when aminotransferases are falling.",
+    "recognize": [
+      "Predominant AST/ALT elevation suggests hepatocellular injury; predominant ALP elevation with hepatobiliary confirmation suggests cholestatic/infiltrative disease.",
+      "Albumin and INR reflect synthetic function but are influenced by nonhepatic factors; acute changes in INR are generally more useful than albumin for acute hepatic deterioration.",
+      "Falling AST/ALT during severe acute liver injury is not automatically recovery if synthetic function and clinical status worsen."
+    ],
+    "differentiate": [
+      "ALP can arise from liver, bone or placenta; GGT can help support hepatobiliary origin but is nonspecific and should not be used alone as a liver screen.",
+      "Albumin can be low from inflammation, renal/GI loss or malnutrition and is not specific for cirrhosis.",
+      "Bilirubin is a handling/excretion marker and may rise in both hepatocellular and cholestatic disease."
+    ],
+    "assessment": ["Assess symptoms, hemodynamics, mental status, bleeding, jaundice/pruritus, medication/toxin exposure, alcohol, metabolic risk, pregnancy and infectious/autoimmune clues.", "Ask specifically about new drugs/supplements and acetaminophen when acute injury is possible."],
+    "workup": ["Classify the biochemical pattern first, then order cause-directed testing and imaging.", "Use ultrasound when a cholestatic/obstructive pattern is present and urgent imaging when obstruction with infection is plausible.", "Assess synthetic function and glucose in significant acute liver injury rather than following enzymes alone."],
+    "management": ["Manage the etiology and severity simultaneously: stop avoidable hepatotoxic exposure when appropriate, treat infection/obstruction, and escalate suspected acute liver failure urgently.", "Stable chronic patterns require fibrosis/risk assessment and treatment of the underlying chronic liver disease rather than repeated undirected panels."],
+    "medicationSafety": ["Significant hepatic dysfunction changes the risk or dosing of many drugs; use current monographs/specialty guidance for medication-specific decisions.", "Do not use aminotransferase normalization alone as the criterion to restart a suspected hepatotoxic drug."],
+    "redFlags": ["Encephalopathy", "Progressive INR/coagulopathy in acute injury", "Hypoglycemia with severe liver injury", "Cholangitis/obstructive sepsis features", "Rapid clinical deterioration despite falling AST/ALT"],
+    "counselling": ["Explain the difference between liver injury tests and liver function tests so patients do not equate a single enzyme value with liver capacity.", "Review alcohol, medications and supplements as modifiable contributors without delaying workup of dangerous causes."],
+    "followUp": ["Trend the specific abnormalities that answer the clinical question rather than reflexively repeating an entire panel forever.", "Persistent or progressive abnormalities need definitive etiologic/fibrosis evaluation and specialist referral when indicated."],
+    "examTrap": "Declaring improvement because AST/ALT fall while INR, bilirubin and mental status worsen.",
+    "oneLinePearl": "Read liver tests by job: injury, bile flow, and synthetic function are different axes.",
+    "sourceBasis": ["BC Guidelines — Abnormal Liver Chemistry: Evaluation and Interpretation", "Canadian hepatology practice principles"],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "lab-crp",
+    "title": "CRP: Acute-Phase Trend, Not a Diagnosis",
+    "system": "Laboratory / Inflammation / Infectious Disease",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "II Quality Improvement and Research/Scholar"],
+    "lifespan": ["child", "adolescent", "adult", "pregnancy", "older adult"],
+    "acuity": "mixed",
+    "bottomLine": "CRP is a nonspecific acute-phase marker. Use it only when the result will change diagnostic probability, establish a useful baseline or help follow a known inflammatory process; an elevated CRP does not prove bacterial infection and a normal CRP does not overrule a dangerous clinical presentation.",
+    "recognize": ["CRP can rise with infection, inflammatory disease, tissue injury, malignancy and other inflammatory states.", "CRP changes faster than ESR and is generally preferred when the clinical question is short-term systemic inflammation trend.", "The value of a trend depends on having a defined disease/process and a management decision attached to the change."],
+    "differentiate": ["CRP cannot reliably tell bacterial from viral disease by itself.", "Do not order CRP and ESR together routinely for undifferentiated inflammation; ESR retains selected disease-specific uses.", "A high-sensitivity CRP cardiovascular-risk context is a different clinical question from standard inflammatory CRP testing."],
+    "assessment": ["Start with symptoms, examination, vital signs, host risk and pretest probability before ordering CRP.", "Ask what action would change if CRP is high, low or unchanged; if there is no answer, the test is unlikely to add value."],
+    "workup": ["Use CRP as an adjunct to disease-specific testing, cultures/imaging or clinical criteria when evidence supports it.", "Avoid serial CRP testing without a defined indication or expected decision threshold."],
+    "management": ["Treat the patient and confirmed/suspected disease, not the inflammatory marker.", "In known inflammatory/infectious disease, a falling CRP can support improvement only when the clinical course agrees; discordance should prompt reassessment rather than automatic treatment extension."],
+    "medicationSafety": ["Do not start, broaden or prolong antibiotics solely because CRP is elevated.", "Do not escalate immunosuppression solely because CRP is elevated without excluding infection and confirming active inflammatory disease."],
+    "redFlags": ["Sepsis/organ dysfunction despite a modest or normal CRP", "Immunocompromised patient with concerning infection symptoms", "Giant-cell arteritis or another time-sensitive inflammatory syndrome where treatment must not wait for a perfect marker pattern"],
+    "counselling": ["Explain that CRP answers 'is there an acute-phase response?' more than 'what disease is this?'.", "Avoid describing a nonspecific elevated CRP as proof of hidden infection or autoimmune disease."],
+    "followUp": ["Repeat only when the trend has an established clinical purpose.", "If symptoms persist despite reassuring CRP, reassess the diagnosis rather than using the laboratory result to close the case."],
+    "examTrap": "Prescribing antibiotics for an otherwise unsupported bacterial diagnosis because the CRP is elevated.",
+    "oneLinePearl": "CRP can move probability; it cannot name the disease for you.",
+    "sourceBasis": ["Choosing Wisely Canada — Medical Biochemistry Recommendations", "Canadian laboratory stewardship principles"],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "lab-esr",
+    "title": "ESR: Slow, Nonspecific, and Context-Dependent",
+    "system": "Laboratory / Rheumatology / Inflammation",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "II Quality Improvement and Research/Scholar"],
+    "lifespan": ["adolescent", "adult", "pregnancy", "older adult"],
+    "acuity": "routine",
+    "bottomLine": "ESR is a slow, nonspecific inflammatory marker strongly affected by noninflammatory factors. Do not use it as a general screen for 'something inflammatory'; reserve it for a clinical question where ESR adds disease-specific value and interpret it alongside symptoms, CRP and confounders.",
+    "recognize": ["ESR can be influenced by anemia, pregnancy, age, smoking and technical factors in addition to inflammation.", "It may lag behind CRP early in an inflammatory process and remain elevated longer after the process improves.", "Selected conditions such as giant-cell arteritis/polymyalgia rheumatica may use ESR together with CRP and the clinical phenotype, but neither marker excludes disease alone."],
+    "differentiate": ["ESR is not a screening test for cancer, infection or autoimmune disease in an otherwise undifferentiated asymptomatic patient.", "CRP is generally the better single marker for acute systemic inflammation; ordering both routinely is low-value.", "A discordant high ESR with normal CRP may reflect ESR confounders rather than occult severe disease."
+    ],
+    "assessment": ["Define the suspected condition and assess anemia, pregnancy and other factors that can alter ESR before interpreting the number.", "In time-sensitive vasculitis symptoms, assess vision, jaw claudication, scalp tenderness, constitutional symptoms and neurologic/vascular findings without waiting for ESR alone."],
+    "workup": ["Order ESR only when it answers a defined diagnostic or monitoring question.", "Use disease-specific testing and imaging/biopsy pathways when indicated; do not use repeated ESR as a substitute for definitive evaluation."],
+    "management": ["Treat the underlying clinical syndrome, not an isolated ESR elevation.", "When ESR is used for longitudinal monitoring, interpret the trend against symptoms/function and other objective disease measures."],
+    "medicationSafety": ["Do not start corticosteroids or other immunosuppression solely for an unexplained high ESR.", "Conversely, when giant-cell arteritis is clinically strongly suspected, do not delay urgent treatment solely because ESR is not markedly elevated."],
+    "redFlags": ["Visual symptoms or ischemic features suggestive of giant-cell arteritis", "Systemic instability with suspected infection", "New focal symptoms requiring diagnosis rather than marker surveillance"],
+    "counselling": ["Explain that ESR is easily influenced and often changes slowly, so the number is not a direct severity score.", "Avoid repeated testing simply to make the ESR normalize when the patient is clinically well."],
+    "followUp": ["Repeat only when it will influence a known disease-management decision.", "Investigate persistent symptoms based on the clinical differential rather than chasing ESR in isolation."],
+    "examTrap": "Ordering ESR as a broad screen for unexplained fatigue and then treating the elevated result instead of the patient.",
+    "oneLinePearl": "ESR is a context marker, not a diagnostic fishing net.",
+    "sourceBasis": ["Choosing Wisely Canada — Medical Biochemistry Recommendations", "Canadian rheumatology practice principles"],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "lab-procalcitonin",
+    "title": "Procalcitonin: Stewardship Adjunct, Not a Sepsis Rule-Out",
+    "system": "Laboratory / Infectious Disease / Antimicrobial Stewardship",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "II Quality Improvement and Research/Scholar"],
+    "lifespan": ["adult", "older adult"],
+    "acuity": "mixed",
+    "bottomLine": "Procalcitonin can support selected antimicrobial-stewardship decisions when used inside a validated local pathway, but it cannot rule out serious bacterial infection or replace cultures, source evaluation, organ-dysfunction assessment and clinical judgment.",
+    "recognize": ["Procalcitonin is a biomarker associated with systemic bacterial inflammatory responses, but concentrations vary with timing, infection site, severity and noninfectious physiologic stress.", "Its best-supported role is often stewardship—helping reduce unnecessary antibiotic exposure in selected settings—not making a stand-alone infection diagnosis.", "A single early low value can be falsely reassuring when bacterial disease is localized, very early or the host response is atypical."],
+    "differentiate": ["Do not equate elevated procalcitonin with positive culture or bacterial sepsis; severe noninfectious illness can raise it.", "Do not use low procalcitonin to withhold urgent empiric antibiotics from a clinically unstable patient with suspected sepsis/meningitis or another time-critical bacterial syndrome.", "Algorithms and cutoffs are setting/protocol dependent; a number learned from one ICU or assay should not be universalized."],
+    "assessment": ["Assess infection syndrome, severity, organ dysfunction, immune status, recent surgery/trauma and timing of illness before interpreting the result.", "Clarify whether the local program uses procalcitonin for antibiotic initiation, discontinuation, both or neither."],
+    "workup": ["Use cultures and source-directed imaging/testing when indicated regardless of procalcitonin.", "Trend procalcitonin only when a validated pathway uses serial change to support stewardship; do not order it daily by habit."],
+    "management": ["Start time-critical empiric antimicrobials based on clinical syndrome/severity, not on waiting for procalcitonin.", "Use a low/falling value to support de-escalation or shorter therapy only when the patient is improving and the local evidence-based protocol applies.", "Reassess source control and diagnosis when the clinical course and biomarker disagree."],
+    "medicationSafety": ["The safety benefit of procalcitonin is avoiding unnecessary antimicrobial exposure; the safety risk is over-trusting it and delaying needed treatment.", "Antibiotic decisions must still account for allergy, organ function, interactions, microbiology and source control."],
+    "redFlags": ["Shock or new organ dysfunction with suspected infection regardless of procalcitonin", "Meningitis or other time-critical bacterial syndrome", "Neutropenia or major immunocompromise with concerning infection", "Clinical deterioration despite a low or falling value"],
+    "counselling": ["Explain that the biomarker is one stewardship clue, not a 'bacterial yes/no' test.", "When antibiotics are stopped, explain the clinical improvement and follow-up plan rather than attributing the decision to one laboratory number."],
+    "followUp": ["Follow the clinical syndrome and cultures; use further procalcitonin only when the local protocol specifies a decision it can change.", "Persistent deterioration requires diagnostic reassessment even if the biomarker trend appears favourable."],
+    "examTrap": "Withholding antibiotics from a patient in septic shock because the first procalcitonin is below a memorized cutoff.",
+    "oneLinePearl": "Procalcitonin may help shorten antibiotics; it must never shorten your clinical assessment.",
+    "sourceBasis": ["Public Health Agency of Canada — Antimicrobial Stewardship evidence synthesis and Pan-Canadian AMR action-plan reporting", "Canadian antimicrobial stewardship practice principles"],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "lab-thyroid-function-tests",
+    "title": "Thyroid Function Tests: TSH First—Until TSH Is Unreliable",
+    "system": "Laboratory / Endocrine",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management"],
+    "lifespan": ["adolescent", "adult", "pregnancy", "postpartum", "older adult"],
+    "acuity": "routine",
+    "bottomLine": "TSH is the preferred first test for most suspected primary thyroid dysfunction, with free T4 used to confirm/characterize an abnormal TSH. Central pituitary disease, pregnancy, severe acute illness and selected treatment contexts change that logic; never interpret TSH without knowing whether the feedback axis is trustworthy.",
+    "recognize": ["High TSH with low free T4 supports overt primary hypothyroidism; suppressed TSH with elevated thyroid hormone supports overt primary hyperthyroidism in the right context.", "A normal TSH excludes most primary thyroid dysfunction when pituitary/hypothalamic disease is not suspected.", "Free T3 is rarely needed for routine initial thyroid testing and has specific use when hyperthyroidism is suspected with suppressed TSH and non-elevated free T4."],
+    "differentiate": ["Central hypothyroidism can present with low free T4 and an inappropriately low/normal TSH; TSH alone can therefore miss it.", "Acute non-thyroidal illness can distort thyroid tests and should not trigger reflex diagnosis/treatment when thyroid disease is not the clinical question.", "Pregnancy uses pregnancy-specific physiology/reference considerations and treatment targets; postpartum thyroiditis has a characteristic time-course differential."],
+    "assessment": ["Assess symptoms, goitre/nodule/eye findings, pregnancy/postpartum status, pituitary symptoms, medications such as amiodarone/lithium, supplements including biotin, and current thyroid medication timing/adherence.", "Look for emergency features of thyroid storm or myxedema decompensation rather than treating an abnormal outpatient lab number as the emergency itself."],
+    "workup": ["Use TSH first for most suspected primary disease and add free T4 appropriately when TSH is abnormal.", "Order free T4 with TSH from the outset when central/pituitary disease is plausible or in other guideline-defined special contexts.", "Reserve antibody/imaging testing for a defined etiologic question rather than ordering a broad thyroid panel routinely."],
+    "management": ["Treat confirmed thyroid disease according to etiology, severity, age/comorbidity and pregnancy context.", "Do not adjust levothyroxine repeatedly before the expected biochemical steady state unless the clinical situation demands earlier action.", "Hyperthyroid treatment choice depends on cause; thyroiditis is not managed the same way as Graves/toxic nodular disease."],
+    "medicationSafety": ["Biotin and other factors can interfere with assays; verify supplements when results do not fit the patient.", "Iron/calcium and selected medications impair levothyroxine absorption; adherence/timing should be checked before escalating dose.", "Antithyroid-drug fever/sore throat or hepatic-injury symptoms require urgent safety evaluation."],
+    "redFlags": ["Severe thyrotoxicosis with fever, delirium, arrhythmia or heart failure", "Hypothermia/hypoventilation/altered consciousness with severe hypothyroidism", "Pituitary mass symptoms with suspected central dysfunction", "Pregnancy with significant uncontrolled thyroid disease"],
+    "counselling": ["Explain why 'more thyroid tests' are not automatically better and why the correct pair depends on the physiology being tested.", "Teach consistent levothyroxine administration and medication-to-test timing when relevant."],
+    "followUp": ["Repeat TSH/free T4 at an interval appropriate to diagnosis and treatment change.", "Use free T4 rather than TSH as the key biochemical monitor in central hypothyroidism because TSH is not a reliable treatment target there."],
+    "examTrap": "Ruling out hypothyroidism from a normal TSH in a patient with a pituitary mass and low free T4—or ordering free T3 routinely for nonspecific fatigue.",
+    "oneLinePearl": "TSH is powerful only when the pituitary-thyroid feedback loop is intact.",
+    "sourceBasis": ["BC Guidelines — Thyroid Function Testing in the Diagnosis and Monitoring of Thyroid Function Disorder", "BC Guidelines — Hormone Testing: Indications and Appropriate Use"],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "lab-glucose-interpretation",
+    "title": "Glucose Interpretation: Acute Value, Chronic Diagnosis, or Emergency?",
+    "system": "Laboratory / Endocrine / Acute Care",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling"],
+    "lifespan": ["child", "adolescent", "adult", "pregnancy", "older adult"],
+    "acuity": "mixed",
+    "bottomLine": "Interpret glucose by context: fasting versus random, symptoms, medications, pregnancy, acute illness and whether the question is chronic diabetes, hypoglycemia, or metabolic emergency. A number can confirm diabetes in the right setting, but it cannot by itself classify diabetes or exclude DKA/HHS.",
+    "recognize": ["Diabetes Canada diagnostic criteria include fasting plasma glucose at or above 7.0 mmol/L, 2-hour 75 g OGTT glucose at or above 11.1 mmol/L, or random plasma glucose at or above 11.1 mmol/L; A1C provides another adult diagnostic route when appropriate.", "In a patient with classic hyperglycemia symptoms, one laboratory result in the diabetes range can establish the diagnosis; an asymptomatic single abnormal result requires timely confirmation.", "Glucose below 4.0 mmol/L is clinically important hypoglycemia and requires action, especially when insulin or secretagogues are involved."],
+    "differentiate": ["Stress hyperglycemia during severe illness is not automatically established chronic diabetes; use longitudinal data/A1C when appropriate.", "DKA is defined by ketosis/acidosis physiology and can occur with only modest glucose, particularly with SGLT2 inhibitors.", "Pregnancy uses gestational-diabetes-specific screening/diagnostic pathways rather than routine adult nonpregnant thresholds."],
+    "assessment": ["Ask fasting state, symptoms, recent meals, insulin/diabetes medications, corticosteroids/other hyperglycemic drugs, pregnancy, acute illness, renal function, alcohol and prior glucose/A1C data.", "If glucose is very low or very high with illness, immediately assess mental status, hydration/perfusion, vomiting, breathing pattern and ketone/acidosis risk."],
+    "workup": ["Confirm asymptomatic chronic diabetes according to Diabetes Canada criteria; choose FPG/A1C/OGTT based on the clinical question and A1C reliability.", "For suspected DKA/HHS, obtain electrolytes, renal function, ketones/beta-hydroxybutyrate, acid-base data and osmolality as appropriate rather than following glucose alone.", "For unexplained recurrent hypoglycemia outside diabetes treatment, use a dedicated diagnostic pathway rather than assuming poor intake."],
+    "management": ["Treat hypoglycemia immediately using the safe-swallow versus severe-rescue pathway, then correct the precipitating regimen/cause.", "Severe symptomatic hyperglycemia, ketosis/acidosis, major dehydration or altered mental status requires emergency assessment and protocolized treatment.", "For chronic diabetes, use individualized treatment targets and cardiorenal risk rather than chasing one random glucose value."],
+    "medicationSafety": ["Insulin and sulfonylureas carry important hypoglycemia risk; CKD, frailty, missed meals and alcohol can increase that risk.", "SGLT2 inhibitors can be associated with euglycemic DKA, so a not-extreme glucose does not safely exclude ketoacidosis in a symptomatic patient.", "Do not use a sliding/correction response to one stress glucose as proof the patient needs the same outpatient regimen."],
+    "redFlags": ["Glucose-related seizure or unconsciousness", "Ketosis/acidosis or Kussmaul-type breathing", "Severe dehydration or altered mental status", "Recurrent hypoglycemia", "Pregnancy with significant hyperglycemia"],
+    "counselling": ["Teach symptoms and treatment of hypoglycemia when relevant and explain why confirmation may be needed when diabetes is found without symptoms.", "Use SI mmol/L as the Canadian instructional default while preserving the platform's governed unit conversion for learners who switch systems."],
+    "followUp": ["Any severe hypoglycemic episode requires medication/prevention review.", "After a new diabetes-range result, close the loop on confirmation/classification, A1C or glucose trend, complication/risk assessment and treatment access."],
+    "examTrap": "Calling an asymptomatic patient diabetic from one random elevated glucose without confirmation—or missing euglycemic DKA because the glucose is not dramatically high.",
+    "oneLinePearl": "Glucose interpretation starts by asking which problem you are solving: diagnosis, immediate safety, or longitudinal control.",
+    "sourceBasis": ["Diabetes Canada Clinical Practice Guidelines — Definition, Classification and Diagnosis of Diabetes, Prediabetes and Metabolic Syndrome", "Diabetes Canada hypoglycemia and acute hyperglycemia resources"],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  }
+]
