@@ -3,31 +3,12 @@
   "lastUpdated": "2026-08-08",
   "requiredQuestionsPerTopicExamCountry": 60,
   "status": "ACTIVE_AUTHORING",
+  "authoredQuestionVariants": 240,
   "packs": [
-    {
-      "countryId": "CA",
-      "examId": "rex-pn",
-      "tierId": "rpn",
-      "topicId": "acute-asthma-exacerbation-rpn",
-      "path": "../../../client/src/data/exam-questions/rexpn-rpn-acute-asthma-60.ts",
-      "questionCount": 60,
-      "stableIds": true,
-      "perDistractorRationales": true,
-      "reuseMode": "ORIGINAL_CANADIAN_CORE",
-      "servingIntegrationVerified": false
-    },
-    {
-      "countryId": "US",
-      "examId": "nclex-pn-2026",
-      "tierId": "lvn",
-      "topicId": "acute-asthma-exacerbation-lpn-lvn",
-      "path": "../../../client/src/data/exam-questions/nclexpn-us-lpn-acute-asthma-60.ts",
-      "questionCount": 60,
-      "stableIds": true,
-      "perDistractorRationales": true,
-      "reuseMode": "LOCALIZED_SHARED_CLINICAL_CORE",
-      "servingIntegrationVerified": false
-    }
+    {"countryId":"CA","examId":"rex-pn","tierId":"rpn","topicId":"acute-asthma-exacerbation-rpn","path":"../../../client/src/data/exam-questions/rexpn-rpn-acute-asthma-60.ts","questionCount":60,"stableIds":true,"perDistractorRationales":true,"reuseMode":"ORIGINAL_CANADIAN_CORE","servingIntegrationVerified":false},
+    {"countryId":"US","examId":"nclex-pn-2026","tierId":"lvn","topicId":"acute-asthma-exacerbation-lpn-lvn","path":"../../../client/src/data/exam-questions/nclexpn-us-lpn-acute-asthma-60.ts","questionCount":60,"stableIds":true,"perDistractorRationales":true,"reuseMode":"LOCALIZED_SHARED_CLINICAL_CORE","servingIntegrationVerified":false},
+    {"countryId":"CA","examId":"rex-pn","tierId":"rpn","topicId":"acute-pyelonephritis-rpn","path":"../../../client/src/data/exam-questions/rexpn-rpn-acute-pyelonephritis-60.ts","questionCount":60,"stableIds":true,"perDistractorRationales":true,"reuseMode":"ORIGINAL_CANADIAN_CORE","servingIntegrationVerified":false},
+    {"countryId":"US","examId":"nclex-pn-2026","tierId":"lvn","topicId":"acute-pyelonephritis-lpn-lvn","path":"../../../client/src/data/exam-questions/nclexpn-us-lpn-acute-pyelonephritis-60.ts","questionCount":60,"stableIds":true,"perDistractorRationales":true,"reuseMode":"LOCALIZED_SHARED_CLINICAL_CORE","servingIntegrationVerified":false}
   ],
   "coverageGate": {
     "allTopicsHave60PerApplicableExamCountry": false,
