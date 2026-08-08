@@ -6,11 +6,11 @@
   "level": "Nurse Practitioner",
   "authoringStatus": "COMPREHENSIVE_TOPIC_BASELINE_AUDITED_FULL_LESSON_PARITY_IN_PROGRESS",
   "sourceRefreshDate": "2026-08-08",
-  "rawLessonObjects": 391,
-  "uniqueLessonIds": 391,
+  "rawLessonObjects": 393,
+  "uniqueLessonIds": 393,
   "explicitCanonicalSupersessions": 8,
-  "canonicalTopicPathways": 383,
-  "clinicalJsonFiles": 35,
+  "canonicalTopicPathways": 385,
+  "clinicalJsonFiles": 36,
   "structuralValidation": {
     "status": "PASS",
     "jsonParse": true,
@@ -55,7 +55,8 @@
     {"path": "30-prevention-screening-expansion.json", "lessons": 12},
     {"path": "31-common-ambulatory-gaps.json", "lessons": 13},
     {"path": "32-canonical-audit-corrections.json", "lessons": 8, "role": "canonical_supersessions"},
-    {"path": "33-dermatology-hair-nail-specialty-gaps.json", "lessons": 6}
+    {"path": "33-dermatology-hair-nail-specialty-gaps.json", "lessons": 6},
+    {"path": "34-endocrine-hypertension-gaps.json", "lessons": 2}
   ],
   "canonicalOverrides": {
     "adult-hypertension": "cnple-ca-canonical-2026-hypertension",
@@ -178,7 +179,7 @@
   ],
   "fullLessonParity": {
     "status": "IN_PROGRESS",
-    "authoringCanonicalTopicPathways": 383,
+    "authoringCanonicalTopicPathways": 385,
     "currentSearchIndexLessonCountObserved": 1979,
     "currentSearchIndexManifest": "nursenest-core/src/content/lessons/search-index/ca-np-cnple.manifest.json",
     "rule": "Completion requires every current canonical public-complete ca-np-cnple Full lesson to resolve to exactly one reviewed Cram lesson/recipe; topic breadth alone is not completion.",
@@ -194,6 +195,6 @@
     "rendererMappingComplete": false,
     "productionMerged": false,
     "productionDeployed": false,
-    "note": "The 391-object library is an audited 385-object topic baseline plus an active six-lesson specialty expansion; it is not complete Full-lesson parity. CNPLE Cram authoring remains open until the current canonical Full-lesson reverse-coverage audit reaches 100%, all weak Full sources are remediated, all Cram mappings/anchors/Quick Checks certify, and the learner runtime is verified."
+    "note": "The 393-object library is an audited 385-object topic baseline plus eight active specialty expansion lessons; it is not complete Full-lesson parity. CNPLE Cram authoring remains open until the current canonical Full-lesson reverse-coverage audit reaches 100%, all weak Full sources are remediated, all Cram mappings/anchors/Quick Checks certify, and the learner runtime is verified."
   }
 }
