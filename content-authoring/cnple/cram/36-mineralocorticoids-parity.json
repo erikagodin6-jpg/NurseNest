@@ -1,0 +1,69 @@
+[
+  {
+    "id": "cnple-ca-pharm-025-mineralocorticoids",
+    "title": "Mineralocorticoids: Replace Aldosterone Without Overloading the Patient",
+    "system": "Endocrine / Pharmacology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Fludrocortisone replaces mineralocorticoid activity when primary adrenal insufficiency causes aldosterone deficiency. Dose adequacy is judged from volume status, postural symptoms, blood pressure and electrolytes; it does not replace the urgent glucocorticoid and fluid treatment required for adrenal crisis.",
+    "recognize": [
+      "Mineralocorticoid deficiency can cause salt craving, volume depletion, postural hypotension, hyponatremia and hyperkalemia in primary adrenal insufficiency.",
+      "Over-replacement can present with hypertension, edema or hypokalemia rather than improved adrenal symptoms."
+    ],
+    "differentiate": [
+      "Primary adrenal insufficiency can impair both cortisol and aldosterone production; central or secondary adrenal insufficiency usually preserves the renin-angiotensin-aldosterone system and therefore does not routinely require mineralocorticoid replacement.",
+      "Fludrocortisone is chronic replacement therapy for mineralocorticoid deficiency, not the primary rescue drug for acute adrenal crisis."
+    ],
+    "assessment": [
+      "Assess supine and standing blood pressure, dizziness, salt craving, hydration, edema, weight trend, current glucocorticoid regimen, adherence and medications that alter potassium or volume status.",
+      "Look for clinical evidence of under-replacement and over-replacement rather than titrating from one laboratory value in isolation."
+    ],
+    "workup": [
+      "When the patient is stable, use the adrenal-insufficiency diagnostic pathway to establish primary disease and assess mineralocorticoid deficiency; renin, aldosterone and electrolytes can support the replacement plan.",
+      "During suspected adrenal crisis, obtain urgent electrolytes, glucose and cause-directed testing when feasible but do not delay immediate glucocorticoid treatment and fluid resuscitation for confirmatory testing."
+    ],
+    "management": [
+      "Use oral fludrocortisone for confirmed mineralocorticoid deficiency and individualize replacement to symptoms, postural blood pressure, volume status and biochemical response.",
+      "If hypertension develops on replacement, reassess mineralocorticoid excess and other causes; dose reduction may be appropriate, while persistent hypertension can still require antihypertensive treatment without automatically abandoning necessary replacement.",
+      "Adrenal crisis requires emergency parenteral glucocorticoid therapy, isotonic fluid resuscitation and treatment of the precipitating cause according to acute-care guidance."
+    ],
+    "medicationSafety": [
+      "Fludrocortisone can contribute to sodium and fluid retention, hypertension and hypokalemia; excessive dose escalation can therefore worsen cardiovascular risk.",
+      "Diuretics, mineralocorticoid-receptor antagonists and other drugs that alter potassium or volume status can complicate assessment of replacement adequacy; hypokalemia also increases the clinical hazard of drugs such as digoxin.",
+      "Do not confuse fludrocortisone with mineralocorticoid-receptor antagonists such as spironolactone or eplerenone, which block rather than replace mineralocorticoid activity."
+    ],
+    "redFlags": [
+      "Hypotension or shock with suspected adrenal crisis",
+      "Persistent vomiting or inability to retain oral steroid therapy",
+      "Altered mental status or severe weakness with electrolyte disturbance",
+      "Severe hypertension, pulmonary edema or clinically important hypokalemia during replacement"
+    ],
+    "counselling": [
+      "Teach that mineralocorticoid replacement and glucocorticoid replacement have different jobs: fludrocortisone supports salt and volume balance, while the glucocorticoid plan must still be adjusted during physiologic stress.",
+      "Ensure the patient has a written sick-day plan, knows when urgent parenteral glucocorticoid treatment is needed, and does not simply increase fludrocortisone to manage fever, vomiting or severe illness."
+    ],
+    "followUp": [
+      "Reassess postural symptoms, blood pressure, edema, weight and electrolytes after clinically meaningful dose or health-status changes, and use renin when appropriate to support longitudinal titration.",
+      "Coordinate endocrinology follow-up when replacement remains difficult to balance, pregnancy changes physiology, recurrent crises occur or the diagnosis is uncertain."
+    ],
+    "examTrap": "Treating hypotension and vomiting in a patient with known primary adrenal insufficiency by increasing oral fludrocortisone and waiting for laboratory confirmation instead of recognizing adrenal crisis and giving immediate stress-dose glucocorticoid therapy with fluids.",
+    "oneLinePearl": "Fludrocortisone manages aldosterone deficiency; adrenal crisis is a glucocorticoid-and-resuscitation emergency.",
+    "sourceBasis": [
+      "Health Canada Drug Product Database — marketed fludrocortisone products and current FLORINEF product monograph (2026)",
+      "Endocrine Society Clinical Practice Guideline — Diagnosis and Treatment of Primary Adrenal Insufficiency"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  }
+]
