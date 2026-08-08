@@ -61,6 +61,7 @@ BEGIN
       EXECUTE format('ALTER TABLE %I ADD COLUMN IF NOT EXISTS contract_clinical_pearl text', t.table_name);
       EXECUTE format('ALTER TABLE %I ADD COLUMN IF NOT EXISTS contract_mnemonic text', t.table_name);
       EXECUTE format('ALTER TABLE %I ADD COLUMN IF NOT EXISTS contract_country_code text', t.table_name);
+      EXECUTE format('ALTER TABLE %I ADD COLUMN IF NOT EXISTS contract_country_labels jsonb NOT NULL DEFAULT ''[]''::jsonb', t.table_name);
       EXECUTE format('ALTER TABLE %I ADD COLUMN IF NOT EXISTS contract_region_scope text', t.table_name);
       EXECUTE format('ALTER TABLE %I ADD COLUMN IF NOT EXISTS contract_language_code text', t.table_name);
       EXECUTE format('ALTER TABLE %I ADD COLUMN IF NOT EXISTS contract_licensing_body text', t.table_name);
