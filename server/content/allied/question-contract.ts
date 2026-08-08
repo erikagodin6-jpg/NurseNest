@@ -15,6 +15,7 @@ export function normalizeAlliedAuthoredQuestion(question: AuthoredAlliedQuestion
     questionType: "multiple-choice",
     countryCode: question.countryCode || countryCode(question.regionScope),
     regionScope: question.regionScope,
+    licensingBody: question.licensingBody || question.examTag,
     languageCode: question.languageCode || "en",
     bodySystem: question.category,
     topic: question.topic,
