@@ -34,7 +34,7 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Canonical contract tests
-        run: npx vitest run server/question-publication-contract.test.ts server/question-authoring-normalizer.test.ts server/question-serving-contract.test.ts
+        run: npx vitest run server/question-publication-contract.test.ts server/question-authoring-normalizer.test.ts server/question-serving-contract.test.ts server/question-unit-conversion.test.ts
       - name: Full authored-source debt report
         run: npx tsx script/audit-authored-question-contract-v2.ts > question-contract-source-audit.json
       - name: Show source audit summary
