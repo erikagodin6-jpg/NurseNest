@@ -10,9 +10,10 @@ const ROOTS = [
 ];
 const OVERLAY = path.resolve("client/src/data/question-contract-enrichment.generated.ts");
 
-type Row = { id: string; file: string; line: number; hasAuthoredInline: boolean };
+type Row = { id: string; file: string; line: number; hasAuthoredInline: boolean; fingerprint: string };
 
 function text(v: unknown): string { return typeof v === "string" ? v.trim() : ""; }
+function norm(v: string): string { return v.toLowerCase().replace(/\s+/g, " ").replace(/[.!?,;:]+$/g, "").trim(); }
 function propName(prop: ts.ObjectLiteralElementLike): string | null {
   if (!ts.isPropertyAssignment(prop)) return null;
   return ts.isIdentifier(prop.name) || ts.isStringLiteralLike(prop.name) ? prop.name.text : null;
@@ -21,14 +22,32 @@ function getProp(node: ts.ObjectLiteralExpression, name: string): ts.Expression 
   for (const prop of node.properties) if (propName(prop) === name && ts.isPropertyAssignment(prop)) return prop.initializer;
   return null;
 }
+function unwrap(node: ts.Expression): ts.Expression {
+  while (ts.isAsExpression(node) || ts.isTypeAssertionExpression(node) || ts.isParenthesizedExpression(node) || ts.isNonNullExpression(node)) node = node.expression;
+  return node;
+}
 function literalString(node: ts.Expression | null): string {
   if (!node) return "";
-  while (ts.isAsExpression(node) || ts.isTypeAssertionExpression(node) || ts.isParenthesizedExpression(node)) node = node.expression;
+  node = unwrap(node);
   return ts.isStringLiteralLike(node) ? node.text.trim() : "";
+}
+function optionTexts(node: ts.Expression | null): string[] {
+  if (!node) return [];
+  node = unwrap(node);
+  if (!ts.isArrayLiteralExpression(node)) return [];
+  return node.elements.map(element => {
+    if (!ts.isExpression(element)) return "";
+    const e = unwrap(element);
+    if (ts.isStringLiteralLike(e)) return e.text.trim();
+    if (ts.isObjectLiteralExpression(e)) {
+      return literalString(getProp(e, "text")) || literalString(getProp(e, "content")) || literalString(getProp(e, "value")) || literalString(getProp(e, "label"));
+    }
+    return "";
+  }).filter(Boolean);
 }
 function hasNonEmptyObject(node: ts.Expression | null): boolean {
   if (!node) return false;
-  while (ts.isAsExpression(node) || ts.isTypeAssertionExpression(node) || ts.isParenthesizedExpression(node)) node = node.expression;
+  node = unwrap(node);
   return ts.isObjectLiteralExpression(node) && node.properties.length > 0;
 }
 function collectFiles(root: string): string[] {
@@ -55,8 +74,9 @@ function scan(): Row[] {
         ordinal++;
         const stem = literalString(getProp(node, "stem")) || literalString(getProp(node, "question")) || literalString(getProp(node, "questionText"));
         const rationale = literalString(getProp(node, "rationale")) || literalString(getProp(node, "rationaleCorrect"));
-        const options = getProp(node, "options") || getProp(node, "answerOptions");
-        if (stem && rationale && options) {
+        const optionNode = getProp(node, "options") || getProp(node, "answerOptions");
+        const optionList = optionTexts(optionNode);
+        if (stem && rationale && optionNode && optionList.length >= 2) {
           const explicit = literalString(getProp(node, "id")) || literalString(getProp(node, "questionId"));
           const id = explicit || `source-${path.basename(file, path.extname(file)).toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${String(ordinal).padStart(6, "0")}`;
           const inlineCorrect = literalString(getProp(node, "correctAnswerExplanation")) || literalString(getProp(node, "correct_answer_explanation"));
@@ -64,8 +84,10 @@ function scan(): Row[] {
           const inlineWhy = literalString(getProp(node, "whyThisMatters")) || literalString(getProp(node, "keyTakeaway"));
           const inlinePearl = literalString(getProp(node, "clinicalPearl")) || literalString(getProp(node, "examPearl"));
           const inlineDistractors = hasNonEmptyObject(getProp(node, "distractorRationales")) || hasNonEmptyObject(getProp(node, "distractor_rationales"));
+          const qtype = literalString(getProp(node, "questionType")) || literalString(getProp(node, "question_type")) || "MCQ";
+          const fingerprint = `${norm(qtype)}::${norm(stem)}::${optionList.map(norm).join("||")}`;
           const lc = sf.getLineAndCharacterOfPosition(node.getStart(sf));
-          rows.push({ id, file, line: lc.line + 1, hasAuthoredInline: !!inlineCorrect && !!inlineHint && !!inlineWhy && !!inlinePearl && inlineDistractors });
+          rows.push({ id, file, line: lc.line + 1, fingerprint, hasAuthoredInline: !!inlineCorrect && !!inlineHint && !!inlineWhy && !!inlinePearl && inlineDistractors });
         }
       }
       ts.forEachChild(node, visit);
@@ -96,15 +118,19 @@ function overlayIds(): { authored: Set<string>; needsReview: Set<string> } {
 
 const rows = scan();
 const overlay = overlayIds();
-const unique = new Map<string, Row>();
-for (const row of rows) if (!unique.has(row.id)) unique.set(row.id, row);
-const active = [...unique.values()];
+// Active learner loaders deduplicate exact type+stem+option duplicates. Coverage therefore follows the same canonical unique fingerprint.
+const byFingerprint = new Map<string, Row>();
+for (const row of rows) if (!byFingerprint.has(row.fingerprint)) byFingerprint.set(row.fingerprint, row);
+const active = [...byFingerprint.values()];
+const duplicateSourceObjectsExcluded = rows.length - active.length;
 const complete = active.filter(row => row.hasAuthoredInline || overlay.authored.has(row.id));
 const missing = active.filter(row => !row.hasAuthoredInline && !overlay.authored.has(row.id));
 const needsReview = active.filter(row => overlay.needsReview.has(row.id));
 
 const result = {
-  activeQuestionObjects: active.length,
+  sourceQuestionObjects: rows.length,
+  canonicalUniqueLearnerQuestions: active.length,
+  duplicateSourceObjectsExcluded,
   authoredV2: complete.length,
   missingAuthoredV2: missing.length,
   needsReview: needsReview.length,
