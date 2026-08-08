@@ -6,11 +6,11 @@
   "level": "Nurse Practitioner",
   "authoringStatus": "COMPREHENSIVE_TOPIC_BASELINE_AUDITED_FULL_LESSON_PARITY_IN_PROGRESS",
   "sourceRefreshDate": "2026-08-08",
-  "rawLessonObjects": 402,
-  "uniqueLessonIds": 402,
+  "rawLessonObjects": 410,
+  "uniqueLessonIds": 410,
   "explicitCanonicalSupersessions": 8,
-  "canonicalTopicPathways": 394,
-  "clinicalJsonFiles": 39,
+  "canonicalTopicPathways": 402,
+  "clinicalJsonFiles": 40,
   "structuralValidation": {
     "status": "PASS",
     "jsonParse": true,
@@ -59,7 +59,8 @@
     {"path": "34-endocrine-hypertension-gaps.json", "lessons": 2},
     {"path": "35-primary-hyperparathyroidism.json", "lessons": 1},
     {"path": "36-mineralocorticoids-parity.json", "lessons": 1, "role": "full_lesson_parity_expansion"},
-    {"path": "37-neuro-peds-geri-parity.json", "lessons": 7, "role": "full_lesson_parity_expansion"}
+    {"path": "37-neuro-peds-geri-parity.json", "lessons": 7, "role": "full_lesson_parity_expansion"},
+    {"path": "38a-lab-interpretation-parity.json", "lessons": 8, "role": "full_lesson_parity_expansion"}
   ],
   "canonicalOverrides": {
     "adult-hypertension": "cnple-ca-canonical-2026-hypertension",
@@ -179,11 +180,12 @@
     "AUTHORING_QA_V2.md",
     "COMPREHENSIVE_COVERAGE_AUDIT_V2.md",
     "SOURCE_REFRESH_LEDGER_V2.md",
-    "AUTHORING_QA_PARITY_37.md"
+    "AUTHORING_QA_PARITY_37.md",
+    "AUTHORING_QA_PARITY_38A.md"
   ],
   "fullLessonParity": {
     "status": "IN_PROGRESS",
-    "authoringCanonicalTopicPathways": 394,
+    "authoringCanonicalTopicPathways": 402,
     "currentSearchIndexLessonCountObserved": 1979,
     "currentSearchIndexManifest": "nursenest-core/src/content/lessons/search-index/ca-np-cnple.manifest.json",
     "rule": "Completion requires every current canonical public-complete ca-np-cnple Full lesson to resolve to exactly one reviewed Cram lesson/recipe; topic breadth alone is not completion.",
@@ -196,10 +198,11 @@
     "secondPassClinicalAuditCompleteForExisting395": true,
     "structuralJsonValidationCompleteForExisting395": true,
     "secondPassClinicalAuditCompleteForParity37": true,
+    "secondPassClinicalAuditCompleteForParity38A": true,
     "newExpansionBatchPendingSecondPassAudit": false,
     "rendererMappingComplete": false,
     "productionMerged": false,
     "productionDeployed": false,
-    "note": "The 402-object library is an audited topic baseline plus active specialty/full-lesson parity expansions; it is not complete Full-lesson parity. Batch 37 has passed its clinical second pass, but its parse/required-field/identity/source/Quick-Check certification still belongs to the pinned private-core integration gate. CNPLE Cram authoring remains open until the current canonical Full-lesson reverse-coverage audit reaches 100%, all weak Full sources are remediated, all Cram mappings/anchors/Quick Checks certify, and the learner runtime is verified."
+    "note": "The 410-object library is an audited topic baseline plus active specialty/full-lesson parity expansions; it is not complete Full-lesson parity. Batches 37 and 38A have passed clinical second-pass review, but parse/required-field/identity/source/Quick-Check certification still belongs to the pinned private-core integration gate. CNPLE Cram authoring remains open until the current canonical Full-lesson reverse-coverage audit reaches 100%, all weak Full sources are remediated, all Cram mappings/anchors/Quick Checks certify, and the learner runtime is verified."
   }
 }
