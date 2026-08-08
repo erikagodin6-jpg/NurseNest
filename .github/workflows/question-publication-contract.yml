@@ -6,7 +6,7 @@ on:
       - 'server/**'
       - 'script/**'
       - 'scripts/**'
-      - 'client/src/data/**'
+      - 'client/src/**'
       - 'migrations/**'
       - 'shared/**'
       - '.github/workflows/question-publication-contract.yml'
@@ -16,7 +16,7 @@ on:
       - 'server/**'
       - 'script/**'
       - 'scripts/**'
-      - 'client/src/data/**'
+      - 'client/src/**'
       - 'migrations/**'
       - 'shared/**'
 
@@ -34,7 +34,7 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Canonical contract tests
-        run: npx vitest run server/question-publication-contract.test.ts server/question-authoring-normalizer.test.ts server/question-serving-contract.test.ts server/question-unit-conversion.test.ts
+        run: npx vitest run server/question-publication-contract.test.ts server/question-authoring-normalizer.test.ts server/question-serving-contract.test.ts server/question-unit-conversion.test.ts server/question-interaction-contract.test.ts
       - name: Full authored-source debt report
         run: npx tsx script/audit-authored-question-contract-v2.ts > question-contract-source-audit.json
       - name: Show source audit summary
@@ -60,7 +60,7 @@ jobs:
         run: |
           set -euo pipefail
           git diff --unified=0 "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" -- \
-            'server/**/*.ts' 'server/**/*.tsx' 'script/**/*.ts' 'scripts/**/*.ts' 'scripts/**/*.cjs' 'client/src/data/**/*.ts' 'client/src/data/**/*.tsx' > /tmp/question.diff || true
+            'server/**/*.ts' 'server/**/*.tsx' 'script/**/*.ts' 'scripts/**/*.ts' 'scripts/**/*.cjs' 'client/src/**/*.ts' 'client/src/**/*.tsx' > /tmp/question.diff || true
 
           added=$(grep '^+' /tmp/question.diff | grep -v '^+++' || true)
           bad=0
