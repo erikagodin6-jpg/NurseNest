@@ -1,4 +1,4 @@
-import { QUESTION_CONTRACT_ENRICHMENT } from "../data/question-contract-enrichment.generated";
+import { QUESTION_CONTRACT_ENRICHMENT } from "../data/question-contract-enrichment";
 
 export type LegacyContractOption = { id: string; text: string; label: string };
 
