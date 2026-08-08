@@ -2,14 +2,14 @@
 
 Status: ACTIVE AUTHORING
 Baseline date: 2026-08-07
-Authored Cram lessons: 304
+Authored Cram lessons: 324
 Locale: United States
 Level: PN / LPN / LVN entry-level practice
 Exam alignment: 2026 NCLEX-PN Test Plan
 
 ## Current baseline
 
-The library now contains 304 distinct authored Cram lessons spanning every NCLEX-PN Client Needs area and major practical-nursing clinical domains. Authoring depth includes chronic and emergency cardiovascular care, respiratory deterioration and airborne TB, renal/urologic care, common GI and endocrine disorders, maternal/fetal complications, pediatric emergencies, neuromuscular respiratory-risk disorders, psychopharmacologic emergencies, hematologic clotting disorders, oncology metabolic/compressive emergencies, ophthalmic pharmacology, medication-administration safety, therapeutic communication, documentation safety, fluid-restriction teaching, inhaler/spacer technique, obstetric pharmacology, antidotes/reversal agents, and parenteral electrolyte safety.
+The library now contains 324 distinct authored Cram lessons spanning every NCLEX-PN Client Needs area and major practical-nursing clinical domains. Authoring depth includes chronic and emergency cardiovascular care, respiratory deterioration and airborne TB, renal/urologic care, common GI and endocrine disorders, maternal/fetal complications, pediatric emergencies, neuromuscular respiratory-risk disorders, psychopharmacologic emergencies, hematologic clotting disorders, oncology metabolic/compressive emergencies, ophthalmic pharmacology, medication-administration safety, therapeutic communication, documentation safety, fluid-restriction teaching, inhaler/spacer technique, obstetric pharmacology, antidotes/reversal agents, parenteral electrolyte safety, and high-alert monitored infusions.
 
 The first 100 lessons established the production baseline. Authoring has continued beyond that count. No numeric milestone by itself is a declaration of complete coverage.
 
@@ -29,13 +29,15 @@ The broader two-pathway PN-family totals remain useful context (`PN-013` 320; `P
 
 ## Authoring direction
 
-The medication work after the 180 checkpoint intentionally targets the highest-clinical-risk pharmacology family first. The latest batches deepen source families named by the audit: ophthalmic pharmacology, medication/dosage/IV safety, maternity medications, emergency antidotes, and parenteral electrolyte rescue.
+The medication work after the 180 checkpoint intentionally targets the highest-clinical-risk pharmacology family first. The latest batches deepen source families named by the audit: ophthalmic pharmacology, medication/dosage/IV safety, maternity medications, emergency antidotes, parenteral electrolyte rescue, vasoactive/sedative infusions, thrombolytics, and monitored cardiac infusions.
 
-The newest 20 lessons add carboprost, misoprostol, tranexamic acid, IV labetalol, IV hydralazine, dinoprostone, indomethacin tocolysis, penicillin G for intrapartum GBS prophylaxis, labor agonist-antagonist opioid safety, neuraxial analgesia monitoring, protamine, phytonadione, digoxin immune Fab, acetylcysteine, glucagon, calcium gluconate, IV dextrose, flumazenil, sodium bicarbonate, and IV potassium chloride safety.
+The newest 20 lessons add alteplase, tenecteplase, sodium nitroprusside, IV nicardipine, dexmedetomidine, propofol, vasopressin, dobutamine, mannitol, phenylephrine, IV insulin infusion, continuous heparin infusion, 3% hypertonic saline, IV magnesium replacement, IV sodium phosphate, esmolol infusion, IV diltiazem, IV antiarrhythmic lidocaine, phentolamine extravasation rescue, and IV potassium phosphate.
+
+Current U.S. labeling was refreshed for these high-change/high-alert drugs before authoring. The PN/LVN framing remains recognition, safe implementation, monitoring, communication and escalation; it does not imply independent titration authority where state or facility rules restrict it.
 
 ## Lineage work
 
-The branch contains `LINEAGE_CANDIDATES.json`. It records stable audit slugs and proposed authored Cram counterparts. Newly authored direct-remediation lessons are now bound as candidates rather than left as empty placeholders, including:
+The branch contains `LINEAGE_CANDIDATES.json`. It records stable audit slugs and proposed authored Cram counterparts. Newly authored direct-remediation lessons are bound as candidates rather than left as empty placeholders, including:
 
 - `therapeutic-communication` -> `nclex-pn-us-psych-008-therapeutic-communication`;
 - `documentation-do-nots` -> `nclex-pn-us-coord-004-documentation-safety`;
