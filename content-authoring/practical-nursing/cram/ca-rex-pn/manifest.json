@@ -9,69 +9,27 @@
   "authoringStatus": "ACTIVE_AUTHORING",
   "sourceRefreshDate": "2026-08-08",
   "attachmentContract": "sourceLessonId",
-  "authoredCramLessons": 30,
+  "authoredCramLessons": 45,
   "files": [
-    {"path": "01-batches-120-122.json", "lessons": 15, "sourceLessonRange": "rpn-content-batch-120 through rpn-content-batch-122"},
-    {"path": "02-batches-117-119.json", "lessons": 15, "sourceLessonRange": "rpn-content-batch-117 through rpn-content-batch-119"}
+    {"path":"01-batches-120-122.json","lessons":15,"sourceLessonRange":"rpn-content-batch-120 through rpn-content-batch-122"},
+    {"path":"02-batches-117-119.json","lessons":15,"sourceLessonRange":"rpn-content-batch-117 through rpn-content-batch-119"},
+    {"path":"03-batch-114.json","lessons":5,"sourceLessonRange":"rpn-content-batch-114"},
+    {"path":"04-batch-115.json","lessons":5,"sourceLessonRange":"rpn-content-batch-115"},
+    {"path":"05-batch-116.json","lessons":5,"sourceLessonRange":"rpn-content-batch-116"}
   ],
   "attachedSourceLessons": [
-    "acute-pyelonephritis-rpn",
-    "nephrolithiasis-renal-colic-rpn",
-    "acute-glomerulonephritic-syndrome-rpn",
-    "hydronephrosis-obstructive-uropathy-rpn",
-    "autosomal-dominant-polycystic-kidney-disease-rpn",
-    "placental-abruption-rpn",
-    "umbilical-cord-prolapse-rpn",
-    "uterine-rupture-rpn",
-    "postpartum-endometritis-rpn",
-    "lactational-mastitis-rpn",
-    "surgical-wound-dehiscence-evisceration-rpn",
-    "skin-tears-older-adults-rpn",
-    "moisture-associated-skin-damage-rpn",
-    "lower-limb-lymphedema-rpn",
-    "negative-pressure-wound-therapy-rpn",
-    "measles-suspected-case-rpn",
-    "pertussis-community-control-rpn",
-    "rabies-exposure-post-exposure-prophylaxis-rpn",
-    "meningococcal-close-contact-prophylaxis-rpn",
-    "mpox-community-care-rpn",
-    "kawasaki-disease-rpn",
-    "orbital-cellulitis-rpn",
-    "pediatric-acute-kidney-injury-rpn",
-    "pediatric-acute-migraine-rpn",
-    "pediatric-skin-soft-tissue-infection-rpn",
-    "buprenorphine-naloxone-induction-rpn",
-    "methadone-oat-safety-rpn",
-    "benzodiazepine-withdrawal-rpn",
-    "stimulant-intoxication-rpn",
-    "opioid-withdrawal-oat-engagement-rpn"
+    "acute-pyelonephritis-rpn","nephrolithiasis-renal-colic-rpn","acute-glomerulonephritic-syndrome-rpn","hydronephrosis-obstructive-uropathy-rpn","autosomal-dominant-polycystic-kidney-disease-rpn",
+    "placental-abruption-rpn","umbilical-cord-prolapse-rpn","uterine-rupture-rpn","postpartum-endometritis-rpn","lactational-mastitis-rpn",
+    "surgical-wound-dehiscence-evisceration-rpn","skin-tears-older-adults-rpn","moisture-associated-skin-damage-rpn","lower-limb-lymphedema-rpn","negative-pressure-wound-therapy-rpn",
+    "measles-suspected-case-rpn","pertussis-community-control-rpn","rabies-exposure-post-exposure-prophylaxis-rpn","meningococcal-close-contact-prophylaxis-rpn","mpox-community-care-rpn",
+    "kawasaki-disease-rpn","orbital-cellulitis-rpn","pediatric-acute-kidney-injury-rpn","pediatric-acute-migraine-rpn","pediatric-skin-soft-tissue-infection-rpn",
+    "buprenorphine-naloxone-induction-rpn","methadone-oat-safety-rpn","benzodiazepine-withdrawal-rpn","stimulant-intoxication-rpn","opioid-withdrawal-oat-engagement-rpn",
+    "myasthenic-crisis-rpn","guillain-barre-syndrome-rpn","meningococcal-meningitis-sepsis-rpn","adult-convulsive-status-epilepticus-rpn","cauda-equina-syndrome-rpn",
+    "acute-cholangitis-rpn","acute-cholecystitis-rpn","bowel-perforation-peritonitis-rpn","ostomy-complications-rpn","enteral-feeding-tube-complications-rpn",
+    "sglt2-euglycemic-dka-rpn","methimazole-agranulocytosis-rpn","levothyroxine-administration-safety-rpn","chronic-corticosteroid-adrenal-suppression-rpn","metformin-acute-illness-renal-safety-rpn"
   ],
-  "requiredFields": [
-    "id", "sourceLessonId", "countryId", "countryLabel", "examId", "examLabel", "tierId", "title", "system",
-    "blueprintDomains", "lifespan", "acuity", "bottomLine", "recognize", "differentiate", "assessment", "workup",
-    "management", "medicationSafety", "redFlags", "counselling", "followUp", "examTrap", "oneLinePearl",
-    "sourceBasis", "sourceAsOf", "localPolicyCheck"
-  ],
-  "qualityRules": {
-    "arbitraryTruncationProhibited": true,
-    "mustMatchFullLessonClinicalTruth": true,
-    "canadianGuidanceFirst": true,
-    "siUnitsByDefault": true,
-    "localScopeClaimsTagged": true,
-    "medicationSafetyRequired": true,
-    "redFlagsRequired": true,
-    "examTrapRequired": true,
-    "sourceDateRequired": true
-  },
-  "blueprintBasis": {
-    "primary": "REx-PN Test Plan effective January 4, 2022 (revised)",
-    "examOwner": "BCCNM/CNO/NCSBN REx-PN",
-    "nextRefresh": "Re-check when REx-PN publishes the next test plan"
-  },
-  "completionGate": {
-    "allQualifyingFullLessonsHaveCram": false,
-    "rendererMappingVerified": false,
-    "productionServingVerified": false,
-    "note": "Do not mark Canada RPN complete until every qualifying source lesson has exactly one valid attached Cram record and the learner-facing Cram renderer serves it."
-  }
+  "requiredFields": ["id","sourceLessonId","countryId","countryLabel","examId","examLabel","tierId","title","system","blueprintDomains","lifespan","acuity","bottomLine","recognize","differentiate","assessment","workup","management","medicationSafety","redFlags","counselling","followUp","examTrap","oneLinePearl","sourceBasis","sourceAsOf","localPolicyCheck"],
+  "qualityRules": {"arbitraryTruncationProhibited":true,"mustMatchFullLessonClinicalTruth":true,"canadianGuidanceFirst":true,"siUnitsByDefault":true,"localScopeClaimsTagged":true,"medicationSafetyRequired":true,"redFlagsRequired":true,"examTrapRequired":true,"sourceDateRequired":true},
+  "blueprintBasis": {"primary":"REx-PN Test Plan effective January 4, 2022 (revised)","examOwner":"BCCNM/CNO/NCSBN REx-PN","nextRefresh":"Re-check when REx-PN publishes the next test plan"},
+  "completionGate": {"allQualifyingFullLessonsHaveCram":false,"rendererMappingVerified":false,"productionServingVerified":false,"note":"Do not mark Canada RPN complete until every qualifying source lesson has exactly one valid attached Cram record and the learner-facing Cram renderer serves it."}
 }
