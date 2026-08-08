@@ -9,6 +9,7 @@ DECLARE
   has_options boolean;
   has_split_options boolean;
   has_answer boolean;
+  has_structured_payload boolean;
 BEGIN
   FOR t IN
     SELECT table_name
@@ -41,10 +42,17 @@ BEGIN
         AND c.column_name IN ('correct_answer','correct_index','answer_key','correct')
     ) INTO has_answer;
 
-    IF has_stem AND (has_options OR has_split_options) AND has_answer THEN
+    SELECT EXISTS (
+      SELECT 1 FROM information_schema.columns c
+      WHERE c.table_schema='public' AND c.table_name=t.table_name
+        AND c.column_name IN ('ngn_payload','exhibit_data','interaction_payload','payload','answer_options')
+    ) INTO has_structured_payload;
+
+    IF has_stem AND ((has_options OR has_split_options) AND has_answer OR has_structured_payload) THEN
       EXECUTE format('ALTER TABLE %I ADD COLUMN IF NOT EXISTS contract_question_id text', t.table_name);
       EXECUTE format('ALTER TABLE %I ADD COLUMN IF NOT EXISTS contract_options jsonb NOT NULL DEFAULT ''[]''::jsonb', t.table_name);
       EXECUTE format('ALTER TABLE %I ADD COLUMN IF NOT EXISTS contract_correct_answer_ids jsonb NOT NULL DEFAULT ''[]''::jsonb', t.table_name);
+      EXECUTE format('ALTER TABLE %I ADD COLUMN IF NOT EXISTS contract_interaction_payload jsonb NOT NULL DEFAULT ''{}''::jsonb', t.table_name);
       EXECUTE format('ALTER TABLE %I ADD COLUMN IF NOT EXISTS contract_distractor_rationales jsonb NOT NULL DEFAULT ''{}''::jsonb', t.table_name);
       EXECUTE format('ALTER TABLE %I ADD COLUMN IF NOT EXISTS contract_rationale text', t.table_name);
       EXECUTE format('ALTER TABLE %I ADD COLUMN IF NOT EXISTS contract_correct_answer_explanation text', t.table_name);
