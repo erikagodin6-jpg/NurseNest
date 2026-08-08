@@ -1,0 +1,80 @@
+name: Question Publication Contract
+
+on:
+  pull_request:
+    paths:
+      - 'server/**'
+      - 'script/**'
+      - 'scripts/**'
+      - 'client/src/data/**'
+      - 'migrations/**'
+      - 'shared/**'
+      - '.github/workflows/question-publication-contract.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'server/**'
+      - 'script/**'
+      - 'scripts/**'
+      - 'client/src/data/**'
+      - 'migrations/**'
+      - 'shared/**'
+
+jobs:
+  contract-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Canonical contract tests
+        run: npx vitest run server/question-publication-contract.test.ts server/question-authoring-normalizer.test.ts server/question-serving-contract.test.ts
+      - name: Full authored-source debt report
+        run: npx tsx script/audit-authored-question-contract-v2.ts > question-contract-source-audit.json
+      - name: Show source audit summary
+        if: always()
+        run: cat question-contract-source-audit.json | head -c 20000
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: question-contract-source-audit
+          path: question-contract-source-audit.json
+          retention-days: 14
+
+  changed-question-guard:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Reject newly introduced positional question contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --unified=0 "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" -- \
+            'server/**/*.ts' 'server/**/*.tsx' 'script/**/*.ts' 'scripts/**/*.ts' 'scripts/**/*.cjs' 'client/src/data/**/*.ts' 'client/src/data/**/*.tsx' > /tmp/question.diff || true
+
+          added=$(grep '^+' /tmp/question.diff | grep -v '^+++' || true)
+          bad=0
+
+          if printf '%s\n' "$added" | grep -Eq 'correct(Index|Indices)[[:space:]]*:'; then
+            echo 'New positional correctIndex/correctIndices contract detected. Normalize to stable option IDs before persistence.'
+            bad=1
+          fi
+          if printf '%s\n' "$added" | grep -Eq 'distractorRationales[[:space:]]*:[[:space:]]*\{[[:space:]]*["'"']?[0-9ABCD]["'"']?[[:space:]]*:'; then
+            echo 'New position/label-keyed distractor rationales detected. Use stable option IDs.'
+            bad=1
+          fi
+          if printf '%s\n' "$added" | grep -Eq 'options[[:space:]]*:[[:space:]]*\[[[:space:]]*["'"']'; then
+            echo 'New primitive string option array detected in authored question content. Normalize options to {id,text,label}.'
+            bad=1
+          fi
+          exit "$bad"
