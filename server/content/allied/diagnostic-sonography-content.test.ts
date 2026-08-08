@@ -9,8 +9,9 @@ import { diagnosticSonographyAbdominalTopics11 } from "./topics-11-diagnostic-so
 import { diagnosticSonographyObGynTopics12 } from "./topics-12-diagnostic-sonography-obgyn";
 import { diagnosticSonographyVascularTopics13 } from "./topics-13-diagnostic-sonography-vascular";
 import { diagnosticSonographySmallPartsTopics14 } from "./topics-14-diagnostic-sonography-small-parts";
+import { diagnosticSonographyPediatricTopics15 } from "./topics-15-diagnostic-sonography-pediatric";
 
-const topics = [...diagnosticSonographyTopics10, ...diagnosticSonographyAbdominalTopics11, ...diagnosticSonographyObGynTopics12, ...diagnosticSonographyVascularTopics13, ...diagnosticSonographySmallPartsTopics14];
+const topics = [...diagnosticSonographyTopics10, ...diagnosticSonographyAbdominalTopics11, ...diagnosticSonographyObGynTopics12, ...diagnosticSonographyVascularTopics13, ...diagnosticSonographySmallPartsTopics14, ...diagnosticSonographyPediatricTopics15];
 const lessons = materializeAlliedLessons(topics);
 const questions = materializeAlliedQuestions(topics).map(
   normalizeAlliedAuthoredQuestion,
@@ -18,16 +19,16 @@ const questions = materializeAlliedQuestions(topics).map(
 
 describe("diagnostic medical sonography authored expansion", () => {
   it("materializes the first ten canonical topics into fifty lessons", () => {
-    expect(topics).toHaveLength(50);
-    expect(lessons).toHaveLength(250);
-    expect(new Set(lessons.map((lesson) => lesson.id)).size).toBe(250);
-    expect(new Set(lessons.map((lesson) => lesson.slug)).size).toBe(250);
+    expect(topics).toHaveLength(55);
+    expect(lessons).toHaveLength(275);
+    expect(new Set(lessons.map((lesson) => lesson.id)).size).toBe(275);
+    expect(new Set(lessons.map((lesson) => lesson.slug)).size).toBe(275);
   });
 
   it("provides one hundred questions for every topic", () => {
-    expect(questions).toHaveLength(5_000);
-    expect(new Set(questions.map((question) => question.id)).size).toBe(5_000);
-    expect(new Set(questions.map((question) => question.stem)).size).toBe(5_000);
+    expect(questions).toHaveLength(5_500);
+    expect(new Set(questions.map((question) => question.id)).size).toBe(5_500);
+    expect(new Set(questions.map((question) => question.stem)).size).toBe(5_500);
 
     for (const topic of topics) {
       expect(questions.filter((question) => question.topic === topic.topic)).toHaveLength(100);
