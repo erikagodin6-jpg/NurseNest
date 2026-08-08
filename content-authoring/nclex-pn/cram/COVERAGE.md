@@ -2,14 +2,14 @@
 
 Status: ACTIVE AUTHORING
 Baseline date: 2026-08-07
-Authored Cram lessons: 364
+Authored Cram lessons: 384
 Locale: United States
 Level: PN / LPN / LVN entry-level practice
 Exam alignment: 2026 NCLEX-PN Test Plan
 
 ## Current baseline
 
-The library contains 364 distinct authored Cram lessons spanning all NCLEX-PN Client Needs areas and major practical-nursing clinical domains. Coverage now includes high-alert infusion safety, renal/urology and CKD pharmacology, GI medication safety, endocrine replacement/thyroid therapy, osteoporosis/calcium-regulation drugs, antiepileptic safety, migraine therapy, spasticity treatment, and myasthenia medication safety.
+The library contains 384 distinct authored Cram lessons spanning all NCLEX-PN Client Needs areas and major practical-nursing clinical domains. Coverage now includes high-alert infusion safety, renal/urology and CKD pharmacology, GI medication safety, endocrine replacement/thyroid therapy, osteoporosis/calcium-regulation drugs, antiepileptic safety, migraine therapy, spasticity/myasthenia therapy, psych/substance-use pharmacology, HIV treatment/prevention pharmacology, and reproductive medication safety.
 
 No numeric milestone by itself is a declaration of complete coverage.
 
@@ -21,11 +21,11 @@ The 2026-08-05 practical-nursing production audit measured `us-lpn-nclex-pn` at 
 
 The newest 20 lessons target two additional medication-safety surfaces.
 
-GI pharmacology now has dedicated lessons for famotidine, sucralfate, mesalamine, pancrelipase, loperamide, polyethylene glycol 3350, bisacodyl, prochlorperazine, promethazine, and scopolamine. The lessons differentiate symptom control from emergency evaluation, preserve formulation/timing rules, and explicitly flag invasive-diarrhea, obstruction, movement-disorder, respiratory-depression, and parenteral tissue-injury risks.
+Psych/substance-use pharmacology now adds venlafaxine, duloxetine, mirtazapine, trazodone, methylphenidate, atomoxetine, buprenorphine/naloxone, extended-release naltrexone, acamprosate, and disulfiram. Current safety distinctions include antidepressant suicidality monitoring, SNRI blood-pressure/discontinuation risks, trazodone priapism, stimulant abuse/misuse/addiction, atomoxetine pediatric suicidal-ideation risk, buprenorphine precipitated withdrawal/respiratory-depression risk, naltrexone opioid-free initiation and post-blockade overdose vulnerability, renal limits for acamprosate, and disulfiram-alcohol/hepatotoxicity risk.
 
-Neuro/endocrine pharmacology now adds propylthiouracil, hydrocortisone, fludrocortisone, denosumab, calcitonin, lamotrigine, topiramate, sumatriptan, baclofen, and pyridostigmine. High-yield current safety points include PTU severe liver injury, denosumab severe hypocalcemia risk in advanced CKD, lamotrigine serious skin reactions, topiramate metabolic acidosis/stone risk, baclofen withdrawal, and pyridostigmine cholinergic crisis.
+HIV/reproductive pharmacology now adds bictegravir/TAF/FTC, dolutegravir, oral PrEP, injectable cabotegravir PrEP, HIV nPEP, combined hormonal contraception, depot medroxyprogesterone, progestin-only pills, levonorgestrel emergency contraception, and ulipristal emergency contraception. Current CDC/NIH/FDA guidance is preserved, including HIV testing/renal/HBV monitoring for PrEP, rapid nPEP initiation within the guideline window, ART interaction/adherence safety, DMPA bone-density risk, estrogen-specific contraceptive risk screening, and the 5-day delay before resuming hormonal contraception after ulipristal.
 
-Current U.S. DailyMed/FDA labeling was refreshed before authoring. PN/LVN language remains limited to recognition, monitoring, safe implementation, communication, and escalation unless state/facility policy specifically authorizes more.
+PN/LVN language remains limited to recognition, monitoring, safe implementation, communication, and escalation unless state/facility policy specifically authorizes more.
 
 ## Lineage and completion gate
 
