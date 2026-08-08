@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "pathwayTarget": "us-lpn-nclex-pn",
+  "generatedFromAudit": "nursenest-core/ops/pn-lesson-recovery/2026-08-05/gate-after.json",
+  "status": "PROVISIONAL",
+  "countingRule": "No candidate in this file reduces MISSING_CRAM or PN-013/PN-015 counts until the source lesson is verified as learner-reachable on us-lpn-nclex-pn and its substantive content is reviewed against the proposed Cram object.",
+  "candidates": [
+    {
+      "sourceLessonSlug": "hypertension-teaching",
+      "auditFamily": "PN-015-cram-safety-gap",
+      "candidateCramIds": ["nclex-pn-us-cardio-005-hypertension"],
+      "candidateDisposition": "ONE_TO_ONE_CANDIDATE",
+      "pathwayVerification": "REQUIRED",
+      "contentEquivalenceReview": "REQUIRED",
+      "reason": "Existing authored Cram lesson covers measurement, trends, medication safety, lifestyle teaching, target-organ red flags, escalation, and home BP monitoring."
+    },
+    {
+      "sourceLessonSlug": "edema-daily-weights",
+      "auditFamily": "PN-015-cram-safety-gap",
+      "candidateCramIds": ["nclex-pn-us-cardio-001-heart-failure"],
+      "candidateDisposition": "ONE_TO_ONE_CANDIDATE",
+      "pathwayVerification": "REQUIRED",
+      "contentEquivalenceReview": "REQUIRED",
+      "reason": "Heart-failure Cram explicitly teaches daily weights, edema/congestion trends, perfusion, urine output, fluid/sodium plans, diuretic safety, and escalation."
+    },
+    {
+      "sourceLessonSlug": "copd-home-care",
+      "auditFamily": "PN-015-cram-safety-gap",
+      "candidateCramIds": ["nclex-pn-us-resp-001-copd-exacerbation"],
+      "candidateDisposition": "PARTIAL_CANDIDATE",
+      "pathwayVerification": "REQUIRED",
+      "contentEquivalenceReview": "REQUIRED",
+      "reason": "Existing COPD Cram includes inhaler technique, smoking cessation, vaccination, pulmonary rehabilitation and early exacerbation reporting, but the full source row must be reviewed for home-care content not represented in the acute-focused Cram."
+    },
+    {
+      "sourceLessonSlug": "hypokalemia-symptoms",
+      "auditFamily": "PN-015-cram-safety-gap",
+      "candidateCramIds": ["nclex-pn-us-electrolyte-002-hypokalemia"],
+      "candidateDisposition": "ONE_TO_ONE_CANDIDATE",
+      "pathwayVerification": "REQUIRED",
+      "contentEquivalenceReview": "REQUIRED",
+      "reason": "Existing Cram covers muscle/GI/rhythm manifestations, causes, magnesium, replacement safety, digoxin risk and no-IV-push potassium."
+    },
+    {
+      "sourceLessonSlug": "insulin-administration-checks",
+      "auditFamily": "PN-013-pharmacology-element-gap",
+      "candidateCramIds": ["nclex-pn-us-pharm-096-insulin-mixing-timing"],
+      "candidateDisposition": "ONE_TO_ONE_CANDIDATE",
+      "pathwayVerification": "REQUIRED",
+      "contentEquivalenceReview": "REQUIRED",
+      "reason": "New administration-focused Cram covers product/concentration verification, glucose context, meal timing, mixing rules, pen safety and hypoglycemia escalation."
+    },
+    {
+      "sourceLessonSlug": "oral-hypoglycemics",
+      "auditFamily": "PN-013-pharmacology-element-gap",
+      "candidateCramIds": [
+        "nclex-pn-us-pharm-016-metformin",
+        "nclex-pn-us-pharm-017-sulfonylureas",
+        "nclex-pn-us-pharm-051-sglt2-inhibitors",
+        "nclex-pn-us-pharm-052-glp1-agonists"
+      ],
+      "candidateDisposition": "COMPOSITE_SOURCE_NEEDS_REVIEW",
+      "pathwayVerification": "REQUIRED",
+      "contentEquivalenceReview": "REQUIRED",
+      "reason": "The audited slug is a broad class lesson. Multiple class-specific Cram objects exist; source-row review must determine whether one composite Cram or several linked Cram lessons best preserves the full lesson."
+    },
+    {
+      "sourceLessonSlug": "antibiotic-side-effect-reporting",
+      "auditFamily": "PN-013-pharmacology-element-gap",
+      "candidateCramIds": [
+        "nclex-pn-us-pharm-015-antibiotic-anaphylaxis",
+        "nclex-pn-us-pharm-041-beta-lactams",
+        "nclex-pn-us-pharm-042-azithromycin",
+        "nclex-pn-us-pharm-043-doxycycline",
+        "nclex-pn-us-pharm-044-fluoroquinolones",
+        "nclex-pn-us-pharm-061-linezolid"
+      ],
+      "candidateDisposition": "COMPOSITE_SOURCE_NEEDS_REVIEW",
+      "pathwayVerification": "REQUIRED",
+      "contentEquivalenceReview": "REQUIRED",
+      "reason": "The audited source slug is broad and cannot be safely collapsed onto one drug class without reviewing which adverse effects and reporting cues its full lesson actually teaches."
+    },
+    {
+      "sourceLessonSlug": "inhaler-technique-teaching",
+      "auditFamily": "PN-015-cram-safety-gap",
+      "candidateCramIds": [
+        "nclex-pn-us-pharm-045-albuterol",
+        "nclex-pn-us-pharm-046-inhaled-corticosteroids"
+      ],
+      "candidateDisposition": "DEDICATED_TECHNIQUE_CRAM_PREFERRED",
+      "pathwayVerification": "REQUIRED",
+      "contentEquivalenceReview": "REQUIRED",
+      "reason": "Drug-specific Cram lessons contain technique teaching, but the audited source appears technique-centered; a dedicated inhaler/spacer Cram may be required after source review."
+    },
+    {
+      "sourceLessonSlug": "i-o-fluid-restriction-teaching",
+      "auditFamily": "PN-015-cram-safety-gap",
+      "candidateCramIds": [],
+      "candidateDisposition": "MISSING_DEDICATED_CRAM",
+      "pathwayVerification": "REQUIRED",
+      "contentEquivalenceReview": "PENDING_SOURCE_REVIEW",
+      "reason": "Existing SIADH, heart-failure and renal Cram lessons contain portions of this teaching, but no dedicated intake/output and fluid-restriction teaching Cram has been established."
+    },
+    {
+      "sourceLessonSlug": "therapeutic-communication",
+      "auditFamily": "PN-015-cram-safety-gap",
+      "candidateCramIds": [],
+      "candidateDisposition": "MISSING_DEDICATED_CRAM",
+      "pathwayVerification": "REQUIRED",
+      "contentEquivalenceReview": "PENDING_SOURCE_REVIEW",
+      "reason": "No dedicated therapeutic-communication Cram object exists in the authored library."
+    },
+    {
+      "sourceLessonSlug": "documentation-do-nots",
+      "auditFamily": "PN-015-cram-safety-gap",
+      "candidateCramIds": [],
+      "candidateDisposition": "MISSING_DEDICATED_CRAM",
+      "pathwayVerification": "REQUIRED",
+      "contentEquivalenceReview": "PENDING_SOURCE_REVIEW",
+      "reason": "Incident-reporting content exists, but it is not equivalent to a dedicated documentation-safety lesson."
+    }
+  ]
+}
