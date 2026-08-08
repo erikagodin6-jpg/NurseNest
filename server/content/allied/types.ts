@@ -50,20 +50,45 @@ export interface AuthoredAlliedLesson {
   status: "published";
 }
 
+export interface AuthoredAlliedOption {
+  id: string;
+  label: string;
+  text: string;
+}
+
+/**
+ * Source authoring remains backward compatible during migration. The exported
+ * Allied estate is normalized before seeding so persisted questions use the
+ * canonical stable-id contract.
+ */
 export interface AuthoredAlliedQuestion {
   id: string;
   careerType: string;
   examTag: string;
   regionScope: AlliedRegionScope;
+  countryCode?: string;
+  languageCode?: string;
+  licensingBody?: string;
   category: string;
   topic: string;
   stem: string;
-  options: string[];
+  options: Array<string | AuthoredAlliedOption>;
   correctIndex: number;
+  correctAnswer?: string;
   rationale: string;
   correctAnswerExplanation: string;
   distractorRationales: Record<string, string>;
+  hint?: string;
+  whyThisMatters?: string;
   clinicalPearl: string;
+  mnemonic?: string;
+  unitSystemSupport?: { supported: Array<"SI" | "CONV">; default: "SI" | "CONV" };
+  unitVariants?: Array<{
+    token: string;
+    quantity: string;
+    si: { value: number | string; unit: string; display: string };
+    conv: { value: number | string; unit: string; display: string };
+  }>;
   difficulty: 1 | 2 | 3 | 4;
   cognitiveLevel: "understanding" | "application" | "analysis";
   tags: string[];
