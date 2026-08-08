@@ -20,7 +20,7 @@ export type QuestionContractInput = {
   hint?: unknown; examStrategy?: unknown; exam_strategy?: unknown;
   whyThisMatters?: unknown; why_this_matters?: unknown; keyTakeaway?: unknown; key_takeaway?: unknown;
   clinicalPearl?: unknown; clinical_pearl?: unknown; mnemonic?: unknown; memoryHook?: unknown; memory_hook?: unknown;
-  countryCode?: unknown; country_code?: unknown; regionScope?: unknown; region_scope?: unknown;
+  countryCode?: unknown; country_code?: unknown; countryLabels?: unknown; country_labels?: unknown; regionScope?: unknown; region_scope?: unknown;
   licensingBody?: unknown; licensing_body?: unknown; languageCode?: unknown; language_code?: unknown;
   unitSystemSupport?: unknown; unit_system_support?: unknown; unitVariants?: unknown; unit_variants?: unknown; labUnitVariant?: unknown; lab_unit_variant?: unknown;
   tags?: unknown; bodySystem?: unknown; body_system?: unknown; topic?: unknown; difficulty?: unknown;
@@ -86,6 +86,10 @@ function normalizeUnitSupport(data:QuestionContractInput):{support:string[];vari
   else if(typeof supportRaw==="string")support=supportRaw.split(/[|,\/]/).map(v=>v.trim().toUpperCase()).filter(Boolean);
   return{support,variants:Array.isArray(variantsRaw)?variantsRaw as UnitVariant[]:[]};
 }
+function countryLabels(data:QuestionContractInput):string[]{
+  const raw=parseJson(pick(data,"countryLabels","country_labels"));
+  return Array.isArray(raw)?raw.map(String).map(v=>v.trim()).filter(Boolean):[];
+}
 function normalizedOptionText(value:string):string{return value.toLowerCase().replace(/\s+/g," ").replace(/[.!?,;:]+$/g,"").trim();}
 function interactionPayload(data:QuestionContractInput):unknown{return pick(data,"interactionPayload","interaction_payload","ngnPayload","ngn_payload","exhibitData","exhibit_data","payload");}
 function textFromUnknown(value:unknown):string{
@@ -98,6 +102,7 @@ export function auditQuestionPublicationContract(data:QuestionContractInput):Que
   const add=(code:string,field:string,severity:"blocking"|"quality",detail:string)=>issues.push({code,field,severity,detail});
 
   const id=text(data.id); if(!id||!ID_PATTERN.test(id))add("unstable_question_id","id","blocking","Question requires a persistent stable id; array position or transient labels are not acceptable identifiers.");
+  if(!substantive(data.tier,2))add("missing_tier","tier","blocking","Serving tier/role is required.");
   const canonicalType=canonicalQuestionType(pick(data,"questionType","question_type"));
   if(!canonicalType){add("unsupported_question_type","question_type","blocking",`Question type ${String(pick(data,"questionType","question_type")||"<missing>")} is not in the certified renderer contract.`);}
 
@@ -130,8 +135,11 @@ export function auditQuestionPublicationContract(data:QuestionContractInput):Que
   if(!substantive(data.rationale,40))add("missing_rationale","rationale","blocking","Overall teaching rationale is missing or too weak.");
   if(!substantive(pick(data,"correctAnswerExplanation","correct_answer_explanation"),24))add("missing_correct_answer_explanation","correct_answer_explanation","blocking","Correct answer explanation is required.");
 
-  const countryCode=text(pick(data,"countryCode","country_code")).toUpperCase(); const regionScope=text(pick(data,"regionScope","region_scope")).toUpperCase();
+  const countryCode=text(pick(data,"countryCode","country_code")).toUpperCase();
+  const regionScope=text(pick(data,"regionScope","region_scope")).toUpperCase();
+  const labels=countryLabels(data);
   if(!COUNTRY_PATTERN.test(countryCode)&&!["BOTH","GLOBAL","INTL"].includes(regionScope))add("missing_country_scope","country_code","blocking","Question requires an explicit country code or an explicit global/both region scope.");
+  if(regionScope==="BOTH"&&!COUNTRY_PATTERN.test(countryCode)&&labels.length<2)add("missing_country_labels","country_labels","blocking","BOTH/multi-country content must name the supported countries so jurisdiction rendering is explicit.");
   if(!substantive(data.exam,2))add("missing_exam","exam","blocking","Exam/pathway label is required.");
   if(!substantive(pick(data,"licensingBody","licensing_body"),2)&&!["GLOBAL","INTL"].includes(regionScope))add("missing_licensing_body","licensing_body","quality","Licensing/certification body should be explicit when the pathway has one.");
   if(!substantive(pick(data,"languageCode","language_code"),2))add("missing_language_code","language_code","blocking","Language code is required for localization, spelling, and jurisdiction-safe rendering.");
