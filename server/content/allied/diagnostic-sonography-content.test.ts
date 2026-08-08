@@ -5,26 +5,28 @@ import {
   DIAGNOSTIC_SONOGRAPHY_PROGRAM_TARGETS,
   diagnosticSonographyTopics10,
 } from "./topics-10-diagnostic-sonography";
+import { diagnosticSonographyAbdominalTopics11 } from "./topics-11-diagnostic-sonography-abdominal";
 
-const lessons = materializeAlliedLessons(diagnosticSonographyTopics10);
-const questions = materializeAlliedQuestions(diagnosticSonographyTopics10).map(
+const topics = [...diagnosticSonographyTopics10, ...diagnosticSonographyAbdominalTopics11];
+const lessons = materializeAlliedLessons(topics);
+const questions = materializeAlliedQuestions(topics).map(
   normalizeAlliedAuthoredQuestion,
 );
 
 describe("diagnostic medical sonography authored expansion", () => {
   it("materializes the first ten canonical topics into fifty lessons", () => {
-    expect(diagnosticSonographyTopics10).toHaveLength(10);
-    expect(lessons).toHaveLength(50);
-    expect(new Set(lessons.map((lesson) => lesson.id)).size).toBe(50);
-    expect(new Set(lessons.map((lesson) => lesson.slug)).size).toBe(50);
+    expect(topics).toHaveLength(20);
+    expect(lessons).toHaveLength(100);
+    expect(new Set(lessons.map((lesson) => lesson.id)).size).toBe(100);
+    expect(new Set(lessons.map((lesson) => lesson.slug)).size).toBe(100);
   });
 
   it("provides one hundred questions for every topic", () => {
-    expect(questions).toHaveLength(1_000);
-    expect(new Set(questions.map((question) => question.id)).size).toBe(1_000);
-    expect(new Set(questions.map((question) => question.stem)).size).toBe(1_000);
+    expect(questions).toHaveLength(2_000);
+    expect(new Set(questions.map((question) => question.id)).size).toBe(2_000);
+    expect(new Set(questions.map((question) => question.stem)).size).toBe(2_000);
 
-    for (const topic of diagnosticSonographyTopics10) {
+    for (const topic of topics) {
       expect(questions.filter((question) => question.topic === topic.topic)).toHaveLength(100);
     }
   });
@@ -41,7 +43,7 @@ describe("diagnostic medical sonography authored expansion", () => {
       expect(question.whyThisMatters.length).toBeGreaterThan(20);
       expect(question.clinicalPearl.length).toBeGreaterThan(100);
       expect(question.languageCode).toBe("en");
-      expect(question.licensingBody).toBe("ARDMS SPI | Sonography Canada Generalist");
+      expect(question.licensingBody).toMatch(/ARDMS/);
       expect(question.difficulty).toBeGreaterThanOrEqual(1);
       expect(question.difficulty).toBeLessThanOrEqual(4);
     }
