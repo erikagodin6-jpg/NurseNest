@@ -73,6 +73,7 @@ export type QuestionContractIssue = {
 const PLACEHOLDER = /^(?:tbd|todo|placeholder|n\/?a|none|coming soon|rationale here|add rationale|see rationale|explanation|to be added|to be determined|not available|-+|\.+)$/i;
 const ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._:-]{2,}$/;
 const COUNTRY_PATTERN = /^[A-Z]{2,3}$/;
+const SINGLE_ANSWER_TYPES = new Set(["MCQ", "MULTIPLE_CHOICE", "MULTIPLE-CHOICE", "SINGLE_CHOICE", "SINGLE-CHOICE"]);
 
 function parseJson(value: unknown): unknown {
   if (typeof value !== "string") return value;
@@ -102,7 +103,6 @@ function normalizeOptions(raw: unknown): CanonicalOption[] {
   const parsed = parseJson(raw);
   if (!Array.isArray(parsed)) return [];
   return parsed.map((option, index) => {
-    const fallbackId = `opt-${index + 1}`;
     if (typeof option === "string" || typeof option === "number") {
       return { id: "", text: String(option).trim(), label: String.fromCharCode(65 + index) };
     }
@@ -135,6 +135,8 @@ function resolveAnswerIds(raw: unknown, options: CanonicalOption[]): Set<string>
     if (!value) continue;
     const byId = options.find(option => option.id && option.id.toLowerCase() === value.toLowerCase());
     if (byId) { ids.add(byId.id); continue; }
+    const byLabel = options.find(option => option.label?.toLowerCase() === value.toLowerCase());
+    if (byLabel?.id) { ids.add(byLabel.id); continue; }
     const byText = options.find(option => option.text.toLowerCase() === value.toLowerCase());
     if (byText?.id) { ids.add(byText.id); continue; }
     const numeric = Number(value);
@@ -168,9 +170,16 @@ function normalizeUnitSupport(data: QuestionContractInput): { support: string[];
   const variantsRaw = parseJson(pick(data, "unitVariants", "unit_variants"));
   let support: string[] = [];
   if (Array.isArray(supportRaw)) support = supportRaw.map(String).map(v => v.toUpperCase());
-  else if (typeof supportRaw === "string") support = supportRaw.split(/[|,\/]/).map(v => v.trim().toUpperCase()).filter(Boolean);
+  else if (supportRaw && typeof supportRaw === "object") {
+    const supported = (supportRaw as JsonRecord).supported;
+    if (Array.isArray(supported)) support = supported.map(String).map(v => v.toUpperCase());
+  } else if (typeof supportRaw === "string") support = supportRaw.split(/[|,\/]/).map(v => v.trim().toUpperCase()).filter(Boolean);
   const variants = Array.isArray(variantsRaw) ? variantsRaw as UnitVariant[] : [];
   return { support, variants };
+}
+
+function normalizedOptionText(value: string): string {
+  return value.toLowerCase().replace(/\s+/g, " ").replace(/[.!?,;:]+$/g, "").trim();
 }
 
 export function auditQuestionPublicationContract(data: QuestionContractInput): QuestionContractIssue[] {
@@ -180,16 +189,21 @@ export function auditQuestionPublicationContract(data: QuestionContractInput): Q
   const id = text(data.id);
   if (!id || !ID_PATTERN.test(id)) add("unstable_question_id", "id", "blocking", "Question requires a persistent stable id; array position or transient labels are not acceptable identifiers.");
 
+  const questionType = text(pick(data, "questionType", "question_type")).toUpperCase();
   const options = normalizeOptions(data.options);
   if (options.length < 2) add("invalid_options", "options", "blocking", "Question has fewer than two renderable options.");
+  if (SINGLE_ANSWER_TYPES.has(questionType) && options.length < 4) add("insufficient_mcq_distractors", "options", "blocking", "Single-answer MCQs require at least four options so the item has three real distractors.");
   const optionIds = options.map(option => option.id).filter(Boolean);
   if (options.some(option => !option.id)) add("missing_option_ids", "options[].id", "blocking", "Every answer option requires a stable option id so shuffle order cannot affect grading or rationale lookup.");
   if (new Set(optionIds).size !== optionIds.length) add("duplicate_option_ids", "options[].id", "blocking", "Option ids must be unique within the question.");
   if (options.some(option => !substantive(option.text, 1))) add("empty_option_text", "options[].text", "blocking", "Every option requires display text.");
+  const optionTexts = options.map(option => normalizedOptionText(option.text)).filter(Boolean);
+  if (new Set(optionTexts).size !== optionTexts.length) add("duplicate_distractor_text", "options[].text", "blocking", "Answer options must be textually distinct; duplicate distractors are not valid assessment content.");
 
   const answerRaw = pick(data, "correctAnswer", "correct_answer");
   const correctIds = resolveAnswerIds(answerRaw, options);
   if (options.length > 0 && correctIds.size === 0) add("unstable_or_unresolved_answer_contract", "correct_answer", "blocking", "Correct answer must resolve to stable option ids; labels/indexes may be accepted only for legacy migration, not the canonical stored contract.");
+  if (SINGLE_ANSWER_TYPES.has(questionType) && correctIds.size !== 1) add("invalid_single_answer_cardinality", "correct_answer", "blocking", "Single-answer MCQs require exactly one keyed option ID.");
 
   if (!substantive(data.stem, 10)) add("missing_stem", "stem", "blocking", "Stem is missing or too short.");
   if (!substantive(data.rationale, 40)) add("missing_rationale", "rationale", "blocking", "Overall teaching rationale is missing or too weak.");
@@ -208,14 +222,16 @@ export function auditQuestionPublicationContract(data: QuestionContractInput): Q
     add("missing_country_scope", "country_code", "blocking", "Question requires an explicit country code or an explicit global/both region scope.");
   }
   if (!substantive(data.exam, 2)) add("missing_exam", "exam", "blocking", "Exam/pathway label is required.");
-  if (!substantive(pick(data, "licensingBody", "licensing_body"), 2)) add("missing_licensing_body", "licensing_body", "quality", "Licensing/certification body should be explicit where the pathway has one.");
-  if (!substantive(pick(data, "languageCode", "language_code"), 2)) add("missing_language_code", "language_code", "quality", "Language code should be explicit for localization and spelling rules.");
+  if (!substantive(pick(data, "licensingBody", "licensing_body"), 2) && !["GLOBAL", "INTL"].includes(regionScope)) {
+    add("missing_licensing_body", "licensing_body", "quality", "Licensing/certification body should be explicit when the pathway has one.");
+  }
+  if (!substantive(pick(data, "languageCode", "language_code"), 2)) add("missing_language_code", "language_code", "blocking", "Language code is required for localization, spelling, and jurisdiction-safe rendering.");
 
   const hint = pick(data, "hint", "examStrategy", "exam_strategy");
-  if (!substantive(hint, 12)) add("missing_hint", "hint", "quality", "A concise learner hint/exam strategy is required for tutor mode.");
+  if (!substantive(hint, 12)) add("missing_hint", "hint", "blocking", "A concise learner hint/exam strategy is required for tutor mode.");
   const why = pick(data, "whyThisMatters", "why_this_matters", "keyTakeaway", "key_takeaway");
-  if (!substantive(why, 20)) add("missing_why_this_matters", "why_this_matters", "quality", "Why This Matters should connect the item to clinical or professional significance.");
-  if (!substantive(pick(data, "clinicalPearl", "clinical_pearl"), 12)) add("missing_clinical_pearl", "clinical_pearl", "quality", "High-yield clinical/exam pearl is missing.");
+  if (!substantive(why, 20)) add("missing_why_this_matters", "why_this_matters", "blocking", "Why This Matters must connect the item to clinical or professional significance.");
+  if (!substantive(pick(data, "clinicalPearl", "clinical_pearl"), 12)) add("missing_clinical_pearl", "clinical_pearl", "blocking", "A high-yield clinical/exam pearl is required.");
 
   const mnemonic = pick(data, "mnemonic", "memoryHook", "memory_hook");
   if (mnemonic !== undefined && mnemonic !== null && text(mnemonic) && !substantive(mnemonic, 6)) {
@@ -230,13 +246,19 @@ export function auditQuestionPublicationContract(data: QuestionContractInput): Q
   if (!Number.isInteger(difficulty) || difficulty < 1 || difficulty > 4) add("invalid_difficulty", "difficulty", "blocking", "Difficulty must be an integer from 1 through 4.");
 
   const combinedText = [text(data.stem), ...options.map(option => option.text)].join(" ");
-  const looksConvertible = /\b(?:mg\/dL|mmol\/L|mEq\/L|mmHg|°F|°C|lb|kg|inches?|cm|feet|meters?|mL|L)\b/i.test(combinedText);
+  // Only require paired renderings for quantities whose displayed value/unit actually changes between SI and conventional systems.
+  const looksConvertible = /(?:\bmg\/dL\b|\bmmol\/L\b|°F|°C|\blb\b|\bkg\b|\binches?\b|\bcm\b|\bfeet\b|\bft\b|\bmeters?\b)/i.test(combinedText);
   const { support, variants } = normalizeUnitSupport(data);
   if (looksConvertible) {
     const hasSI = support.includes("SI") || variants.some(v => v?.si?.display);
     const hasConv = support.includes("CONV") || support.includes("CONVENTIONAL") || variants.some(v => v?.conv?.display);
     if (!hasSI || !hasConv) add("missing_si_conv_support", "unit_system_support", "blocking", "Questions containing convertible measurements require both SI and conventional renderings.");
     if (variants.length === 0) add("missing_unit_variants", "unit_variants", "blocking", "Convertible values require structured SI/CONV variants tied to one semantic token so unit switching cannot change grading.");
+    for (const [index, variant] of variants.entries()) {
+      if (!substantive(variant?.token, 2) || !substantive(variant?.quantity, 2) || !substantive(variant?.si?.display, 2) || !substantive(variant?.conv?.display, 2)) {
+        add("malformed_unit_variant", `unit_variants[${index}]`, "blocking", "Every unit variant needs a stable token, quantity, SI display, and conventional display.");
+      }
+    }
   }
 
   return issues;
