@@ -5,6 +5,7 @@ import { alliedTopics03 } from "./topics-03-imaging-sonography";
 import { alliedTopics04 } from "./topics-04-rehab-surgical";
 import { alliedTopics05 } from "./topics-05-behavioral-him";
 import { alliedTopics06 } from "./topics-06-advanced-supported-careers";
+import { alliedTopics07 } from "./topics-07-deepening-supported-careers";
 
 export const alliedAuthoredTopics = [
   ...alliedTopics01,
@@ -13,17 +14,18 @@ export const alliedAuthoredTopics = [
   ...alliedTopics04,
   ...alliedTopics05,
   ...alliedTopics06,
+  ...alliedTopics07,
 ];
 
 export const alliedAuthoredLessons = materializeAlliedLessons(alliedAuthoredTopics);
 export const alliedAuthoredQuestions = materializeAlliedQuestions(alliedAuthoredTopics);
 
 export const ALLIED_AUTHORED_TARGETS = Object.freeze({
-  minimumTopics: 126,
+  minimumTopics: 154,
   lessonsPerTopic: 5,
-  minimumLessons: 630,
+  minimumLessons: 770,
   questionsPerTopic: 100,
-  minimumQuestions: 12_600,
+  minimumQuestions: 15_400,
 });
 
 function countBy<T>(rows: T[], getKey: (row: T) => string): Map<string, number> {
