@@ -4,8 +4,8 @@
   "exam": "Canadian Nurse Practitioner Licensure Exam (CNPLE)",
   "locale": "CA",
   "level": "Nurse Practitioner",
-  "authoringStatus": "COMPREHENSIVE_ENTRY_LEVEL_AUDITED_V2",
-  "sourceRefreshDate": "2026-08-07",
+  "authoringStatus": "COMPREHENSIVE_TOPIC_BASELINE_AUDITED_FULL_LESSON_PARITY_IN_PROGRESS",
+  "sourceRefreshDate": "2026-08-08",
   "rawLessonObjects": 385,
   "uniqueLessonIds": 385,
   "explicitCanonicalSupersessions": 8,
@@ -175,14 +175,23 @@
     "COMPREHENSIVE_COVERAGE_AUDIT_V2.md",
     "SOURCE_REFRESH_LEDGER_V2.md"
   ],
+  "fullLessonParity": {
+    "status": "IN_PROGRESS",
+    "authoringCanonicalTopicPathways": 377,
+    "currentSearchIndexLessonCountObserved": 1979,
+    "currentSearchIndexManifest": "nursenest-core/src/content/lessons/search-index/ca-np-cnple.manifest.json",
+    "rule": "Completion requires every current canonical public-complete ca-np-cnple Full lesson to resolve to exactly one reviewed Cram lesson/recipe; topic breadth alone is not completion.",
+    "note": "The search-index lesson count is an independent scale check, not yet the canonical parity denominator. The private-core reverse-coverage audit will remove deprecated, redirected and non-public-complete records before calculating the final denominator."
+  },
   "publication": {
-    "clinicalAuthoringComplete": true,
-    "comprehensiveEntryLevelCoverageComplete": true,
-    "secondPassClinicalAuditComplete": true,
-    "structuralJsonValidationComplete": true,
+    "clinicalTopicBaselineComplete": true,
+    "comprehensiveEntryLevelTopicBreadthAudited": true,
+    "fullLessonCramParityComplete": false,
+    "secondPassClinicalAuditCompleteForExisting385": true,
+    "structuralJsonValidationCompleteForExisting385": true,
     "rendererMappingComplete": false,
     "productionMerged": false,
     "productionDeployed": false,
-    "note": "Clinical authoring and audit are complete for comprehensive Canadian entry-level CNPLE scope. Renderer mapping, production merge and deployment are separate release work and must preserve canonical overrides and clinical semantics."
+    "note": "The 385-object library is an audited comprehensive topic baseline, not complete Full-lesson parity. CNPLE Cram authoring remains open until the current canonical Full-lesson reverse-coverage audit reaches 100%, all weak Full sources are remediated, all Cram mappings/anchors/Quick Checks certify, and the learner runtime is verified."
   }
 }
