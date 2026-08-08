@@ -1,0 +1,57 @@
+[
+  {
+    "id": "cnple-ca-endo-025-primary-hyperparathyroidism",
+    "title": "Primary Hyperparathyroidism: Confirm PTH-Dependent Hypercalcemia",
+    "system": "Endocrine / Renal / Musculoskeletal",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling"],
+    "lifespan": ["adult", "older adult"],
+    "acuity": "mixed",
+    "bottomLine": "Primary hyperparathyroidism is a common cause of persistent PTH-dependent hypercalcemia. Confirm that hypercalcemia is real and persistent, interpret PTH as inappropriate when it is elevated or not suppressed despite high calcium, assess kidney and skeletal complications, and refer patients meeting surgical criteria rather than treating the calcium value in isolation.",
+    "recognize": [
+      "Many patients are asymptomatic and are identified through incidental hypercalcemia; symptomatic disease can cause nephrolithiasis, bone loss or fragility fracture, polyuria, constipation, weakness, neurocognitive symptoms or more severe hypercalcemic illness.",
+      "A PTH concentration within the laboratory reference range can still be physiologically abnormal if calcium is elevated, because normal parathyroid glands should suppress PTH in hypercalcemia."
+    ],
+    "differentiate": [
+      "Malignancy-associated hypercalcemia usually suppresses PTH and requires a different urgent workup.",
+      "Familial hypocalciuric hypercalcemia can mimic mild primary hyperparathyroidism and is suggested by lifelong/family hypercalcemia and low urinary calcium excretion; unnecessary parathyroid surgery should be avoided.",
+      "Thiazides, lithium, dehydration and excessive calcium/vitamin D exposure can contribute to hypercalcemia and must be included in medication review."
+    ],
+    "assessment": [
+      "Review kidney stones, fractures, height loss, osteoporosis risk, renal impairment, neurocognitive or GI symptoms, family history, lithium/thiazide use, supplements and prior calcium values.",
+      "Assess hydration and acute hypercalcemia severity when calcium is markedly elevated or symptoms are significant."
+    ],
+    "workup": [
+      "Repeat/confirm calcium using an appropriate corrected or ionized measurement when needed and obtain PTH; assess creatinine/eGFR, phosphate and vitamin D as clinically appropriate.",
+      "Evaluate skeletal disease with bone-density assessment and vertebral/fracture history, and assess renal involvement with stone history/imaging and urine calcium when indicated.",
+      "Use urine calcium-based evaluation when familial hypocalciuric hypercalcemia is a meaningful alternative before committing to surgery."
+    ],
+    "management": [
+      "Parathyroidectomy is definitive treatment for appropriate patients with symptomatic disease or guideline-defined skeletal, renal, age or biochemical indications; coordinate endocrinology/surgical referral rather than using indefinite observation when criteria are met.",
+      "Patients managed nonoperatively need longitudinal calcium, kidney and skeletal surveillance and should avoid dehydration and inappropriate calcium restriction.",
+      "Severe symptomatic hypercalcemia is an acute-care problem requiring IV volume restoration and cause-directed emergency management."
+    ],
+    "medicationSafety": [
+      "Do not reflexively stop all dietary calcium; inadequate calcium intake can worsen bone health and stimulate PTH. Calcium and vitamin D advice should be individualized, particularly because parathyroid disorders were excluded from broad 2026 supplementation trials.",
+      "Review thiazides, lithium and high-dose calcium/vitamin D supplements as potential contributors; medication changes should balance their original indications and the hypercalcemia workup."
+    ],
+    "redFlags": [
+      "Marked symptomatic hypercalcemia with dehydration, vomiting or altered mental status",
+      "Acute kidney injury",
+      "Arrhythmia or severe weakness",
+      "Recurrent nephrolithiasis or declining renal function",
+      "Fragility fracture or severe skeletal disease"
+    ],
+    "counselling": [
+      "Explain that primary hyperparathyroidism can damage bone and kidneys even when symptoms are subtle, and that surgery is selected by complication/risk criteria rather than by symptoms alone.",
+      "Encourage adequate hydration and individualized dietary calcium/vitamin D planning rather than unsupervised supplement escalation or severe restriction."
+    ],
+    "followUp": [
+      "If surgery is deferred, monitor serum calcium, renal function and skeletal status at intervals appropriate to disease severity and current specialist guidance; reconsider surgery if complications or progression develop."
+    ],
+    "examTrap": "Calling an elevated calcium 'mild and asymptomatic' and stopping the workup without checking PTH, renal stones/function and skeletal complications—or assuming a laboratory-normal PTH is normal physiology during hypercalcemia.",
+    "oneLinePearl": "High calcium should suppress PTH; if PTH stays up, think PTH-dependent hypercalcemia.",
+    "sourceBasis": ["Osteoporosis Canada secondary osteoporosis and fracture-risk resources", "Osteoporosis Canada 2026 calcium and vitamin D position statement", "Canadian endocrinology/metabolic bone practice"],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  }
+]
