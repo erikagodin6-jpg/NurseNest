@@ -2,11 +2,11 @@
 
 QA date: 2026-08-08
 Branch: `content/us-pn-cram-authoring-20260807`
-Status: ACTIVE AUTHORING — 324 authored Cram lessons; U.S. serving-row reconciliation remains in progress.
+Status: ACTIVE AUTHORING — 344 authored Cram lessons; U.S. serving-row reconciliation remains in progress.
 
 ## Coverage QA
 
-The current library contains 324 distinct Cram lessons aligned to entry-level U.S. practical nursing and the 2026 NCLEX-PN test plan. It spans all NCLEX-PN Client Needs categories and a broad set of clinical systems, lifespan stages, medications, devices, safety problems, emergencies, coordinated-care decisions, medication-administration skills, therapeutic communication, documentation, fluid-balance teaching, obstetric pharmacology, antidotes/reversal agents, parenteral electrolyte safety, and high-alert monitored infusions.
+The current library contains 344 distinct Cram lessons aligned to entry-level U.S. practical nursing and the 2026 NCLEX-PN test plan. It spans all NCLEX-PN Client Needs categories and a broad set of clinical systems, lifespan stages, medications, devices, safety problems, emergencies, coordinated-care decisions, medication-administration skills, therapeutic communication, documentation, fluid-balance teaching, obstetric pharmacology, antidotes/reversal agents, parenteral electrolyte safety, high-alert monitored infusions, CKD/mineral-bone pharmacology, potassium binders, BPH/urinary-retention medications, overactive-bladder therapy, stone-prevention pharmacology, and UTI symptom/treatment distinctions.
 
 This is not yet a 100% full-lesson-to-Cram coverage claim. Completion requires reconciliation against the actual serving U.S. `us-lpn-nclex-pn` lesson pool and authoring every remaining applicable gap.
 
@@ -39,9 +39,15 @@ New direct-remediation lessons may carry `sourceLessonSlugCandidate` and `lineag
 
 ## High-alert infusion QA
 
-The newest high-alert infusion lessons are deliberately framed around monitoring, safe implementation, recognition of adverse effects, and immediate escalation. They do not imply that a U.S. LPN/LVN universally has authority to initiate or independently titrate thrombolytics, vasoactive drips, propofol, dexmedetomidine, insulin infusions, heparin infusions, hypertonic saline, or other critical-care infusions. Those lessons carry `statePolicyCheck: true` where scope is facility/state dependent.
+The high-alert infusion lessons are deliberately framed around monitoring, safe implementation, recognition of adverse effects, and immediate escalation. They do not imply that a U.S. LPN/LVN universally has authority to initiate or independently titrate thrombolytics, vasoactive drips, propofol, dexmedetomidine, insulin infusions, heparin infusions, hypertonic saline, or other critical-care infusions. Those lessons carry `statePolicyCheck: true` where scope is facility/state dependent.
 
-High-change/current-source checks in this tranche include current 2026 U.S. labeling for alteplase, tenecteplase, sodium nitroprusside, nicardipine, dexmedetomidine, propofol, vasopressin, phenylephrine, esmolol, diltiazem, heparin, magnesium sulfate, sodium/potassium phosphates, and related infusion products.
+High-change/current-source checks in these tranches include current 2026 U.S. labeling for alteplase, tenecteplase, sodium nitroprusside, nicardipine, dexmedetomidine, propofol, vasopressin, phenylephrine, esmolol, diltiazem, heparin, magnesium sulfate, sodium/potassium phosphates, and related infusion products.
+
+## Renal and urology pharmacology QA
+
+The newest renal/metabolic and urology batches preserve drug-specific mechanisms and decision points rather than collapsing medications into generic kidney-drug summaries. Potassium binders are explicitly separated from emergency hyperkalemia rescue; desmopressin centers fluid balance and hyponatremia risk; CKD mineral-bone drugs require calcium/phosphorus/PTH-aware monitoring; BPH and bladder drugs distinguish orthostasis, retention, anticholinergic, blood-pressure, and obstruction risks; and urinary symptom-relief therapy is not presented as definitive infection treatment.
+
+The newest lessons also preserve medication-reconciliation and interaction context where it materially changes safety, including lithium with thiazides, digitalis with calcium abnormalities, oral-drug timing with phosphate/potassium binders, and potassium-raising combinations in renal disease.
 
 ## PN/LVN cognitive and scope QA
 
@@ -140,7 +146,7 @@ Authoring completion is reached only when `MISSING_CRAM = 0` and no unexplained 
 
 ## Publication checkpoint
 
-Clinical authored baseline: 324 lessons — COMPLETE as a baseline only.
+Clinical authored baseline: 344 lessons — COMPLETE as a baseline only.
 
 Still required before declaring the U.S. PN Cram estate complete/live:
 
@@ -153,4 +159,4 @@ Still required before declaring the U.S. PN Cram estate complete/live:
 - learner-facing PN/US entitlement QA;
 - merge/release/deployment certification.
 
-Do not convert the 324-lesson count into a production-complete claim.
+Do not convert the 344-lesson count into a production-complete claim.
