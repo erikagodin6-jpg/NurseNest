@@ -1,4 +1,5 @@
 import { materializeAlliedLessons, materializeAlliedQuestions } from "./builders";
+import { normalizeAlliedAuthoredQuestion } from "./question-contract";
 import { alliedTopics01 } from "./topics-01-rrt-paramedic";
 import { alliedTopics02 } from "./topics-02-mlt-pharmacy";
 import { alliedTopics03 } from "./topics-03-imaging-sonography";
@@ -16,7 +17,7 @@ export const alliedAuthoredTopics = [
 ];
 
 export const alliedAuthoredLessons = materializeAlliedLessons(alliedAuthoredTopics);
-export const alliedAuthoredQuestions = materializeAlliedQuestions(alliedAuthoredTopics);
+export const alliedAuthoredQuestions = materializeAlliedQuestions(alliedAuthoredTopics).map(normalizeAlliedAuthoredQuestion);
 
 export const ALLIED_AUTHORED_TARGETS = Object.freeze({
   minimumTopics: 126,
