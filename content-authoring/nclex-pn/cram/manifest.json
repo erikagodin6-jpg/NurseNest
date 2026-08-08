@@ -7,7 +7,7 @@
   "level": "Practical Nurse / LPN / LVN",
   "authoringStatus": "ACTIVE_AUTHORING",
   "sourceRefreshDate": "2026-08-07",
-  "totalLessons": 150,
+  "totalLessons": 170,
   "files": [
     {"path": "01-safety-fundamentals-pharmacology.json", "lessons": 10},
     {"path": "02-cardiovascular-respiratory.json", "lessons": 9},
@@ -23,7 +23,9 @@
     {"path": "12-endocrine-acid-base.json", "lessons": 10},
     {"path": "13-cardiovascular-renal-depth.json", "lessons": 10},
     {"path": "14-gi-endocrine-depth.json", "lessons": 10},
-    {"path": "15-maternal-pediatric-depth.json", "lessons": 10}
+    {"path": "15-maternal-pediatric-depth.json", "lessons": 10},
+    {"path": "16-neuro-mental-health-depth.json", "lessons": 10},
+    {"path": "17-hematology-oncology-depth.json", "lessons": 10}
   ],
   "nclexPnClientNeedsCoverage": {
     "safeAndEffectiveCareEnvironment": {"coordinatedCare": true, "safetyAndInfectionControl": true},
@@ -38,7 +40,7 @@
     "defaultPattern": "recognize -> prioritize -> act safely -> monitor -> escalate/evaluate"
   },
   "majorClinicalCoverage": [
-    "safety and infection control", "fundamentals/basic care", "pharmacology and medication safety", "cardiovascular", "respiratory", "endocrine", "renal/urology", "neurologic", "gastrointestinal/hepatology", "maternity/postpartum", "newborn", "pediatrics", "mental health/substance withdrawal", "musculoskeletal", "integumentary/wound care", "infectious disease", "hematology", "oncology", "perioperative care", "sensory/HEENT", "gerontology", "coordinated care/delegation", "devices/lines/tubes", "nutrition", "reproductive/STI care", "prevention/screening/immunization", "interpersonal safety/forensic care", "shock/emergency care", "environmental emergencies", "fluids/electrolytes", "acid-base interpretation", "chronic cardiovascular disease", "chronic kidney and urologic care", "common GI disorders", "chronic diabetes and thyroid care", "maternal complications and fetal monitoring", "high-yield pediatric emergencies"
+    "safety and infection control", "fundamentals/basic care", "pharmacology and medication safety", "cardiovascular", "respiratory", "endocrine", "renal/urology", "neurologic", "gastrointestinal/hepatology", "maternity/postpartum", "newborn", "pediatrics", "mental health/substance withdrawal", "musculoskeletal", "integumentary/wound care", "infectious disease", "hematology", "oncology", "perioperative care", "sensory/HEENT", "gerontology", "coordinated care/delegation", "devices/lines/tubes", "nutrition", "reproductive/STI care", "prevention/screening/immunization", "interpersonal safety/forensic care", "shock/emergency care", "environmental emergencies", "fluids/electrolytes", "acid-base interpretation", "chronic cardiovascular disease", "chronic kidney and urologic care", "common GI disorders", "chronic diabetes and thyroid care", "maternal complications and fetal monitoring", "high-yield pediatric emergencies", "neuromuscular respiratory-risk disorders", "antipsychotic and serotonergic emergencies", "hematologic clotting disorders", "oncology metabolic and compressive emergencies"
   ],
   "usLocalizationRules": {
     "usGuidanceFirst": true,
@@ -67,6 +69,6 @@
     "rendererMappingComplete": false,
     "productionMerged": false,
     "productionDeployed": false,
-    "note": "The 150-lesson library is an authored clinical baseline. It must be reconciled against serving US/LVN_LPN lesson rows and mapped into Cram mode before production-complete claims are valid."
+    "note": "The 170-lesson library is an authored clinical baseline. It must be reconciled against serving US/LVN_LPN lesson rows and mapped into Cram mode before production-complete claims are valid."
   }
 }
