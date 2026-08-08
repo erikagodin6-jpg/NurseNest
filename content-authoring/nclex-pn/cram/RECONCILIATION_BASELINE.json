@@ -60,8 +60,10 @@
       ]
     }
   },
-  "authoredCramLibraryCheckpoint": 260,
+  "authoredCramLibraryCheckpoint": 324,
   "lineageStatus": "TOPIC_AUTHORED_NOT_YET_ROW_MAPPED",
+  "lineageCandidateFile": "LINEAGE_CANDIDATES.json",
+  "countedResolvedProductionRows": 0,
   "nextReconciliationStep": "Map each authored Cram object to a stable serving us-lpn-nclex-pn lesson identifier, classify each serving row as MATCHED, MISSING_CRAM, or NOT_APPLICABLE_TO_US_PN, and only decrement PN-013/PN-015 counts when that row-level mapping is proven.",
   "completionRule": "Do not infer production completion from authored lesson count. Completion requires zero unexplained MISSING_CRAM rows for the serving U.S. LPN/LVN pathway."
 }
