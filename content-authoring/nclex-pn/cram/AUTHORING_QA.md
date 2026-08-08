@@ -2,13 +2,20 @@
 
 QA date: 2026-08-07
 Branch: `content/us-pn-cram-authoring-20260807`
-Status: ACTIVE AUTHORING — 120-lesson clinical baseline authored; full serving-lesson reconciliation remains in progress.
+Status: ACTIVE AUTHORING — 220 authored Cram lessons; serving-row reconciliation and renderer mapping remain separate work.
 
 ## Coverage QA
 
-The current library contains 120 distinct Cram lessons aligned to entry-level U.S. practical nursing and the 2026 NCLEX-PN test plan. It spans all NCLEX-PN Client Needs categories and a broad set of clinical systems, lifespan stages, medications, devices, safety problems, emergencies, and coordinated-care decisions.
+The authored library now contains 220 distinct U.S. PN/LPN/LVN Cram lessons aligned to the 2026 NCLEX-PN Test Plan. Coverage spans every NCLEX-PN Client Needs area and all major practical-nursing clinical domains.
 
-This is not yet a 100% full-lesson-to-Cram coverage claim. Completion requires reconciliation against the actual serving U.S. `LVN_LPN` lesson pool and authoring every remaining applicable gap.
+The current authoring sequence is driven by measured production defects rather than arbitrary topic expansion. The 2026-08-05 practical-nursing audit measured:
+
+- `us-lpn-nclex-pn`: 1,177 learner-reachable full lessons after catalogue recovery;
+- PN Cram-derivable: 277 / 2,613 (10.6%);
+- `PN-015-cram-safety-gap`: 2,244 lessons across the PN family;
+- `PN-013-pharmacology-element-gap`: 320 lessons missing required medication teaching elements.
+
+The audit ranks PN-013 first because missing mechanism/indication/contraindication/interaction/administration safety is a higher immediate clinical-content risk than a lesson whose Cram mode simply fails closed to Full Lesson.
 
 ## PN/LVN cognitive and scope QA
 
@@ -23,6 +30,24 @@ Each lesson must:
 - avoid implying independent medical diagnosis, prescribing, or advanced-practice authority;
 - identify unstable or newly changing patients as requiring RN/provider/emergency escalation;
 - tag `statePolicyCheck: true` when LPN/LVN authority, IV therapy, medication administration, delegation, consent, mandatory reporting, public-health procedure, or other legal/operational rules vary by state or setting.
+
+## Pharmacology remediation QA
+
+The recent medication-specific Cram batches intentionally target the measured PN-013 defect family. Every pharmacology lesson must make the medication decision path explicit:
+
+1. what the drug/class does and why it is used;
+2. what the PN must assess before administration;
+3. what to monitor during therapy;
+4. common versus serious adverse effects;
+5. contraindication/precaution cues;
+6. clinically meaningful drug, food, or disease interactions;
+7. administration or timing safety where relevant;
+8. toxicity/overdose recognition and reversal when applicable;
+9. patient teaching;
+10. what requires holding, notifying, or emergency escalation;
+11. the PN/LVN scope boundary when IV titration, chemotherapy, vasoactive therapy, or other advanced administration varies by state/facility.
+
+Recent source refreshes use current U.S. FDA/DailyMed labeling and authoritative U.S. specialty guidance. High-change claims must be rechecked before publication rather than assumed stable from the authoring date.
 
 ## U.S. source hierarchy
 
@@ -95,28 +120,28 @@ Before adding a lesson:
 
 ## Serving-scope reconciliation
 
-The current production-core access contract treats a U.S. practical-nurse learner as `country=US`, `tier=LVN_LPN`. Published lesson access is filtered to `regionScope=US_ONLY` or `BOTH` and the applicable practical-nurse/free/general content tiers.
+The current production-core access contract treats a U.S. practical-nurse learner as `country=US`, `tier=LVN_LPN`, serving pathway `us-lpn-nclex-pn`.
 
-The reconciliation process must therefore use the serving database lesson records—not the legacy mixed TypeScript `contentMap` alone—to classify every U.S. PN lesson as:
+Completion reconciliation must classify current serving lessons by stable identifier as:
 
 - `MATCHED` — a corresponding high-quality Cram lesson exists;
 - `MISSING_CRAM` — applicable full lesson exists but no adequate Cram lesson exists;
 - `NOT_APPLICABLE_TO_US_PN` — the lesson is outside U.S. PN scope/pathway or intentionally excluded with a documented reason.
 
-Authoring completion is reached only when `MISSING_CRAM = 0` and no unexplained serving rows remain.
+Authored Cram objects do not count as resolved production rows until stable lineage to the serving lesson is established.
 
 ## Publication checkpoint
 
-Clinical authored baseline: 120 lessons — COMPLETE as a baseline only.
+Clinical authoring: ACTIVE at 220 lessons.
 
 Still required before declaring the U.S. PN Cram estate complete/live:
 
-- full serving-lesson reconciliation;
-- authoring and QA of every remaining `MISSING_CRAM` topic;
+- full serving-row reconciliation against the 1,177 U.S. LPN/LVN learner-reachable full lessons;
+- row-level lineage from authored Cram objects to serving lesson identifiers;
+- proof that `MISSING_CRAM = 0` for applicable U.S. PN lessons;
 - machine/schema validation of all JSON objects;
-- stable full-lesson-to-Cram identifier mapping;
 - renderer integration into NurseNest Cram mode;
 - learner-facing PN/US entitlement QA;
 - merge/release/deployment certification.
 
-Do not convert the 120-lesson count into a production-complete claim.
+A growing authored count is progress, not a completion claim.
