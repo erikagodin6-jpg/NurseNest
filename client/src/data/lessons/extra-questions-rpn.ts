@@ -22,6 +22,37 @@ import { rpnContentBatch063Lessons } from "./rpn-content-batch-063";
 import { rpnContentBatch064Lessons } from "./rpn-content-batch-064";
 import { rpnContentBatch065Lessons } from "./rpn-content-batch-065";
 import { rpnContentBatch066Lessons } from "./rpn-content-batch-066";
+import { rpnContentBatch067Lessons } from "./rpn-content-batch-067";
+import { rpnContentBatch068Lessons } from "./rpn-content-batch-068";
+import { rpnContentBatch069Lessons } from "./rpn-content-batch-069";
+import { rpnContentBatch070Lessons } from "./rpn-content-batch-070";
+import { rpnContentBatch071Lessons } from "./rpn-content-batch-071";
+import { rpnContentBatch072Lessons } from "./rpn-content-batch-072";
+import { rpnContentBatch073Lessons } from "./rpn-content-batch-073";
+import { rpnContentBatch074Lessons } from "./rpn-content-batch-074";
+import { rpnContentBatch075Lessons } from "./rpn-content-batch-075";
+import { rpnContentBatch076Lessons } from "./rpn-content-batch-076";
+import { rpnContentBatch077Lessons } from "./rpn-content-batch-077";
+import { rpnContentBatch078Lessons } from "./rpn-content-batch-078";
+import { rpnContentBatch079Lessons } from "./rpn-content-batch-079";
+import { rpnContentBatch080Lessons } from "./rpn-content-batch-080";
+import { rpnContentBatch081Lessons } from "./rpn-content-batch-081";
+import { rpnContentBatch082Lessons } from "./rpn-content-batch-082";
+import { rpnContentBatch083Lessons } from "./rpn-content-batch-083";
+import { rpnContentBatch084Lessons } from "./rpn-content-batch-084";
+import { rpnContentBatch085Lessons } from "./rpn-content-batch-085";
+import { rpnContentBatch086Lessons } from "./rpn-content-batch-086";
+import { rpnContentBatch087Lessons } from "./rpn-content-batch-087";
+import { rpnContentBatch088Lessons } from "./rpn-content-batch-088";
+import { rpnContentBatch089Lessons } from "./rpn-content-batch-089";
+import { rpnContentBatch090Lessons } from "./rpn-content-batch-090";
+import { rpnContentBatch091Lessons } from "./rpn-content-batch-091";
+import { rpnContentBatch092Lessons } from "./rpn-content-batch-092";
+import { rpnContentBatch093Lessons } from "./rpn-content-batch-093";
+import { rpnContentBatch094Lessons } from "./rpn-content-batch-094";
+import { rpnContentBatch095Lessons } from "./rpn-content-batch-095";
+import { rpnContentBatch096Lessons } from "./rpn-content-batch-096";
+import { rpnContentBatch097Lessons } from "./rpn-content-batch-097";
 
 /**
  * REx-PN / Canadian practical-nursing expansion aggregator.
@@ -51,4 +82,35 @@ export const rpnExtraBank: Record<string, LessonContent> = {
   ...rpnContentBatch064Lessons,
   ...rpnContentBatch065Lessons,
   ...rpnContentBatch066Lessons,
+  ...rpnContentBatch067Lessons,
+  ...rpnContentBatch068Lessons,
+  ...rpnContentBatch069Lessons,
+  ...rpnContentBatch070Lessons,
+  ...rpnContentBatch071Lessons,
+  ...rpnContentBatch072Lessons,
+  ...rpnContentBatch073Lessons,
+  ...rpnContentBatch074Lessons,
+  ...rpnContentBatch075Lessons,
+  ...rpnContentBatch076Lessons,
+  ...rpnContentBatch077Lessons,
+  ...rpnContentBatch078Lessons,
+  ...rpnContentBatch079Lessons,
+  ...rpnContentBatch080Lessons,
+  ...rpnContentBatch081Lessons,
+  ...rpnContentBatch082Lessons,
+  ...rpnContentBatch083Lessons,
+  ...rpnContentBatch084Lessons,
+  ...rpnContentBatch085Lessons,
+  ...rpnContentBatch086Lessons,
+  ...rpnContentBatch087Lessons,
+  ...rpnContentBatch088Lessons,
+  ...rpnContentBatch089Lessons,
+  ...rpnContentBatch090Lessons,
+  ...rpnContentBatch091Lessons,
+  ...rpnContentBatch092Lessons,
+  ...rpnContentBatch093Lessons,
+  ...rpnContentBatch094Lessons,
+  ...rpnContentBatch095Lessons,
+  ...rpnContentBatch096Lessons,
+  ...rpnContentBatch097Lessons,
 };
