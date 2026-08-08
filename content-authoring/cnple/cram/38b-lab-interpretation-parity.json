@@ -1,0 +1,441 @@
+[
+  {
+    "id": "lab-bun-and-creatinine",
+    "title": "BUN and Creatinine: Separate Filtration, Perfusion, Production, and Clearance",
+    "system": "Lab Interpretation / Renal",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management"],
+    "lifespan": ["adult", "older adult", "pregnancy"],
+    "acuity": "mixed",
+    "bottomLine": "BUN and creatinine are clues to kidney perfusion and filtration, but neither is a kidney diagnosis by itself. Creatinine is strongly influenced by muscle mass and changes slowly after an acute fall in GFR; urea is additionally influenced by volume status, protein intake/catabolism, GI bleeding and liver function. Interpret both as trends alongside eGFR, urine output, urinalysis/albuminuria and the clinical volume/medication picture.",
+    "recognize": [
+      "A rising creatinine can signal acute kidney injury, progressive CKD or a hemodynamic/drug effect, but the magnitude must be interpreted against the patient's baseline and timing.",
+      "BUN can rise disproportionately with hypovolemia, upper GI bleeding, corticosteroid/catabolic states or high protein load and can be low with severe liver dysfunction or low protein intake."
+    ],
+    "differentiate": [
+      "Prerenal, intrinsic renal and postrenal processes can all raise creatinine; a BUN-to-creatinine pattern may support a hypothesis but is not sufficiently specific to replace volume assessment, urine studies and obstruction evaluation.",
+      "A low creatinine in an older frail patient may reflect low muscle mass rather than excellent renal function; kidney function can be substantially reduced despite a 'normal' creatinine concentration."
+    ],
+    "assessment": [
+      "Compare with prior creatinine/eGFR, recent urine output, oral intake/losses, blood pressure/perfusion, weight/edema, bladder symptoms and recent illness/surgery.",
+      "Review NSAIDs, ACE inhibitors/ARBs, diuretics, SGLT2 inhibitors, contrast exposure, antimicrobials and other nephrotoxic/hemodynamically active medications in context rather than automatically blaming one drug."
+    ],
+    "workup": [
+      "Use urinalysis, urine albumin-to-creatinine ratio, electrolytes/bicarbonate, CBC and kidney imaging or bladder assessment when the suspected cause makes them useful.",
+      "When AKI is present, trend creatinine and urine output; an eGFR automatically reported from a changing creatinine may not represent steady-state kidney filtration accurately."
+    ],
+    "management": [
+      "Treat the cause: restore perfusion when truly volume depleted, relieve obstruction, stop or adjust harmful exposures when indicated, and manage intrinsic renal disease with appropriate nephrology input.",
+      "Do not chase a laboratory number with indiscriminate IV fluid in a congested patient; the kidney problem must be interpreted within the patient's volume and cardiac state."
+    ],
+    "medicationSafety": [
+      "Renally cleared drugs may accumulate during AKI even before creatinine reaches its peak; reassess dose/interval using the drug-specific dosing method and current renal trajectory.",
+      "A small creatinine rise after starting a hemodynamically active kidney/cardiac therapy must be interpreted in context; severe/progressive AKI, hypotension or hyperkalemia requires reassessment rather than a universal automatic stop rule."
+    ],
+    "redFlags": [
+      "Rapidly rising creatinine with oliguria/anuria",
+      "Hyperkalemia, severe acidosis, pulmonary edema or uremic complications",
+      "Suspected obstruction with infection, solitary kidney or bilateral obstruction",
+      "AKI with shock, severe systemic illness or suspected glomerulonephritis/interstitial nephritis"
+    ],
+    "counselling": [
+      "Explain kidney trends rather than lab labels: creatinine can change because filtration changed, and one result needs comparison with baseline, urine findings and the clinical situation.",
+      "Review sick-day and nephrotoxin avoidance advice only when appropriate to the person's regimen and local guidance; avoid blanket medication-stop lists without context."
+    ],
+    "followUp": [
+      "Recheck renal function after an AKI-provoking illness or medication change at an interval appropriate to severity and trajectory.",
+      "After AKI, reassess for residual CKD/albuminuria and cardiovascular risk rather than assuming creatinine returning near baseline means follow-up is unnecessary."
+    ],
+    "examTrap": "Giving repeated fluid boluses to a dyspneic edematous patient just because BUN and creatinine are elevated, or calling a frail older adult's low creatinine 'normal kidney function' without considering muscle mass and eGFR.",
+    "oneLinePearl": "BUN and creatinine tell a story only after you add baseline, urine output, volume status, urine findings and medications.",
+    "sourceBasis": [
+      "KDIGO 2024 Clinical Practice Guideline for the Evaluation and Management of Chronic Kidney Disease",
+      "Kidney Foundation of Canada CKD education/resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "lab-egfr-and-renal-function",
+    "title": "eGFR and Renal Function: Estimate Chronic Kidney Risk Without Overtrusting One Number",
+    "system": "Lab Interpretation / Renal",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling"],
+    "lifespan": ["adult", "older adult"],
+    "acuity": "routine/mixed",
+    "bottomLine": "eGFR is an estimate derived from serum filtration markers and patient characteristics, not a direct measurement. CKD requires chronicity—reduced eGFR and/or another marker of kidney damage such as albuminuria present for at least three months—and risk is interpreted using both GFR and albuminuria rather than an isolated eGFR value.",
+    "recognize": [
+      "An eGFR below 60 mL/min/1.73 m² persisting for at least three months meets a CKD criterion, while a higher eGFR can still represent CKD when persistent albuminuria or another kidney-damage marker is present.",
+      "A single reduced eGFR during dehydration, infection or AKI does not establish chronic kidney disease."
+    ],
+    "differentiate": [
+      "Creatinine-based eGFR can be less reliable at extremes of muscle mass, amputation, cachexia, body building or rapidly changing kidney function; cystatin C or measured GFR can refine selected decisions.",
+      "Drug labels may specify creatinine clearance, eGFR or another renal function method; do not substitute one calculation automatically when dosing instructions require another."
+    ],
+    "assessment": [
+      "Review prior renal results, urine albumin-to-creatinine ratio, blood pressure, diabetes/cardiovascular disease, medications, family history, systemic disease and urinary/obstructive symptoms.",
+      "Assess whether the result is stable enough for chronic-risk interpretation or changing enough that AKI is the immediate problem."
+    ],
+    "workup": [
+      "Confirm chronicity with prior/repeat results and quantify albuminuria using urine ACR; use urinalysis and imaging or serologic evaluation when the clinical pattern suggests structural, glomerular or systemic disease.",
+      "Risk-stratify using both eGFR category and albuminuria category rather than using CKD stage from eGFR alone as the whole prognosis."
+    ],
+    "management": [
+      "Address cardiovascular/kidney risk factors, blood pressure, diabetes, smoking and appropriate kidney-protective therapy based on the patient's cause/risk/tolerance.",
+      "Refer or co-manage with nephrology for high-risk CKD, rapid progression, major albuminuria, resistant hypertension, uncertain cause, hereditary/systemic disease or complications beyond primary-care capacity."
+    ],
+    "medicationSafety": [
+      "Renal dosing must use the method specified for the medication; eGFR indexed to 1.73 m² can require interpretation in very small or large body size depending on the drug.",
+      "Avoid unnecessary NSAID/nephrotoxin exposure and review contrast/drug risks in context rather than denying indicated therapies solely because CKD is present."
+    ],
+    "redFlags": [
+      "Rapid sustained decline in kidney function",
+      "Severe hyperkalemia, metabolic acidosis, pulmonary edema or uremic symptoms",
+      "Heavy albuminuria/active urine sediment suggesting glomerular disease",
+      "Suspected obstructive uropathy or systemic disease with kidney injury"
+    ],
+    "counselling": [
+      "Explain that eGFR is an estimate and that kidney risk depends on both filtration and urine protein/albumin findings over time.",
+      "Avoid telling an older adult that 'kidneys are failing' from one mildly low eGFR without demonstrating chronicity and risk context."
+    ],
+    "followUp": [
+      "Monitor eGFR and albuminuria at a frequency based on CKD risk category, progression and therapy rather than one universal annual schedule.",
+      "Reassess sooner after AKI, nephrotoxic exposure or initiation/titration of therapies that require kidney/electrolyte monitoring."
+    ],
+    "examTrap": "Diagnosing stage 3 CKD from one low eGFR during gastroenteritis, or declaring kidney function normal because eGFR is above 60 despite persistent major albuminuria.",
+    "oneLinePearl": "CKD is chronicity plus filtration and/or kidney-damage markers—eGFR alone is not the entire diagnosis or prognosis.",
+    "sourceBasis": [
+      "KDIGO 2024 CKD Guideline",
+      "Kidney Foundation of Canada CKD/eGFR resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "lab-acute-kidney-injury-lab-trends",
+    "title": "Acute Kidney Injury Lab Trends: Follow Creatinine, Urine Output, Potassium, and the Cause",
+    "system": "Lab Interpretation / Renal / Acute Care",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management"],
+    "lifespan": ["adolescent", "adult", "older adult", "pregnancy", "postpartum"],
+    "acuity": "urgent/emergent",
+    "bottomLine": "AKI is a dynamic syndrome: creatinine may lag behind the injury, urine output can deteriorate before creatinine rises, and the dangerous consequences are often potassium, acid-base, volume and uremic complications. Trend the patient and the laboratory pattern while identifying prerenal, intrinsic and postrenal causes; do not treat an automatically reported eGFR as reliable steady-state filtration during rapidly changing creatinine.",
+    "recognize": [
+      "A rising creatinine and/or falling urine output after hypotension, sepsis, surgery, dehydration, obstruction or nephrotoxic/hemodynamic exposures should trigger an AKI assessment.",
+      "The absolute creatinine can look 'normal' early in AKI or in a low-muscle-mass patient; change from baseline and urine output matter."
+    ],
+    "differentiate": [
+      "Prerenal physiology, acute tubular injury, glomerular/interstitial disease and obstruction can overlap; urine studies and clinical context guide the differential but no single fractional excretion calculation is definitive in every patient.",
+      "Creatinine elevation from a predictable hemodynamic drug effect is not automatically structural kidney injury, but progressive rise, hypotension, hyperkalemia or systemic features require reassessment."
+    ],
+    "assessment": [
+      "Trend blood pressure/perfusion, intake/output, weight/edema, bladder retention, infection, bleeding/losses and medications/exposures.",
+      "Look for rash/eosinophilia/systemic inflammation, hematuria/proteinuria, muscle injury, obstruction symptoms and other clues to intrinsic/postrenal disease."
+    ],
+    "workup": [
+      "Repeat creatinine/electrolytes/bicarbonate according to acuity; obtain urinalysis and urine microscopy/ACR when useful, CBC and cause-specific studies, and renal/bladder imaging when obstruction is plausible.",
+      "Monitor potassium, bicarbonate/pH and volume status because these can determine urgency more directly than creatinine alone."
+    ],
+    "management": [
+      "Correct the cause: restore perfusion when depleted, treat sepsis/bleeding, relieve obstruction, stop or adjust harmful drugs when appropriate and involve nephrology for severe/uncertain intrinsic disease.",
+      "Use renal replacement therapy for clinical indications such as refractory hyperkalemia, acidosis, pulmonary edema or uremic complications rather than a creatinine threshold alone."
+    ],
+    "medicationSafety": [
+      "Reassess doses of renally cleared drugs during a changing creatinine; standard eGFR/CrCl estimates assume relative stability and can mislead in rapidly evolving AKI.",
+      "Avoid stacking nephrotoxins and adjust potassium-raising or hemodynamically active medications when the patient's physiology requires it, with a plan for appropriate reintroduction when safe."
+    ],
+    "redFlags": [
+      "Oliguria/anuria with rising creatinine",
+      "Hyperkalemia with ECG change or severe level",
+      "Refractory pulmonary edema or severe acidosis",
+      "Uremic encephalopathy/pericarditis, suspected glomerulonephritis or infected obstruction"
+    ],
+    "counselling": [
+      "Explain that AKI can improve but still increases future kidney risk; provide individualized medication/sick-day follow-up rather than a generic lifelong medication blacklist."
+    ],
+    "followUp": [
+      "Document the presumed AKI cause, peak creatinine, residual kidney function and medication changes at transition of care.",
+      "Reassess renal function/albuminuria after recovery to detect residual or newly recognized CKD."
+    ],
+    "examTrap": "Using the automatically reported eGFR during a rapidly rising creatinine as though it were a steady-state drug-dosing value, or deciding dialysis from creatinine alone while ignoring potassium, pulmonary edema and symptoms.",
+    "oneLinePearl": "In AKI, trend creatinine and urine output—but act on the complication and the cause, not the creatinine number by itself.",
+    "sourceBasis": [
+      "KDIGO acute kidney injury framework and 2024 CKD guidance for post-AKI risk",
+      "Canadian nephrology/emergency-care practice standards"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "lab-sodium-disorders",
+    "title": "Sodium Disorders: Confirm Tonicity, Symptoms, and Chronicity Before Correcting",
+    "system": "Lab Interpretation / Electrolytes",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management"],
+    "lifespan": ["adolescent", "adult", "older adult", "pregnancy", "postpartum"],
+    "acuity": "mixed/emergent",
+    "bottomLine": "A sodium result is primarily a water-balance clue. In hyponatremia, first confirm whether the patient is truly hypotonic and assess neurologic symptoms/chronicity before using urine osmolality and urine sodium to define the mechanism. Severe symptomatic hyponatremia requires urgent controlled hypertonic-saline therapy, while over-rapid correction can cause osmotic demyelination. Hypernatremia reflects relative water deficit/excess sodium and is also corrected in a controlled, cause-directed manner.",
+    "recognize": [
+      "Acute severe hyponatremia can cause headache, vomiting, confusion, seizures and coma from cerebral edema; chronic hyponatremia may be less symptomatic but is vulnerable to overcorrection injury.",
+      "Hypernatremia commonly reflects impaired access to water, impaired thirst, free-water loss or diabetes insipidus physiology and can present with thirst, weakness, confusion, neuromuscular irritability or severe neurologic symptoms."
+    ],
+    "differentiate": [
+      "Hyperglycemia can lower measured sodium through water shift; pseudohyponatremia and non-hypotonic hyponatremia should not be treated as true hypotonic sodium deficit.",
+      "For hypotonic hyponatremia, urine osmolality shows whether ADH effect is present and urine sodium/volume context helps distinguish hypovolemia, SIADH-like physiology and low effective arterial volume; diuretics can confound interpretation."
+    ],
+    "assessment": [
+      "Assess neurologic symptoms, onset/chronicity, volume status, intake/losses, renal/hepatic/cardiac disease, pregnancy/postpartum context and medications such as thiazides, SSRIs, anticonvulsants and desmopressin.",
+      "For hypernatremia, assess access to water, cognitive/functional limitations, GI/renal losses, diuretics, hyperglycemia/osmotic diuresis and polyuria suggesting diabetes insipidus."
+    ],
+    "workup": [
+      "For hyponatremia, check serum osmolality and glucose and use urine osmolality/urine sodium plus thyroid/adrenal or other cause-specific tests when appropriate.",
+      "For hypernatremia with polyuria, pair serum and urine osmolality and evaluate renal water loss/diabetes insipidus physiology after stabilizing urgent problems."
+    ],
+    "management": [
+      "Severe neurologic symptoms from hyponatremia require emergency hypertonic saline through a monitored protocol with frequent sodium reassessment; the initial goal is symptom control/safe partial correction, not normalization in a few hours.",
+      "Treat the underlying mechanism—volume replacement for true hypovolemia, fluid strategy/medication management for SIADH-like states, endocrine treatment when indicated, or water replacement for hypernatremia—while controlling the correction rate."
+    ],
+    "medicationSafety": [
+      "Overcorrection of chronic hyponatremia can cause osmotic demyelination; patients with very low sodium, malnutrition, alcohol-use disorder, liver disease or hypokalemia may be particularly vulnerable and require protocol-driven monitoring.",
+      "Desmopressin can be used in selected overcorrection-management strategies under experienced protocol guidance; it is not a routine treatment for every hyponatremia.",
+      "Potassium replacement can itself raise serum sodium in hyponatremic patients and must be included in the correction plan."
+    ],
+    "redFlags": [
+      "Seizure, coma or severe encephalopathy with hyponatremia",
+      "Rapid sodium change or unexpectedly brisk water diuresis during correction",
+      "Severe hypernatremia with neurologic dysfunction or hemodynamic instability",
+      "Hyponatremia associated with adrenal crisis, acute CNS disease or severe systemic illness"
+    ],
+    "counselling": [
+      "Teach fluid/medication advice only after the mechanism is known; telling every hyponatremic patient to 'drink more' or 'restrict fluids' can be exactly wrong.",
+      "Older/cognitively impaired patients with hypernatremia often need a practical hydration-access plan, not just education."
+    ],
+    "followUp": [
+      "During active correction, sodium must be rechecked at a frequency appropriate to severity and therapy; outpatient mild abnormalities require follow-up tied to cause/medication changes.",
+      "Reassess recurrent hyponatremia/hypernatremia for an unresolved medication, endocrine, renal or access-to-water cause."
+    ],
+    "examTrap": "Giving normal saline or fluid restriction automatically for every low sodium without first confirming tonicity and the volume/ADH mechanism, or correcting chronic severe hyponatremia too quickly because the first repeat is still abnormal.",
+    "oneLinePearl": "Sodium disorders are water disorders—confirm tonicity, symptoms and chronicity before choosing the correction strategy.",
+    "sourceBasis": [
+      "Emergency Care BC — Hyponatremia clinical summary",
+      "Canadian nephrology/emergency electrolyte practice standards"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "lab-potassium-disorders",
+    "title": "Potassium Disorders: Confirm the Result, Protect the Heart, Then Fix the Cause",
+    "system": "Lab Interpretation / Electrolytes",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management"],
+    "lifespan": ["adolescent", "adult", "older adult", "pregnancy"],
+    "acuity": "urgent/emergent",
+    "bottomLine": "Potassium abnormalities can become cardiac emergencies before the underlying diagnosis is complete. In suspected hyperkalemia, confirm the result when pseudohyperkalemia is plausible but do not delay treatment when the level/ECG/clinical context is dangerous: stabilize the myocardium when indicated, shift potassium intracellularly, then remove potassium and correct the cause. In hypokalemia, replace potassium safely while identifying renal/GI losses and correcting magnesium when deficient.",
+    "recognize": [
+      "Hyperkalemia risk rises with AKI/CKD, RAAS-blocking or potassium-sparing drugs, metabolic acidosis, tissue breakdown and insulin deficiency; weakness or arrhythmia may occur, but ECG can be deceptively normal.",
+      "Hypokalemia can produce weakness, ileus, cramps, rhabdomyolysis and atrial/ventricular arrhythmia, especially with digoxin, ischemic heart disease or concurrent hypomagnesemia."
+    ],
+    "differentiate": [
+      "Hemolyzed specimens, severe thrombocytosis/leukocytosis or collection problems can cause pseudohyperkalemia; repeat a properly collected sample when safe and clinically appropriate.",
+      "For hypokalemia, distinguish GI loss/poor intake or intracellular shift from renal wasting using history, magnesium, acid-base status and urine potassium testing when the cause is not obvious."
+    ],
+    "assessment": [
+      "Assess ECG/rhythm, weakness, renal function, glucose/acid-base status, intake/losses and potassium-changing drugs/supplements.",
+      "Ask about insulin/diuretics/laxatives, vomiting/diarrhea, beta-agonists, RAAS blockers, trimethoprim, spironolactone/eplerenone and salt substitutes."
+    ],
+    "workup": [
+      "Repeat potassium promptly when pseudohyperkalemia is likely and the patient is stable; obtain ECG urgently for significant hyperkalemia or symptoms/high-risk context.",
+      "Check magnesium and renal function in hypokalemia and investigate acid-base/urine losses/endocrine causes when recurrent or unexplained."
+    ],
+    "management": [
+      "For dangerous hyperkalemia, use the local emergency protocol: IV calcium when myocardial membrane stabilization is indicated; insulin with glucose and/or beta-agonist therapy to shift potassium; and a potassium-removal strategy such as diuresis, binder or dialysis depending on cause/urgency.",
+      "For hypokalemia, use oral replacement when safe for non-emergent cases and IV replacement when severe/symptomatic or oral therapy is unsuitable, respecting concentration/rate/ECG-monitoring rules."
+    ],
+    "medicationSafety": [
+      "Insulin treatment of hyperkalemia can cause delayed hypoglycemia; glucose monitoring after treatment is part of the medication order, especially in kidney disease or lower baseline glucose.",
+      "IV calcium protects the myocardium but does not lower serum potassium; a reassuring ECG after calcium does not mean potassium has been removed.",
+      "Do not rapidly infuse concentrated IV potassium outside approved dilution/rate/monitoring protocols."
+    ],
+    "redFlags": [
+      "Hyperkalemia with ECG changes, malignant arrhythmia or severe weakness",
+      "Severe hyperkalemia with AKI/oliguria or ongoing tissue breakdown",
+      "Hypokalemia with arrhythmia, paralysis, severe weakness or digoxin toxicity concern",
+      "Refractory potassium abnormality despite initial therapy"
+    ],
+    "counselling": [
+      "Review potassium-containing supplements/salt substitutes and medication interactions in recurrent hyperkalemia rather than giving a generic 'avoid all potassium foods' instruction.",
+      "Teach patients on diuretics/RAAS therapy when and why bloodwork is needed after dose/illness changes."
+    ],
+    "followUp": [
+      "Recheck potassium after acute shifting/replacement therapy at an interval determined by severity and treatment; hyperkalemia can rebound after intracellular-shift therapies wear off.",
+      "For outpatient medication-associated abnormalities, confirm a stable potassium/renal trend after regimen changes."
+    ],
+    "examTrap": "Waiting for peaked T waves before treating dangerous hyperkalemia, or giving calcium and assuming the potassium is now corrected without a shift/removal strategy and repeat glucose/potassium monitoring.",
+    "oneLinePearl": "Hyperkalemia care has three separate jobs: protect the heart, shift potassium, and remove potassium—then prevent recurrence.",
+    "sourceBasis": [
+      "Emergency Care BC — Hyperkalemia clinical summary",
+      "Canadian nephrology/emergency electrolyte practice standards"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "lab-phosphate-disorders",
+    "title": "Phosphate Disorders: Recognize Refeeding, Renal Retention, and Respiratory Muscle Risk",
+    "system": "Lab Interpretation / Electrolytes / Metabolic",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management"],
+    "lifespan": ["adolescent", "adult", "older adult"],
+    "acuity": "mixed",
+    "bottomLine": "Phosphate reflects cellular energy, bone/mineral balance and renal handling. Severe hypophosphatemia can cause respiratory-muscle weakness, rhabdomyolysis, hemolysis and neurologic dysfunction—especially during refeeding, DKA treatment or severe illness—while hyperphosphatemia usually reflects reduced renal excretion or high cell/phosphate load and must be interpreted with calcium, renal function and the underlying disease.",
+    "recognize": [
+      "Hypophosphatemia risk rises with malnutrition/refeeding, alcohol-use disorder, DKA treatment, respiratory alkalosis, phosphate binders/antacids and renal phosphate wasting.",
+      "Hyperphosphatemia is common in advanced CKD and can also occur with tumor lysis, rhabdomyolysis, hemolysis or excess phosphate administration."
+    ],
+    "differentiate": [
+      "A low phosphate after starting nutrition in a severely malnourished patient may be part of refeeding syndrome and should trigger assessment of potassium, magnesium, thiamine/fluid status and organ dysfunction rather than phosphate replacement alone.",
+      "Hyperphosphatemia with hypocalcemia after tumor lysis/rhabdomyolysis is a different emergency from chronic CKD-mineral bone disease."
+    ],
+    "assessment": [
+      "Assess nutrition history, recent feeding/insulin, alcohol use, respiratory status, weakness, renal function, diarrhea, medications/binders and symptoms of the underlying cause.",
+      "Pair phosphate with calcium, magnesium, potassium and renal function; review acid-base status when intracellular shifts are plausible."
+    ],
+    "workup": [
+      "Investigate persistent unexplained hypophosphatemia for renal phosphate wasting, endocrine/vitamin D disorders or malabsorption when the acute cause is not evident.",
+      "In hyperphosphatemia, evaluate CKD severity and acute cell-breakdown syndromes when clinically suspected."
+    ],
+    "management": [
+      "Treat the cause and replace phosphate orally or intravenously according to severity, symptoms and local protocol; severe/symptomatic deficiency requires closer electrolyte/calcium and cardiac/renal monitoring.",
+      "Manage hyperphosphatemia with cause-directed measures such as stopping excess intake, CKD diet/binder strategy or urgent tumor-lysis/renal-failure management as appropriate."
+    ],
+    "medicationSafety": [
+      "IV phosphate can cause hypocalcemia, hypotension, arrhythmia and calcium-phosphate precipitation; product, dose, rate and renal adjustment require protocol-level care.",
+      "Phosphate binders can interact with other oral medications and should be timed/selected with the patient's CKD regimen."
+    ],
+    "redFlags": [
+      "Severe hypophosphatemia with respiratory failure, profound weakness, rhabdomyolysis or neurologic dysfunction",
+      "Refeeding syndrome with multi-electrolyte shifts/fluid overload",
+      "Tumor lysis or severe renal failure with marked phosphate/potassium/calcium abnormalities"
+    ],
+    "counselling": [
+      "For malnutrition/refeeding risk, explain that nutrition sometimes has to be advanced with electrolyte/thiamine monitoring rather than simply 'feeding aggressively.'",
+      "For CKD, coordinate phosphate diet/binder education with the broader kidney nutrition plan rather than restricting foods indiscriminately."
+    ],
+    "followUp": [
+      "Recheck phosphate/calcium and companion electrolytes after significant replacement or during refeeding/tumor-lysis treatment.",
+      "Persistent abnormalities require evaluation of the underlying renal/endocrine/nutritional cause."
+    ],
+    "examTrap": "Replacing phosphate in a malnourished patient without recognizing refeeding syndrome and simultaneous magnesium/potassium/thiamine/fluid problems, or treating chronic CKD hyperphosphatemia like acute tumor lysis.",
+    "oneLinePearl": "Phosphate becomes dangerous when it signals energy failure, refeeding, cell breakdown or renal retention—interpret it with the companion electrolytes and cause.",
+    "sourceBasis": [
+      "Canadian renal/nutrition/acute-care electrolyte practice standards",
+      "KDIGO CKD-mineral and bone disorder framework where applicable"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "lab-hemoglobin-and-hematocrit",
+    "title": "Hemoglobin and Hematocrit: Diagnose Anemia or Hemoconcentration Before Transfusing",
+    "system": "Lab Interpretation / Hematology",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management"],
+    "lifespan": ["adolescent", "adult", "pregnancy", "postpartum", "older adult"],
+    "acuity": "mixed",
+    "bottomLine": "Hemoglobin and hematocrit quantify circulating red-cell concentration, not the cause of anemia and not a transfusion order by themselves. Interpret the trend with bleeding/volume status, symptoms, MCV/reticulocyte response and the suspected mechanism; transfusion decisions depend on clinical stability, active bleeding, symptoms/comorbidity and local evidence-based thresholds rather than one universal hemoglobin value.",
+    "recognize": [
+      "A falling hemoglobin can reflect acute/occult blood loss, hemolysis, marrow suppression or dilution, while a rising hematocrit can reflect true erythrocytosis or hemoconcentration from volume depletion.",
+      "In acute hemorrhage, hemoglobin may initially remain near baseline before equilibration; shock assessment must not wait for the CBC to 'prove' blood loss."
+    ],
+    "differentiate": [
+      "Microcytic, normocytic and macrocytic patterns narrow the anemia differential but require iron studies/B12/folate/reticulocytes or other directed testing rather than diagnosis from MCV alone.",
+      "Reticulocytosis suggests marrow response to blood loss/hemolysis, while an inappropriately low reticulocyte response points toward production failure."
+    ],
+    "assessment": [
+      "Assess bleeding, hemodynamics, dyspnea/chest pain/syncope, menstrual/GI history, pregnancy/postpartum status, nutrition, kidney disease, chronic inflammation, malignancy and medications/anticoagulants.",
+      "Compare with prior CBC and current volume status; dilution after IV fluids and hemoconcentration from dehydration can shift the concentration without an equivalent change in red-cell mass."
+    ],
+    "workup": [
+      "Use CBC indices, reticulocyte count, ferritin/iron studies and B12/folate or hemolysis/renal/GI evaluation as the clinical differential indicates.",
+      "Investigate occult bleeding or malignancy when the anemia pattern/history warrants it; replacing iron without explaining the loss is incomplete care."
+    ],
+    "management": [
+      "Treat the cause—control bleeding, replace deficient nutrients, treat renal/inflammatory disease or manage marrow/hemolytic pathology.",
+      "For stable non-bleeding patients, use a restrictive/single-unit transfusion strategy where appropriate and reassess after each unit rather than automatically ordering two units; active major hemorrhage follows a different resuscitation pathway."
+    ],
+    "medicationSafety": [
+      "Review anticoagulants/antiplatelets/NSAIDs and marrow-suppressing drugs when bleeding or production problems are plausible.",
+      "IV iron and transfusion have specific hypersensitivity/volume/compatibility risks; use them for an appropriate indication rather than because oral therapy seems slower."
+    ],
+    "redFlags": [
+      "Hemodynamic instability or ongoing major bleeding regardless of current hemoglobin",
+      "Anemia with ischemic chest pain, severe hypoxemia/syncope or rapidly worsening symptoms",
+      "Hemolysis with kidney injury/DIC or pancytopenia suggesting marrow emergency"
+    ],
+    "counselling": [
+      "Explain the cause and treatment target, not just that the 'blood count is low'; iron deficiency, bleeding, CKD and marrow disease require different follow-up.",
+      "Discuss transfusion benefits/risks and the plan to reassess rather than presenting transfusion as inevitable at one number."
+    ],
+    "followUp": [
+      "Trend hemoglobin/reticulocyte or iron response at an interval suited to the diagnosis and treatment; confirm that replacement therapy actually corrects the deficit.",
+      "Close the loop on investigation for unexplained iron deficiency, occult bleeding or persistent cytopenia."
+    ],
+    "examTrap": "Waiting for hemoglobin to fall before treating a patient in hemorrhagic shock, or transfusing two units automatically to a stable non-bleeding patient because the hemoglobin crossed a memorized number.",
+    "oneLinePearl": "Hemoglobin measures concentration; the NP still has to identify cause, symptoms, bleeding/volume status and whether transfusion will help.",
+    "sourceBasis": [
+      "Choosing Wisely Canada — Why Give Two When One Will Do transfusion stewardship",
+      "Canadian Blood Services transfusion medicine practice resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "lab-white-blood-cells-and-differential",
+    "title": "White Blood Cells and Differential: Interpret the Pattern, Not 'High Equals Infection'",
+    "system": "Lab Interpretation / Hematology / Infectious Disease",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management"],
+    "lifespan": ["adolescent", "adult", "pregnancy", "postpartum", "older adult"],
+    "acuity": "mixed",
+    "bottomLine": "The WBC count and differential describe circulating leukocyte patterns; they do not diagnose or exclude infection on their own. Interpret neutrophils, lymphocytes, eosinophils and other cell lines alongside symptoms, medications, marrow function and trends. The urgent exception is clinically significant neutropenia—especially fever in a patient receiving myelosuppressive therapy—which requires prompt infection assessment even when classic inflammatory signs are muted.",
+    "recognize": [
+      "Neutrophilia can accompany bacterial infection but also corticosteroids, physiologic stress, inflammation, smoking and marrow disorders; lymphocytosis can occur with viral illness or lymphoproliferative disease; eosinophilia raises allergic/drug/parasitic and selected inflammatory/hematologic possibilities.",
+      "A low total WBC should trigger attention to the absolute neutrophil count and other cytopenias rather than being labelled simply 'immunosuppressed.'"
+    ],
+    "differentiate": [
+      "Steroid demargination commonly raises neutrophils without proving bacterial infection; interpret the clinical syndrome before starting antibiotics from the CBC alone.",
+      "Persistent unexplained leukocytosis, abnormal immature cells/blasts or multi-lineage cytopenias requires a different hematologic pathway than transient reactive leukocytosis."
+    ],
+    "assessment": [
+      "Review fever/infection symptoms, recent steroids/G-CSF or marrow-suppressing drugs, chemotherapy, autoimmune disease, travel/exposure, allergy/drug reactions, smoking/stress and prior CBC trends.",
+      "Assess lymph nodes/spleen and bleeding/bruising or constitutional symptoms when persistent hematologic disease is plausible."
+    ],
+    "workup": [
+      "Use the differential and absolute counts; repeat CBC/peripheral smear and pursue cultures, viral testing, inflammatory/hematology studies or bone-marrow evaluation only as the clinical pattern indicates.",
+      "For a febrile patient with neutropenia risk, obtain timely cultures/diagnostics and follow the oncology/febrile-neutropenia pathway without delaying empiric treatment in a high-risk presentation."
+    ],
+    "management": [
+      "Treat the underlying cause rather than the WBC number; a stress leukocytosis needs no antibiotic solely because the count is high.",
+      "Fever with significant neutropenia is an urgent infection syndrome because deterioration can occur with little local inflammation; use the current local oncology/hematology pathway for risk stratification, antimicrobials and disposition."
+    ],
+    "medicationSafety": [
+      "Corticosteroids can elevate neutrophil counts and can suppress infection signs; interpret both effects together.",
+      "Clozapine and selected antineoplastic/immunosuppressive drugs require specific neutrophil/CBC monitoring programs; do not apply one drug's ANC schedule to every medication."
+    ],
+    "redFlags": [
+      "Fever/systemic illness with clinically significant neutropenia",
+      "Blasts or rapidly progressive multi-lineage cytopenias",
+      "Extreme/persistent leukocytosis with neurologic/respiratory symptoms or suspected leukemia",
+      "Eosinophilia with organ injury or severe drug reaction"
+    ],
+    "counselling": [
+      "Explain that a high WBC is a clue rather than proof of infection and that the pattern/trend plus symptoms determine next steps.",
+      "Teach neutropenic patients receiving high-risk therapies how and when to report fever or infection symptoms according to their oncology/hematology plan."
+    ],
+    "followUp": [
+      "Repeat CBC after an acute reactive process when persistence would change management; do not repeatedly test a resolved clinical syndrome without a reason.",
+      "Refer persistent unexplained leukocytosis/neutropenia, abnormal smear or multi-lineage cytopenia for appropriate hematology assessment."
+    ],
+    "examTrap": "Starting antibiotics because a patient on prednisone has neutrophilia but no infection syndrome, or reassuring a chemotherapy patient with fever because the total WBC is not dramatically low without checking ANC and the febrile-neutropenia pathway.",
+    "oneLinePearl": "WBC interpretation is pattern plus context; neutropenic fever is the high-stakes exception where urgency can exceed the visible inflammatory response.",
+    "sourceBasis": [
+      "Cancer Care Ontario systemic therapy/febrile neutropenia safety resources",
+      "Canadian hematology/infectious disease clinical practice principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  }
+]
