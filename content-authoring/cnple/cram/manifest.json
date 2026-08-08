@@ -6,11 +6,11 @@
   "level": "Nurse Practitioner",
   "authoringStatus": "COMPREHENSIVE_TOPIC_BASELINE_AUDITED_FULL_LESSON_PARITY_IN_PROGRESS",
   "sourceRefreshDate": "2026-08-08",
-  "rawLessonObjects": 410,
-  "uniqueLessonIds": 410,
+  "rawLessonObjects": 418,
+  "uniqueLessonIds": 418,
   "explicitCanonicalSupersessions": 8,
-  "canonicalTopicPathways": 402,
-  "clinicalJsonFiles": 40,
+  "canonicalTopicPathways": 410,
+  "clinicalJsonFiles": 41,
   "structuralValidation": {
     "status": "PASS",
     "jsonParse": true,
@@ -21,46 +21,175 @@
     "validatedAt": "2026-08-08"
   },
   "files": [
-    {"path": "01-professional-practice.json", "lessons": 8},
-    {"path": "02-cardiovascular-respiratory.json", "lessons": 11},
-    {"path": "03-endocrine-renal.json", "lessons": 10},
-    {"path": "04-neuro-gi-msk.json", "lessons": 12},
-    {"path": "05-mental-health-substance-use.json", "lessons": 8},
-    {"path": "06-reproductive-pediatrics.json", "lessons": 12},
-    {"path": "07a-prevention-infectious.json", "lessons": 4},
-    {"path": "07b-older-adult-palliative.json", "lessons": 6},
-    {"path": "08-hematology-rheumatology-derm-ent-eye-urology.json", "lessons": 10},
-    {"path": "09-high-yield-gaps.json", "lessons": 9},
-    {"path": "10-acute-care-diagnostics.json", "lessons": 10},
-    {"path": "11-cardiovascular-expansion.json", "lessons": 12},
-    {"path": "12-respiratory-infectious-expansion.json", "lessons": 12},
-    {"path": "13-endocrine-metabolic-expansion.json", "lessons": 12},
-    {"path": "14-renal-urology-expansion.json", "lessons": 12},
-    {"path": "15-neurology-expansion.json", "lessons": 14},
-    {"path": "16-gastro-hepatology-expansion.json", "lessons": 14},
-    {"path": "17a-hematology-expansion.json", "lessons": 6},
-    {"path": "17b-oncology-thrombosis-expansion.json", "lessons": 6},
-    {"path": "18-msk-rheumatology-expansion.json", "lessons": 13},
-    {"path": "19-mental-health-expansion.json", "lessons": 12},
-    {"path": "20-substance-use-expansion.json", "lessons": 10},
-    {"path": "21-reproductive-obstetric-expansion.json", "lessons": 16},
-    {"path": "22-pediatrics-expansion.json", "lessons": 18},
-    {"path": "23-derm-ent-eye-expansion.json", "lessons": 15},
-    {"path": "24-infectious-public-health-expansion.json", "lessons": 12},
-    {"path": "25-emergency-toxicology-expansion.json", "lessons": 13},
-    {"path": "26-geriatrics-palliative-expansion.json", "lessons": 11},
-    {"path": "27-professional-equity-practice-expansion.json", "lessons": 14},
-    {"path": "28-diagnostics-procedures-expansion.json", "lessons": 16},
-    {"path": "29-pharmacology-safety-expansion.json", "lessons": 14},
-    {"path": "30-prevention-screening-expansion.json", "lessons": 12},
-    {"path": "31-common-ambulatory-gaps.json", "lessons": 13},
-    {"path": "32-canonical-audit-corrections.json", "lessons": 8, "role": "canonical_supersessions"},
-    {"path": "33-dermatology-hair-nail-specialty-gaps.json", "lessons": 6},
-    {"path": "34-endocrine-hypertension-gaps.json", "lessons": 2},
-    {"path": "35-primary-hyperparathyroidism.json", "lessons": 1},
-    {"path": "36-mineralocorticoids-parity.json", "lessons": 1, "role": "full_lesson_parity_expansion"},
-    {"path": "37-neuro-peds-geri-parity.json", "lessons": 7, "role": "full_lesson_parity_expansion"},
-    {"path": "38a-lab-interpretation-parity.json", "lessons": 8, "role": "full_lesson_parity_expansion"}
+    {
+      "path": "01-professional-practice.json",
+      "lessons": 8
+    },
+    {
+      "path": "02-cardiovascular-respiratory.json",
+      "lessons": 11
+    },
+    {
+      "path": "03-endocrine-renal.json",
+      "lessons": 10
+    },
+    {
+      "path": "04-neuro-gi-msk.json",
+      "lessons": 12
+    },
+    {
+      "path": "05-mental-health-substance-use.json",
+      "lessons": 8
+    },
+    {
+      "path": "06-reproductive-pediatrics.json",
+      "lessons": 12
+    },
+    {
+      "path": "07a-prevention-infectious.json",
+      "lessons": 4
+    },
+    {
+      "path": "07b-older-adult-palliative.json",
+      "lessons": 6
+    },
+    {
+      "path": "08-hematology-rheumatology-derm-ent-eye-urology.json",
+      "lessons": 10
+    },
+    {
+      "path": "09-high-yield-gaps.json",
+      "lessons": 9
+    },
+    {
+      "path": "10-acute-care-diagnostics.json",
+      "lessons": 10
+    },
+    {
+      "path": "11-cardiovascular-expansion.json",
+      "lessons": 12
+    },
+    {
+      "path": "12-respiratory-infectious-expansion.json",
+      "lessons": 12
+    },
+    {
+      "path": "13-endocrine-metabolic-expansion.json",
+      "lessons": 12
+    },
+    {
+      "path": "14-renal-urology-expansion.json",
+      "lessons": 12
+    },
+    {
+      "path": "15-neurology-expansion.json",
+      "lessons": 14
+    },
+    {
+      "path": "16-gastro-hepatology-expansion.json",
+      "lessons": 14
+    },
+    {
+      "path": "17a-hematology-expansion.json",
+      "lessons": 6
+    },
+    {
+      "path": "17b-oncology-thrombosis-expansion.json",
+      "lessons": 6
+    },
+    {
+      "path": "18-msk-rheumatology-expansion.json",
+      "lessons": 13
+    },
+    {
+      "path": "19-mental-health-expansion.json",
+      "lessons": 12
+    },
+    {
+      "path": "20-substance-use-expansion.json",
+      "lessons": 10
+    },
+    {
+      "path": "21-reproductive-obstetric-expansion.json",
+      "lessons": 16
+    },
+    {
+      "path": "22-pediatrics-expansion.json",
+      "lessons": 18
+    },
+    {
+      "path": "23-derm-ent-eye-expansion.json",
+      "lessons": 15
+    },
+    {
+      "path": "24-infectious-public-health-expansion.json",
+      "lessons": 12
+    },
+    {
+      "path": "25-emergency-toxicology-expansion.json",
+      "lessons": 13
+    },
+    {
+      "path": "26-geriatrics-palliative-expansion.json",
+      "lessons": 11
+    },
+    {
+      "path": "27-professional-equity-practice-expansion.json",
+      "lessons": 14
+    },
+    {
+      "path": "28-diagnostics-procedures-expansion.json",
+      "lessons": 16
+    },
+    {
+      "path": "29-pharmacology-safety-expansion.json",
+      "lessons": 14
+    },
+    {
+      "path": "30-prevention-screening-expansion.json",
+      "lessons": 12
+    },
+    {
+      "path": "31-common-ambulatory-gaps.json",
+      "lessons": 13
+    },
+    {
+      "path": "32-canonical-audit-corrections.json",
+      "lessons": 8,
+      "role": "canonical_supersessions"
+    },
+    {
+      "path": "33-dermatology-hair-nail-specialty-gaps.json",
+      "lessons": 6
+    },
+    {
+      "path": "34-endocrine-hypertension-gaps.json",
+      "lessons": 2
+    },
+    {
+      "path": "35-primary-hyperparathyroidism.json",
+      "lessons": 1
+    },
+    {
+      "path": "36-mineralocorticoids-parity.json",
+      "lessons": 1,
+      "role": "full_lesson_parity_expansion"
+    },
+    {
+      "path": "37-neuro-peds-geri-parity.json",
+      "lessons": 7,
+      "role": "full_lesson_parity_expansion"
+    },
+    {
+      "path": "38a-lab-interpretation-parity.json",
+      "lessons": 8,
+      "role": "full_lesson_parity_expansion"
+    },
+    {
+      "path": "38b-lab-interpretation-parity.json",
+      "lessons": 8,
+      "role": "full_lesson_parity_expansion"
+    }
   ],
   "canonicalOverrides": {
     "adult-hypertension": "cnple-ca-canonical-2026-hypertension",
@@ -181,11 +310,12 @@
     "COMPREHENSIVE_COVERAGE_AUDIT_V2.md",
     "SOURCE_REFRESH_LEDGER_V2.md",
     "AUTHORING_QA_PARITY_37.md",
-    "AUTHORING_QA_PARITY_38A.md"
+    "AUTHORING_QA_PARITY_38A.md",
+    "AUTHORING_QA_PARITY_38B.md"
   ],
   "fullLessonParity": {
     "status": "IN_PROGRESS",
-    "authoringCanonicalTopicPathways": 402,
+    "authoringCanonicalTopicPathways": 410,
     "currentSearchIndexLessonCountObserved": 1979,
     "currentSearchIndexManifest": "nursenest-core/src/content/lessons/search-index/ca-np-cnple.manifest.json",
     "rule": "Completion requires every current canonical public-complete ca-np-cnple Full lesson to resolve to exactly one reviewed Cram lesson/recipe; topic breadth alone is not completion.",
@@ -203,6 +333,7 @@
     "rendererMappingComplete": false,
     "productionMerged": false,
     "productionDeployed": false,
-    "note": "The 410-object library is an audited topic baseline plus active specialty/full-lesson parity expansions; it is not complete Full-lesson parity. Batches 37 and 38A have passed clinical second-pass review, but parse/required-field/identity/source/Quick-Check certification still belongs to the pinned private-core integration gate. CNPLE Cram authoring remains open until the current canonical Full-lesson reverse-coverage audit reaches 100%, all weak Full sources are remediated, all Cram mappings/anchors/Quick Checks certify, and the learner runtime is verified."
+    "note": "The 418-object library is an audited topic baseline plus active Full-lesson parity expansions. Batches 37, 38A and 38B have passed clinical second-pass review; parse/identity/source/Quick-Check/shared-runtime certification remains required. CNPLE Cram authoring stays open until reverse coverage reaches 100% and every weak Full source and Cram certification gate is resolved.",
+    "secondPassClinicalAuditCompleteForParity38B": true
   }
 }
