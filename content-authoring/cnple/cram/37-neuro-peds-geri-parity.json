@@ -1,0 +1,401 @@
+[
+  {
+    "id": "cnple-ca-parity-neuro-syncope-neurologic",
+    "title": "Syncope Neurologic Evaluation: Know When the Brain Workup Is Actually Needed",
+    "system": "Neurology",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling"],
+    "lifespan": ["adolescent", "adult", "older adult"],
+    "acuity": "mixed",
+    "bottomLine": "True syncope is a brief global cerebral hypoperfusion syndrome with rapid spontaneous recovery. A neurologic cause must be considered, but routine CT/MRI or EEG is low value when the history is typical for syncope and the neurologic examination is normal; neurologic testing becomes appropriate when the event or examination suggests seizure, stroke, hemorrhage, mass lesion or another neurologic mimic.",
+    "recognize": [
+      "Features supporting syncope include a trigger such as standing, heat, pain or prolonged upright posture; autonomic prodrome such as nausea, warmth or diaphoresis; brief loss of consciousness with loss of tone; and rapid return toward baseline.",
+      "Brief myoclonic jerks can occur during syncope and do not by themselves diagnose epilepsy."
+    ],
+    "differentiate": [
+      "Seizure is more likely with a convincing aura, sustained tonic-clonic activity, lateral tongue injury, prolonged post-event confusion, recurrent unprovoked stereotyped episodes or focal neurologic findings, while urinary incontinence alone is not sufficiently discriminating.",
+      "A focal neurologic deficit, persistent altered mental status, severe sudden headache, significant head trauma or other neurologic red flag changes the pathway from simple syncope to targeted neurologic emergency evaluation."
+    ],
+    "assessment": [
+      "Reconstruct the event from patient and witness accounts: posture, trigger, prodrome, duration, movements, colour, injury, recovery, prior episodes, medications/substances and family history of sudden death or seizures.",
+      "Perform cardiovascular and neurologic examinations, orthostatic vital signs when appropriate, and assess for glucose/metabolic contributors while remembering that the highest-risk syncope causes are often cardiac rather than neurologic."
+    ],
+    "workup": [
+      "Obtain an ECG as part of the core syncope assessment and direct additional cardiovascular testing from risk features.",
+      "Do not routinely order brain imaging or EEG for typical syncope with a normal neurologic examination; order neurologic tests when history/examination creates a specific seizure, stroke, hemorrhage or structural-neurologic question."
+    ],
+    "management": [
+      "Treat the identified cause and disposition according to risk: benign reflex syncope may be managed with trigger education and follow-up, whereas exertional syncope, abnormal ECG, structural heart disease, persistent neurologic abnormality or serious injury warrants urgent evaluation.",
+      "If seizure remains plausible after initial assessment, give seizure-safety counselling and arrange appropriate neurologic follow-up rather than labelling a single uncertain spell as epilepsy."
+    ],
+    "medicationSafety": [
+      "Review antihypertensives, diuretics, QT-prolonging drugs, sedatives and glucose-lowering therapy because medications can contribute to hypotension, arrhythmia, altered awareness or hypoglycemia.",
+      "Do not start antiseizure medication solely because a syncopal episode included a few convulsive movements; treatment requires a defensible seizure diagnosis/risk assessment."
+    ],
+    "redFlags": [
+      "Syncope during exertion or while supine",
+      "Abnormal ECG, known structural heart disease or family history of premature sudden cardiac death",
+      "Persistent focal neurologic deficit, severe sudden headache or failure to return to baseline",
+      "Major trauma, ongoing hypotension, chest pain, dyspnea or recurrent events in a high-risk patient"
+    ],
+    "counselling": [
+      "Teach event-specific safety including hydration/trigger strategies when reflex syncope is likely and clear return precautions for recurrent events, chest pain, exertional episodes, focal neurologic symptoms or prolonged confusion.",
+      "Driving restrictions depend on cause, recurrence risk and licence class; use current Canadian Cardiovascular Society/provincial guidance rather than one universal interval."
+    ],
+    "followUp": [
+      "Reassess unexplained or recurrent syncope after initial testing, close the loop on ECG/cardiac investigations and revisit the diagnosis when witness details or new neurologic features emerge.",
+      "Refer to neurology when seizure or a neurologic disorder remains clinically plausible; refer to cardiology/electrophysiology when cardiac syncope risk is present."
+    ],
+    "examTrap": "Ordering CT brain and EEG automatically because a witness saw brief jerking during a classic vasovagal spell, while failing to perform the core syncope history, ECG and cardiac-risk assessment.",
+    "oneLinePearl": "Convulsive movements can occur in syncope; neurologic testing should answer a neurologic question, not substitute for syncope assessment.",
+    "sourceBasis": [
+      "Choosing Wisely Canada — Canadian Neurological Society: do not order neuroimaging or EEG for typical syncope with a normal neurologic evaluation",
+      "Choosing Wisely Canada — Canadian Society of Internal Medicine: do not routinely obtain neuroimaging in simple syncope with a normal neurologic examination",
+      "Canadian Cardiovascular Society syncope/driving guidance"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "cnple-ca-parity-geri-hypoglycemia-risk",
+    "title": "Hypoglycemia Risk: Older Adults Need Safer Targets, Drugs, and Rescue Plans",
+    "system": "Geriatrics / Endocrine",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling", "I.E Transition/Discharge/Documentation"],
+    "lifespan": ["older adult", "frailty"],
+    "acuity": "mixed",
+    "bottomLine": "Older adults are more vulnerable to hypoglycemia because renal impairment, cognitive change, irregular intake, polypharmacy, frailty and impaired symptom awareness can make insulin or secretagogue therapy unsafe. The NP priority is to prevent recurrence by individualizing glycemic goals, simplifying high-risk regimens and ensuring the patient and caregivers can recognize and treat low glucose.",
+    "recognize": [
+      "Hypoglycemia in an older adult may present as confusion, weakness, falls, dizziness, behaviour change, delirium or functional decline rather than classic adrenergic symptoms.",
+      "High-risk contexts include insulin or insulin secretagogues, chronic kidney disease, cognitive impairment, irregular meals, food insecurity, recent hospitalization, weight loss and prior severe or unrecognized hypoglycemia."
+    ],
+    "differentiate": [
+      "Do not attribute a fall or confusion automatically to age or dementia until reversible causes such as hypoglycemia, infection, orthostasis and medication effects have been considered.",
+      "A1C can look acceptable while masking dangerous glucose variability; recurrent lows can coexist with overall hyperglycemia."
+    ],
+    "assessment": [
+      "Ask specifically about symptomatic and asymptomatic lows, overnight events, falls, meal patterns, medication administration errors, renal function, alcohol, caregiver support, cognition, vision/dexterity and the patient's ability to use the glucose-monitoring device.",
+      "Review whether current glycemic targets still match health status, frailty, comorbidity, life expectancy and treatment burden."
+    ],
+    "workup": [
+      "Confirm suspected hypoglycemia with glucose measurement whenever feasible and review meter/CGM patterns when available; monitoring is the only way to confirm many low-glucose events.",
+      "Check renal/hepatic function and other cause-directed studies when clearance, acute illness or weight loss may have changed medication exposure."
+    ],
+    "management": [
+      "Treat an acute low according to current hypoglycemia guidance, then address the cause rather than only restoring one glucose value.",
+      "Prefer regimens with lower hypoglycemia risk when clinically appropriate, reduce unnecessary complexity, and de-intensify or modify insulin/secretagogue therapy when harms exceed the likely benefit of tight control.",
+      "Create a written rescue and sick-day plan that is feasible for the patient and caregivers, including access to glucagon when indicated."
+    ],
+    "medicationSafety": [
+      "Insulin and insulin secretagogues confer the highest hypoglycemia risk; advancing age, cognitive impairment and renal dysfunction magnify that risk.",
+      "Renal decline can prolong insulin and some glucose-lowering drug effects, so a dose that was previously tolerated may become unsafe without any prescription change.",
+      "Avoid reflexively escalating therapy from A1C alone when the glucose record shows recurrent lows or the older adult has become frail or cognitively impaired."
+    ],
+    "redFlags": [
+      "Severe hypoglycemia requiring assistance, seizure or loss of consciousness",
+      "Recurrent nocturnal or unrecognized hypoglycemia",
+      "Falls, delirium or driving events plausibly related to hypoglycemia",
+      "Inability of the patient/caregiver system to administer the regimen safely"
+    ],
+    "counselling": [
+      "Teach the patient and support persons how hypoglycemia may look different in older age and how to treat it promptly.",
+      "Use teach-back for glucose monitoring, insulin/device use, meal contingencies and rescue therapy; include caregivers when cognition or dexterity limits self-management."
+    ],
+    "followUp": [
+      "Reassess soon after any severe low, medication change, renal decline, weight loss, hospitalization or transition in living situation.",
+      "At every diabetes review, ask whether the regimen remains safe and manageable rather than assuming that a previously appropriate target remains appropriate indefinitely."
+    ],
+    "examTrap": "Seeing an A1C near target in a frail older adult with falls and overnight glucose lows and intensifying insulin instead of recognizing overtreatment and redesigning the regimen to reduce hypoglycemia.",
+    "oneLinePearl": "In older adults, a safer diabetes plan often means preventing lows before pursuing a lower A1C.",
+    "sourceBasis": [
+      "Diabetes Canada Clinical Practice Guidelines — Diabetes in Older People",
+      "Diabetes Canada Clinical Practice Guidelines — Hypoglycemia in Adults (2023 update)"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "cnple-ca-parity-newborn-neonatal-hypoglycemia",
+    "title": "Neonatal Hypoglycemia: Treat the At-Risk Infant, Not a Number in Isolation",
+    "system": "Maternal-Newborn / Pediatrics",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling", "I.E Transition/Discharge/Documentation"],
+    "lifespan": ["newborn"],
+    "acuity": "mixed",
+    "bottomLine": "Neonatal glucose management begins with risk and clinical condition. At-risk newborns need timely feeding and scheduled screening; symptomatic infants need immediate glucose measurement and treatment. In the first 72 hours, Canadian Paediatric Society guidance uses 2.6 mmol/L as the intervention threshold for at-risk infants, while persistent or recurrent hypoglycemia requires evaluation beyond routine transitional care.",
+    "recognize": [
+      "At-risk infants include those who are small or large for gestational age, infants of diabetic mothers, preterm infants and newborns with selected perinatal stress or other clinical risk factors.",
+      "Possible symptoms include jitteriness, lethargy, poor feeding, apnea, cyanotic episodes, temperature instability, hypotonia and seizures, but many at-risk infants are asymptomatic."
+    ],
+    "differentiate": [
+      "Jitteriness can be benign or related to hypoglycemia, hypocalcemia, withdrawal or neurologic disease; seizure-like activity or an unwell infant requires a broader assessment.",
+      "Transient low glucose in the early newborn transition is different from persistent hypoglycemia beyond the transitional period or recurrent hypoglycemia that suggests hyperinsulinism, endocrine disease or a metabolic disorder."
+    ],
+    "assessment": [
+      "Identify maternal/newborn risk factors before feeding begins, assess temperature and feeding effectiveness, and examine the infant for respiratory, neurologic or infectious illness that may increase glucose use or impair intake.",
+      "If the infant is symptomatic, obtain glucose promptly while stabilizing airway, breathing, circulation and temperature as clinically indicated."
+    ],
+    "workup": [
+      "Follow the current neonatal screening schedule for at-risk infants and confirm/interpret low values according to the local neonatal pathway and laboratory method.",
+      "Persistent, recurrent or severe hypoglycemia requires confirmatory laboratory assessment and a critical-sample/endocrine-metabolic evaluation when feasible before corrective therapy obscures the cause, provided treatment is not delayed in an unstable infant."
+    ],
+    "management": [
+      "Support early effective feeding and skin-to-skin/thermal stability when appropriate.",
+      "For selected asymptomatic low values, feeding with buccal dextrose gel may be used according to the neonatal protocol; symptomatic or severe hypoglycemia requires urgent treatment, often including IV glucose and neonatal/pediatric escalation.",
+      "Recheck glucose after an intervention and continue monitoring until the infant demonstrates sustained stability across feeds according to the protocol."
+    ],
+    "medicationSafety": [
+      "Do not delay treatment of a symptomatic infant while waiting for repeated confirmatory tests.",
+      "Concentrated IV dextrose can injure tissue and produce rapid glucose shifts; concentration, route and infusion rate are neonatal-protocol decisions requiring careful line and glucose monitoring.",
+      "Dextrose gel is an adjunct to feeding for selected infants and does not replace evaluation/treatment of an unwell infant or persistent hypoglycemia."
+    ],
+    "redFlags": [
+      "Seizure, apnea, cyanosis, marked lethargy or hypotonia with low glucose",
+      "Recurrent/persistent low glucose despite appropriate feeding or glucose therapy",
+      "Hypoglycemia with suspected sepsis, endocrine/metabolic disease or significant perinatal illness",
+      "Inability to maintain glucose safely before discharge"
+    ],
+    "counselling": [
+      "Explain why the infant is being screened and how feeding, temperature and illness affect glucose; avoid implying that one low value means the infant has diabetes.",
+      "Before discharge, teach feeding expectations and warning signs such as poor feeding, unusual sleepiness, abnormal movements, colour/breathing change or temperature instability."
+    ],
+    "followUp": [
+      "Do not discharge until glucose stability and feeding are adequate for the infant's risk category and the follow-up plan is closed loop.",
+      "Persistent hypoglycemia or a suspected congenital/endocrine cause requires neonatal/pediatric specialty follow-up rather than routine newborn follow-up alone."
+    ],
+    "examTrap": "Repeating bedside glucose checks in a jittery or lethargic newborn while delaying treatment and failing to assess temperature, feeding, respiratory status and serious illness.",
+    "oneLinePearl": "Neonatal hypoglycemia is a risk-and-symptom problem first and a glucose-number problem second.",
+    "sourceBasis": [
+      "Canadian Paediatric Society — The screening and management of newborns at risk for low blood glucose",
+      "Canadian Paediatric Society neonatal care guidance"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "cnple-ca-parity-neuro-cluster-headache",
+    "title": "Cluster Headache: Recognize the Trigeminal Autonomic Pattern and Treat Fast",
+    "system": "Neurology",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling"],
+    "lifespan": ["adult", "older adult"],
+    "acuity": "urgent",
+    "bottomLine": "Cluster headache causes excruciating strictly unilateral orbital/supraorbital/temporal pain with ipsilateral cranial autonomic symptoms or marked restlessness, occurring in short recurrent attacks during cluster periods. Acute therapy must act quickly—oxygen and a rapid-onset triptan are key evidence-based options—while prevention and secondary-cause assessment are planned in parallel.",
+    "recognize": [
+      "Typical attacks are severe to very severe, strictly unilateral and relatively short, often recurring at similar times with ipsilateral tearing/red eye, nasal congestion/rhinorrhea, ptosis/miosis, eyelid edema or facial sweating.",
+      "Unlike many migraine patients who seek stillness, patients with cluster headache are often restless or pace during attacks."
+    ],
+    "differentiate": [
+      "Differentiate cluster headache from migraine, trigeminal neuralgia, acute angle-closure glaucoma, carotid dissection, sinus/orbital disease and other trigeminal autonomic cephalalgias.",
+      "A first or atypical cluster-like syndrome, abnormal neurologic examination or secondary-headache red flag warrants targeted imaging/urgent evaluation rather than automatic labelling as primary cluster headache."
+    ],
+    "assessment": [
+      "Document attack duration/frequency, laterality, autonomic features, restlessness, triggers such as alcohol during an active cluster period, prior response, smoking/substance history, neurologic/ocular findings and cardiovascular contraindications to triptan therapy.",
+      "Ask about depression and suicide risk because the pain burden can be extreme."
+    ],
+    "workup": [
+      "Primary cluster headache is a clinical diagnosis; obtain neuroimaging when presentation is first/atypical, the examination is abnormal or secondary pathology is plausible.",
+      "Do not order broad laboratory panels as a substitute for phenotype recognition and secondary-headache assessment."
+    ],
+    "management": [
+      "Treat acute attacks with high-flow oxygen via an appropriate non-rebreather system and/or a rapid-onset triptan when not contraindicated; oral analgesics are usually too slow for the attack duration.",
+      "Start or arrange preventive therapy for an active cluster period; verapamil is commonly used and requires ECG-aware titration/monitoring, while bridging strategies and alternatives are individualized with headache/neurology guidance.",
+      "Refer early when attacks are frequent, diagnosis is uncertain, prevention is failing or advanced therapies are being considered."
+    ],
+    "medicationSafety": [
+      "Screen for cardiovascular/cerebrovascular contraindications and interacting vasoconstrictive therapy before triptan use.",
+      "Verapamil can cause bradycardia, hypotension and conduction block; dose escalation requires appropriate ECG and clinical monitoring.",
+      "Avoid opioids as routine acute cluster-headache treatment; they are poorly matched to attack biology and create avoidable harm."
+    ],
+    "redFlags": [
+      "First/worst sudden headache or a major change from the established pattern",
+      "Persistent Horner syndrome, focal neurologic deficit or neck pain raising concern for dissection/structural disease",
+      "Painful red eye with visual loss or abnormal pupil suggesting ocular emergency",
+      "Suicidal ideation or inability to function safely because of uncontrolled attacks"
+    ],
+    "counselling": [
+      "Teach the patient to start acute therapy at attack onset and to have oxygen/triptan access ready during an active bout.",
+      "Alcohol can trigger attacks during a cluster period in some patients; encourage an attack diary and clear instructions for when a change in pattern requires urgent reassessment."
+    ],
+    "followUp": [
+      "Review attack frequency, acute-treatment effectiveness, preventive response and ECG/adverse effects after preventive changes.",
+      "Coordinate headache/neurology follow-up for refractory or diagnostically atypical cases."
+    ],
+    "examTrap": "Treating a 45-minute excruciating unilateral orbital headache with tearing and pacing as ordinary migraine and prescribing a slow oral analgesic while missing the classic cluster phenotype and rapid-onset treatment needs.",
+    "oneLinePearl": "Cluster headache is short, unilateral, autonomic and restless—treat at attack onset with a therapy fast enough to match the attack.",
+    "sourceBasis": [
+      "Canadian Headache Society guidance library — Review on Cluster Headache",
+      "Canadian Headache Society headache clinical guidance"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "cnple-ca-parity-neuro-tension-headache",
+    "title": "Tension Type Headache: Diagnose the Pattern Without Missing a Secondary Cause",
+    "system": "Neurology",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling"],
+    "lifespan": ["adolescent", "adult", "older adult"],
+    "acuity": "routine",
+    "bottomLine": "Tension-type headache is usually bilateral, pressing/tightening and mild-to-moderate, without the prominent nausea or activity aggravation typical of migraine. The NP must first confirm that the pattern is primary and stable, then use simple acute therapy sparingly, address triggers and prevent medication-overuse headache.",
+    "recognize": [
+      "Patients often describe a pressure, band or tightness that is bilateral and not worsened by routine physical activity.",
+      "Episodic tension-type headache may coexist with migraine, so a patient can have more than one headache phenotype."
+    ],
+    "differentiate": [
+      "Migraine is more likely when headaches are pulsatile, moderate/severe, activity-aggravated or accompanied by nausea and/or prominent photophobia/phonophobia.",
+      "Secondary headache must be reconsidered with sudden onset, systemic illness, cancer/immunosuppression, pregnancy/postpartum complications, new neurologic findings, papilledema, age/pattern change or progressive severity."
+    ],
+    "assessment": [
+      "Characterize onset, frequency, duration, location/quality, associated symptoms, disability, analgesic/caffeine use, sleep, stress, posture/neck factors, mood and neurologic examination.",
+      "Ask how many days per month acute medications are used; medication-overuse can transform a manageable primary headache into a chronic pattern."
+    ],
+    "workup": [
+      "Do not routinely image a stable primary-headache phenotype with a normal neurologic examination; image or investigate when red flags or an abnormal examination create a secondary-headache question.",
+      "A headache diary can establish frequency, phenotype, triggers and treatment response before escalating therapy."
+    ],
+    "management": [
+      "Use an appropriate simple analgesic/NSAID when not contraindicated and avoid routine opioid or combination-analgesic escalation.",
+      "Address sleep, hydration, activity, stress, ergonomics and coexisting anxiety/depression when relevant.",
+      "For frequent/chronic tension-type headache with meaningful disability, consider preventive therapy and/or nonpharmacologic strategies based on the individual pattern and comorbidity rather than repeatedly increasing acute-medication use."
+    ],
+    "medicationSafety": [
+      "Frequent acetaminophen, NSAID, triptan or combination-analgesic use can contribute to medication-overuse headache; quantify use rather than asking only whether the drug 'works.'",
+      "NSAID GI/renal/cardiovascular risk and acetaminophen total daily exposure must be considered when headaches recur frequently.",
+      "If a tricyclic antidepressant is selected for prevention, assess anticholinergic, orthostatic and cardiac risks, especially in older adults."
+    ],
+    "redFlags": [
+      "Thunderclap or rapidly maximal headache",
+      "Focal neurologic deficit, altered mental status, seizure or papilledema",
+      "Fever/meningismus, cancer/immunosuppression or pregnancy/postpartum vascular warning features",
+      "New or progressively changing headache phenotype"
+    ],
+    "counselling": [
+      "Teach that tension-type headache is real but does not require escalating analgesic use; frequent medication can perpetuate headache.",
+      "Use a diary to connect headache days, medication days, sleep/stress and response to prevention."
+    ],
+    "followUp": [
+      "Reassess diagnosis if frequency or phenotype changes and review preventive effectiveness after an adequate trial.",
+      "Refer when diagnosis is uncertain, red flags emerge, headaches remain disabling despite appropriate primary-care management or medication overuse is difficult to reverse."
+    ],
+    "examTrap": "Calling every bilateral pressure headache 'tension' without asking about secondary-headache red flags or how many days per month the patient is taking analgesics.",
+    "oneLinePearl": "Tension-type headache is a phenotype diagnosis; the two big misses are secondary headache and medication overuse.",
+    "sourceBasis": [
+      "Canadian Headache Society clinical guidance and primary-care headache resources",
+      "Choosing Wisely Canada headache/neuroimaging principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "cnple-ca-parity-peds-headaches",
+    "title": "Headaches: Pediatric Pattern Recognition, Red Flags, and Migraine Care",
+    "system": "Pediatrics / Neurology",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling", "I.E Transition/Discharge/Documentation"],
+    "lifespan": ["child", "adolescent"],
+    "acuity": "mixed",
+    "bottomLine": "Most recurrent pediatric headaches are primary, but the NP must identify age-appropriate migraine features and screen for secondary red flags before treating the phenotype. In acute pediatric migraine, home therapy may include ibuprofen and an age/route-appropriate triptan; for moderate-to-severe ED migraine unresponsive to home therapy, current Canadian Paediatric Society guidance recommends IV metoclopramide and advises against opioids.",
+    "recognize": [
+      "Pediatric migraine can be bilateral/frontotemporal and shorter than adult migraine; nausea/vomiting, photophobia/phonophobia and activity limitation remain important clues.",
+      "Headache burden is measured by school attendance, sleep, activity and family function as well as pain intensity."
+    ],
+    "differentiate": [
+      "Differentiate migraine and tension-type patterns from infection, intracranial pressure disorders, hemorrhage/vascular disease, trauma, medication/substance effects, hypertension and vision/sleep disorders based on history and examination.",
+      "A child with a normal neurologic examination and a stable primary-headache pattern does not need imaging simply because headaches recur."
+    ],
+    "assessment": [
+      "Ask the child and caregiver about onset, frequency, duration, morning/nocturnal features, vomiting, positional/Valsalva change, aura, seizures, fever, trauma, medications/caffeine, sleep, mood, school stress and family migraine history.",
+      "Measure blood pressure, growth and hydration status and perform a complete neurologic examination including gait, coordination and funduscopic assessment when feasible."
+    ],
+    "workup": [
+      "Use targeted neuroimaging/laboratory evaluation when red flags or abnormal examination suggest secondary disease; avoid routine CT for a classic recurrent primary-headache phenotype with a normal examination.",
+      "When ED migraine is moderate/severe and home treatment failed, reassess hydration and alternative diagnoses before escalating acute therapy."
+    ],
+    "management": [
+      "For early acute migraine, use age/weight-appropriate ibuprofen and consider a triptan when appropriate to age, formulation, timing and contraindications; add an antiemetic based on symptoms.",
+      "Current CPS ED guidance recommends IV metoclopramide for acute migraine unresponsive to home treatment; IV fluids are based on hydration status, not given automatically to every patient.",
+      "For frequent disabling headaches, build prevention around sleep, regular meals/hydration, activity, trigger/medication-overuse review and individualized preventive options with pediatric/headache expertise when needed."
+    ],
+    "medicationSafety": [
+      "Do not use opioids for pediatric migraine; they lack migraine-specific benefit and are associated with harm and repeat utilization.",
+      "Monitor for metoclopramide akathisia/dystonia and administer according to pediatric dosing/infusion guidance.",
+      "Avoid adult dosing shortcuts; pediatric acute and preventive therapy must respect weight, age, formulation, contraindications and Health Canada availability."
+    ],
+    "redFlags": [
+      "Focal neurologic deficit, papilledema, seizure, altered consciousness or persistent gait abnormality",
+      "Thunderclap onset, major head trauma, fever/meningismus or severe systemic illness",
+      "Progressive headache with persistent morning/nocturnal vomiting or significant positional/Valsalva worsening",
+      "Very young child with a new concerning headache pattern or a major change from established migraine"
+    ],
+    "counselling": [
+      "Use a headache diary that includes school/function, sleep, meals, hydration and acute-medication days, not just pain scores.",
+      "Give caregivers clear return precautions and explain why normal examination/stable migraine features may make imaging unnecessary."
+    ],
+    "followUp": [
+      "Reassess within a clinically appropriate interval when headaches are new/frequent, preventive therapy changes or school/function is impaired.",
+      "Refer urgently for red flags and refer to pediatric neurology/headache care for diagnostic uncertainty, refractory disability or complex preventive therapy."
+    ],
+    "examTrap": "Ordering a CT for every child with recurrent migraine while missing the higher-value tasks: red-flag history, neurologic examination, medication-overuse review and functional impact.",
+    "oneLinePearl": "Pediatric headache care is phenotype plus red flags plus function—imaging is targeted, not automatic.",
+    "sourceBasis": [
+      "Canadian Paediatric Society — Pharmacological management of acute migraine attacks in children and adolescents presenting to the emergency department (2025)",
+      "Canadian Headache Society clinical guidance"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "cnple-ca-parity-headache-comprehensive-case",
+    "title": "Comprehensive Headache Case Management: Red Flags, Phenotype, Treatment, and Follow-Up",
+    "system": "Neurology / Integrated Primary Care",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling", "I.E Transition/Discharge/Documentation"],
+    "lifespan": ["adolescent", "adult", "pregnancy", "postpartum", "older adult"],
+    "acuity": "mixed",
+    "bottomLine": "A complete headache encounter answers four questions in order: Is this dangerous? Which headache phenotype best fits? What treatment is safe for this patient today? What follow-up prevents recurrence and medication overuse? The NP should not jump from 'headache' directly to a favourite drug before red flags, pregnancy/comorbidity, medication exposure and the neurologic examination are integrated.",
+    "recognize": [
+      "The same patient may have more than one headache phenotype, and a known migraine history does not immunize them against a new secondary headache.",
+      "Disability, headache-day frequency and acute-medication days are as important to longitudinal management as the 0-to-10 pain score."
+    ],
+    "differentiate": [
+      "Use onset, duration, laterality, quality, autonomic symptoms, nausea/sensory sensitivity, activity relationship and attack frequency to distinguish migraine, tension-type and cluster phenotypes after secondary causes are screened.",
+      "Medication-overuse headache, cervicogenic contributors, post-traumatic headache, pregnancy/postpartum vascular disorders and spontaneous intracranial hypotension are common reasons an apparently simple headache case becomes complex."
+    ],
+    "assessment": [
+      "Build a timeline: first headache, current change, frequency, onset speed, positional/Valsalva features, neurologic/visual symptoms, systemic symptoms, trauma, pregnancy/postpartum status, medications/substances, caffeine, sleep and family history.",
+      "Perform vital signs including blood pressure and a focused complete neurologic examination; assess fundi when intracranial-pressure pathology is plausible."
+    ],
+    "workup": [
+      "Do not order imaging for reassurance alone when a stable primary-headache phenotype and normal neurologic examination make secondary pathology unlikely.",
+      "Choose CT, MRI, vascular imaging, lumbar puncture or targeted laboratory testing only when the suspected secondary diagnosis and urgency justify that test."
+    ],
+    "management": [
+      "Match acute therapy to phenotype, speed of onset, nausea/vomiting, contraindications, pregnancy/lactation status and prior response.",
+      "Consider preventive therapy when frequency/disability or acute-medication use warrants it; select the preventive agent from comorbidity, reproductive considerations, adverse effects and patient preference rather than ranking drugs without context.",
+      "Treat medication overuse as part of the headache disorder by reducing the overused acute medication and strengthening an appropriate preventive/rescue plan."
+    ],
+    "medicationSafety": [
+      "Avoid opioids as routine primary-headache therapy and quantify acute-medication days to reduce medication-overuse risk.",
+      "Review cardiovascular/vascular contraindications before triptans and reproductive safety before preventive choices; some headache therapies require pregnancy avoidance or specialist discussion.",
+      "If the patient is taking multiple serotonergic or sedating drugs, assess interactions and the actual syndrome risk instead of reflexively prohibiting every combination."
+    ],
+    "redFlags": [
+      "Thunderclap onset or a distinctly new severe headache",
+      "Focal neurologic deficit, altered mental status, seizure, papilledema or persistent abnormal examination",
+      "Fever/meningismus, cancer/immunosuppression, significant trauma or pregnancy/postpartum hypertensive/vascular concern",
+      "Progressive pattern change, positional/Valsalva headache or other features suggesting abnormal intracranial pressure"
+    ],
+    "counselling": [
+      "Give the patient a written acute plan, limits on medication frequency, prevention goals and specific emergency return precautions.",
+      "A headache diary should track phenotype, frequency, disability, triggers and medication days so follow-up decisions are based on patterns rather than recall."
+    ],
+    "followUp": [
+      "Reassess diagnostic fit, headache-day burden and treatment response after meaningful therapy changes and close the loop on any ordered imaging/referral.",
+      "Refer urgently for secondary-headache concern and refer to headache/neurology care when diagnosis remains uncertain, disability is refractory or advanced therapy is being considered."
+    ],
+    "examTrap": "Choosing a migraine medication from the patient's prior history before asking whether this headache is different, thunderclap, postpartum, positional or associated with a new neurologic deficit.",
+    "oneLinePearl": "Headache clinical judgment is danger first, phenotype second, patient-specific treatment third, and recurrence prevention fourth.",
+    "sourceBasis": [
+      "Canadian Headache Society clinical guidelines and 2024 migraine prevention update",
+      "Canadian Paediatric Society pediatric migraine guidance for pediatric elements",
+      "Choosing Wisely Canada neuroimaging recommendations"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  }
+]
