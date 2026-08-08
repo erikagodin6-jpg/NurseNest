@@ -2,14 +2,14 @@
 
 Status: ACTIVE AUTHORING
 Baseline date: 2026-08-07
-Authored Cram lessons: 344
+Authored Cram lessons: 364
 Locale: United States
 Level: PN / LPN / LVN entry-level practice
 Exam alignment: 2026 NCLEX-PN Test Plan
 
 ## Current baseline
 
-The library contains 344 distinct authored Cram lessons spanning all NCLEX-PN Client Needs areas and major practical-nursing clinical domains, including high-alert infusion safety, CKD/mineral-bone pharmacology, potassium-binder safety, BPH/urinary-retention medications, overactive-bladder therapy, stone-prevention pharmacology, and UTI symptom/treatment distinctions.
+The library contains 364 distinct authored Cram lessons spanning all NCLEX-PN Client Needs areas and major practical-nursing clinical domains. Coverage now includes high-alert infusion safety, renal/urology and CKD pharmacology, GI medication safety, endocrine replacement/thyroid therapy, osteoporosis/calcium-regulation drugs, antiepileptic safety, migraine therapy, spasticity treatment, and myasthenia medication safety.
 
 No numeric milestone by itself is a declaration of complete coverage.
 
@@ -19,11 +19,13 @@ The 2026-08-05 practical-nursing production audit measured `us-lpn-nclex-pn` at 
 
 ## Latest authoring
 
-The newest 20 lessons target renal/metabolic and urology pharmacology: desmopressin, octreotide, albumin, IV iron sucrose, sevelamer, cinacalcet, calcitriol, patiromer, sodium zirconium cyclosilicate, acetazolamide, hydrochlorothiazide, tamsulosin, finasteride, oxybutynin, mirabegron, bethanechol, calcium acetate, potassium citrate, phenazopyridine, and fosfomycin.
+The newest 20 lessons target two additional medication-safety surfaces.
 
-Current U.S. DailyMed/FDA labeling was refreshed before authoring. High-yield corrections include desmopressin's boxed hyponatremia warning; explicit recognition that patiromer and sodium-zirconium cyclosilicate are not emergency substitutes for life-threatening hyperkalemia treatment; calcium/PTH monitoring with cinacalcet/calcitriol; and clear distinction between phenazopyridine symptom relief and definitive UTI treatment.
+GI pharmacology now has dedicated lessons for famotidine, sucralfate, mesalamine, pancrelipase, loperamide, polyethylene glycol 3350, bisacodyl, prochlorperazine, promethazine, and scopolamine. The lessons differentiate symptom control from emergency evaluation, preserve formulation/timing rules, and explicitly flag invasive-diarrhea, obstruction, movement-disorder, respiratory-depression, and parenteral tissue-injury risks.
 
-PN/LVN language remains limited to recognition, monitoring, safe implementation, communication, and escalation unless state/facility policy specifically authorizes more.
+Neuro/endocrine pharmacology now adds propylthiouracil, hydrocortisone, fludrocortisone, denosumab, calcitonin, lamotrigine, topiramate, sumatriptan, baclofen, and pyridostigmine. High-yield current safety points include PTU severe liver injury, denosumab severe hypocalcemia risk in advanced CKD, lamotrigine serious skin reactions, topiramate metabolic acidosis/stone risk, baclofen withdrawal, and pyridostigmine cholinergic crisis.
+
+Current U.S. DailyMed/FDA labeling was refreshed before authoring. PN/LVN language remains limited to recognition, monitoring, safe implementation, communication, and escalation unless state/facility policy specifically authorizes more.
 
 ## Lineage and completion gate
 
