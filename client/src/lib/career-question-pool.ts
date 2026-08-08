@@ -1,12 +1,32 @@
 import type { CareerType } from "@shared/careers";
 import { CAREER_CONFIGS } from "@shared/careers";
 import { fisherYatesShuffle } from "@shared/shuffle";
+import { normalizeLegacyClientQuestion, type LegacyContractOption } from "./legacy-question-contract";
 
 export interface CareerPooledQuestion {
   id: string;
   stem: string;
+  /** Legacy display compatibility. New code should prefer optionObjects + correctAnswerIds. */
   options: string[];
+  /** Legacy grading compatibility. New code should grade by stable option id. */
   correctIndex: number;
+  optionObjects: LegacyContractOption[];
+  correctAnswerIds: string[];
+  distractorRationales: Record<string, string>;
+  correctAnswerExplanation: string;
+  hint: string;
+  whyThisMatters: string;
+  clinicalPearl: string;
+  mnemonic?: string;
+  countryCode?: string;
+  countryLabels?: string[];
+  regionScope: string;
+  languageCode: string;
+  exam?: string;
+  licensingBody?: string;
+  optionContractVersion: 2;
+  publicationContractVersion: 2;
+  metadataOrigin: "authored-v2" | "legacy-derived";
   rationale: string;
   difficulty: number;
   category: string;
@@ -17,6 +37,63 @@ export interface CareerPooledQuestion {
 
 let careerQuestionsCache: Record<string, CareerPooledQuestion[]> = {};
 
+function jurisdictionForCareer(careerType: CareerType) {
+  const config = CAREER_CONFIGS[careerType];
+  const exams = config.examNames || [];
+  const joined = exams.join(" | ");
+  const ca = /\b(?:CSMLS|CBRC|COPR|PEBC|CAMRT|Canada|Canadian|Provincial|REx-PN|CNPLE)\b/i.test(joined);
+  const us = /\b(?:NBRC|NREMT|PTCB|ExCPT|ASCP|ARRT|ARDMS|NCLEX|ANCC|AANP)\b/i.test(joined);
+  const countryCode = ca && !us ? "CA" : us && !ca ? "US" : undefined;
+  const regionScope = ca && us ? "BOTH" : countryCode === "CA" ? "CAN" : countryCode === "US" ? "US" : "GLOBAL";
+  const countryLabels = ca && us ? ["Canada", "United States"] : countryCode === "CA" ? ["Canada"] : countryCode === "US" ? ["United States"] : ["International / exam-specific"];
+  return {
+    countryCode,
+    countryLabels,
+    regionScope,
+    languageCode: "en",
+    exam: exams.join(" / ") || config.name,
+    licensingBody: exams.join(" / ") || undefined,
+  };
+}
+
+function toPooled(raw: any, index: number, careerType: CareerType, tier: string): CareerPooledQuestion | null {
+  const canonical = normalizeLegacyClientQuestion(raw, index, jurisdictionForCareer(careerType));
+  if (!canonical.options.length || !canonical.correctAnswerIds.length) return null;
+  const correctId = canonical.correctAnswerIds[0];
+  const correctIndex = canonical.options.findIndex(option => option.id === correctId);
+  if (correctIndex < 0) return null;
+  return {
+    ...raw,
+    id: canonical.id,
+    stem: raw.stem,
+    options: canonical.options.map(option => option.text),
+    correctIndex,
+    optionObjects: canonical.options,
+    correctAnswerIds: canonical.correctAnswerIds,
+    distractorRationales: canonical.distractorRationales,
+    correctAnswerExplanation: canonical.correctAnswerExplanation,
+    hint: canonical.hint,
+    whyThisMatters: canonical.whyThisMatters,
+    clinicalPearl: canonical.clinicalPearl,
+    mnemonic: canonical.mnemonic,
+    countryCode: canonical.countryCode,
+    countryLabels: canonical.countryLabels,
+    regionScope: canonical.regionScope,
+    languageCode: canonical.languageCode,
+    exam: canonical.exam,
+    licensingBody: canonical.licensingBody,
+    optionContractVersion: 2,
+    publicationContractVersion: 2,
+    metadataOrigin: canonical.metadataOrigin,
+    rationale: raw.rationale || canonical.correctAnswerExplanation,
+    difficulty: Number(raw.difficulty) || 2,
+    category: raw.category || raw.bodySystem || "General",
+    topic: raw.topic || raw.subtopic || raw.category || "General",
+    careerType,
+    tier,
+  };
+}
+
 async function loadFromApi(careerType: CareerType): Promise<CareerPooledQuestion[] | null> {
   if (careerType !== "socialWorker") return null;
   try {
@@ -26,15 +103,15 @@ async function loadFromApi(careerType: CareerType): Promise<CareerPooledQuestion
     if (!data.questions || data.questions.length === 0) return null;
     const config = CAREER_CONFIGS[careerType];
     const tiers = config.tiers;
-    return data.questions.map((q: any) => {
+    return data.questions.map((q: any, index: number) => {
       let tier = "free";
       if (tiers.length >= 3) {
         if (q.difficulty <= 2) tier = tiers[0].id;
         else if (q.difficulty <= 3) tier = tiers[1].id;
         else tier = tiers[2].id;
       }
-      return { ...q, careerType, tier };
-    });
+      return toPooled(q, index, careerType, tier);
+    }).filter((q: CareerPooledQuestion | null): q is CareerPooledQuestion => !!q);
   } catch {
     return null;
   }
@@ -53,32 +130,19 @@ async function loadCareerQuestions(careerType: CareerType): Promise<CareerPooled
     const mod = await import(`../data/career-questions/${CAREER_CONFIGS[careerType].slug}-questions.ts`);
     const exportKey = Object.keys(mod).find(k => Array.isArray(mod[k]));
     if (!exportKey) return [];
-    const raw = mod[exportKey] as Array<{
-      id: string;
-      stem: string;
-      options: string[];
-      correctIndex: number;
-      rationale: string;
-      difficulty: number;
-      category: string;
-      topic: string;
-    }>;
+    const raw = mod[exportKey] as any[];
 
     const config = CAREER_CONFIGS[careerType];
     const tiers = config.tiers;
-    const pooled: CareerPooledQuestion[] = raw.map((q) => {
+    const pooled = raw.map((q, index) => {
       let tier = "free";
       if (tiers.length >= 3) {
         if (q.difficulty <= 2) tier = tiers[0].id;
         else if (q.difficulty <= 3) tier = tiers[1].id;
         else tier = tiers[2].id;
       }
-      return {
-        ...q,
-        careerType,
-        tier,
-      };
-    });
+      return toPooled(q, index, careerType, tier);
+    }).filter((q): q is CareerPooledQuestion => !!q);
 
     careerQuestionsCache[careerType] = pooled;
     return pooled;
@@ -118,12 +182,17 @@ export function getCareerPoolStats(questions: CareerPooledQuestion[]): {
   total: number;
   categories: Record<string, number>;
   byDifficulty: Record<number, number>;
+  authoredV2: number;
+  legacyDerived: number;
 } {
   const categories: Record<string, number> = {};
   const byDifficulty: Record<number, number> = {};
+  let authoredV2 = 0;
+  let legacyDerived = 0;
   for (const q of questions) {
     categories[q.category] = (categories[q.category] || 0) + 1;
     byDifficulty[q.difficulty] = (byDifficulty[q.difficulty] || 0) + 1;
+    if (q.metadataOrigin === "authored-v2") authoredV2++; else legacyDerived++;
   }
-  return { total: questions.length, categories, byDifficulty };
+  return { total: questions.length, categories, byDifficulty, authoredV2, legacyDerived };
 }
