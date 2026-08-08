@@ -2,11 +2,11 @@
 
 QA date: 2026-08-08
 Branch: `content/us-pn-cram-authoring-20260807`
-Status: ACTIVE AUTHORING — 304 authored Cram lessons; U.S. serving-row reconciliation remains in progress.
+Status: ACTIVE AUTHORING — 324 authored Cram lessons; U.S. serving-row reconciliation remains in progress.
 
 ## Coverage QA
 
-The current library contains 304 distinct Cram lessons aligned to entry-level U.S. practical nursing and the 2026 NCLEX-PN test plan. It spans all NCLEX-PN Client Needs categories and a broad set of clinical systems, lifespan stages, medications, devices, safety problems, emergencies, coordinated-care decisions, medication-administration skills, therapeutic communication, documentation, fluid-balance teaching, obstetric pharmacology, antidotes/reversal agents, and parenteral electrolyte safety.
+The current library contains 324 distinct Cram lessons aligned to entry-level U.S. practical nursing and the 2026 NCLEX-PN test plan. It spans all NCLEX-PN Client Needs categories and a broad set of clinical systems, lifespan stages, medications, devices, safety problems, emergencies, coordinated-care decisions, medication-administration skills, therapeutic communication, documentation, fluid-balance teaching, obstetric pharmacology, antidotes/reversal agents, parenteral electrolyte safety, and high-alert monitored infusions.
 
 This is not yet a 100% full-lesson-to-Cram coverage claim. Completion requires reconciliation against the actual serving U.S. `us-lpn-nclex-pn` lesson pool and authoring every remaining applicable gap.
 
@@ -36,6 +36,12 @@ These pathway-specific numbers supersede PN-family totals as the primary denomin
 4. one-to-many or many-to-one relationships are documented when a broad full lesson is represented by several narrower Cram lessons.
 
 New direct-remediation lessons may carry `sourceLessonSlugCandidate` and `lineageStatus`; these fields are evidence hooks, not a completion claim. The packaged practical-nursing lesson corpus is tarball-backed rather than ordinary tracked GitHub text, so inability to verify a row through GitHub code search must remain `REQUIRED`, never be treated as an implicit pass.
+
+## High-alert infusion QA
+
+The newest high-alert infusion lessons are deliberately framed around monitoring, safe implementation, recognition of adverse effects, and immediate escalation. They do not imply that a U.S. LPN/LVN universally has authority to initiate or independently titrate thrombolytics, vasoactive drips, propofol, dexmedetomidine, insulin infusions, heparin infusions, hypertonic saline, or other critical-care infusions. Those lessons carry `statePolicyCheck: true` where scope is facility/state dependent.
+
+High-change/current-source checks in this tranche include current 2026 U.S. labeling for alteplase, tenecteplase, sodium nitroprusside, nicardipine, dexmedetomidine, propofol, vasopressin, phenylephrine, esmolol, diltiazem, heparin, magnesium sulfate, sodium/potassium phosphates, and related infusion products.
 
 ## PN/LVN cognitive and scope QA
 
@@ -117,7 +123,7 @@ Before adding a lesson:
 
 1. Search the existing U.S. PN Cram library by topic and clinical decision.
 2. If a topic already exists, deepen or correct it rather than creating a cosmetic duplicate.
-3. A second lesson on the same disease is acceptable only when it teaches a materially different high-yield decision pathway, such as chronic care versus acute emergency, medication toxicity versus disease management, or adult versus newborn/pediatric physiology.
+3. A second lesson on the same disease or drug is acceptable only when it teaches a materially different high-yield decision pathway, such as chronic care versus acute emergency, class safety versus continuous-infusion management, medication toxicity versus disease management, or adult versus newborn/pediatric physiology.
 4. Titles alone are not sufficient for deduplication; compare clinical purpose and stable IDs.
 
 ## Serving-scope reconciliation
@@ -134,7 +140,7 @@ Authoring completion is reached only when `MISSING_CRAM = 0` and no unexplained 
 
 ## Publication checkpoint
 
-Clinical authored baseline: 304 lessons — COMPLETE as a baseline only.
+Clinical authored baseline: 324 lessons — COMPLETE as a baseline only.
 
 Still required before declaring the U.S. PN Cram estate complete/live:
 
@@ -147,4 +153,4 @@ Still required before declaring the U.S. PN Cram estate complete/live:
 - learner-facing PN/US entitlement QA;
 - merge/release/deployment certification.
 
-Do not convert the 304-lesson count into a production-complete claim.
+Do not convert the 324-lesson count into a production-complete claim.
