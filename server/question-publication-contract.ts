@@ -1,0 +1,247 @@
+type JsonRecord = Record<string, unknown>;
+
+export type CanonicalOption = {
+  id: string;
+  text: string;
+  label?: string;
+};
+
+export type UnitVariant = {
+  token: string;
+  quantity: string;
+  si: { value: number | string; unit: string; display: string };
+  conv: { value: number | string; unit: string; display: string };
+};
+
+export type QuestionContractInput = {
+  id?: unknown;
+  tier?: unknown;
+  exam?: unknown;
+  questionType?: unknown;
+  question_type?: unknown;
+  stem?: unknown;
+  options?: unknown;
+  correctAnswer?: unknown;
+  correct_answer?: unknown;
+  rationale?: unknown;
+  distractorRationales?: unknown;
+  distractor_rationales?: unknown;
+  correctAnswerExplanation?: unknown;
+  correct_answer_explanation?: unknown;
+  hint?: unknown;
+  examStrategy?: unknown;
+  exam_strategy?: unknown;
+  whyThisMatters?: unknown;
+  why_this_matters?: unknown;
+  keyTakeaway?: unknown;
+  key_takeaway?: unknown;
+  clinicalPearl?: unknown;
+  clinical_pearl?: unknown;
+  mnemonic?: unknown;
+  memoryHook?: unknown;
+  memory_hook?: unknown;
+  countryCode?: unknown;
+  country_code?: unknown;
+  regionScope?: unknown;
+  region_scope?: unknown;
+  licensingBody?: unknown;
+  licensing_body?: unknown;
+  languageCode?: unknown;
+  language_code?: unknown;
+  unitSystemSupport?: unknown;
+  unit_system_support?: unknown;
+  unitVariants?: unknown;
+  unit_variants?: unknown;
+  labUnitVariant?: unknown;
+  lab_unit_variant?: unknown;
+  tags?: unknown;
+  bodySystem?: unknown;
+  body_system?: unknown;
+  topic?: unknown;
+  difficulty?: unknown;
+  isAdaptiveEligible?: unknown;
+  is_adaptive_eligible?: unknown;
+};
+
+export type QuestionContractIssue = {
+  code: string;
+  field: string;
+  severity: "blocking" | "quality";
+  detail: string;
+};
+
+const PLACEHOLDER = /^(?:tbd|todo|placeholder|n\/?a|none|coming soon|rationale here|add rationale|see rationale|explanation|to be added|to be determined|not available|-+|\.+)$/i;
+const ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._:-]{2,}$/;
+const COUNTRY_PATTERN = /^[A-Z]{2,3}$/;
+
+function parseJson(value: unknown): unknown {
+  if (typeof value !== "string") return value;
+  const trimmed = value.trim();
+  if (!trimmed) return value;
+  try { return JSON.parse(trimmed); } catch { return value; }
+}
+
+function text(value: unknown): string {
+  return typeof value === "string" ? value.trim() : "";
+}
+
+function substantive(value: unknown, min = 12): boolean {
+  const v = text(value);
+  return v.length >= min && !PLACEHOLDER.test(v);
+}
+
+function pick(data: QuestionContractInput, ...keys: (keyof QuestionContractInput)[]): unknown {
+  for (const key of keys) {
+    const value = data[key];
+    if (value !== undefined && value !== null && value !== "") return value;
+  }
+  return undefined;
+}
+
+function normalizeOptions(raw: unknown): CanonicalOption[] {
+  const parsed = parseJson(raw);
+  if (!Array.isArray(parsed)) return [];
+  return parsed.map((option, index) => {
+    const fallbackId = `opt-${index + 1}`;
+    if (typeof option === "string" || typeof option === "number") {
+      return { id: "", text: String(option).trim(), label: String.fromCharCode(65 + index) };
+    }
+    const obj = option && typeof option === "object" ? option as JsonRecord : {};
+    return {
+      id: text(obj.id) || text(obj.optionId) || text(obj.option_id),
+      text: text(obj.text) || text(obj.content) || text(obj.value),
+      label: text(obj.label) || String.fromCharCode(65 + index),
+    };
+  });
+}
+
+function flattenAnswer(raw: unknown): unknown[] {
+  const parsed = parseJson(raw);
+  if (Array.isArray(parsed)) return parsed.flatMap(flattenAnswer);
+  if (parsed && typeof parsed === "object") {
+    const obj = parsed as JsonRecord;
+    for (const key of ["ids", "answers", "selected", "correct", "answer", "id", "value", "index"]) {
+      if (key in obj) return flattenAnswer(obj[key]);
+    }
+  }
+  return [parsed];
+}
+
+function resolveAnswerIds(raw: unknown, options: CanonicalOption[]): Set<string> {
+  const ids = new Set<string>();
+  for (const rawValue of flattenAnswer(raw)) {
+    if (rawValue === null || rawValue === undefined) continue;
+    const value = String(rawValue).trim();
+    if (!value) continue;
+    const byId = options.find(option => option.id && option.id.toLowerCase() === value.toLowerCase());
+    if (byId) { ids.add(byId.id); continue; }
+    const byText = options.find(option => option.text.toLowerCase() === value.toLowerCase());
+    if (byText?.id) { ids.add(byText.id); continue; }
+    const numeric = Number(value);
+    if (Number.isInteger(numeric)) {
+      const byIndex = options[numeric] || (numeric > 0 ? options[numeric - 1] : undefined);
+      if (byIndex?.id) ids.add(byIndex.id);
+    }
+  }
+  return ids;
+}
+
+function rationaleMap(raw: unknown): Record<string, string> {
+  const parsed = parseJson(raw);
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return {};
+  return Object.fromEntries(Object.entries(parsed as JsonRecord).map(([key, value]) => [key, text(value)]));
+}
+
+function hasRationale(map: Record<string, string>, option: CanonicalOption, index: number): boolean {
+  const aliases = [option.id, option.label || "", String(index), String(index + 1), option.text].filter(Boolean);
+  for (const alias of aliases) {
+    const exact = map[alias];
+    if (substantive(exact, 24)) return true;
+    const found = Object.keys(map).find(key => key.toLowerCase() === alias.toLowerCase());
+    if (found && substantive(map[found], 24)) return true;
+  }
+  return false;
+}
+
+function normalizeUnitSupport(data: QuestionContractInput): { support: string[]; variants: UnitVariant[] } {
+  const supportRaw = parseJson(pick(data, "unitSystemSupport", "unit_system_support", "labUnitVariant", "lab_unit_variant"));
+  const variantsRaw = parseJson(pick(data, "unitVariants", "unit_variants"));
+  let support: string[] = [];
+  if (Array.isArray(supportRaw)) support = supportRaw.map(String).map(v => v.toUpperCase());
+  else if (typeof supportRaw === "string") support = supportRaw.split(/[|,\/]/).map(v => v.trim().toUpperCase()).filter(Boolean);
+  const variants = Array.isArray(variantsRaw) ? variantsRaw as UnitVariant[] : [];
+  return { support, variants };
+}
+
+export function auditQuestionPublicationContract(data: QuestionContractInput): QuestionContractIssue[] {
+  const issues: QuestionContractIssue[] = [];
+  const add = (code: string, field: string, severity: "blocking" | "quality", detail: string) => issues.push({ code, field, severity, detail });
+
+  const id = text(data.id);
+  if (!id || !ID_PATTERN.test(id)) add("unstable_question_id", "id", "blocking", "Question requires a persistent stable id; array position or transient labels are not acceptable identifiers.");
+
+  const options = normalizeOptions(data.options);
+  if (options.length < 2) add("invalid_options", "options", "blocking", "Question has fewer than two renderable options.");
+  const optionIds = options.map(option => option.id).filter(Boolean);
+  if (options.some(option => !option.id)) add("missing_option_ids", "options[].id", "blocking", "Every answer option requires a stable option id so shuffle order cannot affect grading or rationale lookup.");
+  if (new Set(optionIds).size !== optionIds.length) add("duplicate_option_ids", "options[].id", "blocking", "Option ids must be unique within the question.");
+  if (options.some(option => !substantive(option.text, 1))) add("empty_option_text", "options[].text", "blocking", "Every option requires display text.");
+
+  const answerRaw = pick(data, "correctAnswer", "correct_answer");
+  const correctIds = resolveAnswerIds(answerRaw, options);
+  if (options.length > 0 && correctIds.size === 0) add("unstable_or_unresolved_answer_contract", "correct_answer", "blocking", "Correct answer must resolve to stable option ids; labels/indexes may be accepted only for legacy migration, not the canonical stored contract.");
+
+  if (!substantive(data.stem, 10)) add("missing_stem", "stem", "blocking", "Stem is missing or too short.");
+  if (!substantive(data.rationale, 40)) add("missing_rationale", "rationale", "blocking", "Overall teaching rationale is missing or too weak.");
+  if (!substantive(pick(data, "correctAnswerExplanation", "correct_answer_explanation"), 24)) add("missing_correct_answer_explanation", "correct_answer_explanation", "blocking", "Correct answer explanation is required.");
+
+  const distractors = rationaleMap(pick(data, "distractorRationales", "distractor_rationales"));
+  options.forEach((option, index) => {
+    if (option.id && !correctIds.has(option.id) && !hasRationale(distractors, option, index)) {
+      add("missing_distractor_rationale", `distractor_rationales.${option.id}`, "blocking", `Incorrect option ${option.id} requires its own substantive rationale.`);
+    }
+  });
+
+  const countryCode = text(pick(data, "countryCode", "country_code")).toUpperCase();
+  const regionScope = text(pick(data, "regionScope", "region_scope")).toUpperCase();
+  if (!COUNTRY_PATTERN.test(countryCode) && !["BOTH", "GLOBAL", "INTL"].includes(regionScope)) {
+    add("missing_country_scope", "country_code", "blocking", "Question requires an explicit country code or an explicit global/both region scope.");
+  }
+  if (!substantive(data.exam, 2)) add("missing_exam", "exam", "blocking", "Exam/pathway label is required.");
+  if (!substantive(pick(data, "licensingBody", "licensing_body"), 2)) add("missing_licensing_body", "licensing_body", "quality", "Licensing/certification body should be explicit where the pathway has one.");
+  if (!substantive(pick(data, "languageCode", "language_code"), 2)) add("missing_language_code", "language_code", "quality", "Language code should be explicit for localization and spelling rules.");
+
+  const hint = pick(data, "hint", "examStrategy", "exam_strategy");
+  if (!substantive(hint, 12)) add("missing_hint", "hint", "quality", "A concise learner hint/exam strategy is required for tutor mode.");
+  const why = pick(data, "whyThisMatters", "why_this_matters", "keyTakeaway", "key_takeaway");
+  if (!substantive(why, 20)) add("missing_why_this_matters", "why_this_matters", "quality", "Why This Matters should connect the item to clinical or professional significance.");
+  if (!substantive(pick(data, "clinicalPearl", "clinical_pearl"), 12)) add("missing_clinical_pearl", "clinical_pearl", "quality", "High-yield clinical/exam pearl is missing.");
+
+  const mnemonic = pick(data, "mnemonic", "memoryHook", "memory_hook");
+  if (mnemonic !== undefined && mnemonic !== null && text(mnemonic) && !substantive(mnemonic, 6)) {
+    add("weak_mnemonic", "mnemonic", "quality", "Mnemonic/memory hook exists but is too weak or placeholder-like.");
+  }
+
+  if (!substantive(pick(data, "bodySystem", "body_system"), 2)) add("missing_body_system", "body_system", "blocking", "Body system/category metadata is required.");
+  if (!substantive(data.topic, 2)) add("missing_topic", "topic", "blocking", "Topic metadata is required.");
+  const tags = parseJson(data.tags);
+  if (!Array.isArray(tags) || tags.filter(Boolean).length === 0) add("missing_tags", "tags", "blocking", "At least one tag is required.");
+  const difficulty = Number(data.difficulty);
+  if (!Number.isInteger(difficulty) || difficulty < 1 || difficulty > 4) add("invalid_difficulty", "difficulty", "blocking", "Difficulty must be an integer from 1 through 4.");
+
+  const combinedText = [text(data.stem), ...options.map(option => option.text)].join(" ");
+  const looksConvertible = /\b(?:mg\/dL|mmol\/L|mEq\/L|mmHg|°F|°C|lb|kg|inches?|cm|feet|meters?|mL|L)\b/i.test(combinedText);
+  const { support, variants } = normalizeUnitSupport(data);
+  if (looksConvertible) {
+    const hasSI = support.includes("SI") || variants.some(v => v?.si?.display);
+    const hasConv = support.includes("CONV") || support.includes("CONVENTIONAL") || variants.some(v => v?.conv?.display);
+    if (!hasSI || !hasConv) add("missing_si_conv_support", "unit_system_support", "blocking", "Questions containing convertible measurements require both SI and conventional renderings.");
+    if (variants.length === 0) add("missing_unit_variants", "unit_variants", "blocking", "Convertible values require structured SI/CONV variants tied to one semantic token so unit switching cannot change grading.");
+  }
+
+  return issues;
+}
+
+export function isPublicationReady(data: QuestionContractInput): boolean {
+  return !auditQuestionPublicationContract(data).some(issue => issue.severity === "blocking");
+}
