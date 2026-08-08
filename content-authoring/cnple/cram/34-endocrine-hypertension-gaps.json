@@ -1,0 +1,104 @@
+[
+  {
+    "id": "cnple-ca-endo-023-primary-aldosteronism",
+    "title": "Primary Aldosteronism: Resistant Hypertension Is a Diagnostic Clue",
+    "system": "Endocrine / Cardiovascular / Renal",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling"],
+    "lifespan": ["adult", "older adult"],
+    "acuity": "routine",
+    "bottomLine": "Primary aldosteronism is a treatable cause of hypertension that should be considered especially with resistant hypertension, unexplained spontaneous or marked diuretic-induced hypokalemia, or hypertension with an adrenal adenoma. Screen with aldosterone and renin under an interpretable medication and physiologic context, then confirm and localize through an endocrine/hypertension pathway rather than diagnosing from potassium alone.",
+    "recognize": [
+      "Many patients with primary aldosteronism are normokalemic, so normal potassium does not exclude the diagnosis.",
+      "Suppressed renin with inappropriately high aldosterone raises suspicion after accounting for medications, sodium status and potassium."
+    ],
+    "differentiate": [
+      "Diuretic use, gastrointestinal losses and magnesium deficiency can cause hypokalemia without autonomous aldosterone secretion.",
+      "Renovascular disease, chronic kidney disease, obstructive sleep apnea, thyroid disease, medications and substances are other secondary or aggravating causes of difficult hypertension."
+    ],
+    "assessment": [
+      "Confirm true resistant hypertension with standardized and out-of-office blood pressure data, adherence assessment, medication review and evaluation for white-coat effect before labelling treatment failure.",
+      "Review potassium, renal function, licorice/supplement exposure and medications that can distort aldosterone-renin interpretation; ask about sleep apnea and other secondary-hypertension clues."
+    ],
+    "workup": [
+      "Hypertension Canada recommends aldosterone plus renin assessment for screening in appropriate patients; correct clinically important hypokalemia and follow assay/local protocol preparation because several medications alter test interpretation.",
+      "A positive screening pattern requires confirmatory evaluation for autonomous aldosterone secretion when indicated, followed by localization; CT alone does not reliably prove which adrenal gland is functionally responsible.",
+      "When a surgical candidate has a definite adrenal mass and confirmed primary aldosteronism, adrenal venous sampling is generally used in experienced centres to determine lateralization."
+    ],
+    "management": [
+      "Unilateral surgically correctable disease is managed through specialist adrenal evaluation; bilateral or nonsurgical disease is commonly treated with mineralocorticoid-receptor blockade plus cardiovascular risk management.",
+      "Continue evidence-based hypertension treatment while the secondary-cause workup proceeds rather than withholding necessary blood-pressure control."
+    ],
+    "medicationSafety": [
+      "Spironolactone and eplerenone can cause hyperkalemia and kidney-function changes; monitor potassium and creatinine after initiation and dose changes.",
+      "Starting spironolactone before planned aldosterone-renin testing can interfere with interpretation, so coordinate medication changes rather than stopping antihypertensives unsafely."
+    ],
+    "redFlags": [
+      "Severe hypertension with acute target-organ injury",
+      "Severe hypokalemia with arrhythmia or weakness",
+      "Rapid renal deterioration during treatment",
+      "Adrenal mass with features suggesting another functional tumour or malignancy"
+    ],
+    "counselling": [
+      "Explain that finding primary aldosteronism matters because targeted therapy may improve blood pressure and reduce excess cardiovascular risk beyond simply adding another nonspecific antihypertensive."
+    ],
+    "followUp": [
+      "Track blood pressure, potassium, kidney function and treatment adverse effects; specialist follow-up determines biochemical response and surgical or medical long-term strategy."
+    ],
+    "examTrap": "Ruling out primary aldosteronism because the potassium is normal, or ordering a CT first and declaring an incidental adrenal nodule to be the cause without biochemical confirmation.",
+    "oneLinePearl": "Resistant hypertension can be an aldosterone problem even when potassium is normal.",
+    "sourceBasis": ["Hypertension Canada comprehensive guidance: Assessment for Endocrine Hypertension", "Hypertension Canada 2025 Primary Care Guideline"],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "cnple-ca-endo-024-pheochromocytoma-paraganglioma",
+    "title": "Pheochromocytoma and Paraganglioma: Catecholamine Clues Before Imaging",
+    "system": "Endocrine / Cardiovascular / Acute Care",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling"],
+    "lifespan": ["adolescent", "adult", "older adult"],
+    "acuity": "mixed",
+    "bottomLine": "Pheochromocytoma and paraganglioma are uncommon but dangerous catecholamine-secreting tumours. Screen when the phenotype fits—paroxysmal or severe/labile resistant hypertension, compatible catecholamine symptoms, an adrenal incidentaloma, a suggestive trigger pattern, or hereditary predisposition—and establish biochemical evidence before localization imaging whenever the patient is stable enough for the standard pathway.",
+    "recognize": [
+      "Episodic headache, palpitations, sweating, pallor, tremor or panic-like spells with marked blood-pressure variability raise suspicion, but no single symptom triad is diagnostic.",
+      "Hypertension may be sustained or paroxysmal; an adrenal incidentaloma can be the first clue in an otherwise less dramatic presentation."
+    ],
+    "differentiate": [
+      "Panic disorder, hyperthyroidism, stimulant or decongestant use, withdrawal states, obstructive sleep apnea, hypoglycemia and other causes of sympathetic activation can mimic catecholamine excess.",
+      "A nonspecific adrenal nodule is common and does not prove pheochromocytoma without biochemical evaluation."
+    ],
+    "assessment": [
+      "Document attack timing, blood-pressure pattern, headache/palpitations/sweating, medication and substance triggers, family history and syndromic features such as MEN2, VHL or NF1.",
+      "Ask whether episodes occur with surgery, anesthesia, abdominal pressure, urination or medications that can precipitate catecholamine release."
+    ],
+    "workup": [
+      "Use recommended biochemical screening such as plasma free or urinary fractionated metanephrines through an appropriate protocol; pre-analytic conditions and interfering drugs matter when interpreting borderline results.",
+      "Hypertension Canada recommends specialist referral when suspicion is strong, particularly after a positive biochemical screen; localization imaging follows biochemical evidence in the standard stable pathway."
+    ],
+    "management": [
+      "Confirmed disease requires specialist endocrine, hypertension, anesthesia and surgical planning; preoperative catecholamine control is protocolized and should not be improvised in routine ambulatory care.",
+      "A catecholamine crisis with severe hypertension and acute organ injury requires emergency monitored management."
+    ],
+    "medicationSafety": [
+      "Do not give an isolated beta blocker before adequate alpha-adrenergic blockade in confirmed/suspected catecholamine-secreting tumour management because unopposed alpha stimulation can worsen vasoconstriction and hypertension.",
+      "Review sympathomimetics, stimulants, MAO-related interactions and other medications that may provoke symptoms or interfere with biochemical testing."
+    ],
+    "redFlags": [
+      "Hypertensive emergency",
+      "Chest pain, pulmonary edema or stress cardiomyopathy",
+      "Neurologic deficit",
+      "Severe tachyarrhythmia",
+      "Shock or marked blood-pressure instability during a suspected catecholamine crisis"
+    ],
+    "counselling": [
+      "Explain that a positive screen does not automatically mean cancer and that hereditary assessment may be recommended because a meaningful proportion of these tumours have genetic associations."
+    ],
+    "followUp": [
+      "After definitive treatment, long-term biochemical and clinical surveillance is individualized by tumour and genetic risk; coordinate genetics when indicated."
+    ],
+    "examTrap": "Ordering adrenal imaging for episodic hypertension before biochemical evaluation, or treating tachycardia with beta blockade alone when pheochromocytoma is strongly suspected.",
+    "oneLinePearl": "Catecholamine tumour: prove secretion, then localize—and never forget the alpha-before-beta safety principle.",
+    "sourceBasis": ["Hypertension Canada comprehensive guidance: Assessment for Endocrine Hypertension", "Hypertension Canada secondary hypertension recommendations"],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  }
+]
