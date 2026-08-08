@@ -102,9 +102,9 @@ describe("Allied authored content estate", () => {
     const lessons = alliedAuthoredLessons.filter((lesson) => lesson.careerType === career);
     const questions = alliedAuthoredQuestions.filter((question) => question.careerType === career);
 
-    expect(topics).toHaveLength(10);
-    expect(lessons).toHaveLength(50);
-    expect(questions).toHaveLength(1_000);
+    expect(topics).toHaveLength(20);
+    expect(lessons).toHaveLength(100);
+    expect(questions).toHaveLength(2_000);
 
     for (const topic of topics) {
       expect(lessons.filter((lesson) => lesson.topic === topic.topic)).toHaveLength(5);
