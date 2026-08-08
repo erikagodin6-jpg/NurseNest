@@ -1,0 +1,303 @@
+[
+  {
+    "id": "cnple-ca-derm-026-hidradenitis-suppurativa",
+    "title": "Hidradenitis Suppurativa: Chronic Follicular Disease, Not Recurrent Dirty Abscesses",
+    "system": "Dermatology / Primary Care",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling"],
+    "lifespan": ["adolescent", "adult"],
+    "acuity": "mixed",
+    "bottomLine": "Recurrent painful nodules, abscesses, draining tunnels and scars in intertriginous sites strongly suggest hidradenitis suppurativa. Treat it as chronic inflammatory follicular disease with staged medical and procedural care, not as repeated isolated bacterial abscesses caused by poor hygiene.",
+    "recognize": [
+      "Typical sites include axillae, groin, inframammary folds, inner thighs and buttocks; double comedones, sinus tracts and scarring increase diagnostic confidence.",
+      "Disease burden includes pain, drainage, odour, impaired mobility and sexual function, work disruption, anxiety and depression."
+    ],
+    "differentiate": [
+      "Simple furunculosis is usually episodic infection without chronic tunnels and characteristic intertriginous recurrence.",
+      "Pilonidal disease, infected epidermoid cysts, Crohn-related perineal disease and sexually transmitted lesions can mimic site-specific HS."
+    ],
+    "assessment": [
+      "Document anatomic sites, inflammatory nodules/abscesses, tunnels, scars, drainage, recurrence and prior procedures; assess smoking, weight-related friction, menstrual/hormonal pattern and quality-of-life impact.",
+      "Screen clinically for associated depression, metabolic disease, inflammatory bowel disease and inflammatory arthritis when symptoms suggest them."
+    ],
+    "workup": [
+      "Diagnosis is primarily clinical; culture is reserved for suspected secondary infection rather than routinely proving HS.",
+      "Laboratory or imaging evaluation is driven by comorbidity, systemic therapy planning or concern for deep/alternative disease."
+    ],
+    "management": [
+      "Use friction reduction, smoking cessation support when applicable, weight-management support without stigma, topical or systemic anti-inflammatory therapy, and dermatology escalation according to severity.",
+      "Persistent tunnels or recurrent fixed lesions may require deroofing or other procedural/surgical management; incision and drainage alone does not control chronic HS biology."
+    ],
+    "medicationSafety": [
+      "Long antibiotic courses used for anti-inflammatory effect still require antimicrobial stewardship and adverse-effect monitoring.",
+      "Biologic or systemic immunomodulatory therapy requires infection screening, vaccination review and agent-specific monitoring."
+    ],
+    "redFlags": [
+      "Rapidly spreading cellulitis or systemic toxicity",
+      "Severe perineal disease with concern for fistula or Fournier gangrene",
+      "Uncontrolled pain or major functional impairment",
+      "Suicidality or severe depression",
+      "New suspicious chronic ulcerated lesion within longstanding scarred disease"
+    ],
+    "counselling": [
+      "Explicitly state that HS is not contagious and is not caused by poor hygiene; shame and delayed diagnosis worsen care engagement.",
+      "Discuss absorbent non-irritating dressings, gentle cleansing and avoiding squeezing or repeated trauma to lesions."
+    ],
+    "followUp": [
+      "Track inflammatory lesion count, drainage, tunnels/scarring, pain and quality of life; escalate when disease remains active despite an adequate stepwise plan."
+    ],
+    "examTrap": "Labeling every recurrent axillary or groin lesion as a simple abscess and repeating short antibiotic courses without recognizing chronic tunnels, scarring and intertriginous recurrence.",
+    "oneLinePearl": "Recurrent intertriginous boils plus tunnels and scars are HS until proven otherwise.",
+    "sourceBasis": ["Canadian Dermatology Association Hidradenitis Suppurativa resource", "Canadian Hidradenitis Suppurativa Foundation clinical education"],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "cnple-ca-derm-027-alopecia-hair-loss",
+    "title": "Hair Loss and Alopecia: Pattern, Shedding, Inflammation, and Scarring",
+    "system": "Dermatology / Endocrine / Primary Care",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling"],
+    "lifespan": ["child", "adolescent", "adult", "postpartum", "older adult"],
+    "acuity": "routine",
+    "bottomLine": "Hair loss is a pattern-recognition problem: distinguish diffuse shedding, patterned miniaturization, discrete autoimmune patches, traction or compulsive breakage, and inflammatory scarring alopecia. Scarring disease needs prompt dermatology assessment because destroyed follicles may not regrow.",
+    "recognize": [
+      "Telogen effluvium produces diffuse shedding after physiologic or psychological stressors; androgenetic alopecia follows patterned thinning; alopecia areata produces smooth discrete patches and may involve brows or nails.",
+      "Loss of follicular openings, perifollicular scale or inflammation suggests scarring alopecia rather than uncomplicated pattern hair loss."
+    ],
+    "differentiate": [
+      "Iron deficiency, thyroid disease, medication effects, postpartum change and systemic illness can cause diffuse loss.",
+      "Tinea capitis can cause scale, broken hairs and inflammatory kerion, especially in children; trichotillomania produces hairs of varying length and behavioural clues."
+    ],
+    "assessment": [
+      "Clarify onset, shedding versus thinning, focal versus diffuse pattern, itch/pain/scale, recent illness or childbirth, diet, medications, hair practices, family history and autoimmune symptoms.",
+      "Examine scalp inflammation, follicular openings, hair shaft breakage, brows/lashes and nails."
+    ],
+    "workup": [
+      "Order targeted tests when history suggests systemic contribution, commonly CBC/ferritin or thyroid assessment rather than indiscriminate panels.",
+      "Suspected scarring alopecia, uncertain inflammatory disease or atypical focal loss may require dermoscopy, fungal testing or biopsy through dermatology."
+    ],
+    "management": [
+      "Treat the mechanism: remove reversible triggers, correct true deficiency, use evidence-based pattern-hair-loss therapy when appropriate, and use anti-inflammatory treatment for alopecia areata under severity-appropriate care.",
+      "Refer suspected scarring alopecia early because the goal is prevention of further permanent follicular loss."
+    ],
+    "medicationSafety": [
+      "Minoxidil can cause irritation and initial shedding and requires sustained use for maintained benefit.",
+      "Antiandrogen or 5-alpha-reductase therapies require pregnancy/reproductive counselling and patient-specific contraindication review."
+    ],
+    "redFlags": [
+      "Scarring or loss of follicular openings",
+      "Painful inflammatory scalp disease",
+      "Kerion or systemic infection",
+      "Rapid widespread loss with systemic illness",
+      "Major psychological distress or self-harm risk"
+    ],
+    "counselling": [
+      "Set realistic expectations: many therapies stabilize loss or promote partial regrowth over months rather than immediately restoring baseline density.",
+      "Address traction practices and cosmetic camouflage options without dismissing the psychosocial effect of hair loss."
+    ],
+    "followUp": [
+      "Photographic or standardized-pattern follow-up helps distinguish stabilization from continued progression."
+    ],
+    "examTrap": "Calling all diffuse hair loss 'stress' without checking for patterned disease, iron/thyroid clues, medication effects, or signs of scarring inflammation.",
+    "oneLinePearl": "The urgent hair-loss question is whether the follicle is still there to save.",
+    "sourceBasis": ["Canadian Dermatology Association Alopecia resource"],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "cnple-ca-derm-028-vitiligo",
+    "title": "Vitiligo: Depigmentation, Autoimmunity, and Psychosocial Care",
+    "system": "Dermatology / Autoimmune",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling"],
+    "lifespan": ["child", "adolescent", "adult", "older adult"],
+    "acuity": "routine",
+    "bottomLine": "Vitiligo causes acquired depigmented patches from melanocyte loss and can be highly visible in darker skin. Confirm the pattern, look selectively for associated autoimmune disease, protect depigmented skin from sun injury, and treat both disease activity and psychosocial burden.",
+    "recognize": [
+      "Well-demarcated milky-white depigmented macules or patches often affect face, hands, body openings and other exposed or friction-prone sites; hair can depigment too.",
+      "The condition is not contagious and may follow a relapsing course with periods of stability and progression."
+    ],
+    "differentiate": [
+      "Post-inflammatory hypopigmentation, tinea versicolor, chemical leukoderma and congenital pigment disorders can mimic vitiligo but differ in pigment loss, scale, history or distribution."
+    ],
+    "assessment": [
+      "Assess distribution and progression, family and autoimmune history, thyroid symptoms, diabetes or B12-related symptoms, prior inflammation/chemical exposure and psychosocial impact.",
+      "Examine for leukotrichia and atypical inflammatory or scaly borders that suggest another diagnosis."
+    ],
+    "workup": [
+      "Typical vitiligo is often a clinical diagnosis; Wood lamp or dermatology assessment can clarify subtle disease.",
+      "Autoimmune testing should be targeted to history, examination and risk rather than an indiscriminate autoimmune panel."
+    ],
+    "management": [
+      "Use sun protection and individualized topical anti-inflammatory therapy for limited disease; phototherapy or specialist systemic/topical options may be appropriate for more extensive or active disease.",
+      "Cosmetic camouflage and psychological support are legitimate treatment components when appearance affects daily life."
+    ],
+    "medicationSafety": [
+      "Topical corticosteroid potency and duration must match the body site to reduce atrophy risk; steroid-sparing agents are useful on sensitive sites.",
+      "Phototherapy requires controlled dosing and specialist protocols rather than unsupervised UV exposure."
+    ],
+    "redFlags": [
+      "Rapid widespread progression",
+      "Eye symptoms",
+      "Features of significant associated autoimmune disease",
+      "Severe depression, bullying or social withdrawal"
+    ],
+    "counselling": [
+      "Explain that vitiligo is autoimmune depigmentation, not infection, poor hygiene or a consequence of touching another person.",
+      "Discuss the greater visual contrast and potential stigma experienced by people with darker skin without implying greater medical danger."
+    ],
+    "followUp": [
+      "Follow extent/activity, treatment toxicity and psychosocial effect rather than pigment alone."
+    ],
+    "examTrap": "Ordering a broad autoimmune laboratory panel in every patient with classic vitiligo despite no symptoms or examination findings suggesting a specific associated disorder.",
+    "oneLinePearl": "Vitiligo is medically benign skin depigmentation that can still carry major autoimmune and psychosocial context.",
+    "sourceBasis": ["Canadian Dermatology Association Vitiligo resource"],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "cnple-ca-derm-029-contact-occupational-dermatitis",
+    "title": "Contact and Occupational Dermatitis: Irritant or Allergic?",
+    "system": "Dermatology / Occupational Health",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling"],
+    "lifespan": ["adolescent", "adult", "older adult"],
+    "acuity": "routine",
+    "bottomLine": "Irritant contact dermatitis is direct barrier injury and is more common; allergic contact dermatitis is a delayed hypersensitivity reaction. Distribution and exposure history are the diagnostic engine, and durable treatment requires identifying and reducing the relevant exposure—not simply escalating topical steroids.",
+    "recognize": [
+      "Wet work, soaps, detergents, solvents and repeated glove use commonly cause irritant hand dermatitis in healthcare and service occupations.",
+      "Allergic contact dermatitis may extend beyond the exact contact site and can follow exposure to nickel, fragrances, preservatives, rubber accelerators, adhesives or topical medications."
+    ],
+    "differentiate": [
+      "Atopic hand eczema, tinea, psoriasis and scabies can mimic occupational dermatitis.",
+      "Immediate urticaria or respiratory symptoms after exposure suggest an IgE-mediated occupational allergy rather than delayed allergic contact dermatitis."
+    ],
+    "assessment": [
+      "Map rash distribution against work, hobbies, personal-care products, gloves, sanitizers, metals, adhesives and timing away from exposure.",
+      "Assess skin barrier damage, infection, atopy and effect on work capacity."
+    ],
+    "workup": [
+      "Patch testing is the diagnostic standard for suspected allergic contact dermatitis when identifying the allergen will change management; it is not the same as skin-prick testing.",
+      "Fungal testing is useful when unilateral scale or treatment failure raises tinea."
+    ],
+    "management": [
+      "Reduce or substitute the offending exposure, restore the barrier with bland emollients and use site-appropriate topical anti-inflammatory therapy for active dermatitis.",
+      "Occupational cases may require glove/material changes, workplace accommodation and occupational-health involvement."
+    ],
+    "medicationSafety": [
+      "Repeated potent steroid use without exposure control risks atrophy while allowing disease to recur.",
+      "Topical antibiotic preparations themselves can become contact allergens and should not be used reflexively for noninfected dermatitis."
+    ],
+    "redFlags": [
+      "Facial or airway swelling suggesting immediate allergy/anaphylaxis",
+      "Extensive blistering or mucosal disease",
+      "Secondary infection",
+      "Severe occupational impairment"
+    ],
+    "counselling": [
+      "Teach gentle cleansing, moisturization after handwashing and practical exposure reduction rather than telling the patient to 'avoid everything.'"
+    ],
+    "followUp": [
+      "If dermatitis persists despite plausible avoidance, reassess the diagnosis and arrange patch testing/dermatology as indicated."
+    ],
+    "examTrap": "Ordering food-allergy testing for chronic hand dermatitis instead of asking about wet work, gloves, cleansers, fragrances and workplace chemicals.",
+    "oneLinePearl": "Contact dermatitis improves when the exposure changes, not just when the steroid gets stronger.",
+    "sourceBasis": ["Canadian Dermatology Association Eczema resource: irritant and allergic contact dermatitis", "Canadian occupational dermatology practice"],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "cnple-ca-derm-030-hyperhidrosis",
+    "title": "Hyperhidrosis: Primary Focal or a Secondary Signal?",
+    "system": "Dermatology / Endocrine / Primary Care",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling"],
+    "lifespan": ["adolescent", "adult", "older adult", "perimenopause", "postmenopause"],
+    "acuity": "routine",
+    "bottomLine": "Primary focal hyperhidrosis is localized excessive sweating without another cause; new generalized, nocturnal or late-onset sweating requires evaluation for secondary medication, endocrine, neurologic, infectious, malignant or menopausal causes before symptom treatment becomes the whole plan.",
+    "recognize": [
+      "Primary disease commonly affects axillae, palms, soles or face and often begins earlier in life.",
+      "Generalized sweating, prominent night sweats or abrupt adult onset should lower the threshold for secondary-cause evaluation."
+    ],
+    "differentiate": [
+      "Medication effects, hyperthyroidism, hypoglycemia, menopause, infection, malignancy, autonomic disease and substance withdrawal can cause secondary sweating."
+    ],
+    "assessment": [
+      "Clarify focal versus generalized distribution, onset, nighttime symptoms, triggers, medications/substances, weight loss/fever, endocrine symptoms and functional or psychosocial burden."
+    ],
+    "workup": [
+      "Primary focal hyperhidrosis is usually a clinical diagnosis; targeted laboratory testing is reserved for history or examination suggesting a secondary cause."
+    ],
+    "management": [
+      "Use topical antiperspirant therapy first for many focal presentations; iontophoresis is useful particularly for palms/soles and botulinum toxin can be used for selected moderate-to-severe focal disease.",
+      "Treat the underlying disorder when sweating is secondary rather than layering increasingly intensive sweat-directed therapy over an unrecognized cause."
+    ],
+    "medicationSafety": [
+      "Anticholinergic therapies can cause dry mouth, urinary retention, blurred vision, constipation, overheating and cognitive effects and require particular caution in older adults.",
+      "Iontophoresis and botulinum toxin have site-specific contraindications and procedural considerations."
+    ],
+    "redFlags": [
+      "Drenching night sweats with systemic symptoms",
+      "Unexplained weight loss or fever",
+      "Hypoglycemic symptoms",
+      "New neurologic or autonomic deficits",
+      "Abrupt generalized onset after a new drug or withdrawal state"
+    ],
+    "counselling": [
+      "Validate the occupational and social burden; sweating severe enough to impair grip, clothing choice, work or relationships is clinically meaningful."
+    ],
+    "followUp": [
+      "Reassess both symptom control and whether the pattern remains consistent with primary focal disease."
+    ],
+    "examTrap": "Diagnosing primary hyperhidrosis in an older adult with new generalized night sweats, weight loss and medication changes without looking for a secondary cause.",
+    "oneLinePearl": "Localized lifelong sweating can be primary; new generalized night sweating earns a cause search.",
+    "sourceBasis": ["Canadian Dermatology Association Hyperhidrosis resource"],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "cnple-ca-derm-031-onychomycosis-nail-disease",
+    "title": "Onychomycosis and Nail Change: Confirm Fungus Before Systemic Therapy",
+    "system": "Dermatology / Infectious Disease / Primary Care",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling"],
+    "lifespan": ["adolescent", "adult", "older adult"],
+    "acuity": "routine",
+    "bottomLine": "Fungus causes only a portion of abnormal nails. Before prolonged systemic antifungal treatment, distinguish onychomycosis from psoriasis, trauma and other dystrophies and obtain mycologic confirmation when systemic treatment is being considered.",
+    "recognize": [
+      "Onychomycosis commonly produces thickening, discoloration, subungual debris, brittleness and distal-lateral nail involvement, often alongside tinea pedis.",
+      "Risk is increased with older age, diabetes, immune compromise, psoriasis, trauma and excessive sweating."
+    ],
+    "differentiate": [
+      "Psoriasis can cause pitting, onycholysis and subungual hyperkeratosis; repetitive trauma and lichen planus also produce dystrophy.",
+      "A new irregular longitudinal pigmented band, periungual pigment or destructive solitary nail lesion requires melanoma or tumour consideration rather than empiric antifungal treatment."
+    ],
+    "assessment": [
+      "Assess number of nails, matrix involvement, pain, tinea pedis, diabetes/vascular status, immune status, medications, prior treatment and whether change is focal or generalized."
+    ],
+    "workup": [
+      "Use KOH microscopy, fungal culture, PCR or nail clipping histology according to local access when confirmation is needed before systemic therapy.",
+      "Do not assume every yellow or thick nail is fungal based on appearance alone."
+    ],
+    "management": [
+      "Topical therapy may suit limited superficial/distal disease; oral therapy is more effective for extensive or matrix disease when benefits outweigh risks and infection is confirmed.",
+      "Treat concomitant tinea pedis and reduce reinfection risks."
+    ],
+    "medicationSafety": [
+      "Oral antifungals require interaction, hepatic risk and agent-specific monitoring review before prescribing.",
+      "Avoid repeated systemic courses when the diagnosis was never confirmed or the nail is not growing out with an expected response."
+    ],
+    "redFlags": [
+      "Diabetic foot infection or ulceration",
+      "Painful rapidly progressive periungual infection",
+      "Suspicious pigmented nail lesion",
+      "Severe immunocompromise with invasive infection concern"
+    ],
+    "counselling": [
+      "Explain that visible normalization takes months because healthy nail must grow out even after fungal eradication."
+    ],
+    "followUp": [
+      "Assess proximal clear nail growth rather than expecting immediate cosmetic normalization; reconsider diagnosis when treatment fails."
+    ],
+    "examTrap": "Prescribing months of oral terbinafine for a dystrophic nail without confirming fungus or checking for a psoriasis/trauma pattern and medication interactions.",
+    "oneLinePearl": "A thick yellow nail is a differential diagnosis, not a fungal culture result.",
+    "sourceBasis": ["Canadian Dermatology Association Nail Fungus and Infection resource", "Canadian Dermatology Association Nail Health resources"],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  }
+]
