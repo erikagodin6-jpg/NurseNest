@@ -1,6 +1,7 @@
 import "../server/load-env";
 import { pool } from "../server/storage";
 import {
+  ALLIED_AUTHORED_TARGETS,
   alliedAuthoredLessons,
   alliedAuthoredQuestions,
   alliedAuthoredTopics,
@@ -119,7 +120,11 @@ async function seedLessons(): Promise<{ insertedOrUpdated: number; total: number
           AND tags @> ARRAY['allied-authored-estate-v1']::text[]`,
     );
     const total = count.rows[0]?.count ?? 0;
-    if (total < 500) throw new Error(`Database Allied authored lesson floor failed inside transaction: ${total} < 500`);
+    if (total < ALLIED_AUTHORED_TARGETS.minimumLessons) {
+      throw new Error(
+        `Database Allied authored lesson floor failed inside transaction: ${total} < ${ALLIED_AUTHORED_TARGETS.minimumLessons}`,
+      );
+    }
     await client.query("COMMIT");
     return { insertedOrUpdated, total };
   } catch (error) {
@@ -244,7 +249,7 @@ async function seedQuestions(): Promise<{ inserted: number; total: number; optio
         WHERE blueprint_id LIKE 'allied-q-%'`,
     );
     const total = count.rows[0]?.count ?? 0;
-    if (total !== alliedAuthoredQuestions.length || total < 10_000) {
+    if (total !== alliedAuthoredQuestions.length || total < ALLIED_AUTHORED_TARGETS.minimumQuestions) {
       throw new Error(
         `Database Allied authored question replacement failed: expected ${alliedAuthoredQuestions.length}, found ${total}`,
       );
@@ -268,6 +273,7 @@ async function main() {
       topics: alliedAuthoredTopics.length,
       lessons: alliedAuthoredLessons.length,
       questions: alliedAuthoredQuestions.length,
+      targets: ALLIED_AUTHORED_TARGETS,
     }),
   );
 
@@ -282,6 +288,7 @@ async function main() {
         topics: alliedAuthoredTopics.length,
         sourceLessons: alliedAuthoredLessons.length,
         sourceQuestions: alliedAuthoredQuestions.length,
+        targets: ALLIED_AUTHORED_TARGETS,
         lessonsInsertedOrUpdatedThisRun: lessons.insertedOrUpdated,
         authoredLessonsInDatabase: lessons.total,
         questionsReplacedThisRun: questions.inserted,
