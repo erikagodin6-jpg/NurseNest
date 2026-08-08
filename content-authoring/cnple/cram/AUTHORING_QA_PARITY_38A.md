@@ -15,13 +15,13 @@ The batch is authoring-only. Parse/required-field checks, private-core identity/
 Unlike earlier topic-led CNPLE authoring IDs, every record in this parity file uses its current Full-lesson slug as `id`:
 
 - `lab-a1c-interpretation`
-- `lab-abg`
+- `lab-abg-fundamentals`
 - `lab-aptt`
-- `lab-pt-inr`
+- `lab-pt-and-inr`
 - `lab-d-dimer`
-- `lab-troponin-interpretation`
-- `lab-bnp-ntprobnp`
-- `lab-lactate-interpretation`
+- `lab-troponin`
+- `lab-bnp-and-heart-failure`
+- `lab-lactate`
 
 This is intentional. Full-lesson-driven parity objects should not require fuzzy title matching when the canonical Full identity is already known.
 

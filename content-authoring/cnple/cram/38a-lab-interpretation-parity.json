@@ -54,7 +54,7 @@
     "localPolicyCheck": false
   },
   {
-    "id": "lab-abg",
+    "id": "lab-abg-fundamentals",
     "title": "ABG: Read pH, Ventilation, Metabolic Change, and Oxygenation in a Fixed Order",
     "system": "Lab Interpretation / Respiratory / Acute Care",
     "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management"],
@@ -161,7 +161,7 @@
     "localPolicyCheck": true
   },
   {
-    "id": "lab-pt-inr",
+    "id": "lab-pt-and-inr",
     "title": "PT and INR: Warfarin Monitoring, Liver/Factor Clues, and the DOAC Trap",
     "system": "Lab Interpretation / Hematology / Anticoagulation",
     "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling"],
@@ -269,7 +269,7 @@
     "localPolicyCheck": true
   },
   {
-    "id": "lab-troponin-interpretation",
+    "id": "lab-troponin",
     "title": "Troponin Interpretation: Myocardial Injury Is Not Automatically Type 1 MI",
     "system": "Lab Interpretation / Cardiovascular",
     "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management"],
@@ -323,7 +323,7 @@
     "localPolicyCheck": true
   },
   {
-    "id": "lab-bnp-ntprobnp",
+    "id": "lab-bnp-and-heart-failure",
     "title": "BNP and NT-ProBNP: A Heart-Failure Probability Tool, Not a Standalone Diagnosis",
     "system": "Lab Interpretation / Cardiovascular",
     "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management"],
@@ -376,7 +376,7 @@
     "localPolicyCheck": true
   },
   {
-    "id": "lab-lactate-interpretation",
+    "id": "lab-lactate",
     "title": "Lactate Interpretation: Trend Perfusion and Metabolism, Not 'Sepsis Positive or Negative'",
     "system": "Lab Interpretation / Acute Care",
     "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management"],
