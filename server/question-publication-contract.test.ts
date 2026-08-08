@@ -27,6 +27,7 @@ function completeQuestion() {
     clinical_pearl: "Treat the patient, not the monitor: bradycardia becomes urgent when it causes poor perfusion or instability.",
     mnemonic: "",
     country_code: "US",
+    country_labels: ["United States"],
     region_scope: "US",
     licensing_body: "NCSBN",
     language_code: "en",
@@ -44,6 +45,13 @@ describe("question publication contract", () => {
     const q = completeQuestion();
     expect(auditQuestionPublicationContract(q).filter(issue => issue.severity === "blocking")).toEqual([]);
     expect(isPublicationReady(q)).toBe(true);
+  });
+
+  it("requires serving tier", () => {
+    const q = completeQuestion();
+    q.tier = "";
+    const issue = auditQuestionPublicationContract(q).find(item => item.code === "missing_tier");
+    expect(issue?.severity).toBe("blocking");
   });
 
   it("rejects legacy string options without stable option ids", () => {
@@ -115,6 +123,17 @@ describe("question publication contract", () => {
     q.country_code = "";
     q.region_scope = "";
     expect(auditQuestionPublicationContract(q).some(issue => issue.code === "missing_country_scope")).toBe(true);
+  });
+
+  it("requires explicit labels for ambiguous BOTH scope", () => {
+    const q = completeQuestion();
+    q.country_code = "";
+    q.region_scope = "BOTH";
+    q.country_labels = [];
+    expect(auditQuestionPublicationContract(q).some(issue => issue.code === "missing_country_labels")).toBe(true);
+
+    q.country_labels = ["Canada", "United States"];
+    expect(auditQuestionPublicationContract(q).some(issue => issue.code === "missing_country_labels")).toBe(false);
   });
 
   it("requires language, hint, Why This Matters and pearl as blocking publication fields", () => {
