@@ -2,14 +2,14 @@
 
 Status: ACTIVE AUTHORING
 Baseline date: 2026-08-07
-Authored Cram lessons: 324
+Authored Cram lessons: 344
 Locale: United States
 Level: PN / LPN / LVN entry-level practice
 Exam alignment: 2026 NCLEX-PN Test Plan
 
 ## Current baseline
 
-The library contains 324 distinct authored Cram lessons spanning all NCLEX-PN Client Needs areas and major practical-nursing clinical domains, including high-alert infusion and medication-administration safety.
+The library contains 344 distinct authored Cram lessons spanning all NCLEX-PN Client Needs areas and major practical-nursing clinical domains, including high-alert infusion safety, CKD/mineral-bone pharmacology, potassium-binder safety, BPH/urinary-retention medications, overactive-bladder therapy, stone-prevention pharmacology, and UTI symptom/treatment distinctions.
 
 No numeric milestone by itself is a declaration of complete coverage.
 
@@ -19,9 +19,11 @@ The 2026-08-05 practical-nursing production audit measured `us-lpn-nclex-pn` at 
 
 ## Latest authoring
 
-The newest 20 lessons target medication/dosage/IV safety and cover alteplase, tenecteplase, sodium nitroprusside, IV nicardipine, dexmedetomidine, propofol, vasopressin, dobutamine, mannitol, phenylephrine, IV insulin infusion, continuous heparin infusion, 3% hypertonic saline, IV magnesium replacement, IV sodium phosphate, esmolol infusion, IV diltiazem, IV antiarrhythmic lidocaine, phentolamine extravasation rescue, and IV potassium phosphate.
+The newest 20 lessons target renal/metabolic and urology pharmacology: desmopressin, octreotide, albumin, IV iron sucrose, sevelamer, cinacalcet, calcitriol, patiromer, sodium zirconium cyclosilicate, acetazolamide, hydrochlorothiazide, tamsulosin, finasteride, oxybutynin, mirabegron, bethanechol, calcium acetate, potassium citrate, phenazopyridine, and fosfomycin.
 
-Current U.S. labeling was refreshed before authoring. PN/LVN language is limited to recognition, monitoring, safe implementation, communication, and escalation unless state/facility policy specifically authorizes more.
+Current U.S. DailyMed/FDA labeling was refreshed before authoring. High-yield corrections include desmopressin's boxed hyponatremia warning; explicit recognition that patiromer and sodium-zirconium cyclosilicate are not emergency substitutes for life-threatening hyperkalemia treatment; calcium/PTH monitoring with cinacalcet/calcitriol; and clear distinction between phenazopyridine symptom relief and definitive UTI treatment.
+
+PN/LVN language remains limited to recognition, monitoring, safe implementation, communication, and escalation unless state/facility policy specifically authorizes more.
 
 ## Lineage and completion gate
 
