@@ -54,6 +54,22 @@ describe("question publication contract", () => {
     expect(issues.some(issue => issue.code === "unstable_or_unresolved_answer_contract")).toBe(true);
   });
 
+  it("requires four distinct options for ordinary single-answer MCQs", () => {
+    const q = completeQuestion();
+    q.options = q.options.slice(0, 3) as any;
+    expect(auditQuestionPublicationContract(q).some(issue => issue.code === "insufficient_mcq_distractors")).toBe(true);
+
+    const q2 = completeQuestion();
+    q2.options[3].text = q2.options[2].text;
+    expect(auditQuestionPublicationContract(q2).some(issue => issue.code === "duplicate_distractor_text")).toBe(true);
+  });
+
+  it("requires exactly one keyed answer for single-answer MCQs", () => {
+    const q = completeQuestion();
+    q.correct_answer = ["opt-atropine", "opt-fluid"] as any;
+    expect(auditQuestionPublicationContract(q).some(issue => issue.code === "invalid_single_answer_cardinality")).toBe(true);
+  });
+
   it("requires a rationale for every incorrect stable option id", () => {
     const q = completeQuestion();
     delete (q.distractor_rationales as any)["opt-fluid"];
@@ -70,7 +86,7 @@ describe("question publication contract", () => {
     expect(auditQuestionPublicationContract(q).filter(issue => issue.severity === "blocking")).toEqual([]);
   });
 
-  it("requires structured SI and conventional variants when measurements are convertible", () => {
+  it("requires structured SI and conventional variants when measurements are actually convertible", () => {
     const q = completeQuestion();
     q.stem = "A client's blood glucose is 180 mg/dL. Which interpretation is most appropriate?";
     q.unit_system_support = { supported: ["CONV"], default: "CONV" } as any;
@@ -85,7 +101,13 @@ describe("question publication contract", () => {
       si: { value: 10, unit: "mmol/L", display: "10.0 mmol/L" },
       conv: { value: 180, unit: "mg/dL", display: "180 mg/dL" },
     }] as any;
-    expect(auditQuestionPublicationContract(q).filter(issue => issue.code.startsWith("missing_si") || issue.code === "missing_unit_variants")).toEqual([]);
+    expect(auditQuestionPublicationContract(q).filter(issue => issue.code.startsWith("missing_si") || issue.code === "missing_unit_variants" || issue.code === "malformed_unit_variant")).toEqual([]);
+  });
+
+  it("does not require fake SI/CONV variants for invariant units like mmHg", () => {
+    const q = completeQuestion();
+    q.stem = "The client's blood pressure is 88/52 mmHg. Which action is the priority?";
+    expect(auditQuestionPublicationContract(q).some(issue => issue.code === "missing_si_conv_support")).toBe(false);
   });
 
   it("requires explicit country or global scope", () => {
@@ -95,14 +117,25 @@ describe("question publication contract", () => {
     expect(auditQuestionPublicationContract(q).some(issue => issue.code === "missing_country_scope")).toBe(true);
   });
 
-  it("requires hint, why-this-matters and pearl as quality metadata", () => {
+  it("requires language, hint, Why This Matters and pearl as blocking publication fields", () => {
     const q = completeQuestion();
+    q.language_code = "";
     q.hint = "";
     q.why_this_matters = "";
     q.clinical_pearl = "";
     const issues = auditQuestionPublicationContract(q);
-    expect(issues.some(issue => issue.code === "missing_hint")).toBe(true);
-    expect(issues.some(issue => issue.code === "missing_why_this_matters")).toBe(true);
-    expect(issues.some(issue => issue.code === "missing_clinical_pearl")).toBe(true);
+    for (const code of ["missing_language_code", "missing_hint", "missing_why_this_matters", "missing_clinical_pearl"]) {
+      const issue = issues.find(i => i.code === code);
+      expect(issue?.severity).toBe("blocking");
+    }
+    expect(isPublicationReady(q)).toBe(false);
+  });
+
+  it("keeps mnemonic optional but validates it when supplied", () => {
+    const q = completeQuestion();
+    q.mnemonic = "";
+    expect(auditQuestionPublicationContract(q).some(issue => issue.code === "weak_mnemonic")).toBe(false);
+    q.mnemonic = "x";
+    expect(auditQuestionPublicationContract(q).some(issue => issue.code === "weak_mnemonic")).toBe(true);
   });
 });
