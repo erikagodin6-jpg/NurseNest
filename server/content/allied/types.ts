@@ -56,26 +56,30 @@ export interface AuthoredAlliedOption {
   text: string;
 }
 
+/**
+ * Source authoring remains backward compatible during migration. The exported
+ * Allied estate is normalized before seeding so persisted questions use the
+ * canonical stable-id contract.
+ */
 export interface AuthoredAlliedQuestion {
   id: string;
   careerType: string;
   examTag: string;
   regionScope: AlliedRegionScope;
   countryCode?: string;
-  languageCode: string;
+  languageCode?: string;
   licensingBody?: string;
   category: string;
   topic: string;
   stem: string;
-  options: AuthoredAlliedOption[];
-  /** Kept only as migration metadata for legacy consumers; canonical grading uses correctAnswer. */
+  options: Array<string | AuthoredAlliedOption>;
   correctIndex: number;
-  correctAnswer: string;
+  correctAnswer?: string;
   rationale: string;
   correctAnswerExplanation: string;
   distractorRationales: Record<string, string>;
-  hint: string;
-  whyThisMatters: string;
+  hint?: string;
+  whyThisMatters?: string;
   clinicalPearl: string;
   mnemonic?: string;
   unitSystemSupport?: { supported: Array<"SI" | "CONV">; default: "SI" | "CONV" };
