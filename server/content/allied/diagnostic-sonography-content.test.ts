@@ -6,8 +6,9 @@ import {
   diagnosticSonographyTopics10,
 } from "./topics-10-diagnostic-sonography";
 import { diagnosticSonographyAbdominalTopics11 } from "./topics-11-diagnostic-sonography-abdominal";
+import { diagnosticSonographyObGynTopics12 } from "./topics-12-diagnostic-sonography-obgyn";
 
-const topics = [...diagnosticSonographyTopics10, ...diagnosticSonographyAbdominalTopics11];
+const topics = [...diagnosticSonographyTopics10, ...diagnosticSonographyAbdominalTopics11, ...diagnosticSonographyObGynTopics12];
 const lessons = materializeAlliedLessons(topics);
 const questions = materializeAlliedQuestions(topics).map(
   normalizeAlliedAuthoredQuestion,
@@ -15,16 +16,16 @@ const questions = materializeAlliedQuestions(topics).map(
 
 describe("diagnostic medical sonography authored expansion", () => {
   it("materializes the first ten canonical topics into fifty lessons", () => {
-    expect(topics).toHaveLength(20);
-    expect(lessons).toHaveLength(100);
-    expect(new Set(lessons.map((lesson) => lesson.id)).size).toBe(100);
-    expect(new Set(lessons.map((lesson) => lesson.slug)).size).toBe(100);
+    expect(topics).toHaveLength(30);
+    expect(lessons).toHaveLength(150);
+    expect(new Set(lessons.map((lesson) => lesson.id)).size).toBe(150);
+    expect(new Set(lessons.map((lesson) => lesson.slug)).size).toBe(150);
   });
 
   it("provides one hundred questions for every topic", () => {
-    expect(questions).toHaveLength(2_000);
-    expect(new Set(questions.map((question) => question.id)).size).toBe(2_000);
-    expect(new Set(questions.map((question) => question.stem)).size).toBe(2_000);
+    expect(questions).toHaveLength(3_000);
+    expect(new Set(questions.map((question) => question.id)).size).toBe(3_000);
+    expect(new Set(questions.map((question) => question.stem)).size).toBe(3_000);
 
     for (const topic of topics) {
       expect(questions.filter((question) => question.topic === topic.topic)).toHaveLength(100);
