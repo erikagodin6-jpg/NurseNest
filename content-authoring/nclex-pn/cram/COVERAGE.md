@@ -2,14 +2,14 @@
 
 Status: ACTIVE AUTHORING
 Baseline date: 2026-08-07
-Authored Cram lessons: 220
+Authored Cram lessons: 240
 Locale: United States
 Level: PN / LPN / LVN entry-level practice
 Exam alignment: 2026 NCLEX-PN Test Plan
 
 ## Current baseline
 
-The library now contains 220 distinct authored Cram lessons spanning every NCLEX-PN Client Needs area and major practical-nursing clinical domains. Authoring depth includes chronic and emergency cardiovascular care, respiratory deterioration and airborne TB, renal/urologic care, common GI and endocrine disorders, maternal/fetal complications, pediatric emergencies, neuromuscular respiratory-risk disorders, psychopharmacologic emergencies, hematologic clotting disorders, oncology metabolic/compressive emergencies, and increasingly granular medication-class safety.
+The library now contains 240 distinct authored Cram lessons spanning every NCLEX-PN Client Needs area and major practical-nursing clinical domains. Authoring depth includes chronic and emergency cardiovascular care, respiratory deterioration and airborne TB, renal/urologic care, common GI and endocrine disorders, maternal/fetal complications, pediatric emergencies, neuromuscular respiratory-risk disorders, psychopharmacologic emergencies, hematologic clotting disorders, oncology metabolic/compressive emergencies, and increasingly granular medication-class safety.
 
 The first 100 lessons established the production baseline. Authoring has continued beyond that count. No numeric milestone by itself is a declaration of complete coverage.
 
@@ -17,7 +17,7 @@ The first 100 lessons established the production baseline. Authoring has continu
 
 The 2026-08-05 practical-nursing production audit measured `us-lpn-nclex-pn` at **1,177 learner-reachable full lessons** after catalogue recovery. Across the two PN pathways, Cram derivation was possible for only **277 of 2,613 lessons (10.6%)**, leaving **2,244 PN-family lessons** in the `PN-015-cram-safety-gap` family. The same audit identified **320 pharmacology lessons** missing required medication-teaching elements and recommended remediating that higher-clinical-risk family first.
 
-The newest 40 lessons after the 180 checkpoint intentionally target that measured pharmacology family. They add distinct U.S. PN pathways for diabetes/thyroid agents, psychotropics, analgesics, acid suppression, cardiovascular agents, antibiotic classes, respiratory medications, antithrombotics, emergency cardiac drugs, neurologic medications, and GI motility/antiemetic therapy. These are authored Cram source objects; they are not counted as resolved production rows until stable serving-row lineage is established.
+The newest 60 lessons after the 180 checkpoint intentionally target that measured pharmacology family. They now cover high-risk diabetes/thyroid agents, psychotropics, analgesics, acid suppression, cardiovascular agents, antibiotic classes, respiratory controller/rescue therapy, antithrombotics, emergency cardiac medications, neurologic agents, GI motility/antiemetic therapy, modern diabetes agents, dementia medications, osteoporosis therapy, opioid reversal, anaphylaxis treatment, and obstetric oxytocin safety. These are authored Cram source objects; they are not counted as resolved production rows until stable serving-row lineage is established.
 
 ## Completion gate
 
