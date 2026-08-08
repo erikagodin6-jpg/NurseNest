@@ -2,16 +2,22 @@
 
 Status: ACTIVE AUTHORING
 Baseline date: 2026-08-07
-Authored Cram lessons: 180
+Authored Cram lessons: 200
 Locale: United States
 Level: PN / LPN / LVN entry-level practice
 Exam alignment: 2026 NCLEX-PN Test Plan
 
 ## Current baseline
 
-The library now contains 180 distinct authored Cram lessons spanning every NCLEX-PN Client Needs area and major practical-nursing clinical domains. Authoring depth now includes chronic and emergency cardiovascular care, respiratory deterioration and airborne TB, renal/urologic care, common GI and endocrine disorders, maternal/fetal complications, pediatric emergencies, neuromuscular respiratory-risk disorders, psychopharmacologic emergencies, hematologic clotting disorders, and oncology metabolic/compressive emergencies.
+The library now contains 200 distinct authored Cram lessons spanning every NCLEX-PN Client Needs area and major practical-nursing clinical domains. Authoring depth includes chronic and emergency cardiovascular care, respiratory deterioration and airborne TB, renal/urologic care, common GI and endocrine disorders, maternal/fetal complications, pediatric emergencies, neuromuscular respiratory-risk disorders, psychopharmacologic emergencies, hematologic clotting disorders, oncology metabolic/compressive emergencies, and expanded medication-class safety.
 
 The first 100 lessons established the production baseline. Authoring has continued beyond that count. No numeric milestone by itself is a declaration of complete coverage.
+
+## Production denominator and open families
+
+The 2026-08-05 practical-nursing production audit measured `us-lpn-nclex-pn` at **1,177 learner-reachable full lessons** after catalogue recovery. Across the two PN pathways, Cram derivation was possible for only **277 of 2,613 lessons (10.6%)**, leaving **2,244 PN-family lessons** in the `PN-015-cram-safety-gap` family. The same audit identified **320 pharmacology lessons** missing required medication-teaching elements and recommended remediating that higher-clinical-risk family first.
+
+The 20 newest lessons intentionally deepen high-risk pharmacology: diabetes agents, thyroid agents, psychotropics, analgesics, PPIs, cardiovascular drugs, antibiotic classes, and inhaled respiratory therapy. They are authored as U.S. PN Cram source material; they are not yet counted as resolved production rows until stable serving-row lineage is established.
 
 ## Completion gate
 
@@ -28,10 +34,10 @@ The U.S. PN Cram estate is complete only when all of the following are true:
 
 ## Serving-scope finding
 
-The production entitlement model identifies the American practical-nurse learner as `country=US`, `tier=LVN_LPN`. Serving lessons are restricted to published `US_ONLY` or `BOTH` content plus the applicable `lvn`, `free`, and `general` tiers. The older TypeScript `contentMap` is a mixed RN/RPN/NP/general collection and cannot by itself prove American PN coverage.
+The production pathway is `us-lpn-nclex-pn`. The production entitlement model identifies the American practical-nurse learner as `country=US`, `tier=LVN_LPN`. Serving lessons are restricted to published `US_ONLY` or `BOTH` content plus the applicable `lvn`, `free`, and `general` tiers. The older TypeScript `contentMap` is a mixed RN/RPN/NP/general collection and cannot by itself prove American PN coverage.
 
 ## Reconciliation work still required
 
-The next coverage phase must inventory the current serving U.S. PN full-lesson estate, extract its stable lesson/topic identifiers, compare them with this Cram library, and produce three sets: `MATCHED`, `MISSING_CRAM`, and `NOT_APPLICABLE_TO_US_PN`. Every `MISSING_CRAM` item must then be authored and quality-reviewed before coverage can be called complete.
+The remaining coverage phase must inventory the current serving U.S. PN full-lesson estate, extract its stable lesson/topic identifiers, compare them with this Cram library, and produce three sets: `MATCHED`, `MISSING_CRAM`, and `NOT_APPLICABLE_TO_US_PN`. Every `MISSING_CRAM` item must then be authored and quality-reviewed before coverage can be called complete.
 
 Do not convert the current lesson count into a completion claim until that reconciliation reaches zero unexplained gaps.
