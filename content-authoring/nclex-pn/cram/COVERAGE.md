@@ -2,22 +2,43 @@
 
 Status: ACTIVE AUTHORING
 Baseline date: 2026-08-07
-Authored Cram lessons: 260
+Authored Cram lessons: 284
 Locale: United States
 Level: PN / LPN / LVN entry-level practice
 Exam alignment: 2026 NCLEX-PN Test Plan
 
 ## Current baseline
 
-The library now contains 260 distinct authored Cram lessons spanning every NCLEX-PN Client Needs area and major practical-nursing clinical domains. Authoring depth includes chronic and emergency cardiovascular care, respiratory deterioration and airborne TB, renal/urologic care, common GI and endocrine disorders, maternal/fetal complications, pediatric emergencies, neuromuscular respiratory-risk disorders, psychopharmacologic emergencies, hematologic clotting disorders, oncology metabolic/compressive emergencies, and increasingly granular medication-class safety.
+The library now contains 284 distinct authored Cram lessons spanning every NCLEX-PN Client Needs area and major practical-nursing clinical domains. Authoring depth includes chronic and emergency cardiovascular care, respiratory deterioration and airborne TB, renal/urologic care, common GI and endocrine disorders, maternal/fetal complications, pediatric emergencies, neuromuscular respiratory-risk disorders, psychopharmacologic emergencies, hematologic clotting disorders, oncology metabolic/compressive emergencies, ophthalmic pharmacology, medication-administration safety, therapeutic communication, documentation safety, fluid-restriction teaching, inhaler/spacer technique, and increasingly granular medication-class safety.
 
 The first 100 lessons established the production baseline. Authoring has continued beyond that count. No numeric milestone by itself is a declaration of complete coverage.
 
-## Production denominator and open families
+## U.S.-specific production denominator and open families
 
-The 2026-08-05 practical-nursing production audit measured `us-lpn-nclex-pn` at **1,177 learner-reachable full lessons** after catalogue recovery. Across the two PN pathways, Cram derivation was possible for only **277 of 2,613 lessons (10.6%)**, leaving **2,244 PN-family lessons** in the `PN-015-cram-safety-gap` family. The same audit identified **320 pharmacology lessons** missing required medication-teaching elements and recommended remediating that higher-clinical-risk family first.
+The 2026-08-05 practical-nursing production audit measured `us-lpn-nclex-pn` at **1,296 catalog rows**, **117 retired**, **1,179 live**, and **1,177 indexed/learner-reachable full lessons**.
 
-The newest 80 lessons after the 180 checkpoint intentionally target that measured pharmacology family. Coverage now includes high-risk cardiovascular and antithrombotic therapy, diabetes/thyroid agents, psychotropics, respiratory therapies, neurologic medications, GI agents, antimicrobial classes, tuberculosis drugs, systemic antifungals, rheumatology immunomodulators, transplant immunosuppressants, hematopoietic growth factors, obstetric pharmacology, emergency reversal therapy, and malignant-hyperthermia rescue medication. These are authored Cram source objects; they are not counted as resolved production rows until stable serving-row lineage is established.
+The same audit measured the U.S. practical-nurse open cohorts at:
+
+- **139** `PN-013-pharmacology-element-gap` rows;
+- **971** `PN-015-cram-safety-gap` rows;
+- **796** missing Pre-Tests;
+- **919** missing Post-Tests;
+- **3** live-not-indexed/curation rows.
+
+The broader two-pathway PN-family totals remain useful context (`PN-013` 320; `PN-015` 2,244), but U.S. authoring progress is now tracked against the pathway-specific numbers above rather than treating Canadian RPN and U.S. LPN/LVN as one denominator.
+
+## Authoring direction
+
+The medication work after the 180 checkpoint intentionally targets the highest-clinical-risk pharmacology family first. The newest batches add ophthalmic drugs, maternity drugs, and medication-administration safety topics that correspond to source families named by the audit, including the U.S. ophthalmic pharmacology shard and the medication/dosage/IV expansion catalog.
+
+The branch now also contains `LINEAGE_CANDIDATES.json`. It records stable audit slugs such as `hypertension-teaching`, `edema-daily-weights`, `copd-home-care`, `hypokalemia-symptoms`, `insulin-administration-checks`, `oral-hypoglycemics`, `antibiotic-side-effect-reporting`, `inhaler-technique-teaching`, `i-o-fluid-restriction-teaching`, `therapeutic-communication`, and `documentation-do-nots` and proposes the authored Cram object(s) that may satisfy each one.
+
+No lineage candidate is counted as a resolved production gap until both of these are true:
+
+1. the source slug is verified as learner-reachable on `us-lpn-nclex-pn`; and
+2. the source lesson's substantive content is compared with the candidate Cram object so clinically important material is not lost.
+
+Four new Cram objects now carry the audited source slug directly as provisional lineage metadata: therapeutic communication, documentation safety, intake/output with fluid restriction, and inhaler/spacer technique. They remain provisional until U.S.-pathway verification is complete.
 
 ## Completion gate
 
@@ -38,6 +59,6 @@ The production pathway is `us-lpn-nclex-pn`. The production entitlement model id
 
 ## Reconciliation work still required
 
-The remaining coverage phase must inventory the current serving U.S. PN full-lesson estate, extract its stable lesson/topic identifiers, compare them with this Cram library, and produce three sets: `MATCHED`, `MISSING_CRAM`, and `NOT_APPLICABLE_TO_US_PN`. Every `MISSING_CRAM` item must then be authored and quality-reviewed before coverage can be called complete.
+The remaining coverage phase must classify the current serving U.S. PN full-lesson estate with stable identifiers into `MATCHED`, `MISSING_CRAM`, and `NOT_APPLICABLE_TO_US_PN`. Every `MISSING_CRAM` item must then be authored and quality-reviewed, and the proposed lineage must be verified against the actual serving source row before the gap count is reduced.
 
-Do not convert the current lesson count into a completion claim until that reconciliation reaches zero unexplained gaps.
+Do not convert the current lesson count into a completion claim until reconciliation reaches zero unexplained U.S. gaps.
