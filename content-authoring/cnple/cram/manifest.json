@@ -178,7 +178,8 @@
     "AUTHORING_QA.md",
     "AUTHORING_QA_V2.md",
     "COMPREHENSIVE_COVERAGE_AUDIT_V2.md",
-    "SOURCE_REFRESH_LEDGER_V2.md"
+    "SOURCE_REFRESH_LEDGER_V2.md",
+    "AUTHORING_QA_PARITY_37.md"
   ],
   "fullLessonParity": {
     "status": "IN_PROGRESS",
@@ -194,10 +195,11 @@
     "fullLessonCramParityComplete": false,
     "secondPassClinicalAuditCompleteForExisting395": true,
     "structuralJsonValidationCompleteForExisting395": true,
-    "newExpansionBatchPendingSecondPassAudit": true,
+    "secondPassClinicalAuditCompleteForParity37": true,
+    "newExpansionBatchPendingSecondPassAudit": false,
     "rendererMappingComplete": false,
     "productionMerged": false,
     "productionDeployed": false,
-    "note": "The 402-object library is an audited topic baseline plus active specialty/full-lesson parity expansions; it is not complete Full-lesson parity. The seven records in 37-neuro-peds-geri-parity.json still require second-pass audit and identity/source certification before learner use. CNPLE Cram authoring remains open until the current canonical Full-lesson reverse-coverage audit reaches 100%, all weak Full sources are remediated, all Cram mappings/anchors/Quick Checks certify, and the learner runtime is verified."
+    "note": "The 402-object library is an audited topic baseline plus active specialty/full-lesson parity expansions; it is not complete Full-lesson parity. Batch 37 has passed its clinical second pass, but its parse/required-field/identity/source/Quick-Check certification still belongs to the pinned private-core integration gate. CNPLE Cram authoring remains open until the current canonical Full-lesson reverse-coverage audit reaches 100%, all weak Full sources are remediated, all Cram mappings/anchors/Quick Checks certify, and the learner runtime is verified."
   }
 }
