@@ -12,9 +12,7 @@ function run(step: Step) {
     stdio: "inherit",
     env: process.env,
   });
-  if ((proc.status ?? 1) !== 0 && !step.optional) {
-    throw new Error(`${step.name} failed with exit code ${proc.status}`);
-  }
+  if ((proc.status ?? 1) !== 0 && !step.optional) throw new Error(`${step.name} failed with exit code ${proc.status}`);
 }
 
 async function sidecarReady(): Promise<boolean> {
@@ -64,6 +62,8 @@ async function main() {
 
   const steps: Step[] = [
     { name: "contract-backfill", args: backfillArgs },
+    { name: "country-label-backfill", args: ["script/backfill-question-country-labels.ts", ...(APPLY ? ["--apply"] : [])] },
+    { name: "contract-recheck", args: ["script/backfill-all-question-stores-contract-v3.ts", ...(APPLY ? ["--apply"] : [])] },
     { name: "duplicate-audit", args: ["script/audit-retire-question-duplicates.ts", ...(APPLY ? ["--apply"] : [])] },
     { name: "source-estate-audit", args: ["script/audit-active-question-source-estate.ts"] },
   ];
