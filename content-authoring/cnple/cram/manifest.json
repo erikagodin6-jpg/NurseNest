@@ -6,11 +6,11 @@
   "level": "Nurse Practitioner",
   "authoringStatus": "COMPREHENSIVE_TOPIC_BASELINE_AUDITED_FULL_LESSON_PARITY_IN_PROGRESS",
   "sourceRefreshDate": "2026-08-08",
-  "rawLessonObjects": 385,
-  "uniqueLessonIds": 385,
+  "rawLessonObjects": 391,
+  "uniqueLessonIds": 391,
   "explicitCanonicalSupersessions": 8,
-  "canonicalTopicPathways": 377,
-  "clinicalJsonFiles": 34,
+  "canonicalTopicPathways": 383,
+  "clinicalJsonFiles": 35,
   "structuralValidation": {
     "status": "PASS",
     "jsonParse": true,
@@ -18,7 +18,7 @@
     "uniqueIds": true,
     "duplicateIdCount": 0,
     "canadianContaminationScan": "PASS",
-    "validatedAt": "2026-08-07"
+    "validatedAt": "2026-08-08"
   },
   "files": [
     {"path": "01-professional-practice.json", "lessons": 8},
@@ -54,7 +54,8 @@
     {"path": "29-pharmacology-safety-expansion.json", "lessons": 14},
     {"path": "30-prevention-screening-expansion.json", "lessons": 12},
     {"path": "31-common-ambulatory-gaps.json", "lessons": 13},
-    {"path": "32-canonical-audit-corrections.json", "lessons": 8, "role": "canonical_supersessions"}
+    {"path": "32-canonical-audit-corrections.json", "lessons": 8, "role": "canonical_supersessions"},
+    {"path": "33-dermatology-hair-nail-specialty-gaps.json", "lessons": 6}
   ],
   "canonicalOverrides": {
     "adult-hypertension": "cnple-ca-canonical-2026-hypertension",
@@ -177,7 +178,7 @@
   ],
   "fullLessonParity": {
     "status": "IN_PROGRESS",
-    "authoringCanonicalTopicPathways": 377,
+    "authoringCanonicalTopicPathways": 383,
     "currentSearchIndexLessonCountObserved": 1979,
     "currentSearchIndexManifest": "nursenest-core/src/content/lessons/search-index/ca-np-cnple.manifest.json",
     "rule": "Completion requires every current canonical public-complete ca-np-cnple Full lesson to resolve to exactly one reviewed Cram lesson/recipe; topic breadth alone is not completion.",
@@ -189,9 +190,10 @@
     "fullLessonCramParityComplete": false,
     "secondPassClinicalAuditCompleteForExisting385": true,
     "structuralJsonValidationCompleteForExisting385": true,
+    "newExpansionBatchPendingSecondPassAudit": true,
     "rendererMappingComplete": false,
     "productionMerged": false,
     "productionDeployed": false,
-    "note": "The 385-object library is an audited comprehensive topic baseline, not complete Full-lesson parity. CNPLE Cram authoring remains open until the current canonical Full-lesson reverse-coverage audit reaches 100%, all weak Full sources are remediated, all Cram mappings/anchors/Quick Checks certify, and the learner runtime is verified."
+    "note": "The 391-object library is an audited 385-object topic baseline plus an active six-lesson specialty expansion; it is not complete Full-lesson parity. CNPLE Cram authoring remains open until the current canonical Full-lesson reverse-coverage audit reaches 100%, all weak Full sources are remediated, all Cram mappings/anchors/Quick Checks certify, and the learner runtime is verified."
   }
 }
