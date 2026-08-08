@@ -6,11 +6,11 @@
   "level": "Nurse Practitioner",
   "authoringStatus": "COMPREHENSIVE_TOPIC_BASELINE_AUDITED_FULL_LESSON_PARITY_IN_PROGRESS",
   "sourceRefreshDate": "2026-08-08",
-  "rawLessonObjects": 395,
-  "uniqueLessonIds": 395,
+  "rawLessonObjects": 402,
+  "uniqueLessonIds": 402,
   "explicitCanonicalSupersessions": 8,
-  "canonicalTopicPathways": 387,
-  "clinicalJsonFiles": 38,
+  "canonicalTopicPathways": 394,
+  "clinicalJsonFiles": 39,
   "structuralValidation": {
     "status": "PASS",
     "jsonParse": true,
@@ -58,7 +58,8 @@
     {"path": "33-dermatology-hair-nail-specialty-gaps.json", "lessons": 6},
     {"path": "34-endocrine-hypertension-gaps.json", "lessons": 2},
     {"path": "35-primary-hyperparathyroidism.json", "lessons": 1},
-    {"path": "36-mineralocorticoids-parity.json", "lessons": 1, "role": "full_lesson_parity_expansion"}
+    {"path": "36-mineralocorticoids-parity.json", "lessons": 1, "role": "full_lesson_parity_expansion"},
+    {"path": "37-neuro-peds-geri-parity.json", "lessons": 7, "role": "full_lesson_parity_expansion"}
   ],
   "canonicalOverrides": {
     "adult-hypertension": "cnple-ca-canonical-2026-hypertension",
@@ -181,22 +182,22 @@
   ],
   "fullLessonParity": {
     "status": "IN_PROGRESS",
-    "authoringCanonicalTopicPathways": 387,
+    "authoringCanonicalTopicPathways": 394,
     "currentSearchIndexLessonCountObserved": 1979,
     "currentSearchIndexManifest": "nursenest-core/src/content/lessons/search-index/ca-np-cnple.manifest.json",
     "rule": "Completion requires every current canonical public-complete ca-np-cnple Full lesson to resolve to exactly one reviewed Cram lesson/recipe; topic breadth alone is not completion.",
-    "note": "The search-index lesson count is an independent scale check, not yet the canonical parity denominator. The private-core reverse-coverage audit will remove deprecated, redirected and non-public-complete records before calculating the final denominator."
+    "note": "The search-index lesson count is an independent scale check, not yet the canonical parity denominator. The private-core reverse-coverage audit removes deprecated, redirected and non-public-complete records before calculating the canonical parity denominator."
   },
   "publication": {
     "clinicalTopicBaselineComplete": true,
     "comprehensiveEntryLevelTopicBreadthAudited": true,
     "fullLessonCramParityComplete": false,
-    "secondPassClinicalAuditCompleteForExisting385": true,
-    "structuralJsonValidationCompleteForExisting385": true,
+    "secondPassClinicalAuditCompleteForExisting395": true,
+    "structuralJsonValidationCompleteForExisting395": true,
     "newExpansionBatchPendingSecondPassAudit": true,
     "rendererMappingComplete": false,
     "productionMerged": false,
     "productionDeployed": false,
-    "note": "The 395-object library is an audited topic baseline plus active specialty/full-lesson parity expansions; it is not complete Full-lesson parity. CNPLE Cram authoring remains open until the current canonical Full-lesson reverse-coverage audit reaches 100%, all weak Full sources are remediated, all Cram mappings/anchors/Quick Checks certify, and the learner runtime is verified."
+    "note": "The 402-object library is an audited topic baseline plus active specialty/full-lesson parity expansions; it is not complete Full-lesson parity. The seven records in 37-neuro-peds-geri-parity.json still require second-pass audit and identity/source certification before learner use. CNPLE Cram authoring remains open until the current canonical Full-lesson reverse-coverage audit reaches 100%, all weak Full sources are remediated, all Cram mappings/anchors/Quick Checks certify, and the learner runtime is verified."
   }
 }
