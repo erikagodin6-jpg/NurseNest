@@ -7,7 +7,7 @@
   "level": "Practical Nurse / LPN / LVN",
   "authoringStatus": "ACTIVE_AUTHORING",
   "sourceRefreshDate": "2026-08-08",
-  "totalLessons": 304,
+  "totalLessons": 324,
   "files": [
     {"path": "01-safety-fundamentals-pharmacology.json", "lessons": 10},
     {"path": "02-cardiovascular-respiratory.json", "lessons": 9},
@@ -39,7 +39,9 @@
     {"path": "28-medication-administration-safety.json", "lessons": 10},
     {"path": "29-audit-gap-direct-remediation.json", "lessons": 4},
     {"path": "31-maternity-pharmacology-depth.json", "lessons": 10},
-    {"path": "32-emergency-antidotes-electrolytes.json", "lessons": 10}
+    {"path": "32-emergency-antidotes-electrolytes.json", "lessons": 10},
+    {"path": "32-high-alert-infusions.json", "lessons": 10},
+    {"path": "33-monitored-infusion-safety.json", "lessons": 10}
   ],
   "nclexPnClientNeedsCoverage": {
     "safeAndEffectiveCareEnvironment": {"coordinatedCare": true, "safetyAndInfectionControl": true},
@@ -54,7 +56,7 @@
     "defaultPattern": "recognize -> prioritize -> act safely -> monitor -> escalate/evaluate"
   },
   "majorClinicalCoverage": [
-    "safety and infection control", "fundamentals/basic care", "pharmacology and medication safety", "cardiovascular", "respiratory", "endocrine", "renal/urology", "neurologic", "gastrointestinal/hepatology", "maternity/postpartum", "newborn", "pediatrics", "mental health/substance withdrawal", "musculoskeletal", "integumentary/wound care", "infectious disease", "hematology", "oncology", "perioperative care", "sensory/HEENT", "gerontology", "coordinated care/delegation", "devices/lines/tubes", "nutrition", "reproductive/STI care", "prevention/screening/immunization", "interpersonal safety/forensic care", "shock/emergency care", "environmental emergencies", "fluids/electrolytes", "acid-base interpretation", "chronic cardiovascular disease", "chronic kidney and urologic care", "common GI disorders", "chronic diabetes and thyroid care", "maternal complications and fetal monitoring", "high-yield pediatric emergencies", "neuromuscular respiratory-risk disorders", "antipsychotic and serotonergic emergencies", "hematologic clotting disorders", "oncology metabolic and compressive emergencies", "cardiac conduction and device care", "advanced respiratory deterioration and airborne TB", "high-risk medication class safety", "antimicrobial adverse-effect monitoring", "respiratory controller and rescue pharmacology", "antithrombotic pharmacology", "cardiac emergency pharmacology", "neurologic medication safety", "GI motility and antiemetic pharmacology", "modern diabetes pharmacology", "respiratory maintenance pharmacology", "high-risk psychopharmacology", "obstetric medication safety", "emergency reversal pharmacology", "tuberculosis pharmacology", "systemic antifungal safety", "rheumatology immunomodulators", "transplant immunosuppression", "hematopoietic growth factors", "malignant hyperthermia pharmacology", "ophthalmic pharmacology", "medication administration safety", "therapeutic communication", "documentation safety", "fluid restriction teaching", "inhaler and spacer technique", "acute obstetric antihypertensive pharmacology", "postpartum hemorrhage pharmacology", "cervical ripening and tocolytic safety", "intrapartum GBS prophylaxis", "neuraxial and labor analgesia monitoring", "antidotes and reversal agents", "parenteral electrolyte rescue"
+    "safety and infection control", "fundamentals/basic care", "pharmacology and medication safety", "cardiovascular", "respiratory", "endocrine", "renal/urology", "neurologic", "gastrointestinal/hepatology", "maternity/postpartum", "newborn", "pediatrics", "mental health/substance withdrawal", "musculoskeletal", "integumentary/wound care", "infectious disease", "hematology", "oncology", "perioperative care", "sensory/HEENT", "gerontology", "coordinated care/delegation", "devices/lines/tubes", "nutrition", "reproductive/STI care", "prevention/screening/immunization", "interpersonal safety/forensic care", "shock/emergency care", "environmental emergencies", "fluids/electrolytes", "acid-base interpretation", "chronic cardiovascular disease", "chronic kidney and urologic care", "common GI disorders", "chronic diabetes and thyroid care", "maternal complications and fetal monitoring", "high-yield pediatric emergencies", "neuromuscular respiratory-risk disorders", "antipsychotic and serotonergic emergencies", "hematologic clotting disorders", "oncology metabolic and compressive emergencies", "cardiac conduction and device care", "advanced respiratory deterioration and airborne TB", "high-risk medication class safety", "antimicrobial adverse-effect monitoring", "respiratory controller and rescue pharmacology", "antithrombotic pharmacology", "cardiac emergency pharmacology", "neurologic medication safety", "GI motility and antiemetic pharmacology", "modern diabetes pharmacology", "respiratory maintenance pharmacology", "high-risk psychopharmacology", "obstetric medication safety", "emergency reversal pharmacology", "tuberculosis pharmacology", "systemic antifungal safety", "rheumatology immunomodulators", "transplant immunosuppression", "hematopoietic growth factors", "malignant hyperthermia pharmacology", "ophthalmic pharmacology", "medication administration safety", "therapeutic communication", "documentation safety", "fluid restriction teaching", "inhaler and spacer technique", "acute obstetric antihypertensive pharmacology", "postpartum hemorrhage pharmacology", "cervical ripening and tocolytic safety", "intrapartum GBS prophylaxis", "neuraxial and labor analgesia monitoring", "antidotes and reversal agents", "parenteral electrolyte rescue", "high-alert vasoactive and sedative infusions", "thrombolytic infusion safety", "monitored cardiac infusions", "concentrated electrolyte infusion safety"
   ],
   "usLocalizationRules": {
     "usGuidanceFirst": true,
@@ -98,6 +100,6 @@
     "rendererMappingComplete": false,
     "productionMerged": false,
     "productionDeployed": false,
-    "note": "The 304-lesson library is an authored clinical baseline. It must be reconciled against serving us-lpn-nclex-pn lesson rows and mapped into Cram mode before production-complete claims are valid."
+    "note": "The 324-lesson library is an authored clinical baseline. It must be reconciled against serving us-lpn-nclex-pn lesson rows and mapped into Cram mode before production-complete claims are valid."
   }
 }
