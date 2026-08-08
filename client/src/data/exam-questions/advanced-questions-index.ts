@@ -79,8 +79,33 @@ import { rpn_advanced_sata_02 } from "./rpn-advanced-sata-02";
 import { rpn_advanced_sata_03 } from "./rpn-advanced-sata-03";
 import { rpn_advanced_trend } from "./rpn-advanced-trend";
 
+function normalizeText(value: unknown): string {
+  return String(value ?? "").toLowerCase().replace(/\s+/g, " ").replace(/[.!?,;:]+$/g, "").trim();
+}
+
+function advancedFingerprint(row: any): string {
+  const stem = normalizeText(row?.stem || row?.question || row?.questionText);
+  const flatOptions = Array.isArray(row?.options)
+    ? row.options.map((option: any) => normalizeText(typeof option === "object" && option ? (option.text ?? option.content ?? option.value ?? option.label) : option)).join("||")
+    : "";
+  const type = normalizeText(row?.questionType || row?.question_type || row?.type || "unknown");
+  return `${type}::${stem}::${flatOptions}`;
+}
+
+function dedupeAdvancedRows(rows: any[]): any[] {
+  const seen = new Set<string>();
+  const out: any[] = [];
+  for (const row of rows) {
+    const fingerprint = advancedFingerprint(row);
+    if (fingerprint !== "unknown::::" && seen.has(fingerprint)) continue;
+    if (fingerprint !== "unknown::::") seen.add(fingerprint);
+    out.push(row);
+  }
+  return out;
+}
+
 function normalizeAdvancedRows(rows: any[], tier: "rpn" | "rn" | "np"): any[] {
-  return rows.map((row, index) => {
+  return dedupeAdvancedRows(rows).map((row, index) => {
     if (!Array.isArray(row?.options) || row.options.length === 0) return row;
     return normalizeLegacyClientQuestion(row, index, {
       regionScope: "BOTH",
