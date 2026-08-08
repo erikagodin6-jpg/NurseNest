@@ -7,8 +7,9 @@ import {
 } from "./topics-10-diagnostic-sonography";
 import { diagnosticSonographyAbdominalTopics11 } from "./topics-11-diagnostic-sonography-abdominal";
 import { diagnosticSonographyObGynTopics12 } from "./topics-12-diagnostic-sonography-obgyn";
+import { diagnosticSonographyVascularTopics13 } from "./topics-13-diagnostic-sonography-vascular";
 
-const topics = [...diagnosticSonographyTopics10, ...diagnosticSonographyAbdominalTopics11, ...diagnosticSonographyObGynTopics12];
+const topics = [...diagnosticSonographyTopics10, ...diagnosticSonographyAbdominalTopics11, ...diagnosticSonographyObGynTopics12, ...diagnosticSonographyVascularTopics13];
 const lessons = materializeAlliedLessons(topics);
 const questions = materializeAlliedQuestions(topics).map(
   normalizeAlliedAuthoredQuestion,
@@ -16,16 +17,16 @@ const questions = materializeAlliedQuestions(topics).map(
 
 describe("diagnostic medical sonography authored expansion", () => {
   it("materializes the first ten canonical topics into fifty lessons", () => {
-    expect(topics).toHaveLength(30);
-    expect(lessons).toHaveLength(150);
-    expect(new Set(lessons.map((lesson) => lesson.id)).size).toBe(150);
-    expect(new Set(lessons.map((lesson) => lesson.slug)).size).toBe(150);
+    expect(topics).toHaveLength(40);
+    expect(lessons).toHaveLength(200);
+    expect(new Set(lessons.map((lesson) => lesson.id)).size).toBe(200);
+    expect(new Set(lessons.map((lesson) => lesson.slug)).size).toBe(200);
   });
 
   it("provides one hundred questions for every topic", () => {
-    expect(questions).toHaveLength(3_000);
-    expect(new Set(questions.map((question) => question.id)).size).toBe(3_000);
-    expect(new Set(questions.map((question) => question.stem)).size).toBe(3_000);
+    expect(questions).toHaveLength(4_000);
+    expect(new Set(questions.map((question) => question.id)).size).toBe(4_000);
+    expect(new Set(questions.map((question) => question.stem)).size).toBe(4_000);
 
     for (const topic of topics) {
       expect(questions.filter((question) => question.topic === topic.topic)).toHaveLength(100);
