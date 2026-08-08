@@ -27,6 +27,7 @@ export interface CareerPooledQuestion {
   optionContractVersion: 2;
   publicationContractVersion: 2;
   metadataOrigin: "authored-v2" | "legacy-derived";
+  publicationReady: boolean;
   rationale: string;
   difficulty: number;
   category: string;
@@ -36,6 +37,26 @@ export interface CareerPooledQuestion {
 }
 
 let careerQuestionsCache: Record<string, CareerPooledQuestion[]> = {};
+
+function normalizeFingerprintText(value: unknown): string {
+  return String(value ?? "").toLowerCase().replace(/\s+/g, " ").replace(/[.!?,;:]+$/g, "").trim();
+}
+
+function careerFingerprint(question: CareerPooledQuestion): string {
+  return `${normalizeFingerprintText(question.stem)}::${question.optionObjects.map(option => normalizeFingerprintText(option.text)).join("||")}`;
+}
+
+function dedupeCareerQuestions(questions: CareerPooledQuestion[]): CareerPooledQuestion[] {
+  const seen = new Set<string>();
+  const unique: CareerPooledQuestion[] = [];
+  for (const question of questions) {
+    const fingerprint = careerFingerprint(question);
+    if (seen.has(fingerprint)) continue;
+    seen.add(fingerprint);
+    unique.push(question);
+  }
+  return unique;
+}
 
 function jurisdictionForCareer(careerType: CareerType) {
   const config = CAREER_CONFIGS[careerType];
@@ -62,6 +83,7 @@ function toPooled(raw: any, index: number, careerType: CareerType, tier: string)
   const correctId = canonical.correctAnswerIds[0];
   const correctIndex = canonical.options.findIndex(option => option.id === correctId);
   if (correctIndex < 0) return null;
+  const authoredV2 = canonical.metadataOrigin === "authored-v2";
   return {
     ...raw,
     id: canonical.id,
@@ -85,6 +107,7 @@ function toPooled(raw: any, index: number, careerType: CareerType, tier: string)
     optionContractVersion: 2,
     publicationContractVersion: 2,
     metadataOrigin: canonical.metadataOrigin,
+    publicationReady: authoredV2,
     rationale: raw.rationale || canonical.correctAnswerExplanation,
     difficulty: Number(raw.difficulty) || 2,
     category: raw.category || raw.bodySystem || "General",
@@ -103,7 +126,7 @@ async function loadFromApi(careerType: CareerType): Promise<CareerPooledQuestion
     if (!data.questions || data.questions.length === 0) return null;
     const config = CAREER_CONFIGS[careerType];
     const tiers = config.tiers;
-    return data.questions.map((q: any, index: number) => {
+    const normalized = data.questions.map((q: any, index: number) => {
       let tier = "free";
       if (tiers.length >= 3) {
         if (q.difficulty <= 2) tier = tiers[0].id;
@@ -112,6 +135,7 @@ async function loadFromApi(careerType: CareerType): Promise<CareerPooledQuestion
       }
       return toPooled(q, index, careerType, tier);
     }).filter((q: CareerPooledQuestion | null): q is CareerPooledQuestion => !!q);
+    return dedupeCareerQuestions(normalized);
   } catch {
     return null;
   }
@@ -134,7 +158,7 @@ async function loadCareerQuestions(careerType: CareerType): Promise<CareerPooled
 
     const config = CAREER_CONFIGS[careerType];
     const tiers = config.tiers;
-    const pooled = raw.map((q, index) => {
+    const normalized = raw.map((q, index) => {
       let tier = "free";
       if (tiers.length >= 3) {
         if (q.difficulty <= 2) tier = tiers[0].id;
@@ -144,6 +168,7 @@ async function loadCareerQuestions(careerType: CareerType): Promise<CareerPooled
       return toPooled(q, index, careerType, tier);
     }).filter((q): q is CareerPooledQuestion => !!q);
 
+    const pooled = dedupeCareerQuestions(normalized);
     careerQuestionsCache[careerType] = pooled;
     return pooled;
   } catch {
@@ -166,16 +191,13 @@ export function getCareerExamQuestions(
   categories?: string[]
 ): CareerPooledQuestion[] {
   let filtered = tier === "all" ? questions : questions.filter(q => q.tier === tier || q.tier === "free");
-  if (categories && categories.length > 0) {
-    filtered = filtered.filter(q => categories.includes(q.category));
-  }
+  if (categories && categories.length > 0) filtered = filtered.filter(q => categories.includes(q.category));
   const shuffled = fisherYatesShuffle([...filtered]);
   return shuffled.slice(0, count);
 }
 
 export function getCareerCategories(questions: CareerPooledQuestion[]): string[] {
-  const cats = new Set(questions.map(q => q.category));
-  return Array.from(cats).sort();
+  return Array.from(new Set(questions.map(q => q.category))).sort();
 }
 
 export function getCareerPoolStats(questions: CareerPooledQuestion[]): {
@@ -184,15 +206,27 @@ export function getCareerPoolStats(questions: CareerPooledQuestion[]): {
   byDifficulty: Record<number, number>;
   authoredV2: number;
   legacyDerived: number;
+  publicationReady: number;
+  requiresEditorialEnrichment: number;
 } {
   const categories: Record<string, number> = {};
   const byDifficulty: Record<number, number> = {};
   let authoredV2 = 0;
   let legacyDerived = 0;
+  let publicationReady = 0;
   for (const q of questions) {
     categories[q.category] = (categories[q.category] || 0) + 1;
     byDifficulty[q.difficulty] = (byDifficulty[q.difficulty] || 0) + 1;
     if (q.metadataOrigin === "authored-v2") authoredV2++; else legacyDerived++;
+    if (q.publicationReady) publicationReady++;
   }
-  return { total: questions.length, categories, byDifficulty, authoredV2, legacyDerived };
+  return {
+    total: questions.length,
+    categories,
+    byDifficulty,
+    authoredV2,
+    legacyDerived,
+    publicationReady,
+    requiresEditorialEnrichment: questions.length - publicationReady,
+  };
 }
