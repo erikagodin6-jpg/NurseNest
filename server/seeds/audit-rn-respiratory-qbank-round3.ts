@@ -1,0 +1,11 @@
+import { rnRespiratoryRound3Batch1Questions } from "../../client/src/data/exam-questions/rn-respiratory-round3-batch1";
+import { rnRespiratoryRound3Batch2Questions } from "../../client/src/data/exam-questions/rn-respiratory-round3-batch2";
+import { rnRespiratoryRound3Batch3Questions } from "../../client/src/data/exam-questions/rn-respiratory-round3-batch3";
+import { rnRespiratoryRound3Batch4Questions } from "../../client/src/data/exam-questions/rn-respiratory-round3-batch4";
+import type { ExamQuestion } from "../../client/src/data/exam-questions/types";
+const batches=[rnRespiratoryRound3Batch1Questions,rnRespiratoryRound3Batch2Questions,rnRespiratoryRound3Batch3Questions,rnRespiratoryRound3Batch4Questions];
+const all:ExamQuestion[]=batches.flat();
+const fail=(m:string):never=>{throw new Error(m)}; const correct=(q:ExamQuestion)=>q.t==="sata"&&q.ca?q.ca:[q.a];
+batches.forEach((b,i)=>{if(b.length<45)fail(`RN_RESP_R3_BATCH_${i+1}_THIN:${b.length}`)}); if(all.length<200)fail(`RN_RESP_R3_TOTAL_BELOW_200:${all.length}`);
+const seen=new Set<string>(); for(const [i,q] of all.entries()){const stem=q.q.trim().toLowerCase();if(q.q.trim().length<25)fail(`RN_RESP_R3_THIN_STEM:${i}`);if(seen.has(stem))fail(`RN_RESP_R3_DUP:${q.q}`);seen.add(stem);if(!Array.isArray(q.o)||q.o.length<4)fail(`RN_RESP_R3_OPTIONS:${i}`);const c=correct(q);if(!c.length||c.some(x=>!Number.isInteger(x)||x<0||x>=q.o.length))fail(`RN_RESP_R3_ANSWER:${i}`);if(new Set(c).size!==c.length)fail(`RN_RESP_R3_ANSWER_DUP:${i}`);if(!q.r||q.r.trim().length<40)fail(`RN_RESP_R3_RATIONALE:${i}`);const wrong=q.o.length-c.length;if(!Array.isArray(q.dr)||q.dr.length!==wrong)fail(`RN_RESP_R3_DR:${i}:${q.dr?.length??0}/${wrong}`);if(q.dr.some(x=>x.trim().length<20))fail(`RN_RESP_R3_DR_THIN:${i}`);if(q.t==="sata"&&(!q.ca||q.ca.length<2))fail(`RN_RESP_R3_SATA:${i}`)}
+console.log({status:"PASS",batchCounts:batches.map(b=>b.length),total:all.length,unique:seen.size,minimum:200,distractorRationales:all.filter(q=>Array.isArray(q.dr)).length});
