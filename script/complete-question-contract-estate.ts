@@ -20,9 +20,13 @@ async function sidecarReady(): Promise<boolean> {
     SELECT EXISTS (
       SELECT 1 FROM information_schema.columns
       WHERE table_schema='public' AND table_name='exam_questions' AND column_name='contract_question_id'
-    ) AS ready
+    ) AS ready,
+    EXISTS (
+      SELECT 1 FROM information_schema.columns
+      WHERE table_schema='public' AND table_name='exam_question_translations' AND column_name='contract_status'
+    ) AS translation_ready
   `);
-  return Boolean(result.rows[0]?.ready);
+  return Boolean(result.rows[0]?.ready) && Boolean(result.rows[0]?.translation_ready);
 }
 
 async function registrySummary() {
@@ -53,7 +57,7 @@ async function duplicateSummary() {
 
 async function main() {
   if (!(await sidecarReady())) {
-    throw new Error("Question contract sidecar migration has not been applied. Apply migrations/20260808_all_question_stores_contract_v2.sql and the exam publication gate first.");
+    throw new Error("Question/translation contract migrations are not fully applied. Apply the universal question-store, exam publication-gate, and exam_question_translation contract migrations first.");
   }
 
   const backfillArgs = ["script/backfill-all-question-stores-contract-v3.ts"];
@@ -63,12 +67,21 @@ async function main() {
   const canonicalRecheckArgs = ["script/recheck-question-contract-registry.ts"];
   if (APPLY) canonicalRecheckArgs.push("--apply");
 
+  const translationRepairArgs = ["script/backfill-exam-question-translations-contract-v2.ts"];
+  if (APPLY) translationRepairArgs.push("--apply");
+  if (AI) translationRepairArgs.push("--ai");
+
+  const translationRecheckArgs = ["script/recheck-exam-question-translation-contract.ts"];
+  if (APPLY) translationRecheckArgs.push("--apply");
+
   const steps: Step[] = [
     { name: "contract-backfill", args: backfillArgs },
     { name: "country-label-backfill", args: ["script/backfill-question-country-labels.ts", ...(APPLY ? ["--apply"] : [])] },
     { name: "canonical-contract-recheck", args: canonicalRecheckArgs },
     { name: "duplicate-audit", args: ["script/audit-retire-question-duplicates.ts", ...(APPLY ? ["--apply"] : [])] },
     { name: "canonical-contract-recheck-after-duplicates", args: canonicalRecheckArgs },
+    { name: "translation-contract-repair", args: translationRepairArgs },
+    { name: "translation-contract-recheck", args: translationRecheckArgs },
     { name: "source-estate-audit", args: ["script/audit-active-question-source-estate.ts"] },
     { name: "authored-v2-source-coverage", args: ["script/audit-active-question-enrichment-coverage.ts"] },
   ];
