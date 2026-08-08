@@ -60,11 +60,15 @@ async function main() {
   if (APPLY) backfillArgs.push("--apply");
   if (AI) backfillArgs.push("--ai");
 
+  const canonicalRecheckArgs = ["script/recheck-question-contract-registry.ts"];
+  if (APPLY) canonicalRecheckArgs.push("--apply");
+
   const steps: Step[] = [
     { name: "contract-backfill", args: backfillArgs },
     { name: "country-label-backfill", args: ["script/backfill-question-country-labels.ts", ...(APPLY ? ["--apply"] : [])] },
-    { name: "contract-recheck", args: ["script/backfill-all-question-stores-contract-v3.ts", ...(APPLY ? ["--apply"] : [])] },
+    { name: "canonical-contract-recheck", args: canonicalRecheckArgs },
     { name: "duplicate-audit", args: ["script/audit-retire-question-duplicates.ts", ...(APPLY ? ["--apply"] : [])] },
+    { name: "canonical-contract-recheck-after-duplicates", args: canonicalRecheckArgs },
     { name: "source-estate-audit", args: ["script/audit-active-question-source-estate.ts"] },
   ];
 
