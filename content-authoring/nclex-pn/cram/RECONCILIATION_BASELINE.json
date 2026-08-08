@@ -5,60 +5,13 @@
   "servingPathwayId": "us-lpn-nclex-pn",
   "servingTier": "lvn",
   "servingCountry": "US",
-  "reachability": {
-    "catalogRows": 1296,
-    "retired": 117,
-    "live": 1179,
-    "indexed": 1177
-  },
+  "reachability": {"catalogRows":1296,"retired":117,"live":1179,"indexed":1177},
   "openAuthoringFamilies": {
-    "PN-008-live-not-indexed": {
-      "usLpnCount": 3,
-      "status": "CURATION_DECISION_REQUIRED",
-      "sampleSlugs": ["us-pn-angina"]
-    },
-    "PN-011-missing-pre-test": {
-      "usLpnCount": 796,
-      "status": "ASSESSMENT_AUTHORING_REQUIRED"
-    },
-    "PN-012-missing-post-test": {
-      "usLpnCount": 919,
-      "status": "ASSESSMENT_AUTHORING_REQUIRED"
-    },
-    "PN-013-pharmacology-element-gap": {
-      "usLpnCount": 139,
-      "pnFamilyCount": 320,
-      "status": "ACTIVE_PRIORITY",
-      "priorityReason": "Production audit ranked this ahead of general Cram remediation because pharmacology lessons missing mechanism, indications, contraindications, interactions, or administration safety carry higher clinical risk.",
-      "pnFamilyTopSources": {
-        "nursing-medication-dosage-iv-expansion-catalog.json": 88,
-        "rpn-rex-pn-parity-expansion-catalog.json": 45,
-        "shared-pharmacology-expansion-catalog/us-lpn-nclex-pn.json": 40,
-        "shards/catalog/us-lpn-nclex-pn.json": 19,
-        "maternity-medications-ch29-part2-catalog.json": 12,
-        "ophthalmic-medications-pharmacology-catalog/us-lpn-nclex-pn.json": 5
-      },
-      "sampleSlugs": [
-        "insulin-administration-checks",
-        "oral-hypoglycemics",
-        "antibiotic-side-effect-reporting"
-      ]
-    },
-    "PN-015-cram-safety-gap": {
-      "usLpnCount": 971,
-      "pnFamilyCount": 2244,
-      "status": "ACTIVE_AFTER_PHARMACOLOGY",
-      "sampleSlugs": [
-        "therapeutic-communication",
-        "documentation-do-nots",
-        "hypertension-teaching",
-        "edema-daily-weights",
-        "inhaler-technique-teaching",
-        "copd-home-care",
-        "i-o-fluid-restriction-teaching",
-        "hypokalemia-symptoms"
-      ]
-    }
+    "PN-008-live-not-indexed": {"usLpnCount":3,"status":"CURATION_DECISION_REQUIRED","sampleSlugs":["us-pn-angina"]},
+    "PN-011-missing-pre-test": {"usLpnCount":796,"status":"ASSESSMENT_AUTHORING_REQUIRED"},
+    "PN-012-missing-post-test": {"usLpnCount":919,"status":"ASSESSMENT_AUTHORING_REQUIRED"},
+    "PN-013-pharmacology-element-gap": {"usLpnCount":139,"pnFamilyCount":320,"status":"ACTIVE_PRIORITY","priorityReason":"Production audit ranked this ahead of general Cram remediation because pharmacology lessons missing mechanism, indications, contraindications, interactions, or administration safety carry higher clinical risk.","sampleSlugs":["insulin-administration-checks","oral-hypoglycemics","antibiotic-side-effect-reporting"]},
+    "PN-015-cram-safety-gap": {"usLpnCount":971,"pnFamilyCount":2244,"status":"ACTIVE_AFTER_PHARMACOLOGY","sampleSlugs":["therapeutic-communication","documentation-do-nots","hypertension-teaching","edema-daily-weights","inhaler-technique-teaching","copd-home-care","i-o-fluid-restriction-teaching","hypokalemia-symptoms"]}
   },
   "authoredCramLibraryCheckpoint": 324,
   "lineageStatus": "TOPIC_AUTHORED_NOT_YET_ROW_MAPPED",
