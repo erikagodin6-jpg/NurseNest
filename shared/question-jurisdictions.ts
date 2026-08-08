@@ -60,11 +60,37 @@ export function resolveExamJurisdiction(exam: string): ExamJurisdiction | null {
   if (/\bAHPRA\b|\bNMBA\b/i.test(exam)) return EXAM_JURISDICTIONS.find(e=>e.examId==="au-rn-nmba")!;
   if (/\bNCNZ\b/i.test(exam)) return EXAM_JURISDICTIONS.find(e=>e.examId==="nz-rn-ncnz")!;
   if (/\bNMBI\b/i.test(exam)) return EXAM_JURISDICTIONS.find(e=>e.examId==="ie-rn-nmbi")!;
-  // Plain NCLEX-RN/PN is intentionally not guessed as Canada vs US.
   return null;
 }
 
 export function jurisdictionForCountry(code: string | null | undefined): QuestionJurisdiction | null {
   const key = String(code || "").trim().toUpperCase();
   return QUESTION_JURISDICTIONS[key] || null;
+}
+
+export function countryLabelsForQuestionScope(input: {
+  countryCode?: string | null;
+  regionScope?: string | null;
+  exam?: string | null;
+  existingLabels?: unknown;
+}): string[] {
+  if (Array.isArray(input.existingLabels)) {
+    const labels = input.existingLabels.map(String).map(v => v.trim()).filter(Boolean);
+    if (labels.length) return [...new Set(labels)];
+  }
+
+  const country = jurisdictionForCountry(input.countryCode);
+  if (country) return [country.countryLabel];
+
+  const region = String(input.regionScope || "").trim().toUpperCase();
+  const exam = String(input.exam || "");
+  if (region !== "BOTH") return [];
+
+  // Only infer a multi-country set when the exam/pathway string itself explicitly supports the inference.
+  const canada = /\b(?:REX[- ]?PN|CNPLE|CPNRE|CBRC|CSMLS|PEBC|CAMRT|COPR|CANADA|CANADIAN)\b/i.test(exam);
+  const unitedStates = /\b(?:NCLEX|NBRC|NREMT|PTCB|EXCPT|ASCP|ARRT|ARDMS|ANCC|AANP|UNITED STATES|\bUS\b)\b/i.test(exam);
+  const labels: string[] = [];
+  if (canada) labels.push("Canada");
+  if (unitedStates) labels.push("United States");
+  return labels;
 }
