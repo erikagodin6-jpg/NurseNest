@@ -17,6 +17,7 @@ DECLARE
   combined_text text := COALESCE(NEW.stem, '') || ' ' || COALESCE(NEW.options::text, '');
   has_si boolean := false;
   has_conv boolean := false;
+  qtype text := upper(COALESCE(NEW.question_type, ''));
 BEGIN
   IF COALESCE(NEW.status, 'draft') <> 'published' THEN
     RETURN NEW;
@@ -31,6 +32,9 @@ BEGIN
   IF NEW.options IS NULL OR jsonb_typeof(NEW.options) <> 'array' OR jsonb_array_length(NEW.options) < 2 THEN
     RAISE EXCEPTION 'QUESTION_CONTRACT: options must be a non-empty JSON array';
   END IF;
+  IF qtype IN ('MCQ','MULTIPLE_CHOICE','MULTIPLE-CHOICE','SINGLE_CHOICE','SINGLE-CHOICE') AND jsonb_array_length(NEW.options) < 4 THEN
+    RAISE EXCEPTION 'QUESTION_CONTRACT: single-answer MCQ requires at least four options';
+  END IF;
 
   -- Canonical persisted options must be objects with unique stable IDs and text.
   IF EXISTS (
@@ -43,23 +47,29 @@ BEGIN
   END IF;
 
   IF (
-    SELECT count(*) FROM (
-      SELECT x->>'id' id FROM jsonb_array_elements(NEW.options) x GROUP BY x->>'id'
-    ) q
+    SELECT count(*) FROM (SELECT x->>'id' id FROM jsonb_array_elements(NEW.options) x GROUP BY x->>'id') q
   ) <> jsonb_array_length(NEW.options) THEN
     RAISE EXCEPTION 'QUESTION_CONTRACT: option ids must be unique';
   END IF;
 
+  IF (
+    SELECT count(*) FROM (
+      SELECT lower(regexp_replace(trim(COALESCE(x->>'text', x->>'content', x->>'value')), '[.!?,;:]+$', '')) option_text
+      FROM jsonb_array_elements(NEW.options) x
+      GROUP BY lower(regexp_replace(trim(COALESCE(x->>'text', x->>'content', x->>'value')), '[.!?,;:]+$', ''))
+    ) q
+  ) <> jsonb_array_length(NEW.options) THEN
+    RAISE EXCEPTION 'QUESTION_CONTRACT: duplicate option/distractor text is not allowed';
+  END IF;
+
   correct_raw := COALESCE(NEW.correct_answer, 'null'::jsonb);
   IF jsonb_typeof(correct_raw) = 'array' THEN
-    SELECT COALESCE(array_agg(value), ARRAY[]::text[]) INTO answer_ids
-    FROM jsonb_array_elements_text(correct_raw);
+    SELECT COALESCE(array_agg(value), ARRAY[]::text[]) INTO answer_ids FROM jsonb_array_elements_text(correct_raw);
   ELSIF jsonb_typeof(correct_raw) = 'string' THEN
     answer_ids := ARRAY[trim(both '"' from correct_raw::text)];
   ELSIF jsonb_typeof(correct_raw) = 'object' THEN
     IF jsonb_typeof(correct_raw->'ids') = 'array' THEN
-      SELECT COALESCE(array_agg(value), ARRAY[]::text[]) INTO answer_ids
-      FROM jsonb_array_elements_text(correct_raw->'ids');
+      SELECT COALESCE(array_agg(value), ARRAY[]::text[]) INTO answer_ids FROM jsonb_array_elements_text(correct_raw->'ids');
     ELSIF correct_raw ? 'id' THEN
       answer_ids := ARRAY[correct_raw->>'id'];
     END IF;
@@ -68,7 +78,9 @@ BEGIN
   IF cardinality(answer_ids) = 0 THEN
     RAISE EXCEPTION 'QUESTION_CONTRACT: correct_answer must contain stable option id(s)';
   END IF;
-
+  IF qtype IN ('MCQ','MULTIPLE_CHOICE','MULTIPLE-CHOICE','SINGLE_CHOICE','SINGLE-CHOICE') AND cardinality(answer_ids) <> 1 THEN
+    RAISE EXCEPTION 'QUESTION_CONTRACT: single-answer MCQ requires exactly one correct option id';
+  END IF;
   IF EXISTS (
     SELECT 1 FROM unnest(answer_ids) a
     WHERE NOT EXISTS (SELECT 1 FROM jsonb_array_elements(NEW.options) x WHERE x->>'id' = a)
@@ -112,13 +124,34 @@ BEGIN
   IF COALESCE(trim(NEW.country_code), '') = '' AND upper(COALESCE(NEW.region_scope, '')) NOT IN ('BOTH','GLOBAL','INTL') THEN
     RAISE EXCEPTION 'QUESTION_CONTRACT: explicit country_code or global region_scope is required';
   END IF;
+  IF COALESCE(trim(NEW.language_code), '') = '' THEN
+    RAISE EXCEPTION 'QUESTION_CONTRACT: language_code is required';
+  END IF;
+  IF NEW.hint IS NULL OR length(trim(NEW.hint)) < 12 THEN
+    RAISE EXCEPTION 'QUESTION_CONTRACT: tutor hint is required';
+  END IF;
+  IF NEW.why_this_matters IS NULL OR length(trim(NEW.why_this_matters)) < 20 THEN
+    RAISE EXCEPTION 'QUESTION_CONTRACT: Why This Matters is required';
+  END IF;
+  IF NEW.clinical_pearl IS NULL OR length(trim(NEW.clinical_pearl)) < 12 THEN
+    RAISE EXCEPTION 'QUESTION_CONTRACT: clinical/exam pearl is required';
+  END IF;
 
-  -- Measurement-bearing items need both SI and conventional display variants.
-  IF combined_text ~* '(mg/dL|mmol/L|mEq/L|mmHg|°F|°C|\mlb\M|\mkg\M|\mcm\M|inches?)' THEN
+  -- Only quantities whose displayed value/unit differs between SI and conventional systems require paired variants.
+  IF combined_text ~* '(mg/dL|mmol/L|°F|°C|\mlb\M|\mkg\M|\mcm\M|inches?|\mfeet\M|\mft\M|\mmeters?\M)' THEN
     has_si := support::text ~* 'SI' OR EXISTS (SELECT 1 FROM jsonb_array_elements(variants) v WHERE COALESCE(v#>>'{si,display}','') <> '');
     has_conv := support::text ~* '(CONV|CONVENTIONAL)' OR EXISTS (SELECT 1 FROM jsonb_array_elements(variants) v WHERE COALESCE(v#>>'{conv,display}','') <> '');
     IF NOT has_si OR NOT has_conv OR jsonb_array_length(variants) = 0 THEN
       RAISE EXCEPTION 'QUESTION_CONTRACT: convertible measurements require paired SI/CONV unit variants';
+    END IF;
+    IF EXISTS (
+      SELECT 1 FROM jsonb_array_elements(variants) v
+      WHERE COALESCE(trim(v->>'token'),'') = ''
+         OR COALESCE(trim(v->>'quantity'),'') = ''
+         OR COALESCE(trim(v#>>'{si,display}'),'') = ''
+         OR COALESCE(trim(v#>>'{conv,display}'),'') = ''
+    ) THEN
+      RAISE EXCEPTION 'QUESTION_CONTRACT: malformed SI/CONV unit variant';
     END IF;
   END IF;
 
@@ -129,8 +162,9 @@ $$;
 DROP TRIGGER IF EXISTS trg_exam_question_publish_guard ON exam_questions;
 CREATE TRIGGER trg_exam_question_publish_guard
 BEFORE INSERT OR UPDATE OF status, options, correct_answer, rationale, distractor_rationales,
-  correct_answer_explanation, tier, exam, question_type, body_system, topic, tags, difficulty,
-  country_code, region_scope, unit_system_support, unit_variants
+  correct_answer_explanation, hint, why_this_matters, clinical_pearl, tier, exam, question_type,
+  body_system, topic, tags, difficulty, country_code, region_scope, language_code,
+  unit_system_support, unit_variants
 ON exam_questions
 FOR EACH ROW
 EXECUTE FUNCTION nursenest_exam_question_publish_guard();
