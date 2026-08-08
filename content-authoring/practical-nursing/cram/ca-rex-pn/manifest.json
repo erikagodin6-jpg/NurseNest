@@ -9,13 +9,10 @@
   "authoringStatus": "ACTIVE_AUTHORING",
   "sourceRefreshDate": "2026-08-08",
   "attachmentContract": "sourceLessonId",
-  "authoredCramLessons": 15,
+  "authoredCramLessons": 30,
   "files": [
-    {
-      "path": "01-batches-120-122.json",
-      "lessons": 15,
-      "sourceLessonRange": "rpn-content-batch-120 through rpn-content-batch-122"
-    }
+    {"path": "01-batches-120-122.json", "lessons": 15, "sourceLessonRange": "rpn-content-batch-120 through rpn-content-batch-122"},
+    {"path": "02-batches-117-119.json", "lessons": 15, "sourceLessonRange": "rpn-content-batch-117 through rpn-content-batch-119"}
   ],
   "attachedSourceLessons": [
     "acute-pyelonephritis-rpn",
@@ -32,36 +29,28 @@
     "skin-tears-older-adults-rpn",
     "moisture-associated-skin-damage-rpn",
     "lower-limb-lymphedema-rpn",
-    "negative-pressure-wound-therapy-rpn"
+    "negative-pressure-wound-therapy-rpn",
+    "measles-suspected-case-rpn",
+    "pertussis-community-control-rpn",
+    "rabies-exposure-post-exposure-prophylaxis-rpn",
+    "meningococcal-close-contact-prophylaxis-rpn",
+    "mpox-community-care-rpn",
+    "kawasaki-disease-rpn",
+    "orbital-cellulitis-rpn",
+    "pediatric-acute-kidney-injury-rpn",
+    "pediatric-acute-migraine-rpn",
+    "pediatric-skin-soft-tissue-infection-rpn",
+    "buprenorphine-naloxone-induction-rpn",
+    "methadone-oat-safety-rpn",
+    "benzodiazepine-withdrawal-rpn",
+    "stimulant-intoxication-rpn",
+    "opioid-withdrawal-oat-engagement-rpn"
   ],
   "requiredFields": [
-    "id",
-    "sourceLessonId",
-    "countryId",
-    "countryLabel",
-    "examId",
-    "examLabel",
-    "tierId",
-    "title",
-    "system",
-    "blueprintDomains",
-    "lifespan",
-    "acuity",
-    "bottomLine",
-    "recognize",
-    "differentiate",
-    "assessment",
-    "workup",
-    "management",
-    "medicationSafety",
-    "redFlags",
-    "counselling",
-    "followUp",
-    "examTrap",
-    "oneLinePearl",
-    "sourceBasis",
-    "sourceAsOf",
-    "localPolicyCheck"
+    "id", "sourceLessonId", "countryId", "countryLabel", "examId", "examLabel", "tierId", "title", "system",
+    "blueprintDomains", "lifespan", "acuity", "bottomLine", "recognize", "differentiate", "assessment", "workup",
+    "management", "medicationSafety", "redFlags", "counselling", "followUp", "examTrap", "oneLinePearl",
+    "sourceBasis", "sourceAsOf", "localPolicyCheck"
   ],
   "qualityRules": {
     "arbitraryTruncationProhibited": true,
