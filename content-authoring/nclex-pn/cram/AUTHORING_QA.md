@@ -2,11 +2,11 @@
 
 QA date: 2026-08-08
 Branch: `content/us-pn-cram-authoring-20260807`
-Status: ACTIVE AUTHORING — 344 authored Cram lessons; U.S. serving-row reconciliation remains in progress.
+Status: ACTIVE AUTHORING — 364 authored Cram lessons; U.S. serving-row reconciliation remains in progress.
 
 ## Coverage QA
 
-The current library contains 344 distinct Cram lessons aligned to entry-level U.S. practical nursing and the 2026 NCLEX-PN test plan. It spans all NCLEX-PN Client Needs categories and a broad set of clinical systems, lifespan stages, medications, devices, safety problems, emergencies, coordinated-care decisions, medication-administration skills, therapeutic communication, documentation, fluid-balance teaching, obstetric pharmacology, antidotes/reversal agents, parenteral electrolyte safety, high-alert monitored infusions, CKD/mineral-bone pharmacology, potassium binders, BPH/urinary-retention medications, overactive-bladder therapy, stone-prevention pharmacology, and UTI symptom/treatment distinctions.
+The current library contains 364 distinct Cram lessons aligned to entry-level U.S. practical nursing and the 2026 NCLEX-PN test plan. It spans all NCLEX-PN Client Needs categories and a broad set of clinical systems, lifespan stages, medications, devices, safety problems, emergencies, coordinated-care decisions, medication-administration skills, therapeutic communication, documentation, fluid-balance teaching, obstetric pharmacology, antidotes/reversal agents, parenteral electrolyte safety, high-alert monitored infusions, CKD/mineral-bone pharmacology, potassium binders, renal/urology therapy, GI pharmacology, endocrine replacement/thyroid therapy, osteoporosis/calcium-regulation therapy, antiepileptic safety, migraine treatment, spasticity therapy, and myasthenia medication safety.
 
 This is not yet a 100% full-lesson-to-Cram coverage claim. Completion requires reconciliation against the actual serving U.S. `us-lpn-nclex-pn` lesson pool and authoring every remaining applicable gap.
 
@@ -45,9 +45,15 @@ High-change/current-source checks in these tranches include current 2026 U.S. la
 
 ## Renal and urology pharmacology QA
 
-The newest renal/metabolic and urology batches preserve drug-specific mechanisms and decision points rather than collapsing medications into generic kidney-drug summaries. Potassium binders are explicitly separated from emergency hyperkalemia rescue; desmopressin centers fluid balance and hyponatremia risk; CKD mineral-bone drugs require calcium/phosphorus/PTH-aware monitoring; BPH and bladder drugs distinguish orthostasis, retention, anticholinergic, blood-pressure, and obstruction risks; and urinary symptom-relief therapy is not presented as definitive infection treatment.
+Renal/metabolic and urology batches preserve drug-specific mechanisms and decision points rather than collapsing medications into generic kidney-drug summaries. Potassium binders are explicitly separated from emergency hyperkalemia rescue; desmopressin centers fluid balance and hyponatremia risk; CKD mineral-bone drugs require calcium/phosphorus/PTH-aware monitoring; BPH and bladder drugs distinguish orthostasis, retention, anticholinergic, blood-pressure, and obstruction risks; and urinary symptom-relief therapy is not presented as definitive infection treatment.
 
-The newest lessons also preserve medication-reconciliation and interaction context where it materially changes safety, including lithium with thiazides, digitalis with calcium abnormalities, oral-drug timing with phosphate/potassium binders, and potassium-raising combinations in renal disease.
+The renal/urology lessons preserve medication-reconciliation and interaction context where it materially changes safety, including lithium with thiazides, calcium/PTH context with cinacalcet/calcitriol, oral-drug timing with phosphate/potassium binders, and potassium-raising combinations in renal disease.
+
+## GI, neuro, and endocrine pharmacology QA
+
+The newest GI pharmacology batch preserves distinct mechanisms and formulation rules rather than treating all GI drugs as symptom medications. H2 blockade is renal-aware; sucralfate requires oral-drug spacing; mesalamine preserves renal monitoring and acute-intolerance recognition; pancreatic enzymes are synchronized with meals; loperamide is not used reflexively for bloody/invasive diarrhea; bowel obstruction red flags outrank additional laxatives; phenothiazine antiemetics retain movement-disorder/NMS risk; promethazine retains pediatric respiratory-depression and severe tissue-injury warnings; and scopolamine is treated as a systemic anticholinergic despite transdermal delivery.
+
+The newest neuro/endocrine batch also preserves current high-risk distinctions: PTU carries severe liver-injury risk and pregnancy-specific selection considerations; hydrocortisone is framed as replacement/stress therapy rather than generic anti-inflammatory steroid use; fludrocortisone is monitored for hypertension, edema, and hypokalemia; denosumab incorporates the 2026 severe-hypocalcemia boxed warning for advanced CKD; calcitonin requires ongoing-need reassessment; lamotrigine rash is a safety signal; topiramate centers metabolic acidosis/stone/ocular risk; sumatriptan preserves vascular contraindications; baclofen withdrawal is treated as dangerous; and pyridostigmine excess is distinguished from myasthenic deterioration without delaying respiratory escalation.
 
 ## PN/LVN cognitive and scope QA
 
@@ -146,7 +152,7 @@ Authoring completion is reached only when `MISSING_CRAM = 0` and no unexplained 
 
 ## Publication checkpoint
 
-Clinical authored baseline: 344 lessons — COMPLETE as a baseline only.
+Clinical authored baseline: 364 lessons — COMPLETE as a baseline only.
 
 Still required before declaring the U.S. PN Cram estate complete/live:
 
@@ -159,4 +165,4 @@ Still required before declaring the U.S. PN Cram estate complete/live:
 - learner-facing PN/US entitlement QA;
 - merge/release/deployment certification.
 
-Do not convert the 344-lesson count into a production-complete claim.
+Do not convert the 364-lesson count into a production-complete claim.
