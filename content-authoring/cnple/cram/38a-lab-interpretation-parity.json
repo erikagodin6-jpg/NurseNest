@@ -1,0 +1,431 @@
+[
+  {
+    "id": "lab-a1c-interpretation",
+    "title": "A1c Interpretation: Diagnose the Pattern, Then Ask Whether the Number Is Trustworthy",
+    "system": "Lab Interpretation / Endocrine",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling"],
+    "lifespan": ["adolescent", "adult", "older adult", "pregnancy"],
+    "acuity": "routine",
+    "bottomLine": "A1C estimates average glycemia over the preceding months but is only clinically useful when red-cell biology makes the result reliable. In an asymptomatic adult, an A1C at or above the diagnostic threshold can support diabetes diagnosis using current Diabetes Canada criteria, but confirmation and/or a plasma-glucose test is required when the result is discordant, the patient is symptomatic or conditions affecting red-cell turnover make A1C unreliable.",
+    "recognize": [
+      "A1C is a long-term glycemia marker, not a real-time glucose measurement; a patient can have a near-target A1C while experiencing clinically important hypoglycemia and hyperglycemic excursions.",
+      "Diabetes Canada uses A1C 6.5% or higher as one diagnostic criterion for diabetes in appropriate adults, with confirmation in an asymptomatic person when required by the diagnostic pathway."
+    ],
+    "differentiate": [
+      "An unexpectedly low A1C can occur with shortened red-cell survival such as hemolysis or recent blood loss, while iron deficiency and other altered erythrocyte states can shift A1C in the opposite direction.",
+      "Pregnancy, recent transfusion, advanced kidney disease, hemoglobin variants or major anemia can make A1C less reliable; use plasma glucose and/or other validated monitoring approaches when physiology and A1C disagree."
+    ],
+    "assessment": [
+      "Interpret A1C beside fasting/random glucose data, symptoms, medications, hypoglycemia history, renal function, anemia/bleeding/transfusion history and the patient's monitoring record.",
+      "Ask whether the goal is diagnosis, treatment monitoring or safety; those are different questions and may require different tests."
+    ],
+    "workup": [
+      "For diagnosis, use current Diabetes Canada diagnostic criteria and confirm an abnormal result appropriately when the patient does not have unequivocal symptomatic hyperglycemia.",
+      "When A1C and glucose data are discordant, investigate the cause rather than averaging the disagreement away; review CBC/hematologic history and consider glucose-based assessment."
+    ],
+    "management": [
+      "Use A1C as one part of treatment assessment together with glucose patterns, hypoglycemia, comorbidity and treatment burden.",
+      "Individualize treatment targets for older adults, pregnancy, frailty, recurrent hypoglycemia and major comorbidity instead of treating one universal A1C target as a board-exam constant."
+    ],
+    "medicationSafety": [
+      "Do not intensify insulin or an insulin secretagogue from A1C alone when the monitoring record shows recurrent hypoglycemia.",
+      "Steroids, acute illness and changes in renal function can shift current glucose substantially before A1C fully reflects the change."
+    ],
+    "redFlags": [
+      "Symptoms of hyperglycemic crisis regardless of the A1C value",
+      "Recurrent or severe hypoglycemia hidden by an apparently acceptable A1C",
+      "A major unexplained A1C/glucose mismatch suggesting an unreliable assay/altered red-cell turnover"
+    ],
+    "counselling": [
+      "Explain that A1C is an average and does not show every high or low; connect the result to the patient's own glucose pattern and treatment goals.",
+      "Avoid framing A1C as a grade or moral judgment; use it as one clinical signal in shared decision-making."
+    ],
+    "followUp": [
+      "Repeat A1C at an interval appropriate to treatment stability and current diabetes guidance, sooner when therapy changes materially and less often when control is stable.",
+      "Use an alternate glycemic assessment strategy when a persistent biologic reason makes A1C unreliable."
+    ],
+    "examTrap": "Escalating insulin because A1C is above target without noticing recurrent overnight glucose values below 4.0 mmol/L, or diagnosing diabetes from a discordant A1C in a patient with recent transfusion.",
+    "oneLinePearl": "A1C is an average with assumptions—interpret the glucose pattern and the red-cell biology before acting on the percentage.",
+    "sourceBasis": [
+      "Diabetes Canada Clinical Practice Guidelines — Classification and Diagnosis of Diabetes",
+      "Diabetes Canada Clinical Practice Guidelines — Monitoring Glycemic Control"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "lab-abg",
+    "title": "ABG: Read pH, Ventilation, Metabolic Change, and Oxygenation in a Fixed Order",
+    "system": "Lab Interpretation / Respiratory / Acute Care",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management"],
+    "lifespan": ["adolescent", "adult", "older adult"],
+    "acuity": "urgent/emergent",
+    "bottomLine": "An arterial blood gas answers separate questions about acidemia/alkalemia, ventilation, metabolic buffering and oxygenation. Interpret in a fixed sequence—pH, PaCO2, bicarbonate, expected compensation, oxygenation—then connect the pattern to the patient; a mathematically neat ABG can still represent dangerous respiratory failure.",
+    "recognize": [
+      "Respiratory disorders move PaCO2 in the direction that explains the pH, while primary metabolic disorders move bicarbonate in the direction that explains the pH.",
+      "A near-normal pH does not mean the ABG is normal; substantial PaCO2 and bicarbonate abnormalities can reflect compensation or a mixed disorder."
+    ],
+    "differentiate": [
+      "Acute respiratory acidosis from hypoventilation is clinically different from chronic compensated hypercapnia in COPD or neuromuscular disease; the history and degree of renal compensation matter.",
+      "A mixed disorder is likely when compensation is outside the expected physiologic range, when pH is unexpectedly normal despite major abnormalities, or when the clinical picture contains two simultaneous processes."
+    ],
+    "assessment": [
+      "Interpret the ABG beside respiratory rate/work, mental status, oxygen delivery, pulse oximetry, hemodynamics, medications/sedatives and the timing of ventilation changes.",
+      "Confirm whether the sample is truly arterial and whether oxygen concentration/ventilator settings at the time of sampling are known."
+    ],
+    "workup": [
+      "For metabolic acidosis, calculate the anion gap when appropriate and investigate lactate, ketones, renal failure, toxins or bicarbonate loss from the clinical context.",
+      "For unexplained hypoxemia or hypercapnia, evaluate the respiratory cause with imaging, spirometry/airway assessment, neurologic/neuromuscular evaluation or PE workup as clinically indicated rather than repeating ABGs without a diagnostic plan."
+    ],
+    "management": [
+      "Treat the underlying cause and support oxygenation/ventilation according to acuity; an ABG is a measurement, not a treatment target in isolation.",
+      "Recheck a blood gas when the patient's status or a major respiratory/metabolic intervention changes enough that the result will alter management."
+    ],
+    "medicationSafety": [
+      "Opioids, benzodiazepines and other sedatives can cause acute hypoventilation and respiratory acidosis; do not attribute a rising PaCO2 to chronic lung disease without assessing medication effect and mental status.",
+      "Bicarbonate therapy is not a generic treatment for every metabolic acidosis; its role depends on cause, severity and clinical context."
+    ],
+    "redFlags": [
+      "Worsening acidemia with hemodynamic instability or altered consciousness",
+      "Rising PaCO2 with fatigue, reduced respiratory drive or impending ventilatory failure",
+      "Severe hypoxemia despite escalating oxygen/support",
+      "A rapidly changing mixed metabolic/respiratory disorder in a critically ill patient"
+    ],
+    "counselling": [
+      "When discussing ABGs with patients/families, translate the result into the underlying problem—ventilation, oxygenation or metabolic illness—rather than reciting values."
+    ],
+    "followUp": [
+      "Trend the physiologic problem and clinical response; do not order serial ABGs on a fixed schedule when noninvasive monitoring and clinical status already answer the question.",
+      "Escalate to respiratory/critical-care support when gas exchange is worsening despite initial therapy."
+    ],
+    "examTrap": "Calling a pH near 7.40 'normal' and missing a mixed disorder or compensated chronic hypercapnia with an acute deterioration in mental status and work of breathing.",
+    "oneLinePearl": "ABG interpretation is not pH matching—it is a four-part physiologic story: acid-base status, ventilation, metabolic response and oxygenation.",
+    "sourceBasis": [
+      "Canadian critical-care/respiratory acid-base interpretation standards",
+      "Canadian Thoracic Society respiratory-care guidance where disease-specific"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "lab-aptt",
+    "title": "Aptt: Know What It Measures, When It Monitors UFH, and When It Misleads",
+    "system": "Lab Interpretation / Hematology / Anticoagulation",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management"],
+    "lifespan": ["adult", "older adult", "pregnancy"],
+    "acuity": "mixed",
+    "bottomLine": "aPTT reflects the intrinsic/common coagulation pathways and is commonly used by Canadian institutions to titrate IV unfractionated heparin when their assay/protocol is calibrated for that purpose. The therapeutic aPTT range is laboratory-specific, and aPTT must not be treated as a universal anticoagulation meter for LMWH or DOACs.",
+    "recognize": [
+      "A prolonged aPTT can reflect heparin, factor deficiency/inhibitor, lupus anticoagulant, severe liver/coagulation disease, disseminated intravascular coagulation or pre-analytic problems.",
+      "An unexpectedly normal aPTT does not exclude clinically relevant DOAC effect, and an abnormal aPTT does not tell you a DOAC concentration reliably."
+    ],
+    "differentiate": [
+      "Isolated prolonged aPTT with normal PT suggests a different differential than simultaneous PT/aPTT prolongation.",
+      "Lupus anticoagulant can prolong phospholipid-dependent clotting tests while being associated clinically with thrombosis rather than a simple bleeding-factor deficiency."
+    ],
+    "assessment": [
+      "Ask why the test was ordered: UFH titration, bleeding workup, procedure evaluation or unexplained abnormal screen; review anticoagulants, timing of the last dose, bleeding/thrombosis and liver/renal disease.",
+      "Check the specimen/timing and compare with prior values before interpreting a sudden extreme change."
+    ],
+    "workup": [
+      "For UFH infusion, use the institution's validated aPTT or anti-Xa protocol; the local laboratory defines the therapeutic aPTT range.",
+      "For unexplained prolonged aPTT outside heparin therapy, use a directed coagulation workup such as mixing study/factor or inhibitor evaluation in consultation with hematology when appropriate."
+    ],
+    "management": [
+      "Adjust UFH only through the validated institutional nomogram/protocol and assess the patient for bleeding/thrombosis rather than titrating from a memorized universal aPTT number.",
+      "If a coagulation test is being used to assess a DOAC in an emergency, consult drug-specific laboratory guidance because routine PT/aPTT sensitivity varies by drug, reagent and concentration."
+    ],
+    "medicationSafety": [
+      "UFH therapy also requires platelet surveillance when exposure duration/risk makes HIT relevant; a therapeutic aPTT does not protect against HIT.",
+      "Do not use aPTT to monitor routine prophylactic LMWH or as a substitute for a drug-specific DOAC assay when the actual anticoagulant effect must be estimated."
+    ],
+    "redFlags": [
+      "Major bleeding or hemodynamic instability with a markedly abnormal coagulation result",
+      "New thrombocytopenia/thrombosis during heparin exposure suggesting HIT",
+      "Unexpected extreme aPTT inconsistent with the clinical picture or heparin dose"
+    ],
+    "counselling": [
+      "For patients on anticoagulation, explain that the relevant monitoring test depends on the drug; not every anticoagulant is followed with the same blood test."
+    ],
+    "followUp": [
+      "Repeat testing according to the UFH nomogram after dose changes and after stability is achieved; investigate unexplained persistent prolongation rather than indefinitely rechecking it.",
+      "Close the loop on hematology referral/testing when an inhibitor or inherited/acquired factor disorder is suspected."
+    ],
+    "examTrap": "Seeing an elevated aPTT in a patient taking apixaban and interpreting it like a warfarin INR or UFH titration value.",
+    "oneLinePearl": "aPTT is useful only when you know the clinical question, the anticoagulant, and the local assay relationship.",
+    "sourceBasis": [
+      "Thrombosis Canada — Unfractionated Heparin, Low Molecular Weight Heparin and Fondaparinux",
+      "Thrombosis Canada — DOACs: Coagulation Tests"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "lab-pt-inr",
+    "title": "PT and INR: Warfarin Monitoring, Liver/Factor Clues, and the DOAC Trap",
+    "system": "Lab Interpretation / Hematology / Anticoagulation",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling"],
+    "lifespan": ["adult", "older adult", "pregnancy"],
+    "acuity": "mixed",
+    "bottomLine": "PT assesses the extrinsic/common coagulation pathways, while INR standardizes PT primarily for warfarin management. A therapeutic INR target is indication-specific; an elevated INR outside warfarin may reflect liver dysfunction, vitamin K deficiency, factor deficiency, DIC or drug effect, and PT/INR is not a reliable quantitative monitor of DOAC anticoagulation.",
+    "recognize": [
+      "Warfarin patients require INR-based dose management, but the target range depends on indication and individual thrombosis/bleeding context.",
+      "PT/INR can be prolonged by liver synthetic dysfunction, vitamin K deficiency, DIC, massive transfusion/consumption or selected anticoagulant effects."
+    ],
+    "differentiate": [
+      "An isolated elevated INR in a stable warfarin patient is managed differently from the same number in an actively bleeding patient or a patient not taking warfarin.",
+      "DOACs can variably prolong PT/INR but the result is reagent- and drug-dependent and should not be used like a warfarin INR to estimate therapeutic intensity."
+    ],
+    "assessment": [
+      "Review indication for anticoagulation, warfarin dose/adherence, recent INR trend, bleeding, thrombosis, diet/alcohol changes, acute illness, antibiotics/new medications and liver function.",
+      "If not on warfarin, investigate why PT/INR is prolonged rather than applying a warfarin nomogram."
+    ],
+    "workup": [
+      "For warfarin, confirm the current INR against the indication-specific target and identify temporary causes of an out-of-range result before changing maintenance dosing.",
+      "For unexplained prolongation, use CBC, liver tests, fibrinogen/DIC evaluation, mixing/factor studies or vitamin K assessment as clinically indicated."
+    ],
+    "management": [
+      "Follow current Thrombosis Canada/local guidance for out-of-range INR and reversal; urgency depends on bleeding severity, INR, indication and thrombotic risk.",
+      "Do not reflexively administer vitamin K to every mildly high INR or reverse anticoagulation without balancing the reason the patient needs anticoagulation."
+    ],
+    "medicationSafety": [
+      "Warfarin has numerous drug, illness and diet interactions; a new antibiotic or major dietary change can shift INR substantially.",
+      "Point-of-care INR devices can be unreliable in selected settings such as extreme hematocrit, antiphospholipid antibodies or concurrent anticoagulants; confirm through an appropriate laboratory/specialist pathway when the result is questionable."
+    ],
+    "redFlags": [
+      "Intracranial, GI, retroperitoneal or other major bleeding on anticoagulation",
+      "Markedly supratherapeutic INR with bleeding or high bleeding risk",
+      "Unexpected rapid INR change with acute liver failure or severe systemic illness"
+    ],
+    "counselling": [
+      "Teach warfarin patients to report new medications/antibiotics, major diet/alcohol changes, bleeding and missed doses and to follow the planned INR schedule.",
+      "Explain that consistent vitamin K intake is more useful than trying to eliminate all vitamin K foods."
+    ],
+    "followUp": [
+      "Repeat INR based on how far it is out of range, the intervention, stability and current warfarin guidance; stable patients require less frequent testing than patients during initiation/interaction changes.",
+      "Close the loop after any reversal/hold to determine when and how anticoagulation should resume."
+    ],
+    "examTrap": "Using an INR drawn from a patient on rivaroxaban to decide whether the drug is 'therapeutic,' or treating an asymptomatic minor INR elevation the same as life-threatening bleeding.",
+    "oneLinePearl": "INR is a warfarin management tool—not a universal anticoagulant level and not a diagnosis by itself.",
+    "sourceBasis": [
+      "Thrombosis Canada — Warfarin",
+      "Thrombosis Canada — Warfarin: Management of Out-of-Range INRs",
+      "Thrombosis Canada — DOACs: Coagulation Tests"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "lab-d-dimer",
+    "title": "D-Dimer: Use Pretest Probability Before the Blood Test",
+    "system": "Lab Interpretation / Thrombosis",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management"],
+    "lifespan": ["adult", "older adult", "pregnancy", "postpartum"],
+    "acuity": "urgent",
+    "bottomLine": "D-dimer is most useful as a rule-out test in patients with sufficiently low or intermediate pretest probability of venous thromboembolism. A negative result can avoid imaging in the correct validated pathway; a positive result is nonspecific and usually means the diagnostic pathway continues rather than 'DVT/PE confirmed.'",
+    "recognize": [
+      "D-dimer rises with acute thrombosis but also with age, pregnancy/postpartum, infection/inflammation, cancer, surgery/trauma and many other conditions.",
+      "The test has its greatest value when the clinical probability is low enough that a negative result meaningfully lowers post-test probability."
+    ],
+    "differentiate": [
+      "High pretest probability should generally proceed to definitive imaging/management rather than relying on a negative D-dimer to override the clinical picture.",
+      "Age-adjusted or probability-adapted D-dimer strategies are valid only when used within the specific validated diagnostic algorithm and the laboratory reports compatible units."
+    ],
+    "assessment": [
+      "Before ordering D-dimer, assess symptoms, VTE risk factors, hemodynamic stability and a validated pretest-probability tool/pathway.",
+      "Ask whether the patient is already anticoagulated or has had symptoms long enough that test sensitivity/interpretation may differ."
+    ],
+    "workup": [
+      "For suspected DVT, pair pretest probability/D-dimer with compression ultrasonography according to the diagnostic algorithm.",
+      "For suspected PE, use the validated PE diagnostic pathway and escalate directly in an unstable patient rather than waiting for low-value screening tests."
+    ],
+    "management": [
+      "A positive D-dimer does not justify anticoagulation without an appropriate clinical diagnosis/imaging pathway unless the clinical situation requires empiric treatment while definitive testing is delayed.",
+      "When a validated negative result rules out VTE, look for the actual cause of symptoms rather than repeating D-dimer."
+    ],
+    "medicationSafety": [
+      "Anticoagulation can affect the diagnostic context and bleeding risk; confirm whether anticoagulation has already started before applying an untreated-patient algorithm.",
+      "Do not use D-dimer to decide when to stop routine anticoagulation unless a specific evidence-based protocol uses it for that decision."
+    ],
+    "redFlags": [
+      "Hemodynamic instability, syncope, severe hypoxemia or shock with suspected PE",
+      "Phlegmasia, threatened limb or severe unilateral swelling/pain",
+      "High clinical probability with discordant screening-test interpretation"
+    ],
+    "counselling": [
+      "Explain that a positive D-dimer means more evaluation may be needed; it does not mean a clot has been proven."
+    ],
+    "followUp": [
+      "Close the loop on ordered ultrasound/CT pulmonary angiography and communicate explicit return precautions while awaiting testing.",
+      "If initial imaging is negative but the diagnostic algorithm calls for repeat imaging because suspicion remains, ensure that repeat study actually occurs."
+    ],
+    "examTrap": "Ordering D-dimer in a patient with obvious high-probability PE, then treating a positive result as diagnostic instead of proceeding through the imaging/unstable-PE pathway.",
+    "oneLinePearl": "D-dimer only makes sense after pretest probability—the same positive test means very different things in different patients.",
+    "sourceBasis": [
+      "Thrombosis Canada venous thromboembolism diagnostic/treatment clinical guides",
+      "Thrombosis Canada PE and DVT practice resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "lab-troponin-interpretation",
+    "title": "Troponin Interpretation: Myocardial Injury Is Not Automatically Type 1 MI",
+    "system": "Lab Interpretation / Cardiovascular",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management"],
+    "lifespan": ["adult", "older adult"],
+    "acuity": "urgent/emergent",
+    "bottomLine": "High-sensitivity cardiac troponin detects myocardial injury. Acute myocardial infarction requires a compatible rise/fall pattern plus clinical evidence of ischemia; elevated troponin can also occur with heart failure, tachyarrhythmia, myocarditis, pulmonary embolism, sepsis, renal disease and other injury states. Interpret the assay-specific value, delta and clinical context together.",
+    "recognize": [
+      "A troponin above the assay's 99th-percentile upper reference limit indicates myocardial injury, not the mechanism of injury.",
+      "Serial change is central to identifying acute injury; a chronically elevated stable troponin can occur in structural heart/kidney disease."
+    ],
+    "differentiate": [
+      "Type 1 MI reflects acute atherothrombotic coronary ischemia, while type 2 MI reflects ischemia from supply-demand imbalance; non-ischemic myocardial injury is a separate category.",
+      "A positive troponin in sepsis, PE or acute HF is prognostically important but should not automatically trigger an ACS label without ischemic symptoms/ECG/imaging evidence."
+    ],
+    "assessment": [
+      "Integrate symptom onset/quality, serial ECGs, hemodynamics, arrhythmia, oxygenation, prior CAD, kidney function and alternative injury states.",
+      "Know the assay and timing; decision thresholds/delta algorithms are assay- and institution-specific."
+    ],
+    "workup": [
+      "Use the institution's validated high-sensitivity troponin ACS pathway, including serial testing when indicated, rather than a single universal delta memorized across assays.",
+      "Add echocardiography, coronary imaging/angiography or alternative-cause testing according to ECG, symptoms, instability and the suspected injury mechanism."
+    ],
+    "management": [
+      "Treat suspected ACS promptly when the clinical picture supports it; do not wait for troponin when STEMI-level ECG/clinical criteria require emergency reperfusion pathways.",
+      "When injury is secondary/non-ischemic, treat the cause and address cardiovascular risk rather than automatically applying full ACS antithrombotic therapy."
+    ],
+    "medicationSafety": [
+      "Antiplatelet/anticoagulant therapy has bleeding risk and should not be reflexively started solely because troponin is elevated.",
+      "Renal dysfunction can complicate baseline troponin interpretation but does not make dynamic ischemic changes irrelevant."
+    ],
+    "redFlags": [
+      "Ischemic ECG changes or persistent ischemic chest pain with instability",
+      "Cardiogenic shock, malignant arrhythmia or acute pulmonary edema",
+      "Large dynamic troponin change with a clinical syndrome suggesting ACS, myocarditis or PE"
+    ],
+    "counselling": [
+      "Explain that troponin means heart-muscle injury and that the team still has to determine why; avoid telling patients that any positive troponin automatically means a 'heart attack.'"
+    ],
+    "followUp": [
+      "Close the loop on the final injury/MI diagnosis because it changes secondary prevention, antithrombotic therapy and follow-up.",
+      "Arrange cardiovascular follow-up/risk-factor management after ACS or clinically important myocardial injury when appropriate."
+    ],
+    "examTrap": "Calling every elevated troponin an NSTEMI and giving ACS anticoagulation to a septic patient without ischemic symptoms/ECG evidence, or delaying a STEMI reperfusion pathway to wait for the first troponin.",
+    "oneLinePearl": "Troponin answers 'is myocardium injured?'; the NP must still answer 'acute or chronic, ischemic or non-ischemic, and what caused it?'",
+    "sourceBasis": [
+      "Canadian Cardiovascular Society acute coronary syndrome/secondary prevention resources",
+      "Canadian Cardiovascular Society heart-failure biomarker guidance",
+      "Current universal myocardial-injury/MI definitions used in Canadian cardiovascular practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "lab-bnp-ntprobnp",
+    "title": "BNP and NT-ProBNP: A Heart-Failure Probability Tool, Not a Standalone Diagnosis",
+    "system": "Lab Interpretation / Cardiovascular",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management"],
+    "lifespan": ["adult", "older adult"],
+    "acuity": "mixed",
+    "bottomLine": "BNP and NT-proBNP support the diagnosis and risk stratification of heart failure, especially when dyspnea is diagnostically uncertain, but values are modified by age, renal function, atrial fibrillation, obesity and acute illness. Low values can make HF less likely in the correct context; high values increase probability but do not replace clinical assessment and echocardiography.",
+    "recognize": [
+      "Natriuretic peptide concentrations rise with myocardial wall stress and are often elevated in symptomatic HF.",
+      "Very high values can reflect severe HF but may also be amplified by renal dysfunction, older age and atrial arrhythmias."
+    ],
+    "differentiate": [
+      "Obesity can produce lower-than-expected natriuretic peptide values, so a low result should not overrule strong clinical/echo evidence in every patient.",
+      "BNP/NT-proBNP can be elevated in PE, pulmonary hypertension, renal failure and other acute cardiac stress states; identify the syndrome rather than equating 'high BNP' with volume-overloaded HF."
+    ],
+    "assessment": [
+      "Interpret the peptide with dyspnea history, congestion signs, blood pressure, rhythm, kidney function, chest imaging and prior HF baseline.",
+      "Know which assay is reported; BNP and NT-proBNP use different cut points and are not numerically interchangeable."
+    ],
+    "workup": [
+      "Use CCS/local diagnostic pathways and echocardiography to define cardiac structure/function when HF is suspected.",
+      "In acute dyspnea, pursue alternative diagnoses when the peptide and clinical picture are discordant rather than repeating the biomarker without new information."
+    ],
+    "management": [
+      "Do not titrate diuretics or guideline-directed therapy from a single BNP/NT-proBNP number without assessing symptoms, congestion, renal function, blood pressure and treatment tolerance.",
+      "Use trends selectively when they add to clinical assessment; the patient's trajectory remains the treatment target."
+    ],
+    "medicationSafety": [
+      "ARNI therapy can affect BNP biology differently from NT-proBNP, so know which marker is being followed after sacubitril/valsartan initiation.",
+      "Aggressive diuresis based only on a high peptide can cause hypotension, acute kidney injury and electrolyte disturbance in a patient who is not clinically congested."
+    ],
+    "redFlags": [
+      "Acute pulmonary edema, shock or severe hypoxemia regardless of biomarker value",
+      "Rapid renal deterioration/hypotension during treatment",
+      "Marked biomarker elevation with a clinical syndrome suggesting acute HF, PE or another high-risk cardiac process"
+    ],
+    "counselling": [
+      "Explain that BNP/NT-proBNP helps estimate heart strain and HF likelihood; it is interpreted with symptoms and imaging, not as a pass/fail heart-failure test."
+    ],
+    "followUp": [
+      "Ensure echocardiography and HF follow-up occur when a diagnostic pathway identifies likely HF.",
+      "After treatment changes, monitor symptoms, weight/congestion, blood pressure, renal function and electrolytes rather than ordering biomarker testing reflexively."
+    ],
+    "examTrap": "Giving IV diuretics solely because NT-proBNP is high in an older patient with CKD and AF but no clinical congestion, or ruling out HF solely from a low peptide in severe obesity.",
+    "oneLinePearl": "Natriuretic peptides change probability; the diagnosis still belongs to the whole heart-failure assessment.",
+    "sourceBasis": [
+      "Canadian Cardiovascular Society heart-failure guidelines — diagnosis and natriuretic peptide biomarkers",
+      "CCS/CHFS heart-failure updates"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "lab-lactate-interpretation",
+    "title": "Lactate Interpretation: Trend Perfusion and Metabolism, Not 'Sepsis Positive or Negative'",
+    "system": "Lab Interpretation / Acute Care",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management"],
+    "lifespan": ["adolescent", "adult", "older adult", "pregnancy", "postpartum"],
+    "acuity": "urgent/emergent",
+    "bottomLine": "Elevated lactate signals increased production and/or impaired clearance; it is a severity/perfusion clue, not a sepsis-specific diagnostic test. Interpret the value with hemodynamics, infection probability, oxygen delivery, medications, seizures/exertion and liver function, then trend it only when the result will change resuscitation or diagnosis.",
+    "recognize": [
+      "Lactate can rise with shock/hypoperfusion, severe sepsis, seizures, strenuous muscle activity, beta-agonists/catecholamines, regional ischemia, toxins/metabolic disease and impaired hepatic clearance.",
+      "A normal lactate does not exclude serious infection or early shock, and an elevated lactate does not prove bacterial sepsis."
+    ],
+    "differentiate": [
+      "Type A physiology reflects inadequate tissue oxygen delivery/perfusion, whereas lactate can also rise without global hypoxia from adrenergic/metabolic mechanisms or impaired clearance.",
+      "A transient post-seizure lactate should fall as the patient recovers; persistent/worsening lactate requires reconsideration of ongoing shock, ischemia, infection, toxin or clearance failure."
+    ],
+    "assessment": [
+      "Assess blood pressure/MAP, capillary refill, mental status, urine output, temperature, oxygenation, bleeding/volume status, infection source, medications and hepatic function.",
+      "Review sampling/tourniquet/delay issues and timing relative to seizures, beta-agonists, epinephrine or major exertion."
+    ],
+    "workup": [
+      "Use lactate as part of a cause-directed evaluation: cultures/source imaging for infection, ECG/troponin for cardiac shock, bleeding assessment, abdominal/limb ischemia evaluation or toxicology/metabolic testing as indicated.",
+      "Repeat lactate when the trend has prognostic/management value in an acutely ill patient; do not serially chase small changes in a clinically stable person without a diagnostic question."
+    ],
+    "management": [
+      "Resuscitate the patient based on shock physiology and cause—fluids, blood products, vasopressors, source control, oxygen/ventilation or reperfusion as appropriate—not to normalize lactate as an isolated endpoint.",
+      "If lactate remains elevated despite improving perfusion, investigate adrenergic drugs, liver dysfunction, seizures, mesenteric/limb ischemia or other non-global-hypoperfusion causes."
+    ],
+    "medicationSafety": [
+      "Beta-agonists and epinephrine can raise lactate through adrenergic mechanisms; do not misread every medication-associated rise as treatment failure.",
+      "Metformin-associated lactic acidosis is uncommon but must be considered in a very ill patient with severe renal dysfunction/shock and compatible acid-base findings; an elevated lactate alone does not diagnose it."
+    ],
+    "redFlags": [
+      "Rising lactate with hypotension, worsening perfusion or altered consciousness",
+      "Persistent elevation with severe metabolic acidosis",
+      "High lactate with suspected mesenteric/limb ischemia, major bleeding or toxin exposure"
+    ],
+    "counselling": [
+      "When speaking with patients/families, explain lactate as one marker of physiologic stress/perfusion rather than saying a high lactate 'means sepsis.'"
+    ],
+    "followUp": [
+      "Trend lactate and organ perfusion after meaningful resuscitation in shock when it changes management.",
+      "Document the suspected cause and response so a persistent abnormal value is not simply handed off without a diagnostic plan."
+    ],
+    "examTrap": "Calling an elevated lactate after repeated salbutamol treatments 'septic shock' despite improving respiratory status and no infection evidence, or reassuring yourself that a normal lactate excludes serious sepsis.",
+    "oneLinePearl": "Lactate is a stress/perfusion clue—ask why it is high and whether the patient is improving, not whether the test is 'positive.'",
+    "sourceBasis": [
+      "Canadian sepsis/critical-care practice principles",
+      "Canadian emergency and acute-care lactate interpretation standards"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  }
+]
