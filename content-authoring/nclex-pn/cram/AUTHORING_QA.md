@@ -2,11 +2,11 @@
 
 QA date: 2026-08-08
 Branch: `content/us-pn-cram-authoring-20260807`
-Status: ACTIVE AUTHORING — 284 authored Cram lessons; U.S. serving-row reconciliation remains in progress.
+Status: ACTIVE AUTHORING — 304 authored Cram lessons; U.S. serving-row reconciliation remains in progress.
 
 ## Coverage QA
 
-The current library contains 284 distinct Cram lessons aligned to entry-level U.S. practical nursing and the 2026 NCLEX-PN test plan. It spans all NCLEX-PN Client Needs categories and a broad set of clinical systems, lifespan stages, medications, devices, safety problems, emergencies, coordinated-care decisions, medication-administration skills, therapeutic communication, documentation, and fluid-balance teaching.
+The current library contains 304 distinct Cram lessons aligned to entry-level U.S. practical nursing and the 2026 NCLEX-PN test plan. It spans all NCLEX-PN Client Needs categories and a broad set of clinical systems, lifespan stages, medications, devices, safety problems, emergencies, coordinated-care decisions, medication-administration skills, therapeutic communication, documentation, fluid-balance teaching, obstetric pharmacology, antidotes/reversal agents, and parenteral electrolyte safety.
 
 This is not yet a 100% full-lesson-to-Cram coverage claim. Completion requires reconciliation against the actual serving U.S. `us-lpn-nclex-pn` lesson pool and authoring every remaining applicable gap.
 
@@ -35,7 +35,7 @@ These pathway-specific numbers supersede PN-family totals as the primary denomin
 3. no safety-critical section is lost or incorrectly narrowed;
 4. one-to-many or many-to-one relationships are documented when a broad full lesson is represented by several narrower Cram lessons.
 
-New direct-remediation lessons may carry `sourceLessonSlugCandidate` and `lineageStatus`; these fields are evidence hooks, not a completion claim.
+New direct-remediation lessons may carry `sourceLessonSlugCandidate` and `lineageStatus`; these fields are evidence hooks, not a completion claim. The packaged practical-nursing lesson corpus is tarball-backed rather than ordinary tracked GitHub text, so inability to verify a row through GitHub code search must remain `REQUIRED`, never be treated as an implicit pass.
 
 ## PN/LVN cognitive and scope QA
 
@@ -134,7 +134,7 @@ Authoring completion is reached only when `MISSING_CRAM = 0` and no unexplained 
 
 ## Publication checkpoint
 
-Clinical authored baseline: 284 lessons — COMPLETE as a baseline only.
+Clinical authored baseline: 304 lessons — COMPLETE as a baseline only.
 
 Still required before declaring the U.S. PN Cram estate complete/live:
 
@@ -147,4 +147,4 @@ Still required before declaring the U.S. PN Cram estate complete/live:
 - learner-facing PN/US entitlement QA;
 - merge/release/deployment certification.
 
-Do not convert the 284-lesson count into a production-complete claim.
+Do not convert the 304-lesson count into a production-complete claim.
