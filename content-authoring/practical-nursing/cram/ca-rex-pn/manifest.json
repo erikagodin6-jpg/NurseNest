@@ -1,0 +1,88 @@
+{
+  "libraryId": "practical-nursing-ca-rexpn-rpn-cram-v1",
+  "title": "Canada RPN REx-PN Cram Library",
+  "countryId": "CA",
+  "countryLabel": "Canada",
+  "examId": "rex-pn",
+  "examLabel": "REx-PN",
+  "tierId": "rpn",
+  "authoringStatus": "ACTIVE_AUTHORING",
+  "sourceRefreshDate": "2026-08-08",
+  "attachmentContract": "sourceLessonId",
+  "authoredCramLessons": 15,
+  "files": [
+    {
+      "path": "01-batches-120-122.json",
+      "lessons": 15,
+      "sourceLessonRange": "rpn-content-batch-120 through rpn-content-batch-122"
+    }
+  ],
+  "attachedSourceLessons": [
+    "acute-pyelonephritis-rpn",
+    "nephrolithiasis-renal-colic-rpn",
+    "acute-glomerulonephritic-syndrome-rpn",
+    "hydronephrosis-obstructive-uropathy-rpn",
+    "autosomal-dominant-polycystic-kidney-disease-rpn",
+    "placental-abruption-rpn",
+    "umbilical-cord-prolapse-rpn",
+    "uterine-rupture-rpn",
+    "postpartum-endometritis-rpn",
+    "lactational-mastitis-rpn",
+    "surgical-wound-dehiscence-evisceration-rpn",
+    "skin-tears-older-adults-rpn",
+    "moisture-associated-skin-damage-rpn",
+    "lower-limb-lymphedema-rpn",
+    "negative-pressure-wound-therapy-rpn"
+  ],
+  "requiredFields": [
+    "id",
+    "sourceLessonId",
+    "countryId",
+    "countryLabel",
+    "examId",
+    "examLabel",
+    "tierId",
+    "title",
+    "system",
+    "blueprintDomains",
+    "lifespan",
+    "acuity",
+    "bottomLine",
+    "recognize",
+    "differentiate",
+    "assessment",
+    "workup",
+    "management",
+    "medicationSafety",
+    "redFlags",
+    "counselling",
+    "followUp",
+    "examTrap",
+    "oneLinePearl",
+    "sourceBasis",
+    "sourceAsOf",
+    "localPolicyCheck"
+  ],
+  "qualityRules": {
+    "arbitraryTruncationProhibited": true,
+    "mustMatchFullLessonClinicalTruth": true,
+    "canadianGuidanceFirst": true,
+    "siUnitsByDefault": true,
+    "localScopeClaimsTagged": true,
+    "medicationSafetyRequired": true,
+    "redFlagsRequired": true,
+    "examTrapRequired": true,
+    "sourceDateRequired": true
+  },
+  "blueprintBasis": {
+    "primary": "REx-PN Test Plan effective January 4, 2022 (revised)",
+    "examOwner": "BCCNM/CNO/NCSBN REx-PN",
+    "nextRefresh": "Re-check when REx-PN publishes the next test plan"
+  },
+  "completionGate": {
+    "allQualifyingFullLessonsHaveCram": false,
+    "rendererMappingVerified": false,
+    "productionServingVerified": false,
+    "note": "Do not mark Canada RPN complete until every qualifying source lesson has exactly one valid attached Cram record and the learner-facing Cram renderer serves it."
+  }
+}
