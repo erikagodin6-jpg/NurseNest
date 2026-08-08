@@ -15,6 +15,7 @@ DECLARE
   interaction jsonb := COALESCE(NEW.contract_interaction_payload, '{}'::jsonb);
   distractor_map jsonb := COALESCE(NEW.contract_distractor_rationales, '{}'::jsonb);
   correct_raw jsonb := COALESCE(NEW.contract_correct_answer_ids, '[]'::jsonb);
+  country_labels jsonb := COALESCE(NEW.contract_country_labels, '[]'::jsonb);
   support jsonb := COALESCE(NEW.contract_unit_system_support, NEW.unit_system_support, '{}'::jsonb);
   variants jsonb := COALESCE(NEW.contract_unit_variants, NEW.unit_variants, '[]'::jsonb);
   combined_text text;
@@ -87,7 +88,6 @@ BEGIN
     END LOOP;
   ELSE
     IF jsonb_typeof(interaction)<>'object' OR interaction='{}'::jsonb THEN RAISE EXCEPTION 'QUESTION_CONTRACT: structured question type % requires contract_interaction_payload', NEW.question_type; END IF;
-    -- Detailed nested stable-ID/cardinality validation is performed by the TypeScript canonical validator before contract_status can become verified/quality_only.
   END IF;
 
   IF canonical_rationale IS NULL OR length(trim(canonical_rationale))<40 THEN RAISE EXCEPTION 'QUESTION_CONTRACT: overall rationale required'; END IF;
@@ -97,6 +97,7 @@ BEGIN
   IF NEW.tags IS NULL OR cardinality(NEW.tags)=0 THEN RAISE EXCEPTION 'QUESTION_CONTRACT: tags required'; END IF;
   IF NEW.difficulty IS NULL OR NEW.difficulty<1 OR NEW.difficulty>4 THEN RAISE EXCEPTION 'QUESTION_CONTRACT: difficulty must be 1-4'; END IF;
   IF canonical_country='' AND canonical_region NOT IN('BOTH','GLOBAL','INTL') THEN RAISE EXCEPTION 'QUESTION_CONTRACT: country/global scope required'; END IF;
+  IF canonical_region='BOTH' AND canonical_country='' AND (jsonb_typeof(country_labels)<>'array' OR jsonb_array_length(country_labels)<2) THEN RAISE EXCEPTION 'QUESTION_CONTRACT: multi-country BOTH scope requires explicit country labels'; END IF;
   IF canonical_language='' THEN RAISE EXCEPTION 'QUESTION_CONTRACT: language code required'; END IF;
   IF canonical_hint IS NULL OR length(trim(canonical_hint))<12 THEN RAISE EXCEPTION 'QUESTION_CONTRACT: tutor hint required'; END IF;
   IF canonical_why IS NULL OR length(trim(canonical_why))<20 THEN RAISE EXCEPTION 'QUESTION_CONTRACT: Why This Matters required'; END IF;
@@ -119,7 +120,7 @@ CREATE TRIGGER trg_exam_question_publish_guard
 BEFORE INSERT OR UPDATE OF status, contract_question_id, contract_options, contract_correct_answer_ids,
   contract_interaction_payload, contract_distractor_rationales, contract_rationale,
   contract_correct_answer_explanation, contract_hint, contract_why_this_matters,
-  contract_clinical_pearl, contract_country_code, contract_region_scope,
+  contract_clinical_pearl, contract_country_code, contract_country_labels, contract_region_scope,
   contract_language_code, contract_unit_system_support, contract_unit_variants,
   publication_contract_version, option_contract_version, contract_status, contract_issues,
   rationale, correct_answer_explanation, hint, why_this_matters, clinical_pearl,
