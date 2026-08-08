@@ -108,6 +108,7 @@ function normalizeAdvancedRows(rows: any[], tier: "rpn" | "rn" | "np"): any[] {
   return dedupeAdvancedRows(rows).map((row, index) => {
     if (!Array.isArray(row?.options) || row.options.length === 0) return row;
     return normalizeLegacyClientQuestion(row, index, {
+      countryLabels: ["Canada", "United States"],
       regionScope: "BOTH",
       languageCode: "en",
       exam: row.exam || (tier === "rpn" ? "REx-PN/NCLEX-PN" : tier === "rn" ? "NCLEX-RN" : "NP Certification"),
