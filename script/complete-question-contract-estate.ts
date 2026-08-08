@@ -70,6 +70,7 @@ async function main() {
     { name: "duplicate-audit", args: ["script/audit-retire-question-duplicates.ts", ...(APPLY ? ["--apply"] : [])] },
     { name: "canonical-contract-recheck-after-duplicates", args: canonicalRecheckArgs },
     { name: "source-estate-audit", args: ["script/audit-active-question-source-estate.ts"] },
+    { name: "authored-v2-source-coverage", args: ["script/audit-active-question-enrichment-coverage.ts"] },
   ];
 
   for (const step of steps) run(step);
