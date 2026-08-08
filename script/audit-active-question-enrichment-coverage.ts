@@ -10,7 +10,7 @@ const ROOTS = [
 ];
 const OVERLAY = path.resolve("client/src/data/question-contract-enrichment.generated.ts");
 
-type Row = { id: string; file: string; line: number; hasAuthoredInline: boolean; fingerprint: string };
+type Row = { id: string; file: string; line: number; tier: string; hasAuthoredInline: boolean; fingerprint: string };
 
 function text(v: unknown): string { return typeof v === "string" ? v.trim() : ""; }
 function norm(v: string): string { return v.toLowerCase().replace(/\s+/g, " ").replace(/[.!?,;:]+$/g, "").trim(); }
@@ -85,9 +85,10 @@ function scan(): Row[] {
           const inlinePearl = literalString(getProp(node, "clinicalPearl")) || literalString(getProp(node, "examPearl"));
           const inlineDistractors = hasNonEmptyObject(getProp(node, "distractorRationales")) || hasNonEmptyObject(getProp(node, "distractor_rationales"));
           const qtype = literalString(getProp(node, "questionType")) || literalString(getProp(node, "question_type")) || "MCQ";
-          const fingerprint = `${norm(qtype)}::${norm(stem)}::${optionList.map(norm).join("||")}`;
+          const tier = literalString(getProp(node, "tier")) || literalString(getProp(node, "servingTier")) || "allied";
+          const fingerprint = `${norm(tier)}::${norm(qtype)}::${norm(stem)}::${optionList.map(norm).join("||")}`;
           const lc = sf.getLineAndCharacterOfPosition(node.getStart(sf));
-          rows.push({ id, file, line: lc.line + 1, fingerprint, hasAuthoredInline: !!inlineCorrect && !!inlineHint && !!inlineWhy && !!inlinePearl && inlineDistractors });
+          rows.push({ id, file, line: lc.line + 1, tier, fingerprint, hasAuthoredInline: !!inlineCorrect && !!inlineHint && !!inlineWhy && !!inlinePearl && inlineDistractors });
         }
       }
       ts.forEachChild(node, visit);
@@ -118,7 +119,7 @@ function overlayIds(): { authored: Set<string>; needsReview: Set<string> } {
 
 const rows = scan();
 const overlay = overlayIds();
-// Active learner loaders deduplicate exact type+stem+option duplicates. Coverage therefore follows the same canonical unique fingerprint.
+// Learner loaders deduplicate repeated items within a serving tier/pathway, never across tiers.
 const byFingerprint = new Map<string, Row>();
 for (const row of rows) if (!byFingerprint.has(row.fingerprint)) byFingerprint.set(row.fingerprint, row);
 const active = [...byFingerprint.values()];
@@ -126,6 +127,14 @@ const duplicateSourceObjectsExcluded = rows.length - active.length;
 const complete = active.filter(row => row.hasAuthoredInline || overlay.authored.has(row.id));
 const missing = active.filter(row => !row.hasAuthoredInline && !overlay.authored.has(row.id));
 const needsReview = active.filter(row => overlay.needsReview.has(row.id));
+
+const byTier: Record<string, { total: number; authoredV2: number; missing: number }> = {};
+for (const row of active) {
+  byTier[row.tier] ||= { total: 0, authoredV2: 0, missing: 0 };
+  byTier[row.tier].total++;
+  if (row.hasAuthoredInline || overlay.authored.has(row.id)) byTier[row.tier].authoredV2++;
+  else byTier[row.tier].missing++;
+}
 
 const result = {
   sourceQuestionObjects: rows.length,
@@ -135,6 +144,7 @@ const result = {
   missingAuthoredV2: missing.length,
   needsReview: needsReview.length,
   coveragePercent: active.length ? Math.round((complete.length / active.length) * 10000) / 100 : 100,
+  byTier,
   sampleMissing: missing.slice(0, 200),
   sampleNeedsReview: needsReview.slice(0, 200),
 };
