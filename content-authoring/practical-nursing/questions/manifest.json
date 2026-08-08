@@ -1,0 +1,38 @@
+{
+  "libraryId": "practical-nursing-topic-question-packs-v1",
+  "lastUpdated": "2026-08-08",
+  "requiredQuestionsPerTopicExamCountry": 60,
+  "status": "ACTIVE_AUTHORING",
+  "packs": [
+    {
+      "countryId": "CA",
+      "examId": "rex-pn",
+      "tierId": "rpn",
+      "topicId": "acute-asthma-exacerbation-rpn",
+      "path": "../../../client/src/data/exam-questions/rexpn-rpn-acute-asthma-60.ts",
+      "questionCount": 60,
+      "stableIds": true,
+      "perDistractorRationales": true,
+      "reuseMode": "ORIGINAL_CANADIAN_CORE",
+      "servingIntegrationVerified": false
+    },
+    {
+      "countryId": "US",
+      "examId": "nclex-pn-2026",
+      "tierId": "lvn",
+      "topicId": "acute-asthma-exacerbation-lpn-lvn",
+      "path": "../../../client/src/data/exam-questions/nclexpn-us-lpn-acute-asthma-60.ts",
+      "questionCount": 60,
+      "stableIds": true,
+      "perDistractorRationales": true,
+      "reuseMode": "LOCALIZED_SHARED_CLINICAL_CORE",
+      "servingIntegrationVerified": false
+    }
+  ],
+  "coverageGate": {
+    "allTopicsHave60PerApplicableExamCountry": false,
+    "allPacksPassContractAudit": false,
+    "allPacksServingIntegrationVerified": false,
+    "note": "Do not count a topic complete based on a shared generic pool. Each applicable country/exam pair requires an explicit 60-question pack or a validated localized reuse mapping with country/exam-specific stable IDs."
+  }
+}
