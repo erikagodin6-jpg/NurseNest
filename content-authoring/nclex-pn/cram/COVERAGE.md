@@ -2,16 +2,16 @@
 
 Status: ACTIVE AUTHORING
 Baseline date: 2026-08-07
-Authored Cram lessons: 150
+Authored Cram lessons: 180
 Locale: United States
 Level: PN / LPN / LVN entry-level practice
 Exam alignment: 2026 NCLEX-PN Test Plan
 
 ## Current baseline
 
-The library now contains 150 distinct authored Cram lessons spanning every NCLEX-PN Client Needs area and major practical-nursing clinical domains, with additional depth in chronic cardiovascular disease, renal/urologic care, common GI disorders, chronic diabetes and thyroid care, maternal complications, fetal monitoring, newborn care, and pediatric emergencies.
+The library now contains 180 distinct authored Cram lessons spanning every NCLEX-PN Client Needs area and major practical-nursing clinical domains. Authoring depth now includes chronic and emergency cardiovascular care, respiratory deterioration and airborne TB, renal/urologic care, common GI and endocrine disorders, maternal/fetal complications, pediatric emergencies, neuromuscular respiratory-risk disorders, psychopharmacologic emergencies, hematologic clotting disorders, and oncology metabolic/compressive emergencies.
 
-The first 100 lessons established the production baseline. Authoring has continued beyond that count. Neither 100, 120, 140, nor 150 is a declaration of complete coverage.
+The first 100 lessons established the production baseline. Authoring has continued beyond that count. No numeric milestone by itself is a declaration of complete coverage.
 
 ## Completion gate
 
