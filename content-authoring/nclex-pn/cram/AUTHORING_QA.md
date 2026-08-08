@@ -2,11 +2,11 @@
 
 QA date: 2026-08-08
 Branch: `content/us-pn-cram-authoring-20260807`
-Status: ACTIVE AUTHORING — 384 authored Cram lessons; U.S. serving-row reconciliation remains in progress.
+Status: ACTIVE AUTHORING — 404 authored Cram lessons; U.S. serving-row reconciliation remains in progress.
 
 ## Coverage QA
 
-The current library contains 384 distinct Cram lessons aligned to entry-level U.S. practical nursing and the 2026 NCLEX-PN test plan. It spans all NCLEX-PN Client Needs categories and a broad set of clinical systems, lifespan stages, medications, devices, safety problems, emergencies, coordinated-care decisions, medication-administration skills, therapeutic communication, documentation, fluid-balance teaching, obstetric pharmacology, antidotes/reversal agents, parenteral electrolyte safety, high-alert monitored infusions, CKD/mineral-bone pharmacology, potassium binders, renal/urology therapy, GI pharmacology, endocrine replacement/thyroid therapy, osteoporosis/calcium-regulation therapy, antiepileptic safety, migraine treatment, spasticity/myasthenia medication safety, psych/substance-use pharmacology, HIV treatment/prevention pharmacology, and reproductive medication safety.
+The current library contains 404 distinct Cram lessons aligned to entry-level U.S. practical nursing and the 2026 NCLEX-PN test plan. It spans all NCLEX-PN Client Needs categories and a broad set of clinical systems, lifespan stages, medications, devices, safety problems, emergencies, coordinated-care decisions, medication-administration skills, therapeutic communication, documentation, fluid-balance teaching, obstetric pharmacology, antidotes/reversal agents, parenteral electrolyte safety, high-alert monitored infusions, CKD/mineral-bone pharmacology, potassium binders, renal/urology therapy, GI pharmacology, endocrine replacement/thyroid therapy, osteoporosis/calcium-regulation therapy, antiepileptic safety, migraine treatment, spasticity/myasthenia medication safety, psych/substance-use pharmacology, HIV treatment/prevention pharmacology, reproductive medication safety, drug-specific oncology pharmacology, newborn prophylactic medications, infant RSV antibodies, neonatal respiratory pharmacology, pediatric seizure rescue, and pediatric dose/measurement safety.
 
 This is not yet a 100% full-lesson-to-Cram coverage claim. Completion requires reconciliation against the actual serving U.S. `us-lpn-nclex-pn` lesson pool and authoring every remaining applicable gap.
 
@@ -67,6 +67,18 @@ HIV medication lessons use current U.S. CDC/NIH/FDA guidance. ART lessons preser
 
 Reproductive medication lessons use person-centered, noncoercive counseling. Combined hormonal contraception preserves estrogen-specific thrombotic/BP/migraine/smoking risk screening; DMPA preserves bone-density and delayed-fertility considerations; progestin-only pills use formulation-specific missed-dose guidance rather than one generic rule; levonorgestrel emergency contraception is distinguished from abortion medication and STI prevention; ulipristal preserves the current five-day delay before resuming hormonal contraception and its interaction with enzyme-inducing drugs.
 
+## Oncology pharmacology QA
+
+Drug-specific oncology lessons must preserve the toxicity pattern that changes nursing priority rather than collapsing all chemotherapy into neutropenic precautions. Cisplatin centers renal, magnesium, hearing, and neuropathy surveillance; doxorubicin centers cumulative cardiac function and vesicant extravasation; cyclophosphamide centers marrow and hemorrhagic-cystitis prevention; vincristine is IV-only and fatal intrathecal error prevention outranks routine administration; fluorouracil preserves DPD-deficiency, cardiotoxicity, neurotoxicity, diarrhea and mucositis warnings; paclitaxel retains severe hypersensitivity and neuropathy; trastuzumab requires cardiac/infusion/pulmonary surveillance; bleomycin centers pulmonary toxicity; etoposide preserves severe myelosuppression and rate-related hypotension; tamoxifen retains thromboembolic and abnormal-uterine-bleeding risk.
+
+Chemotherapy administration must never be implied as universal LPN/LVN authority. Vesicants, antineoplastics and specialty biologics carry `statePolicyCheck: true` where administration/handling requires state/facility oncology competency. The PN-facing decision pathway remains recognize toxicity, implement authorized supportive care, protect the patient/line, and escalate promptly.
+
+## Newborn and pediatric medication-safety QA
+
+Newborn/pediatric lessons must not be adult medication cards with smaller doses. Phytonadione distinguishes prophylaxis from evaluation of active bleeding; erythromycin ophthalmic prophylaxis is not presented as adequate treatment for symptomatic neonatal infection; nirsevimab and clesrovimab are passive RSV antibodies rather than vaccines and preserve current first-/second-season eligibility distinctions; caffeine citrate requires reassessment for alternative causes of apnea and recognition of caffeine-base/citrate dose-language risk; beractant requires immediate respiratory/ventilator reassessment as compliance changes; diazepam nasal rescue preserves current opioid/CNS-depressant respiratory warnings and individualized seizure-action-plan thresholds.
+
+Pediatric calculations use current measured kilograms, distinguish mg/kg/dose from mg/kg/day, check concentration and maximum dose, and prohibit blind trust in arithmetic when the result is clinically implausible. Liquid medication teaching uses milliliters and an appropriate oral device, verifies the exact concentration, and requires caregiver teach-back. Neonatal product selection must account for preservatives/excipients and not assume adult/older-child formulations are interchangeable in premature or low-birth-weight infants.
+
 ## PN/LVN cognitive and scope QA
 
 A U.S. PN Cram lesson is not a shortened RN or NP lesson. The default decision pathway is:
@@ -79,7 +91,7 @@ Each lesson must:
 - emphasize observation, focused data collection, implementation of prescribed care, medication safety, patient teaching, reporting, delegation boundaries, and escalation;
 - avoid implying independent medical diagnosis, prescribing, or advanced-practice authority;
 - identify unstable or newly changing patients as requiring RN/provider/emergency escalation;
-- tag `statePolicyCheck: true` when LPN/LVN authority, IV therapy, medication administration, delegation, consent, mandatory reporting, public-health procedure, contraceptive/HIV-service authority, or other legal/operational rules vary by state or setting.
+- tag `statePolicyCheck: true` when LPN/LVN authority, IV therapy, medication administration, chemotherapy/biologic administration, delegation, consent, mandatory reporting, public-health procedure, contraceptive/HIV-service authority, or other legal/operational rules vary by state or setting.
 
 ## U.S. source hierarchy
 
@@ -96,9 +108,9 @@ Use the most current authoritative source appropriate to the claim:
 Refresh affected lessons before publication when a newer authoritative recommendation has been released, especially for:
 
 - NCSBN NCLEX-PN test plans and test specifications;
-- CDC immunization schedules, infection-control guidance, STI treatment, HIV PrEP/PEP, contraception recommendations, isolation/public-health guidance, and wound prophylaxis;
+- CDC immunization schedules, RSV antibody guidance, infection-control guidance, STI treatment, HIV PrEP/PEP, contraception recommendations, isolation/public-health guidance, and wound prophylaxis;
 - NIH HIV treatment and perinatal antiretroviral guidance;
-- FDA boxed warnings, medication safety communications, labeling, antidotes, and product availability;
+- FDA boxed warnings, medication safety communications, antineoplastic labels, newborn/pediatric product labeling, antidotes, and product availability;
 - AHA CPR/ECC and resuscitation special-circumstance guidance;
 - ACC/AHA acute coronary syndrome, heart failure, dysrhythmia, and cardiovascular guidance;
 - ADA diabetes standards and hyperglycemic-emergency guidance;
@@ -116,12 +128,12 @@ Reject or hold a lesson if downstream editing introduces any of the following:
 - a Canadian REx-PN law, scope rule, terminology assumption, medication convention, screening program, or regulatory requirement presented as U.S. practice;
 - RN- or NP-only autonomous assessment/diagnostic/prescribing language presented as routine PN authority;
 - a state-specific LPN/LVN rule presented as universal U.S. law;
-- an obsolete drug regimen, isolation practice, vaccine schedule, STI/HIV regimen, resuscitation sequence, contraception rule, or screening recommendation;
+- an obsolete drug regimen, isolation practice, vaccine/RSV-antibody schedule, STI/HIV regimen, resuscitation sequence, contraception rule, oncology safety rule, or screening recommendation;
 - an exact medication dose without an authoritative current basis or without the patient-specific qualification the recommendation requires;
 - an emergency presentation that delays stabilization or escalation for routine testing/documentation;
 - an instruction to delegate nursing judgment, initial assessment of instability, or evaluation of acute deterioration to unlicensed personnel;
-- unsafe legacy exam myths, including automatically withholding needed oxygen from hypoxemic COPD patients, massaging a suspected DVT limb, putting an object in the mouth during a seizure, giving oral glucose to an unconscious patient, IV-pushing potassium, or delaying indicated HIV PEP for routine results;
-- stigmatizing, coercive, or non-trauma-informed language in mental health, substance use, reproductive health, sexual assault, IPV, HIV care, or vulnerable-population care.
+- unsafe legacy exam myths, including automatically withholding needed oxygen from hypoxemic COPD patients, massaging a suspected DVT limb, putting an object in the mouth during a seizure, giving oral glucose to an unconscious patient, IV-pushing potassium, delaying indicated HIV PEP for routine results, treating vincristine as safe by any non-IV route, or using a pound weight as kilograms for pediatric dosing;
+- stigmatizing, coercive, or non-trauma-informed language in mental health, substance use, reproductive health, sexual assault, IPV, HIV care, oncology, pediatric, or vulnerable-population care.
 
 ## Clinical-content integrity
 
@@ -165,7 +177,7 @@ Authoring completion is reached only when `MISSING_CRAM = 0` and no unexplained 
 
 ## Publication checkpoint
 
-Clinical authored baseline: 384 lessons — COMPLETE as a baseline only.
+Clinical authored baseline: 404 lessons — COMPLETE as a baseline only.
 
 Still required before declaring the U.S. PN Cram estate complete/live:
 
@@ -178,4 +190,4 @@ Still required before declaring the U.S. PN Cram estate complete/live:
 - learner-facing PN/US entitlement QA;
 - merge/release/deployment certification.
 
-Do not convert the 384-lesson count into a production-complete claim.
+Do not convert the 404-lesson count into a production-complete claim.
