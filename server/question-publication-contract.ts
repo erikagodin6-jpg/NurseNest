@@ -1,3 +1,5 @@
+import { validateAllQuestionUnitVariants } from "./question-unit-conversion";
+
 type JsonRecord = Record<string, unknown>;
 
 export type CanonicalOption = {
@@ -246,7 +248,6 @@ export function auditQuestionPublicationContract(data: QuestionContractInput): Q
   if (!Number.isInteger(difficulty) || difficulty < 1 || difficulty > 4) add("invalid_difficulty", "difficulty", "blocking", "Difficulty must be an integer from 1 through 4.");
 
   const combinedText = [text(data.stem), ...options.map(option => option.text)].join(" ");
-  // Only require paired renderings for quantities whose displayed value/unit actually changes between SI and conventional systems.
   const looksConvertible = /(?:\bmg\/dL\b|\bmmol\/L\b|°F|°C|\blb\b|\bkg\b|\binches?\b|\bcm\b|\bfeet\b|\bft\b|\bmeters?\b)/i.test(combinedText);
   const { support, variants } = normalizeUnitSupport(data);
   if (looksConvertible) {
@@ -259,6 +260,19 @@ export function auditQuestionPublicationContract(data: QuestionContractInput): Q
         add("malformed_unit_variant", `unit_variants[${index}]`, "blocking", "Every unit variant needs a stable token, quantity, SI display, and conventional display.");
       }
     }
+    const validations = validateAllQuestionUnitVariants(variants);
+    validations.forEach((result, index) => {
+      if (!result.valid) {
+        add(
+          result.reason === "unsupported_conversion_pair" ? "unsupported_unit_conversion" : "invalid_unit_conversion",
+          `unit_variants[${index}]`,
+          "blocking",
+          result.reason === "unsupported_conversion_pair"
+            ? "This SI/CONV pair is not in the deterministic conversion registry and requires editorial verification before publication."
+            : `SI/CONV values are not mathematically equivalent (${result.reason || "conversion mismatch"}).`,
+        );
+      }
+    });
   }
 
   return issues;
