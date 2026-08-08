@@ -97,14 +97,27 @@ describe("Allied authored content estate", () => {
   });
 
   it("keeps the diagnostic medical sonography expansion internally complete", () => {
-    const career = "diagnosticMedicalSonography";
-    const topics = alliedAuthoredTopics.filter((topic) => topic.careerType === career);
-    const lessons = alliedAuthoredLessons.filter((lesson) => lesson.careerType === career);
-    const questions = alliedAuthoredQuestions.filter((question) => question.careerType === career);
+    const careers = new Set(["diagnosticMedicalSonography", "cardiacSonographer"]);
+    const duplicateCardiacTopicIds = new Set([
+      "cardiac-sonography-diastolic-function",
+      "cardiac-sonography-prosthetic-valves",
+      "cardiacsonographer-diastolic-function",
+      "cardiacsonographer-right-ventricular-function",
+    ]);
+    const included = (row: { careerType: string; id: string }) =>
+      careers.has(row.careerType) && !duplicateCardiacTopicIds.has(row.id);
+    const topics = alliedAuthoredTopics.filter(included);
+    const allowedTopics = new Set(topics.map((topic) => `${topic.careerType}\u0000${topic.topic}`));
+    const lessons = alliedAuthoredLessons.filter((lesson) =>
+      allowedTopics.has(`${lesson.careerType}\u0000${lesson.topic}`),
+    );
+    const questions = alliedAuthoredQuestions.filter((question) =>
+      allowedTopics.has(`${question.careerType}\u0000${question.topic}`),
+    );
 
-    expect(topics).toHaveLength(55);
-    expect(lessons).toHaveLength(275);
-    expect(questions).toHaveLength(5_500);
+    expect(topics).toHaveLength(69);
+    expect(lessons).toHaveLength(345);
+    expect(questions).toHaveLength(6_900);
 
     for (const topic of topics) {
       expect(lessons.filter((lesson) => lesson.topic === topic.topic)).toHaveLength(5);
