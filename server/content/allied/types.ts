@@ -50,20 +50,41 @@ export interface AuthoredAlliedLesson {
   status: "published";
 }
 
+export interface AuthoredAlliedOption {
+  id: string;
+  label: string;
+  text: string;
+}
+
 export interface AuthoredAlliedQuestion {
   id: string;
   careerType: string;
   examTag: string;
   regionScope: AlliedRegionScope;
+  countryCode?: string;
+  languageCode: string;
+  licensingBody?: string;
   category: string;
   topic: string;
   stem: string;
-  options: string[];
+  options: AuthoredAlliedOption[];
+  /** Kept only as migration metadata for legacy consumers; canonical grading uses correctAnswer. */
   correctIndex: number;
+  correctAnswer: string;
   rationale: string;
   correctAnswerExplanation: string;
   distractorRationales: Record<string, string>;
+  hint: string;
+  whyThisMatters: string;
   clinicalPearl: string;
+  mnemonic?: string;
+  unitSystemSupport?: { supported: Array<"SI" | "CONV">; default: "SI" | "CONV" };
+  unitVariants?: Array<{
+    token: string;
+    quantity: string;
+    si: { value: number | string; unit: string; display: string };
+    conv: { value: number | string; unit: string; display: string };
+  }>;
   difficulty: 1 | 2 | 3 | 4;
   cognitiveLevel: "understanding" | "application" | "analysis";
   tags: string[];
