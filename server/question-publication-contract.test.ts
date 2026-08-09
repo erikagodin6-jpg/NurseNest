@@ -85,12 +85,35 @@ describe("question publication contract", () => {
     expect(issues.some(issue => issue.field === "distractor_rationales.opt-fluid")).toBe(true);
   });
 
+  it("blocks generator-template options and tautological rationales", () => {
+    const q = completeQuestion();
+    q.id = "ib-rn-000000";
+    q.stem = "Based on the following clinical findings, identify the most likely diagnosis.";
+    q.options = [
+      { id: "ib-a", text: "Primary Cardiology diagnosis" },
+      { id: "ib-b", text: "Cardiology differential 1" },
+      { id: "ib-c", text: "Cardiology differential 2" },
+      { id: "ib-d", text: "Unrelated diagnosis" },
+    ] as any;
+    q.correct_answer = "ib-a";
+    q.rationale = "The findings are consistent with the primary cardiology diagnosis based on characteristic clinical presentation.";
+    q.correct_answer_explanation = q.rationale;
+    q.distractor_rationales = {
+      "ib-b": "This differential is not the best answer for the presented findings and should not be selected.",
+      "ib-c": "This differential is not the best answer for the presented findings and should not be selected.",
+      "ib-d": "This unrelated diagnosis does not explain the presented clinical findings and should not be selected.",
+    } as any;
+    const codes = auditQuestionPublicationContract(q).map(issue => issue.code);
+    expect(codes).toContain("templated_option_text");
+    expect(codes).toContain("templated_question_stem");
+    expect(codes).toContain("templated_rationale");
+    expect(codes).toContain("templated_correct_answer_explanation");
+    expect(isPublicationReady(q)).toBe(false);
+  });
+
   it("does not depend on display labels or option order", () => {
     const q = completeQuestion();
-    q.options = [q.options[2], q.options[0], q.options[3], q.options[1]].map((option, index) => ({
-      ...option,
-      label: String.fromCharCode(65 + index),
-    })) as any;
+    q.options = [q.options[2], q.options[0], q.options[3], q.options[1]].map((option, index) => ({ ...option, label: String.fromCharCode(65 + index) })) as any;
     expect(auditQuestionPublicationContract(q).filter(issue => issue.severity === "blocking")).toEqual([]);
   });
 
@@ -129,12 +152,7 @@ describe("question publication contract", () => {
     expect(issues.some(issue => issue.code === "missing_unit_variants")).toBe(true);
 
     q.unit_system_support = { supported: ["SI", "CONV"], default: "SI" } as any;
-    q.unit_variants = [{
-      token: "glucose_1",
-      quantity: "glucose",
-      si: { value: 10, unit: "mmol/L", display: "10.0 mmol/L" },
-      conv: { value: 180, unit: "mg/dL", display: "180 mg/dL" },
-    }] as any;
+    q.unit_variants = [{ token: "glucose_1", quantity: "glucose", si: { value: 10, unit: "mmol/L", display: "10.0 mmol/L" }, conv: { value: 180, unit: "mg/dL", display: "180 mg/dL" } }] as any;
     expect(auditQuestionPublicationContract(q).filter(issue => issue.code.startsWith("missing_si") || issue.code === "missing_unit_variants" || issue.code === "malformed_unit_variant")).toEqual([]);
   });
 
@@ -145,40 +163,26 @@ describe("question publication contract", () => {
   });
 
   it("requires explicit country or global scope", () => {
-    const q = completeQuestion();
-    q.country_code = "";
-    q.region_scope = "";
+    const q = completeQuestion(); q.country_code = ""; q.region_scope = "";
     expect(auditQuestionPublicationContract(q).some(issue => issue.code === "missing_country_scope")).toBe(true);
   });
 
   it("requires explicit labels for ambiguous BOTH scope", () => {
-    const q = completeQuestion();
-    q.country_code = "";
-    q.region_scope = "BOTH";
-    q.country_labels = [];
+    const q = completeQuestion(); q.country_code = ""; q.region_scope = "BOTH"; q.country_labels = [];
     expect(auditQuestionPublicationContract(q).some(issue => issue.code === "missing_country_labels")).toBe(true);
-
     q.country_labels = ["Canada", "United States"];
     expect(auditQuestionPublicationContract(q).some(issue => issue.code === "missing_country_labels")).toBe(false);
   });
 
   it("requires language, hint, Why This Matters and pearl as blocking publication fields", () => {
-    const q = completeQuestion();
-    q.language_code = "";
-    q.hint = "";
-    q.why_this_matters = "";
-    q.clinical_pearl = "";
+    const q = completeQuestion(); q.language_code = ""; q.hint = ""; q.why_this_matters = ""; q.clinical_pearl = "";
     const issues = auditQuestionPublicationContract(q);
-    for (const code of ["missing_language_code", "missing_hint", "missing_why_this_matters", "missing_clinical_pearl"]) {
-      const issue = issues.find(i => i.code === code);
-      expect(issue?.severity).toBe("blocking");
-    }
+    for (const code of ["missing_language_code", "missing_hint", "missing_why_this_matters", "missing_clinical_pearl"]) expect(issues.find(i => i.code === code)?.severity).toBe("blocking");
     expect(isPublicationReady(q)).toBe(false);
   });
 
   it("keeps mnemonic optional but validates it when supplied", () => {
-    const q = completeQuestion();
-    q.mnemonic = "";
+    const q = completeQuestion(); q.mnemonic = "";
     expect(auditQuestionPublicationContract(q).some(issue => issue.code === "weak_mnemonic")).toBe(false);
     q.mnemonic = "x";
     expect(auditQuestionPublicationContract(q).some(issue => issue.code === "weak_mnemonic")).toBe(true);
