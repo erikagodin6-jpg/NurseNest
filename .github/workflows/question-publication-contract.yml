@@ -66,6 +66,11 @@ jobs:
           cat career-question-contract.json | head -c 12000
           echo "career_contract_exit_code=$code" >> "$GITHUB_OUTPUT"
           exit 0
+      - name: Career quarantine topic parity
+        shell: bash
+        run: |
+          npx tsx script/audit-career-quarantine-topic-parity.ts > career-topic-parity.json
+          cat career-topic-parity.json | head -c 16000
       - name: Show source audit summary
         if: always()
         run: |
@@ -80,6 +85,8 @@ jobs:
           cat question-quarantine-audit.json | head -c 7000 || true
           echo
           cat career-question-contract.json | head -c 10000 || true
+          echo
+          cat career-topic-parity.json | head -c 12000 || true
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -91,6 +98,7 @@ jobs:
             question-template-content.json
             question-quarantine-audit.json
             career-question-contract.json
+            career-topic-parity.json
           retention-days: 14
 
   changed-question-guard:
