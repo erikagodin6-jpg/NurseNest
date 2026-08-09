@@ -2,14 +2,14 @@
 
 Status: ACTIVE AUTHORING
 Baseline date: 2026-08-07
-Authored Cram lessons: 424
+Authored Cram lessons: 444
 Locale: United States
 Level: PN / LPN / LVN entry-level practice
 Exam alignment: 2026 NCLEX-PN Test Plan
 
 ## Current baseline
 
-The library contains 424 distinct authored Cram lessons spanning all NCLEX-PN Client Needs areas and major practical-nursing clinical domains. Coverage now includes high-alert infusion safety, renal/urology and CKD pharmacology, GI medication safety, endocrine replacement/thyroid therapy, osteoporosis/calcium-regulation drugs, neurologic medication safety, psych/substance-use pharmacology, HIV treatment/prevention pharmacology, reproductive medication safety, antineoplastic toxicity, newborn/pediatric medication safety, advanced cardiovascular pharmacology, and route/site-specific infectious-disease pharmacology.
+The library contains 444 distinct authored Cram lessons spanning all NCLEX-PN Client Needs areas and major practical-nursing clinical domains. Coverage now includes high-alert infusion safety, renal/urology and CKD pharmacology, GI medication safety, endocrine replacement/thyroid therapy, osteoporosis/calcium-regulation drugs, neurologic medication safety, psych/substance-use pharmacology, HIV treatment/prevention pharmacology, reproductive medication safety, antineoplastic toxicity, newborn/pediatric medication safety, advanced cardiovascular pharmacology, route/site-specific infectious-disease pharmacology, dermatologic medication safety, and advanced rheumatology/immunology pharmacology.
 
 No numeric milestone by itself is a declaration of complete coverage.
 
@@ -21,9 +21,9 @@ The 2026-08-05 practical-nursing production audit measured `us-lpn-nclex-pn` at 
 
 ## Latest authoring
 
-The newest cardiovascular pharmacology batch adds sacubitril/valsartan, ivabradine, ranolazine, sotalol, flecainide, isosorbide mononitrate, ezetimibe, evolocumab, clonidine, and chronic oral hydralazine. The lessons preserve the decisions that make these drugs distinct: ACE-inhibitor/ARNI separation and angioedema risk; sinus-rhythm dependence with ivabradine; ranolazine QT/CYP safety and lack of acute-rescue action; sotalol QT/renal/electrolyte risk; flecainide proarrhythmia in structural/ischemic disease; maintenance-nitrate versus rescue-nitrate roles; preventive lipid-lowering expectations; injection-device safety; clonidine withdrawal; and hydralazine reflex/lupus-like toxicity.
+The newest dermatology batch adds clobetasol topical, silver sulfadiazine, isotretinoin, topical tacrolimus, dupilumab, apremilast, calcipotriene, topical ketoconazole, acitretin, and topical fluorouracil. High-yield distinctions include super-potent topical-steroid systemic absorption, burn antimicrobial limits, isotretinoin embryo-fetal/iPLEDGE requirements, topical calcineurin-inhibitor long-term warning, biologic eye/infection surveillance, systemic-retinoid pregnancy timelines, and local-versus-systemic fluorouracil toxicity.
 
-The newest infectious-disease batch adds fidaxomicin, oral vancomycin, entecavir, sofosbuvir/velpatasvir, topical mupirocin, permethrin, oral terbinafine, benzathine penicillin G, ceftriaxone, and daptomycin. Route and infection site are treated as safety-critical: oral vancomycin is gut-directed rather than systemic therapy; benzathine penicillin G is deep-IM and never IV; daptomycin is not a pneumonia drug; topical mupirocin is product/site specific; hepatitis antivirals preserve HBV flare/reactivation and interaction risks; and antiparasitic/antifungal lessons distinguish persistent symptoms from active treatment failure.
+The newest rheumatology/immunology batch adds adalimumab, etanercept, infliximab, tofacitinib, upadacitinib, abatacept, secukinumab, ustekinumab, rituximab, and leflunomide. The lessons preserve TB/HBV screening/reactivation, serious-infection and vaccine planning, infusion reactions, JAK-inhibitor boxed risks, IBD worsening with IL-17 blockade, B-cell-depletion/PML safety, and leflunomide's prolonged elimination/teratogenicity.
 
 Current U.S. DailyMed/FDA guidance was refreshed before authoring. PN/LVN language remains limited to recognition, monitoring, safe implementation, communication, and escalation unless state/facility policy specifically authorizes more.
 
