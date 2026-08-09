@@ -64,6 +64,9 @@ async function main() {
   if (APPLY) backfillArgs.push("--apply");
   if (AI) backfillArgs.push("--ai");
 
+  const orderedRepairArgs = ["script/repair-ordered-response-contract-sidecars.ts"];
+  if (APPLY) orderedRepairArgs.push("--apply");
+
   const canonicalRecheckArgs = ["script/recheck-question-contract-registry.ts"];
   if (APPLY) canonicalRecheckArgs.push("--apply");
 
@@ -76,14 +79,17 @@ async function main() {
 
   const steps: Step[] = [
     { name: "contract-backfill", args: backfillArgs },
+    { name: "ordered-response-sidecar-repair", args: orderedRepairArgs },
     { name: "country-label-backfill", args: ["script/backfill-question-country-labels.ts", ...(APPLY ? ["--apply"] : [])] },
     { name: "canonical-contract-recheck", args: canonicalRecheckArgs },
     { name: "duplicate-audit", args: ["script/audit-retire-question-duplicates.ts", ...(APPLY ? ["--apply"] : [])] },
+    { name: "ordered-response-recheck-after-duplicates", args: orderedRepairArgs },
     { name: "canonical-contract-recheck-after-duplicates", args: canonicalRecheckArgs },
     { name: "translation-contract-repair", args: translationRepairArgs },
     { name: "translation-contract-recheck", args: translationRecheckArgs },
     { name: "source-estate-audit", args: ["script/audit-active-question-source-estate.ts"] },
     { name: "authored-v2-source-coverage", args: ["script/audit-active-question-enrichment-coverage.ts"] },
+    { name: "interaction-mode-audit", args: ["script/audit-active-question-interaction-modes.ts"] },
   ];
 
   for (const step of steps) run(step);
