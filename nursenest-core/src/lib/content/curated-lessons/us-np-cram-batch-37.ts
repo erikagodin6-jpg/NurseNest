@@ -1,0 +1,47 @@
+import type { UsNpCramLesson } from "./us-np-cram-types";
+
+export const usNpCramBatch37 = [
+  {
+    slug: "blastomycosis",
+    title: "Blastomycosis",
+    slugAliases: ["blastomycosis-np"],
+    bodySystem: "Respiratory",
+    applicableExams: ["AANP-FNP", "ANCC-FNP", "AGPCNP-AANP", "AGPCNP-ANCC", "AGACNP", "ENP"],
+    recognize: "Blastomycosis follows inhalation of Blastomyces spores in endemic regions and can resemble bacterial pneumonia, lung cancer or TB with fever, cough, chest pain, weight loss and focal or diffuse pulmonary infiltrates. Hematogenous spread commonly involves skin and bone and can occur even when respiratory symptoms are mild.",
+    diagnostics: "Ask residence/travel and soil/wood exposure, then obtain chest imaging and fungal testing when persistent pneumonia or extrapulmonary lesions fit the epidemiology. Culture or histopathology demonstrating broad-based budding yeast is definitive; Blastomyces urine antigen can support diagnosis but cross-reacts substantially with Histoplasma and should not be interpreted in isolation.",
+    priorities: "Treat symptomatic or extrapulmonary disease rather than waiting for spontaneous resolution. Oral itraconazole is used for many mild-to-moderate non-CNS cases; severe pulmonary/disseminated disease, CNS disease, pregnancy or significant immunocompromise generally requires amphotericin-based specialist management followed by prolonged azole therapy when appropriate.",
+    medicationSafety: "Itraconazole has major CYP interactions, variable absorption/formulation issues, hepatotoxicity and negative inotropic effects; review heart failure and interacting drugs. Amphotericin can cause nephrotoxicity, potassium/magnesium wasting and infusion reactions and requires close laboratory monitoring.",
+    redFlags: "Severe hypoxemia/ARDS, CNS symptoms, rapidly progressive disseminated disease, pregnancy with significant infection, immunocompromised host or bone/joint disease requiring source control warrants urgent infectious-disease/inpatient care.",
+    examTraps: "Do not diagnose blastomycosis from urine antigen alone because Histoplasma cross-reactivity is common. Persistent 'community-acquired pneumonia' in an endemic exposure setting that fails antibiotics should trigger fungal and malignant differentials rather than repeated antibiotic courses.",
+    sourceKeys: ["CDC_BLASTOMYCOSIS_CURRENT"],
+  },
+  {
+    slug: "radiation-pneumonitis-fibrosis",
+    title: "Radiation Pneumonitis & Fibrosis",
+    slugAliases: ["radiation-pneumonitis-np"],
+    bodySystem: "Respiratory",
+    applicableExams: ["AANP-FNP", "ANCC-FNP", "AGPCNP-AANP", "AGPCNP-ANCC", "AGACNP", "ENP"],
+    recognize: "Radiation pneumonitis is an inflammatory lung injury that usually appears weeks to months after thoracic radiation with dry cough, dyspnea, low-grade fever and imaging changes that often conform partly to the radiation field. Late radiation fibrosis causes more fixed volume loss, traction bronchiectasis and restrictive physiology rather than an actively steroid-responsive inflammatory syndrome.",
+    diagnostics: "Establish radiation timing/dose/field and exclude infection, tumor progression, pulmonary embolism, heart failure, immune-checkpoint pneumonitis and drug-induced lung disease. Use CT chest, pulse oximetry and PFTs when useful; bronchoscopy or cultures are reserved for diagnostic uncertainty, immunocompromise or concern for infection/malignancy.",
+    priorities: "Observe mild minimally symptomatic cases with close follow-up; clinically significant symptomatic pneumonitis generally warrants oncology/pulmonology-directed systemic corticosteroid treatment with a gradual taper individualized to severity and response. Chronic fibrosis is managed supportively with oxygen/rehabilitation and treatment of complications rather than chronic high-dose steroids.",
+    medicationSafety: "Steroids increase infection, hyperglycemia, osteoporosis and adrenal-suppression risk; before escalating them, reconsider infection and checkpoint-inhibitor overlap. Do not prescribe one fixed prednisone dose/taper to every patient because severity, oncology therapy and recurrence during taper change the plan.",
+    redFlags: "Rapidly increasing oxygen requirement, respiratory failure, diffuse bilateral disease outside the expected radiation pattern, fever/sepsis, hemoptysis or suspected PE requires urgent inpatient evaluation for alternative/additional diagnoses.",
+    examTraps: "Do not assume all dyspnea after radiation is radiation pneumonitis. Fibrotic late injury is not simply untreated acute pneumonitis and usually does not reverse with prolonged corticosteroids.",
+    sourceKeys: ["NCCN_CANCER_TREATMENT_LUNG_INJURY_CURRENT", "ASCO_PNEUMONITIS_CURRENT"],
+  },
+  {
+    slug: "coccidioidomycosis-valley-fever",
+    title: "Valley Fever / Coccidioidomycosis",
+    titleAliases: ["Valley Fever (Coccidioidomycosis)"],
+    slugAliases: ["valley-fever-np", "coccidioidomycosis-np"],
+    bodySystem: "Respiratory",
+    applicableExams: ["AANP-FNP", "ANCC-FNP", "AGPCNP-AANP", "AGPCNP-ANCC", "AGACNP", "ENP"],
+    recognize: "Coccidioidomycosis follows inhalation of Coccidioides spores in endemic arid regions of the U.S. Southwest and can cause a self-limited flu-like or pneumonia syndrome with cough, fever, chest pain, fatigue, rash or arthralgia. Disseminated disease can involve skin, bone/joints and meninges and risk is higher with immunosuppression and selected host factors.",
+    diagnostics: "Use travel/residence history plus serology, culture/histopathology or other fungal testing when community-acquired pneumonia persists or epidemiology is suggestive. Repeat serology may be needed early when initial testing is negative; imaging nodules/cavities can mimic malignancy and require context rather than assuming infection.",
+    priorities: "Many immunocompetent patients with mild uncomplicated primary pulmonary disease can be observed with follow-up. Treat severe/prolonged pulmonary disease and patients at increased risk for dissemination with an azole, while severe disseminated disease or selected CNS/critical illness requires infectious-disease expertise and often amphotericin induction or lifelong azole therapy for meningitis.",
+    medicationSafety: "Azoles cause hepatic toxicity and important CYP/QT interactions; fluconazole and other agents have pregnancy-specific risks and CNS disease requires prolonged therapy. Amphotericin causes renal/electrolyte toxicity and is reserved for severity/host situations that justify the risk.",
+    redFlags: "Meningitis symptoms, focal bone/joint disease, progressive disseminated skin lesions, severe pneumonia/ARDS, pregnancy with significant disease or major immunosuppression requires urgent infectious-disease evaluation.",
+    examTraps: "Do not automatically treat every positive Coccidioides serology in a mildly ill immunocompetent patient. A pulmonary nodule in an endemic area may be fungal but still requires appropriate malignancy risk assessment rather than being dismissed as 'Valley fever.'",
+    sourceKeys: ["CDC_COCCIDIOIDOMYCOSIS_CURRENT", "IDSA_COCCIDIOIDOMYCOSIS_CURRENT"],
+  }
+] as const satisfies readonly UsNpCramLesson[];
