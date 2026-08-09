@@ -1,0 +1,43 @@
+name: US NP Cram Coverage
+
+on:
+  pull_request:
+    paths:
+      - "nursenest-core/src/lib/content/curated-lessons/us-np-cram*.ts"
+      - "nursenest-core/scripts/audit-us-np-cram-static-coverage.ts"
+      - "nursenest-core/scripts/apply-us-np-cram-final.ts"
+      - "nursenest-core/package.json"
+      - "client/src/data/lessons/**np*.ts"
+      - ".github/workflows/us-np-cram-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: Final 497-lesson coverage contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: nursenest-core/package-lock.json
+
+      - name: Install dependencies
+        working-directory: nursenest-core
+        run: npm ci
+
+      - name: Generate Prisma client
+        working-directory: nursenest-core
+        run: npx prisma generate
+
+      - name: Audit final U.S. NP Full-to-Cram coverage
+        working-directory: nursenest-core
+        run: npm run content:audit:us-np-cram
