@@ -13,10 +13,11 @@
     "PN-013-pharmacology-element-gap":{"usLpnCount":139,"pnFamilyCount":320,"status":"ACTIVE_PRIORITY","priorityReason":"Production audit ranked this ahead of general Cram remediation because pharmacology lessons missing mechanism, indications, contraindications, interactions, or administration safety carry higher clinical risk.","sampleSlugs":["insulin-administration-checks","oral-hypoglycemics","antibiotic-side-effect-reporting"]},
     "PN-015-cram-safety-gap":{"usLpnCount":971,"pnFamilyCount":2244,"status":"ACTIVE_AFTER_PHARMACOLOGY","sampleSlugs":["therapeutic-communication","documentation-do-nots","hypertension-teaching","edema-daily-weights","inhaler-technique-teaching","copd-home-care","i-o-fluid-restriction-teaching","hypokalemia-symptoms"]}
   },
-  "authoredCramLibraryCheckpoint":404,
+  "authoredCramLibraryCheckpoint":424,
   "lineageStatus":"TOPIC_AUTHORED_NOT_YET_ROW_MAPPED",
   "lineageCandidateFile":"LINEAGE_CANDIDATES.json",
   "countedResolvedProductionRows":0,
+  "auditVisibilityLimitation":"The checked-in audit preserves aggregate/source counts and sample slugs, not a complete current U.S. PN-013/PN-015 source-row list; unresolved rows must not be inferred from topic similarity.",
   "nextReconciliationStep":"Map each authored Cram object to a stable serving us-lpn-nclex-pn lesson identifier, classify each serving row as MATCHED, MISSING_CRAM, or NOT_APPLICABLE_TO_US_PN, and only decrement PN-013/PN-015 counts when that row-level mapping is proven.",
   "completionRule":"Do not infer production completion from authored lesson count. Completion requires zero unexplained MISSING_CRAM rows for the serving U.S. LPN/LVN pathway."
 }
