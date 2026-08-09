@@ -6,11 +6,11 @@
   "level": "Nurse Practitioner",
   "authoringStatus": "COMPREHENSIVE_TOPIC_BASELINE_AUDITED_FULL_LESSON_PARITY_IN_PROGRESS",
   "sourceRefreshDate": "2026-08-09",
-  "rawLessonObjects": 483,
-  "uniqueLessonIds": 483,
+  "rawLessonObjects": 495,
+  "uniqueLessonIds": 495,
   "explicitCanonicalSupersessions": 8,
-  "canonicalTopicPathways": 475,
-  "clinicalJsonFiles": 50,
+  "canonicalTopicPathways": 487,
+  "clinicalJsonFiles": 52,
   "structuralValidation": {
     "status": "PASS",
     "jsonParse": true,
@@ -234,6 +234,16 @@
       "path": "40b-cardiovascular-risk-valve-hf-parity.json",
       "lessons": 8,
       "role": "full_lesson_parity_expansion"
+    },
+    {
+      "path": "40c-cardiovascular-core-decisions-parity.json",
+      "lessons": 6,
+      "role": "full_lesson_parity_expansion"
+    },
+    {
+      "path": "40d-cardiovascular-diagnostics-devices-parity.json",
+      "lessons": 6,
+      "role": "full_lesson_parity_expansion"
     }
   ],
   "canonicalOverrides": {
@@ -365,11 +375,13 @@
     "AUTHORING_QA_PARITY_39C.md",
     "AUTHORING_QA_PARITY_39D.md",
     "AUTHORING_QA_PARITY_40A.md",
-    "AUTHORING_QA_PARITY_40B.md"
+    "AUTHORING_QA_PARITY_40B.md",
+    "AUTHORING_QA_PARITY_40C.md",
+    "AUTHORING_QA_PARITY_40D.md"
   ],
   "fullLessonParity": {
     "status": "IN_PROGRESS",
-    "authoringCanonicalTopicPathways": 475,
+    "authoringCanonicalTopicPathways": 487,
     "currentSearchIndexLessonCountObserved": 1979,
     "currentSearchIndexManifest": "nursenest-core/src/content/lessons/search-index/ca-np-cnple.manifest.json",
     "rule": "Completion requires every current canonical public-complete ca-np-cnple Full lesson to resolve to exactly one reviewed Cram lesson/recipe; topic breadth alone is not completion.",
@@ -387,7 +399,7 @@
     "rendererMappingComplete": false,
     "productionMerged": false,
     "productionDeployed": false,
-    "note": "The 467-object library is an audited topic baseline plus active Full-lesson parity expansions. Lab Interpretation and the canonical NP Respiratory generator families now have complete clinical authoring parity, but global Full-lesson parity is not complete. Private-core exact-current-Full reconciliation, source anchors, Bottom Line evidence, Quick Checks, runtime certification and learner render remain mandatory.",
+    "note": "The 495-object CNPLE Cram V2 estate includes the completed exact-identity cardiovascular parity family through 40D. Full-lesson parity is still incomplete; private-core identity/source/Quick-Check/runtime certification remains required.",
     "secondPassClinicalAuditCompleteForParity38B": true,
     "secondPassClinicalAuditCompleteForParity38C": true,
     "secondPassClinicalAuditCompleteForParity38D": true,
@@ -397,6 +409,8 @@
     "secondPassClinicalAuditCompleteForParity39C": true,
     "secondPassClinicalAuditCompleteForParity39D": true,
     "secondPassClinicalAuditCompleteForParity40A": true,
-    "secondPassClinicalAuditCompleteForParity40B": true
+    "secondPassClinicalAuditCompleteForParity40B": true,
+    "secondPassClinicalAuditCompleteForParity40C": true,
+    "secondPassClinicalAuditCompleteForParity40D": true
   }
 }
