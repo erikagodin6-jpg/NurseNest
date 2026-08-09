@@ -1,0 +1,59 @@
+name: CNPLE GI 44A Preserve Audited Batch
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/cnple-gi-44a-import.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    if: github.event.pull_request.head.ref == 'content/cnple-cram-parity-gi-44a-20260809'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: content/cnple-cram-parity-gi-44a-20260809
+          fetch-depth: 0
+      - name: Import only audited GI clinical assets from stale lineage
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'NurseNest CNPLE authoring'
+          git config user.email 'actions@users.noreply.github.com'
+          git fetch origin content/cnple-cram-parity-gi-42a-20260809
+          git checkout origin/content/cnple-cram-parity-gi-42a-20260809 -- content-authoring/cnple/cram/42a-gi-hepatology-parity.json
+          git show origin/content/cnple-cram-parity-gi-42a-20260809:content-authoring/cnple/cram/AUTHORING_QA_PARITY_42A.md \
+            | sed 's/Parity Batch 42A Clinical Second Pass/Parity Batch 44A Clinical Second Pass/' \
+            > content-authoring/cnple/cram/AUTHORING_QA_PARITY_44A.md
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('content-authoring/cnple/cram/42a-gi-hepatology-parity.json')
+          rows=json.loads(p.read_text())
+          expected={
+            'np-celiac-disease-diagnosis-and-management',
+            'np-alcoholic-liver-disease-evaluation',
+            'np-hepatic-encephalopathy-recognition-and-treatment',
+            'np-colorectal-polyp-follow-up-guidelines',
+            'np-dysphagia-evaluation-and-management',
+            'np-hemorrhoids-and-anorectal-disorders',
+            'np-tumor-marker-interpretation-in-gi-disease',
+            'np-chronic-constipation-evaluation-and-management',
+          }
+          assert len(rows)==8
+          assert {r['id'] for r in rows}==expected
+          PY
+          git diff --check -- content-authoring/cnple/cram/42a-gi-hepatology-parity.json content-authoring/cnple/cram/AUTHORING_QA_PARITY_44A.md
+      - name: Commit preserved GI batch and self-delete
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rm .github/workflows/cnple-gi-44a-import.yml
+          git add content-authoring/cnple/cram/42a-gi-hepatology-parity.json content-authoring/cnple/cram/AUTHORING_QA_PARITY_44A.md
+          git diff --cached --check
+          git commit -m 'content(cnple-cram): preserve audited GI parity as 44A'
+          git push origin HEAD:content/cnple-cram-parity-gi-44a-20260809
