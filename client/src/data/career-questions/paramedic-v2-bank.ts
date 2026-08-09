@@ -8,6 +8,7 @@ import { paramedicV2ObBatch07Questions } from "./paramedic-v2-ob-batch07-questio
 import { paramedicV2AirwayBatch08Questions } from "./paramedic-v2-airway-batch08-questions";
 import { paramedicV2PediatricBatch09Questions } from "./paramedic-v2-pediatric-batch09-questions";
 import { paramedicV2EnvironmentOperationsBatch10Questions } from "./paramedic-v2-environment-operations-batch10-questions";
+import { paramedicV2OperationsBatch11Questions } from "./paramedic-v2-operations-batch11-questions";
 
 export const PARAMEDIC_V2_QUESTIONS:any[]=[
   ...paramedicV2Questions,
@@ -20,4 +21,5 @@ export const PARAMEDIC_V2_QUESTIONS:any[]=[
   ...paramedicV2AirwayBatch08Questions,
   ...paramedicV2PediatricBatch09Questions,
   ...paramedicV2EnvironmentOperationsBatch10Questions,
+  ...paramedicV2OperationsBatch11Questions,
 ];
