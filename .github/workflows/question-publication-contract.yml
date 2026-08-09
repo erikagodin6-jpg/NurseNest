@@ -44,17 +44,31 @@ jobs:
         run: |
           set +e
           npx tsx script/audit-active-question-interaction-modes.ts > question-interaction-modes.json
-          code=$?
+          echo $? > /tmp/interaction-audit-code
           cat question-interaction-modes.json | head -c 12000
-          exit "$code"
+          exit "$(cat /tmp/interaction-audit-code)"
+      - name: Template content audit
+        shell: bash
+        run: |
+          set +e
+          npx tsx script/audit-active-question-template-content.ts > question-template-content.json
+          echo $? > /tmp/template-audit-code
+          cat question-template-content.json | head -c 12000
+          exit "$(cat /tmp/template-audit-code)"
+      - name: Quarantine replacement audit
+        run: npx tsx script/audit-question-source-quarantine.ts > question-quarantine-audit.json
       - name: Show source audit summary
         if: always()
         run: |
-          cat question-contract-source-audit.json | head -c 10000
+          cat question-contract-source-audit.json | head -c 8000 || true
           echo
-          cat question-schema-families.json | head -c 10000
+          cat question-schema-families.json | head -c 8000 || true
           echo
-          cat question-interaction-modes.json | head -c 10000 || true
+          cat question-interaction-modes.json | head -c 8000 || true
+          echo
+          cat question-template-content.json | head -c 8000 || true
+          echo
+          cat question-quarantine-audit.json | head -c 8000 || true
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -63,6 +77,8 @@ jobs:
             question-contract-source-audit.json
             question-schema-families.json
             question-interaction-modes.json
+            question-template-content.json
+            question-quarantine-audit.json
           retention-days: 14
 
   changed-question-guard:
