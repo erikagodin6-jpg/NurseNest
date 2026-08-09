@@ -1,0 +1,111 @@
+name: CNPLE Integrated Parity through 43A Register
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - "content-authoring/cnple/cram/40c-cardiovascular-core-decisions-parity.json"
+      - "content-authoring/cnple/cram/40d-cardiovascular-diagnostics-devices-parity.json"
+      - "content-authoring/cnple/cram/41a-diagnostics-imaging-parity.json"
+      - "content-authoring/cnple/cram/41b-diagnostics-testing-interpretation-parity.json"
+      - "content-authoring/cnple/cram/42a-primary-practice-systems-parity.json"
+      - "content-authoring/cnple/cram/42b-professional-regulatory-parity.json"
+      - "content-authoring/cnple/cram/42c-professional-ethics-equity-evidence-parity.json"
+      - "content-authoring/cnple/cram/42d-professional-development-policy-systems-parity.json"
+      - "content-authoring/cnple/cram/43a-endocrine-advanced-management-parity.json"
+      - "content-authoring/cnple/cram/AUTHORING_QA_PARITY_4*.md"
+      - ".github/workflows/cnple-integrated-43a-register.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  register:
+    if: github.event.pull_request.head.ref == 'content/cnple-cram-parity-integrated-43a-20260809'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: content/cnple-cram-parity-integrated-43a-20260809
+          fetch-depth: 0
+      - name: Register all consolidated parity batches through 43A
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          root=Path('content-authoring/cnple/cram')
+          manifest_path=root/'manifest.json'
+          m=json.loads(manifest_path.read_text())
+          assert (m['rawLessonObjects'],m['uniqueLessonIds'],m['canonicalTopicPathways'],m['clinicalJsonFiles']) == (483,483,475,50), (m['rawLessonObjects'],m['uniqueLessonIds'],m['canonicalTopicPathways'],m['clinicalJsonFiles'])
+
+          additions=[
+            ('40c-cardiovascular-core-decisions-parity.json',6,'AUTHORING_QA_PARITY_40C.md'),
+            ('40d-cardiovascular-diagnostics-devices-parity.json',6,'AUTHORING_QA_PARITY_40D.md'),
+            ('41a-diagnostics-imaging-parity.json',8,'AUTHORING_QA_PARITY_41A.md'),
+            ('41b-diagnostics-testing-interpretation-parity.json',8,'AUTHORING_QA_PARITY_41B.md'),
+            ('42a-primary-practice-systems-parity.json',8,'AUTHORING_QA_PARITY_42A.md'),
+            ('42b-professional-regulatory-parity.json',8,'AUTHORING_QA_PARITY_42B.md'),
+            ('42c-professional-ethics-equity-evidence-parity.json',8,'AUTHORING_QA_PARITY_42C.md'),
+            ('42d-professional-development-policy-systems-parity.json',8,'AUTHORING_QA_PARITY_42D.md'),
+            ('43a-endocrine-advanced-management-parity.json',8,'AUTHORING_QA_PARITY_43A.md'),
+          ]
+          existing={f['path'] for f in m['files']}
+          for path,count,qa in additions:
+            rows=json.loads((root/path).read_text())
+            assert isinstance(rows,list) and len(rows)==count,(path,len(rows),count)
+            assert (root/qa).exists(),qa
+            if path not in existing:
+              m['files'].append({'path':path,'lessons':count,'role':'full_lesson_parity_expansion'})
+            if qa not in m['auditDocuments']:
+              m['auditDocuments'].append(qa)
+
+          m['rawLessonObjects']=551
+          m['uniqueLessonIds']=551
+          m['canonicalTopicPathways']=543
+          m['clinicalJsonFiles']=59
+          m['sourceRefreshDate']='2026-08-09'
+          m['fullLessonParity']['authoringCanonicalTopicPathways']=543
+          pub=m['publication']
+          for suffix in ['40C','40D','41A','41B','42A','42B','42C','42D','43A']:
+            pub[f'secondPassClinicalAuditCompleteForParity{suffix}']=True
+          pub['newExpansionBatchPendingSecondPassAudit']=False
+          pub['note']='The 551-object CNPLE Cram V2 estate consolidates exact-identity cardiovascular parity through 40D, diagnostics 41A-B, primary/professional practice 42A-D, and freshly audited endocrine 43A. Full-lesson parity remains incomplete; private-core exact identity/source/Quick-Check/runtime certification remains required.'
+          manifest_path.write_text(json.dumps(m,indent=2)+'\n')
+
+          required=['id','title','system','blueprintDomains','lifespan','acuity','bottomLine','recognize','differentiate','assessment','workup','management','medicationSafety','redFlags','counselling','followUp','examTrap','oneLinePearl','sourceBasis','sourceAsOf','localPolicyCheck']
+          ids=set(); total=0
+          for f in m['files']:
+            path=root/f['path']
+            assert path.exists(),f['path']
+            rows=json.loads(path.read_text())
+            assert isinstance(rows,list) and len(rows)==f['lessons'],(f['path'],len(rows),f['lessons'])
+            for row in rows:
+              total+=1
+              missing=[k for k in required if k not in row]
+              assert not missing,(row.get('id'),missing)
+              rid=row['id']
+              assert isinstance(rid,str) and rid.strip(),('invalid_id',f['path'])
+              assert rid not in ids,('duplicate_id',rid)
+              ids.add(rid)
+          assert total==551,total
+          assert len(ids)==551,len(ids)
+          assert len(m['files'])==59,len(m['files'])
+          assert m['canonicalTopicPathways']==m['uniqueLessonIds']-m['explicitCanonicalSupersessions']
+          assert len(m['auditDocuments'])>=9
+          PY
+          git diff --check -- content-authoring/cnple/cram/manifest.json
+      - name: Commit governed integrated manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'NurseNest CNPLE authoring'
+          git config user.email 'actions@users.noreply.github.com'
+          git rm .github/workflows/cnple-integrated-43a-register.yml
+          if [ -f .github/workflows/cnple-cardiovascular-40cd-register.yml ]; then git rm .github/workflows/cnple-cardiovascular-40cd-register.yml; fi
+          git add content-authoring/cnple/cram/manifest.json
+          git diff --cached --check
+          git commit -m 'content(cnple-cram): register integrated parity through endocrine 43A'
+          git push origin HEAD:content/cnple-cram-parity-integrated-43a-20260809
