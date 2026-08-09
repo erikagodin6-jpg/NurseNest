@@ -17,16 +17,12 @@ import { npContentExpansionDxLessons } from "../../client/src/data/lessons/np-co
 import { npContentExpansionRxLessons } from "../../client/src/data/lessons/np-content-expansion-rx";
 import { npContentExpansionMiscLessons } from "../../client/src/data/lessons/np-content-expansion-misc";
 import {
-  completeUsNpCramLessons,
-  findCompleteUsNpCramLesson,
-} from "../src/lib/content/curated-lessons/us-np-cram-complete";
+  finalUsNpCramLessons,
+  findFinalUsNpCramLesson,
+} from "../src/lib/content/curated-lessons/us-np-cram-final";
 
 type UnknownMap = Record<string, unknown>;
-
-type SourceFamily = {
-  name: string;
-  records: UnknownMap;
-};
+type SourceFamily = { name: string; records: UnknownMap };
 
 const sourceFamilies: readonly SourceFamily[] = [
   { name: "advanced-np", records: advancedNpLessons as UnknownMap },
@@ -60,12 +56,7 @@ function extractTitle(value: unknown): string | null {
 }
 
 function main(): void {
-  const discovered: Array<{
-    family: string;
-    sourceKey: string;
-    title: string;
-    cramSlug: string | null;
-  }> = [];
+  const discovered: Array<{ family: string; sourceKey: string; title: string; cramSlug: string | null }> = [];
   const malformed: Array<{ family: string; sourceKey: string }> = [];
 
   for (const family of sourceFamilies) {
@@ -75,13 +66,8 @@ function main(): void {
         malformed.push({ family: family.name, sourceKey });
         continue;
       }
-      const lesson = findCompleteUsNpCramLesson({ title, slug: sourceKey });
-      discovered.push({
-        family: family.name,
-        sourceKey,
-        title,
-        cramSlug: lesson?.slug ?? null,
-      });
+      const lesson = findFinalUsNpCramLesson({ title, slug: sourceKey });
+      discovered.push({ family: family.name, sourceKey, title, cramSlug: lesson?.slug ?? null });
     }
   }
 
@@ -90,12 +76,7 @@ function main(): void {
   const familySummary = sourceFamilies.map((family) => {
     const rows = discovered.filter((entry) => entry.family === family.name);
     const gaps = rows.filter((entry) => !entry.cramSlug);
-    return {
-      family: family.name,
-      fullLessons: rows.length,
-      matched: rows.length - gaps.length,
-      uncovered: gaps.length,
-    };
+    return { family: family.name, fullLessons: rows.length, matched: rows.length - gaps.length, uncovered: gaps.length };
   });
 
   const duplicateFullTitles = Object.entries(
@@ -104,12 +85,10 @@ function main(): void {
       (acc[key] ??= []).push({ family: entry.family, sourceKey: entry.sourceKey });
       return acc;
     }, {}),
-  )
-    .filter(([, rows]) => rows.length > 1)
-    .map(([titleIdentity, rows]) => ({ titleIdentity, rows }));
+  ).filter(([, rows]) => rows.length > 1).map(([titleIdentity, rows]) => ({ titleIdentity, rows }));
 
   const report = {
-    authoredCramLessons: completeUsNpCramLessons.length,
+    authoredCramLessons: finalUsNpCramLessons.length,
     sourceFamilies: sourceFamilies.length,
     discoveredFullLessons: discovered.length,
     matchedFullLessons: covered,
@@ -124,14 +103,9 @@ function main(): void {
   };
 
   console.log(JSON.stringify(report, null, 2));
-
-  if (malformed.length > 0) {
-    throw new Error(`US_NP_CRAM_STATIC_MALFORMED_SOURCE: ${malformed.length} source entries have no usable title`);
-  }
+  if (malformed.length > 0) throw new Error(`US_NP_CRAM_STATIC_MALFORMED_SOURCE: ${malformed.length} source entries have no usable title`);
   if (uncovered.length > 0) {
-    throw new Error(
-      `US_NP_CRAM_STATIC_COVERAGE_INCOMPLETE: ${uncovered.length}/${discovered.length} NP Full lessons have no exact/approved Cram identity`,
-    );
+    throw new Error(`US_NP_CRAM_STATIC_COVERAGE_INCOMPLETE: ${uncovered.length}/${discovered.length} NP Full lessons have no exact/approved Cram identity`);
   }
 }
 
