@@ -6,6 +6,7 @@ export type LegacyContractQuestion = Record<string, any> & {
   id: string;
   options: LegacyContractOption[];
   correctAnswer: string | string[];
+  correctAnswerIds: string[];
   distractorRationales: Record<string, string>;
   correctAnswerExplanation: string;
   hint: string;
@@ -19,24 +20,17 @@ export type LegacyContractQuestion = Record<string, any> & {
   optionContractVersion: 2;
   publicationContractVersion: 2;
   metadataOrigin: "authored-v2" | "legacy-derived";
+  distractorMetadataOrigin?: "explicit" | "authored-rationale-extracted" | "mixed" | "derived-fallback";
   unitSystemSupport?: { supported: string[]; default?: string };
   unitVariants?: any[];
 };
 
 function text(v: unknown): string { return typeof v === "string" ? v.trim() : ""; }
 function slug(v:string):string { return v.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,80); }
-function hash(v:string):string {
-  let h=0x811c9dc5;
-  for(let i=0;i<v.length;i++){h^=v.charCodeAt(i);h=Math.imul(h,0x01000193)>>>0;}
-  return h.toString(16).padStart(8,"0");
-}
+function hash(v:string):string { let h=0x811c9dc5; for(let i=0;i<v.length;i++){h^=v.charCodeAt(i);h=Math.imul(h,0x01000193)>>>0;} return h.toString(16).padStart(8,"0"); }
 function optionId(qid:string,index:number,value:string){return `${slug(qid)||"q"}:opt:${String(index+1).padStart(2,"0")}:${hash(value.toLowerCase().trim())}`;}
-function firstSentence(value:string):string {
-  const m=value.trim().match(/^(.+?[.!?])(?:\s|$)/); return (m?.[1] || value.trim()).slice(0,280);
-}
-function substantive(value: unknown, min = 12): boolean {
-  const v=text(value); return v.length>=min && !/^(?:tbd|todo|placeholder|n\/?a|none)$/i.test(v);
-}
+function firstSentence(value:string):string { const m=value.trim().match(/^(.+?[.!?])(?:\s|$)/); return (m?.[1] || value.trim()).slice(0,280); }
+function substantive(value: unknown, min = 12): boolean { const v=text(value); return v.length>=min && !/^(?:tbd|todo|placeholder|n\/?a|none)$/i.test(v); }
 
 function optionsFor(raw:any, qid:string):LegacyContractOption[] {
   const source=Array.isArray(raw.options)?raw.options:Array.isArray(raw.answerOptions)?raw.answerOptions:[];
@@ -53,9 +47,7 @@ function optionsFor(raw:any, qid:string):LegacyContractOption[] {
 
 function flatten(v:any):any[]{
   if(Array.isArray(v)) return v.flatMap(flatten);
-  if(v&&typeof v==="object"){
-    for(const k of ["ids","answers","selected","correct","answer","id","value","index"]) if(k in v) return flatten(v[k]);
-  }
+  if(v&&typeof v==="object") for(const k of ["ids","answers","selected","correct","answer","id","value","index"]) if(k in v) return flatten(v[k]);
   return [v];
 }
 function resolveAnswers(raw:any, options:LegacyContractOption[]):string[]{
@@ -87,19 +79,47 @@ function mapDistractorArray(source:any, options:LegacyContractOption[], correct:
   if(!Array.isArray(source))return{};
   const out:Record<string,string>={};
   const incorrect=options.filter(option=>!correct.has(option.id));
-  if(source.length===options.length){
-    options.forEach((option,index)=>{if(!correct.has(option.id)&&substantive(source[index],12))out[option.id]=text(source[index]);});
-    return out;
-  }
-  if(source.length===incorrect.length){
-    incorrect.forEach((option,index)=>{if(substantive(source[index],12))out[option.id]=text(source[index]);});
+  if(source.length===options.length){options.forEach((option,index)=>{if(!correct.has(option.id)&&substantive(source[index],12))out[option.id]=text(source[index]);});return out;}
+  if(source.length===incorrect.length){incorrect.forEach((option,index)=>{if(substantive(source[index],12))out[option.id]=text(source[index]);});}
+  return out;
+}
+
+const STOPWORDS=new Set(["the","a","an","and","or","of","to","in","on","for","with","without","is","are","be","being","this","that","these","those","patient","client","most","more","less","normal","increase","decrease","administer","start","apply","use","using","treatment","therapy"]);
+function conceptTokens(value:string):string[]{
+  const preserved=(value.match(/\b(?:PEEP|FiO2|PaCO2|PaO2|HCO3|BiPAP|CPAP|ECG|EKG|COHb|SvO2|ARDS|COPD|V\/Q|INR|IV|CO2|O2)\b/gi)||[]).map(v=>v.toLowerCase());
+  const words=value.toLowerCase().replace(/[^a-z0-9+/.-]+/g," ").split(/\s+/).filter(w=>w.length>=4&&!STOPWORDS.has(w));
+  return [...new Set([...preserved,...words])];
+}
+function rationaleSentences(value:string):string[]{
+  return value.replace(/\s+/g," ").match(/[^.!?]+[.!?]+|[^.!?]+$/g)?.map(s=>s.trim()).filter(Boolean)||[];
+}
+function extractDistractorsFromCombinedRationale(rationale:string,options:LegacyContractOption[],correct:Set<string>):Record<string,string>{
+  if(!substantive(rationale,40))return{};
+  const sentences=rationaleSentences(rationale);
+  const out:Record<string,string>={};
+  for(const option of options){
+    if(correct.has(option.id))continue;
+    const tokens=conceptTokens(option.text);
+    if(!tokens.length)continue;
+    let best:""|string=""; let bestScore=0;
+    for(const sentence of sentences){
+      const lower=sentence.toLowerCase();
+      let score=0;
+      for(const token of tokens){
+        if(lower.includes(token)) score += token.length>=6 ? 3 : 2;
+      }
+      const negativeCue=/\b(?:not|doesn['’]?t|wouldn['’]?t|incorrect|inappropriate|unnecessary|insufficient|worsen|contraindicated|rather than|instead|affect|treats?|addresses?|rules? out)\b/i.test(sentence);
+      if(negativeCue)score+=2;
+      if(score>bestScore){best=sentence;bestScore=score;}
+    }
+    if(bestScore>=4&&substantive(best,24))out[option.id]=best;
   }
   return out;
 }
 
-function existingDistractors(raw:any, options:LegacyContractOption[], correct:Set<string>):Record<string,string>{
+function explicitDistractors(raw:any, options:LegacyContractOption[], correct:Set<string>):Record<string,string>{
   return {
-    ...mapDistractorArray(raw.rationaleIncorrect||raw.rationale_incorrect,options,correct),
+    ...mapDistractorArray(raw.rationaleIncorrect||raw.rationale_incorrect||raw.distractorExplanations,options,correct),
     ...mapDistractors(raw.distractorRationales||raw.distractor_rationales||raw.incorrectAnswerRationale||{}, options, correct),
   };
 }
@@ -129,29 +149,38 @@ export function normalizeLegacyClientQuestion(raw:any,index:number,jurisdiction:
   const authoredCorrect=text(overlay.correctAnswerExplanation)||text(raw.correctAnswerExplanation)||text(raw.correct_answer_explanation)||structuredCorrect;
   const correctAnswerExplanation=authoredCorrect||rationale;
   const structuredWhy=text(raw.clinicalCorrelation)||text(raw.clinical_correlation);
-  const authoredHint=text(overlay.hint)||text(raw.hint)||text(raw.examStrategy)||text(raw.exam_strategy);
+  const authoredHint=text(overlay.hint)||text(raw.hint)||text(raw.examStrategy)||text(raw.exam_strategy)||text(raw.examTip);
   const structuredSource=!!structuredCorrect&&Array.isArray(raw.rationaleIncorrect||raw.rationale_incorrect)&&!!structuredWhy;
   const hint=authoredHint||(structuredSource?authoredHintFromStructuredSource(raw,topic):`Focus on the ${topic} principle that most directly answers the stem; eliminate options that are true but lower priority or address a different problem.`);
-  const authoredWhy=text(overlay.whyThisMatters)||text(raw.whyThisMatters)||text(raw.why_this_matters)||text(raw.keyTakeaway)||text(raw.key_takeaway)||structuredWhy;
+  const authoredWhy=text(overlay.whyThisMatters)||text(raw.whyThisMatters)||text(raw.why_this_matters)||text(raw.keyTakeaway)||text(raw.key_takeaway)||structuredWhy||text(raw.clinicalConcept);
   const whyThisMatters=authoredWhy||(rationale?`This matters because the reasoning tested here affects safe, accurate decisions in ${topic}. ${firstSentence(rationale)}`:`This item matters because it tests a decision that can change safety or outcomes in ${topic}.`);
-  const authoredPearl=text(overlay.clinicalPearl)||text(raw.clinicalPearl)||text(raw.clinical_pearl)||text(raw.examPearl)||(structuredSource?firstSentence(structuredCorrect):"");
+  const authoredPearl=text(overlay.clinicalPearl)||text(raw.clinicalPearl)||text(raw.clinical_pearl)||text(raw.examPearl)||text(raw.safetyPearl)||(structuredSource?firstSentence(structuredCorrect):"");
   const clinicalPearl=authoredPearl||(rationale?firstSentence(rationale):`Match the requested decision to the most specific ${topic} principle before choosing an adjacent fact.`);
 
-  const sourceDistractors=existingDistractors(raw,options,correctSet);
+  const explicit=explicitDistractors(raw,options,correctSet);
+  const extracted=extractDistractorsFromCombinedRationale(rationale,options,correctSet);
   const overlayDistractors=mapDistractors(overlay.distractorRationales||{},options,correctSet);
-  const distractorRationales={...sourceDistractors,...overlayDistractors};
+  const authoredDistractors={...extracted,...explicit,...overlayDistractors};
+  const distractorRationales={...authoredDistractors};
+  let usedFallback=false;
   for(const option of options){
     if(correctSet.has(option.id)||distractorRationales[option.id])continue;
+    usedFallback=true;
     distractorRationales[option.id]=rationale
       ? `${option.text} is not the keyed answer for this item. It does not satisfy the decision tested in the stem as directly as the keyed reasoning: ${firstSentence(rationale)}`
       : `${option.text} does not best satisfy the specific ${topic} decision requested in the stem; reassess the priority, mechanism, or criterion being tested.`;
   }
 
   const overlayAuthored=overlay.editorialStatus==="authored-v2";
-  const explicitSourceAuthored=options.every(o=>!!o.id)&&answers.length>0&&!!text(raw.correctAnswerExplanation||raw.correct_answer_explanation)&&!!text(raw.hint||raw.examStrategy||raw.exam_strategy)&&!!text(raw.whyThisMatters||raw.why_this_matters||raw.keyTakeaway||raw.key_takeaway)&&!!text(raw.clinicalPearl||raw.clinical_pearl||raw.examPearl)&&Object.keys(sourceDistractors).length===Math.max(0,options.length-correctSet.size);
-  const structuredSourceAuthored=structuredSource&&answers.length>0&&options.every(o=>!!o.id)&&Object.keys(sourceDistractors).length===Math.max(0,options.length-correctSet.size)&&substantive(correctAnswerExplanation,24)&&substantive(whyThisMatters,20)&&substantive(hint,12)&&substantive(clinicalPearl,12);
-  const authoredV2=answers.length>0&&options.every(o=>!!o.id)&&(overlayAuthored||explicitSourceAuthored||structuredSourceAuthored);
+  const explicitSourceAuthored=options.every(o=>!!o.id)&&answers.length>0&&!!text(raw.correctAnswerExplanation||raw.correct_answer_explanation)&&!!text(raw.hint||raw.examStrategy||raw.exam_strategy||raw.examTip)&&!!text(raw.whyThisMatters||raw.why_this_matters||raw.keyTakeaway||raw.key_takeaway||raw.clinicalConcept)&&!!text(raw.clinicalPearl||raw.clinical_pearl||raw.examPearl||raw.safetyPearl)&&Object.keys(explicit).length===Math.max(0,options.length-correctSet.size);
+  const structuredSourceAuthored=structuredSource&&answers.length>0&&options.every(o=>!!o.id)&&Object.keys(explicit).length===Math.max(0,options.length-correctSet.size)&&substantive(correctAnswerExplanation,24)&&substantive(whyThisMatters,20)&&substantive(hint,12)&&substantive(clinicalPearl,12);
+  const combinedRationaleFullyExplainsDistractors=!usedFallback&&options.filter(o=>!correctSet.has(o.id)).every(o=>substantive(authoredDistractors[o.id],24));
+  const richCombinedAuthored=combinedRationaleFullyExplainsDistractors&&substantive(rationale,80)&&substantive(correctAnswerExplanation,24)&&!!(text(raw.examTip)||text(raw.safetyPearl)||text(raw.clinicalConcept));
+  const authoredV2=answers.length>0&&options.every(o=>!!o.id)&&(overlayAuthored||explicitSourceAuthored||structuredSourceAuthored||richCombinedAuthored);
   const answerValue=answers.length===1?answers[0]:answers;
+  const explicitCount=Object.keys(explicit).length+Object.keys(overlayDistractors).length;
+  const extractedCount=Object.keys(extracted).filter(k=>!explicit[k]&&!overlayDistractors[k]).length;
+  const distractorMetadataOrigin=usedFallback?"derived-fallback":explicitCount&&extractedCount?"mixed":extractedCount?"authored-rationale-extracted":"explicit";
 
   return {
     ...raw,
@@ -176,6 +205,7 @@ export function normalizeLegacyClientQuestion(raw:any,index:number,jurisdiction:
     optionContractVersion:2,
     publicationContractVersion:2,
     metadataOrigin:authoredV2?"authored-v2":"legacy-derived",
+    distractorMetadataOrigin,
   } as LegacyContractQuestion;
 }
 
