@@ -1,0 +1,152 @@
+name: CNPLE Register Parity 38D through 39D
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/cnple-register-parity-38d-through-39d.yml"
+      - "content-authoring/cnple/cram/38d-lab-cbc-electrolyte-acid-base-parity.json"
+      - "content-authoring/cnple/cram/38e-lab-advanced-patterns-parity.json"
+      - "content-authoring/cnple/cram/39a-respiratory-advanced-parity.json"
+      - "content-authoring/cnple/cram/39b-respiratory-diagnostics-procedures-parity.json"
+      - "content-authoring/cnple/cram/39c-respiratory-diagnostics-screening-parity.json"
+      - "content-authoring/cnple/cram/39d-respiratory-core-completion-parity.json"
+      - "content-authoring/cnple/cram/manifest.json"
+
+permissions:
+  contents: write
+
+jobs:
+  register:
+    if: github.event.pull_request.head.ref == 'content/cnple-cram-parity-respiratory-39d-20260809'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: content/cnple-cram-parity-respiratory-39d-20260809
+          fetch-depth: 0
+
+      - name: Validate and register pending audited parity files
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path('content-authoring/cnple/cram')
+          manifest_path = root / 'manifest.json'
+          m = json.loads(manifest_path.read_text())
+
+          assert m['rawLessonObjects'] == 426, m['rawLessonObjects']
+          assert m['uniqueLessonIds'] == 426, m['uniqueLessonIds']
+          assert m['canonicalTopicPathways'] == 418, m['canonicalTopicPathways']
+          assert m['clinicalJsonFiles'] == 42, m['clinicalJsonFiles']
+          assert m['explicitCanonicalSupersessions'] == 8
+
+          pending = [
+            ('38d-lab-cbc-electrolyte-acid-base-parity.json', 8),
+            ('38e-lab-advanced-patterns-parity.json', 8),
+            ('39a-respiratory-advanced-parity.json', 6),
+            ('39b-respiratory-diagnostics-procedures-parity.json', 5),
+            ('39c-respiratory-diagnostics-screening-parity.json', 8),
+            ('39d-respiratory-core-completion-parity.json', 6),
+          ]
+          registered = {entry['path'] for entry in m['files']}
+          assert not registered.intersection({p for p,_ in pending}), 'pending file already registered'
+
+          required = set(m['requiredLessonFields'])
+          global_ids = set()
+          total = 0
+          for entry in m['files']:
+            rows = json.loads((root / entry['path']).read_text())
+            assert isinstance(rows, list) and len(rows) == entry['lessons'], entry['path']
+            total += len(rows)
+            for row in rows:
+              missing = required.difference(row.keys())
+              assert not missing, f"{entry['path']}:{row.get('id')}:missing:{sorted(missing)}"
+              rid = row['id']
+              assert rid not in global_ids, f'duplicate:{rid}'
+              global_ids.add(rid)
+
+          assert total == 426 and len(global_ids) == 426
+
+          for path, count in pending:
+            rows = json.loads((root / path).read_text())
+            assert isinstance(rows, list) and len(rows) == count, f'{path}:count'
+            for row in rows:
+              missing = required.difference(row.keys())
+              assert not missing, f"{path}:{row.get('id')}:missing:{sorted(missing)}"
+              rid = row['id']
+              assert isinstance(rid, str) and rid.strip()
+              assert rid not in global_ids, f'duplicate:{rid}'
+              global_ids.add(rid)
+            m['files'].append({'path': path, 'lessons': count, 'role': 'full_lesson_parity_expansion'})
+
+          assert len(global_ids) == 467, len(global_ids)
+          m['rawLessonObjects'] = 467
+          m['uniqueLessonIds'] = 467
+          m['canonicalTopicPathways'] = 459
+          m['clinicalJsonFiles'] = 48
+          m['sourceRefreshDate'] = '2026-08-09'
+
+          audit_docs = [
+            'AUTHORING_QA_PARITY_38D.md',
+            'AUTHORING_QA_PARITY_38E.md',
+            'AUTHORING_QA_PARITY_39A.md',
+            'AUTHORING_QA_PARITY_39B.md',
+            'AUTHORING_QA_PARITY_39C.md',
+            'AUTHORING_QA_PARITY_39D.md',
+          ]
+          for doc in audit_docs:
+            assert (root / doc).exists(), doc
+            if doc not in m['auditDocuments']:
+              m['auditDocuments'].append(doc)
+
+          m['fullLessonParity']['authoringCanonicalTopicPathways'] = 459
+          pub = m['publication']
+          pub['secondPassClinicalAuditCompleteForParity38D'] = True
+          pub['secondPassClinicalAuditCompleteForParity38E'] = True
+          pub['secondPassClinicalAuditCompleteForParity39A'] = True
+          pub['secondPassClinicalAuditCompleteForParity39B'] = True
+          pub['secondPassClinicalAuditCompleteForParity39C'] = True
+          pub['secondPassClinicalAuditCompleteForParity39D'] = True
+          pub['newExpansionBatchPendingSecondPassAudit'] = False
+          pub['note'] = (
+            'The 467-object library is an audited topic baseline plus active Full-lesson parity expansions. '
+            'Lab Interpretation and the canonical NP Respiratory generator families now have complete clinical authoring parity, '
+            'but global Full-lesson parity is not complete. Private-core exact-current-Full reconciliation, source anchors, '
+            'Bottom Line evidence, Quick Checks, runtime certification and learner render remain mandatory.'
+          )
+
+          manifest_path.write_text(json.dumps(m, indent=2) + '\n')
+
+          # Re-read the final registered manifest and prove all counts again.
+          check = json.loads(manifest_path.read_text())
+          ids = set(); count = 0
+          assert len(check['files']) == 48
+          for entry in check['files']:
+            rows = json.loads((root / entry['path']).read_text())
+            assert len(rows) == entry['lessons']
+            count += len(rows)
+            for row in rows:
+              assert required.issubset(row.keys())
+              assert row['id'] not in ids
+              ids.add(row['id'])
+          assert count == 467 and len(ids) == 467
+          assert check['canonicalTopicPathways'] == 459
+          print(json.dumps({'rawLessonObjects': count, 'uniqueLessonIds': len(ids), 'canonicalTopicPathways': 459, 'clinicalJsonFiles': 48}))
+          PY
+
+      - name: Commit governed registration
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'NurseNest CNPLE authoring'
+          git config user.email 'actions@users.noreply.github.com'
+          git rm .github/workflows/cnple-register-parity-38d-through-39d.yml
+          git add content-authoring/cnple/cram/manifest.json
+          git diff --cached --check
+          git commit -m 'content(cnple-cram): register lab and respiratory parity batches'
+          git push origin HEAD:content/cnple-cram-parity-respiratory-39d-20260809
