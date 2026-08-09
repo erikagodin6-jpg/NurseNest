@@ -58,16 +58,20 @@ function flattenAnswer(raw: unknown): unknown[] {
   if(parsed&&typeof parsed==="object"){const obj=parsed as JsonRecord;for(const key of ["ids","answers","selected","correct","answer","id","value","index"]){if(key in obj)return flattenAnswer(obj[key]);}}
   return[parsed];
 }
-function resolveAnswerIds(raw: unknown, options: CanonicalOption[]): Set<string> {
-  const ids=new Set<string>();
+function resolveAnswerIdList(raw: unknown, options: CanonicalOption[]): string[] {
+  const ids:string[]=[];
   for(const rawValue of flattenAnswer(raw)){
-    if(rawValue===null||rawValue===undefined)continue; const value=String(rawValue).trim(); if(!value)continue;
-    const byId=options.find(o=>o.id&&o.id.toLowerCase()===value.toLowerCase()); if(byId){ids.add(byId.id);continue;}
-    const byLabel=options.find(o=>o.label?.toLowerCase()===value.toLowerCase()); if(byLabel?.id){ids.add(byLabel.id);continue;}
-    const byText=options.find(o=>o.text.toLowerCase()===value.toLowerCase()); if(byText?.id){ids.add(byText.id);continue;}
-    const numeric=Number(value); if(Number.isInteger(numeric)){const byIndex=options[numeric]||(numeric>0?options[numeric-1]:undefined);if(byIndex?.id)ids.add(byIndex.id);}
+    if(rawValue===null||rawValue===undefined)continue;
+    const value=String(rawValue).trim(); if(!value)continue;
+    const byId=options.find(o=>o.id&&o.id.toLowerCase()===value.toLowerCase()); if(byId){ids.push(byId.id);continue;}
+    const byLabel=options.find(o=>o.label?.toLowerCase()===value.toLowerCase()); if(byLabel?.id){ids.push(byLabel.id);continue;}
+    const byText=options.find(o=>o.text.toLowerCase()===value.toLowerCase()); if(byText?.id){ids.push(byText.id);continue;}
+    const numeric=Number(value); if(Number.isInteger(numeric)){const byIndex=options[numeric]||(numeric>0?options[numeric-1]:undefined);if(byIndex?.id)ids.push(byIndex.id);}
   }
   return ids;
+}
+function resolveAnswerIds(raw: unknown, options: CanonicalOption[]): Set<string> {
+  return new Set(resolveAnswerIdList(raw,options));
 }
 function rationaleMap(raw: unknown): Record<string,string> {
   const parsed=parseJson(raw); if(!parsed||typeof parsed!=="object"||Array.isArray(parsed))return{};
@@ -119,13 +123,21 @@ export function auditQuestionPublicationContract(data:QuestionContractInput):Que
     const optionTexts=options.map(o=>normalizedOptionText(o.text)).filter(Boolean);
     if(new Set(optionTexts).size!==optionTexts.length)add("duplicate_distractor_text","options[].text","blocking","Answer options must be textually distinct; duplicate distractors are not valid assessment content.");
 
-    correctIds=resolveAnswerIds(pick(data,"correctAnswer","correct_answer"),options);
-    if(options.length>0&&correctIds.size===0)add("unstable_or_unresolved_answer_contract","correct_answer","blocking","Correct answer must resolve to stable option ids; labels/indexes may be accepted only for legacy migration, not the canonical stored contract.");
+    const answerList=resolveAnswerIdList(pick(data,"correctAnswer","correct_answer"),options);
+    correctIds=new Set(answerList);
+    if(options.length>0&&answerList.length===0)add("unstable_or_unresolved_answer_contract","correct_answer","blocking","Correct answer must resolve to stable option ids; labels/indexes may be accepted only for legacy migration, not the canonical stored contract.");
     if(canonicalType==="MCQ"&&correctIds.size!==1)add("invalid_single_answer_cardinality","correct_answer","blocking","Single-answer MCQs require exactly one keyed option ID.");
     if(canonicalType==="SATA"&&correctIds.size<1)add("missing_sata_answer_contract","correct_answer","blocking","SATA requires at least one stable keyed option ID.");
+    if(canonicalType==="ORDERED_RESPONSE"){
+      if(answerList.length<2)add("missing_ordered_answer_contract","correct_answer","blocking","Ordered-response items require an ordered stable-ID sequence with at least two items.");
+      if(answerList.length!==options.length)add("incomplete_ordered_answer_sequence","correct_answer","blocking","Ordered-response answer sequence must include every displayed item exactly once.");
+      if(new Set(answerList).size!==answerList.length)add("duplicate_ordered_answer_id","correct_answer","blocking","Ordered-response answer sequence cannot repeat an option ID.");
+    }
 
-    const distractors=rationaleMap(pick(data,"distractorRationales","distractor_rationales"));
-    options.forEach((option,index)=>{if(option.id&&!correctIds.has(option.id)&&!hasRationale(distractors,option,index))add("missing_distractor_rationale",`distractor_rationales.${option.id}`,"blocking",`Incorrect option ${option.id} requires its own substantive rationale.`);});
+    if(canonicalType!=="ORDERED_RESPONSE"){
+      const distractors=rationaleMap(pick(data,"distractorRationales","distractor_rationales"));
+      options.forEach((option,index)=>{if(option.id&&!correctIds.has(option.id)&&!hasRationale(distractors,option,index))add("missing_distractor_rationale",`distractor_rationales.${option.id}`,"blocking",`Incorrect option ${option.id} requires its own substantive rationale.`);});
+    }
   }else if(canonicalType){
     const interactionIssues=validateInteractionContract({...(data as JsonRecord),interactionPayload:interactionPayload(data)});
     interactionIssues.forEach(issue=>add(issue.code,issue.field,"blocking",issue.detail));
