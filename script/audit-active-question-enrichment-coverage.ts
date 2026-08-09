@@ -8,7 +8,10 @@ const ROOTS = [
   "client/src/data/newgrad/scenario-questions",
   "client/src/pages/international-nurses",
 ];
-const OVERLAY = path.resolve("client/src/data/question-contract-enrichment.generated.ts");
+const OVERLAYS = [
+  path.resolve("client/src/data/question-contract-enrichment.generated.ts"),
+  path.resolve("client/src/data/question-contract-enrichment.curated.ts"),
+];
 
 type Row = { id: string; file: string; line: number; tier: string; hasAuthoredInline: boolean; fingerprint: string };
 
@@ -50,6 +53,11 @@ function hasNonEmptyObject(node: ts.Expression | null): boolean {
   node = unwrap(node);
   return ts.isObjectLiteralExpression(node) && node.properties.length > 0;
 }
+function hasNonEmptyArray(node: ts.Expression | null): boolean {
+  if (!node) return false;
+  node = unwrap(node);
+  return ts.isArrayLiteralExpression(node) && node.elements.length > 0;
+}
 function collectFiles(root: string): string[] {
   if (!fs.existsSync(root)) return [];
   const out: string[] = [];
@@ -57,7 +65,7 @@ function collectFiles(root: string): string[] {
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
       const full = path.join(dir, entry.name);
       if (entry.isDirectory()) walk(full);
-      else if (/\.(ts|tsx)$/.test(entry.name) && !/\.test\.|\.spec\./.test(entry.name) && !/index\.ts$/.test(entry.name) && !entry.name.includes("question-contract-enrichment.generated")) out.push(full);
+      else if (/\.(ts|tsx)$/.test(entry.name) && !/\.test\.|\.spec\./.test(entry.name) && !/index\.ts$/.test(entry.name) && !entry.name.includes("question-contract-enrichment")) out.push(full);
     }
   };
   walk(root); return out;
@@ -73,22 +81,27 @@ function scan(): Row[] {
       if (ts.isObjectLiteralExpression(node)) {
         ordinal++;
         const stem = literalString(getProp(node, "stem")) || literalString(getProp(node, "question")) || literalString(getProp(node, "questionText"));
-        const rationale = literalString(getProp(node, "rationale")) || literalString(getProp(node, "rationaleCorrect"));
+        const rationale = literalString(getProp(node, "rationale")) || literalString(getProp(node, "rationaleCorrect")) || literalString(getProp(node, "rationale_correct"));
         const optionNode = getProp(node, "options") || getProp(node, "answerOptions");
         const optionList = optionTexts(optionNode);
         if (stem && rationale && optionNode && optionList.length >= 2) {
           const explicit = literalString(getProp(node, "id")) || literalString(getProp(node, "questionId"));
           const id = explicit || `source-${path.basename(file, path.extname(file)).toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${String(ordinal).padStart(6, "0")}`;
-          const inlineCorrect = literalString(getProp(node, "correctAnswerExplanation")) || literalString(getProp(node, "correct_answer_explanation"));
+          const rationaleCorrect = literalString(getProp(node, "rationaleCorrect")) || literalString(getProp(node, "rationale_correct"));
+          const inlineCorrect = literalString(getProp(node, "correctAnswerExplanation")) || literalString(getProp(node, "correct_answer_explanation")) || rationaleCorrect;
           const inlineHint = literalString(getProp(node, "hint")) || literalString(getProp(node, "examStrategy"));
-          const inlineWhy = literalString(getProp(node, "whyThisMatters")) || literalString(getProp(node, "keyTakeaway"));
-          const inlinePearl = literalString(getProp(node, "clinicalPearl")) || literalString(getProp(node, "examPearl"));
+          const clinicalCorrelation = literalString(getProp(node, "clinicalCorrelation")) || literalString(getProp(node, "clinical_correlation"));
+          const inlineWhy = literalString(getProp(node, "whyThisMatters")) || literalString(getProp(node, "keyTakeaway")) || clinicalCorrelation;
+          const inlinePearl = literalString(getProp(node, "clinicalPearl")) || literalString(getProp(node, "examPearl")) || rationaleCorrect;
           const inlineDistractors = hasNonEmptyObject(getProp(node, "distractorRationales")) || hasNonEmptyObject(getProp(node, "distractor_rationales"));
-          const qtype = literalString(getProp(node, "questionType")) || literalString(getProp(node, "question_type")) || "MCQ";
+          const structuredDistractors = hasNonEmptyArray(getProp(node, "rationaleIncorrect")) || hasNonEmptyArray(getProp(node, "rationale_incorrect"));
+          const structuredSourceAuthored = !!rationaleCorrect && !!clinicalCorrelation && structuredDistractors;
+          const qtype = literalString(getProp(node, "questionType")) || literalString(getProp(node, "question_type")) || literalString(getProp(node, "type")) || "MCQ";
           const tier = literalString(getProp(node, "tier")) || literalString(getProp(node, "servingTier")) || "allied";
           const fingerprint = `${norm(tier)}::${norm(qtype)}::${norm(stem)}::${optionList.map(norm).join("||")}`;
           const lc = sf.getLineAndCharacterOfPosition(node.getStart(sf));
-          rows.push({ id, file, line: lc.line + 1, tier, fingerprint, hasAuthoredInline: !!inlineCorrect && !!inlineHint && !!inlineWhy && !!inlinePearl && inlineDistractors });
+          const explicitV2 = !!inlineCorrect && !!inlineHint && !!inlineWhy && !!inlinePearl && inlineDistractors;
+          rows.push({ id, file, line: lc.line + 1, tier, fingerprint, hasAuthoredInline: explicitV2 || structuredSourceAuthored });
         }
       }
       ts.forEachChild(node, visit);
@@ -99,21 +112,23 @@ function scan(): Row[] {
 }
 
 function overlayIds(): { authored: Set<string>; needsReview: Set<string> } {
-  if (!fs.existsSync(OVERLAY)) return { authored: new Set(), needsReview: new Set() };
-  const source = fs.readFileSync(OVERLAY, "utf8");
   const authored = new Set<string>();
   const needsReview = new Set<string>();
-  const sf = ts.createSourceFile(OVERLAY, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
-  const visit = (node: ts.Node) => {
-    if (ts.isPropertyAssignment(node) && (ts.isStringLiteralLike(node.name) || ts.isIdentifier(node.name)) && ts.isObjectLiteralExpression(node.initializer)) {
-      const id = node.name.text;
-      const status = literalString(getProp(node.initializer, "editorialStatus"));
-      if (status === "authored-v2") authored.add(id);
-      if (status === "needs-review") needsReview.add(id);
-    }
-    ts.forEachChild(node, visit);
-  };
-  visit(sf);
+  for (const overlayPath of OVERLAYS) {
+    if (!fs.existsSync(overlayPath)) continue;
+    const source = fs.readFileSync(overlayPath, "utf8");
+    const sf = ts.createSourceFile(overlayPath, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
+    const visit = (node: ts.Node) => {
+      if (ts.isPropertyAssignment(node) && (ts.isStringLiteralLike(node.name) || ts.isIdentifier(node.name)) && ts.isObjectLiteralExpression(node.initializer)) {
+        const id = node.name.text;
+        const status = literalString(getProp(node.initializer, "editorialStatus"));
+        if (status === "authored-v2") authored.add(id);
+        if (status === "needs-review") needsReview.add(id);
+      }
+      ts.forEachChild(node, visit);
+    };
+    visit(sf);
+  }
   return { authored, needsReview };
 }
 
