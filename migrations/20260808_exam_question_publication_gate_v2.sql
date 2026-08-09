@@ -24,6 +24,7 @@ DECLARE
   qtype text := upper(replace(replace(COALESCE(NEW.question_type, ''), '-', '_'), ' ', '_'));
   flat_type boolean := false;
   mcq_type boolean := false;
+  ordered_type boolean := false;
   canonical_rationale text := COALESCE(NULLIF(trim(NEW.contract_rationale), ''), NEW.rationale);
   canonical_correct_explanation text := COALESCE(NULLIF(trim(NEW.contract_correct_answer_explanation), ''), NEW.correct_answer_explanation);
   canonical_hint text := COALESCE(NULLIF(trim(NEW.contract_hint), ''), NEW.hint, NEW.exam_strategy);
@@ -37,6 +38,7 @@ BEGIN
 
   flat_type := qtype IN ('MCQ','MULTIPLE_CHOICE','SINGLE_CHOICE','SATA','SELECT_ALL_THAT_APPLY','MULTI_SELECT','MULTIPLE_RESPONSE','ORDERED_RESPONSE','ORDERED','DRAG_DROP','DRAG_AND_DROP');
   mcq_type := qtype IN ('MCQ','MULTIPLE_CHOICE','SINGLE_CHOICE');
+  ordered_type := qtype IN ('ORDERED_RESPONSE','ORDERED','DRAG_DROP','DRAG_AND_DROP');
 
   IF qtype NOT IN (
     'MCQ','MULTIPLE_CHOICE','SINGLE_CHOICE',
@@ -78,14 +80,18 @@ BEGIN
 
     IF cardinality(answer_ids)=0 THEN RAISE EXCEPTION 'QUESTION_CONTRACT: canonical answer id(s) required'; END IF;
     IF mcq_type AND cardinality(answer_ids)<>1 THEN RAISE EXCEPTION 'QUESTION_CONTRACT: MCQ requires exactly one canonical answer id'; END IF;
+    IF ordered_type AND cardinality(answer_ids)<>jsonb_array_length(canonical_options) THEN RAISE EXCEPTION 'QUESTION_CONTRACT: ordered-response sequence must include every option exactly once'; END IF;
+    IF ordered_type AND (SELECT count(DISTINCT a) FROM unnest(answer_ids)a)<>cardinality(answer_ids) THEN RAISE EXCEPTION 'QUESTION_CONTRACT: ordered-response sequence contains duplicate option ids'; END IF;
     IF EXISTS(SELECT 1 FROM unnest(answer_ids)a WHERE NOT EXISTS(SELECT 1 FROM jsonb_array_elements(canonical_options)x WHERE x->>'id'=a)) THEN RAISE EXCEPTION 'QUESTION_CONTRACT: canonical answer contains unknown option id'; END IF;
 
-    FOR opt IN SELECT value FROM jsonb_array_elements(canonical_options) LOOP
-      opt_id:=opt->>'id';
-      IF NOT(opt_id=ANY(answer_ids)) AND (NOT distractor_map?opt_id OR length(trim(COALESCE(distractor_map->>opt_id,'')))<24) THEN
-        RAISE EXCEPTION 'QUESTION_CONTRACT: every incorrect flat option requires distractor rationale keyed by stable id';
-      END IF;
-    END LOOP;
+    IF NOT ordered_type THEN
+      FOR opt IN SELECT value FROM jsonb_array_elements(canonical_options) LOOP
+        opt_id:=opt->>'id';
+        IF NOT(opt_id=ANY(answer_ids)) AND (NOT distractor_map?opt_id OR length(trim(COALESCE(distractor_map->>opt_id,'')))<24) THEN
+          RAISE EXCEPTION 'QUESTION_CONTRACT: every incorrect flat option requires distractor rationale keyed by stable id';
+        END IF;
+      END LOOP;
+    END IF;
   ELSE
     IF jsonb_typeof(interaction)<>'object' OR interaction='{}'::jsonb THEN RAISE EXCEPTION 'QUESTION_CONTRACT: structured question type % requires contract_interaction_payload', NEW.question_type; END IF;
   END IF;
