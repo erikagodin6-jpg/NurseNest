@@ -90,4 +90,51 @@ describe("legacy question contract boundary", () => {
     expect(q.hint.length).toBeGreaterThanOrEqual(12);
     expect(q.clinicalPearl).toContain("coronal plane");
   });
+
+  it("migrates BankQuestion SATA correctAnswers to stable option ids", () => {
+    const q = normalizeLegacyClientQuestion({
+      id: "sata-bank-001",
+      stem: "Which findings are expected? Select all that apply.",
+      options: ["Finding A", "Finding B", "Finding C", "Finding D"],
+      correctAnswers: [0, 2],
+      rationaleCorrect: "Findings A and C are the expected findings for the condition described in the stem.",
+      rationaleIncorrect: [
+        "Finding B reflects a different process and is not expected in this condition.",
+        "Finding D is inconsistent with the expected clinical pattern in this condition.",
+      ],
+      clinicalCorrelation: "Recognizing the correct cluster of findings supports accurate assessment and escalation decisions.",
+      bloomLevel: "application",
+      topic: "Assessment",
+      subtopic: "Expected Findings",
+      type: "sata",
+    }, 0, { regionScope: "GLOBAL", languageCode: "en", exam: "General" });
+
+    expect(q.correctAnswerIds).toEqual([q.options[0].id, q.options[2].id]);
+    expect(q.distractorRationales[q.options[1].id]).toContain("different process");
+    expect(q.distractorRationales[q.options[3].id]).toContain("inconsistent");
+    expect(q.metadataOrigin).toBe("authored-v2");
+  });
+
+  it("preserves BankQuestion ordered correctOrder as stable ordered ids", () => {
+    const q = normalizeLegacyClientQuestion({
+      id: "ordered-bank-001",
+      stem: "Place the steps in the correct sequence.",
+      options: ["Step A", "Step B", "Step C", "Step D"],
+      correctOrder: [2, 0, 3, 1],
+      rationaleCorrect: "The correct sequence is Step C, Step A, Step D, then Step B because each action depends on completion of the preceding step.",
+      rationaleIncorrect: [
+        "Step A belongs after Step C rather than first because the prerequisite action has not yet occurred.",
+        "Step B is the final action and should not occur before the preceding safety checks are complete.",
+        "Step C begins the sequence and must occur before the dependent actions.",
+        "Step D follows Step A and precedes the final Step B action.",
+      ],
+      clinicalCorrelation: "Maintaining procedural sequence prevents omissions and preserves safety during multi-step clinical tasks.",
+      bloomLevel: "application",
+      topic: "Procedures",
+      subtopic: "Sequencing",
+      type: "ordered",
+    }, 0, { regionScope: "GLOBAL", languageCode: "en", exam: "General" });
+
+    expect(q.correctAnswerIds).toEqual([q.options[2].id, q.options[0].id, q.options[3].id, q.options[1].id]);
+  });
 });
