@@ -1,0 +1,97 @@
+name: CNPLE Endocrine 43B-D Register
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - "content-authoring/cnple/cram/43b-endocrine-diabetes-thyroid-parity.json"
+      - "content-authoring/cnple/cram/43c-endocrine-thyroid-parathyroid-bone-parity.json"
+      - "content-authoring/cnple/cram/43d-endocrine-metabolic-electrolyte-parity.json"
+      - "content-authoring/cnple/cram/AUTHORING_QA_PARITY_43B.md"
+      - "content-authoring/cnple/cram/AUTHORING_QA_PARITY_43C.md"
+      - "content-authoring/cnple/cram/AUTHORING_QA_PARITY_43D.md"
+      - ".github/workflows/cnple-endocrine-43bcd-register.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  register:
+    if: github.event.pull_request.head.ref == 'content/cnple-cram-parity-endocrine-43d-20260809'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: content/cnple-cram-parity-endocrine-43d-20260809
+          fetch-depth: 0
+      - name: Sync validated integrated 43A denominator
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'NurseNest CNPLE authoring'
+          git config user.email 'actions@users.noreply.github.com'
+          git fetch origin content/cnple-cram-parity-integrated-43a-20260809
+          git merge --no-edit origin/content/cnple-cram-parity-integrated-43a-20260809
+      - name: Register and globally validate endocrine 43B-D
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('content-authoring/cnple/cram')
+          p=root/'manifest.json'
+          m=json.loads(p.read_text())
+          assert (m['rawLessonObjects'],m['uniqueLessonIds'],m['canonicalTopicPathways'],m['clinicalJsonFiles']) == (551,551,543,59), (m['rawLessonObjects'],m['uniqueLessonIds'],m['canonicalTopicPathways'],m['clinicalJsonFiles'])
+          additions=[
+            ('43b-endocrine-diabetes-thyroid-parity.json',6,'AUTHORING_QA_PARITY_43B.md'),
+            ('43c-endocrine-thyroid-parathyroid-bone-parity.json',6,'AUTHORING_QA_PARITY_43C.md'),
+            ('43d-endocrine-metabolic-electrolyte-parity.json',6,'AUTHORING_QA_PARITY_43D.md'),
+          ]
+          existing={f['path'] for f in m['files']}
+          for path,count,qa in additions:
+            rows=json.loads((root/path).read_text())
+            assert isinstance(rows,list) and len(rows)==count,(path,len(rows),count)
+            assert (root/qa).exists(),qa
+            if path not in existing:
+              m['files'].append({'path':path,'lessons':count,'role':'full_lesson_parity_expansion'})
+            if qa not in m['auditDocuments']:
+              m['auditDocuments'].append(qa)
+          m['rawLessonObjects']=569
+          m['uniqueLessonIds']=569
+          m['canonicalTopicPathways']=561
+          m['clinicalJsonFiles']=62
+          m['sourceRefreshDate']='2026-08-09'
+          m['fullLessonParity']['authoringCanonicalTopicPathways']=561
+          pub=m['publication']
+          for suffix in ['43B','43C','43D']:
+            pub[f'secondPassClinicalAuditCompleteForParity{suffix}']=True
+          pub['newExpansionBatchPendingSecondPassAudit']=False
+          pub['note']='The 569-object CNPLE Cram V2 estate contains complete exact-identity endocrine parity through 43D on top of the validated integrated 43A denominator. Full-lesson parity remains incomplete; private-core source/Quick-Check/runtime certification remains required.'
+          p.write_text(json.dumps(m,indent=2)+'\n')
+          required=['id','title','system','blueprintDomains','lifespan','acuity','bottomLine','recognize','differentiate','assessment','workup','management','medicationSafety','redFlags','counselling','followUp','examTrap','oneLinePearl','sourceBasis','sourceAsOf','localPolicyCheck']
+          ids=set(); total=0
+          for f in m['files']:
+            rows=json.loads((root/f['path']).read_text())
+            assert isinstance(rows,list) and len(rows)==f['lessons'],(f['path'],len(rows),f['lessons'])
+            for r in rows:
+              total+=1
+              missing=[k for k in required if k not in r]
+              assert not missing,(r.get('id'),missing)
+              assert r['id'] not in ids,('duplicate_id',r['id'])
+              ids.add(r['id'])
+          assert total==569,total
+          assert len(ids)==569,len(ids)
+          assert len(m['files'])==62,len(m['files'])
+          assert m['canonicalTopicPathways']==m['uniqueLessonIds']-m['explicitCanonicalSupersessions']
+          PY
+          git diff --check -- content-authoring/cnple/cram/manifest.json
+      - name: Commit governed endocrine registration
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rm .github/workflows/cnple-endocrine-43bcd-register.yml
+          git add content-authoring/cnple/cram/manifest.json
+          git diff --cached --check
+          git commit -m 'content(cnple-cram): register complete endocrine parity through 43D'
+          git push origin HEAD:content/cnple-cram-parity-endocrine-43d-20260809
