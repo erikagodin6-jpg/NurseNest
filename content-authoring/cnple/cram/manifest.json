@@ -6,11 +6,11 @@
   "level": "Nurse Practitioner",
   "authoringStatus": "COMPREHENSIVE_TOPIC_BASELINE_AUDITED_FULL_LESSON_PARITY_IN_PROGRESS",
   "sourceRefreshDate": "2026-08-09",
-  "rawLessonObjects": 467,
-  "uniqueLessonIds": 467,
+  "rawLessonObjects": 499,
+  "uniqueLessonIds": 499,
   "explicitCanonicalSupersessions": 8,
-  "canonicalTopicPathways": 459,
-  "clinicalJsonFiles": 48,
+  "canonicalTopicPathways": 491,
+  "clinicalJsonFiles": 52,
   "structuralValidation": {
     "status": "PASS",
     "jsonParse": true,
@@ -224,6 +224,26 @@
       "path": "39d-respiratory-core-completion-parity.json",
       "lessons": 6,
       "role": "full_lesson_parity_expansion"
+    },
+    {
+      "path": "40a-cardiovascular-advanced-parity.json",
+      "lessons": 8,
+      "role": "full_lesson_parity_expansion"
+    },
+    {
+      "path": "40b-cardiovascular-risk-valve-hf-parity.json",
+      "lessons": 8,
+      "role": "full_lesson_parity_expansion"
+    },
+    {
+      "path": "41a-diagnostics-imaging-parity.json",
+      "lessons": 8,
+      "role": "full_lesson_parity_expansion"
+    },
+    {
+      "path": "41b-diagnostics-testing-interpretation-parity.json",
+      "lessons": 8,
+      "role": "full_lesson_parity_expansion"
     }
   ],
   "canonicalOverrides": {
@@ -353,11 +373,15 @@
     "AUTHORING_QA_PARITY_39A.md",
     "AUTHORING_QA_PARITY_39B.md",
     "AUTHORING_QA_PARITY_39C.md",
-    "AUTHORING_QA_PARITY_39D.md"
+    "AUTHORING_QA_PARITY_39D.md",
+    "AUTHORING_QA_PARITY_40A.md",
+    "AUTHORING_QA_PARITY_40B.md",
+    "AUTHORING_QA_PARITY_41A.md",
+    "AUTHORING_QA_PARITY_41B.md"
   ],
   "fullLessonParity": {
     "status": "IN_PROGRESS",
-    "authoringCanonicalTopicPathways": 459,
+    "authoringCanonicalTopicPathways": 491,
     "currentSearchIndexLessonCountObserved": 1979,
     "currentSearchIndexManifest": "nursenest-core/src/content/lessons/search-index/ca-np-cnple.manifest.json",
     "rule": "Completion requires every current canonical public-complete ca-np-cnple Full lesson to resolve to exactly one reviewed Cram lesson/recipe; topic breadth alone is not completion.",
@@ -383,6 +407,10 @@
     "secondPassClinicalAuditCompleteForParity39A": true,
     "secondPassClinicalAuditCompleteForParity39B": true,
     "secondPassClinicalAuditCompleteForParity39C": true,
-    "secondPassClinicalAuditCompleteForParity39D": true
+    "secondPassClinicalAuditCompleteForParity39D": true,
+    "secondPassClinicalAuditCompleteForParity40A": true,
+    "secondPassClinicalAuditCompleteForParity40B": true,
+    "secondPassClinicalAuditCompleteForParity41A": true,
+    "secondPassClinicalAuditCompleteForParity41B": true
   }
 }
