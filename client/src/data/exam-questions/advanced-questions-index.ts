@@ -3,34 +3,7 @@ import { rpnAdvancedVisualReplacements, rnAdvancedVisualReplacements, npAdvanced
 import { rpnAdvancedStructuredReplacements, rnAdvancedStructuredReplacements, npAdvancedStructuredReplacements } from "./advanced-structured-replacements";
 import { rpnAdvancedSataTrendReplacements, rnAdvancedSataTrendReplacements, npAdvancedSataTrendReplacements } from "./advanced-sata-trend-replacements";
 import { rpnAdvancedOrderCaseReplacements, rnAdvancedOrderCaseReplacements, npAdvancedOrderCaseReplacements } from "./advanced-order-case-replacements";
-import { np_advanced_mcq_01 } from "./np-advanced-mcq-01";
-import { np_advanced_mcq_02 } from "./np-advanced-mcq-02";
-import { np_advanced_mcq_03 } from "./np-advanced-mcq-03";
-import { np_advanced_mcq_04 } from "./np-advanced-mcq-04";
-import { np_advanced_mcq_05 } from "./np-advanced-mcq-05";
-import { np_advanced_mcq_06 } from "./np-advanced-mcq-06";
-import { np_advanced_mcq_07 } from "./np-advanced-mcq-07";
-import { np_advanced_mcq_08 } from "./np-advanced-mcq-08";
-import { np_advanced_mcq_09 } from "./np-advanced-mcq-09";
-import { np_advanced_mcq_10 } from "./np-advanced-mcq-10";
-import { np_advanced_mcq_11 } from "./np-advanced-mcq-11";
-import { np_advanced_mcq_12 } from "./np-advanced-mcq-12";
-import { rn_advanced_mcq_01 } from "./rn-advanced-mcq-01";
-import { rn_advanced_mcq_02 } from "./rn-advanced-mcq-02";
-import { rn_advanced_mcq_03 } from "./rn-advanced-mcq-03";
-import { rn_advanced_mcq_04 } from "./rn-advanced-mcq-04";
-import { rn_advanced_mcq_05 } from "./rn-advanced-mcq-05";
-import { rn_advanced_mcq_06 } from "./rn-advanced-mcq-06";
-import { rn_advanced_mcq_07 } from "./rn-advanced-mcq-07";
-import { rn_advanced_mcq_08 } from "./rn-advanced-mcq-08";
-import { rn_advanced_mcq_09 } from "./rn-advanced-mcq-09";
-import { rn_advanced_mcq_10 } from "./rn-advanced-mcq-10";
-import { rpn_advanced_mcq_01 } from "./rpn-advanced-mcq-01";
-import { rpn_advanced_mcq_02 } from "./rpn-advanced-mcq-02";
-import { rpn_advanced_mcq_03 } from "./rpn-advanced-mcq-03";
-import { rpn_advanced_mcq_04 } from "./rpn-advanced-mcq-04";
-import { rpn_advanced_mcq_05 } from "./rpn-advanced-mcq-05";
-import { rpn_advanced_mcq_06 } from "./rpn-advanced-mcq-06";
+import { rpnAdvancedMcqReplacements, rnAdvancedMcqReplacements, npAdvancedMcqReplacements } from "./advanced-mcq-replacements";
 
 function normalizeText(value: unknown): string {
   return String(value ?? "").toLowerCase().replace(/\s+/g, " ").replace(/[.!?,;:]+$/g, "").trim();
@@ -76,16 +49,14 @@ function normalizeAdvancedRows(rows: any[], tier: "rpn" | "rn" | "np"): any[] {
   });
 }
 
-// All historical advanced non-MCQ generator families are quarantined and replaced
-// with authored canonical interactions. The remaining legacy MCQ source is deduped
-// to its five unique items per tier and receives curated v2 teaching metadata.
+// The advanced learner estate is replacement-authored. Historical generator files are
+// retained only in quarantine for audit history and are no longer imported here.
 const rpnAdvancedRaw: any[] = [
   ...rpnAdvancedVisualReplacements,
   ...rpnAdvancedStructuredReplacements,
   ...rpnAdvancedSataTrendReplacements,
   ...rpnAdvancedOrderCaseReplacements,
-  ...rpn_advanced_mcq_01, ...rpn_advanced_mcq_02, ...rpn_advanced_mcq_03,
-  ...rpn_advanced_mcq_04, ...rpn_advanced_mcq_05, ...rpn_advanced_mcq_06,
+  ...rpnAdvancedMcqReplacements,
 ];
 
 const rnAdvancedRaw: any[] = [
@@ -93,10 +64,7 @@ const rnAdvancedRaw: any[] = [
   ...rnAdvancedStructuredReplacements,
   ...rnAdvancedSataTrendReplacements,
   ...rnAdvancedOrderCaseReplacements,
-  ...rn_advanced_mcq_01, ...rn_advanced_mcq_02, ...rn_advanced_mcq_03,
-  ...rn_advanced_mcq_04, ...rn_advanced_mcq_05, ...rn_advanced_mcq_06,
-  ...rn_advanced_mcq_07, ...rn_advanced_mcq_08, ...rn_advanced_mcq_09,
-  ...rn_advanced_mcq_10,
+  ...rnAdvancedMcqReplacements,
 ];
 
 const npAdvancedRaw: any[] = [
@@ -104,10 +72,7 @@ const npAdvancedRaw: any[] = [
   ...npAdvancedStructuredReplacements,
   ...npAdvancedSataTrendReplacements,
   ...npAdvancedOrderCaseReplacements,
-  ...np_advanced_mcq_01, ...np_advanced_mcq_02, ...np_advanced_mcq_03,
-  ...np_advanced_mcq_04, ...np_advanced_mcq_05, ...np_advanced_mcq_06,
-  ...np_advanced_mcq_07, ...np_advanced_mcq_08, ...np_advanced_mcq_09,
-  ...np_advanced_mcq_10, ...np_advanced_mcq_11, ...np_advanced_mcq_12,
+  ...npAdvancedMcqReplacements,
 ];
 
 export const rpnAdvancedQuestions: any[] = normalizeAdvancedRows(rpnAdvancedRaw, "rpn");
