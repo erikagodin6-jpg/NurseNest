@@ -4,7 +4,7 @@ Status: ACTIVE AUTHORING
 Locale: United States
 Exam: NCLEX-PN
 Level: Entry-level practical/vocational nursing (LPN/LVN)
-Authored checkpoint: 404 Cram lessons
+Authored checkpoint: 424 Cram lessons
 
 ## Purpose
 
@@ -12,7 +12,7 @@ These are not shortened textbook chapters. Each Cram lesson is a rapid nursing-d
 
 The library is authored against the current NCSBN NCLEX-PN test plan and U.S. entry-level LPN/LVN scope. It must not assume RN assessment authority, independent medical diagnosis, independent prescribing, or jurisdiction-specific tasks that may exceed practical/vocational nursing scope.
 
-The numeric authoring checkpoint is not a production-completion claim. Production completion requires stable reconciliation against the learner-reachable `us-lpn-nclex-pn` full-lesson estate and zero unexplained `MISSING_CRAM` rows.
+The numeric authoring checkpoint is not a production-completion claim. Production completion requires stable reconciliation against the learner-reachable `us-lpn-nclex-pn` full-lesson estate and zero unexplained `MISSING_CRAM` rows. Aggregate audit/source counts and sample slugs do not by themselves prove that a newly authored topic closes a serving production row.
 
 ## Cram lesson contract
 
