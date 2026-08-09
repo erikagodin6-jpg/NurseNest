@@ -23,7 +23,8 @@ export const CAREER_QUESTION_QUARANTINE:CareerQuestionQuarantineEntry[]=[
   career:"pharmacyTech",legacyPath:"client/src/data/career-questions/pharmacy-tech-questions.ts",
   replacementPaths:[
     "client/src/data/career-questions/pharmacy-tech-v2-calculations-batch01-questions.ts",
-    "client/src/data/career-questions/pharmacy-tech-v2-calculations-batch02-questions.ts"
+    "client/src/data/career-questions/pharmacy-tech-v2-calculations-batch02-questions.ts",
+    "client/src/data/career-questions/pharmacy-tech-v2-compounding-batch03-questions.ts"
   ],
   reason:"TEMPLATE_PLACEHOLDER_CONTENT",blocksServing:true,requireTopicParity:true,
   note:"Legacy pharmacy-technician bank repeats generic clinical-action templates across technical topics and includes difficulty 5. Learners are served only from authored v2 pharmacy-technician content; completion requires parity with every unique legacy topic and technician-scope-safe clinical escalation."
