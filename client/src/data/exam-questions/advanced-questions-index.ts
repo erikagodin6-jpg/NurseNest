@@ -2,11 +2,7 @@ import { normalizeLegacyClientQuestion } from "../../lib/legacy-question-contrac
 import { rpnAdvancedVisualReplacements, rnAdvancedVisualReplacements, npAdvancedVisualReplacements } from "./advanced-visual-replacements";
 import { rpnAdvancedStructuredReplacements, rnAdvancedStructuredReplacements, npAdvancedStructuredReplacements } from "./advanced-structured-replacements";
 import { rpnAdvancedSataTrendReplacements, rnAdvancedSataTrendReplacements, npAdvancedSataTrendReplacements } from "./advanced-sata-trend-replacements";
-import { np_advanced_case_study_01 } from "./np-advanced-case_study-01";
-import { np_advanced_case_study_02 } from "./np-advanced-case_study-02";
-import { np_advanced_case_study_03 } from "./np-advanced-case_study-03";
-import { np_advanced_drag_drop_01 } from "./np-advanced-drag_drop-01";
-import { np_advanced_drag_drop_02 } from "./np-advanced-drag_drop-02";
+import { rpnAdvancedOrderCaseReplacements, rnAdvancedOrderCaseReplacements, npAdvancedOrderCaseReplacements } from "./advanced-order-case-replacements";
 import { np_advanced_mcq_01 } from "./np-advanced-mcq-01";
 import { np_advanced_mcq_02 } from "./np-advanced-mcq-02";
 import { np_advanced_mcq_03 } from "./np-advanced-mcq-03";
@@ -19,10 +15,6 @@ import { np_advanced_mcq_09 } from "./np-advanced-mcq-09";
 import { np_advanced_mcq_10 } from "./np-advanced-mcq-10";
 import { np_advanced_mcq_11 } from "./np-advanced-mcq-11";
 import { np_advanced_mcq_12 } from "./np-advanced-mcq-12";
-import { rn_advanced_case_study_01 } from "./rn-advanced-case_study-01";
-import { rn_advanced_case_study_02 } from "./rn-advanced-case_study-02";
-import { rn_advanced_drag_drop_01 } from "./rn-advanced-drag_drop-01";
-import { rn_advanced_drag_drop_02 } from "./rn-advanced-drag_drop-02";
 import { rn_advanced_mcq_01 } from "./rn-advanced-mcq-01";
 import { rn_advanced_mcq_02 } from "./rn-advanced-mcq-02";
 import { rn_advanced_mcq_03 } from "./rn-advanced-mcq-03";
@@ -33,8 +25,6 @@ import { rn_advanced_mcq_07 } from "./rn-advanced-mcq-07";
 import { rn_advanced_mcq_08 } from "./rn-advanced-mcq-08";
 import { rn_advanced_mcq_09 } from "./rn-advanced-mcq-09";
 import { rn_advanced_mcq_10 } from "./rn-advanced-mcq-10";
-import { rpn_advanced_case_study } from "./rpn-advanced-case_study";
-import { rpn_advanced_drag_drop } from "./rpn-advanced-drag_drop";
 import { rpn_advanced_mcq_01 } from "./rpn-advanced-mcq-01";
 import { rpn_advanced_mcq_02 } from "./rpn-advanced-mcq-02";
 import { rpn_advanced_mcq_03 } from "./rpn-advanced-mcq-03";
@@ -74,27 +64,8 @@ function dedupeAdvancedRows(rows: any[]): any[] {
   return out;
 }
 
-function canonicalizeOrderDragDrop(row: any): any | null {
-  if (String(row?.mode || "").toLowerCase() !== "order" || !Array.isArray(row?.items) || !Array.isArray(row?.correctOrder)) return null;
-  const options = row.items.map((item: any, index: number) => ({
-    id: String(item?.id || `item-${index + 1}`),
-    text: String(item?.label || item?.text || item?.content || "").trim(),
-    label: String.fromCharCode(65 + index),
-  })).filter((item: any) => item.text);
-  return {
-    ...row,
-    questionType: "ORDERED_RESPONSE",
-    options,
-    correctAnswerIds: row.correctOrder.map(String),
-    correctAnswer: row.correctOrder.map(String),
-    interactionSource: "legacy-drag-drop-order",
-  };
-}
-
 function normalizeAdvancedRows(rows: any[], tier: "rpn" | "rn" | "np"): any[] {
-  return dedupeAdvancedRows(rows).map((row, index) => {
-    const ordered = canonicalizeOrderDragDrop(row);
-    const candidate = ordered || row;
+  return dedupeAdvancedRows(rows).map((candidate, index) => {
     if (!Array.isArray(candidate?.options) || candidate.options.length === 0) return candidate;
     return normalizeLegacyClientQuestion(candidate, index, {
       countryLabels: ["Canada", "United States"],
@@ -105,15 +76,14 @@ function normalizeAdvancedRows(rows: any[], tier: "rpn" | "rn" | "np"): any[] {
   });
 }
 
-// Historical image/highlight/matrix/bow-tie/SATA/trend expansions are intentionally not imported.
-// Their generator debt is tracked in question-quarantine.ts and replaced with authored canonical content.
-
+// All historical advanced non-MCQ generator families are quarantined and replaced
+// with authored canonical interactions. The remaining legacy MCQ source is deduped
+// to its five unique items per tier and receives curated v2 teaching metadata.
 const rpnAdvancedRaw: any[] = [
   ...rpnAdvancedVisualReplacements,
   ...rpnAdvancedStructuredReplacements,
   ...rpnAdvancedSataTrendReplacements,
-  ...rpn_advanced_case_study,
-  ...rpn_advanced_drag_drop,
+  ...rpnAdvancedOrderCaseReplacements,
   ...rpn_advanced_mcq_01, ...rpn_advanced_mcq_02, ...rpn_advanced_mcq_03,
   ...rpn_advanced_mcq_04, ...rpn_advanced_mcq_05, ...rpn_advanced_mcq_06,
 ];
@@ -122,8 +92,7 @@ const rnAdvancedRaw: any[] = [
   ...rnAdvancedVisualReplacements,
   ...rnAdvancedStructuredReplacements,
   ...rnAdvancedSataTrendReplacements,
-  ...rn_advanced_case_study_01, ...rn_advanced_case_study_02,
-  ...rn_advanced_drag_drop_01, ...rn_advanced_drag_drop_02,
+  ...rnAdvancedOrderCaseReplacements,
   ...rn_advanced_mcq_01, ...rn_advanced_mcq_02, ...rn_advanced_mcq_03,
   ...rn_advanced_mcq_04, ...rn_advanced_mcq_05, ...rn_advanced_mcq_06,
   ...rn_advanced_mcq_07, ...rn_advanced_mcq_08, ...rn_advanced_mcq_09,
@@ -134,8 +103,7 @@ const npAdvancedRaw: any[] = [
   ...npAdvancedVisualReplacements,
   ...npAdvancedStructuredReplacements,
   ...npAdvancedSataTrendReplacements,
-  ...np_advanced_case_study_01, ...np_advanced_case_study_02, ...np_advanced_case_study_03,
-  ...np_advanced_drag_drop_01, ...np_advanced_drag_drop_02,
+  ...npAdvancedOrderCaseReplacements,
   ...np_advanced_mcq_01, ...np_advanced_mcq_02, ...np_advanced_mcq_03,
   ...np_advanced_mcq_04, ...np_advanced_mcq_05, ...np_advanced_mcq_06,
   ...np_advanced_mcq_07, ...np_advanced_mcq_08, ...np_advanced_mcq_09,
