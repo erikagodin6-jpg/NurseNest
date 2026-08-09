@@ -3,6 +3,7 @@ import { MLT_QUESTION_CORRECTIONS_BATCH02 } from "./career-question-corrections-
 import { MLT_QUESTION_CORRECTIONS_BATCH03 } from "./career-question-corrections-mlt-batch03";
 import { MLT_QUESTION_CORRECTIONS_BATCH04 } from "./career-question-corrections-mlt-batch04";
 import { MLT_QUESTION_CORRECTIONS_BATCH05 } from "./career-question-corrections-mlt-batch05";
+import { MLT_QUESTION_CORRECTIONS_BATCH06 } from "./career-question-corrections-mlt-batch06";
 
 export type CareerQuestionCorrection=Record<string,unknown>;
 
@@ -13,6 +14,7 @@ export const CAREER_QUESTION_CORRECTIONS:Record<string,CareerQuestionCorrection>
   ...MLT_QUESTION_CORRECTIONS_BATCH03,
   ...MLT_QUESTION_CORRECTIONS_BATCH04,
   ...MLT_QUESTION_CORRECTIONS_BATCH05,
+  ...MLT_QUESTION_CORRECTIONS_BATCH06,
   "rrt-011":{
     options:["Controlled oxygen is titrated to a target saturation because excessive oxygen can worsen hypercapnia in susceptible COPD patients","Low-flow oxygen prevents barotrauma","High FiO2 directly causes bronchospasm in COPD","Venturi masks cannot deliver more than 28% oxygen"],
     rationale:"In an acute COPD presentation with risk of hypercapnic respiratory failure, oxygen should be controlled and titrated to a target saturation rather than withheld. Excessive oxygen can worsen hypercapnia through mechanisms including worsening ventilation-perfusion mismatch and the Haldane effect; loss of hypoxic ventilatory drive is not the sole or preferred explanation. A Venturi mask provides a predictable FiO2 while the patient is reassessed and blood gases guide further therapy.",difficulty:3,
