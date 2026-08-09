@@ -6,11 +6,11 @@
   "level": "Nurse Practitioner",
   "authoringStatus": "COMPREHENSIVE_TOPIC_BASELINE_AUDITED_FULL_LESSON_PARITY_IN_PROGRESS",
   "sourceRefreshDate": "2026-08-09",
-  "rawLessonObjects": 519,
-  "uniqueLessonIds": 519,
+  "rawLessonObjects": 570,
+  "uniqueLessonIds": 570,
   "explicitCanonicalSupersessions": 8,
-  "canonicalTopicPathways": 511,
-  "clinicalJsonFiles": 54,
+  "canonicalTopicPathways": 562,
+  "clinicalJsonFiles": 60,
   "structuralValidation": {
     "status": "PASS",
     "jsonParse": true,
@@ -254,6 +254,36 @@
       "path": "41c-gi-diagnostics-nutrition-completion-parity.json",
       "lessons": 8,
       "role": "full_lesson_parity_expansion"
+    },
+    {
+      "path": "42a-renal-core-parity.json",
+      "lessons": 8,
+      "role": "full_lesson_parity_expansion"
+    },
+    {
+      "path": "43a-renal-chronic-management-parity.json",
+      "lessons": 8,
+      "role": "full_lesson_parity_expansion"
+    },
+    {
+      "path": "43b-renal-urology-completion-parity.json",
+      "lessons": 9,
+      "role": "full_lesson_parity_expansion"
+    },
+    {
+      "path": "44a-dermatology-inflammatory-infectious-parity.json",
+      "lessons": 9,
+      "role": "full_lesson_parity_expansion"
+    },
+    {
+      "path": "44b-dermatology-cancer-allergy-emergency-parity.json",
+      "lessons": 9,
+      "role": "full_lesson_parity_expansion"
+    },
+    {
+      "path": "44c-dermatology-procedures-wounds-hair-nail-peds-parity.json",
+      "lessons": 8,
+      "role": "full_lesson_parity_expansion"
     }
   ],
   "canonicalOverrides": {
@@ -389,11 +419,17 @@
     "AUTHORING_QA_PARITY_40C.md",
     "AUTHORING_QA_PARITY_41A.md",
     "AUTHORING_QA_PARITY_41B.md",
-    "AUTHORING_QA_PARITY_41C.md"
+    "AUTHORING_QA_PARITY_41C.md",
+    "AUTHORING_QA_PARITY_42A.md",
+    "AUTHORING_QA_PARITY_43A.md",
+    "AUTHORING_QA_PARITY_43B.md",
+    "AUTHORING_QA_PARITY_44A.md",
+    "AUTHORING_QA_PARITY_44B.md",
+    "AUTHORING_QA_PARITY_44C.md"
   ],
   "fullLessonParity": {
     "status": "IN_PROGRESS",
-    "authoringCanonicalTopicPathways": 511,
+    "authoringCanonicalTopicPathways": 562,
     "currentSearchIndexLessonCountObserved": 1979,
     "currentSearchIndexManifest": "nursenest-core/src/content/lessons/search-index/ca-np-cnple.manifest.json",
     "rule": "Completion requires every current canonical public-complete ca-np-cnple Full lesson to resolve to exactly one reviewed Cram lesson/recipe; topic breadth alone is not completion.",
@@ -411,7 +447,7 @@
     "rendererMappingComplete": false,
     "productionMerged": false,
     "productionDeployed": false,
-    "note": "The 519-object CNPLE Cram V2 estate contains the audited baseline plus clinically reviewed Full-lesson parity expansions. The canonical shared Lab Interpretation and the canonical NP Respiratory, Endocrine, and Gastrointestinal generator families now have complete clinical authoring coverage. Global Full-lesson parity remains incomplete; private-core exact-current-Full reconciliation, source anchors, Bottom Line evidence, Quick Checks, runtime certification, and learner rendering remain mandatory.",
+    "note": "The 570-object CNPLE Cram V2 estate contains the audited baseline plus clinically reviewed Full-lesson parity expansions. Lab Interpretation and the canonical NP Respiratory, Endocrine, Gastrointestinal, Renal/Urology, and Dermatology generator families now have complete clinical authoring coverage. Global Full-lesson parity remains incomplete; private-core exact-current-Full reconciliation, source anchors, Bottom Line evidence, Quick Checks, runtime certification, and learner rendering remain mandatory.",
     "secondPassClinicalAuditCompleteForParity38B": true,
     "secondPassClinicalAuditCompleteForParity38C": true,
     "secondPassClinicalAuditCompleteForParity38D": true,
@@ -425,6 +461,12 @@
     "secondPassClinicalAuditCompleteForParity40C": true,
     "secondPassClinicalAuditCompleteForParity41A": true,
     "secondPassClinicalAuditCompleteForParity41B": true,
-    "secondPassClinicalAuditCompleteForParity41C": true
+    "secondPassClinicalAuditCompleteForParity41C": true,
+    "secondPassClinicalAuditCompleteForParity42A": true,
+    "secondPassClinicalAuditCompleteForParity43A": true,
+    "secondPassClinicalAuditCompleteForParity43B": true,
+    "secondPassClinicalAuditCompleteForParity44A": true,
+    "secondPassClinicalAuditCompleteForParity44B": true,
+    "secondPassClinicalAuditCompleteForParity44C": true
   }
 }
