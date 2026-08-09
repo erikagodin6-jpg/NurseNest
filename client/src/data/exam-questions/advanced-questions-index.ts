@@ -1,6 +1,7 @@
 import { normalizeLegacyClientQuestion } from "../../lib/legacy-question-contract";
 import { rpnAdvancedVisualReplacements, rnAdvancedVisualReplacements, npAdvancedVisualReplacements } from "./advanced-visual-replacements";
 import { rpnAdvancedStructuredReplacements, rnAdvancedStructuredReplacements, npAdvancedStructuredReplacements } from "./advanced-structured-replacements";
+import { rpnAdvancedSataTrendReplacements, rnAdvancedSataTrendReplacements, npAdvancedSataTrendReplacements } from "./advanced-sata-trend-replacements";
 import { np_advanced_case_study_01 } from "./np-advanced-case_study-01";
 import { np_advanced_case_study_02 } from "./np-advanced-case_study-02";
 import { np_advanced_case_study_03 } from "./np-advanced-case_study-03";
@@ -18,13 +19,6 @@ import { np_advanced_mcq_09 } from "./np-advanced-mcq-09";
 import { np_advanced_mcq_10 } from "./np-advanced-mcq-10";
 import { np_advanced_mcq_11 } from "./np-advanced-mcq-11";
 import { np_advanced_mcq_12 } from "./np-advanced-mcq-12";
-import { np_advanced_sata_01 } from "./np-advanced-sata-01";
-import { np_advanced_sata_02 } from "./np-advanced-sata-02";
-import { np_advanced_sata_03 } from "./np-advanced-sata-03";
-import { np_advanced_sata_04 } from "./np-advanced-sata-04";
-import { np_advanced_sata_05 } from "./np-advanced-sata-05";
-import { np_advanced_trend_01 } from "./np-advanced-trend-01";
-import { np_advanced_trend_02 } from "./np-advanced-trend-02";
 import { rn_advanced_case_study_01 } from "./rn-advanced-case_study-01";
 import { rn_advanced_case_study_02 } from "./rn-advanced-case_study-02";
 import { rn_advanced_drag_drop_01 } from "./rn-advanced-drag_drop-01";
@@ -39,12 +33,6 @@ import { rn_advanced_mcq_07 } from "./rn-advanced-mcq-07";
 import { rn_advanced_mcq_08 } from "./rn-advanced-mcq-08";
 import { rn_advanced_mcq_09 } from "./rn-advanced-mcq-09";
 import { rn_advanced_mcq_10 } from "./rn-advanced-mcq-10";
-import { rn_advanced_sata_01 } from "./rn-advanced-sata-01";
-import { rn_advanced_sata_02 } from "./rn-advanced-sata-02";
-import { rn_advanced_sata_03 } from "./rn-advanced-sata-03";
-import { rn_advanced_sata_04 } from "./rn-advanced-sata-04";
-import { rn_advanced_trend_01 } from "./rn-advanced-trend-01";
-import { rn_advanced_trend_02 } from "./rn-advanced-trend-02";
 import { rpn_advanced_case_study } from "./rpn-advanced-case_study";
 import { rpn_advanced_drag_drop } from "./rpn-advanced-drag_drop";
 import { rpn_advanced_mcq_01 } from "./rpn-advanced-mcq-01";
@@ -53,10 +41,6 @@ import { rpn_advanced_mcq_03 } from "./rpn-advanced-mcq-03";
 import { rpn_advanced_mcq_04 } from "./rpn-advanced-mcq-04";
 import { rpn_advanced_mcq_05 } from "./rpn-advanced-mcq-05";
 import { rpn_advanced_mcq_06 } from "./rpn-advanced-mcq-06";
-import { rpn_advanced_sata_01 } from "./rpn-advanced-sata-01";
-import { rpn_advanced_sata_02 } from "./rpn-advanced-sata-02";
-import { rpn_advanced_sata_03 } from "./rpn-advanced-sata-03";
-import { rpn_advanced_trend } from "./rpn-advanced-trend";
 
 function normalizeText(value: unknown): string {
   return String(value ?? "").toLowerCase().replace(/\s+/g, " ").replace(/[.!?,;:]+$/g, "").trim();
@@ -121,46 +105,41 @@ function normalizeAdvancedRows(rows: any[], tier: "rpn" | "rn" | "np"): any[] {
   });
 }
 
-// Historical image/highlight/matrix/bow-tie expansions are intentionally not imported.
-// Their generator-placeholder content is tracked in question-quarantine.ts and replaced
-// with authored canonical content below.
+// Historical image/highlight/matrix/bow-tie/SATA/trend expansions are intentionally not imported.
+// Their generator debt is tracked in question-quarantine.ts and replaced with authored canonical content.
 
 const rpnAdvancedRaw: any[] = [
   ...rpnAdvancedVisualReplacements,
   ...rpnAdvancedStructuredReplacements,
+  ...rpnAdvancedSataTrendReplacements,
   ...rpn_advanced_case_study,
   ...rpn_advanced_drag_drop,
   ...rpn_advanced_mcq_01, ...rpn_advanced_mcq_02, ...rpn_advanced_mcq_03,
   ...rpn_advanced_mcq_04, ...rpn_advanced_mcq_05, ...rpn_advanced_mcq_06,
-  ...rpn_advanced_sata_01, ...rpn_advanced_sata_02, ...rpn_advanced_sata_03,
-  ...rpn_advanced_trend,
 ];
 
 const rnAdvancedRaw: any[] = [
   ...rnAdvancedVisualReplacements,
   ...rnAdvancedStructuredReplacements,
+  ...rnAdvancedSataTrendReplacements,
   ...rn_advanced_case_study_01, ...rn_advanced_case_study_02,
   ...rn_advanced_drag_drop_01, ...rn_advanced_drag_drop_02,
   ...rn_advanced_mcq_01, ...rn_advanced_mcq_02, ...rn_advanced_mcq_03,
   ...rn_advanced_mcq_04, ...rn_advanced_mcq_05, ...rn_advanced_mcq_06,
   ...rn_advanced_mcq_07, ...rn_advanced_mcq_08, ...rn_advanced_mcq_09,
-  ...rn_advanced_mcq_10, ...rn_advanced_sata_01, ...rn_advanced_sata_02,
-  ...rn_advanced_sata_03, ...rn_advanced_sata_04,
-  ...rn_advanced_trend_01, ...rn_advanced_trend_02,
+  ...rn_advanced_mcq_10,
 ];
 
 const npAdvancedRaw: any[] = [
   ...npAdvancedVisualReplacements,
   ...npAdvancedStructuredReplacements,
+  ...npAdvancedSataTrendReplacements,
   ...np_advanced_case_study_01, ...np_advanced_case_study_02, ...np_advanced_case_study_03,
   ...np_advanced_drag_drop_01, ...np_advanced_drag_drop_02,
   ...np_advanced_mcq_01, ...np_advanced_mcq_02, ...np_advanced_mcq_03,
   ...np_advanced_mcq_04, ...np_advanced_mcq_05, ...np_advanced_mcq_06,
   ...np_advanced_mcq_07, ...np_advanced_mcq_08, ...np_advanced_mcq_09,
   ...np_advanced_mcq_10, ...np_advanced_mcq_11, ...np_advanced_mcq_12,
-  ...np_advanced_sata_01, ...np_advanced_sata_02, ...np_advanced_sata_03,
-  ...np_advanced_sata_04, ...np_advanced_sata_05,
-  ...np_advanced_trend_01, ...np_advanced_trend_02,
 ];
 
 export const rpnAdvancedQuestions: any[] = normalizeAdvancedRows(rpnAdvancedRaw, "rpn");
