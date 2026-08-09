@@ -1,15 +1,11 @@
 import { normalizeLegacyClientQuestion } from "../../lib/legacy-question-contract";
 import { rpnAdvancedVisualReplacements, rnAdvancedVisualReplacements, npAdvancedVisualReplacements } from "./advanced-visual-replacements";
-import { np_advanced_bowtie_01 } from "./np-advanced-bowtie-01";
-import { np_advanced_bowtie_02 } from "./np-advanced-bowtie-02";
-import { np_advanced_bowtie_03 } from "./np-advanced-bowtie-03";
+import { rpnAdvancedStructuredReplacements, rnAdvancedStructuredReplacements, npAdvancedStructuredReplacements } from "./advanced-structured-replacements";
 import { np_advanced_case_study_01 } from "./np-advanced-case_study-01";
 import { np_advanced_case_study_02 } from "./np-advanced-case_study-02";
 import { np_advanced_case_study_03 } from "./np-advanced-case_study-03";
 import { np_advanced_drag_drop_01 } from "./np-advanced-drag_drop-01";
 import { np_advanced_drag_drop_02 } from "./np-advanced-drag_drop-02";
-import { np_advanced_matrix_01 } from "./np-advanced-matrix-01";
-import { np_advanced_matrix_02 } from "./np-advanced-matrix-02";
 import { np_advanced_mcq_01 } from "./np-advanced-mcq-01";
 import { np_advanced_mcq_02 } from "./np-advanced-mcq-02";
 import { np_advanced_mcq_03 } from "./np-advanced-mcq-03";
@@ -29,15 +25,10 @@ import { np_advanced_sata_04 } from "./np-advanced-sata-04";
 import { np_advanced_sata_05 } from "./np-advanced-sata-05";
 import { np_advanced_trend_01 } from "./np-advanced-trend-01";
 import { np_advanced_trend_02 } from "./np-advanced-trend-02";
-import { rn_advanced_bowtie_01 } from "./rn-advanced-bowtie-01";
-import { rn_advanced_bowtie_02 } from "./rn-advanced-bowtie-02";
-import { rn_advanced_bowtie_03 } from "./rn-advanced-bowtie-03";
 import { rn_advanced_case_study_01 } from "./rn-advanced-case_study-01";
 import { rn_advanced_case_study_02 } from "./rn-advanced-case_study-02";
 import { rn_advanced_drag_drop_01 } from "./rn-advanced-drag_drop-01";
 import { rn_advanced_drag_drop_02 } from "./rn-advanced-drag_drop-02";
-import { rn_advanced_matrix_01 } from "./rn-advanced-matrix-01";
-import { rn_advanced_matrix_02 } from "./rn-advanced-matrix-02";
 import { rn_advanced_mcq_01 } from "./rn-advanced-mcq-01";
 import { rn_advanced_mcq_02 } from "./rn-advanced-mcq-02";
 import { rn_advanced_mcq_03 } from "./rn-advanced-mcq-03";
@@ -54,11 +45,8 @@ import { rn_advanced_sata_03 } from "./rn-advanced-sata-03";
 import { rn_advanced_sata_04 } from "./rn-advanced-sata-04";
 import { rn_advanced_trend_01 } from "./rn-advanced-trend-01";
 import { rn_advanced_trend_02 } from "./rn-advanced-trend-02";
-import { rpn_advanced_bowtie_01 } from "./rpn-advanced-bowtie-01";
-import { rpn_advanced_bowtie_02 } from "./rpn-advanced-bowtie-02";
 import { rpn_advanced_case_study } from "./rpn-advanced-case_study";
 import { rpn_advanced_drag_drop } from "./rpn-advanced-drag_drop";
-import { rpn_advanced_matrix } from "./rpn-advanced-matrix";
 import { rpn_advanced_mcq_01 } from "./rpn-advanced-mcq-01";
 import { rpn_advanced_mcq_02 } from "./rpn-advanced-mcq-02";
 import { rpn_advanced_mcq_03 } from "./rpn-advanced-mcq-03";
@@ -75,7 +63,7 @@ function normalizeText(value: unknown): string {
 }
 
 function stableStructuredValue(row: any): string {
-  const payload = row?.items ?? row?.rows ?? row?.columns ?? row?.timepoints ?? row?.timePoints ?? row?.timeline ?? row?.questions ?? row?.subQuestions ?? row?.conditionOptions ?? row?.actionOptions ?? row?.monitorOptions ?? null;
+  const payload = row?.interactionPayload ?? row?.items ?? row?.rows ?? row?.columns ?? row?.timepoints ?? row?.timePoints ?? row?.timeline ?? row?.questions ?? row?.subQuestions ?? row?.conditionOptions ?? row?.actionOptions ?? row?.monitorOptions ?? null;
   if (!payload) return "";
   try { return JSON.stringify(payload); } catch { return String(payload); }
 }
@@ -133,15 +121,15 @@ function normalizeAdvancedRows(rows: any[], tier: "rpn" | "rn" | "np"): any[] {
   });
 }
 
-// Image-based and highlight legacy expansions are intentionally NOT imported here.
-// They are listed in question-quarantine.ts because their source contains generator
-// placeholders and/or unsupported interaction semantics. Their unique clinical purpose
-// is replaced below with authored canonical MCQ/SATA items.
+// Historical image/highlight/matrix/bow-tie expansions are intentionally not imported.
+// Their generator-placeholder content is tracked in question-quarantine.ts and replaced
+// with authored canonical content below.
 
 const rpnAdvancedRaw: any[] = [
   ...rpnAdvancedVisualReplacements,
-  ...rpn_advanced_bowtie_01, ...rpn_advanced_bowtie_02, ...rpn_advanced_case_study,
-  ...rpn_advanced_drag_drop, ...rpn_advanced_matrix,
+  ...rpnAdvancedStructuredReplacements,
+  ...rpn_advanced_case_study,
+  ...rpn_advanced_drag_drop,
   ...rpn_advanced_mcq_01, ...rpn_advanced_mcq_02, ...rpn_advanced_mcq_03,
   ...rpn_advanced_mcq_04, ...rpn_advanced_mcq_05, ...rpn_advanced_mcq_06,
   ...rpn_advanced_sata_01, ...rpn_advanced_sata_02, ...rpn_advanced_sata_03,
@@ -150,10 +138,9 @@ const rpnAdvancedRaw: any[] = [
 
 const rnAdvancedRaw: any[] = [
   ...rnAdvancedVisualReplacements,
-  ...rn_advanced_bowtie_01, ...rn_advanced_bowtie_02, ...rn_advanced_bowtie_03,
+  ...rnAdvancedStructuredReplacements,
   ...rn_advanced_case_study_01, ...rn_advanced_case_study_02,
   ...rn_advanced_drag_drop_01, ...rn_advanced_drag_drop_02,
-  ...rn_advanced_matrix_01, ...rn_advanced_matrix_02,
   ...rn_advanced_mcq_01, ...rn_advanced_mcq_02, ...rn_advanced_mcq_03,
   ...rn_advanced_mcq_04, ...rn_advanced_mcq_05, ...rn_advanced_mcq_06,
   ...rn_advanced_mcq_07, ...rn_advanced_mcq_08, ...rn_advanced_mcq_09,
@@ -164,10 +151,9 @@ const rnAdvancedRaw: any[] = [
 
 const npAdvancedRaw: any[] = [
   ...npAdvancedVisualReplacements,
-  ...np_advanced_bowtie_01, ...np_advanced_bowtie_02, ...np_advanced_bowtie_03,
+  ...npAdvancedStructuredReplacements,
   ...np_advanced_case_study_01, ...np_advanced_case_study_02, ...np_advanced_case_study_03,
   ...np_advanced_drag_drop_01, ...np_advanced_drag_drop_02,
-  ...np_advanced_matrix_01, ...np_advanced_matrix_02,
   ...np_advanced_mcq_01, ...np_advanced_mcq_02, ...np_advanced_mcq_03,
   ...np_advanced_mcq_04, ...np_advanced_mcq_05, ...np_advanced_mcq_06,
   ...np_advanced_mcq_07, ...np_advanced_mcq_08, ...np_advanced_mcq_09,
