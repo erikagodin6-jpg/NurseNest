@@ -61,4 +61,33 @@ describe("legacy question contract boundary", () => {
     const question = normalizeLegacyClientQuestion(raw, 0, { regionScope: "GLOBAL", languageCode: "en", exam: "General" });
     expect(question.metadataOrigin).toBe("authored-v2");
   });
+
+  it("upgrades structured legacy authored rationales without shifting distractor explanations", () => {
+    const raw = {
+      id: "anat-legacy-001",
+      stem: "Which anatomical plane divides the body into anterior and posterior portions?",
+      options: ["Sagittal plane", "Coronal plane", "Transverse plane", "Oblique plane"],
+      correctAnswer: 1,
+      rationaleCorrect: "The coronal plane divides the body into anterior and posterior portions and runs vertically from side to side.",
+      rationaleIncorrect: [
+        "The sagittal plane divides the body into left and right portions, not anterior and posterior portions.",
+        "The transverse plane divides the body into superior and inferior portions rather than front and back portions.",
+        "An oblique plane passes through the body at an angle and is not the standard plane that separates anterior from posterior.",
+      ],
+      clinicalCorrelation: "Correct use of body planes supports accurate communication and interpretation of CT and MRI cross-sectional images.",
+      bloomLevel: "recall",
+      topic: "Anatomical Terminology",
+      subtopic: "Body Planes",
+    };
+    const q = normalizeLegacyClientQuestion(raw, 0, { regionScope: "GLOBAL", languageCode: "en", exam: "Anatomy" });
+    expect(q.metadataOrigin).toBe("authored-v2");
+    expect(q.correctAnswerIds).toEqual([q.options[1].id]);
+    expect(q.distractorRationales[q.options[0].id]).toContain("left and right");
+    expect(q.distractorRationales[q.options[2].id]).toContain("superior and inferior");
+    expect(q.distractorRationales[q.options[3].id]).toContain("angle");
+    expect(q.distractorRationales[q.options[1].id]).toBeUndefined();
+    expect(q.whyThisMatters).toContain("CT and MRI");
+    expect(q.hint.length).toBeGreaterThanOrEqual(12);
+    expect(q.clinicalPearl).toContain("coronal plane");
+  });
 });
