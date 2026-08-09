@@ -11,7 +11,8 @@ export const CAREER_QUESTION_QUARANTINE:CareerQuestionQuarantineEntry[]=[{
     "client/src/data/career-questions/paramedic-v2-ob-batch07-questions.ts",
     "client/src/data/career-questions/paramedic-v2-airway-batch08-questions.ts",
     "client/src/data/career-questions/paramedic-v2-pediatric-batch09-questions.ts",
-    "client/src/data/career-questions/paramedic-v2-environment-operations-batch10-questions.ts"
+    "client/src/data/career-questions/paramedic-v2-environment-operations-batch10-questions.ts",
+    "client/src/data/career-questions/paramedic-v2-operations-batch11-questions.ts"
   ],
   reason:"TEMPLATE_PLACEHOLDER_CONTENT",blocksServing:true,requireTopicParity:true,
   note:"Legacy paramedic bank repeats generic five-question templates across clinical topics, includes nonsensical answer keys and difficulty 5. Learners are served only from authored v2 replacement batches; completion requires every unique legacy topic to be represented by clinically authored v2 content."
