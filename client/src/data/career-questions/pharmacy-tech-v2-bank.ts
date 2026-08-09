@@ -7,6 +7,7 @@ import { pharmacyTechV2SafetyOperationsBatch06Questions } from "./pharmacy-tech-
 import { pharmacyTechV2SterileBatch07Questions } from "./pharmacy-tech-v2-sterile-batch07-questions";
 import { pharmacyTechV2MedicationSafetyBatch08Questions } from "./pharmacy-tech-v2-medication-safety-batch08-questions";
 import { pharmacyTechV2CommunicationBatch09Questions } from "./pharmacy-tech-v2-communication-batch09-questions";
+import { pharmacyTechV2QualityBatch10Questions } from "./pharmacy-tech-v2-quality-batch10-questions";
 
 export const PHARMACY_TECH_V2_QUESTIONS:any[]=[
   ...pharmacyTechV2CalculationsBatch01Questions,
@@ -18,4 +19,5 @@ export const PHARMACY_TECH_V2_QUESTIONS:any[]=[
   ...pharmacyTechV2SterileBatch07Questions,
   ...pharmacyTechV2MedicationSafetyBatch08Questions,
   ...pharmacyTechV2CommunicationBatch09Questions,
+  ...pharmacyTechV2QualityBatch10Questions,
 ];
