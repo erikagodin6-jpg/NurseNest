@@ -1,0 +1,139 @@
+name: CNPLE Consolidate Renal and Dermatology Parity
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/cnple-consolidate-renal-derm.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  consolidate:
+    if: github.event.pull_request.head.ref == 'content/cnple-cram-parity-consolidate-renal-derm-20260809'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: content/cnple-cram-parity-consolidate-renal-derm-20260809
+          fetch-depth: 0
+
+      - name: Import audited Renal/Urology and Dermatology parity files
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin \
+            content/cnple-cram-parity-renal-42a-20260809 \
+            content/cnple-cram-parity-renal-43a-20260809 \
+            content/cnple-cram-parity-renal-43b-20260809 \
+            content/cnple-cram-parity-dermatology-44a-20260809 \
+            content/cnple-cram-parity-dermatology-44b-20260809 \
+            content/cnple-cram-parity-dermatology-44c-20260809
+          git checkout origin/content/cnple-cram-parity-renal-42a-20260809 -- \
+            content-authoring/cnple/cram/42a-renal-core-parity.json \
+            content-authoring/cnple/cram/AUTHORING_QA_PARITY_42A.md
+          git checkout origin/content/cnple-cram-parity-renal-43a-20260809 -- \
+            content-authoring/cnple/cram/43a-renal-chronic-management-parity.json \
+            content-authoring/cnple/cram/AUTHORING_QA_PARITY_43A.md
+          git checkout origin/content/cnple-cram-parity-renal-43b-20260809 -- \
+            content-authoring/cnple/cram/43b-renal-urology-completion-parity.json \
+            content-authoring/cnple/cram/AUTHORING_QA_PARITY_43B.md
+          git checkout origin/content/cnple-cram-parity-dermatology-44a-20260809 -- \
+            content-authoring/cnple/cram/44a-dermatology-inflammatory-infectious-parity.json \
+            content-authoring/cnple/cram/AUTHORING_QA_PARITY_44A.md
+          git checkout origin/content/cnple-cram-parity-dermatology-44b-20260809 -- \
+            content-authoring/cnple/cram/44b-dermatology-cancer-allergy-emergency-parity.json \
+            content-authoring/cnple/cram/AUTHORING_QA_PARITY_44B.md
+          git checkout origin/content/cnple-cram-parity-dermatology-44c-20260809 -- \
+            content-authoring/cnple/cram/44c-dermatology-procedures-wounds-hair-nail-peds-parity.json \
+            content-authoring/cnple/cram/AUTHORING_QA_PARITY_44C.md
+
+      - name: Validate full estate and register six parity files
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('content-authoring/cnple/cram')
+          mp=root/'manifest.json'
+          m=json.loads(mp.read_text())
+          assert (m['rawLessonObjects'],m['uniqueLessonIds'],m['canonicalTopicPathways'],m['clinicalJsonFiles'])==(519,519,511,54)
+          assert m['explicitCanonicalSupersessions']==8
+          pending=[
+            ('42a-renal-core-parity.json',8,'AUTHORING_QA_PARITY_42A.md'),
+            ('43a-renal-chronic-management-parity.json',8,'AUTHORING_QA_PARITY_43A.md'),
+            ('43b-renal-urology-completion-parity.json',9,'AUTHORING_QA_PARITY_43B.md'),
+            ('44a-dermatology-inflammatory-infectious-parity.json',9,'AUTHORING_QA_PARITY_44A.md'),
+            ('44b-dermatology-cancer-allergy-emergency-parity.json',9,'AUTHORING_QA_PARITY_44B.md'),
+            ('44c-dermatology-procedures-wounds-hair-nail-peds-parity.json',8,'AUTHORING_QA_PARITY_44C.md'),
+          ]
+          required=set(m['requiredLessonFields'])
+          registered={e['path'] for e in m['files']}
+          assert not registered.intersection({p for p,_,_ in pending})
+          ids=set(); total=0
+          for e in m['files']:
+            rows=json.loads((root/e['path']).read_text())
+            assert len(rows)==e['lessons']
+            total+=len(rows)
+            for row in rows:
+              assert required.issubset(row.keys())
+              assert row['id'] not in ids
+              ids.add(row['id'])
+          assert total==519 and len(ids)==519
+          for path,n,qa in pending:
+            rows=json.loads((root/path).read_text())
+            assert len(rows)==n, (path,len(rows),n)
+            assert (root/qa).exists(), qa
+            for row in rows:
+              assert required.issubset(row.keys()), f'missing:{path}:{row.get("id")}'
+              assert row['id'] not in ids, f'duplicate:{row["id"]}'
+              ids.add(row['id'])
+            m['files'].append({'path':path,'lessons':n,'role':'full_lesson_parity_expansion'})
+            if qa not in m['auditDocuments']:
+              m['auditDocuments'].append(qa)
+          assert len(ids)==570
+          m['rawLessonObjects']=570
+          m['uniqueLessonIds']=570
+          m['canonicalTopicPathways']=562
+          m['clinicalJsonFiles']=60
+          m['sourceRefreshDate']='2026-08-09'
+          m['fullLessonParity']['authoringCanonicalTopicPathways']=562
+          pub=m['publication']
+          for key in ['42A','43A','43B','44A','44B','44C']:
+            pub[f'secondPassClinicalAuditCompleteForParity{key}']=True
+          pub['newExpansionBatchPendingSecondPassAudit']=False
+          pub['note']=(
+            'The 570-object CNPLE Cram V2 estate contains the audited baseline plus clinically reviewed Full-lesson parity expansions. '
+            'Lab Interpretation and the canonical NP Respiratory, Endocrine, Gastrointestinal, Renal/Urology, and Dermatology generator families now have complete clinical authoring coverage. '
+            'Global Full-lesson parity remains incomplete; private-core exact-current-Full reconciliation, source anchors, Bottom Line evidence, Quick Checks, runtime certification, and learner rendering remain mandatory.'
+          )
+          mp.write_text(json.dumps(m,indent=2)+'\n')
+          check=json.loads(mp.read_text())
+          assert len(check['files'])==60
+          ids2=set(); total2=0
+          for e in check['files']:
+            rows=json.loads((root/e['path']).read_text())
+            assert len(rows)==e['lessons']
+            total2+=len(rows)
+            for row in rows:
+              assert required.issubset(row.keys())
+              assert row['id'] not in ids2
+              ids2.add(row['id'])
+          assert (total2,len(ids2),check['canonicalTopicPathways'])==(570,570,562)
+          print(json.dumps({'rawLessonObjects':570,'uniqueLessonIds':570,'canonicalTopicPathways':562,'clinicalJsonFiles':60}))
+          PY
+
+      - name: Commit consolidated audited estate
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'NurseNest CNPLE authoring'
+          git config user.email 'actions@users.noreply.github.com'
+          git rm .github/workflows/cnple-consolidate-renal-derm.yml
+          git add content-authoring/cnple/cram/
+          git diff --cached --check
+          git commit -m 'content(cnple-cram): register renal and dermatology parity'
+          git push origin HEAD:content/cnple-cram-parity-consolidate-renal-derm-20260809
