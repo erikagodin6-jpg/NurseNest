@@ -41,12 +41,12 @@ PASS. The lesson requires objective airflow assessment and a defensible asthma p
 
 Load-bearing sources rechecked on 2026-08-09:
 
-- Canadian Thoracic Society Guideline Library and current assemblies/working groups, including Asthma, Home Mechanical Ventilation, Pulmonary Vascular Disease, Non-CF Bronchiectasis and Cystic Fibrosis.
-- Canadian Thoracic Society current asthma guidance and current home mechanical ventilation guidance.
-- Cystic Fibrosis Canada, national Guidelines & Standards of Care and Canadian Guidelines for Cystic Fibrosis Care.
-- Cystic Fibrosis Canada guideline for diagnosis/treatment of pulmonary exacerbations for non-CF specialists.
+- Canadian Thoracic Society (CTS) Guideline Library: current 2021 asthma guidance, current 2023 stable-COPD pharmacotherapy guidance, current interstitial-lung-disease resources, and current home-mechanical-ventilation guidance.
+- Cystic Fibrosis Canada: Canadian Guidelines for Cystic Fibrosis Care, Guidelines & Standards of Care, CFTR-modulator resources, and the Canadian pulmonary-exacerbation guideline for non-CF specialists.
+- Pulmonary Hypertension Association of Canada: Canadian pulmonary-hypertension education/referral resources.
+- For bronchiectasis and sarcoidosis, where a current disease-specific Canadian national CPG was not identified in the CTS public guideline library, the lesson remains principle-based and specialist-linked; international disease-specific guidance may support the framework but no Canadian-specific threshold or drug algorithm is invented.
 
-Where a disease-specific current Canadian national CPG is not publicly available in the CTS library, the authored content remains principle-based and explicitly specialist-linked rather than inventing Canadian thresholds or drug algorithms.
+The previous audit wording naming specific CTS bronchiectasis/pulmonary-vascular working groups was removed because those exact labels were not independently verified in the current public CTS directory. Clinical conclusions were not changed by this source-label correction.
 
 ## Authoring gates
 
