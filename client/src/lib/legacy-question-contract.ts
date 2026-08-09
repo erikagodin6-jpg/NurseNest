@@ -119,7 +119,7 @@ export function normalizeLegacyClientQuestion(raw:any,index:number,jurisdiction:
   const id=text(raw.id)||text(raw.questionId)||`legacy-${slug(jurisdiction.exam||raw.tier||"question")}-${String(index+1).padStart(6,"0")}`;
   const overlay=QUESTION_CONTRACT_ENRICHMENT[id]||{};
   const options=optionsFor(raw,id);
-  const answerSource=raw.correctAnswerIds??raw.correct_answer_ids??raw.correctAnswer??raw.correct_answer??raw.correctIndex??raw.correctIndices;
+  const answerSource=raw.correctAnswerIds??raw.correct_answer_ids??raw.correctAnswers??raw.correctAnswer??raw.correct_answer??raw.correctOrder??raw.correctIndex??raw.correctIndices;
   const answers=resolveAnswers(answerSource,options);
   const correctSet=new Set(answers);
   const rationale=text(raw.rationale)||text(raw.rationaleCorrect)||text(raw.rationale_correct);
