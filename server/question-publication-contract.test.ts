@@ -94,6 +94,32 @@ describe("question publication contract", () => {
     expect(auditQuestionPublicationContract(q).filter(issue => issue.severity === "blocking")).toEqual([]);
   });
 
+  it("preserves and validates ordered-response stable answer sequence", () => {
+    const q = completeQuestion();
+    q.id = "rn-order-001";
+    q.question_type = "ORDERED_RESPONSE";
+    q.stem = "Place the actions in the correct sequence for the procedure.";
+    q.options = [
+      { id: "step-a", label: "A", text: "Perform the initial safety assessment" },
+      { id: "step-b", label: "B", text: "Prepare the required equipment" },
+      { id: "step-c", label: "C", text: "Complete the intervention" },
+      { id: "step-d", label: "D", text: "Reassess the patient response" },
+    ] as any;
+    q.correct_answer = ["step-a", "step-b", "step-c", "step-d"] as any;
+    q.rationale = "The sequence begins with safety assessment, proceeds through preparation and intervention, and finishes with reassessment to confirm the patient's response and identify complications.";
+    q.correct_answer_explanation = "The ordered answer preserves the dependency between assessment, preparation, intervention, and post-intervention reassessment.";
+    q.distractor_rationales = {} as any;
+    q.topic = "Procedure Sequencing";
+    q.tags = ["ordered-response", "procedure"];
+    expect(auditQuestionPublicationContract(q).filter(issue => issue.severity === "blocking")).toEqual([]);
+
+    q.correct_answer = ["step-a", "step-c", "step-d"] as any;
+    expect(auditQuestionPublicationContract(q).some(issue => issue.code === "incomplete_ordered_answer_sequence")).toBe(true);
+
+    q.correct_answer = ["step-a", "step-b", "step-b", "step-d"] as any;
+    expect(auditQuestionPublicationContract(q).some(issue => issue.code === "duplicate_ordered_answer_id")).toBe(true);
+  });
+
   it("requires structured SI and conventional variants when measurements are actually convertible", () => {
     const q = completeQuestion();
     q.stem = "A client's blood glucose is 180 mg/dL. Which interpretation is most appropriate?";
