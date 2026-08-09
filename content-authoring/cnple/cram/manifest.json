@@ -6,11 +6,11 @@
   "level": "Nurse Practitioner",
   "authoringStatus": "COMPREHENSIVE_TOPIC_BASELINE_AUDITED_FULL_LESSON_PARITY_IN_PROGRESS",
   "sourceRefreshDate": "2026-08-09",
-  "rawLessonObjects": 515,
-  "uniqueLessonIds": 515,
+  "rawLessonObjects": 523,
+  "uniqueLessonIds": 523,
   "explicitCanonicalSupersessions": 8,
-  "canonicalTopicPathways": 507,
-  "clinicalJsonFiles": 54,
+  "canonicalTopicPathways": 515,
+  "clinicalJsonFiles": 55,
   "structuralValidation": {
     "status": "PASS",
     "jsonParse": true,
@@ -254,6 +254,11 @@
       "path": "42b-professional-regulatory-parity.json",
       "lessons": 8,
       "role": "full_lesson_parity_expansion"
+    },
+    {
+      "path": "42c-professional-ethics-equity-evidence-parity.json",
+      "lessons": 8,
+      "role": "full_lesson_parity_expansion"
     }
   ],
   "canonicalOverrides": {
@@ -389,11 +394,12 @@
     "AUTHORING_QA_PARITY_41A.md",
     "AUTHORING_QA_PARITY_41B.md",
     "AUTHORING_QA_PARITY_42A.md",
-    "AUTHORING_QA_PARITY_42B.md"
+    "AUTHORING_QA_PARITY_42B.md",
+    "AUTHORING_QA_PARITY_42C.md"
   ],
   "fullLessonParity": {
     "status": "IN_PROGRESS",
-    "authoringCanonicalTopicPathways": 507,
+    "authoringCanonicalTopicPathways": 515,
     "currentSearchIndexLessonCountObserved": 1979,
     "currentSearchIndexManifest": "nursenest-core/src/content/lessons/search-index/ca-np-cnple.manifest.json",
     "rule": "Completion requires every current canonical public-complete ca-np-cnple Full lesson to resolve to exactly one reviewed Cram lesson/recipe; topic breadth alone is not completion.",
@@ -425,6 +431,7 @@
     "secondPassClinicalAuditCompleteForParity41A": true,
     "secondPassClinicalAuditCompleteForParity41B": true,
     "secondPassClinicalAuditCompleteForParity42A": true,
-    "secondPassClinicalAuditCompleteForParity42B": true
+    "secondPassClinicalAuditCompleteForParity42B": true,
+    "secondPassClinicalAuditCompleteForParity42C": true
   }
 }
