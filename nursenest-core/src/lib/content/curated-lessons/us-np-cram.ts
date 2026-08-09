@@ -29,41 +29,6 @@ import { usNpCramBatch28 } from "./us-np-cram-batch-28";
 import { usNpCramBatch29 } from "./us-np-cram-batch-29";
 import { usNpCramBatch30 } from "./us-np-cram-batch-30";
 import { usNpCramBatch31 } from "./us-np-cram-batch-31";
-import { usNpCramBatch32 } from "./us-np-cram-batch-32";
-import { usNpCramBatch33 } from "./us-np-cram-batch-33";
-import { usNpCramBatch34 } from "./us-np-cram-batch-34";
-import { usNpCramBatch35 } from "./us-np-cram-batch-35";
-import { usNpCramBatch36 } from "./us-np-cram-batch-36";
-import { usNpCramBatch37 } from "./us-np-cram-batch-37";
-import { usNpCramBatch38 } from "./us-np-cram-batch-38";
-import { usNpCramBatch39 } from "./us-np-cram-batch-39";
-import { usNpCramBatch40 } from "./us-np-cram-batch-40";
-import { usNpCramBatch41 } from "./us-np-cram-batch-41";
-import { usNpCramBatch42 } from "./us-np-cram-batch-42";
-import { usNpCramBatch43 } from "./us-np-cram-batch-43";
-import { usNpCramBatch44 } from "./us-np-cram-batch-44";
-import { usNpCramBatch45 } from "./us-np-cram-batch-45";
-import { usNpCramBatch46 } from "./us-np-cram-batch-46";
-import { usNpCramBatch47 } from "./us-np-cram-batch-47";
-import { usNpCramBatch48 } from "./us-np-cram-batch-48";
-import { usNpCramBatch49 } from "./us-np-cram-batch-49";
-import { usNpCramBatch50 } from "./us-np-cram-batch-50";
-import { usNpCramBatch51 } from "./us-np-cram-batch-51";
-import { usNpCramBatch52 } from "./us-np-cram-batch-52";
-import { usNpCramBatch53 } from "./us-np-cram-batch-53";
-import { usNpCramBatch54 } from "./us-np-cram-batch-54";
-import { usNpCramBatch55 } from "./us-np-cram-batch-55";
-import { usNpCramBatch56 } from "./us-np-cram-batch-56";
-import { usNpCramBatch57 } from "./us-np-cram-batch-57";
-import { usNpCramBatch58 } from "./us-np-cram-batch-58";
-import { usNpCramBatch59 } from "./us-np-cram-batch-59";
-import { usNpCramBatch60 } from "./us-np-cram-batch-60";
-import { usNpCramBatch61 } from "./us-np-cram-batch-61";
-import { usNpCramBatch62 } from "./us-np-cram-batch-62";
-import { usNpCramBatch63 } from "./us-np-cram-batch-63";
-import { usNpCramBatch64 } from "./us-np-cram-batch-64";
-import { usNpCramBatch65 } from "./us-np-cram-batch-65";
-import { usNpCramBatch66 } from "./us-np-cram-batch-66";
 import {
   US_NP_EXAMS,
   buildUsNpCramProjection,
@@ -73,26 +38,40 @@ import {
 
 export * from "./us-np-cram-types";
 
-export const EXPECTED_US_NP_CRAM_LESSONS = 497;
+export const EXPECTED_US_NP_CRAM_LESSONS = 243;
 
 export const usNpCramLessons = [
-  ...usNpCramBatch1, ...usNpCramBatch2, ...usNpCramBatch3, ...usNpCramBatch4,
-  ...usNpCramBatch5, ...usNpCramBatch6, ...usNpCramBatch7, ...usNpCramBatch8,
-  ...usNpCramBatch9, ...usNpCramBatch10, ...usNpCramBatch11, ...usNpCramBatch12,
-  ...usNpCramBatch13, ...usNpCramBatch14, ...usNpCramBatch15, ...usNpCramBatch16,
-  ...usNpCramBatch17, ...usNpCramBatch18, ...usNpCramBatch19, ...usNpCramBatch20,
-  ...usNpCramBatch21, ...usNpCramBatch22, ...usNpCramBatch23, ...usNpCramBatch24,
-  ...usNpCramBatch25, ...usNpCramBatch26, ...usNpCramBatch27, ...usNpCramBatch28,
-  ...usNpCramBatch29, ...usNpCramBatch30, ...usNpCramBatch31, ...usNpCramBatch32,
-  ...usNpCramBatch33, ...usNpCramBatch34, ...usNpCramBatch35, ...usNpCramBatch36,
-  ...usNpCramBatch37, ...usNpCramBatch38, ...usNpCramBatch39, ...usNpCramBatch40,
-  ...usNpCramBatch41, ...usNpCramBatch42, ...usNpCramBatch43, ...usNpCramBatch44,
-  ...usNpCramBatch45, ...usNpCramBatch46, ...usNpCramBatch47, ...usNpCramBatch48,
-  ...usNpCramBatch49, ...usNpCramBatch50, ...usNpCramBatch51, ...usNpCramBatch52,
-  ...usNpCramBatch53, ...usNpCramBatch54, ...usNpCramBatch55, ...usNpCramBatch56,
-  ...usNpCramBatch57, ...usNpCramBatch58, ...usNpCramBatch59, ...usNpCramBatch60,
-  ...usNpCramBatch61, ...usNpCramBatch62, ...usNpCramBatch63, ...usNpCramBatch64,
-  ...usNpCramBatch65, ...usNpCramBatch66,
+  ...usNpCramBatch1,
+  ...usNpCramBatch2,
+  ...usNpCramBatch3,
+  ...usNpCramBatch4,
+  ...usNpCramBatch5,
+  ...usNpCramBatch6,
+  ...usNpCramBatch7,
+  ...usNpCramBatch8,
+  ...usNpCramBatch9,
+  ...usNpCramBatch10,
+  ...usNpCramBatch11,
+  ...usNpCramBatch12,
+  ...usNpCramBatch13,
+  ...usNpCramBatch14,
+  ...usNpCramBatch15,
+  ...usNpCramBatch16,
+  ...usNpCramBatch17,
+  ...usNpCramBatch18,
+  ...usNpCramBatch19,
+  ...usNpCramBatch20,
+  ...usNpCramBatch21,
+  ...usNpCramBatch22,
+  ...usNpCramBatch23,
+  ...usNpCramBatch24,
+  ...usNpCramBatch25,
+  ...usNpCramBatch26,
+  ...usNpCramBatch27,
+  ...usNpCramBatch28,
+  ...usNpCramBatch29,
+  ...usNpCramBatch30,
+  ...usNpCramBatch31,
 ] as const satisfies readonly UsNpCramLesson[];
 
 export function normalizeUsNpCramTitle(value: string): string {
@@ -100,7 +79,11 @@ export function normalizeUsNpCramTitle(value: string): string {
 }
 
 export function normalizeUsNpCramSlug(value: string): string {
-  return value.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 const titleIdentityMap = new Map<string, UsNpCramLesson>();
@@ -121,18 +104,27 @@ function registerIdentity(
 
 for (const lesson of usNpCramLessons) {
   registerIdentity(titleIdentityMap, normalizeUsNpCramTitle(lesson.title), lesson, "TITLE");
-  for (const alias of lesson.titleAliases ?? []) registerIdentity(titleIdentityMap, normalizeUsNpCramTitle(alias), lesson, "TITLE");
+  for (const alias of lesson.titleAliases ?? []) {
+    registerIdentity(titleIdentityMap, normalizeUsNpCramTitle(alias), lesson, "TITLE");
+  }
   registerIdentity(slugIdentityMap, normalizeUsNpCramSlug(lesson.slug), lesson, "SLUG");
-  for (const alias of lesson.slugAliases ?? []) registerIdentity(slugIdentityMap, normalizeUsNpCramSlug(alias), lesson, "SLUG");
+  for (const alias of lesson.slugAliases ?? []) {
+    registerIdentity(slugIdentityMap, normalizeUsNpCramSlug(alias), lesson, "SLUG");
+  }
 }
 
-export const usNpCramBySlug = Object.fromEntries(usNpCramLessons.map((lesson) => [lesson.slug, lesson])) as Record<string, UsNpCramLesson>;
+export const usNpCramBySlug = Object.fromEntries(
+  usNpCramLessons.map((lesson) => [lesson.slug, lesson]),
+) as Record<string, UsNpCramLesson>;
 
 export function findUsNpCramLesson(identity: { title?: string | null; slug?: string | null }): UsNpCramLesson | null {
   const byTitle = identity.title ? titleIdentityMap.get(normalizeUsNpCramTitle(identity.title)) : undefined;
   const bySlug = identity.slug ? slugIdentityMap.get(normalizeUsNpCramSlug(identity.slug)) : undefined;
   if (byTitle && bySlug && byTitle.slug !== bySlug.slug) {
-    throw new Error(`US_NP_CRAM_DATABASE_IDENTITY_CONFLICT: title=${identity.title ?? ""}; slug=${identity.slug ?? ""}; ${byTitle.slug}/${bySlug.slug}`);
+    throw new Error(
+      `US_NP_CRAM_DATABASE_IDENTITY_CONFLICT: title=${identity.title ?? ""}; slug=${identity.slug ?? ""}; ` +
+        `${byTitle.slug}/${bySlug.slug}`,
+    );
   }
   return byTitle ?? bySlug ?? null;
 }
@@ -155,17 +147,23 @@ const minimumCoverage: Record<UsNpExam, number> = {
 
 function validateUsNpCramRegistry(): void {
   if (usNpCramLessons.length < EXPECTED_US_NP_CRAM_LESSONS) {
-    throw new Error(`US_NP_CRAM_LESSON_COUNT_REGRESSED: ${usNpCramLessons.length}/${EXPECTED_US_NP_CRAM_LESSONS}`);
+    throw new Error(
+      `US_NP_CRAM_LESSON_COUNT_REGRESSED: ${usNpCramLessons.length}/${EXPECTED_US_NP_CRAM_LESSONS}`,
+    );
   }
 
   const slugs = new Set<string>();
   const titles = new Set<string>();
+
   for (const lesson of usNpCramLessons) {
     if (slugs.has(lesson.slug)) throw new Error(`US_NP_CRAM_DUPLICATE_SLUG: ${lesson.slug}`);
     if (titles.has(lesson.title)) throw new Error(`US_NP_CRAM_DUPLICATE_TITLE: ${lesson.title}`);
     slugs.add(lesson.slug);
     titles.add(lesson.title);
-    if (!lesson.applicableExams.length) throw new Error(`US_NP_CRAM_NO_EXAMS: ${lesson.slug}`);
+
+    if (!lesson.applicableExams.length) {
+      throw new Error(`US_NP_CRAM_NO_EXAMS: ${lesson.slug}`);
+    }
 
     const localTitles = new Set<string>();
     for (const title of [lesson.title, ...(lesson.titleAliases ?? [])]) {
@@ -185,28 +183,48 @@ function validateUsNpCramRegistry(): void {
 
     const examTags = new Set<UsNpExam>();
     for (const exam of lesson.applicableExams) {
-      if (!US_NP_EXAMS.includes(exam)) throw new Error(`US_NP_CRAM_UNKNOWN_EXAM: ${lesson.slug}/${exam}`);
-      if (examTags.has(exam)) throw new Error(`US_NP_CRAM_DUPLICATE_EXAM_TAG: ${lesson.slug}/${exam}`);
+      if (!US_NP_EXAMS.includes(exam)) {
+        throw new Error(`US_NP_CRAM_UNKNOWN_EXAM: ${lesson.slug}/${exam}`);
+      }
+      if (examTags.has(exam)) {
+        throw new Error(`US_NP_CRAM_DUPLICATE_EXAM_TAG: ${lesson.slug}/${exam}`);
+      }
       examTags.add(exam);
     }
 
     const fields = [
-      ["recognize", lesson.recognize], ["diagnostics", lesson.diagnostics], ["priorities", lesson.priorities],
-      ["medicationSafety", lesson.medicationSafety], ["redFlags", lesson.redFlags], ["examTraps", lesson.examTraps],
+      ["recognize", lesson.recognize],
+      ["diagnostics", lesson.diagnostics],
+      ["priorities", lesson.priorities],
+      ["medicationSafety", lesson.medicationSafety],
+      ["redFlags", lesson.redFlags],
+      ["examTraps", lesson.examTraps],
     ] as const;
+
     for (const [field, value] of fields) {
-      if (value.trim().length < 60) throw new Error(`US_NP_CRAM_FIELD_TOO_THIN: ${lesson.slug}/${field}`);
+      if (value.trim().length < 60) {
+        throw new Error(`US_NP_CRAM_FIELD_TOO_THIN: ${lesson.slug}/${field}`);
+      }
     }
-    if (!lesson.sourceKeys.length) throw new Error(`US_NP_CRAM_SOURCELESS: ${lesson.slug}`);
+
+    if (!lesson.sourceKeys.length) {
+      throw new Error(`US_NP_CRAM_SOURCELESS: ${lesson.slug}`);
+    }
+
     const projection = buildUsNpCramProjection(lesson);
-    if (projection.length !== 6 || projection.map((item) => item.cramOrder).join("|") !== "1|2|3|4|5|6") {
+    if (
+      projection.length !== 6 ||
+      projection.map((item) => item.cramOrder).join("|") !== "1|2|3|4|5|6"
+    ) {
       throw new Error(`US_NP_CRAM_PROJECTION_INVALID: ${lesson.slug}`);
     }
   }
 
   for (const exam of US_NP_EXAMS) {
     const actual = getUsNpCramLessonsForExam(exam).length;
-    if (actual < minimumCoverage[exam]) throw new Error(`US_NP_CRAM_EXAM_UNDERCOVERED: ${exam}; ${actual}/${minimumCoverage[exam]}`);
+    if (actual < minimumCoverage[exam]) {
+      throw new Error(`US_NP_CRAM_EXAM_UNDERCOVERED: ${exam}; ${actual}/${minimumCoverage[exam]}`);
+    }
   }
 }
 
