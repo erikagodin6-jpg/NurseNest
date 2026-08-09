@@ -6,11 +6,11 @@
   "level": "Nurse Practitioner",
   "authoringStatus": "COMPREHENSIVE_TOPIC_BASELINE_AUDITED_FULL_LESSON_PARITY_IN_PROGRESS",
   "sourceRefreshDate": "2026-08-09",
-  "rawLessonObjects": 475,
-  "uniqueLessonIds": 475,
+  "rawLessonObjects": 483,
+  "uniqueLessonIds": 483,
   "explicitCanonicalSupersessions": 8,
-  "canonicalTopicPathways": 467,
-  "clinicalJsonFiles": 49,
+  "canonicalTopicPathways": 475,
+  "clinicalJsonFiles": 50,
   "structuralValidation": {
     "status": "PASS",
     "jsonParse": true,
@@ -229,6 +229,11 @@
       "path": "40a-cardiovascular-advanced-parity.json",
       "lessons": 8,
       "role": "full_lesson_parity_expansion"
+    },
+    {
+      "path": "40b-cardiovascular-risk-valve-hf-parity.json",
+      "lessons": 8,
+      "role": "full_lesson_parity_expansion"
     }
   ],
   "canonicalOverrides": {
@@ -359,11 +364,12 @@
     "AUTHORING_QA_PARITY_39B.md",
     "AUTHORING_QA_PARITY_39C.md",
     "AUTHORING_QA_PARITY_39D.md",
-    "AUTHORING_QA_PARITY_40A.md"
+    "AUTHORING_QA_PARITY_40A.md",
+    "AUTHORING_QA_PARITY_40B.md"
   ],
   "fullLessonParity": {
     "status": "IN_PROGRESS",
-    "authoringCanonicalTopicPathways": 467,
+    "authoringCanonicalTopicPathways": 475,
     "currentSearchIndexLessonCountObserved": 1979,
     "currentSearchIndexManifest": "nursenest-core/src/content/lessons/search-index/ca-np-cnple.manifest.json",
     "rule": "Completion requires every current canonical public-complete ca-np-cnple Full lesson to resolve to exactly one reviewed Cram lesson/recipe; topic breadth alone is not completion.",
@@ -390,6 +396,7 @@
     "secondPassClinicalAuditCompleteForParity39B": true,
     "secondPassClinicalAuditCompleteForParity39C": true,
     "secondPassClinicalAuditCompleteForParity39D": true,
-    "secondPassClinicalAuditCompleteForParity40A": true
+    "secondPassClinicalAuditCompleteForParity40A": true,
+    "secondPassClinicalAuditCompleteForParity40B": true
   }
 }
