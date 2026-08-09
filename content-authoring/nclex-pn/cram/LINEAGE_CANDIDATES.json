@@ -3,8 +3,9 @@
   "pathwayTarget": "us-lpn-nclex-pn",
   "generatedFromAudit": "nursenest-core/ops/pn-lesson-recovery/2026-08-05/gate-after.json",
   "status": "PROVISIONAL",
-  "authoringCheckpoint": 404,
+  "authoringCheckpoint": 424,
   "countingRule": "No candidate in this file reduces MISSING_CRAM or PN-013/PN-015 counts until the source lesson is verified as learner-reachable on us-lpn-nclex-pn and its substantive content is reviewed against the proposed Cram object.",
+  "auditVisibilityLimitation": "The checked-in audit exposes aggregate/source counts and sample slugs, not a complete U.S. PN-013/PN-015 source-row list; newly authored topics remain uncredited until exact row lineage is proven.",
   "candidates": [
     {"sourceLessonSlug":"hypertension-teaching","auditFamily":"PN-015-cram-safety-gap","candidateCramIds":["nclex-pn-us-cardio-005-hypertension"],"candidateDisposition":"ONE_TO_ONE_CANDIDATE","pathwayVerification":"REQUIRED","contentEquivalenceReview":"REQUIRED"},
     {"sourceLessonSlug":"edema-daily-weights","auditFamily":"PN-015-cram-safety-gap","candidateCramIds":["nclex-pn-us-cardio-001-heart-failure"],"candidateDisposition":"ONE_TO_ONE_CANDIDATE","pathwayVerification":"REQUIRED","contentEquivalenceReview":"REQUIRED"},
