@@ -3,6 +3,7 @@
 Status: ACTIVE AUTHORING
 Baseline date: 2026-08-07
 Authored Cram lessons: 484
+Latest QA addendum: `AUTHORING_QA_ADDENDUM_484.md`
 Locale: United States
 Level: PN / LPN / LVN entry-level practice
 Exam alignment: 2026 NCLEX-PN Test Plan
