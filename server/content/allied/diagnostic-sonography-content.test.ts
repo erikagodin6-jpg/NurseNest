@@ -12,11 +12,12 @@ import { diagnosticSonographySmallPartsTopics14 } from "./topics-14-diagnostic-s
 import { diagnosticSonographyPediatricTopics15 } from "./topics-15-diagnostic-sonography-pediatric";
 import { alliedTopics03 } from "./topics-03-imaging-sonography";
 import { diagnosticSonographyCardiacGapTopics16 } from "./topics-16-diagnostic-sonography-cardiac-gaps";
+import { diagnosticSonographyFetalPediatricEchoTopics17 } from "./topics-17-diagnostic-sonography-fetal-pediatric-echo";
 
 const canonicalCardiacTopics = alliedTopics03.filter(
   (topic) => topic.careerType === "cardiacSonographer",
 );
-const topics = [...diagnosticSonographyTopics10, ...diagnosticSonographyAbdominalTopics11, ...diagnosticSonographyObGynTopics12, ...diagnosticSonographyVascularTopics13, ...diagnosticSonographySmallPartsTopics14, ...diagnosticSonographyPediatricTopics15, ...canonicalCardiacTopics, ...diagnosticSonographyCardiacGapTopics16];
+const topics = [...diagnosticSonographyTopics10, ...diagnosticSonographyAbdominalTopics11, ...diagnosticSonographyObGynTopics12, ...diagnosticSonographyVascularTopics13, ...diagnosticSonographySmallPartsTopics14, ...diagnosticSonographyPediatricTopics15, ...canonicalCardiacTopics, ...diagnosticSonographyCardiacGapTopics16, ...diagnosticSonographyFetalPediatricEchoTopics17];
 const lessons = materializeAlliedLessons(topics);
 const questions = materializeAlliedQuestions(topics).map(
   normalizeAlliedAuthoredQuestion,
@@ -25,16 +26,16 @@ const questions = materializeAlliedQuestions(topics).map(
 describe("diagnostic medical sonography authored expansion", () => {
   it("materializes the first ten canonical topics into fifty lessons", () => {
     expect(canonicalCardiacTopics).toHaveLength(8);
-    expect(topics).toHaveLength(69);
-    expect(lessons).toHaveLength(345);
-    expect(new Set(lessons.map((lesson) => lesson.id)).size).toBe(345);
-    expect(new Set(lessons.map((lesson) => lesson.slug)).size).toBe(345);
+    expect(topics).toHaveLength(79);
+    expect(lessons).toHaveLength(395);
+    expect(new Set(lessons.map((lesson) => lesson.id)).size).toBe(395);
+    expect(new Set(lessons.map((lesson) => lesson.slug)).size).toBe(395);
   });
 
   it("provides one hundred questions for every topic", () => {
-    expect(questions).toHaveLength(6_900);
-    expect(new Set(questions.map((question) => question.id)).size).toBe(6_900);
-    expect(new Set(questions.map((question) => question.stem)).size).toBe(6_900);
+    expect(questions).toHaveLength(7_900);
+    expect(new Set(questions.map((question) => question.id)).size).toBe(7_900);
+    expect(new Set(questions.map((question) => question.stem)).size).toBe(7_900);
 
     for (const topic of topics) {
       expect(questions.filter((question) => question.topic === topic.topic)).toHaveLength(100);
