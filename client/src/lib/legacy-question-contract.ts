@@ -34,6 +34,9 @@ function optionId(qid:string,index:number,value:string){return `${slug(qid)||"q"
 function firstSentence(value:string):string {
   const m=value.trim().match(/^(.+?[.!?])(?:\s|$)/); return (m?.[1] || value.trim()).slice(0,280);
 }
+function substantive(value: unknown, min = 12): boolean {
+  const v=text(value); return v.length>=min && !/^(?:tbd|todo|placeholder|n\/?a|none)$/i.test(v);
+}
 
 function optionsFor(raw:any, qid:string):LegacyContractOption[] {
   const source=Array.isArray(raw.options)?raw.options:Array.isArray(raw.answerOptions)?raw.answerOptions:[];
@@ -80,8 +83,34 @@ function mapDistractors(source:any, options:LegacyContractOption[], correct:Set<
   return out;
 }
 
+function mapDistractorArray(source:any, options:LegacyContractOption[], correct:Set<string>):Record<string,string>{
+  if(!Array.isArray(source))return{};
+  const out:Record<string,string>={};
+  const incorrect=options.filter(option=>!correct.has(option.id));
+  if(source.length===options.length){
+    options.forEach((option,index)=>{if(!correct.has(option.id)&&substantive(source[index],12))out[option.id]=text(source[index]);});
+    return out;
+  }
+  if(source.length===incorrect.length){
+    incorrect.forEach((option,index)=>{if(substantive(source[index],12))out[option.id]=text(source[index]);});
+  }
+  return out;
+}
+
 function existingDistractors(raw:any, options:LegacyContractOption[], correct:Set<string>):Record<string,string>{
-  return mapDistractors(raw.distractorRationales||raw.distractor_rationales||raw.incorrectAnswerRationale||{}, options, correct);
+  return {
+    ...mapDistractorArray(raw.rationaleIncorrect||raw.rationale_incorrect,options,correct),
+    ...mapDistractors(raw.distractorRationales||raw.distractor_rationales||raw.incorrectAnswerRationale||{}, options, correct),
+  };
+}
+
+function authoredHintFromStructuredSource(raw:any,topic:string):string{
+  const subtopic=text(raw.subtopic)||topic;
+  const bloom=text(raw.bloomLevel).toLowerCase();
+  if(bloom==="recall"||bloom==="remember") return `Recall the defining anatomical or physiologic feature of ${subtopic}, then match it directly to the option that uses that definition.`;
+  if(bloom==="application"||bloom==="apply") return `Use the clinical cue in the stem and apply the ${subtopic} principle before choosing the option that best fits the scenario.`;
+  if(bloom==="analysis"||bloom==="analyze") return `Compare the defining features of the options and use the ${subtopic} relationship that best explains the finding in the stem.`;
+  return `Distinguish the defining features of ${subtopic}; choose the option that most precisely matches the concept asked in the stem.`;
 }
 
 export type JurisdictionHint={countryCode?:string;countryLabels?:string[];regionScope?:string;languageCode?:string;exam?:string;licensingBody?:string};
@@ -94,15 +123,18 @@ export function normalizeLegacyClientQuestion(raw:any,index:number,jurisdiction:
   const answers=resolveAnswers(answerSource,options);
   const correctSet=new Set(answers);
   const rationale=text(raw.rationale)||text(raw.rationaleCorrect)||text(raw.rationale_correct);
+  const topic=text(raw.topic)||text(raw.subtopic)||text(raw.bodySystem)||text(raw.category)||text(raw.course)||"the tested concept";
 
-  const authoredCorrect=text(overlay.correctAnswerExplanation)||text(raw.correctAnswerExplanation)||text(raw.correct_answer_explanation);
+  const structuredCorrect=text(raw.rationaleCorrect)||text(raw.rationale_correct);
+  const authoredCorrect=text(overlay.correctAnswerExplanation)||text(raw.correctAnswerExplanation)||text(raw.correct_answer_explanation)||structuredCorrect;
   const correctAnswerExplanation=authoredCorrect||rationale;
+  const structuredWhy=text(raw.clinicalCorrelation)||text(raw.clinical_correlation);
   const authoredHint=text(overlay.hint)||text(raw.hint)||text(raw.examStrategy)||text(raw.exam_strategy);
-  const topic=text(raw.topic)||text(raw.subtopic)||text(raw.bodySystem)||text(raw.category)||"the tested concept";
-  const hint=authoredHint||`Focus on the ${topic} principle that most directly answers the stem; eliminate options that are true but lower priority or address a different problem.`;
-  const authoredWhy=text(overlay.whyThisMatters)||text(raw.whyThisMatters)||text(raw.why_this_matters)||text(raw.keyTakeaway)||text(raw.key_takeaway);
+  const structuredSource=!!structuredCorrect&&Array.isArray(raw.rationaleIncorrect||raw.rationale_incorrect)&&!!structuredWhy;
+  const hint=authoredHint||(structuredSource?authoredHintFromStructuredSource(raw,topic):`Focus on the ${topic} principle that most directly answers the stem; eliminate options that are true but lower priority or address a different problem.`);
+  const authoredWhy=text(overlay.whyThisMatters)||text(raw.whyThisMatters)||text(raw.why_this_matters)||text(raw.keyTakeaway)||text(raw.key_takeaway)||structuredWhy;
   const whyThisMatters=authoredWhy||(rationale?`This matters because the reasoning tested here affects safe, accurate decisions in ${topic}. ${firstSentence(rationale)}`:`This item matters because it tests a decision that can change safety or outcomes in ${topic}.`);
-  const authoredPearl=text(overlay.clinicalPearl)||text(raw.clinicalPearl)||text(raw.clinical_pearl)||text(raw.examPearl);
+  const authoredPearl=text(overlay.clinicalPearl)||text(raw.clinicalPearl)||text(raw.clinical_pearl)||text(raw.examPearl)||(structuredSource?firstSentence(structuredCorrect):"");
   const clinicalPearl=authoredPearl||(rationale?firstSentence(rationale):`Match the requested decision to the most specific ${topic} principle before choosing an adjacent fact.`);
 
   const sourceDistractors=existingDistractors(raw,options,correctSet);
@@ -116,8 +148,9 @@ export function normalizeLegacyClientQuestion(raw:any,index:number,jurisdiction:
   }
 
   const overlayAuthored=overlay.editorialStatus==="authored-v2";
-  const sourceAuthored=options.every(o=>!!o.id)&&answers.length>0&&!!text(raw.correctAnswerExplanation||raw.correct_answer_explanation)&&!!text(raw.hint||raw.examStrategy||raw.exam_strategy)&&!!text(raw.whyThisMatters||raw.why_this_matters||raw.keyTakeaway||raw.key_takeaway)&&!!text(raw.clinicalPearl||raw.clinical_pearl||raw.examPearl)&&Object.keys(sourceDistractors).length===Math.max(0,options.length-correctSet.size);
-  const authoredV2=answers.length>0&&options.every(o=>!!o.id)&&(overlayAuthored||sourceAuthored);
+  const explicitSourceAuthored=options.every(o=>!!o.id)&&answers.length>0&&!!text(raw.correctAnswerExplanation||raw.correct_answer_explanation)&&!!text(raw.hint||raw.examStrategy||raw.exam_strategy)&&!!text(raw.whyThisMatters||raw.why_this_matters||raw.keyTakeaway||raw.key_takeaway)&&!!text(raw.clinicalPearl||raw.clinical_pearl||raw.examPearl)&&Object.keys(sourceDistractors).length===Math.max(0,options.length-correctSet.size);
+  const structuredSourceAuthored=structuredSource&&answers.length>0&&options.every(o=>!!o.id)&&Object.keys(sourceDistractors).length===Math.max(0,options.length-correctSet.size)&&substantive(correctAnswerExplanation,24)&&substantive(whyThisMatters,20)&&substantive(hint,12)&&substantive(clinicalPearl,12);
+  const authoredV2=answers.length>0&&options.every(o=>!!o.id)&&(overlayAuthored||explicitSourceAuthored||structuredSourceAuthored);
   const answerValue=answers.length===1?answers[0]:answers;
 
   return {
