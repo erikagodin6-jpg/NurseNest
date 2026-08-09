@@ -2,14 +2,14 @@
 
 Status: ACTIVE AUTHORING
 Baseline date: 2026-08-07
-Authored Cram lessons: 464
+Authored Cram lessons: 484
 Locale: United States
 Level: PN / LPN / LVN entry-level practice
 Exam alignment: 2026 NCLEX-PN Test Plan
 
 ## Current baseline
 
-The library contains 464 distinct authored Cram lessons spanning all NCLEX-PN Client Needs areas and major practical-nursing clinical domains. Coverage now includes high-alert infusion safety, renal/urology and CKD pharmacology, GI medication safety, endocrine replacement/thyroid therapy, osteoporosis/calcium-regulation drugs, neurologic medication safety, psych/substance-use pharmacology, HIV treatment/prevention pharmacology, reproductive medication safety, antineoplastic toxicity, newborn/pediatric medication safety, advanced cardiovascular pharmacology, route/site-specific infectious-disease pharmacology, dermatologic medication safety, advanced rheumatology/immunology pharmacology, severe-asthma/COPD biologic and maintenance pharmacology, and hepatic/GI motility pharmacology.
+The library contains 484 distinct authored Cram lessons spanning all NCLEX-PN Client Needs areas and major practical-nursing clinical domains. Coverage now includes high-alert infusion safety, renal/urology and CKD pharmacology, GI medication safety, endocrine replacement/thyroid therapy, osteoporosis/calcium-regulation drugs, neurologic medication safety, psych/substance-use pharmacology, HIV treatment/prevention pharmacology, reproductive medication safety, antineoplastic toxicity, newborn/pediatric medication safety, advanced cardiovascular pharmacology, route/site-specific infectious-disease pharmacology, dermatologic medication safety, advanced rheumatology/immunology pharmacology, severe-asthma/COPD biologic and maintenance pharmacology, hepatic/GI motility pharmacology, dementia/Parkinson/seizure/neuropathic pharmacology, and product-specific diabetes/pituitary/growth-hormone pharmacology.
 
 No numeric milestone by itself is a declaration of complete coverage.
 
@@ -21,9 +21,9 @@ The 2026-08-05 practical-nursing production audit measured `us-lpn-nclex-pn` at 
 
 ## Latest authoring
 
-The newest respiratory/allergy batch adds tiotropium HandiHaler, budesonide/formoterol, oral roflumilast, omalizumab, mepolizumab, benralizumab, tezepelumab, umeclidinium/vilanterol, pediatric nebulized budesonide, and nebulized formoterol. The lessons preserve maintenance-versus-rescue distinctions, inhaler/device errors, roflumilast psychiatric/weight-loss risk, biologic anaphylaxis/hypersensitivity, phenotype-specific eosinophilic therapy, helminth considerations, and steroid-taper boundaries.
+The newest neuro/cognitive pharmacology batch adds donepezil, memantine, galantamine, carbidopa/levodopa, entacapone, pramipexole, levetiracetam, gabapentin, pregabalin, and buspirone. The lessons distinguish chronic dementia therapy from acute delirium, protect time-critical Parkinson dosing, separate wearing-off from dyskinesia, flag dopamine-agonist sleep/impulse-control effects, preserve antiseizure behavioral monitoring, and emphasize renal/CNS-depressant safety for gabapentinoids. Buspirone is explicitly scheduled therapy rather than rapid PRN panic rescue.
 
-The newest GI/hepatology batch adds lactulose for hepatic encephalopathy, rifaximin, ursodiol, cholestyramine, linaclotide, lubiprostone, dicyclomine, oral IBD-targeted budesonide, vedolizumab, and prucalopride. High-yield distinctions include clinical encephalopathy response rather than laxative-only thinking, bile-acid sequestrant drug-binding interactions, mechanical-obstruction screening before secretagogues/prokinetics, anticholinergic burden, systemic steroid effects despite gut targeting, biologic infection/PML vigilance, and psychiatric monitoring with prucalopride.
+The newest endocrine/metabolic pharmacology batch adds sitagliptin, linagliptin, pioglitazone, acarbose, insulin glargine, insulin lispro, intranasal glucagon, cabergoline, bromocriptine, and somatropin. High-yield distinctions include product-specific DPP-4 renal rules, pioglitazone's congestive-heart-failure boxed warning, the dextrose rule for acarbose-associated combination hypoglycemia, insulin concentration/device and meal-timing safeguards, no-inhalation nasal glucagon rescue, cabergoline valvular/fibrotic and postpartum-lactation safety, formulation-specific bromocriptine use, and somatropin monitoring for intracranial hypertension, slipped capital femoral epiphysis, glucose intolerance, and thyroid/adrenal effects.
 
 Current U.S. DailyMed/FDA guidance was refreshed before authoring. PN/LVN language remains limited to recognition, monitoring, safe implementation, communication, and escalation unless state/facility policy specifically authorizes more.
 
