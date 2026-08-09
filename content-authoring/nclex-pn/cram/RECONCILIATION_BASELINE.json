@@ -13,7 +13,7 @@
     "PN-013-pharmacology-element-gap":{"usLpnCount":139,"pnFamilyCount":320,"status":"ACTIVE_PRIORITY","priorityReason":"Production audit ranked this ahead of general Cram remediation because pharmacology lessons missing mechanism, indications, contraindications, interactions, or administration safety carry higher clinical risk.","sampleSlugs":["insulin-administration-checks","oral-hypoglycemics","antibiotic-side-effect-reporting"]},
     "PN-015-cram-safety-gap":{"usLpnCount":971,"pnFamilyCount":2244,"status":"ACTIVE_AFTER_PHARMACOLOGY","sampleSlugs":["therapeutic-communication","documentation-do-nots","hypertension-teaching","edema-daily-weights","inhaler-technique-teaching","copd-home-care","i-o-fluid-restriction-teaching","hypokalemia-symptoms"]}
   },
-  "authoredCramLibraryCheckpoint":424,
+  "authoredCramLibraryCheckpoint":444,
   "lineageStatus":"TOPIC_AUTHORED_NOT_YET_ROW_MAPPED",
   "lineageCandidateFile":"LINEAGE_CANDIDATES.json",
   "countedResolvedProductionRows":0,
