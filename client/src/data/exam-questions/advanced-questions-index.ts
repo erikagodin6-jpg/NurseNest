@@ -1,4 +1,5 @@
 import { normalizeLegacyClientQuestion } from "../../lib/legacy-question-contract";
+import { rpnAdvancedVisualReplacements, rnAdvancedVisualReplacements, npAdvancedVisualReplacements } from "./advanced-visual-replacements";
 import { np_advanced_bowtie_01 } from "./np-advanced-bowtie-01";
 import { np_advanced_bowtie_02 } from "./np-advanced-bowtie-02";
 import { np_advanced_bowtie_03 } from "./np-advanced-bowtie-03";
@@ -134,10 +135,11 @@ function normalizeAdvancedRows(rows: any[], tier: "rpn" | "rn" | "np"): any[] {
 
 // Image-based and highlight legacy expansions are intentionally NOT imported here.
 // They are listed in question-quarantine.ts because their source contains generator
-// placeholders and/or unsupported interaction semantics. Replacement authored banks
-// must use certified MCQ/SATA/CHART_REVIEW contracts before serving.
+// placeholders and/or unsupported interaction semantics. Their unique clinical purpose
+// is replaced below with authored canonical MCQ/SATA items.
 
 const rpnAdvancedRaw: any[] = [
+  ...rpnAdvancedVisualReplacements,
   ...rpn_advanced_bowtie_01, ...rpn_advanced_bowtie_02, ...rpn_advanced_case_study,
   ...rpn_advanced_drag_drop, ...rpn_advanced_matrix,
   ...rpn_advanced_mcq_01, ...rpn_advanced_mcq_02, ...rpn_advanced_mcq_03,
@@ -147,6 +149,7 @@ const rpnAdvancedRaw: any[] = [
 ];
 
 const rnAdvancedRaw: any[] = [
+  ...rnAdvancedVisualReplacements,
   ...rn_advanced_bowtie_01, ...rn_advanced_bowtie_02, ...rn_advanced_bowtie_03,
   ...rn_advanced_case_study_01, ...rn_advanced_case_study_02,
   ...rn_advanced_drag_drop_01, ...rn_advanced_drag_drop_02,
@@ -160,6 +163,7 @@ const rnAdvancedRaw: any[] = [
 ];
 
 const npAdvancedRaw: any[] = [
+  ...npAdvancedVisualReplacements,
   ...np_advanced_bowtie_01, ...np_advanced_bowtie_02, ...np_advanced_bowtie_03,
   ...np_advanced_case_study_01, ...np_advanced_case_study_02, ...np_advanced_case_study_03,
   ...np_advanced_drag_drop_01, ...np_advanced_drag_drop_02,
