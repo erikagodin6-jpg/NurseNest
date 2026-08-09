@@ -2,14 +2,14 @@
 
 Status: ACTIVE AUTHORING
 Baseline date: 2026-08-07
-Authored Cram lessons: 444
+Authored Cram lessons: 464
 Locale: United States
 Level: PN / LPN / LVN entry-level practice
 Exam alignment: 2026 NCLEX-PN Test Plan
 
 ## Current baseline
 
-The library contains 444 distinct authored Cram lessons spanning all NCLEX-PN Client Needs areas and major practical-nursing clinical domains. Coverage now includes high-alert infusion safety, renal/urology and CKD pharmacology, GI medication safety, endocrine replacement/thyroid therapy, osteoporosis/calcium-regulation drugs, neurologic medication safety, psych/substance-use pharmacology, HIV treatment/prevention pharmacology, reproductive medication safety, antineoplastic toxicity, newborn/pediatric medication safety, advanced cardiovascular pharmacology, route/site-specific infectious-disease pharmacology, dermatologic medication safety, and advanced rheumatology/immunology pharmacology.
+The library contains 464 distinct authored Cram lessons spanning all NCLEX-PN Client Needs areas and major practical-nursing clinical domains. Coverage now includes high-alert infusion safety, renal/urology and CKD pharmacology, GI medication safety, endocrine replacement/thyroid therapy, osteoporosis/calcium-regulation drugs, neurologic medication safety, psych/substance-use pharmacology, HIV treatment/prevention pharmacology, reproductive medication safety, antineoplastic toxicity, newborn/pediatric medication safety, advanced cardiovascular pharmacology, route/site-specific infectious-disease pharmacology, dermatologic medication safety, advanced rheumatology/immunology pharmacology, severe-asthma/COPD biologic and maintenance pharmacology, and hepatic/GI motility pharmacology.
 
 No numeric milestone by itself is a declaration of complete coverage.
 
@@ -21,9 +21,9 @@ The 2026-08-05 practical-nursing production audit measured `us-lpn-nclex-pn` at 
 
 ## Latest authoring
 
-The newest dermatology batch adds clobetasol topical, silver sulfadiazine, isotretinoin, topical tacrolimus, dupilumab, apremilast, calcipotriene, topical ketoconazole, acitretin, and topical fluorouracil. High-yield distinctions include super-potent topical-steroid systemic absorption, burn antimicrobial limits, isotretinoin embryo-fetal/iPLEDGE requirements, topical calcineurin-inhibitor long-term warning, biologic eye/infection surveillance, systemic-retinoid pregnancy timelines, and local-versus-systemic fluorouracil toxicity.
+The newest respiratory/allergy batch adds tiotropium HandiHaler, budesonide/formoterol, oral roflumilast, omalizumab, mepolizumab, benralizumab, tezepelumab, umeclidinium/vilanterol, pediatric nebulized budesonide, and nebulized formoterol. The lessons preserve maintenance-versus-rescue distinctions, inhaler/device errors, roflumilast psychiatric/weight-loss risk, biologic anaphylaxis/hypersensitivity, phenotype-specific eosinophilic therapy, helminth considerations, and steroid-taper boundaries.
 
-The newest rheumatology/immunology batch adds adalimumab, etanercept, infliximab, tofacitinib, upadacitinib, abatacept, secukinumab, ustekinumab, rituximab, and leflunomide. The lessons preserve TB/HBV screening/reactivation, serious-infection and vaccine planning, infusion reactions, JAK-inhibitor boxed risks, IBD worsening with IL-17 blockade, B-cell-depletion/PML safety, and leflunomide's prolonged elimination/teratogenicity.
+The newest GI/hepatology batch adds lactulose for hepatic encephalopathy, rifaximin, ursodiol, cholestyramine, linaclotide, lubiprostone, dicyclomine, oral IBD-targeted budesonide, vedolizumab, and prucalopride. High-yield distinctions include clinical encephalopathy response rather than laxative-only thinking, bile-acid sequestrant drug-binding interactions, mechanical-obstruction screening before secretagogues/prokinetics, anticholinergic burden, systemic steroid effects despite gut targeting, biologic infection/PML vigilance, and psychiatric monitoring with prucalopride.
 
 Current U.S. DailyMed/FDA guidance was refreshed before authoring. PN/LVN language remains limited to recognition, monitoring, safe implementation, communication, and escalation unless state/facility policy specifically authorizes more.
 
