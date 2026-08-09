@@ -4,6 +4,7 @@ import { paramedicV2AclsBurnBatch03Questions } from "./paramedic-v2-acls-burn-ba
 import { paramedicV2AclsBatch04Questions } from "./paramedic-v2-acls-batch04-questions";
 import { paramedicV2PharmacologyBatch05Questions } from "./paramedic-v2-pharmacology-batch05-questions";
 import { paramedicV2MedicalBatch06Questions } from "./paramedic-v2-medical-batch06-questions";
+import { paramedicV2ObBatch07Questions } from "./paramedic-v2-ob-batch07-questions";
 
 export const PARAMEDIC_V2_QUESTIONS:any[]=[
   ...paramedicV2Questions,
@@ -12,4 +13,5 @@ export const PARAMEDIC_V2_QUESTIONS:any[]=[
   ...paramedicV2AclsBatch04Questions,
   ...paramedicV2PharmacologyBatch05Questions,
   ...paramedicV2MedicalBatch06Questions,
+  ...paramedicV2ObBatch07Questions,
 ];
