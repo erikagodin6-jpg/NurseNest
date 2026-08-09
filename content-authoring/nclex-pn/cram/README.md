@@ -4,7 +4,7 @@ Status: ACTIVE AUTHORING
 Locale: United States
 Exam: NCLEX-PN
 Level: Entry-level practical/vocational nursing (LPN/LVN)
-Authored checkpoint: 464 Cram lessons
+Authored checkpoint: 484 Cram lessons
 
 ## Purpose
 
