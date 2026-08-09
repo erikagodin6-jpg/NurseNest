@@ -7,10 +7,6 @@ import { np_advanced_case_study_02 } from "./np-advanced-case_study-02";
 import { np_advanced_case_study_03 } from "./np-advanced-case_study-03";
 import { np_advanced_drag_drop_01 } from "./np-advanced-drag_drop-01";
 import { np_advanced_drag_drop_02 } from "./np-advanced-drag_drop-02";
-import { np_advanced_highlight_01 } from "./np-advanced-highlight-01";
-import { np_advanced_highlight_02 } from "./np-advanced-highlight-02";
-import { np_advanced_image_based_01 } from "./np-advanced-image_based-01";
-import { np_advanced_image_based_02 } from "./np-advanced-image_based-02";
 import { np_advanced_matrix_01 } from "./np-advanced-matrix-01";
 import { np_advanced_matrix_02 } from "./np-advanced-matrix-02";
 import { np_advanced_mcq_01 } from "./np-advanced-mcq-01";
@@ -39,10 +35,6 @@ import { rn_advanced_case_study_01 } from "./rn-advanced-case_study-01";
 import { rn_advanced_case_study_02 } from "./rn-advanced-case_study-02";
 import { rn_advanced_drag_drop_01 } from "./rn-advanced-drag_drop-01";
 import { rn_advanced_drag_drop_02 } from "./rn-advanced-drag_drop-02";
-import { rn_advanced_highlight_01 } from "./rn-advanced-highlight-01";
-import { rn_advanced_highlight_02 } from "./rn-advanced-highlight-02";
-import { rn_advanced_image_based_01 } from "./rn-advanced-image_based-01";
-import { rn_advanced_image_based_02 } from "./rn-advanced-image_based-02";
 import { rn_advanced_matrix_01 } from "./rn-advanced-matrix-01";
 import { rn_advanced_matrix_02 } from "./rn-advanced-matrix-02";
 import { rn_advanced_mcq_01 } from "./rn-advanced-mcq-01";
@@ -65,8 +57,6 @@ import { rpn_advanced_bowtie_01 } from "./rpn-advanced-bowtie-01";
 import { rpn_advanced_bowtie_02 } from "./rpn-advanced-bowtie-02";
 import { rpn_advanced_case_study } from "./rpn-advanced-case_study";
 import { rpn_advanced_drag_drop } from "./rpn-advanced-drag_drop";
-import { rpn_advanced_highlight } from "./rpn-advanced-highlight";
-import { rpn_advanced_image_based } from "./rpn-advanced-image_based";
 import { rpn_advanced_matrix } from "./rpn-advanced-matrix";
 import { rpn_advanced_mcq_01 } from "./rpn-advanced-mcq-01";
 import { rpn_advanced_mcq_02 } from "./rpn-advanced-mcq-02";
@@ -83,13 +73,20 @@ function normalizeText(value: unknown): string {
   return String(value ?? "").toLowerCase().replace(/\s+/g, " ").replace(/[.!?,;:]+$/g, "").trim();
 }
 
+function stableStructuredValue(row: any): string {
+  const payload = row?.items ?? row?.rows ?? row?.columns ?? row?.timepoints ?? row?.timePoints ?? row?.timeline ?? row?.questions ?? row?.subQuestions ?? row?.conditionOptions ?? row?.actionOptions ?? row?.monitorOptions ?? null;
+  if (!payload) return "";
+  try { return JSON.stringify(payload); } catch { return String(payload); }
+}
+
 function advancedFingerprint(row: any): string {
   const stem = normalizeText(row?.stem || row?.question || row?.questionText);
   const flatOptions = Array.isArray(row?.options)
     ? row.options.map((option: any) => normalizeText(typeof option === "object" && option ? (option.text ?? option.content ?? option.value ?? option.label) : option)).join("||")
     : "";
-  const type = normalizeText(row?.questionType || row?.question_type || row?.type || "unknown");
-  return `${type}::${stem}::${flatOptions}`;
+  const structured = normalizeText(stableStructuredValue(row));
+  const type = normalizeText(row?.questionType || row?.question_type || row?.type || row?.mode || "unknown");
+  return `${type}::${stem}::${flatOptions}::${structured}`;
 }
 
 function dedupeAdvancedRows(rows: any[]): any[] {
@@ -97,59 +94,83 @@ function dedupeAdvancedRows(rows: any[]): any[] {
   const out: any[] = [];
   for (const row of rows) {
     const fingerprint = advancedFingerprint(row);
-    if (fingerprint !== "unknown::::" && seen.has(fingerprint)) continue;
-    if (fingerprint !== "unknown::::") seen.add(fingerprint);
+    if (fingerprint !== "unknown::::::" && seen.has(fingerprint)) continue;
+    if (fingerprint !== "unknown::::::") seen.add(fingerprint);
     out.push(row);
   }
   return out;
 }
 
+function canonicalizeOrderDragDrop(row: any): any | null {
+  if (String(row?.mode || "").toLowerCase() !== "order" || !Array.isArray(row?.items) || !Array.isArray(row?.correctOrder)) return null;
+  const options = row.items.map((item: any, index: number) => ({
+    id: String(item?.id || `item-${index + 1}`),
+    text: String(item?.label || item?.text || item?.content || "").trim(),
+    label: String.fromCharCode(65 + index),
+  })).filter((item: any) => item.text);
+  return {
+    ...row,
+    questionType: "ORDERED_RESPONSE",
+    options,
+    correctAnswerIds: row.correctOrder.map(String),
+    correctAnswer: row.correctOrder.map(String),
+    interactionSource: "legacy-drag-drop-order",
+  };
+}
+
 function normalizeAdvancedRows(rows: any[], tier: "rpn" | "rn" | "np"): any[] {
   return dedupeAdvancedRows(rows).map((row, index) => {
-    if (!Array.isArray(row?.options) || row.options.length === 0) return row;
-    return normalizeLegacyClientQuestion(row, index, {
+    const ordered = canonicalizeOrderDragDrop(row);
+    const candidate = ordered || row;
+    if (!Array.isArray(candidate?.options) || candidate.options.length === 0) return candidate;
+    return normalizeLegacyClientQuestion(candidate, index, {
       countryLabels: ["Canada", "United States"],
       regionScope: "BOTH",
       languageCode: "en",
-      exam: row.exam || (tier === "rpn" ? "REx-PN/NCLEX-PN" : tier === "rn" ? "NCLEX-RN" : "NP Certification"),
+      exam: candidate.exam || (tier === "rpn" ? "REx-PN/NCLEX-PN" : tier === "rn" ? "NCLEX-RN" : "NP Certification"),
     });
   });
 }
 
+// Image-based and highlight legacy expansions are intentionally NOT imported here.
+// They are listed in question-quarantine.ts because their source contains generator
+// placeholders and/or unsupported interaction semantics. Replacement authored banks
+// must use certified MCQ/SATA/CHART_REVIEW contracts before serving.
+
 const rpnAdvancedRaw: any[] = [
   ...rpn_advanced_bowtie_01, ...rpn_advanced_bowtie_02, ...rpn_advanced_case_study,
-  ...rpn_advanced_drag_drop, ...rpn_advanced_highlight, ...rpn_advanced_image_based,
-  ...rpn_advanced_matrix, ...rpn_advanced_mcq_01, ...rpn_advanced_mcq_02,
-  ...rpn_advanced_mcq_03, ...rpn_advanced_mcq_04, ...rpn_advanced_mcq_05,
-  ...rpn_advanced_mcq_06, ...rpn_advanced_sata_01, ...rpn_advanced_sata_02,
-  ...rpn_advanced_sata_03, ...rpn_advanced_trend,
+  ...rpn_advanced_drag_drop, ...rpn_advanced_matrix,
+  ...rpn_advanced_mcq_01, ...rpn_advanced_mcq_02, ...rpn_advanced_mcq_03,
+  ...rpn_advanced_mcq_04, ...rpn_advanced_mcq_05, ...rpn_advanced_mcq_06,
+  ...rpn_advanced_sata_01, ...rpn_advanced_sata_02, ...rpn_advanced_sata_03,
+  ...rpn_advanced_trend,
 ];
 
 const rnAdvancedRaw: any[] = [
   ...rn_advanced_bowtie_01, ...rn_advanced_bowtie_02, ...rn_advanced_bowtie_03,
-  ...rn_advanced_case_study_01, ...rn_advanced_case_study_02, ...rn_advanced_drag_drop_01,
-  ...rn_advanced_drag_drop_02, ...rn_advanced_highlight_01, ...rn_advanced_highlight_02,
-  ...rn_advanced_image_based_01, ...rn_advanced_image_based_02, ...rn_advanced_matrix_01,
-  ...rn_advanced_matrix_02, ...rn_advanced_mcq_01, ...rn_advanced_mcq_02,
-  ...rn_advanced_mcq_03, ...rn_advanced_mcq_04, ...rn_advanced_mcq_05,
-  ...rn_advanced_mcq_06, ...rn_advanced_mcq_07, ...rn_advanced_mcq_08,
-  ...rn_advanced_mcq_09, ...rn_advanced_mcq_10, ...rn_advanced_sata_01,
-  ...rn_advanced_sata_02, ...rn_advanced_sata_03, ...rn_advanced_sata_04,
+  ...rn_advanced_case_study_01, ...rn_advanced_case_study_02,
+  ...rn_advanced_drag_drop_01, ...rn_advanced_drag_drop_02,
+  ...rn_advanced_matrix_01, ...rn_advanced_matrix_02,
+  ...rn_advanced_mcq_01, ...rn_advanced_mcq_02, ...rn_advanced_mcq_03,
+  ...rn_advanced_mcq_04, ...rn_advanced_mcq_05, ...rn_advanced_mcq_06,
+  ...rn_advanced_mcq_07, ...rn_advanced_mcq_08, ...rn_advanced_mcq_09,
+  ...rn_advanced_mcq_10, ...rn_advanced_sata_01, ...rn_advanced_sata_02,
+  ...rn_advanced_sata_03, ...rn_advanced_sata_04,
   ...rn_advanced_trend_01, ...rn_advanced_trend_02,
 ];
 
 const npAdvancedRaw: any[] = [
   ...np_advanced_bowtie_01, ...np_advanced_bowtie_02, ...np_advanced_bowtie_03,
   ...np_advanced_case_study_01, ...np_advanced_case_study_02, ...np_advanced_case_study_03,
-  ...np_advanced_drag_drop_01, ...np_advanced_drag_drop_02, ...np_advanced_highlight_01,
-  ...np_advanced_highlight_02, ...np_advanced_image_based_01, ...np_advanced_image_based_02,
-  ...np_advanced_matrix_01, ...np_advanced_matrix_02, ...np_advanced_mcq_01,
-  ...np_advanced_mcq_02, ...np_advanced_mcq_03, ...np_advanced_mcq_04,
-  ...np_advanced_mcq_05, ...np_advanced_mcq_06, ...np_advanced_mcq_07,
-  ...np_advanced_mcq_08, ...np_advanced_mcq_09, ...np_advanced_mcq_10,
-  ...np_advanced_mcq_11, ...np_advanced_mcq_12, ...np_advanced_sata_01,
-  ...np_advanced_sata_02, ...np_advanced_sata_03, ...np_advanced_sata_04,
-  ...np_advanced_sata_05, ...np_advanced_trend_01, ...np_advanced_trend_02,
+  ...np_advanced_drag_drop_01, ...np_advanced_drag_drop_02,
+  ...np_advanced_matrix_01, ...np_advanced_matrix_02,
+  ...np_advanced_mcq_01, ...np_advanced_mcq_02, ...np_advanced_mcq_03,
+  ...np_advanced_mcq_04, ...np_advanced_mcq_05, ...np_advanced_mcq_06,
+  ...np_advanced_mcq_07, ...np_advanced_mcq_08, ...np_advanced_mcq_09,
+  ...np_advanced_mcq_10, ...np_advanced_mcq_11, ...np_advanced_mcq_12,
+  ...np_advanced_sata_01, ...np_advanced_sata_02, ...np_advanced_sata_03,
+  ...np_advanced_sata_04, ...np_advanced_sata_05,
+  ...np_advanced_trend_01, ...np_advanced_trend_02,
 ];
 
 export const rpnAdvancedQuestions: any[] = normalizeAdvancedRows(rpnAdvancedRaw, "rpn");
@@ -172,7 +193,11 @@ export function getAdvancedQuestionsByTier(tier: string): any[] {
 }
 
 export function getAdvancedQuestionsByType(tier: string, questionType: string): any[] {
-  return getAdvancedQuestionsByTier(tier).filter((q: any) => q.questionType === questionType || q.tags?.includes(questionType));
+  const expected = String(questionType || "").toUpperCase().replace(/[\s-]+/g, "_");
+  return getAdvancedQuestionsByTier(tier).filter((q: any) => {
+    const actual = String(q.questionType || q.type || "").toUpperCase().replace(/[\s-]+/g, "_");
+    return actual === expected || q.tags?.includes(questionType) || q.tags?.includes(String(questionType).toLowerCase());
+  });
 }
 
 export function getAdvancedQuestionsBySystem(tier: string, bodySystem: string): any[] {
@@ -185,7 +210,7 @@ export function getAdvancedQuestionCounts(): Record<string, { total: number; byT
   for (const [tier, questions] of Object.entries(tiers)) {
     const byType: Record<string, number> = {};
     for (const q of questions) {
-      const type = q.questionType || (q.tags || []).find((t: string) => ["mcq", "sata", "bowtie", "matrix", "highlight", "trend", "image_based", "drag_drop", "case_study"].includes(t)) || "unknown";
+      const type = String(q.questionType || q.type || "unknown").toUpperCase();
       byType[type] = (byType[type] || 0) + 1;
     }
     result[tier] = { total: questions.length, byType };
