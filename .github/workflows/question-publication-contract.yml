@@ -37,14 +37,21 @@ jobs:
         run: npx vitest run server/question-publication-contract.test.ts server/question-authoring-normalizer.test.ts server/question-serving-contract.test.ts server/question-unit-conversion.test.ts server/question-interaction-contract.test.ts client/src/lib/legacy-question-contract.test.ts
       - name: Full authored-source debt report
         run: npx tsx script/audit-authored-question-contract-v2.ts > question-contract-source-audit.json
+      - name: Active question schema family inventory
+        run: npx tsx script/audit-active-question-schema-families.ts > question-schema-families.json
       - name: Show source audit summary
         if: always()
-        run: cat question-contract-source-audit.json | head -c 20000
+        run: |
+          cat question-contract-source-audit.json | head -c 12000
+          echo
+          cat question-schema-families.json | head -c 12000
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: question-contract-source-audit
-          path: question-contract-source-audit.json
+          path: |
+            question-contract-source-audit.json
+            question-schema-families.json
           retention-days: 14
 
   changed-question-guard:
