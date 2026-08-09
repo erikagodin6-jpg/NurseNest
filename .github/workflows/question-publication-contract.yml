@@ -57,18 +57,29 @@ jobs:
           exit "$(cat /tmp/template-audit-code)"
       - name: Quarantine replacement audit
         run: npx tsx script/audit-question-source-quarantine.ts > question-quarantine-audit.json
+      - name: Career question contract debt report
+        shell: bash
+        run: |
+          set +e
+          npx tsx script/audit-career-question-contract-v2.ts > career-question-contract.json
+          code=$?
+          cat career-question-contract.json | head -c 12000
+          echo "career_contract_exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
       - name: Show source audit summary
         if: always()
         run: |
-          cat question-contract-source-audit.json | head -c 8000 || true
+          cat question-contract-source-audit.json | head -c 7000 || true
           echo
-          cat question-schema-families.json | head -c 8000 || true
+          cat question-schema-families.json | head -c 7000 || true
           echo
-          cat question-interaction-modes.json | head -c 8000 || true
+          cat question-interaction-modes.json | head -c 7000 || true
           echo
-          cat question-template-content.json | head -c 8000 || true
+          cat question-template-content.json | head -c 7000 || true
           echo
-          cat question-quarantine-audit.json | head -c 8000 || true
+          cat question-quarantine-audit.json | head -c 7000 || true
+          echo
+          cat career-question-contract.json | head -c 10000 || true
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -79,6 +90,7 @@ jobs:
             question-interaction-modes.json
             question-template-content.json
             question-quarantine-audit.json
+            career-question-contract.json
           retention-days: 14
 
   changed-question-guard:
@@ -99,17 +111,7 @@ jobs:
 
           added=$(grep '^+' /tmp/question.diff | grep -v '^+++' || true)
           bad=0
-
-          if printf '%s\n' "$added" | grep -Eq 'correct(Index|Indices)[[:space:]]*:'; then
-            echo 'New positional correctIndex/correctIndices contract detected in authored question data. Normalize to stable option IDs before persistence.'
-            bad=1
-          fi
-          if printf '%s\n' "$added" | grep -Eq 'distractorRationales[[:space:]]*:[[:space:]]*\{[[:space:]]*["'"']?[0-9ABCD]["'"']?[[:space:]]*:'; then
-            echo 'New position/label-keyed distractor rationales detected in authored content. Use stable option IDs.'
-            bad=1
-          fi
-          if printf '%s\n' "$added" | grep -Eq 'options[[:space:]]*:[[:space:]]*\[[[:space:]]*["'"']'; then
-            echo 'New primitive string option array detected in authored question content. Normalize options to {id,text,label}.'
-            bad=1
-          fi
+          if printf '%s\n' "$added" | grep -Eq 'correct(Index|Indices)[[:space:]]*:'; then echo 'New positional correctIndex/correctIndices contract detected in authored question data. Normalize to stable option IDs before persistence.'; bad=1; fi
+          if printf '%s\n' "$added" | grep -Eq 'distractorRationales[[:space:]]*:[[:space:]]*\{[[:space:]]*["'"']?[0-9ABCD]["'"']?[[:space:]]*:'; then echo 'New position/label-keyed distractor rationales detected in authored content. Use stable option IDs.'; bad=1; fi
+          if printf '%s\n' "$added" | grep -Eq 'options[[:space:]]*:[[:space:]]*\[[[:space:]]*["'"']'; then echo 'New primitive string option array detected in authored question content. Normalize options to {id,text,label}.'; bad=1; fi
           exit "$bad"
