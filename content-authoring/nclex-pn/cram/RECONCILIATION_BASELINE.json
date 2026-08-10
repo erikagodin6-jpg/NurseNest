@@ -13,14 +13,14 @@
     "PN-013-pharmacology-element-gap":{"usLpnCount":139,"pnFamilyCount":320,"status":"ACTIVE_PRIORITY","sampleSlugs":["insulin-administration-checks","oral-hypoglycemics","antibiotic-side-effect-reporting"]},
     "PN-015-cram-safety-gap":{"usLpnCount":971,"pnFamilyCount":2244,"status":"ACTIVE_AFTER_PHARMACOLOGY","sampleSlugs":["therapeutic-communication","documentation-do-nots","hypertension-teaching","edema-daily-weights","inhaler-technique-teaching","copd-home-care","i-o-fluid-restriction-teaching","hypokalemia-symptoms"]}
   },
-  "authoredCramLibraryCheckpoint":604,
+  "authoredCramLibraryCheckpoint":624,
   "exactAuditSourceCandidateCount":24,
-  "sourceFamilyAuthoredBeyondExactCandidates":100,
-  "latestSourceFamilyTargets":["postpartum-nursing-complications-expansion-catalog.json","nursing-professional-practice-expansion-catalog.json"],
+  "sourceFamilyAuthoredBeyondExactCandidates":120,
+  "latestSourceFamilyTargets":["nursing-medication-dosage-iv-expansion-catalog.json","procedures-critical-care-burns-tiered-catalog.json"],
   "lineageStatus":"EXACT_SOURCE_CANDIDATES_PLUS_SOURCE_FAMILY_AUTHORING_NOT_YET_ROW_CERTIFIED",
   "lineageCandidateFile":"LINEAGE_CANDIDATES.json",
   "countedResolvedProductionRows":0,
   "auditVisibilityLimitation":"The checked-in audit preserves aggregate/source counts and sample slugs, not a complete current U.S. PN-013/PN-015 source-row list. Source-family authoring cannot be credited as row closure without exact lineage and learner-reachability verification.",
-  "nextReconciliationStep":"Continue recovering exact learner-reachable source identities from the dominant PN-015 families, compare each serving Full lesson with the authored Cram object, and classify each row as MATCHED, MISSING_CRAM, NOT_APPLICABLE_TO_US_PN, or CURATION_REQUIRED.",
+  "nextReconciliationStep":"Continue recovering exact learner-reachable source identities from the dominant PN-013/PN-015 families, compare each serving Full lesson with the authored Cram object, and classify each row as MATCHED, MISSING_CRAM, NOT_APPLICABLE_TO_US_PN, or CURATION_REQUIRED.",
   "completionRule":"Do not infer production completion from authored lesson count, exact-source candidate count, or source-family coverage. Completion requires zero unexplained MISSING_CRAM rows for the serving U.S. LPN/LVN pathway."
 }
