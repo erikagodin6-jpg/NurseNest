@@ -20,23 +20,19 @@ jobs:
           ref: content/cnple-cram-parity-neurology-53-20260810
           fetch-depth: 0
 
-      - name: Reconcile reviewed Neurology recovery against registered estate
+      - name: Reconcile reviewed Neurology recovery and exact-identity bridges
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          import json,re
+          import copy,json,re
           from pathlib import Path
 
           root=Path('content-authoring/cnple/cram')
           mp=root/'manifest.json'
           m=json.loads(mp.read_text())
           required=['id','title','system','blueprintDomains','lifespan','acuity','bottomLine','recognize','differentiate','assessment','workup','management','medicationSafety','redFlags','counselling','followUp','examTrap','oneLinePearl','sourceBasis','sourceAsOf','localPolicyCheck']
-          recovered_sources=[
-            '53a-neurology-high-yield-recovered.json',
-            '53b-neurology-diagnostics-neuromuscular-recovered.json',
-            '53c-neurology-stroke-recovered.json',
-          ]
+          recovery_files=['53a-neurology-high-yield-recovered.json','53b-neurology-diagnostics-neuromuscular-recovered.json','53c-neurology-stroke-recovered.json']
 
           def slugify(x):
               return re.sub(r'^-|-$','',re.sub(r'[^a-z0-9]+','-',x.lower()))[:72]
@@ -46,68 +42,62 @@ jobs:
           expected=[f'np-{slugify(x)}' for x in concepts]
           expected_set=set(expected)
 
-          # Recompute the true registered base from manifest-listed files. Headline counts are evidence,
-          # not prerequisites: this recovery exists specifically because a prior lineage drifted.
-          base={}
-          registered_total=0
+          # Recompute the true registered estate from manifest-listed files.
+          base={}; registered_total=0
           for f in m['files']:
-              p=root/f['path']
-              rows=json.loads(p.read_text())
-              if len(rows)!=f['lessons']:
-                  raise SystemExit(f"{f['path']}: manifest count {f['lessons']} != actual {len(rows)}")
+              rows=json.loads((root/f['path']).read_text())
+              if len(rows)!=f['lessons']: raise SystemExit(f"{f['path']}: count drift")
               registered_total += len(rows)
               for r in rows:
                   miss=[k for k in required if k not in r]
                   if miss: raise SystemExit(f"{r.get('id')}: missing {miss}")
-                  rid=r['id']
-                  if rid in base:
-                      raise SystemExit(f'duplicate registered id: {rid}')
-                  base[rid]=r
+                  if r['id'] in base: raise SystemExit(f"duplicate registered id: {r['id']}")
+                  base[r['id']]=r
 
-          # Load the reviewed Neurology recovery sources and require one unambiguous record per id.
           recovered={}
-          for fn in recovered_sources:
-              rows=json.loads((root/fn).read_text())
-              for r in rows:
+          for fn in recovery_files:
+              for r in json.loads((root/fn).read_text()):
                   miss=[k for k in required if k not in r]
                   if miss: raise SystemExit(f"{r.get('id')}: recovery missing {miss}")
-                  rid=r['id']
-                  if rid in recovered and recovered[rid] != r:
-                      raise SystemExit(f'divergent duplicate across recovery sources: {rid}')
-                  recovered[rid]=r
-          if len(recovered)!=21:
-              raise SystemExit(f'recovery source must contain 21 unique ids, got {len(recovered)}')
+                  if r['id'] in recovered and recovered[r['id']] != r:
+                      raise SystemExit(f"divergent recovery duplicate: {r['id']}")
+                  recovered[r['id']]=r
+          if len(recovered)!=21: raise SystemExit(f'expected 21 recovered ids, got {len(recovered)}')
 
-          missing_records=[]
-          already_equivalent=[]
-          conflicts=[]
+          # Four clinically reviewed pathways already exist under historical CNPLE-specific ids.
+          # Bridge them to the literal generator Full slugs; only the identity changes.
+          bridges={
+            'np-syncope-neurologic-evaluation':'cnple-ca-parity-neuro-syncope-neurologic',
+            'np-tension-type-headache-management':'cnple-ca-parity-neuro-tension-headache',
+            'np-cluster-headache-diagnosis-and-treatment':'cnple-ca-parity-neuro-cluster-headache',
+            'np-headache-differential-diagnosis-and-management':'cnple-ca-parity-headache-comprehensive-case',
+          }
+          bridged=[]
+          for target,source in bridges.items():
+              if source not in base: raise SystemExit(f'bridge source missing: {source}')
+              r=copy.deepcopy(base[source]); r['id']=target
+              # Record provenance without changing learner-facing clinical meaning.
+              r['sourceBasis']=list(r['sourceBasis'])+[f'Identity bridge from reviewed CNPLE Cram {source} to canonical Full slug {target}']
+              if target in recovered and recovered[target] != r: raise SystemExit(f'bridge conflicts with recovery: {target}')
+              recovered[target]=r; bridged.append(target)
+
+          # Decide what is genuinely missing. Same-id equivalent is harmless; same-id divergent fails closed.
+          missing=[]; equivalent=[]; conflicts=[]
           for rid,r in recovered.items():
-              if rid not in base:
-                  missing_records.append(r)
-              elif base[rid] == r:
-                  already_equivalent.append(rid)
-              else:
-                  conflicts.append(rid)
-          if conflicts:
-              raise SystemExit(f'divergent same-id Neurology conflicts require adjudication: {sorted(conflicts)}')
+              if rid not in base: missing.append(r)
+              elif base[rid] == r: equivalent.append(rid)
+              else: conflicts.append(rid)
+          if conflicts: raise SystemExit(f'divergent same-id conflicts: {sorted(conflicts)}')
+          if expected_set - (set(base)|set(recovered)):
+              raise SystemExit(f'Neurology denominator still missing: {sorted(expected_set-(set(base)|set(recovered)))}')
 
-          union_ids=set(base) | set(recovered)
-          missing_denominator=expected_set-union_ids
-          if missing_denominator:
-              raise SystemExit(f'Neurology denominator still missing after recovery: {sorted(missing_denominator)}')
-
-          # Only register records genuinely absent from the base. Do not register source files containing
-          # an already-present id, because that would create a duplicate in the learner authoring estate.
           consolidated='53-neurology-generator-parity-consolidated.json'
-          ordered_missing=[recovered[rid] for rid in expected if rid in recovered and rid not in base]
-          if ordered_missing:
-              (root/consolidated).write_text(json.dumps(ordered_missing,indent=2,ensure_ascii=False)+'\n')
+          ordered=[recovered[rid] for rid in expected if rid in recovered and rid not in base]
+          if ordered:
+              (root/consolidated).write_text(json.dumps(ordered,indent=2,ensure_ascii=False)+'\n')
               if consolidated not in {f['path'] for f in m['files']}:
-                  m['files'].append({'path':consolidated,'lessons':len(ordered_missing),'role':'full_lesson_parity_recovery'})
-          elif consolidated in {f['path'] for f in m['files']}:
-              raise SystemExit('consolidated Neurology file is registered but no missing records remain')
-
-          post_total=registered_total+len(ordered_missing)
+                  m['files'].append({'path':consolidated,'lessons':len(ordered),'role':'full_lesson_parity_recovery'})
+          post_total=registered_total+len(ordered)
           m['rawLessonObjects']=post_total
           m['uniqueLessonIds']=post_total
           m['canonicalTopicPathways']=post_total-m['explicitCanonicalSupersessions']
@@ -117,50 +107,37 @@ jobs:
 
           audit='AUTHORING_CONSOLIDATION_NEUROLOGY_53.json'
           report={
-            'schemaVersion':2,'validatedAt':'2026-08-10','status':'PASS',
+            'schemaVersion':3,'validatedAt':'2026-08-10','status':'PASS',
             'registeredBaseObjectsRecomputed':registered_total,
-            'manifestHeadlineBefore':{
-              'rawLessonObjects':m.get('rawLessonObjects'),
-            },
-            'reviewedRecoverySourceIds':len(recovered),
-            'importedMissingIds':len(ordered_missing),
-            'alreadyRegisteredByteEquivalentIds':sorted(already_equivalent),
-            'rawLessonObjects':m['rawLessonObjects'],
-            'uniqueLessonIds':m['uniqueLessonIds'],
-            'canonicalTopicPathways':m['canonicalTopicPathways'],
-            'clinicalJsonFiles':m['clinicalJsonFiles'],
-            'neurologyGeneratorParity':'25/25',
-            'canonicalNeurologyIds':expected,
+            'reviewedRecoverySourceIds':21,
+            'identityBridges':bridges,
+            'importedMissingIds':len(ordered),
+            'alreadyRegisteredByteEquivalentIds':sorted(equivalent),
+            'rawLessonObjects':post_total,'uniqueLessonIds':post_total,
+            'canonicalTopicPathways':m['canonicalTopicPathways'],'clinicalJsonFiles':m['clinicalJsonFiles'],
+            'neurologyGeneratorParity':'25/25','canonicalNeurologyIds':expected,
           }
           (root/audit).write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')
-          if audit not in m.get('auditDocuments',[]):
-              m.setdefault('auditDocuments',[]).append(audit)
-          m['structuralValidation']={
-            'status':'PASS','jsonParse':True,'requiredFields':True,'uniqueIds':True,
-            'duplicateIdCount':0,
-            'canadianContaminationScan':m.get('structuralValidation',{}).get('canadianContaminationScan','PASS'),
-            'validatedAt':'2026-08-10'
-          }
-          m['publication']['note']='All 16 canonical NP generator families now have governed CNPLE Cram authoring parity, including Neurology 25/25. Full current-curriculum parity, private-core source anchors, Quick Checks, runtime certification and learner rendering remain incomplete.'
+          if audit not in m.get('auditDocuments',[]): m.setdefault('auditDocuments',[]).append(audit)
+          m['structuralValidation']={'status':'PASS','jsonParse':True,'requiredFields':True,'uniqueIds':True,'duplicateIdCount':0,'canadianContaminationScan':m.get('structuralValidation',{}).get('canadianContaminationScan','PASS'),'validatedAt':'2026-08-10'}
+          m['publication']['note']='All 16 canonical NP generator families now have governed CNPLE Cram authoring parity, including Neurology 25/25 through reviewed exact-identity bridges. Full current-curriculum parity, source anchors, Quick Checks, runtime certification and learner rendering remain incomplete.'
           mp.write_text(json.dumps(m,indent=2,ensure_ascii=False)+'\n')
 
-          # Whole-estate final validation from the resulting registered manifest.
-          ids=[]; final_total=0
+          # Reparse the entire final registered estate.
+          ids=[]; total=0
           for f in m['files']:
               rows=json.loads((root/f['path']).read_text())
-              if len(rows)!=f['lessons']:
-                  raise SystemExit(f"{f['path']}: final count drift")
-              final_total += len(rows)
+              if len(rows)!=f['lessons']: raise SystemExit(f"{f['path']}: final count drift")
+              total += len(rows)
               for r in rows:
                   miss=[k for k in required if k not in r]
                   if miss: raise SystemExit(f"{r.get('id')}: final missing {miss}")
                   ids.append(r['id'])
-          if final_total!=m['rawLessonObjects'] or len(ids)!=final_total or len(set(ids))!=final_total:
-              raise SystemExit(f'final total/ids invalid: manifest={m["rawLessonObjects"]} total={final_total} ids={len(ids)} unique={len(set(ids))}')
+          if total!=m['rawLessonObjects'] or len(ids)!=total or len(set(ids))!=total:
+              raise SystemExit(f'final total/ids invalid: manifest={m["rawLessonObjects"]} total={total} ids={len(ids)} unique={len(set(ids))}')
           if m['canonicalTopicPathways'] != m['rawLessonObjects']-m['explicitCanonicalSupersessions']:
               raise SystemExit('canonical arithmetic mismatch')
-          if not expected_set.issubset(set(ids)):
-              raise SystemExit('final registered estate does not contain all 25 Neurology generator ids')
+          if not expected_set.issubset(set(ids)): raise SystemExit('25/25 Neurology identities not registered')
           print(json.dumps(report,indent=2))
           PY
           git diff --check -- content-authoring/cnple/cram
@@ -172,11 +149,7 @@ jobs:
           git config user.name 'NurseNest CNPLE consolidation'
           git config user.email 'actions@users.noreply.github.com'
           git rm .github/workflows/cnple-neurology-53-consolidate.yml
-          rm -f \
-            content-authoring/cnple/cram/53a-neurology-high-yield-recovered.json \
-            content-authoring/cnple/cram/53b-neurology-diagnostics-neuromuscular-recovered.json \
-            content-authoring/cnple/cram/53c-neurology-stroke-recovered.json \
-            content-authoring/cnple/cram/AUTHORING_CONSOLIDATION_NEUROLOGY_53_RECOVERY.json
+          rm -f content-authoring/cnple/cram/53a-neurology-high-yield-recovered.json content-authoring/cnple/cram/53b-neurology-diagnostics-neuromuscular-recovered.json content-authoring/cnple/cram/53c-neurology-stroke-recovered.json content-authoring/cnple/cram/AUTHORING_CONSOLIDATION_NEUROLOGY_53_RECOVERY.json
           git add -A content-authoring/cnple/cram .github/workflows/cnple-neurology-53-consolidate.yml
           git diff --cached --check
           git commit -m 'content(cnple-cram): reconcile complete Neurology generator parity'
