@@ -1,0 +1,93 @@
+name: CNPLE Parity 38D Register
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - .github/workflows/cnple-parity-38d-register.yml
+      - content-authoring/cnple/cram/38d-lab-cbc-electrolyte-acid-base-parity.json
+      - content-authoring/cnple/cram/AUTHORING_QA_PARITY_38D.md
+
+permissions:
+  contents: write
+
+jobs:
+  register:
+    if: github.event.pull_request.head.ref == 'content/cnple-cram-parity-labs-38d-20260808'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: content/cnple-cram-parity-labs-38d-20260808
+          fetch-depth: 0
+      - name: Validate and register 38D
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('content-authoring/cnple/cram')
+          manifest_path = root/'manifest.json'
+          m = json.loads(manifest_path.read_text())
+          predecessor = (426, 426, 418, 42)
+          registered = (434, 434, 426, 43)
+          got = (m['rawLessonObjects'], m['uniqueLessonIds'], m['canonicalTopicPathways'], m['clinicalJsonFiles'])
+          if got not in (predecessor, registered):
+              raise SystemExit(f'refusing: unexpected manifest state {got}')
+          path = '38d-lab-cbc-electrolyte-acid-base-parity.json'
+          rows = json.loads((root/path).read_text())
+          expected_ids = [
+            'lab-cbc-interpretation','lab-platelets-and-coagulation-basics','lab-calcium-disorders','lab-magnesium-disorders',
+            'lab-ck-and-ck-mb','lab-respiratory-acidosis','lab-respiratory-alkalosis','lab-metabolic-acidosis'
+          ]
+          ids = [r.get('id') for r in rows]
+          if ids != expected_ids:
+              raise SystemExit(f'refusing: 38D ids {ids} != {expected_ids}')
+          required = ['id','title','system','blueprintDomains','lifespan','acuity','bottomLine','recognize','differentiate','assessment','workup','management','medicationSafety','redFlags','counselling','followUp','examTrap','oneLinePearl','sourceBasis','sourceAsOf','localPolicyCheck']
+          for r in rows:
+              missing=[k for k in required if k not in r]
+              if missing: raise SystemExit(f"{r.get('id')}: missing {missing}")
+          if len(ids) != len(set(ids)):
+              raise SystemExit('refusing: duplicate ids inside 38D')
+          if got == predecessor:
+              m['rawLessonObjects']=434
+              m['uniqueLessonIds']=434
+              m['canonicalTopicPathways']=426
+              m['clinicalJsonFiles']=43
+              m['files'].append({'path':path,'lessons':8,'role':'full_lesson_parity_expansion'})
+              m['auditDocuments'].append('AUTHORING_QA_PARITY_38D.md')
+              m['fullLessonParity']['authoringCanonicalTopicPathways']=426
+              pub=m['publication']
+              pub['secondPassClinicalAuditCompleteForParity38D']=True
+              pub['newExpansionBatchPendingSecondPassAudit']=False
+              pub['note']='The 434-object library is an audited topic baseline plus active Full-lesson parity expansions through 38D. Private-core identity/source/Quick-Check/runtime certification remains fail-closed and Full-lesson parity is not complete.'
+          else:
+              if m['auditDocuments'].count('AUTHORING_QA_PARITY_38D.md') != 1:
+                  raise SystemExit('refusing: 38D audit registration is not exactly once')
+              matches=[f for f in m['files'] if f.get('path')==path]
+              if matches != [{'path':path,'lessons':8,'role':'full_lesson_parity_expansion'}]:
+                  raise SystemExit(f'refusing: registered 38D file entry invalid: {matches}')
+          all_ids=[]; total=0
+          for f in m['files']:
+              data=json.loads((root/f['path']).read_text())
+              if len(data)!=f['lessons']:
+                  raise SystemExit(f"{f['path']}: {len(data)} != {f['lessons']}")
+              total += len(data)
+              all_ids.extend(r['id'] for r in data)
+          if total != 434 or len(all_ids) != 434 or len(set(all_ids)) != 434:
+              raise SystemExit(f'global validation failed total={total} ids={len(all_ids)} unique={len(set(all_ids))}')
+          manifest_path.write_text(json.dumps(m,indent=2,ensure_ascii=False)+'\n')
+          PY
+          git diff --check -- content-authoring/cnple/cram/manifest.json
+      - name: Commit registration and self-delete
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'NurseNest CNPLE authoring'
+          git config user.email 'actions@users.noreply.github.com'
+          git rm .github/workflows/cnple-parity-38d-register.yml
+          git add content-authoring/cnple/cram/manifest.json content-authoring/cnple/cram/38d-lab-cbc-electrolyte-acid-base-parity.json content-authoring/cnple/cram/AUTHORING_QA_PARITY_38D.md
+          git diff --cached --check
+          git commit -m 'content(cnple-cram): register audited parity batch 38D'
+          git push origin HEAD:content/cnple-cram-parity-labs-38d-20260808
