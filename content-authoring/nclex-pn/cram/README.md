@@ -4,8 +4,8 @@ Status: ACTIVE AUTHORING
 Locale: United States
 Exam: NCLEX-PN
 Level: Entry-level practical/vocational nursing (LPN/LVN)
-Authored checkpoint: 524 Cram lessons
-Latest QA addendum: `AUTHORING_QA_ADDENDUM_524.md`
+Authored checkpoint: 604 Cram lessons
+Latest QA addendum: `AUTHORING_QA_ADDENDUM_604.md`
 
 ## Purpose
 
@@ -15,7 +15,7 @@ The library is authored against the current NCSBN NCLEX-PN test plan and U.S. en
 
 The numeric authoring checkpoint is not a production-completion claim. Production completion requires stable reconciliation against the learner-reachable `us-lpn-nclex-pn` full-lesson estate and zero unexplained `MISSING_CRAM` rows. Aggregate audit/source counts and sample slugs do not by themselves prove that a newly authored topic closes a serving production row.
 
-The 504 checkpoint added an exact-audit-source authoring layer. The 524 checkpoint adds source-family depth from the dominant PN-015 health-assessment/fundamentals and perioperative/procedure catalog families. Source-family coverage is deliberately not treated as row-level lineage.
+The 504 checkpoint added an exact-audit-source authoring layer. The 604 checkpoint now adds 100 additional source-family lessons beyond that layer, including health assessment/fundamentals, perioperative/procedure safety, neurologic procedures, newborn/neonatal safety, pediatric acute care, gerontology/long-term care, musculoskeletal rehabilitation, community/home health, postpartum complications, and professional-practice/coordinated-care safety. Source-family coverage is deliberately not treated as row-level lineage.
 
 ## Cram lesson contract
 
