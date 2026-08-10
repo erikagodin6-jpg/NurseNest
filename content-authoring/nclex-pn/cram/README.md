@@ -4,18 +4,18 @@ Status: ACTIVE AUTHORING
 Locale: United States
 Exam: NCLEX-PN
 Level: Entry-level practical/vocational nursing (LPN/LVN)
-Authored checkpoint: 684 Cram lessons
-Latest QA addendum: `AUTHORING_QA_ADDENDUM_684.md`
+Authored checkpoint: 724 Cram lessons
+Latest QA addendum: `AUTHORING_QA_ADDENDUM_724.md`
 
 ## Purpose
 
-These are not shortened textbook chapters. Each Cram lesson is a rapid nursing-decision pathway for NCLEX-PN clinical judgment, prioritization, safety, delegation/assignment awareness, medication safety, and recognition of changes requiring escalation.
+These are rapid nursing-decision pathways for NCLEX-PN clinical judgment, prioritization, safety, delegation/assignment awareness, medication safety, focused monitoring, and recognition of changes requiring escalation.
 
-The library is authored against the current NCSBN NCLEX-PN test plan and U.S. entry-level LPN/LVN scope. It must not assume RN assessment authority, independent medical diagnosis, independent prescribing, or jurisdiction-specific tasks that may exceed practical/vocational nursing scope.
+The library is authored against the 2026 NCLEX-PN test plan and U.S. entry-level LPN/LVN scope. It must not assume RN assessment authority, independent medical diagnosis, independent prescribing, or jurisdiction-specific tasks that may exceed practical/vocational nursing scope.
 
-The numeric authoring checkpoint is not a production-completion claim. Production completion requires stable reconciliation against the learner-reachable `us-lpn-nclex-pn` full-lesson estate and zero unexplained `MISSING_CRAM` rows. Aggregate audit/source counts and sample slugs do not by themselves prove that a newly authored topic closes a serving production row.
+The numeric authoring checkpoint is not a production-completion claim. Production completion requires stable reconciliation against the learner-reachable `us-lpn-nclex-pn` full-lesson estate and zero unexplained `MISSING_CRAM` rows.
 
-The 504 checkpoint added an exact-audit-source authoring layer. The 684 checkpoint now includes 180 additional source-family lessons beyond that layer. Newest depth includes diagnostic/laboratory safety and emergency/disaster/environmental safety on top of health assessment, procedures, newborn/pediatric, gerontology, rehabilitation, community/home health, postpartum, professional practice, IV/medication calculations, burns, nutrition support, HEENT, infection/isolation, and psychosocial crisis safety. Source-family coverage is deliberately not treated as row-level lineage.
+The 504 checkpoint added an exact-audit-source authoring layer. The 724 checkpoint now includes 220 source-family lessons beyond that exact-source layer. Newest depth includes transfusion/blood-product safety and ostomy/drainage/wound-device safety, on top of dialysis, diabetes-device monitoring, diagnostics, disaster/environmental care, infection/isolation, psychosocial crisis care, nutrition support, HEENT, IV/medication calculations, burns, procedures, postpartum, pediatric, gerontology, rehabilitation, and community/home-health safety.
 
 ## Cram lesson contract
 
