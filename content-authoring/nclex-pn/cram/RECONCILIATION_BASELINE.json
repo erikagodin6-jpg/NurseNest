@@ -13,10 +13,10 @@
     "PN-013-pharmacology-element-gap":{"usLpnCount":139,"pnFamilyCount":320,"status":"ACTIVE_PRIORITY","sampleSlugs":["insulin-administration-checks","oral-hypoglycemics","antibiotic-side-effect-reporting"]},
     "PN-015-cram-safety-gap":{"usLpnCount":971,"pnFamilyCount":2244,"status":"ACTIVE_AFTER_PHARMACOLOGY","sampleSlugs":["therapeutic-communication","documentation-do-nots","hypertension-teaching","edema-daily-weights","inhaler-technique-teaching","copd-home-care","i-o-fluid-restriction-teaching","hypokalemia-symptoms"]}
   },
-  "authoredCramLibraryCheckpoint":644,
+  "authoredCramLibraryCheckpoint":684,
   "exactAuditSourceCandidateCount":24,
-  "sourceFamilyAuthoredBeyondExactCandidates":140,
-  "latestSourceFamilyTargets":["nutrition-enteral-parenteral-safety","sensory-heent-acute-safety"],
+  "sourceFamilyAuthoredBeyondExactCandidates":180,
+  "latestSourceFamilyTargets":["diagnostic-laboratory-safety","emergency-disaster-environmental-safety"],
   "lineageStatus":"EXACT_SOURCE_CANDIDATES_PLUS_SOURCE_FAMILY_AUTHORING_NOT_YET_ROW_CERTIFIED",
   "lineageCandidateFile":"LINEAGE_CANDIDATES.json",
   "countedResolvedProductionRows":0,
