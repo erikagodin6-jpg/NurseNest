@@ -4,8 +4,8 @@ Status: ACTIVE AUTHORING
 Locale: United States
 Exam: NCLEX-PN
 Level: Entry-level practical/vocational nursing (LPN/LVN)
-Authored checkpoint: 604 Cram lessons
-Latest QA addendum: `AUTHORING_QA_ADDENDUM_604.md`
+Authored checkpoint: 624 Cram lessons
+Latest QA addendum: `AUTHORING_QA_ADDENDUM_624.md`
 
 ## Purpose
 
@@ -15,9 +15,9 @@ The library is authored against the current NCSBN NCLEX-PN test plan and U.S. en
 
 The numeric authoring checkpoint is not a production-completion claim. Production completion requires stable reconciliation against the learner-reachable `us-lpn-nclex-pn` full-lesson estate and zero unexplained `MISSING_CRAM` rows. Aggregate audit/source counts and sample slugs do not by themselves prove that a newly authored topic closes a serving production row.
 
-The 504 checkpoint added an exact-audit-source authoring layer. The 604 checkpoint now adds 100 additional source-family lessons beyond that layer, including health assessment/fundamentals, perioperative/procedure safety, neurologic procedures, newborn/neonatal safety, pediatric acute care, gerontology/long-term care, musculoskeletal rehabilitation, community/home health, postpartum complications, and professional-practice/coordinated-care safety. Source-family coverage is deliberately not treated as row-level lineage.
+The 504 checkpoint added an exact-audit-source authoring layer. The 624 checkpoint now includes 120 additional source-family lessons beyond that layer, spanning health assessment/fundamentals, perioperative/procedure safety, neurologic procedures, newborn/neonatal safety, pediatric acute care, gerontology/long-term care, musculoskeletal rehabilitation, community/home health, postpartum complications, professional-practice/coordinated-care safety, IV/medication-calculation safety, and critical-care/burn safety. Source-family coverage is deliberately not treated as row-level lineage.
 
-Current source refresh for the 604 tranche includes ACOG postpartum-care/hemorrhage resources, CDC Hear Her urgent maternal warning signs, NCSBN delegation guidance, HHS HIPAA minimum-necessary/interpreter guidance, and Joint Commission current communication/patient-safety principles.
+Current source refresh for the newest tranche includes American Burn Association clinical practice guidance, CDC wound/tetanus guidance, FDA product-labeling principles, ISMP medication/infusion-safety principles, and the 2026 NCLEX-PN blueprint.
 
 ## Cram lesson contract
 
@@ -69,7 +69,7 @@ Optional reconciliation fields:
 
 1. NCSBN NCLEX-PN Test Plan and clinical judgment framework
 2. Federal U.S. sources such as CDC, FDA, HHS, OSHA, and CMS when applicable
-3. National specialty organizations and evidence-based U.S. guidelines (for example AHA, ADA, ACOG, AAP)
+3. National specialty organizations and evidence-based U.S. guidelines (for example AHA, ADA, ACOG, AAP, ABA)
 4. State boards of nursing or facility policy for jurisdiction-variable scope issues
 
 ## Publication rule
