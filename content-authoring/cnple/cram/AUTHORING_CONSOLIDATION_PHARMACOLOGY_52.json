@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "family": "Pharmacology",
+  "canonicalGeneratorIdentities": 26,
+  "sourceClinicalSecondPass": "PASS",
+  "added": 26,
+  "alreadyPresentByteEquivalent": 0,
+  "conflicts": [],
+  "finalRawLessonObjects": 832,
+  "finalCanonicalTopicPathways": 824,
+  "finalClinicalJsonFiles": 70,
+  "fullGeneratorCoverage": true,
+  "publicationBoundary": "Authoring parity only; Full-source anchors, Bottom Line evidence, exactly three eligible Quick Checks, runtime certification and learner render QA remain required."
+}
