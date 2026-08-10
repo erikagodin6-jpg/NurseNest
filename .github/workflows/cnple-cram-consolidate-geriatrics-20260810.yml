@@ -1,0 +1,151 @@
+name: CNPLE Cram Consolidate Geriatrics
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/cnple-cram-consolidate-geriatrics-20260810.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  consolidate:
+    if: github.event.pull_request.head.ref == 'content/cnple-cram-parity-consolidated-geriatrics-20260810'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: content/cnple-cram-parity-consolidated-geriatrics-20260810
+          fetch-depth: 0
+
+      - name: Configure git and fetch audited geriatrics source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'NurseNest CNPLE geriatrics consolidation'
+          git config user.email 'actions@users.noreply.github.com'
+          git fetch origin content/cnple-cram-parity-geriatrics-50a-20260810
+          git show origin/content/cnple-cram-parity-geriatrics-50a-20260810:content-authoring/cnple/cram/50a-geriatrics-parity.json > /tmp/50a.json
+          git show origin/content/cnple-cram-parity-geriatrics-50a-20260810:content-authoring/cnple/cram/50b-geriatrics-parity.json > /tmp/50b.json
+          git show origin/content/cnple-cram-parity-geriatrics-50a-20260810:content-authoring/cnple/cram/AUTHORING_QA_GERIATRICS_50.md > /tmp/qa.md
+
+      - name: Consolidate exact canonical geriatrics identities
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, pathlib, re, sys
+
+          root = pathlib.Path('content-authoring/cnple/cram')
+          manifest_path = root / 'manifest.json'
+          manifest = json.loads(manifest_path.read_text())
+          if manifest['rawLessonObjects'] != 754 or manifest['uniqueLessonIds'] != 754 or manifest['canonicalTopicPathways'] != 746 or manifest['clinicalJsonFiles'] != 67:
+              raise SystemExit(f"unexpected_predecessor:{manifest['rawLessonObjects']}/{manifest['canonicalTopicPathways']}/{manifest['clinicalJsonFiles']}")
+
+          concepts = [
+            'comprehensive geriatric assessment','falls risk assessment and prevention','frailty recognition and management','polypharmacy and deprescribing','dementia in older adults evaluation and management','delirium prevention and management','depression in older adults','anxiety in older adults','urinary incontinence in older adults','constipation in older adults','nutrition and weight loss in elderly','sleep disorders in older adults','chronic pain management in elderly','osteoporosis management in older adults','vision and hearing loss in elderly','driving safety assessment','elder abuse recognition and reporting','advance care planning','palliative care in geriatrics','hypertension management in elderly','diabetes management in elderly','heart failure in elderly','cognitive impairment screening','functional assessment tools','transitions of care for elderly','long term care considerations'
+          ]
+          def slugify(s):
+              s = re.sub(r'[^a-z0-9]+','-',s.lower()).strip('-')
+              return ('np-' + s)[:75].rstrip('-')
+          expected = {slugify(x) for x in concepts}
+
+          source = json.loads(pathlib.Path('/tmp/50a.json').read_text()) + json.loads(pathlib.Path('/tmp/50b.json').read_text())
+          by_id = {r['id']: r for r in source}
+          if set(by_id) != expected or len(source) != 26:
+              raise SystemExit(f'source_denominator_mismatch:{len(source)}:{sorted(expected-set(by_id))}:{sorted(set(by_id)-expected)}')
+
+          required = ['id','title','system','blueprintDomains','lifespan','acuity','bottomLine','recognize','differentiate','assessment','workup','management','medicationSafety','redFlags','counselling','followUp','examTrap','oneLinePearl','sourceBasis','sourceAsOf','localPolicyCheck']
+          existing = {}
+          for f in manifest['files']:
+              rows = json.loads((root / f['path']).read_text())
+              if len(rows) != f['lessons']:
+                  raise SystemExit(f"manifest_count_drift:{f['path']}")
+              for r in rows:
+                  rid = r['id']
+                  if rid in existing:
+                      raise SystemExit(f'duplicate_existing:{rid}')
+                  existing[rid] = r
+
+          additions=[]
+          skipped=[]
+          conflicts=[]
+          for rid in sorted(expected):
+              r=by_id[rid]
+              missing=[k for k in required if k not in r]
+              if missing:
+                  raise SystemExit(f"missing_required:{rid}:{','.join(missing)}")
+              if rid not in existing:
+                  additions.append(r)
+              elif existing[rid] == r:
+                  skipped.append(rid)
+              else:
+                  conflicts.append(rid)
+          if conflicts:
+              pathlib.Path('AUTHORING_GERIATRICS_CONFLICTS.json').write_text(json.dumps({'conflicts':conflicts},indent=2)+'\n')
+              raise SystemExit('same_id_different_content:' + ','.join(conflicts))
+
+          out_name='50-geriatrics-consolidated-parity.json'
+          (root/out_name).write_text(json.dumps(additions,ensure_ascii=False,indent=2)+'\n')
+          (root/'AUTHORING_QA_GERIATRICS_50.md').write_text(pathlib.Path('/tmp/qa.md').read_text())
+
+          manifest['files'].append({'path':out_name,'lessons':len(additions),'role':'full_lesson_parity_expansion'})
+          manifest['rawLessonObjects'] += len(additions)
+          manifest['uniqueLessonIds'] += len(additions)
+          manifest['canonicalTopicPathways'] += len(additions)
+          manifest['clinicalJsonFiles'] += 1
+          manifest['sourceRefreshDate']='2026-08-10'
+          manifest.setdefault('auditDocuments',[]).append('AUTHORING_QA_GERIATRICS_50.md')
+          manifest['publication']['fullLessonCramParityComplete']=False
+          manifest['publication']['productionMerged']=False
+          manifest['publication']['productionDeployed']=False
+          manifest_path.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
+
+          # Global reparse + required-field + uniqueness validation after union.
+          final_ids=set(); count=0
+          for f in manifest['files']:
+              rows=json.loads((root/f['path']).read_text())
+              if len(rows)!=f['lessons']:
+                  raise SystemExit(f"post_count_drift:{f['path']}")
+              for r in rows:
+                  for k in required:
+                      if k not in r:
+                          raise SystemExit(f"post_missing_required:{r.get('id')}:{k}")
+                  if r['id'] in final_ids:
+                      raise SystemExit(f"post_duplicate:{r['id']}")
+                  final_ids.add(r['id']); count+=1
+          if count != manifest['rawLessonObjects'] or len(final_ids) != manifest['uniqueLessonIds']:
+              raise SystemExit(f"post_manifest_arithmetic:{count}/{len(final_ids)}")
+          if not expected.issubset(final_ids):
+              raise SystemExit('geriatrics_denominator_not_complete')
+
+          ledger={
+            'schemaVersion':1,
+            'family':'Geriatrics',
+            'canonicalGeneratorIdentities':26,
+            'sourceBranch':'content/cnple-cram-parity-geriatrics-50a-20260810',
+            'sourceClinicalSecondPass':'PASS',
+            'added':len(additions),
+            'alreadyPresentByteEquivalent':len(skipped),
+            'conflicts':[],
+            'finalRawLessonObjects':manifest['rawLessonObjects'],
+            'finalCanonicalTopicPathways':manifest['canonicalTopicPathways'],
+            'finalClinicalJsonFiles':manifest['clinicalJsonFiles'],
+            'fullGeneratorCoverage':True,
+            'publicationBoundary':'Authoring parity only; Full-source anchors, Bottom Line evidence, exactly three eligible Quick Checks, runtime certification and learner render QA remain required.'
+          }
+          (root/'AUTHORING_CONSOLIDATION_GERIATRICS_50.json').write_text(json.dumps(ledger,indent=2)+'\n')
+          print(json.dumps(ledger,indent=2))
+          PY
+
+      - name: Commit governed consolidation
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rm .github/workflows/cnple-cram-consolidate-geriatrics-20260810.yml
+          git add content-authoring/cnple/cram/
+          git diff --cached --check
+          git commit -m 'content(cnple-cram): consolidate complete geriatrics parity'
+          git push origin HEAD:content/cnple-cram-parity-consolidated-geriatrics-20260810
