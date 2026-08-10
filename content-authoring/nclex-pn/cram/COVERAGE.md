@@ -1,22 +1,22 @@
 # U.S. PN / NCLEX-PN Cram Coverage
 
 Status: ACTIVE AUTHORING
-Authored Cram lessons: 744
-Latest QA addendum: `AUTHORING_QA_ADDENDUM_744.md`
+Authored Cram lessons: 764
+Latest QA addendum: `AUTHORING_QA_ADDENDUM_764.md`
 Locale: United States
 Exam alignment: 2026 NCLEX-PN Test Plan
 
-The library contains 744 distinct U.S. PN/LPN/LVN Cram lessons across all NCLEX-PN Client Needs areas. No numeric authoring milestone is a production-completion claim.
+The library contains 764 distinct U.S. PN/LPN/LVN Cram lessons across all NCLEX-PN Client Needs areas. No numeric authoring milestone is a production-completion claim.
 
 ## Latest source-family depth
 
-The newest tracheostomy/airway-device batch adds obstruction, accidental decannulation, suctioning safety, humidification/secretions, cuff safety, stoma infection, tracheostomy bleeding, speaking-valve safety, aspiration/swallowing risk, and home emergency readiness.
+The newest palliative/end-of-life batch adds comfort-focused pain and dyspnea care, terminal secretions, nausea/constipation, agitation/delirium, mouth care, skin comfort, medication-review awareness, goals-of-care handoff, and actively dying changes.
 
-The newest urinary/urologic-device batch adds catheter indication, closed drainage, obstruction, retention/bladder scanning, intermittent catheterization, suprapubic catheter care, hematuria/clot retention, catheter urine-culture collection, asymptomatic bacteriuria stewardship, and post-removal voiding follow-up.
+The newest cardiac-device/rhythm-procedure batch adds pacemaker aftercare, ICD-shock safety, device-pocket infection, lead displacement, temporary-pacing malfunction, CIED procedural handoff, elective-cardioversion preparation, post-cardioversion monitoring, post-ablation deterioration, and telemetry lead/artifact verification.
 
 These lessons are tagged `SOURCE_FAMILY_AUTHORED_NOT_ROW_MAPPED` and are not credited as production row closures.
 
-Current U.S. source refresh includes CDC 2026 occupational/airway-suction infection-control guidance, AHRQ tracheostomy safety material, CDC CAUTI recommendations, CDC urine-culture stewardship guidance, and AHRQ CAUTI prevention resources.
+Current U.S. source refresh includes CMS hospice guidance current through July 2026 and American Heart Association cardioversion, ICD/CIED, and periprocedural device-safety guidance. PN/LVN actions remain recognition, focused monitoring, safe ordered implementation, communication, and escalation; device programming, anticoagulation strategy, prescribing, and goals-of-care medical orders are not presented as autonomous PN functions.
 
 ## Production denominator
 
