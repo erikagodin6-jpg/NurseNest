@@ -1,0 +1,1492 @@
+[
+  {
+    "id": "np-comprehensive-preventive-care",
+    "title": "Comprehensive Preventive Care: Prioritize Benefit, Risk, and Follow-Through",
+    "system": "Primary Care / Prevention",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Preventive care is a risk-based process, not a checklist of every available test. Start with symptoms first, then age, anatomy, pregnancy potential, family/genetic risk, exposures, immunization status, cardiometabolic risk, mental health and social barriers; offer evidence-supported prevention only when benefits outweigh harms and ensure abnormal findings reach diagnostic resolution.",
+    "recognize": [
+      "Screening applies to people without symptoms; new symptoms require diagnostic evaluation instead of a routine screening interval.",
+      "Preventive priorities change with life stage, prior abnormal results, comorbidity, life expectancy and patient preferences."
+    ],
+    "differentiate": [
+      "Population screening, individual risk assessment, case-finding and diagnostic testing are different clinical tasks.",
+      "A national recommendation and a provincially funded screening program may not have identical eligibility or implementation."
+    ],
+    "assessment": [
+      "Review current symptoms, previous screening, immunization, smoking/substance exposure, cardiovascular risk, sexual/reproductive health, mental health, falls/osteoporosis risk and relevant family history.",
+      "Ask about access, language, disability, transportation and financial barriers that could prevent follow-up."
+    ],
+    "workup": [
+      "Use current Canadian evidence plus the applicable provincial/territorial program rather than a single memorized schedule for all of Canada.",
+      "Avoid ordering tests whose positive result would not be followed up or whose harms exceed likely benefit in the patient's context."
+    ],
+    "management": [
+      "Prioritize high-benefit interventions such as immunization, tobacco treatment, cardiometabolic risk reduction and evidence-supported cancer screening, individualized to risk and preference.",
+      "Assign ownership for every abnormal screen, referral and recall interval."
+    ],
+    "medicationSafety": [
+      "Prevention includes medication review for interactions, deprescribing opportunities and therapies with proven risk reduction when indicated; do not add preventive medication solely because a risk factor exists without assessing net benefit."
+    ],
+    "redFlags": [
+      "Symptom incorrectly routed to screening",
+      "Abnormal screen with no follow-up owner",
+      "High-risk family/genetic history managed as average risk",
+      "Preventive plan impossible because of access barriers"
+    ],
+    "counselling": [
+      "Discuss benefits, harms, uncertainty and patient priorities in plain language rather than presenting every preventive intervention as mandatory."
+    ],
+    "followUp": [
+      "Maintain a recall/registry system and close abnormal results before considering the preventive task complete."
+    ],
+    "examTrap": "Ordering a routine screening test for a symptomatic patient instead of switching to the diagnostic pathway.",
+    "oneLinePearl": "Preventive care starts with risk and symptoms, and ends only when follow-up is closed.",
+    "sourceBasis": [
+      "PHAC National Advisory Committee on Preventive Health Services",
+      "Provincial and territorial preventive/screening programs"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-health-maintenance-visit-structure",
+    "title": "Health Maintenance Visit: Build a Focused Prevention Plan, Not a Ritual Annual Panel",
+    "system": "Primary Care / Prevention",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling",
+      "I.E Transition/Discharge/Documentation"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "A health-maintenance visit should reconcile current concerns and chronic disease with prevention priorities, immunization, medication review, mental/substance health, sexual/reproductive health, function and social determinants. Routine annual laboratory panels or complete physical-exam rituals are not automatically evidence-based; order only what the patient's risk and clinical questions justify.",
+    "recognize": [
+      "Preventive visits are opportunities to identify overdue high-value care and clarify future follow-up ownership.",
+      "New symptoms discovered during a preventive visit become diagnostic problems and should not be managed only through screening."
+    ],
+    "differentiate": [
+      "Periodic health review does not require the same tests/exam maneuvers for every patient every year.",
+      "Chronic disease follow-up and prevention can be combined when visit priorities and safety allow."
+    ],
+    "assessment": [
+      "Confirm agenda, medications/allergies, BP and relevant measurements, screening history, vaccines, mood/substance use, sexual/reproductive health, sleep, falls/function in older adults and social/access barriers."
+    ],
+    "workup": [
+      "Order targeted labs or imaging only when recommended by risk, chronic-disease monitoring or a new diagnostic question."
+    ],
+    "management": [
+      "Create a prioritized plan with due dates for screening, vaccines, risk-factor interventions, medication follow-up and referrals rather than an unranked list."
+    ],
+    "medicationSafety": [
+      "Medication reconciliation is a core health-maintenance intervention, especially for high-risk drugs, polypharmacy and therapies needing laboratory monitoring."
+    ],
+    "redFlags": [
+      "New alarm symptom hidden inside 'routine physical'",
+      "High-risk medication without monitoring",
+      "Major preventive gap with no follow-up plan",
+      "Functional/cognitive decline missed in older adult"
+    ],
+    "counselling": [
+      "Use shared agenda-setting and teach-back so the patient knows which preventive tasks matter most and what happens next."
+    ],
+    "followUp": [
+      "Document recall intervals and result/referral ownership; use opportunistic prevention at other visits when annual attendance is unreliable."
+    ],
+    "examTrap": "Ordering a broad annual laboratory panel solely because the patient presented for a physical, without a clinical indication.",
+    "oneLinePearl": "A good health-maintenance visit is prioritized risk management, not a standardized yearly test bundle.",
+    "sourceBasis": [
+      "PHAC preventive-health framework",
+      "Choosing Wisely Canada primary-care and laboratory stewardship principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-screening-guidelines-by-age-and-risk",
+    "title": "Screening by Age and Risk: Average Risk Is Only the Starting Point",
+    "system": "Primary Care / Prevention",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "II Quality Improvement and Research/Scholar"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Screening recommendations apply to defined asymptomatic populations. Before applying an age interval, determine anatomy, family/genetic risk, smoking/exposure history, prior abnormal results, immunocompromise and competing illness; use current Canadian evidence and the applicable provincial or territorial program because implementation is not perfectly uniform across Canada.",
+    "recognize": [
+      "High-risk patients may need earlier, different or specialty surveillance than average-risk screening.",
+      "Stopping screening can be appropriate when likely benefit is low because of prior history, age, comorbidity, life expectancy or patient preference."
+    ],
+    "differentiate": [
+      "A patient with a breast mass, postmenopausal bleeding, iron-deficiency anemia/GI bleeding or hemoptysis needs diagnosis, not routine screening.",
+      "Screening eligibility and public funding are related but not identical concepts."
+    ],
+    "assessment": [
+      "Clarify symptoms first, then age, anatomy, smoking history, family/genetic risk, prior results, immunocompromise and ability to complete downstream diagnostics."
+    ],
+    "workup": [
+      "Use the current national evidence and provincial/territorial screening pathway for breast, cervical, colorectal, lung and other screening decisions rather than relying on a static memorized age table."
+    ],
+    "management": [
+      "Offer evidence-supported screening with shared decision-making where benefits/harms are preference-sensitive and track abnormal results to definitive evaluation."
+    ],
+    "medicationSafety": [
+      "Do not substitute empiric medication for diagnostic evaluation of an abnormal screen or symptom unless the relevant pathway explicitly supports it."
+    ],
+    "redFlags": [
+      "Symptomatic patient routed to screening",
+      "Strong hereditary cancer pattern",
+      "Abnormal prior screen lost to follow-up",
+      "Patient unable to access diagnostic follow-up after positive screen"
+    ],
+    "counselling": [
+      "Explain that screening looks for disease before symptoms and that recommendations can change as evidence and programs evolve."
+    ],
+    "followUp": [
+      "Record the next due interval only after incorporating the final result and prior abnormal-history pathway."
+    ],
+    "examTrap": "Applying an average-risk screening interval to a patient with symptoms or a high-risk hereditary history.",
+    "oneLinePearl": "Screening schedules start with age, but risk and symptoms decide whether the schedule still applies.",
+    "sourceBasis": [
+      "PHAC National Advisory Committee on Preventive Health Services",
+      "Provincial and territorial cancer screening programs"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-immunization-recommendations",
+    "title": "Immunization Recommendations: Current NACI Guidance Beats Memory",
+    "system": "Primary Care / Immunization / Public Health",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling",
+      "IV Educator"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Canadian vaccination is lifelong and changes as NACI evidence, products and epidemiology change. Use the current Canadian Immunization Guide and NACI statement, then reconcile age, pregnancy, immune status, chronic disease, exposure/travel and the provincial or territorial funded program; do not rely on an old memorized schedule.",
+    "recognize": [
+      "National recommendations and provincial/territorial funded schedules may differ in product or implementation.",
+      "Pregnancy and immunocompromise change both indications and live-vaccine contraindications/timing."
+    ],
+    "differentiate": [
+      "Minor illness and many stable chronic conditions are not reasons to defer routine vaccination.",
+      "A vaccine being authorized in Canada does not mean it is recommended or publicly funded for every patient."
+    ],
+    "assessment": [
+      "Review reliable vaccine records, age, pregnancy, immune status, splenic function, chronic disease, occupation/travel, outbreak/exposure risk and previous severe vaccine reaction."
+    ],
+    "workup": [
+      "Use serology only for defined indications and check the current NACI statement when the Canadian Immunization Guide chapter has a notice that newer guidance is not yet fully incorporated."
+    ],
+    "management": [
+      "Give indicated vaccines/catch-up doses without unnecessarily restarting interrupted series and co-administer compatible vaccines when current guidance permits."
+    ],
+    "medicationSafety": [
+      "Live vaccines may be contraindicated in pregnancy/significant immunosuppression; blood products, biologics and selected therapies can change timing or response."
+    ],
+    "redFlags": [
+      "Anaphylaxis after immunization",
+      "Live vaccine planned in a contraindicated immune state",
+      "Pregnancy with exposure to a vaccine-preventable disease",
+      "High-risk exposure requiring time-sensitive post-exposure prophylaxis"
+    ],
+    "counselling": [
+      "Give a clear presumptive recommendation, address specific concerns respectfully and explain the difference between national recommendation and local public funding when relevant."
+    ],
+    "followUp": [
+      "Document doses, next due dates and required adverse-event/public-health reporting in the applicable jurisdiction."
+    ],
+    "examTrap": "Using a remembered adult RSV, pneumococcal or influenza schedule after NACI guidance has changed.",
+    "oneLinePearl": "For Canadian vaccine questions, check current NACI/CIG before trusting memory.",
+    "sourceBasis": [
+      "Public Health Agency of Canada Canadian Immunization Guide",
+      "National Advisory Committee on Immunization statements and publications"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-lifestyle-counseling-strategies",
+    "title": "Lifestyle Counselling: Use Collaborative Goals, Not Moralizing Advice",
+    "system": "Primary Care / Behaviour Change",
+    "blueprintDomains": [
+      "I.D Counselling",
+      "IV Educator",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Effective lifestyle counselling is collaborative, specific and feasible. Ask permission, identify the behaviour most relevant to the patient's goals/risk, explore readiness and barriers, agree on one or two concrete actions and follow up; generic instructions to 'eat better and exercise more' are low-value when access, pain, disability, culture or competing priorities are ignored.",
+    "recognize": [
+      "Small sustained changes can produce meaningful health benefit without requiring perfect adherence.",
+      "Motivational interviewing uses curiosity, autonomy support and eliciting the patient's own reasons for change rather than confrontation."
+    ],
+    "differentiate": [
+      "Counselling should not imply that chronic disease is caused by lack of willpower.",
+      "Readiness differs by behaviour; a patient can be ready to reduce alcohol but not ready to stop smoking at the same visit."
+    ],
+    "assessment": [
+      "Ask what matters to the patient, current routines, prior successes, confidence/readiness, mental health, pain/function, food access, finances, caregiving and cultural preferences."
+    ],
+    "workup": [
+      "Use validated risk/behaviour tools only when they inform a concrete intervention."
+    ],
+    "management": [
+      "Set specific achievable goals, connect to community/interprofessional supports and integrate pharmacotherapy when evidence-based behaviour treatment includes it."
+    ],
+    "medicationSafety": [
+      "Review whether medications contribute to weight, fatigue, sleep, appetite or exercise tolerance before attributing all behaviour difficulty to motivation."
+    ],
+    "redFlags": [
+      "Eating disorder",
+      "Unsafe exercise symptoms",
+      "Severe substance dependence/withdrawal risk",
+      "Counselling that stigmatizes weight/culture/disability"
+    ],
+    "counselling": [
+      "Use reflective listening, ask permission before advice and let the patient choose the first target when multiple changes are possible."
+    ],
+    "followUp": [
+      "Review progress, barriers and revise the goal rather than labelling the patient noncompliant."
+    ],
+    "examTrap": "Giving a long list of lifestyle instructions without assessing readiness or whether the patient can realistically carry them out.",
+    "oneLinePearl": "Behaviour change works better when the patient chooses a feasible next step.",
+    "sourceBasis": [
+      "Canadian primary-care motivational interviewing and chronic-disease prevention principles",
+      "PHAC health promotion resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-nutrition-counseling-fundamentals",
+    "title": "Nutrition Counselling: Pattern, Access, Culture, and Clinical Goal",
+    "system": "Primary Care / Nutrition",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "child",
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Nutrition counselling should start with the clinical goal, current eating pattern, food access, culture/preferences and medical conditions—not a rigid universal diet. Canada's Food Guide supports a healthy eating pattern, but disease-specific needs, pregnancy, malnutrition, renal disease, diabetes and eating disorders require individualized modification and often dietitian collaboration.",
+    "recognize": [
+      "Food insecurity and affordability can make standard dietary advice impossible.",
+      "A healthy pattern emphasizes vegetables/fruits, whole grains and protein foods with attention to minimally processed choices, but the exact plan must fit clinical needs and culture."
+    ],
+    "differentiate": [
+      "Nutrition treatment for diabetes/CKD/heart failure/celiac disease is not identical to general healthy-eating advice.",
+      "Weight loss should not be prescribed to someone with an active restrictive eating disorder or unexplained weight loss."
+    ],
+    "assessment": [
+      "Ask usual pattern, beverages/alcohol, supplements, allergies/intolerances, food security, cooking/storage access, culture, GI symptoms, weight trajectory, pregnancy and disease-specific restrictions."
+    ],
+    "workup": [
+      "Use targeted nutritional/laboratory assessment when malnutrition, deficiency or disease-specific risk is plausible; avoid broad supplement testing without indication."
+    ],
+    "management": [
+      "Agree on realistic food-pattern changes and refer to a registered dietitian when complexity, malnutrition, eating disorder or disease-specific therapy warrants it."
+    ],
+    "medicationSafety": [
+      "Review food-drug interactions and supplements/herbals; avoid megadose or unregulated supplement recommendations without evidence."
+    ],
+    "redFlags": [
+      "Unintentional major weight loss",
+      "Severe food insecurity",
+      "Eating-disorder behaviour",
+      "Refeeding-risk malnutrition",
+      "Pregnancy with significant nutritional deficiency"
+    ],
+    "counselling": [
+      "Use culturally acceptable foods and avoid moral labels such as 'good' and 'bad' foods when they add shame rather than clarity."
+    ],
+    "followUp": [
+      "Track symptoms, function and relevant disease outcomes rather than judging success only by body weight."
+    ],
+    "examTrap": "Giving generic weight-loss advice to a patient whose real barrier is food insecurity or whose weight loss is unexplained.",
+    "oneLinePearl": "Nutrition advice must fit the patient's physiology, culture and access—or it is not a usable plan.",
+    "sourceBasis": [
+      "Canada's Food Guide and Canada's Dietary Guidelines",
+      "Canadian dietetic/primary-care practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-exercise-prescription",
+    "title": "Exercise Prescription: Match Activity to Goals, Function, and Safety",
+    "system": "Primary Care / Prevention / Rehabilitation",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Physical activity should be prescribed like any other intervention: identify the health/function goal, current activity and limitations, screen for symptoms that require evaluation, choose aerobic/resistance/balance/flexibility elements as appropriate, start at a feasible dose and progress while monitoring symptoms and adherence.",
+    "recognize": [
+      "Even modest increases in activity can improve cardiometabolic, musculoskeletal and mental-health outcomes.",
+      "Older adults and people at falls risk benefit from strength/balance work as well as aerobic activity."
+    ],
+    "differentiate": [
+      "Most asymptomatic people do not need extensive testing before beginning light-to-moderate activity, but exertional chest pain, syncope or unstable disease changes the plan.",
+      "Exercise is not one standardized dose for pregnancy, frailty, disability, post-MI or chronic lung disease."
+    ],
+    "assessment": [
+      "Assess current activity, exertional symptoms, falls, mobility/disability, pregnancy, chronic disease stability, medications, pain and access to safe places/equipment."
+    ],
+    "workup": [
+      "Use medical evaluation or functional testing when symptoms/high-risk disease make it necessary rather than routine stress testing for every sedentary adult."
+    ],
+    "management": [
+      "Use an individualized progressive plan and refer to physiotherapy/kinesiology/cardiac/pulmonary rehabilitation when complexity or risk warrants it."
+    ],
+    "medicationSafety": [
+      "Beta blockers, insulin/secretagogues, diuretics and other medications can affect HR, glucose, hydration or exercise tolerance; counsel accordingly."
+    ],
+    "redFlags": [
+      "Exertional syncope",
+      "Unstable chest pain",
+      "Decompensated heart/lung disease",
+      "Severe hypoglycemia risk without a plan",
+      "Acute injury or high falls risk without modification"
+    ],
+    "counselling": [
+      "Start from what the patient can do now and use gradual progression rather than an all-or-nothing target."
+    ],
+    "followUp": [
+      "Track function, symptoms and adherence and adjust intensity/type as health status changes."
+    ],
+    "examTrap": "Ordering routine cardiac stress testing before any exercise advice in an asymptomatic low-risk patient.",
+    "oneLinePearl": "Exercise prescription is individualized dose plus progression plus safety.",
+    "sourceBasis": [
+      "Canadian 24-Hour Movement/physical activity guidance",
+      "Canadian primary-care exercise prescription principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-weight-management-strategies",
+    "title": "Weight Management: Treat Obesity as Chronic Disease Without Stigma",
+    "system": "Primary Care / Endocrine / Prevention",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Obesity care is complication-centred, chronic and non-stigmatizing. Ask permission to discuss weight, assess adiposity-related complications, medications, sleep, mental health/eating disorders and access barriers, then offer behavioural supports, evidence-based pharmacotherapy and metabolic/bariatric pathways when indicated and desired; BMI alone is not the treatment plan.",
+    "recognize": [
+      "Obesity-related disease includes diabetes, hypertension, OSA, MASLD, osteoarthritis, reproductive and functional complications.",
+      "Weight bias in healthcare can delay diagnosis and reduce care engagement."
+    ],
+    "differentiate": [
+      "BMI is a screening measure and does not fully capture adiposity distribution, function or complication burden.",
+      "Unintentional weight loss and active eating disorders require a different diagnostic pathway."
+    ],
+    "assessment": [
+      "Ask permission; review trajectory, central adiposity when useful, complications, eating-disorder symptoms, medications, sleep, pregnancy plans, function, food access and patient goals."
+    ],
+    "workup": [
+      "Use targeted cardiometabolic/liver/sleep and secondary-cause testing based on complications or clinical suspicion rather than broad endocrine panels for every patient."
+    ],
+    "management": [
+      "Use personalized behavioural support and long-term anti-obesity pharmacotherapy when benefits fit the patient's complications, preferences and access; refer for metabolic/bariatric surgery when indicated and acceptable."
+    ],
+    "medicationSafety": [
+      "Review pregnancy/contraindications and long-term access/tolerability before starting anti-obesity medication; avoid unregulated products and weight-cycling pressure.",
+      "Weight-promoting medications should be reviewed when alternatives are clinically appropriate."
+    ],
+    "redFlags": [
+      "Eating disorder",
+      "Rapid unexplained weight change",
+      "Severe obesity complication needing urgent treatment",
+      "Medication adverse effect or pregnancy conflict"
+    ],
+    "counselling": [
+      "Use person-first language and focus on health, function and goals rather than blame or a cosmetic target."
+    ],
+    "followUp": [
+      "Track complication improvement, function, adverse effects and patient goals; obesity pharmacotherapy often requires chronic management rather than short courses."
+    ],
+    "examTrap": "Telling a patient with severe obesity-related disease to 'diet and exercise first' before offering evidence-based chronic-disease treatment.",
+    "oneLinePearl": "Treat obesity complications and function, not a moralized number on the scale.",
+    "sourceBasis": [
+      "Obesity Canada Adult Clinical Practice Guideline including 2025 pharmacotherapy update",
+      "Canada's Food Guide"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-tobacco-cessation-interventions",
+    "title": "Tobacco Cessation: Ask, Advise, Treat Dependence, and Re-Engage",
+    "system": "Primary Care / Substance Use / Prevention",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Tobacco dependence is a chronic relapsing condition. Ask about cigarettes, vaping and other nicotine products without judgment, give a clear recommendation to quit, assess readiness and prior attempts, offer behavioural support plus evidence-based pharmacotherapy when appropriate, and keep re-engaging after relapse rather than labelling treatment failure.",
+    "recognize": [
+      "Nicotine dependence severity, withdrawal, cue exposure and social environment affect treatment intensity.",
+      "Quitting improves outcomes even after decades of smoking and in people with established chronic disease."
+    ],
+    "differentiate": [
+      "Vaping is not risk-free and should not become an unmonitored indefinite substitute when the treatment goal is nicotine cessation.",
+      "A lapse is not the same as abandoning a quit attempt."
+    ],
+    "assessment": [
+      "Ask product/type, amount/frequency, first use after waking, prior quit attempts, withdrawal, pregnancy, mental health/substance use, medications and patient goals."
+    ],
+    "workup": [
+      "No routine laboratory test is required to offer cessation treatment; use disease-specific testing only when clinically indicated."
+    ],
+    "management": [
+      "Offer counselling/quitline or digital support and appropriate cessation pharmacotherapy individualized to contraindications, pregnancy, comorbidity and patient preference.",
+      "Set a follow-up point and troubleshoot withdrawal, adherence and triggers."
+    ],
+    "medicationSafety": [
+      "Review neuropsychiatric history, kidney function and drug-specific contraindications/interactions when selecting therapy; nicotine-replacement products should be dosed to dependence rather than used symbolically."
+    ],
+    "redFlags": [
+      "Pregnancy requiring individualized cessation plan",
+      "Severe withdrawal destabilizing mental health",
+      "Acute cardiopulmonary symptoms",
+      "Continued combustible smoking with unsafe home oxygen"
+    ],
+    "counselling": [
+      "Use supportive language and emphasize that repeated quit attempts are expected, not evidence of weak motivation."
+    ],
+    "followUp": [
+      "Reassess use, cravings, treatment adherence/adverse effects and revise the plan after lapse/relapse."
+    ],
+    "examTrap": "Giving brief advice to quit without offering treatment for nicotine dependence or follow-up.",
+    "oneLinePearl": "Treat tobacco dependence like chronic disease: ask, advise, medicate/support, follow, repeat.",
+    "sourceBasis": [
+      "Health Canada smoking cessation resources",
+      "Canadian tobacco treatment practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-alcohol-screening-and-brief-intervention",
+    "title": "Alcohol Screening: Quantify Use, Identify Risk, and Match the Intervention",
+    "system": "Primary Care / Substance Use",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Alcohol screening should quantify standard drinks, pattern and consequences rather than ask only 'do you drink?'. Brief intervention is appropriate for risky use without severe dependence, while alcohol use disorder, withdrawal risk, pregnancy and major medical/psychiatric harm require a more intensive treatment plan.",
+    "recognize": [
+      "Risk rises with increasing weekly intake and with heavy drinking episodes; less alcohol produces lower health risk.",
+      "Tolerance, withdrawal, loss of control and persistent use despite harm suggest alcohol use disorder rather than simple risky consumption."
+    ],
+    "differentiate": [
+      "Canada's 2023 Guidance on Alcohol and Health is a risk-communication framework, not a diagnostic threshold for alcohol use disorder.",
+      "Withdrawal risk is determined by dependence/history and current cessation, not the last weekly total alone."
+    ],
+    "assessment": [
+      "Ask number of standard drinks, drinking days, heavy-use episodes, withdrawal symptoms/seizures, injuries, driving, medications, liver/mental health, pregnancy and patient goals."
+    ],
+    "workup": [
+      "Use validated screening and targeted liver/CBC/other testing when clinical harms are suspected; do not use one liver enzyme as a substitute for alcohol history."
+    ],
+    "management": [
+      "Provide a brief motivational intervention for lower-severity risky use; offer evidence-based AUD treatment, medication and addiction referral when criteria/severity warrant.",
+      "High withdrawal risk requires medically supervised withdrawal planning rather than abrupt unsupported cessation."
+    ],
+    "medicationSafety": [
+      "Alcohol interacts with sedatives/opioids and can alter medication adherence/organ toxicity; review combinations explicitly."
+    ],
+    "redFlags": [
+      "History of severe withdrawal/seizure/delirium",
+      "Current intoxication with safety risk",
+      "Suicidality",
+      "Pregnancy",
+      "Acute liver/pancreatic/trauma complication"
+    ],
+    "counselling": [
+      "Use Canada's current risk guidance to support informed reduction goals without moralizing use."
+    ],
+    "followUp": [
+      "Track quantity/pattern, harms, treatment goals and withdrawal risk over time."
+    ],
+    "examTrap": "Telling a dependent patient to stop alcohol abruptly at home without first assessing withdrawal risk.",
+    "oneLinePearl": "Screen pattern and harm; match brief intervention, AUD treatment or withdrawal care to severity.",
+    "sourceBasis": [
+      "Canada's Guidance on Alcohol and Health",
+      "Canadian alcohol use disorder clinical guidance"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-substance-use-screening",
+    "title": "Substance Use Screening: Ask Universally, Assess Harm, and Avoid Stigma",
+    "system": "Primary Care / Substance Use",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Routine substance-use screening should be nonjudgmental and linked to a response plan. Ask what is used, route, frequency, context and harms, then distinguish lower-risk use, hazardous use, substance use disorder, intoxication and withdrawal; screening without access to brief intervention, harm reduction or treatment is incomplete care.",
+    "recognize": [
+      "Substance use can affect medication interactions, mental health, pregnancy, infectious disease, driving and overdose risk.",
+      "A positive screen is not a diagnosis; DSM-style disorder assessment requires impairment/control/harm criteria over time."
+    ],
+    "differentiate": [
+      "Intoxication, withdrawal and chronic use disorder require different immediate actions.",
+      "Urine drug testing is not a substitute for a therapeutic history and can miss or misclassify exposure."
+    ],
+    "assessment": [
+      "Ask alcohol, cannabis, opioids, stimulants, sedatives and nonmedical prescription use; assess overdose, injection/shared equipment, withdrawal, mental health, pregnancy and readiness for help."
+    ],
+    "workup": [
+      "Use targeted toxicology/infection/pregnancy/organ testing only when it changes acute or ongoing management."
+    ],
+    "management": [
+      "Provide brief intervention, harm-reduction supplies/education, overdose prevention and evidence-based disorder-specific treatment/referral according to severity."
+    ],
+    "medicationSafety": [
+      "Review opioid/benzodiazepine/alcohol combinations and prescribe naloxone when opioid overdose risk warrants it."
+    ],
+    "redFlags": [
+      "Overdose/intoxication",
+      "Severe withdrawal",
+      "Suicidality/psychosis",
+      "Pregnancy with high-risk use",
+      "Unsafe injection-related infection"
+    ],
+    "counselling": [
+      "Use person-first language, emphasize confidentiality limits accurately and ask the patient's goals rather than demanding abstinence as the only acceptable outcome."
+    ],
+    "followUp": [
+      "Reassess use, harms and engagement; ensure referrals and harm-reduction access are real, not merely documented."
+    ],
+    "examTrap": "Using a positive urine toxicology result to diagnose a substance use disorder without assessing behaviour, impairment and context.",
+    "oneLinePearl": "Substance screening opens a conversation; it does not finish the diagnosis.",
+    "sourceBasis": [
+      "Health Canada substance-use resources",
+      "Canadian addiction medicine and harm-reduction practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-sexual-health-counseling",
+    "title": "Sexual Health Counselling: Ask Inclusively, Test Exposed Sites, and Support Prevention",
+    "system": "Primary Care / Sexual Health / Public Health",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Sexual health care should be routine, inclusive and anatomy/exposure based. Ask partners, practices, pregnancy intentions, contraception, STI history, symptoms, violence/coercion and prevention goals without assuming identity or anatomy; test exposed sites and offer vaccination, barrier methods, HIV PrEP/PEP and contraception according to current Canadian guidance.",
+    "recognize": [
+      "Many STIs are asymptomatic and require risk/site-based screening.",
+      "Gender identity does not tell you anatomy, sexual practices or pregnancy potential."
+    ],
+    "differentiate": [
+      "Screening asymptomatic people differs from diagnosing symptomatic STI/PID/epididymitis/ulcer disease.",
+      "A routine urine NAAT does not assess every pharyngeal or rectal exposure."
+    ],
+    "assessment": [
+      "Ask partners, practices/sites, pregnancy intention, contraception, barrier use, prior STIs, HIV risk, vaccines, coercion/IPV and symptoms using neutral language."
+    ],
+    "workup": [
+      "Use PHAC site-specific STI/HIV testing and current provincial/public-health pathways."
+    ],
+    "management": [
+      "Provide indicated treatment/prevention, partner/public-health actions, contraception/reproductive planning and PrEP/PEP referral/prescribing within scope."
+    ],
+    "medicationSafety": [
+      "Pregnancy and drug interactions change STI/contraceptive/HIV prevention choices; use current guidance."
+    ],
+    "redFlags": [
+      "Sexual assault/coercion",
+      "PID",
+      "Pregnancy with STI",
+      "Possible disseminated infection",
+      "High-risk HIV exposure within PEP window"
+    ],
+    "counselling": [
+      "Normalize sexual health questions and preserve confidentiality within legal/safety limits, especially for adolescents."
+    ],
+    "followUp": [
+      "Close test results, partner management, test-of-cure/retesting and vaccination/prevention follow-up."
+    ],
+    "examTrap": "Testing only urine after oral/anal exposure because the clinician assumed the relevant anatomy/site.",
+    "oneLinePearl": "Sexual health follows anatomy and exposure, not assumptions.",
+    "sourceBasis": [
+      "PHAC STBBI guides",
+      "Canadian HIV/STI prevention resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-travel-medicine-basics",
+    "title": "Travel Medicine: Destination, Itinerary, Traveller Risk, and Timing",
+    "system": "Primary Care / Travel Medicine / Infectious Disease",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "child",
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Pre-travel care is individualized to destination, exact itinerary, season, duration, activities, accommodations and traveller health. Review routine/catch-up vaccines first, then destination-specific vaccines, malaria prevention and food/water/vector/injury/altitude guidance using current PHAC/CATMAT resources; late presentation should trigger prioritization rather than refusal of travel advice.",
+    "recognize": [
+      "Travellers visiting friends/relatives may have longer stays and higher local exposure despite familiarity with the destination.",
+      "Pregnancy, immune compromise, extremes of age and chronic disease change vaccine/chemoprophylaxis choices."
+    ],
+    "differentiate": [
+      "Country name alone is often insufficient because risk varies by region, season and itinerary.",
+      "Travel vaccines and routine Canadian immunization needs should be reviewed together."
+    ],
+    "assessment": [
+      "Ask countries/regions, dates, urban/rural, visiting friends/relatives, activities, altitude, animal/freshwater/mosquito exposure, pregnancy, immune status and medication history."
+    ],
+    "workup": [
+      "Use current CATMAT, Canadian Immunization Guide and destination-specific travel-health resources; avoid routine screening panels for healthy travellers without indications."
+    ],
+    "management": [
+      "Update routine vaccines, give indicated travel vaccines/chemoprophylaxis and teach bite/food/water/injury prevention and a plan for illness abroad/after return."
+    ],
+    "medicationSafety": [
+      "Antimalarial and traveller's-diarrhea medications require destination resistance, pregnancy, interaction and comorbidity review."
+    ],
+    "redFlags": [
+      "Pregnancy with high-risk destination",
+      "Severe immune compromise and live-vaccine question",
+      "Malaria-risk itinerary without prevention plan",
+      "Returned traveller with fever"
+    ],
+    "counselling": [
+      "Advise that fever after travel to a malaria-risk region requires urgent malaria assessment even if prophylaxis was taken."
+    ],
+    "followUp": [
+      "Document vaccines/medications and advise post-travel assessment for fever, persistent diarrhea, rash or other significant illness."
+    ],
+    "examTrap": "Choosing travel advice from the country name alone without asking itinerary, season or traveller-specific risks.",
+    "oneLinePearl": "Travel risk = traveller + destination + itinerary + timing.",
+    "sourceBasis": [
+      "PHAC Committee to Advise on Tropical Medicine and Travel resources",
+      "Canadian Immunization Guide"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-occupational-health-considerations",
+    "title": "Occupational Health: Connect Work Exposure, Function, Prevention, and Reporting",
+    "system": "Primary Care / Occupational Health",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Work is a clinical exposure and functional context. Ask job tasks, hazards, schedule, PPE/controls and symptom timing; treat acute injury/exposure, recommend safe restrictions/accommodations based on functional capacity, and use the applicable occupational-health/reporting/compensation pathway without overstating causation from one visit.",
+    "recognize": [
+      "Respiratory, dermatologic, musculoskeletal, noise, toxic, infectious and psychological harms can all be work-related.",
+      "Symptoms that improve away from work may reveal an exposure relationship."
+    ],
+    "differentiate": [
+      "Occupational contribution can coexist with nonwork disease; causation often requires longitudinal/exposure evidence.",
+      "Fitness-for-work decisions should be function/task based rather than diagnosis-label based."
+    ],
+    "assessment": [
+      "Ask job tasks, substances, physical demands, shift work, PPE/engineering controls, duration/latency, symptom timing and coworker patterns."
+    ],
+    "workup": [
+      "Use exposure-specific testing and occupational medicine/safety resources when the result changes care or work recommendations."
+    ],
+    "management": [
+      "Treat the condition, reduce/remove harmful exposure when indicated and provide clear functional restrictions/accommodations with reassessment dates."
+    ],
+    "medicationSafety": [
+      "Consider sedation, hypoglycemia, orthostasis and other treatment effects when work involves driving, heights, machinery or safety-sensitive duties."
+    ],
+    "redFlags": [
+      "Acute toxic inhalation/exposure",
+      "Unsafe return to a hazardous environment",
+      "Neurologic/cardiopulmonary impairment in safety-sensitive work",
+      "Workplace violence"
+    ],
+    "counselling": [
+      "Explain the difference between clinical work restrictions and legal/compensation causation decisions."
+    ],
+    "followUp": [
+      "Reassess function/exposure and ensure occupational/referral/reporting steps were completed."
+    ],
+    "examTrap": "Writing 'off work indefinitely' from the diagnosis alone without defining functional restrictions and reassessment.",
+    "oneLinePearl": "Occupational care asks what the patient does, what they are exposed to, and what they can safely do now.",
+    "sourceBasis": [
+      "Canadian occupational medicine and provincial workplace health/safety principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-disability-determination-basics",
+    "title": "Disability Assessment: Document Function and Evidence, Not Advocacy by Exaggeration",
+    "system": "Primary Care / Function / Professional Practice",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.E Transition/Discharge/Documentation",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "child",
+      "adolescent",
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Disability forms require accurate clinical evidence about diagnosis, impairments, functional limitations, expected duration, treatment and accommodations—not simply stating that the patient 'is disabled'. The clinician should advocate by documenting truthfully and specifically, while the insurer/program/employer applies its own legal eligibility definition.",
+    "recognize": [
+      "Disability is often determined by function relative to the activity/benefit definition, not diagnosis alone.",
+      "Invisible, episodic and fluctuating conditions can cause major disability even when examination is normal on one day."
+    ],
+    "differentiate": [
+      "Clinical opinion about function is different from the final legal/benefit adjudication.",
+      "Temporary work restriction, long-term disability and disability-tax/social-program criteria are not interchangeable."
+    ],
+    "assessment": [
+      "Document symptoms, objective findings, treatment, ADLs/IADLs, cognitive/physical tolerances, variability, safety and job/life demands."
+    ],
+    "workup": [
+      "Use validated functional/cognitive measures and collateral/specialty evidence when clinically appropriate."
+    ],
+    "management": [
+      "Recommend proportionate restrictions/accommodations and rehabilitation/support while continuing treatment."
+    ],
+    "medicationSafety": [
+      "Document treatment adverse effects that affect cognition, driving, stamina or safety-sensitive function."
+    ],
+    "redFlags": [
+      "Unsafe driving/work function",
+      "Form request pressures clinician to misrepresent evidence",
+      "Severe unmet support needs",
+      "No follow-up for a potentially reversible impairment"
+    ],
+    "counselling": [
+      "Explain that the clinician documents health/function, while the external program decides whether its eligibility rules are met."
+    ],
+    "followUp": [
+      "Update functional restrictions/duration when the condition changes."
+    ],
+    "examTrap": "Assuming a diagnosis automatically satisfies every disability-program definition.",
+    "oneLinePearl": "Disability documentation is about function, evidence and duration—not the label alone.",
+    "sourceBasis": [
+      "Canadian disability and functional-assessment practice",
+      "Provincial/federal program-specific requirements"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-workers-compensation-considerations",
+    "title": "Workers' Compensation: Treat the Injury, Document Work Function, Use the Provincial System",
+    "system": "Primary Care / Occupational Health / Professional Practice",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.E Transition/Discharge/Documentation",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Workers' compensation is provincially/territorially administered and rules/forms differ. Provide clinically necessary care first, document the work event/exposure and objective findings, describe functional abilities/restrictions accurately, submit required forms on time and coordinate safe return-to-work; do not let compensation status change the quality of care or turn the clinician into the final legal causation adjudicator.",
+    "recognize": [
+      "Early safe return-to-work with appropriate accommodation can support recovery for many conditions.",
+      "Workplace insurance processes require timely documentation but clinical treatment should not be delayed solely for claim approval when urgent care is needed."
+    ],
+    "differentiate": [
+      "The clinician provides medical/functional evidence; the compensation board applies its legal entitlement rules.",
+      "A workplace temporal association does not automatically prove causation, but it still deserves accurate documentation and assessment."
+    ],
+    "assessment": [
+      "Document event/exposure, mechanism, timing, prior condition, objective findings, job demands, current function and safety limitations."
+    ],
+    "workup": [
+      "Order testing based on clinical indication, not because an insurer form exists; consult occupational specialists when causation/exposure/return-to-work is complex."
+    ],
+    "management": [
+      "Treat the condition and specify capabilities/restrictions with expected reassessment; communicate with the compensation/workplace system according to consent/law."
+    ],
+    "medicationSafety": [
+      "Sedating/hypoglycemia-producing medications may require temporary safety-sensitive work restrictions."
+    ],
+    "redFlags": [
+      "Employer pressure for premature unsafe return",
+      "Patient denied urgent care pending claim",
+      "Functional restriction not communicated",
+      "Clinician asked to falsify causation or capacity"
+    ],
+    "counselling": [
+      "Explain what medical information is being submitted and distinguish clinical recommendations from the board's entitlement decision."
+    ],
+    "followUp": [
+      "Reassess function and progressively modify restrictions as recovery permits."
+    ],
+    "examTrap": "Using a generic Canada-wide workers' compensation rule instead of the patient's provincial/territorial system.",
+    "oneLinePearl": "Workers' compensation care is provincial, functional and evidence-based—treat first, document precisely.",
+    "sourceBasis": [
+      "Provincial and territorial workers' compensation systems",
+      "Canadian occupational medicine principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-school-and-sports-physicals",
+    "title": "School and Sports Physicals: Screen for Safety, Function, and Participation Risk",
+    "system": "Primary Care / Pediatrics / Adolescent Health",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "child",
+      "adolescent",
+      "young adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "A school or sports assessment is not a ritual clearance form. Review current symptoms, cardiac/family history, concussion, asthma, musculoskeletal function, medications, mental health and sport-specific risk; restrict or refer only when a finding creates meaningful participation danger and document the functional recommendation clearly.",
+    "recognize": [
+      "Exertional syncope/chest pain, unexplained seizures, known significant cardiac disease or family history of sudden young death require focused evaluation.",
+      "Concussion recovery and uncontrolled asthma can affect safe participation even with a normal routine exam."
+    ],
+    "differentiate": [
+      "Routine ECG/echocardiography is not required for every asymptomatic athlete without concerning history/exam.",
+      "A diagnosis alone does not always require exclusion; risk and functional control determine participation."
+    ],
+    "assessment": [
+      "Ask exertional symptoms, family cardiac history, prior concussion, asthma, heat illness, injuries, eating-disorder symptoms, menstrual/bone health, medications/supplements and mental health."
+    ],
+    "workup": [
+      "Use targeted ECG/cardiology, pulmonary, neurologic or MSK testing only when history/exam indicates."
+    ],
+    "management": [
+      "Provide clear participation status, restrictions and reassessment plan; optimize chronic disease and injury prevention rather than simply signing the form."
+    ],
+    "medicationSafety": [
+      "Review stimulants, rescue inhalers, anaphylaxis medications and supplements/performance-enhancing substances in the sport context."
+    ],
+    "redFlags": [
+      "Exertional syncope",
+      "Exertional chest pain",
+      "Family history sudden death/cardiomyopathy",
+      "Active concussion symptoms",
+      "Uncontrolled severe asthma/anaphylaxis risk without plan"
+    ],
+    "counselling": [
+      "Discuss hydration/heat, concussion reporting, nutrition, sleep, safe training and substance/supplement use."
+    ],
+    "followUp": [
+      "Reassess temporary restrictions and ensure specialty clearance is actually completed when required."
+    ],
+    "examTrap": "Ordering routine cardiac testing for every athlete instead of using history/exam to identify who needs further evaluation.",
+    "oneLinePearl": "Sports clearance is risk-based participation assessment, not a signature exercise.",
+    "sourceBasis": [
+      "Canadian pediatric/sports medicine preparticipation principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-chronic-disease-management-models",
+    "title": "Chronic Disease Management: Planned Longitudinal Care Beats Episodic Rescue",
+    "system": "Primary Care / Chronic Disease",
+    "blueprintDomains": [
+      "I.C Management",
+      "I.D Counselling",
+      "III Leader",
+      "IV Educator"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Chronic disease care works best when goals, evidence-based treatment, self-management support, monitoring, team roles and proactive recall are planned longitudinally. Repeated urgent visits without addressing adherence, access, prevention and treatment intensification/de-intensification are a system failure, not a chronic-care model.",
+    "recognize": [
+      "Multimorbidity requires prioritizing patient-important outcomes rather than pursuing every disease target independently.",
+      "Registries/recall and planned review can prevent missed monitoring and treatment inertia."
+    ],
+    "differentiate": [
+      "Disease-specific guidelines may conflict in multimorbidity and polypharmacy; individualized goals are required.",
+      "More treatment is not always better in frailty or recurrent adverse effects."
+    ],
+    "assessment": [
+      "Review disease control, function, complications, medications, self-management capacity, goals, mental health, health literacy and access barriers."
+    ],
+    "workup": [
+      "Monitor only parameters that change treatment or safety and use population/registry data to identify overdue care."
+    ],
+    "management": [
+      "Use a shared care plan, planned follow-up, self-management education and team-based escalation/de-intensification."
+    ],
+    "medicationSafety": [
+      "Regularly reconcile and deprescribe duplicative/high-risk therapy while preserving evidence-based disease protection."
+    ],
+    "redFlags": [
+      "Repeated exacerbations with no root-cause review",
+      "Monitoring gap for high-risk therapy",
+      "Conflicting disease plans causing harm",
+      "Patient cannot execute the care plan"
+    ],
+    "counselling": [
+      "Set a small number of meaningful goals and explain how monitoring links to decisions."
+    ],
+    "followUp": [
+      "Use scheduled recall and clear thresholds for earlier review."
+    ],
+    "examTrap": "Managing every chronic condition independently without considering treatment burden, interactions and patient priorities.",
+    "oneLinePearl": "Chronic disease care is proactive, coordinated and longitudinal—not repeated rescue.",
+    "sourceBasis": [
+      "Health Canada primary care framework",
+      "Canadian chronic disease management principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-care-coordination-and-referral",
+    "title": "Care Coordination and Referral: A Referral Is Not Complete Until It Is Accepted and Acted On",
+    "system": "Primary Care / Transitions",
+    "blueprintDomains": [
+      "I.E Transition/Discharge/Documentation",
+      "III Leader",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Primary care coordinates services over time. A safe referral states the clinical question, urgency and key data, confirms receipt/acceptance, tracks pending results and provides an interim plan; responsibility does not vanish when the referral order is sent.",
+    "recognize": [
+      "Referral delays and unclear ownership are common transition hazards.",
+      "Urgent symptoms may require emergency assessment rather than a routine outpatient referral."
+    ],
+    "differentiate": [
+      "Consultation advice and transfer of care are not the same.",
+      "A specialist's involvement does not automatically transfer responsibility for unrelated primary-care needs."
+    ],
+    "assessment": [
+      "Define the question, urgency, current instability, patient access/preferences and what must be managed while waiting."
+    ],
+    "workup": [
+      "Send relevant records/results and verify pending tests will reach an assigned clinician."
+    ],
+    "management": [
+      "Choose emergency, urgent or routine pathway appropriately and create interim treatment/return precautions."
+    ],
+    "medicationSafety": [
+      "Reconcile medications after specialist/hospital changes and resolve contradictory prescriptions."
+    ],
+    "redFlags": [
+      "Urgent referral not accepted",
+      "Critical result with no owner",
+      "Patient deteriorating while waiting",
+      "Conflicting medication plans"
+    ],
+    "counselling": [
+      "Tell the patient why they are being referred, expected urgency and what to do if symptoms worsen or they hear nothing."
+    ],
+    "followUp": [
+      "Track referral status and integrate recommendations into one coherent plan."
+    ],
+    "examTrap": "Documenting 'referred to specialist' and assuming the problem is closed before the referral is accepted or completed.",
+    "oneLinePearl": "Referral safety is question + urgency + ownership + closed loop.",
+    "sourceBasis": [
+      "Health Canada primary care coordination framework",
+      "Canadian safe-care-transition standards"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-population-health-management",
+    "title": "Population Health Management: Use the Panel to Find Who Is Missing Care",
+    "system": "Primary Care / Population Health",
+    "blueprintDomains": [
+      "II Quality Improvement and Research/Scholar",
+      "III Leader",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Population health management uses panel/registry data to identify unmet preventive/chronic-care needs, stratify risk and target outreach while checking for inequitable access. A clinic improves population outcomes when it finds patients who are not presenting—not only those who attend reliably.",
+    "recognize": [
+      "Registries can reveal overdue screening, immunization, monitoring and uncontrolled disease.",
+      "Average clinic performance can hide poor outcomes in specific geographic, Indigenous, racialized, disabled or low-income groups."
+    ],
+    "differentiate": [
+      "Population management complements individual care; it should not override patient choice or apply one target to everyone.",
+      "Risk stratification must not become a mechanism for excluding resource-intensive patients."
+    ],
+    "assessment": [
+      "Define population, denominator, care gap, risk/equity variables and data quality."
+    ],
+    "workup": [
+      "Use registry/electronic-health data plus patient/community input and validate that missing data are not mistaken for good care."
+    ],
+    "management": [
+      "Target outreach, navigation and team resources to high-benefit gaps and measure both overall and equity outcomes."
+    ],
+    "medicationSafety": [
+      "Population monitoring can identify overdue renal/electrolyte/A1C/anticoagulation or other high-risk medication surveillance."
+    ],
+    "redFlags": [
+      "High-risk patients systematically lost to follow-up",
+      "Algorithmic/risk model bias",
+      "Outreach breaches privacy",
+      "Metric improvement achieved by excluding complex patients"
+    ],
+    "counselling": [
+      "Offer outreach respectfully and preserve choice rather than coercing participation to improve clinic metrics."
+    ],
+    "followUp": [
+      "Measure whether outreach closes the gap and reaches underserved groups."
+    ],
+    "examTrap": "Judging clinic quality only from patients who show up and ignoring those lost to follow-up.",
+    "oneLinePearl": "Population health asks who needs care but is not currently in the room.",
+    "sourceBasis": [
+      "Health Canada primary care and population-health resources",
+      "PHAC health equity principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-quality-improvement-in-practice",
+    "title": "Practice QI: Turn a Recurrent Primary-Care Failure Into Measurable Change",
+    "system": "Primary Care / Quality Improvement",
+    "blueprintDomains": [
+      "II Quality Improvement and Research/Scholar",
+      "III Leader"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Primary-care QI starts with a recurring process defect, reliable baseline and root cause. Test a focused change, measure process/outcome/balancing effects and equity, then sustain or revise based on data; adding a policy without measuring whether care improved is not sufficient.",
+    "recognize": [
+      "Common targets include referral completion, abnormal-result follow-up, medication reconciliation, immunization/screening gaps and access delays.",
+      "Balancing measures detect new harm such as staff burden or reduced access."
+    ],
+    "differentiate": [
+      "QI improves a local system; research asks a generalizable knowledge question, though governance may overlap.",
+      "Auditing alone is not improvement without action/feedback."
+    ],
+    "assessment": [
+      "Define population, defect, baseline, causes, stakeholders and equity implications."
+    ],
+    "workup": [
+      "Use chart audit, workflow mapping, incident data and patient/staff input."
+    ],
+    "management": [
+      "Run small tests of change, standardize successful workflows and assign long-term ownership."
+    ],
+    "medicationSafety": [
+      "High-alert medication and reconciliation failures are high-value QI targets."
+    ],
+    "redFlags": [
+      "Metric gaming",
+      "No balancing measure",
+      "QI worsens access for vulnerable group",
+      "Patient harm ignored because process metric improved"
+    ],
+    "counselling": [
+      "Include patients when workflow changes affect access, communication or burden."
+    ],
+    "followUp": [
+      "Monitor sustainability and unintended effects."
+    ],
+    "examTrap": "Declaring QI successful after one improved post-intervention measurement.",
+    "oneLinePearl": "Practice QI is measured iterative change, not a memo.",
+    "sourceBasis": [
+      "Canadian primary-care quality-improvement principles",
+      "CNPLE Scholar/Leader competencies"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-patient-centered-medical-home",
+    "title": "Patient-Centred Primary Care Home: Continuous, Coordinated, Team-Based Care",
+    "system": "Primary Care / Health Systems",
+    "blueprintDomains": [
+      "III Leader",
+      "I.E Transition/Discharge/Documentation",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "routine",
+    "bottomLine": "The useful CNPLE concept behind a 'medical home' is continuous, accessible, comprehensive and coordinated primary care with a responsible team—not a specific US reimbursement structure. Adapt the model to Canadian provincial/territorial primary-care organization and local community needs.",
+    "recognize": [
+      "Continuity and a regular primary-care team improve coordination over time.",
+      "Team configuration varies by community and jurisdiction; there is no one-size-fits-all Canadian model."
+    ],
+    "differentiate": [
+      "The term may come from US policy literature, but CNPLE should focus on person-centred continuity/access/team coordination rather than US payer certification mechanics.",
+      "A clinic is not patient-centred merely because multiple disciplines share a building."
+    ],
+    "assessment": [
+      "Assess access, continuity, after-hours needs, care coordination, patient goals and gaps between disciplines/services."
+    ],
+    "workup": [
+      "Use patient experience/access/outcome data to identify weaknesses in continuity and integration."
+    ],
+    "management": [
+      "Create team-based assignment, shared care plans, proactive prevention/chronic care and reliable referral/result systems."
+    ],
+    "medicationSafety": [
+      "A consistent primary-care home supports medication reconciliation and reduces duplicate/conflicting prescribing."
+    ],
+    "redFlags": [
+      "No clinician owns longitudinal plan",
+      "Fragmented duplicate testing/prescribing",
+      "Access model excludes high-needs patients"
+    ],
+    "counselling": [
+      "Tell patients how to access the team and who coordinates care."
+    ],
+    "followUp": [
+      "Measure continuity, access and coordination outcomes."
+    ],
+    "examTrap": "Choosing a US insurance/reimbursement requirement as the defining feature of patient-centred primary care in Canada.",
+    "oneLinePearl": "The Canadian primary-care-home idea is continuity, access and coordinated team ownership.",
+    "sourceBasis": [
+      "Health Canada primary care framework",
+      "Canadian integrated people-centred primary-care standards"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-team-based-care-models",
+    "title": "Team-Based Primary Care: Use the Right Discipline and One Shared Plan",
+    "system": "Primary Care / Interprofessional Care",
+    "blueprintDomains": [
+      "III Leader",
+      "IV Educator",
+      "I.E Transition/Discharge/Documentation"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Team-based primary care improves access and quality when each discipline works to competence, responsibilities are clear and information flows into one coherent plan. More team members do not automatically improve care if ownership, communication and access are fragmented.",
+    "recognize": [
+      "NPs, physicians, nurses, pharmacists, social workers, dietitians, rehabilitation and mental-health providers can address different components of complex care.",
+      "Primary care often coordinates entry to specialized services and longitudinal follow-up."
+    ],
+    "differentiate": [
+      "Delegation, consultation and shared care have different accountability structures.",
+      "Team care does not mean every discipline needs to see every patient."
+    ],
+    "assessment": [
+      "Identify patient goals, clinical/social needs, discipline best suited to each need, urgency and barriers to team access."
+    ],
+    "workup": [
+      "Use shared documentation/huddles and explicit referral handoffs as needed."
+    ],
+    "management": [
+      "Assign roles, designate care/result owners and reconcile conflicting recommendations."
+    ],
+    "medicationSafety": [
+      "Pharmacist/NP/nursing collaboration can improve reconciliation, adherence, deprescribing and monitoring."
+    ],
+    "redFlags": [
+      "No owner for urgent issue",
+      "Conflicting prescriptions",
+      "Team handoff lost",
+      "Scope confusion delays care"
+    ],
+    "counselling": [
+      "Explain which team member is responsible for which issue and how to access them."
+    ],
+    "followUp": [
+      "Verify referrals/tasks were completed and update the shared plan."
+    ],
+    "examTrap": "Assuming 'team-based' care is safe without identifying who owns the final plan and pending results.",
+    "oneLinePearl": "Team care succeeds when expertise is distributed but accountability is visible.",
+    "sourceBasis": [
+      "Health Canada primary care framework",
+      "Canadian interprofessional care standards"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-telehealth-best-practices",
+    "title": "Virtual Care: Same Clinical Standard, Different Modality Risks",
+    "system": "Primary Care / Virtual Care",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.E Transition/Discharge/Documentation",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Virtual care must meet the same clinical, consent, privacy, identity, documentation and follow-up standards as in-person care while accounting for what cannot be safely assessed remotely. Confirm location/identity and an emergency plan, choose a modality appropriate to the problem, and convert to in-person/emergency care when examination, testing or acuity requires it.",
+    "recognize": [
+      "Virtual care can improve access but can worsen inequity when digital literacy, disability, language, privacy, broadband or device access are ignored.",
+      "Video, phone, asynchronous messaging and remote monitoring have different strengths/limitations."
+    ],
+    "differentiate": [
+      "Virtual care is not lower-standard care and does not justify prescribing without adequate assessment.",
+      "A remote encounter is inappropriate when the physical exam/test or instability cannot be safely deferred."
+    ],
+    "assessment": [
+      "Verify identity/location/contact, privacy, consent, symptoms/red flags, available home measurements and whether the patient can access urgent in-person care if needed."
+    ],
+    "workup": [
+      "Arrange in-person examination, labs/imaging or emergency evaluation when diagnostic uncertainty exceeds what virtual assessment can safely resolve."
+    ],
+    "management": [
+      "Use secure systems, document modality/limitations, provide explicit contingency instructions and integrate the encounter into longitudinal records/team care."
+    ],
+    "medicationSafety": [
+      "Do not prescribe controlled/high-risk medications virtually when identity, diagnosis, monitoring or diversion/safety assessment is inadequate."
+    ],
+    "redFlags": [
+      "Chest pain/stroke/severe respiratory symptoms",
+      "Patient location unknown in an emergency",
+      "No privacy for abuse/safety assessment",
+      "Digital barrier causing incomplete assessment"
+    ],
+    "counselling": [
+      "Explain the limits of virtual assessment and when conversion to in-person care is necessary."
+    ],
+    "followUp": [
+      "Ensure ordered tests/referrals and emergency escalation are tracked like any in-person encounter."
+    ],
+    "examTrap": "Continuing a virtual visit despite red flags that require physical examination or emergency assessment.",
+    "oneLinePearl": "Virtual care changes the channel, not the standard of care.",
+    "sourceBasis": [
+      "CAN/HSO 83001:2025 Virtual Care",
+      "Canadian virtual-care privacy/equity framework",
+      "Provincial/territorial regulator standards"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-documentation-and-coding-basics",
+    "title": "Documentation and Coding: Record Clinical Reasoning First, Administrative Classification Second",
+    "system": "Primary Care / Professional Practice / Documentation",
+    "blueprintDomains": [
+      "I.E Transition/Discharge/Documentation",
+      "III Leader",
+      "II Quality Improvement and Research/Scholar"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Clinical documentation must accurately record the relevant history/findings, assessment/differential, reasoning, treatment, consent, education, follow-up and pending-result ownership. Administrative diagnostic/billing/service codes vary by province, territory and setting and must never drive a false diagnosis or replace the clinical record.",
+    "recognize": [
+      "Good notes make the plan, uncertainty, safety-netting and responsibility for follow-up understandable to another clinician.",
+      "Late entries/corrections should preserve the original record and follow organizational/regulator policy rather than silently rewriting history."
+    ],
+    "differentiate": [
+      "Coding is an administrative classification process; it is not equivalent to establishing a clinical diagnosis.",
+      "Canadian billing/coding rules are not one national NP system and should not be replaced with US CPT/ICD billing assumptions."
+    ],
+    "assessment": [
+      "Document information material to the decision, including significant negatives, patient goals, capacity/consent issues and communication barriers when relevant."
+    ],
+    "workup": [
+      "Record tests ordered, why they were ordered and who will review/act on results; reconcile outside records when they materially affect care."
+    ],
+    "management": [
+      "Use clear problem-oriented documentation, accurate medication lists and explicit referrals/return precautions; apply the current jurisdictional administrative codes only after the clinical record is correct."
+    ],
+    "medicationSafety": [
+      "Document indication, dose/route/duration, key monitoring, medication reconciliation and significant contraindication/interaction decisions for high-risk prescribing."
+    ],
+    "redFlags": [
+      "Retrospective falsification",
+      "Copy-forward error",
+      "Critical result with no documented owner",
+      "Coding a diagnosis not clinically supported",
+      "Missing consent/safety plan in a high-risk encounter"
+    ],
+    "counselling": [
+      "Document material shared decision-making and the patient's understanding/refusal where it changes care."
+    ],
+    "followUp": [
+      "Ensure corrections, pending results and referrals remain traceable across the record."
+    ],
+    "examTrap": "Choosing a diagnosis/code because it is administratively convenient even though the clinical evidence does not support it.",
+    "oneLinePearl": "The clinical story must be true before the administrative code can be useful.",
+    "sourceBasis": [
+      "Canadian nursing regulator documentation standards",
+      "Provincial/territorial billing and health-information classification systems"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-practice-management-fundamentals",
+    "title": "Practice Management: Design Reliable Access, Follow-Up, Staffing, and Safety Systems",
+    "system": "Primary Care / Leadership / Health Systems",
+    "blueprintDomains": [
+      "III Leader",
+      "II Quality Improvement and Research/Scholar",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Safe NP practice management is a clinical systems problem: define appointment/access rules, triage, staffing/role scope, critical-result handling, referral tracking, medication/inventory safety, privacy, emergency processes and quality monitoring. Business efficiency cannot override professional obligations, equitable access or patient safety.",
+    "recognize": [
+      "Operational failures—lost results, no-call/no-show gaps, unclear refill processes, unsafe inbox coverage—can produce clinical harm even when individual clinical decisions are correct.",
+      "Primary care models vary by province/territory and community need; there is no single Canadian clinic structure."
+    ],
+    "differentiate": [
+      "Practice management is not merely finances/scheduling; it includes governance of clinical risk and continuity.",
+      "Delegating administrative or clinical tasks does not remove the NP's accountability for appropriate systems/oversight within their role."
+    ],
+    "assessment": [
+      "Map patient flow, demand/access, high-risk queues/inboxes, staffing competence, privacy/security, medication processes, emergency capability and equity barriers."
+    ],
+    "workup": [
+      "Use quality/access data, incident reports, patient feedback and staff workflow analysis to identify system defects."
+    ],
+    "management": [
+      "Create written reliable processes for urgent triage, coverage, test/referral ownership, prescription renewals, infection prevention, downtime/business continuity and escalation; audit whether they actually work."
+    ],
+    "medicationSafety": [
+      "Define refill criteria, controlled/high-risk prescribing processes, medication storage/inventory and monitoring follow-up rather than allowing ad hoc renewals."
+    ],
+    "redFlags": [
+      "Uncovered inbox/critical results",
+      "No emergency escalation process",
+      "Staff working beyond competence/scope",
+      "Privacy/security breach",
+      "Access rules systematically excluding vulnerable patients"
+    ],
+    "counselling": [
+      "Make access, after-hours and emergency instructions understandable to patients and provide accessible communication alternatives."
+    ],
+    "followUp": [
+      "Monitor access, safety incidents, patient outcomes and equity measures and redesign processes when failures recur."
+    ],
+    "examTrap": "Treating clinic efficiency as the main goal even when the workflow creates unsafe result follow-up or inequitable access.",
+    "oneLinePearl": "Practice management is the infrastructure that makes safe clinical care reproducible.",
+    "sourceBasis": [
+      "Health Canada primary care framework",
+      "Canadian health quality, virtual-care and professional-practice standards"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  }
+]

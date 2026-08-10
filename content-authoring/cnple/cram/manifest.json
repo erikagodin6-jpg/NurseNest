@@ -6,11 +6,11 @@
   "level": "Nurse Practitioner",
   "authoringStatus": "COMPREHENSIVE_TOPIC_BASELINE_AUDITED_FULL_LESSON_PARITY_IN_PROGRESS",
   "sourceRefreshDate": "2026-08-09",
-  "rawLessonObjects": 570,
-  "uniqueLessonIds": 570,
+  "rawLessonObjects": 676,
+  "uniqueLessonIds": 676,
   "explicitCanonicalSupersessions": 8,
-  "canonicalTopicPathways": 562,
-  "clinicalJsonFiles": 60,
+  "canonicalTopicPathways": 668,
+  "clinicalJsonFiles": 64,
   "structuralValidation": {
     "status": "PASS",
     "jsonParse": true,
@@ -18,7 +18,7 @@
     "uniqueIds": true,
     "duplicateIdCount": 0,
     "canadianContaminationScan": "PASS",
-    "validatedAt": "2026-08-08"
+    "validatedAt": "2026-08-09"
   },
   "files": [
     {
@@ -284,6 +284,26 @@
       "path": "44c-dermatology-procedures-wounds-hair-nail-peds-parity.json",
       "lessons": 8,
       "role": "full_lesson_parity_expansion"
+    },
+    {
+      "path": "45a-cardiovascular-generator-parity-consolidated.json",
+      "lessons": 28,
+      "role": "full_lesson_parity_consolidation"
+    },
+    {
+      "path": "45b-diagnostics-generator-parity-consolidated.json",
+      "lessons": 26,
+      "role": "full_lesson_parity_consolidation"
+    },
+    {
+      "path": "45c-professional-practice-generator-parity-consolidated.json",
+      "lessons": 26,
+      "role": "full_lesson_parity_consolidation"
+    },
+    {
+      "path": "45d-primary-care-generator-parity-consolidated.json",
+      "lessons": 26,
+      "role": "full_lesson_parity_consolidation"
     }
   ],
   "canonicalOverrides": {
@@ -425,11 +445,12 @@
     "AUTHORING_QA_PARITY_43B.md",
     "AUTHORING_QA_PARITY_44A.md",
     "AUTHORING_QA_PARITY_44B.md",
-    "AUTHORING_QA_PARITY_44C.md"
+    "AUTHORING_QA_PARITY_44C.md",
+    "AUTHORING_CONSOLIDATION_CORE_SYSTEMS.json"
   ],
   "fullLessonParity": {
     "status": "IN_PROGRESS",
-    "authoringCanonicalTopicPathways": 562,
+    "authoringCanonicalTopicPathways": 668,
     "currentSearchIndexLessonCountObserved": 1979,
     "currentSearchIndexManifest": "nursenest-core/src/content/lessons/search-index/ca-np-cnple.manifest.json",
     "rule": "Completion requires every current canonical public-complete ca-np-cnple Full lesson to resolve to exactly one reviewed Cram lesson/recipe; topic breadth alone is not completion.",
@@ -447,7 +468,7 @@
     "rendererMappingComplete": false,
     "productionMerged": false,
     "productionDeployed": false,
-    "note": "The 570-object CNPLE Cram V2 estate contains the audited baseline plus clinically reviewed Full-lesson parity expansions. Lab Interpretation and the canonical NP Respiratory, Endocrine, Gastrointestinal, Renal/Urology, and Dermatology generator families now have complete clinical authoring coverage. Global Full-lesson parity remains incomplete; private-core exact-current-Full reconciliation, source anchors, Bottom Line evidence, Quick Checks, runtime certification, and learner rendering remain mandatory.",
+    "note": "This consolidated authoring estate includes the validated 570-object Lab/Respiratory/Endocrine/GI/Renal/Derm lineage plus deduplicated exact-generator Cardiovascular, Diagnostics, Professional Practice and Primary Care identities. Same-ID/different-content conflicts are prohibited. Full CNPLE curriculum parity and private-core certification remain incomplete.",
     "secondPassClinicalAuditCompleteForParity38B": true,
     "secondPassClinicalAuditCompleteForParity38C": true,
     "secondPassClinicalAuditCompleteForParity38D": true,

@@ -1,0 +1,1509 @@
+[
+  {
+    "id": "np-complete-blood-count-interpretation",
+    "title": "CBC Interpretation: Start With the Cell Line and Clinical Question",
+    "system": "Diagnostics / Hematology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "A CBC is not one result. Interpret hemoglobin/hematocrit, leukocytes/differential and platelets as separate cell-line problems, then integrate indices, trends and symptoms before choosing the next test or disposition.",
+    "recognize": [
+      "Anemia, leukocytosis/leukopenia and thrombocytopenia have different differentials and safety implications.",
+      "A falling value can matter more than a single mildly abnormal result when bleeding, marrow suppression or sepsis is plausible."
+    ],
+    "differentiate": [
+      "Hemoconcentration can raise hemoglobin without increasing red-cell mass; dilution can lower it without true loss.",
+      "Neutrophilia, lymphocytosis and eosinophilia are patterns, not standalone diagnoses."
+    ],
+    "assessment": [
+      "Assess bleeding, infection, medications, nutrition, pregnancy, kidney/liver disease, malignancy/therapy and baseline trends."
+    ],
+    "workup": [
+      "Use red-cell indices, reticulocytes, smear, iron/B12/folate, hemolysis studies or marrow/specialty testing only when they answer the identified cell-line problem."
+    ],
+    "management": [
+      "Treat instability first, then the cause. Stable abnormalities require cause-directed follow-up rather than reflex transfusion, antibiotics or hematology referral for every deviation."
+    ],
+    "medicationSafety": [
+      "Review anticoagulants, marrow-suppressive drugs and therapies that alter counts before attributing the result to disease."
+    ],
+    "redFlags": [
+      "Active bleeding with instability",
+      "Severe symptomatic anemia",
+      "Febrile neutropenia",
+      "Very low platelets with bleeding",
+      "Pancytopenia with systemic illness"
+    ],
+    "counselling": [
+      "Explain which cell line is abnormal and why a trend or additional test is needed before naming the cause."
+    ],
+    "followUp": [
+      "Close the loop on repeat counts and cause-directed testing; urgent abnormalities require same-day escalation."
+    ],
+    "examTrap": "Treating 'abnormal CBC' as one diagnosis instead of identifying which cell line is driving the risk.",
+    "oneLinePearl": "CBC reasoning starts with the cell line, then the trend, then the cause.",
+    "sourceBasis": [
+      "Choosing Wisely Canada laboratory stewardship",
+      "Canadian hematology practice principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-comprehensive-metabolic-panel-interpretation",
+    "title": "Comprehensive Metabolic Panel: Interpret the Pattern, Not the Printout",
+    "system": "Diagnostics / Internal Medicine",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "A broad chemistry panel combines electrolytes, renal markers, glucose and liver-related analytes that answer different questions. Identify the dangerous abnormality first, then determine whether the pattern reflects volume status, organ dysfunction, medication effect or a chronic baseline before ordering more tests.",
+    "recognize": [
+      "Potassium, sodium, glucose, creatinine and bicarbonate can create immediate safety issues; mild isolated abnormalities often require context and confirmation.",
+      "A single creatinine or liver enzyme result does not define chronic kidney or liver disease."
+    ],
+    "differentiate": [
+      "Volume depletion, medication effects and acute illness can shift several chemistry values together.",
+      "Transaminases indicate injury, not synthetic liver function; creatinine is an imperfect filtration surrogate."
+    ],
+    "assessment": [
+      "Assess symptoms, hydration/perfusion, medications, renal/liver history, diabetes, GI losses, diet/supplements and baseline laboratory values."
+    ],
+    "workup": [
+      "Repeat/confirm clinically important unexpected results and use focused urine, endocrine, acid-base or imaging studies only when the pattern justifies them."
+    ],
+    "management": [
+      "Treat life-threatening electrolyte/glucose/acid-base disturbances immediately while investigating cause; stable chronic patterns need longitudinal disease management."
+    ],
+    "medicationSafety": [
+      "ACE inhibitors/ARBs/MRAs, diuretics, NSAIDs, SGLT2 inhibitors and many other drugs can materially change chemistry values and risk."
+    ],
+    "redFlags": [
+      "ECG-relevant potassium abnormality",
+      "Severe symptomatic sodium disorder",
+      "AKI with oliguria/volume overload",
+      "Severe hyperglycemic emergency",
+      "Acute liver failure features"
+    ],
+    "counselling": [
+      "Explain that the panel is a collection of clues, not a single pass/fail test."
+    ],
+    "followUp": [
+      "Trend only the values that answer a defined clinical question and act on deterioration promptly."
+    ],
+    "examTrap": "Ordering a second broad panel instead of addressing the one dangerous abnormality already visible.",
+    "oneLinePearl": "On a chemistry panel, prioritize what can harm the patient now, then explain the pattern.",
+    "sourceBasis": [
+      "Choosing Wisely Canada laboratory stewardship",
+      "Canadian renal/endocrine/hepatology practice principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-lipid-panel-interpretation",
+    "title": "Lipid Panel Interpretation: Convert Numbers Into Cardiovascular Risk Decisions",
+    "system": "Diagnostics / Cardiovascular",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Interpret lipids in the context of established ASCVD, diabetes, CKD, familial hypercholesterolemia risk and overall cardiovascular risk. The treatment decision is not simply 'LDL high = statin' or 'LDL normal = no risk'.",
+    "recognize": [
+      "Established ASCVD and other high-risk conditions can indicate lipid-lowering therapy even when one lipid value is not dramatic.",
+      "Marked triglyceride elevation raises a different immediate concern than isolated LDL elevation."
+    ],
+    "differentiate": [
+      "Primary prevention and secondary prevention use different thresholds/intensity logic.",
+      "Unexpected severe dyslipidemia should prompt review of secondary causes and familial disease."
+    ],
+    "assessment": [
+      "Assess smoking, BP, diabetes, kidney disease, premature family history, prior vascular disease, pregnancy plans and medications."
+    ],
+    "workup": [
+      "Use fasting testing selectively when triglycerides or a specific calculation/question requires it; investigate secondary causes when the pattern is severe or unexpected."
+    ],
+    "management": [
+      "Use current Canadian cardiovascular-risk guidance to select treatment intensity and follow response/adherence after therapy changes."
+    ],
+    "medicationSafety": [
+      "Review statin interactions, muscle/hepatic symptoms when clinically indicated and pregnancy-specific medication decisions."
+    ],
+    "redFlags": [
+      "Severe hypertriglyceridemia with pancreatitis concern",
+      "Possible familial hypercholesterolemia",
+      "Premature/recurrent ASCVD despite therapy"
+    ],
+    "counselling": [
+      "Explain absolute cardiovascular risk and expected treatment benefit rather than focusing only on a target number."
+    ],
+    "followUp": [
+      "Repeat lipids at a clinically useful interval after initiation/intensification and reassess adherence/tolerance."
+    ],
+    "examTrap": "Treating the lipid panel without first identifying whether the patient is primary or secondary prevention.",
+    "oneLinePearl": "A lipid panel refines cardiovascular risk; it does not replace risk stratification.",
+    "sourceBasis": [
+      "Canadian Cardiovascular Society dyslipidemia guidance"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-thyroid-function-test-interpretation",
+    "title": "Thyroid Function Tests: Know When TSH Is Trustworthy",
+    "system": "Diagnostics / Endocrine",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "TSH is the preferred first-line test for most suspected primary thyroid disease, but central/pituitary disease, pregnancy, severe non-thyroidal illness and assay/medication interference can make TSH alone misleading. Interpret TSH with free T4 when the clinical context requires it.",
+    "recognize": [
+      "High TSH with low free T4 supports primary hypothyroidism; suppressed TSH with elevated free hormone supports primary hyperthyroidism.",
+      "Low free T4 with an inappropriately normal/low TSH raises central hypothyroidism concern."
+    ],
+    "differentiate": [
+      "Biotin and selected medications can distort assays; acute illness can create non-thyroidal patterns without true primary thyroid disease.",
+      "Free T3 is rarely the first test for uncomplicated suspected hypothyroidism."
+    ],
+    "assessment": [
+      "Review symptoms, pregnancy, pituitary symptoms, amiodarone/lithium, supplements/biotin, thyroid medication timing/adherence and recent severe illness."
+    ],
+    "workup": [
+      "Use TSH first when the pituitary axis is intact, adding free T4 and cause-directed antibodies/imaging only when indicated."
+    ],
+    "management": [
+      "Treat confirmed disease and repeat testing after physiologically meaningful intervals rather than reacting to values before steady state."
+    ],
+    "medicationSafety": [
+      "Levothyroxine absorption/interactions and antithyroid-drug toxicity can confound follow-up interpretation."
+    ],
+    "redFlags": [
+      "Thyroid storm physiology",
+      "Myxedema coma",
+      "Pituitary mass symptoms",
+      "Pregnancy with significant thyroid dysfunction"
+    ],
+    "counselling": [
+      "Explain why thyroid tests may need repeat/paired interpretation rather than one result deciding treatment."
+    ],
+    "followUp": [
+      "Recheck according to treatment change, pregnancy and disease context; avoid unnecessary repeated panels."
+    ],
+    "examTrap": "Using a normal TSH to exclude hypothyroidism in a patient with suspected pituitary disease and low free T4.",
+    "oneLinePearl": "TSH leads in primary thyroid disease; free T4 rescues you when the pituitary context changes.",
+    "sourceBasis": [
+      "BC thyroid function testing guideline",
+      "Canadian endocrinology practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-liver-enzyme-pattern-recognition",
+    "title": "Liver Enzyme Pattern Recognition: Injury, Cholestasis, and Synthetic Risk",
+    "system": "Diagnostics / Hepatology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Classify liver chemistry as predominantly hepatocellular, cholestatic or mixed before choosing the differential. AST/ALT reflect injury, alkaline phosphatase supports cholestasis after source confirmation, and INR/albumin/bilirubin answer different questions about function and handling.",
+    "recognize": [
+      "Predominant aminotransferase elevation suggests hepatocellular injury; predominant alkaline-phosphatase elevation suggests cholestatic/infiltrative disease.",
+      "Falling AST/ALT can be falsely reassuring in severe acute liver injury if INR, bilirubin, glucose or mental status worsen."
+    ],
+    "differentiate": [
+      "ALP may be bone/placental rather than hepatic; albumin is affected by inflammation/nutrition/renal loss.",
+      "Bilirubin can rise in both hepatocellular and cholestatic disease and should be interpreted by fraction and pattern."
+    ],
+    "assessment": [
+      "Assess jaundice, pruritus, pain, fever, encephalopathy, bleeding, alcohol, medications/supplements, pregnancy and infectious/metabolic risks."
+    ],
+    "workup": [
+      "Use cause-directed viral/toxic/metabolic/autoimmune testing and ultrasound when the pattern warrants it rather than ordering every liver test for every mild abnormality."
+    ],
+    "management": [
+      "Treat the cause and escalate suspected acute liver failure, cholangitis or rapidly progressive disease."
+    ],
+    "medicationSafety": [
+      "Do not stop or restart essential potentially hepatotoxic medications solely from one small enzyme change without risk-benefit review and the full pattern."
+    ],
+    "redFlags": [
+      "Encephalopathy",
+      "Rising INR/coagulopathy",
+      "Hypoglycemia with acute liver injury",
+      "Jaundice plus sepsis/obstruction signs",
+      "Suspected toxin ingestion"
+    ],
+    "counselling": [
+      "Explain that liver enzymes show injury pattern, not a direct percentage of liver function."
+    ],
+    "followUp": [
+      "Trend abnormalities that answer a clinical question and refer persistent/progressive unexplained disease appropriately."
+    ],
+    "examTrap": "Calling aminotransferase elevation 'liver failure' without assessing synthetic function and clinical status.",
+    "oneLinePearl": "Read liver tests by job: injury, bile flow and synthetic function are different axes.",
+    "sourceBasis": [
+      "BC Abnormal Liver Chemistry guideline",
+      "Choosing Wisely Canada hepatology/biochemistry recommendations"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-cardiac-biomarker-interpretation",
+    "title": "Cardiac Biomarkers: Myocardial Injury Is Not Automatically Myocardial Infarction",
+    "system": "Diagnostics / Cardiovascular",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "urgent",
+    "bottomLine": "High-sensitivity troponin identifies myocardial injury; myocardial infarction requires injury plus compatible ischemic evidence. Interpret serial change, timing, symptoms and ECG together, and use BNP/NT-proBNP as heart-failure probability/risk tools rather than stand-alone diagnoses.",
+    "recognize": [
+      "Troponin can rise with ACS, myocarditis, tachyarrhythmia, PE, sepsis, renal disease and other myocardial stress.",
+      "BNP/NT-proBNP is influenced by age, renal function, obesity and atrial fibrillation."
+    ],
+    "differentiate": [
+      "A normal early troponin does not automatically exclude early ACS; a chronically elevated troponin does not automatically equal acute MI.",
+      "CK-MB is generally lower value than modern troponin for routine ACS diagnosis."
+    ],
+    "assessment": [
+      "Assess symptom timing, ECG, hemodynamics, renal function, heart-failure signs and alternate causes of myocardial injury."
+    ],
+    "workup": [
+      "Use the validated local serial high-sensitivity troponin pathway and additional imaging/testing based on ischemic probability and alternate diagnoses."
+    ],
+    "management": [
+      "Activate ACS/acute-care pathways when clinical/ECG/serial biomarker evidence supports ischemia; treat alternate causes of myocardial injury when they are more likely."
+    ],
+    "medicationSafety": [
+      "Do not give antithrombotic therapy solely for a troponin elevation before considering bleeding risk and alternative diagnoses such as aortic syndrome."
+    ],
+    "redFlags": [
+      "Dynamic ischemic ECG change",
+      "Rising troponin with ongoing ischemic symptoms",
+      "Shock",
+      "Malignant arrhythmia",
+      "Acute heart failure"
+    ],
+    "counselling": [
+      "Explain why repeat testing may be required even when the first marker is normal or mildly elevated."
+    ],
+    "followUp": [
+      "Close pending serial markers and ensure the cause of myocardial injury is documented and managed."
+    ],
+    "examTrap": "Calling every elevated troponin an NSTEMI without ischemic evidence.",
+    "oneLinePearl": "Troponin says injury; the clinical syndrome says why.",
+    "sourceBasis": [
+      "Canadian Cardiovascular Society acute coronary syndrome and heart failure guidance"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-tumor-marker-interpretation",
+    "title": "Tumor Markers: Use Them for the Right Cancer Question",
+    "system": "Diagnostics / Oncology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "II Quality Improvement and Research/Scholar"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Most serum tumor markers are not population screening tests and are rarely diagnostic by themselves. Use a marker only when a validated cancer-specific question exists—such as treatment response, recurrence surveillance or selected diagnostic support—and interpret it with imaging, pathology and clinical context.",
+    "recognize": [
+      "Markers can be elevated by benign disease and can remain normal despite cancer.",
+      "The useful marker and threshold depend on the cancer type, treatment state and clinical question."
+    ],
+    "differentiate": [
+      "Screening an asymptomatic average-risk population is different from monitoring a known malignancy.",
+      "A rising marker can trigger evaluation but does not independently prove recurrence or progression."
+    ],
+    "assessment": [
+      "Clarify whether the patient has a known cancer, symptoms, high-risk genetic syndrome or a defined specialty monitoring plan before ordering a marker."
+    ],
+    "workup": [
+      "Use cancer-specific guideline pathways and confirm clinically important changes with appropriate imaging/pathology rather than serial marker testing alone."
+    ],
+    "management": [
+      "Refer suspicious cancer presentations through the appropriate diagnostic pathway; do not reassure or treat solely on marker status."
+    ],
+    "medicationSafety": [
+      "Avoid invasive procedures or therapy changes based only on a nonspecific marker without confirmatory evaluation."
+    ],
+    "redFlags": [
+      "Cancer alarm symptoms with a 'normal' marker",
+      "Rapid unexplained marker rise in known cancer",
+      "New organ dysfunction suggesting metastatic disease"
+    ],
+    "counselling": [
+      "Explain that tumor markers are imperfect and are usually used as one part of cancer monitoring, not as a universal cancer blood test."
+    ],
+    "followUp": [
+      "Track any abnormal marker within the cancer-specific diagnostic or surveillance plan and document who owns follow-up."
+    ],
+    "examTrap": "Ordering a broad panel of tumor markers to screen an asymptomatic patient for hidden cancer.",
+    "oneLinePearl": "A tumor marker needs a validated cancer question before it needs a blood draw.",
+    "sourceBasis": [
+      "Choosing Wisely Canada oncology/laboratory stewardship",
+      "Canadian cancer-specific diagnostic and surveillance practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-inflammatory-marker-interpretation",
+    "title": "Inflammatory Markers: Move Probability, Do Not Name the Disease",
+    "system": "Diagnostics / Rheumatology / Infectious Disease",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "II Quality Improvement and Research/Scholar"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "CRP and ESR are nonspecific. Use them when a defined clinical question exists and when the result can change probability, urgency or follow-up; do not use an elevated value as proof of bacterial infection, autoimmune disease or occult cancer.",
+    "recognize": [
+      "CRP changes more rapidly and is generally preferable for acute systemic inflammation; ESR is slower and more confounded by age, anemia, pregnancy and proteins.",
+      "Discordant markers can occur and should be interpreted through the disease context rather than normalized by ordering more nonspecific tests."
+    ],
+    "differentiate": [
+      "Normal markers do not safely exclude time-critical disease when the clinical syndrome is compelling.",
+      "Selected diseases such as giant-cell arteritis use inflammatory markers as supporting evidence, not as the sole diagnostic criterion."
+    ],
+    "assessment": [
+      "Define the suspected syndrome, pretest probability and the management decision that a high/low result would change."
+    ],
+    "workup": [
+      "Use disease-specific tests, cultures/imaging or specialist evaluation when indicated rather than repeated CRP/ESR without a diagnostic hypothesis."
+    ],
+    "management": [
+      "Treat the clinical diagnosis and patient severity; trend markers only when the trajectory has a validated role in management."
+    ],
+    "medicationSafety": [
+      "Do not start/broaden antibiotics or immunosuppression solely because a nonspecific inflammatory marker is elevated."
+    ],
+    "redFlags": [
+      "Clinical sepsis/organ dysfunction despite low marker",
+      "Visual symptoms with possible giant-cell arteritis",
+      "Persistent systemic illness/weight loss requiring definitive evaluation"
+    ],
+    "counselling": [
+      "Explain that inflammatory markers indicate inflammation but usually cannot tell the exact cause."
+    ],
+    "followUp": [
+      "Stop trending when the result no longer changes care and reassess diagnosis when marker and clinical course diverge."
+    ],
+    "examTrap": "Diagnosing bacterial infection from an elevated CRP without a compatible syndrome.",
+    "oneLinePearl": "Inflammatory markers adjust probability; they do not finish the differential.",
+    "sourceBasis": [
+      "Choosing Wisely Canada Medical Biochemistry recommendations",
+      "Canadian rheumatology/infectious-disease practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-coagulation-studies-interpretation",
+    "title": "Coagulation Studies: Match the Test to the Drug and the Bleeding Question",
+    "system": "Diagnostics / Hematology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "PT/INR, aPTT, thrombin time, fibrinogen and platelet count answer different hemostasis questions. INR is designed for vitamin-K antagonist management, aPTT may guide UFH under a validated local assay, and routine PT/INR/aPTT cannot be interpreted as quantitative DOAC levels.",
+    "recognize": [
+      "Bleeding can occur with normal routine coagulation tests and abnormal results can occur without active bleeding.",
+      "Drug exposure, liver disease, DIC, vitamin K deficiency and factor disorders create different patterns."
+    ],
+    "differentiate": [
+      "Platelet number/function and coagulation-factor abnormalities are different hemostasis problems.",
+      "A normal PT/aPTT does not reliably exclude clinically important factor-Xa inhibitor effect; thrombin time is very sensitive to dabigatran exposure."
+    ],
+    "assessment": [
+      "Assess bleeding site/severity, last anticoagulant dose, renal/liver function, medications, pregnancy, prior results and procedural context."
+    ],
+    "workup": [
+      "Order only tests that answer the bleeding/anticoagulant question; use validated drug-specific assays when available and when the result would change management."
+    ],
+    "management": [
+      "Treat major bleeding and hemodynamic instability first while clarifying the anticoagulant/coagulopathy; use current reversal/transfusion protocols."
+    ],
+    "medicationSafety": [
+      "Do not dose DOACs to INR/aPTT and do not assume a normal routine test means no drug effect.",
+      "Warfarin and heparin monitoring require the appropriate validated assay and indication-specific target."
+    ],
+    "redFlags": [
+      "Major active bleeding",
+      "Intracranial/retroperitoneal bleeding concern",
+      "DIC with organ dysfunction",
+      "Urgent procedure with uncertain anticoagulant effect"
+    ],
+    "counselling": [
+      "Explain why different anticoagulants require different monitoring and why one 'clotting test' does not cover every drug."
+    ],
+    "followUp": [
+      "Close the loop on reversal, renal clearance, repeat testing and anticoagulation restart decisions."
+    ],
+    "examTrap": "Using a normal INR to prove a patient taking apixaban has no anticoagulant effect.",
+    "oneLinePearl": "Coagulation tests are drug- and pathway-specific; there is no universal clotting number.",
+    "sourceBasis": [
+      "Thrombosis Canada — DOACs: Coagulation Tests and Management of Bleeding"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-urinalysis-fundamentals",
+    "title": "Urinalysis: Interpret the Syndrome Before Treating the Dipstick",
+    "system": "Diagnostics / Renal / Infectious Disease",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "child",
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Urinalysis is an adjunct to a urinary or renal syndrome. Pyuria/bacteriuria without urinary symptoms often represents asymptomatic bacteriuria, while protein, blood and casts may signal kidney disease that should not be mislabeled UTI.",
+    "recognize": [
+      "Leukocyte esterase/nitrite can support UTI when symptoms fit, but neither alone diagnoses infection.",
+      "Proteinuria, hematuria and casts require a renal differential, especially when persistent or accompanied by impaired kidney function."
+    ],
+    "differentiate": [
+      "Cloudy/malodorous urine and bacteriuria alone are not sufficient reasons to treat most nonpregnant adults.",
+      "Dipstick blood may reflect red cells, hemoglobin or myoglobin and needs microscopy/context."
+    ],
+    "assessment": [
+      "Ask dysuria, frequency, urgency, suprapubic/flank pain, fever, pregnancy, instrumentation, stones, menstruation/exercise and renal/systemic symptoms."
+    ],
+    "workup": [
+      "Culture symptomatic/high-risk patients when the result changes therapy; avoid routine urine culture in asymptomatic adults except defined pregnancy/urologic-procedure contexts.",
+      "Quantify persistent proteinuria and evaluate persistent hematuria according to renal/urologic pathways."
+    ],
+    "management": [
+      "Treat the clinical syndrome, not the test strip; avoid antibiotics for asymptomatic bacteriuria outside accepted exceptions."
+    ],
+    "medicationSafety": [
+      "Unnecessary antibiotics cause resistance, adverse effects and C. difficile risk.",
+      "NSAIDs/anticoagulants and other drugs can contribute to renal/hematuria findings and should be reviewed."
+    ],
+    "redFlags": [
+      "Sepsis/pyelonephritis",
+      "Pregnancy with urinary infection concern",
+      "Gross hematuria with clots/retention",
+      "AKI with active urine sediment",
+      "Persistent proteinuria/hematuria with systemic features"
+    ],
+    "counselling": [
+      "Explain why a positive urine test does not always mean infection and why symptoms matter."
+    ],
+    "followUp": [
+      "Ensure cultures and persistent renal/urologic abnormalities are reviewed to resolution."
+    ],
+    "examTrap": "Treating an older adult's positive urine culture for confusion alone without localizing urinary symptoms or systemic infection evidence.",
+    "oneLinePearl": "Urine tests support a syndrome; they do not create one.",
+    "sourceBasis": [
+      "Choosing Wisely Canada Medical Microbiology and Family Medicine recommendations"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-arterial-blood-gas-interpretation",
+    "title": "ABG Interpretation: Identify the Primary Disorder and Test Compensation",
+    "system": "Diagnostics / Respiratory / Critical Care",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "urgent",
+    "bottomLine": "ABG interpretation is a physiology sequence: assess pH, identify the respiratory/metabolic driver, test whether compensation is appropriate, then integrate oxygenation and the clinical cause. An 'almost normal' pH can hide a dangerous mixed disorder.",
+    "recognize": [
+      "PaCO2 moves pH in the acid direction; bicarbonate moves pH in the base direction.",
+      "Unexpected compensation suggests a second acid-base process."
+    ],
+    "differentiate": [
+      "ABG defines acid-base/gas exchange but does not identify the underlying diagnosis by itself.",
+      "Venous blood gas can answer many pH/CO2 questions, while arterial sampling is needed when accurate oxygenation assessment matters."
+    ],
+    "assessment": [
+      "Assess respiratory effort, oxygen delivery/ventilation support, hemodynamics, GI losses, renal disease, toxins, sepsis and medications."
+    ],
+    "workup": [
+      "Use electrolytes/anion gap, lactate, ketones, toxicology and imaging according to the suspected cause."
+    ],
+    "management": [
+      "Treat the cause and stabilize oxygenation/ventilation/perfusion; do not chase pH with bicarbonate or ventilator changes without understanding physiology."
+    ],
+    "medicationSafety": [
+      "Sedatives/opioids can cause respiratory acidosis; diuretics/vomiting can contribute to metabolic alkalosis; salicylates can produce mixed patterns."
+    ],
+    "redFlags": [
+      "Severe acidemia",
+      "Rapidly rising CO2 with altered mental status",
+      "Refractory hypoxemia",
+      "Mixed acidosis with shock/toxin concern"
+    ],
+    "counselling": [
+      "When appropriate, explain that blood-gas values reflect how lungs and metabolism are handling acid/base and gas exchange."
+    ],
+    "followUp": [
+      "Repeat gas testing only when trajectory or intervention response will change management."
+    ],
+    "examTrap": "Calling a near-normal pH reassuring without checking whether PaCO2 and bicarbonate are both markedly abnormal.",
+    "oneLinePearl": "ABG: pH, primary process, expected compensation, oxygenation, cause.",
+    "sourceBasis": [
+      "Canadian respiratory/critical-care acid-base practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-ecg-interpretation-fundamentals",
+    "title": "ECG Fundamentals: Rate, Rhythm, Intervals, Axis, Ischemia, Then the Patient",
+    "system": "Diagnostics / Cardiovascular",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Use a repeatable ECG sequence and connect every tracing to symptoms/hemodynamics. Identify immediately dangerous ischemia, ventricular arrhythmia, high-grade block, severe electrolyte patterns and pre-excitation/QT risk before refining lower-risk abnormalities.",
+    "recognize": [
+      "Systematic interpretation reduces missed rate/rhythm/interval/ischemia findings.",
+      "A machine interpretation is an aid, not the final diagnosis."
+    ],
+    "differentiate": [
+      "ST elevation has ischemic and nonischemic causes; a normal ECG does not exclude early ACS.",
+      "Wide-complex tachycardia should be treated as ventricular until appropriately clarified in an unstable patient."
+    ],
+    "assessment": [
+      "Assess chest pain, syncope, palpitations, dyspnea, medications/electrolytes, prior ECG and hemodynamic stability."
+    ],
+    "workup": [
+      "Repeat ECG and serial troponin when ACS remains plausible; obtain electrolytes/other testing when conduction/QT/arrhythmia context warrants."
+    ],
+    "management": [
+      "Treat unstable rhythms/ischemia through acute-care algorithms and use specialty follow-up for persistent conduction/structural concerns."
+    ],
+    "medicationSafety": [
+      "Review QT-prolonging and AV-node-blocking drugs when the corresponding ECG abnormality appears."
+    ],
+    "redFlags": [
+      "STEMI/ongoing ischemia",
+      "Ventricular tachycardia",
+      "High-grade AV block",
+      "Marked QT prolongation with syncope",
+      "Severe hyperkalemic ECG pattern"
+    ],
+    "counselling": [
+      "Explain when an incidental ECG finding needs follow-up versus emergency assessment."
+    ],
+    "followUp": [
+      "Compare prior tracings and ensure arrhythmia/structural disease workup is completed."
+    ],
+    "examTrap": "Accepting the automated ECG label without checking the rhythm and clinical context.",
+    "oneLinePearl": "Read the ECG systematically, then decide what the tracing means for this patient now.",
+    "sourceBasis": [
+      "Canadian Cardiovascular Society rhythm/ACS practice principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-chest-x-ray-interpretation",
+    "title": "Chest X-Ray: Quality First, Then a Structured Cardiopulmonary Read",
+    "system": "Diagnostics / Respiratory",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "child",
+      "adolescent",
+      "adult",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Before interpreting a chest X-ray, check projection, rotation, inspiration and exposure. Then use a structured read for airway, lungs/pleura, heart/mediastinum, diaphragm and bones/soft tissues; a normal film does not exclude early pneumonia, PE or ACS.",
+    "recognize": [
+      "Projection and poor inspiration can falsely enlarge the heart or create apparent basal opacity.",
+      "Pneumothorax, lobar consolidation, pulmonary edema and large effusions have pattern-based radiographic clues."
+    ],
+    "differentiate": [
+      "Chest X-ray is not a rule-out test for PE or ACS and may be normal in early infection.",
+      "Portable AP films create different magnification/quality issues than standard PA/lateral imaging."
+    ],
+    "assessment": [
+      "Interpret the image against symptoms, oxygenation, examination and prior imaging."
+    ],
+    "workup": [
+      "Use CT, ultrasound or repeat imaging only when the clinical differential requires greater sensitivity/specificity."
+    ],
+    "management": [
+      "Act urgently on pneumothorax, major edema, large symptomatic effusion or other acute findings; do not delay care waiting for a perfect radiology description in an unstable patient."
+    ],
+    "medicationSafety": [
+      "Avoid antibiotics solely because of a nonspecific opacity without a compatible infectious syndrome."
+    ],
+    "redFlags": [
+      "Tension pneumothorax physiology",
+      "Rapidly progressive bilateral opacities with hypoxemia",
+      "Large effusion with respiratory compromise",
+      "Mediastinal widening with acute aortic concern"
+    ],
+    "counselling": [
+      "Explain that imaging findings are interpreted with symptoms and may require follow-up imaging for unresolved abnormalities."
+    ],
+    "followUp": [
+      "Track radiology recommendations and unresolved opacities/nodules to completion."
+    ],
+    "examTrap": "Calling a normal chest X-ray proof that PE, early pneumonia or ACS is absent.",
+    "oneLinePearl": "Chest X-ray starts with image quality and ends with clinical correlation.",
+    "sourceBasis": [
+      "Canadian radiology and respiratory practice principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-abdominal-imaging-selection",
+    "title": "Abdominal Imaging: Choose the Modality That Answers the Dangerous Differential",
+    "system": "Diagnostics / Gastrointestinal",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "child",
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Abdominal imaging is selected from the suspected diagnosis, patient stability, pregnancy/age, radiation/contrast risk and local access. Ultrasound is first-line for many biliary/pelvic/pregnancy/pediatric questions; CT is powerful for acute intra-abdominal pathology but should not replace focused clinical reasoning.",
+    "recognize": [
+      "RUQ/biliary and many pelvic/pregnancy questions are well suited to ultrasound.",
+      "CT is often the key cross-sectional test for obstruction, perforation, complicated diverticulitis, ischemia or broad undifferentiated acute abdomen in appropriate patients."
+    ],
+    "differentiate": [
+      "A symptomatic patient needs diagnostic imaging, not an average-risk screening pathway.",
+      "Radiation and contrast risk alter modality choice but do not justify delaying time-critical imaging when benefit is high."
+    ],
+    "assessment": [
+      "Define pain location/onset, peritonitis, hemodynamics, pregnancy possibility, renal function/contrast history, prior surgery and the leading dangerous diagnoses."
+    ],
+    "workup": [
+      "Choose ultrasound, CT, MRI or targeted plain radiography only when each can answer the clinical question; in children with suspected appendicitis, consider ultrasound before CT when appropriate."
+    ],
+    "management": [
+      "Escalate surgical/obstetric/vascular emergencies while imaging is being arranged; imaging should support, not postpone, stabilization."
+    ],
+    "medicationSafety": [
+      "Contrast and sedation decisions are individualized; avoid outdated blanket contraindications and review current radiology policy."
+    ],
+    "redFlags": [
+      "Peritonitis",
+      "Shock",
+      "Pregnancy with pain/bleeding",
+      "Pain out of proportion/mesenteric ischemia concern",
+      "Suspected perforation/AAA"
+    ],
+    "counselling": [
+      "Explain why the chosen modality is best for the suspected problem and discuss radiation/contrast when relevant."
+    ],
+    "followUp": [
+      "Track incidental or indeterminate findings and ensure urgent results reach the responsible clinician."
+    ],
+    "examTrap": "Ordering the same abdominal CT for every pain presentation without considering pregnancy, biliary/pelvic ultrasound or the actual differential.",
+    "oneLinePearl": "Pick abdominal imaging by the diagnosis you must confirm or exclude—not by habit.",
+    "sourceBasis": [
+      "Choosing Wisely Canada Radiology recommendations",
+      "Canadian emergency/diagnostic imaging practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-musculoskeletal-imaging-selection",
+    "title": "Musculoskeletal Imaging: Image When the Result Changes Management",
+    "system": "Diagnostics / Musculoskeletal",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "child",
+      "adolescent",
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Most uncomplicated mechanical musculoskeletal pain does not require immediate imaging. Use red flags, trauma rules, persistent/progressive neurologic deficit and a specific treatment question to decide when X-ray, ultrasound, CT or MRI adds value.",
+    "recognize": [
+      "Plain radiography is useful for many fracture/arthritis/bony alignment questions; ultrasound can evaluate selected tendon/effusion questions; MRI is useful for soft tissue, marrow, cord and selected persistent symptoms.",
+      "Degenerative imaging abnormalities are common in asymptomatic adults and may not explain pain."
+    ],
+    "differentiate": [
+      "Uncomplicated low-back pain without red flags is not an automatic MRI indication.",
+      "Progressive neurologic deficit, cauda equina, infection, cancer or significant trauma changes the imaging threshold immediately."
+    ],
+    "assessment": [
+      "Assess trauma, neurologic function, fever/infection risk, cancer history, osteoporosis/steroid risk, function, duration and whether imaging would change treatment."
+    ],
+    "workup": [
+      "Apply validated trauma rules/pathways and reserve advanced imaging for a defined diagnostic or procedural decision."
+    ],
+    "management": [
+      "Treat uncomplicated mechanical pain with activity/rehabilitation strategies while monitoring; escalate red flags to urgent imaging/specialty care."
+    ],
+    "medicationSafety": [
+      "Avoid sedating analgesic escalation simply because imaging is deferred; imaging restraint is not undertreatment."
+    ],
+    "redFlags": [
+      "Cauda equina",
+      "Severe/progressive motor deficit",
+      "Suspected infection",
+      "Cancer",
+      "Fracture/major trauma",
+      "Epidural hematoma/abscess concern"
+    ],
+    "counselling": [
+      "Explain that early imaging often finds common age-related abnormalities that do not improve recovery or identify the pain generator."
+    ],
+    "followUp": [
+      "Reassess if symptoms fail expected recovery or new red flags emerge."
+    ],
+    "examTrap": "Ordering MRI for two weeks of uncomplicated low-back pain with a normal neurologic exam.",
+    "oneLinePearl": "Image MSK pain when a red flag or treatment decision needs an answer.",
+    "sourceBasis": [
+      "Choosing Wisely Canada low-back/spine imaging recommendations"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-neuroimaging-indications-and-interpretation",
+    "title": "Neuroimaging: Match CT or MRI to the Neurologic Emergency",
+    "system": "Diagnostics / Neurology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "child",
+      "adolescent",
+      "adult",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Neuroimaging is chosen from onset, trauma, focal findings, vascular/infectious/cancer risk and the question being asked. CT is fast for hemorrhage/trauma and many emergencies; MRI is more sensitive for many parenchymal/posterior-fossa/demyelinating processes but should not delay time-critical stroke or hemorrhage care.",
+    "recognize": [
+      "New focal deficit, thunderclap headache, head trauma, reduced consciousness, cancer/immunocompromise and signs of raised ICP change the imaging threshold.",
+      "Simple syncope with a normal neurologic exam and uncomplicated recurrent headache without red flags generally do not need routine neuroimaging."
+    ],
+    "differentiate": [
+      "A normal noncontrast CT does not exclude all ischemic stroke, posterior fossa disease or other neurologic pathology.",
+      "Carotid imaging, brain CT and brain MRI answer different questions and should not be ordered as a reflex bundle."
+    ],
+    "assessment": [
+      "Establish onset/last-known-well, trauma, focal exam, anticoagulation, headache pattern, seizure, fever, cancer/immune status and pregnancy where relevant."
+    ],
+    "workup": [
+      "Use stroke/trauma/headache/seizure-specific imaging pathways and choose vascular imaging when vessel pathology is the question."
+    ],
+    "management": [
+      "Do not delay emergency stroke activation or stabilization for nonessential imaging; act on hemorrhage, mass effect and vascular emergencies urgently."
+    ],
+    "medicationSafety": [
+      "Contrast/sedation decisions are patient- and modality-specific; use current radiology policy rather than outdated universal exclusions."
+    ],
+    "redFlags": [
+      "Acute focal deficit",
+      "Thunderclap headache",
+      "Persistent altered consciousness",
+      "Head trauma with high-risk features",
+      "Fever/immunocompromise with CNS concern",
+      "Papilledema/mass effect concern"
+    ],
+    "counselling": [
+      "Explain why imaging may be unnecessary for low-risk headache/syncope and when new neurologic symptoms change that decision."
+    ],
+    "followUp": [
+      "Track incidental/indeterminate findings and ensure urgent imaging results have explicit ownership."
+    ],
+    "examTrap": "Ordering CT head for every simple syncope or stable migraine—or waiting for MRI before activating an acute stroke pathway.",
+    "oneLinePearl": "Neuroimaging is question-specific: choose the modality that changes the emergency or differential.",
+    "sourceBasis": [
+      "Choosing Wisely Canada Radiology/Internal Medicine/Emergency Medicine recommendations",
+      "Canadian stroke/neurology practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-ultrasound-in-primary-care",
+    "title": "Ultrasound in Primary Care: Use the Modality for the Question It Answers Best",
+    "system": "Diagnostics / Point-of-Care Imaging",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "child",
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Ultrasound is valuable when it can answer a focused question without ionizing radiation—biliary, pelvic/pregnancy, effusion, bladder, DVT and selected soft-tissue questions—but a limited or negative study must not overrule a dangerous clinical syndrome when sensitivity is insufficient.",
+    "recognize": [
+      "Ultrasound is operator- and body-habitus dependent and answers some questions far better than others.",
+      "Point-of-care ultrasound supplements the clinical assessment; it does not replace formal imaging or specialist interpretation when the question exceeds the operator's validated scope."
+    ],
+    "differentiate": [
+      "A negative bedside scan does not safely exclude every PE, appendicitis, ectopic pregnancy or vascular emergency.",
+      "Formal diagnostic ultrasound and focused POCUS have different documentation, quality and credentialing expectations."
+    ],
+    "assessment": [
+      "Define the clinical question, urgency, pregnancy/radiation considerations and whether a positive/negative result will actually change management."
+    ],
+    "workup": [
+      "Escalate to formal ultrasound, CT/MRI or specialty evaluation when the bedside study is indeterminate or the clinical risk remains high."
+    ],
+    "management": [
+      "Use findings within validated scope and local policy; stabilize emergencies rather than delaying for an optional scan."
+    ],
+    "medicationSafety": [
+      "Avoid unnecessary sedation/contrast by choosing ultrasound when it can answer the question, but do not avoid necessary definitive imaging solely to eliminate radiation."
+    ],
+    "redFlags": [
+      "Unstable pregnancy/abdominal pain",
+      "Suspected ruptured AAA",
+      "Persistent high-risk DVT/ectopic concern despite nondiagnostic scan",
+      "Operator uncertainty in an unstable patient"
+    ],
+    "counselling": [
+      "Explain what the ultrasound can and cannot determine and why another test may still be needed."
+    ],
+    "followUp": [
+      "Document limitations and ensure formal follow-up for indeterminate or incidental findings."
+    ],
+    "examTrap": "Using a limited POCUS result as definitive exclusion of a high-risk diagnosis outside the test's validated performance.",
+    "oneLinePearl": "Ultrasound is strongest when the question is focused and the operator knows the limits.",
+    "sourceBasis": [
+      "Canadian diagnostic ultrasound/POCUS practice principles",
+      "Choosing Wisely Canada imaging stewardship"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-ct-indications-and-contraindications",
+    "title": "CT: Use Speed and Detail When the Benefit Justifies Radiation and Contrast",
+    "system": "Diagnostics / Radiology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "child",
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "CT is fast and highly useful for many emergency thoracic, abdominal, neurologic and traumatic questions, but it should be selected for a specific diagnosis that changes care. Radiation, pregnancy, renal/contrast issues and prior imaging matter, yet outdated blanket 'contraindications' should not delay life-saving imaging.",
+    "recognize": [
+      "Noncontrast, contrast-enhanced, angiographic and low-dose CT protocols answer different questions.",
+      "Children and pregnancy require extra attention to radiation alternatives, but urgency and diagnostic benefit still govern."
+    ],
+    "differentiate": [
+      "CT is not automatically superior to ultrasound or MRI; modality choice depends on anatomy, urgency and the suspected disease.",
+      "Contrast risk is individualized; prior mild reaction or CKD does not automatically prohibit all contrast-enhanced CT."
+    ],
+    "assessment": [
+      "Define indication, pregnancy possibility, renal function when contrast decisions require it, prior contrast reaction and whether previous imaging already answers the question."
+    ],
+    "workup": [
+      "Choose the correct protocol and avoid repeat CT when recent adequate imaging exists unless the clinical question changed."
+    ],
+    "management": [
+      "Proceed urgently when benefit outweighs risk; use alternative imaging when it provides equivalent information with less harm."
+    ],
+    "medicationSafety": [
+      "Contrast premedication and medication holds are protocol/patient specific; use current radiology guidance rather than universal rules."
+    ],
+    "redFlags": [
+      "Suspected intracranial hemorrhage",
+      "Aortic catastrophe",
+      "Major trauma",
+      "Perforation/ischemia",
+      "High-risk PE when CT angiography is appropriate"
+    ],
+    "counselling": [
+      "Explain why CT is being used, including radiation/contrast tradeoffs when time allows."
+    ],
+    "followUp": [
+      "Track incidental findings and radiology recommendations to completion."
+    ],
+    "examTrap": "Avoiding an urgently indicated CT because of a generalized fear of contrast/radiation without weighing immediate diagnostic benefit.",
+    "oneLinePearl": "CT is a question-specific tool; protocol and urgency matter as much as the scanner.",
+    "sourceBasis": [
+      "Choosing Wisely Canada Radiology recommendations",
+      "Canadian radiology practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-mri-indications-and-contraindications",
+    "title": "MRI: High Soft-Tissue Detail, Strong Safety Screening, and the Right Urgency",
+    "system": "Diagnostics / Radiology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "child",
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "MRI offers excellent neurologic, spinal, soft-tissue and many organ-specific assessments without ionizing radiation, but it is slower, less available and requires device/metal/claustrophobia safety screening. Do not delay a time-critical CT-based emergency pathway simply because MRI is more sensitive for another question.",
+    "recognize": [
+      "MRI is particularly useful for brain/spinal cord, demyelination, soft tissue, marrow and selected abdominal/pelvic questions.",
+      "Implanted devices are not automatically unsafe; MRI-conditional status and protocol determine eligibility."
+    ],
+    "differentiate": [
+      "MRI is not the initial test for every acute head/trauma/bleeding presentation.",
+      "Gadolinium contrast and MRI device safety are different issues and require separate assessment."
+    ],
+    "assessment": [
+      "Screen implanted devices/metal, prior surgery/foreign bodies, claustrophobia, ability to lie still, pregnancy and renal function when gadolinium is planned."
+    ],
+    "workup": [
+      "Choose MRI sequence/contrast according to the clinical question and use urgent alternative imaging when MRI delay would harm."
+    ],
+    "management": [
+      "Coordinate device verification/sedation when needed and act urgently on cord compression, abscess, cauda equina or other critical findings."
+    ],
+    "medicationSafety": [
+      "Sedation risk and gadolinium decisions are individualized; avoid routine sedation when communication/support can achieve the scan safely."
+    ],
+    "redFlags": [
+      "Cord compression",
+      "Spinal epidural abscess",
+      "Acute cauda equina",
+      "Device status unknown with urgent MRI request",
+      "Unstable patient who cannot safely tolerate scanner delay"
+    ],
+    "counselling": [
+      "Explain the magnetic-field/device questions and why another modality may be safer/faster in some emergencies."
+    ],
+    "followUp": [
+      "Track critical/incidental findings and required specialist referral."
+    ],
+    "examTrap": "Waiting for MRI in a time-sensitive condition when a faster validated emergency imaging pathway should happen first.",
+    "oneLinePearl": "MRI is powerful because of tissue contrast, not because it is always the best first test.",
+    "sourceBasis": [
+      "Canadian radiology safety and imaging practice",
+      "Choosing Wisely Canada imaging stewardship"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-nuclear-medicine-studies",
+    "title": "Nuclear Medicine: Functional Imaging Needs a Specific Physiologic Question",
+    "system": "Diagnostics / Nuclear Medicine",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Nuclear medicine studies assess physiology, perfusion, metabolism or receptor uptake and should be ordered only when that functional information changes care. The tracer, pregnancy/lactation status, timing and alternative imaging matter; a nuclear study is not a generic replacement for CT/MRI/ultrasound.",
+    "recognize": [
+      "Examples include V/Q scanning, myocardial perfusion, thyroid uptake, bone scans and PET-based oncologic imaging.",
+      "Different tracers and protocols answer different questions and have different preparation requirements."
+    ],
+    "differentiate": [
+      "V/Q imaging can be useful when CT pulmonary angiography is unsuitable or local algorithms prefer it in selected patients.",
+      "PET uptake is not cancer-specific; infection/inflammation can also be metabolically active."
+    ],
+    "assessment": [
+      "Clarify indication, pregnancy/lactation, renal function where relevant, prior imaging and medication/preparation requirements."
+    ],
+    "workup": [
+      "Use specialty/radiology protocol to select the tracer and interpret the result alongside anatomic imaging and pretest probability."
+    ],
+    "management": [
+      "Act on the diagnosis the study supports rather than treating uptake itself."
+    ],
+    "medicationSafety": [
+      "Medication/iodine/thyroid preparation can alter some studies; verify protocol-specific requirements."
+    ],
+    "redFlags": [
+      "Pregnancy with nonurgent radiation study",
+      "Unstable patient needing faster definitive imaging",
+      "High-risk result requiring immediate specialty action"
+    ],
+    "counselling": [
+      "Explain the purpose of tracer-based functional imaging and any temporary radiation precautions."
+    ],
+    "followUp": [
+      "Ensure result integration with the definitive diagnostic/treatment pathway."
+    ],
+    "examTrap": "Ordering a nuclear study because it is 'more advanced' without identifying the physiologic question it answers.",
+    "oneLinePearl": "Nuclear medicine maps function; order it when function changes the decision.",
+    "sourceBasis": [
+      "Canadian nuclear medicine/radiology practice principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-screening-test-interpretation",
+    "title": "Screening Tests: Apply Them to the Right Asymptomatic Population",
+    "system": "Diagnostics / Prevention",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "II Quality Improvement and Research/Scholar"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Screening is for asymptomatic people at defined risk. Interpret a screening result through prevalence, test characteristics and the downstream diagnostic pathway; symptoms or prior abnormalities move the patient out of routine screening into diagnostic evaluation.",
+    "recognize": [
+      "Positive predictive value changes with disease prevalence and patient risk even when sensitivity/specificity are unchanged.",
+      "A positive screen is not a final diagnosis and a negative screen does not overrule concerning symptoms."
+    ],
+    "differentiate": [
+      "Screening, surveillance and diagnosis are different clinical tasks.",
+      "Program eligibility/funding can differ from national evidence recommendations."
+    ],
+    "assessment": [
+      "Confirm asymptomatic status, anatomy, age/risk, prior results, life expectancy/ability to benefit, family/genetic risk and access to follow-up."
+    ],
+    "workup": [
+      "Use the current national/provincial screening pathway and its confirmatory testing sequence."
+    ],
+    "management": [
+      "Offer evidence-based screening with shared decision-making where benefits/harms are preference sensitive and ensure abnormal results reach diagnostic resolution."
+    ],
+    "medicationSafety": [
+      "Avoid pre-emptive treatment before the abnormal screen is confirmed unless a validated pathway specifically requires it."
+    ],
+    "redFlags": [
+      "Symptoms being incorrectly routed to screening",
+      "Abnormal screen with lost follow-up",
+      "High-risk family/genetic syndrome needing a different pathway"
+    ],
+    "counselling": [
+      "Explain false positives, false negatives and overdiagnosis in terms relevant to the actual test."
+    ],
+    "followUp": [
+      "Track abnormal screening until definitive diagnostic closure."
+    ],
+    "examTrap": "Using a routine screening test as the evaluation for a symptomatic patient.",
+    "oneLinePearl": "Screen asymptomatic risk; diagnose symptoms.",
+    "sourceBasis": [
+      "Canadian preventive health and provincial screening program principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-diagnostic-test-sensitivity-and-specificity",
+    "title": "Sensitivity and Specificity: Pretest Probability Determines What a Result Means",
+    "system": "Diagnostics / Evidence-Based Practice",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "II Quality Improvement and Research/Scholar"
+    ],
+    "lifespan": [
+      "adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Sensitivity and specificity describe test performance under defined conditions; they do not directly tell you the probability that this individual patient has disease. Combine pretest probability with likelihood ratios/results to estimate post-test probability and decide whether to rule out, confirm or test further.",
+    "recognize": [
+      "High sensitivity can be useful for ruling out when the test is negative in an appropriate low/intermediate-risk setting; high specificity can support ruling in when positive.",
+      "Predictive values change with prevalence/pretest probability."
+    ],
+    "differentiate": [
+      "A highly sensitive test is not automatically a good screening test if harms, false positives or feasibility are unacceptable.",
+      "A negative test cannot safely rule out disease when pretest probability is very high and the test is imperfect."
+    ],
+    "assessment": [
+      "Estimate pretest probability before ordering the test and identify the treatment/testing threshold that matters clinically."
+    ],
+    "workup": [
+      "Use validated clinical decision rules only in the populations/settings for which they were developed."
+    ],
+    "management": [
+      "Choose testing only when the result can move probability across a meaningful decision threshold."
+    ],
+    "medicationSafety": [
+      "Avoid exposing patients to treatment toxicity solely because a low-specificity test is positive without confirmatory evidence."
+    ],
+    "redFlags": [
+      "High-risk disease being falsely dismissed after an insufficiently sensitive test",
+      "Low-risk patient harmed by cascades after indiscriminate testing"
+    ],
+    "counselling": [
+      "Explain uncertainty and why another test may or may not be useful after an initial result."
+    ],
+    "followUp": [
+      "Reassess probability when new clinical information changes the pretest picture."
+    ],
+    "examTrap": "Interpreting a positive result as the same disease probability in a low-risk screening population and a high-risk symptomatic population.",
+    "oneLinePearl": "Test performance is fixed; what the result means changes with pretest probability.",
+    "sourceBasis": [
+      "Canadian evidence-based diagnostic reasoning principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-point-of-care-testing",
+    "title": "Point-of-Care Testing: Fast Results Still Need Quality Control and Confirmation",
+    "system": "Diagnostics / Clinical Operations",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "II Quality Improvement and Research/Scholar"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Point-of-care testing is valuable when speed changes care, but analytic limits, specimen quality, operator competence and confirmatory requirements still apply. A surprising or high-consequence result should be reconciled with the clinical picture and laboratory confirmation when the device/pathway requires it.",
+    "recognize": [
+      "POC glucose, pregnancy, urinalysis, respiratory pathogen, INR and selected chemistry tests can accelerate decisions.",
+      "Device performance and quality-control requirements vary substantially."
+    ],
+    "differentiate": [
+      "A rapid screening result may be preliminary and may not have the same sensitivity/specificity as central laboratory testing.",
+      "Near-patient testing is not exempt from documentation, QC or infection-control requirements."
+    ],
+    "assessment": [
+      "Confirm the test is validated for the patient/specimen/context and that the result will alter immediate management."
+    ],
+    "workup": [
+      "Repeat or confirm discordant, implausible or high-consequence results according to the device and local laboratory policy."
+    ],
+    "management": [
+      "Act immediately on validated emergency results while arranging confirmatory testing when necessary."
+    ],
+    "medicationSafety": [
+      "Do not make irreversible medication decisions from an implausible POC result without checking device/specimen limitations."
+    ],
+    "redFlags": [
+      "Critical result inconsistent with the patient",
+      "QC failure",
+      "Wrong-patient/specimen risk",
+      "Test used outside validated range"
+    ],
+    "counselling": [
+      "Explain when a rapid result is final versus preliminary and why confirmation may be required."
+    ],
+    "followUp": [
+      "Document result, QC/confirmation pathway and responsibility for pending central-lab results."
+    ],
+    "examTrap": "Assuming a fast result is automatically a more reliable result.",
+    "oneLinePearl": "POC testing buys time—not immunity from quality standards.",
+    "sourceBasis": [
+      "Canadian laboratory medicine and point-of-care quality principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-microbiology-test-interpretation",
+    "title": "Microbiology Results: Infection, Colonization, Contamination, or Prior Exposure?",
+    "system": "Diagnostics / Infectious Disease",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "II Quality Improvement and Research/Scholar"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Microbiology results must be interpreted with specimen site/quality, symptoms, host risk and pretest probability. A positive test can represent infection, colonization, contamination or residual nucleic acid/antibody, while a negative test may reflect timing or sampling limitations.",
+    "recognize": [
+      "Sterile-site growth generally has different significance from colonized-site cultures.",
+      "NAAT, culture, antigen and serology detect different biological signals and have different windows of positivity."
+    ],
+    "differentiate": [
+      "Asymptomatic bacteriuria is not symptomatic UTI in most nonpregnant adults.",
+      "A positive respiratory/wound culture can represent colonization when the clinical syndrome does not support infection."
+    ],
+    "assessment": [
+      "Define symptoms/source, immune status, prior antimicrobials, specimen quality/timing and whether the organism fits the syndrome."
+    ],
+    "workup": [
+      "Repeat or obtain better specimens when contamination/poor quality is likely; use susceptibility testing and source-specific diagnostics when they change treatment."
+    ],
+    "management": [
+      "Treat the patient/syndrome and source control, not the laboratory name alone; narrow/stop antimicrobials when evidence shows colonization or an alternate diagnosis."
+    ],
+    "medicationSafety": [
+      "Unnecessary antimicrobial treatment causes resistance and adverse effects; drug selection should incorporate susceptibility, site penetration and organ function."
+    ],
+    "redFlags": [
+      "Positive blood/CSF/other sterile-site result with compatible illness",
+      "Sepsis despite negative cultures",
+      "Multidrug-resistant organism with treatment failure",
+      "Public-health reportable pathogen"
+    ],
+    "counselling": [
+      "Explain why a positive culture does not always require antibiotics and why some tests remain positive after infection resolves."
+    ],
+    "followUp": [
+      "Review pending cultures/susceptibilities and public-health actions to completion."
+    ],
+    "examTrap": "Treating a positive culture without first deciding whether the organism is causing the patient's syndrome.",
+    "oneLinePearl": "Microbiology answers what was detected; clinical reasoning decides whether it is disease.",
+    "sourceBasis": [
+      "Choosing Wisely Canada Medical Microbiology recommendations",
+      "Canadian antimicrobial stewardship principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-immunology-test-interpretation",
+    "title": "Immunology Tests: Order the Antibody That Matches the Clinical Syndrome",
+    "system": "Diagnostics / Immunology / Rheumatology / Allergy",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "II Quality Improvement and Research/Scholar"
+    ],
+    "lifespan": [
+      "child",
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Immunology testing has high false-positive potential when ordered without a compatible clinical syndrome. Start with phenotype and pretest probability, choose the specific validated antibody/complement/allergy test that answers the question, and interpret a positive result as supporting evidence rather than a stand-alone autoimmune or allergy diagnosis.",
+    "recognize": [
+      "Autoantibodies can occur in healthy people and prevalence rises in some groups with age or other disease.",
+      "Allergy testing detects sensitization, which is not identical to clinical allergy; history of reproducible symptoms after exposure is essential."
+    ],
+    "differentiate": [
+      "ANA may support a connective-tissue disease workup when symptoms fit but is a poor indiscriminate screen for nonspecific fatigue/pain.",
+      "Food-specific IgG reflects exposure and is not a validated diagnostic test for food allergy/intolerance."
+    ],
+    "assessment": [
+      "Define the syndrome first: inflammatory joints, rash/photosensitivity, Raynaud, sicca, vasculitis signs, recurrent infections, immediate allergic reactions or other organ-specific features.",
+      "For allergy, document exact exposure, timing, reproducibility, cofactors and severity before choosing skin/specific-IgE testing."
+    ],
+    "workup": [
+      "Order targeted autoantibodies/complement/immunoglobulins/specific IgE only when the result can change diagnosis or management; avoid broad panels with no hypothesis.",
+      "Confirm unusual or high-consequence results through specialty/laboratory pathways when assay limitations or cross-reactivity matter."
+    ],
+    "management": [
+      "Treat the clinical disease, not antibody positivity. Refer patients with significant systemic autoimmune disease, immune deficiency or complex allergy/anaphylaxis to the appropriate specialty pathway."
+    ],
+    "medicationSafety": [
+      "Do not start immunosuppression solely for a positive autoantibody without compatible disease activity.",
+      "Do not prescribe broad elimination diets or epinephrine solely from unvalidated food-IgG testing."
+    ],
+    "redFlags": [
+      "Anaphylaxis",
+      "Vasculitis with organ injury",
+      "Rapidly progressive glomerulonephritis/pulmonary hemorrhage",
+      "Severe recurrent/opportunistic infection suggesting immune deficiency"
+    ],
+    "counselling": [
+      "Explain that a positive antibody can mean susceptibility or sensitization rather than definite disease and that testing must match symptoms."
+    ],
+    "followUp": [
+      "Close the loop on specialty referral and avoid repeating stable autoantibodies when the result no longer changes management."
+    ],
+    "examTrap": "Ordering a broad autoimmune panel for nonspecific fatigue and diagnosing disease from the first weakly positive antibody.",
+    "oneLinePearl": "Immunology testing is phenotype first, antibody second.",
+    "sourceBasis": [
+      "Choosing Wisely Canada Allergy & Clinical Immunology recommendations",
+      "Canadian rheumatology/immunology practice principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-genetic-testing-considerations",
+    "title": "Genetic Testing: Consent, the Right Test, and a Plan for Every Possible Result",
+    "system": "Diagnostics / Genetics / Professional Practice",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "newborn",
+      "child",
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Genetic testing should answer a defined diagnostic, predictive, reproductive or treatment question. Before ordering, establish informed consent, choose the narrowest appropriate test strategy, discuss possible positive/negative/uncertain/incidental results and family implications, and ensure genetic counselling/specialty follow-up is available for results that can materially affect care.",
+    "recognize": [
+      "Testing may clarify a clinical diagnosis, inherited cancer/cardiac risk, reproductive risk, pharmacogenomic question or eligibility for targeted therapy.",
+      "A negative result can be uninformative when the familial variant is unknown or the test does not cover the suspected mechanism; a variant of uncertain significance is not a confirmed pathogenic diagnosis."
+    ],
+    "differentiate": [
+      "Diagnostic, carrier, predictive/presymptomatic, prenatal and newborn screening tests have different consent and interpretation issues.",
+      "Direct-to-consumer results may require clinical confirmation before they guide medical decisions."
+    ],
+    "assessment": [
+      "Build a three-generation family history when relevant, document age of onset/ancestry/consanguinity and define how the result would change surveillance, treatment or reproductive planning.",
+      "Assess the patient's goals, understanding, privacy concerns and readiness for information that may affect relatives."
+    ],
+    "workup": [
+      "Use syndrome-specific criteria and genetics/laboratory guidance to select targeted variant, gene panel, chromosomal or broader genomic testing rather than defaulting to the largest panel.",
+      "Refer to genetic counselling/clinical genetics when results are complex, predictive, reproductive, familial or likely to create significant psychosocial/management implications."
+    ],
+    "management": [
+      "Act only on pathogenic/likely pathogenic results and other validated findings within the relevant guideline; do not manage a variant of uncertain significance as confirmed disease.",
+      "Cascade testing/surveillance for relatives should follow genetics guidance and consent/privacy requirements."
+    ],
+    "medicationSafety": [
+      "Pharmacogenomic results are drug/gene/context specific and do not replace medication history, organ function and interaction review.",
+      "Do not alter high-stakes treatment from an unconfirmed direct-to-consumer genetic result."
+    ],
+    "redFlags": [
+      "Result indicating a highly penetrant actionable cancer/cardiac syndrome",
+      "Newborn/child with suspected metabolic genetic emergency",
+      "Pregnancy with time-sensitive fetal genetic concern",
+      "Unexpected result with major family implications and no counselling plan"
+    ],
+    "counselling": [
+      "Discuss benefits, limits, uncertain/incidental findings, possible implications for biological relatives and the patient's right to informed decision-making.",
+      "Avoid promising complete certainty; genetics often changes probability and surveillance rather than providing a binary answer."
+    ],
+    "followUp": [
+      "Ensure results are interpreted by the appropriate clinician/genetics service and that surveillance/treatment/cascade-testing plans are documented and closed-loop."
+    ],
+    "examTrap": "Treating a variant of uncertain significance as proof of an inherited disease—or ordering broad genetic testing without discussing possible outcomes and family implications.",
+    "oneLinePearl": "A genetic test is not finished when the lab reports—it is finished when the result is interpreted, counselled and acted on appropriately.",
+    "sourceBasis": [
+      "Canadian Association of Genetic Counsellors resources",
+      "Canadian genetics/privacy and informed-consent practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  }
+]
