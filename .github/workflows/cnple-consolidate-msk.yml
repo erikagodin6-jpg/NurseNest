@@ -1,0 +1,99 @@
+name: CNPLE Consolidate Musculoskeletal
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - .github/workflows/cnple-consolidate-msk.yml
+
+permissions:
+  contents: write
+
+jobs:
+  consolidate:
+    if: github.event.pull_request.head.ref == 'content/cnple-cram-parity-consolidated-msk-20260809'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: content/cnple-cram-parity-consolidated-msk-20260809
+          fetch-depth: 0
+      - name: Fetch audited MSK source
+        run: git fetch origin content/cnple-cram-parity-msk-45c-20260809
+      - name: Consolidate exact generator identities
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json,re,subprocess
+          from pathlib import Path
+          root=Path('content-authoring/cnple/cram')
+          m=json.loads((root/'manifest.json').read_text())
+          start=(m['rawLessonObjects'],m['uniqueLessonIds'],m['canonicalTopicPathways'],m['clinicalJsonFiles'])
+          if start!=(676,676,668,64): raise SystemExit(f'base {start} != (676,676,668,64)')
+          def slugify(x): return re.sub(r'^-|-$','',re.sub(r'[^a-z0-9]+','-',x.lower()))[:72]
+          concepts=['osteoarthritis diagnosis and management','rheumatoid arthritis diagnosis and management','gout and pseudogout diagnosis and treatment','systemic lupus erythematosus diagnosis and management','polymyalgia rheumatica diagnosis and treatment','fibromyalgia diagnosis and management','low back pain evaluation and management','neck pain evaluation and management','shoulder pain differential diagnosis','knee pain evaluation and management','hip pain evaluation and management','hand and wrist disorders','foot and ankle disorders','sports medicine common injuries','tendonitis and bursitis management','ligament injuries evaluation','meniscal tears diagnosis and management','rotator cuff disorders','carpal tunnel syndrome management','trigger finger diagnosis and treatment','plantar fasciitis management','osteoporosis screening and pharmacotherapy','bone health in special populations','musculoskeletal imaging interpretation','joint injection techniques','physical therapy referral and coordination']
+          expected={f'np-{slugify(x)}' for x in concepts}
+          branch='content/cnple-cram-parity-msk-45c-20260809'
+          files=['content-authoring/cnple/cram/45a-msk-rheumatology-spine-parity.json','content-authoring/cnple/cram/45b-msk-extremity-sports-parity.json','content-authoring/cnple/cram/45c-msk-completion-parity.json']
+          source=[]
+          for p in files:
+              source.extend(json.loads(subprocess.check_output(['git','show',f'origin/{branch}:{p}'],text=True)))
+          source_ids={r['id'] for r in source}
+          if len(source)!=26 or source_ids!=expected:
+              raise SystemExit(f'MSK source mismatch count={len(source)} missing={sorted(expected-source_ids)} extra={sorted(source_ids-expected)}')
+          base={}
+          for f in m['files']:
+              for r in json.loads((root/f['path']).read_text()):
+                  if r['id'] in base: raise SystemExit(f'base duplicate {r["id"]}')
+                  base[r['id']]=r
+          fresh=[]; exact=[]; conflicts=[]
+          for r in source:
+              prev=base.get(r['id'])
+              if prev is None: fresh.append(r); base[r['id']]=r
+              elif prev==r: exact.append(r['id'])
+              else: conflicts.append({'id':r['id'],'existingTitle':prev.get('title'),'sourceTitle':r.get('title')})
+          if conflicts:
+              (root/'CONSOLIDATION_CONFLICTS_MSK.json').write_text(json.dumps(conflicts,indent=2)+'\n')
+              raise SystemExit(f'MSK conflicts={len(conflicts)}')
+          if fresh:
+              fn='46a-musculoskeletal-generator-parity-consolidated.json'
+              (root/fn).write_text(json.dumps(fresh,indent=2,ensure_ascii=False)+'\n')
+              m['files'].append({'path':fn,'lessons':len(fresh),'role':'full_lesson_parity_consolidation'})
+          added=len(fresh)
+          m['rawLessonObjects']=676+added
+          m['uniqueLessonIds']=676+added
+          m['canonicalTopicPathways']=m['rawLessonObjects']-m['explicitCanonicalSupersessions']
+          m['clinicalJsonFiles']=64+(1 if fresh else 0)
+          m['fullLessonParity']['authoringCanonicalTopicPathways']=m['canonicalTopicPathways']
+          all_ids=[]; total=0
+          required=['id','title','system','blueprintDomains','lifespan','acuity','bottomLine','recognize','differentiate','assessment','workup','management','medicationSafety','redFlags','counselling','followUp','examTrap','oneLinePearl','sourceBasis','sourceAsOf','localPolicyCheck']
+          for f in m['files']:
+              data=json.loads((root/f['path']).read_text()); total+=len(data)
+              if len(data)!=f['lessons']: raise SystemExit(f"{f['path']}: count drift")
+              for r in data:
+                  miss=[k for k in required if k not in r]
+                  if miss: raise SystemExit(f"{r.get('id')}: missing {miss}")
+                  all_ids.append(r['id'])
+          if total!=m['rawLessonObjects'] or len(set(all_ids))!=total: raise SystemExit('post-union global validation failed')
+          if expected-set(all_ids): raise SystemExit(f'MSK missing after union {sorted(expected-set(all_ids))}')
+          report={'schemaVersion':1,'validatedAt':'2026-08-09','status':'PASS','baseRawObjects':676,'added':added,'exactExisting':len(exact),'conflicts':0,'rawLessonObjects':m['rawLessonObjects'],'uniqueLessonIds':m['uniqueLessonIds'],'canonicalTopicPathways':m['canonicalTopicPathways'],'clinicalJsonFiles':m['clinicalJsonFiles'],'musculoskeletalGeneratorParity':26}
+          (root/'AUTHORING_CONSOLIDATION_MSK.json').write_text(json.dumps(report,indent=2)+'\n')
+          if 'AUTHORING_CONSOLIDATION_MSK.json' not in m['auditDocuments']: m['auditDocuments'].append('AUTHORING_CONSOLIDATION_MSK.json')
+          m['structuralValidation']={'status':'PASS','jsonParse':True,'requiredFields':True,'uniqueIds':True,'duplicateIdCount':0,'canadianContaminationScan':m.get('structuralValidation',{}).get('canadianContaminationScan','PASS'),'validatedAt':'2026-08-09'}
+          m['publication']['note']='The deduplicated CNPLE authoring estate now includes exact generator parity for Musculoskeletal/Rheumatology (26/26) on top of the consolidated core-system baseline. Full curriculum parity and private-core publication certification remain incomplete.'
+          (root/'manifest.json').write_text(json.dumps(m,indent=2,ensure_ascii=False)+'\n')
+          print(json.dumps(report,indent=2))
+          PY
+          git diff --check -- content-authoring/cnple/cram
+      - name: Commit MSK consolidation
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'NurseNest CNPLE consolidation'
+          git config user.email 'actions@users.noreply.github.com'
+          git rm .github/workflows/cnple-consolidate-msk.yml
+          git add content-authoring/cnple/cram/
+          git diff --cached --check
+          git commit -m 'content(cnple-cram): consolidate musculoskeletal generator parity'
+          git push origin HEAD:content/cnple-cram-parity-consolidated-msk-20260809
