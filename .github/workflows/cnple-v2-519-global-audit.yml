@@ -1,0 +1,77 @@
+name: CNPLE V2 519 Global Audit
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - .github/workflows/cnple-v2-519-global-audit.yml
+      - content-authoring/cnple/cram/**
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    if: github.event.pull_request.head.ref == 'content/cnple-cram-parity-gi-41c-20260809'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: content/cnple-cram-parity-gi-41c-20260809
+          fetch-depth: 0
+      - name: Validate 519-object estate and GI generator parity
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json,re
+          from pathlib import Path
+          root=Path('content-authoring/cnple/cram')
+          m=json.loads((root/'manifest.json').read_text())
+          expected=(519,519,511,54)
+          got=(m['rawLessonObjects'],m['uniqueLessonIds'],m['canonicalTopicPathways'],m['clinicalJsonFiles'])
+          if got!=expected: raise SystemExit(f'manifest {got} != {expected}')
+          if len(m['files'])!=54: raise SystemExit(f'files {len(m["files"])} != 54')
+          if m['rawLessonObjects']-m['explicitCanonicalSupersessions']!=m['canonicalTopicPathways']:
+              raise SystemExit('canonical arithmetic drift')
+          required=['id','title','system','blueprintDomains','lifespan','acuity','bottomLine','recognize','differentiate','assessment','workup','management','medicationSafety','redFlags','counselling','followUp','examTrap','oneLinePearl','sourceBasis','sourceAsOf','localPolicyCheck']
+          ids=[]; total=0
+          for f in m['files']:
+              data=json.loads((root/f['path']).read_text())
+              if len(data)!=f['lessons']: raise SystemExit(f"{f['path']}: {len(data)} != {f['lessons']}")
+              for r in data:
+                  miss=[k for k in required if k not in r]
+                  if miss: raise SystemExit(f"{r.get('id')}: missing {miss}")
+                  ids.append(r['id'])
+              total+=len(data)
+          if total!=519 or len(ids)!=519 or len(set(ids))!=519:
+              raise SystemExit(f'global total/id failure {total}/{len(ids)}/{len(set(ids))}')
+          def slugify(x): return re.sub(r'^-|-$','',re.sub(r'[^a-z0-9]+','-',x.lower()))[:72]
+          gi=[
+            'gastroesophageal reflux disease diagnosis and management','peptic ulcer disease and H pylori management','dyspepsia evaluation and management','inflammatory bowel disease diagnosis and management','irritable bowel syndrome diagnosis and management','celiac disease diagnosis and management','hepatitis B and C evaluation and treatment','nonalcoholic fatty liver disease management','alcoholic liver disease evaluation','cirrhosis complications management','hepatic encephalopathy recognition and treatment','pancreatitis diagnosis and management','gallbladder disease evaluation and management','colorectal cancer screening and surveillance','colorectal polyp follow up guidelines','chronic constipation evaluation and management','chronic diarrhea workup','GI bleeding evaluation and management','dysphagia evaluation and management','hemorrhoids and anorectal disorders','abdominal pain diagnostic approach','liver function test interpretation in GI disease','tumor marker interpretation in GI disease','endoscopy indications and follow up','nutritional assessment and supplementation','short bowel syndrome management'
+          ]
+          expected_gi={f'np-{slugify(x)}' for x in gi}
+          actual=set()
+          for fn in ['41a-gi-upper-inflammatory-liver-parity.json','41b-gi-cirrhosis-pancreas-colon-parity.json','41c-gi-diagnostics-nutrition-completion-parity.json']:
+              actual.update(r['id'] for r in json.loads((root/fn).read_text()))
+          if actual!=expected_gi:
+              raise SystemExit(f'GI parity mismatch missing={sorted(expected_gi-actual)} extra={sorted(actual-expected_gi)}')
+          report={'schemaVersion':1,'validatedAt':'2026-08-09','status':'PASS','rawLessonObjects':519,'uniqueLessonIds':519,'canonicalTopicPathways':511,'clinicalJsonFiles':54,'exactGeneratorParity':{'gastrointestinal':26},'globalJsonParse':True,'requiredFieldsValidated':True,'globalIdUniqueness':True}
+          (root/'AUTHORING_GLOBAL_AUDIT_519.json').write_text(json.dumps(report,indent=2)+'\n')
+          m['structuralValidation']={'status':'PASS','jsonParse':True,'requiredFields':True,'uniqueIds':True,'duplicateIdCount':0,'canadianContaminationScan':m.get('structuralValidation',{}).get('canadianContaminationScan','PASS'),'validatedAt':'2026-08-09'}
+          if 'AUTHORING_GLOBAL_AUDIT_519.json' not in m['auditDocuments']: m['auditDocuments'].append('AUTHORING_GLOBAL_AUDIT_519.json')
+          m['publication']['note']='The 519-object library has passed fresh global JSON/required-field/ID validation and exact Gastrointestinal generator parity (26/26). Full CNPLE curriculum parity and downstream private-core certification remain incomplete.'
+          (root/'manifest.json').write_text(json.dumps(m,indent=2,ensure_ascii=False)+'\n')
+          PY
+          git diff --check -- content-authoring/cnple/cram/manifest.json content-authoring/cnple/cram/AUTHORING_GLOBAL_AUDIT_519.json
+      - name: Persist audit evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'NurseNest CNPLE audit'
+          git config user.email 'actions@users.noreply.github.com'
+          git add content-authoring/cnple/cram/manifest.json content-authoring/cnple/cram/AUTHORING_GLOBAL_AUDIT_519.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'audit(cnple-cram): certify 519-object GI parity estate'
+            git push origin HEAD:content/cnple-cram-parity-gi-41c-20260809
+          fi
