@@ -1,0 +1,125 @@
+name: CNPLE Cram Consolidate Mental Health
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/cnple-cram-consolidate-mental-health-20260810.yml"
+      - "content-authoring/cnple/cram/AUTHORING_QA_MENTAL_HEALTH_51.md"
+
+permissions:
+  contents: write
+
+jobs:
+  consolidate:
+    if: github.event.pull_request.head.ref == 'content/cnple-cram-parity-consolidated-mental-health-20260810'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: content/cnple-cram-parity-consolidated-mental-health-20260810
+          fetch-depth: 0
+
+      - name: Sync successful geriatrics predecessor and fetch audited mental-health source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'NurseNest CNPLE mental health consolidation'
+          git config user.email 'actions@users.noreply.github.com'
+          git fetch origin content/cnple-cram-parity-consolidated-geriatrics-20260810 content/cnple-cram-parity-mental-health-48c-20260809
+          git merge --no-edit origin/content/cnple-cram-parity-consolidated-geriatrics-20260810
+          test -f content-authoring/cnple/cram/AUTHORING_CONSOLIDATION_GERIATRICS_50.json || {
+            echo 'geriatrics_predecessor_not_ready' >&2
+            exit 1
+          }
+          python3 - <<'PY'
+          import json
+          x=json.load(open('content-authoring/cnple/cram/AUTHORING_CONSOLIDATION_GERIATRICS_50.json'))
+          assert x.get('fullGeneratorCoverage') is True and x.get('conflicts') == [], x
+          PY
+          for f in 48a-mental-health-diagnosis-treatment-parity.json 48b-mental-health-addiction-trauma-safety-parity.json 48c-mental-health-medication-systems-parity.json; do
+            git show origin/content/cnple-cram-parity-mental-health-48c-20260809:content-authoring/cnple/cram/$f > /tmp/$f
+          done
+
+      - name: Consolidate exact canonical mental-health identities
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, pathlib, re
+          root=pathlib.Path('content-authoring/cnple/cram')
+          mpath=root/'manifest.json'
+          manifest=json.loads(mpath.read_text())
+          concepts=[
+            'depression screening and diagnosis','depression pharmacotherapy selection','anxiety disorders diagnosis and management','panic disorder diagnosis and treatment','generalized anxiety disorder management','bipolar disorder recognition and management','schizophrenia diagnosis and management','substance use disorder screening','alcohol use disorder management','opioid use disorder treatment','tobacco cessation counseling and pharmacotherapy','insomnia evaluation and management','eating disorders recognition and referral','ADHD in adults diagnosis and management','PTSD diagnosis and management','personality disorders recognition','suicide risk assessment','psychopharmacology basics','antidepressant selection and monitoring','antipsychotic prescribing and monitoring','mood stabilizer management','benzodiazepine prescribing considerations','mental health in primary care','collaborative care models','crisis intervention basics','mental health referral indications'
+          ]
+          def slugify(s): return ('np-'+re.sub(r'[^a-z0-9]+','-',s.lower()).strip('-'))[:75].rstrip('-')
+          expected={slugify(x) for x in concepts}
+          source=[]
+          for name in ['48a-mental-health-diagnosis-treatment-parity.json','48b-mental-health-addiction-trauma-safety-parity.json','48c-mental-health-medication-systems-parity.json']:
+              source += json.loads(pathlib.Path('/tmp',name).read_text())
+          by={r['id']:r for r in source}
+          if len(source)!=26 or set(by)!=expected:
+              raise SystemExit(f'source_denominator_mismatch:{len(source)}:{sorted(expected-set(by))}:{sorted(set(by)-expected)}')
+
+          required=['id','title','system','blueprintDomains','lifespan','acuity','bottomLine','recognize','differentiate','assessment','workup','management','medicationSafety','redFlags','counselling','followUp','examTrap','oneLinePearl','sourceBasis','sourceAsOf','localPolicyCheck']
+          existing={}
+          for f in manifest['files']:
+              rows=json.loads((root/f['path']).read_text())
+              if len(rows)!=f['lessons']: raise SystemExit(f"pre_count_drift:{f['path']}")
+              for r in rows:
+                  if r['id'] in existing: raise SystemExit(f"pre_duplicate:{r['id']}")
+                  existing[r['id']]=r
+          additions=[]; skipped=[]; conflicts=[]
+          for rid in sorted(expected):
+              r=by[rid]
+              miss=[k for k in required if k not in r]
+              if miss: raise SystemExit(f"missing_required:{rid}:{','.join(miss)}")
+              if rid not in existing: additions.append(r)
+              elif existing[rid]==r: skipped.append(rid)
+              else: conflicts.append(rid)
+          if conflicts:
+              (root/'AUTHORING_MENTAL_HEALTH_CONFLICTS.json').write_text(json.dumps({'conflicts':conflicts},indent=2)+'\n')
+              raise SystemExit('same_id_different_content:'+','.join(conflicts))
+
+          out='51-mental-health-consolidated-parity.json'
+          (root/out).write_text(json.dumps(additions,ensure_ascii=False,indent=2)+'\n')
+          manifest['files'].append({'path':out,'lessons':len(additions),'role':'full_lesson_parity_expansion'})
+          manifest['rawLessonObjects']+=len(additions)
+          manifest['uniqueLessonIds']+=len(additions)
+          manifest['canonicalTopicPathways']+=len(additions)
+          manifest['clinicalJsonFiles']+=1
+          manifest['sourceRefreshDate']='2026-08-10'
+          docs=manifest.setdefault('auditDocuments',[])
+          if 'AUTHORING_QA_MENTAL_HEALTH_51.md' not in docs: docs.append('AUTHORING_QA_MENTAL_HEALTH_51.md')
+          pub=manifest.setdefault('publication',{})
+          pub['fullLessonCramParityComplete']=False; pub['productionMerged']=False; pub['productionDeployed']=False
+          mpath.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
+
+          final=set(); count=0
+          for f in manifest['files']:
+              rows=json.loads((root/f['path']).read_text())
+              if len(rows)!=f['lessons']: raise SystemExit(f"post_count_drift:{f['path']}")
+              for r in rows:
+                  for k in required:
+                      if k not in r: raise SystemExit(f"post_missing:{r.get('id')}:{k}")
+                  if r['id'] in final: raise SystemExit(f"post_duplicate:{r['id']}")
+                  final.add(r['id']); count+=1
+          if count!=manifest['rawLessonObjects'] or len(final)!=manifest['uniqueLessonIds']:
+              raise SystemExit(f'post_manifest_arithmetic:{count}/{len(final)}')
+          if not expected.issubset(final): raise SystemExit('mental_health_denominator_not_complete')
+          ledger={'schemaVersion':1,'family':'Mental Health','canonicalGeneratorIdentities':26,'sourceBranch':'content/cnple-cram-parity-mental-health-48c-20260809','sourceClinicalSecondPass':'PASS','added':len(additions),'alreadyPresentByteEquivalent':len(skipped),'conflicts':[],'finalRawLessonObjects':manifest['rawLessonObjects'],'finalCanonicalTopicPathways':manifest['canonicalTopicPathways'],'finalClinicalJsonFiles':manifest['clinicalJsonFiles'],'fullGeneratorCoverage':True,'publicationBoundary':'Authoring parity only; Full-source anchors, Bottom Line evidence, exactly three eligible Quick Checks, runtime certification and learner render QA remain required.'}
+          (root/'AUTHORING_CONSOLIDATION_MENTAL_HEALTH_51.json').write_text(json.dumps(ledger,indent=2)+'\n')
+          print(json.dumps(ledger,indent=2))
+          PY
+
+      - name: Commit governed consolidation
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rm .github/workflows/cnple-cram-consolidate-mental-health-20260810.yml
+          git add content-authoring/cnple/cram/
+          git diff --cached --check
+          git commit -m 'content(cnple-cram): consolidate complete mental health parity'
+          git push origin HEAD:content/cnple-cram-parity-consolidated-mental-health-20260810
