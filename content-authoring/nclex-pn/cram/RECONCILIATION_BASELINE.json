@@ -13,10 +13,10 @@
     "PN-013-pharmacology-element-gap":{"usLpnCount":139,"pnFamilyCount":320,"status":"ACTIVE_PRIORITY","sampleSlugs":["insulin-administration-checks","oral-hypoglycemics","antibiotic-side-effect-reporting"]},
     "PN-015-cram-safety-gap":{"usLpnCount":971,"pnFamilyCount":2244,"status":"ACTIVE_AFTER_PHARMACOLOGY","sampleSlugs":["therapeutic-communication","documentation-do-nots","hypertension-teaching","edema-daily-weights","inhaler-technique-teaching","copd-home-care","i-o-fluid-restriction-teaching","hypokalemia-symptoms"]}
   },
-  "authoredCramLibraryCheckpoint":544,
+  "authoredCramLibraryCheckpoint":604,
   "exactAuditSourceCandidateCount":24,
-  "sourceFamilyAuthoredBeyondExactCandidates":40,
-  "latestSourceFamilyTargets":["nursing-clinical-procedures-neuro-expansion-catalog.json","shards/newborn-neonatal-nursing-expansion-catalog/us-lpn-nclex-pn.json"],
+  "sourceFamilyAuthoredBeyondExactCandidates":100,
+  "latestSourceFamilyTargets":["postpartum-nursing-complications-expansion-catalog.json","nursing-professional-practice-expansion-catalog.json"],
   "lineageStatus":"EXACT_SOURCE_CANDIDATES_PLUS_SOURCE_FAMILY_AUTHORING_NOT_YET_ROW_CERTIFIED",
   "lineageCandidateFile":"LINEAGE_CANDIDATES.json",
   "countedResolvedProductionRows":0,
