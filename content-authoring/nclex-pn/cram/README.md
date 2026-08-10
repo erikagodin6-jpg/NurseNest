@@ -17,6 +17,8 @@ The numeric authoring checkpoint is not a production-completion claim. Productio
 
 The 504 checkpoint added an exact-audit-source authoring layer. The 604 checkpoint now adds 100 additional source-family lessons beyond that layer, including health assessment/fundamentals, perioperative/procedure safety, neurologic procedures, newborn/neonatal safety, pediatric acute care, gerontology/long-term care, musculoskeletal rehabilitation, community/home health, postpartum complications, and professional-practice/coordinated-care safety. Source-family coverage is deliberately not treated as row-level lineage.
 
+Current source refresh for the 604 tranche includes ACOG postpartum-care/hemorrhage resources, CDC Hear Her urgent maternal warning signs, NCSBN delegation guidance, HHS HIPAA minimum-necessary/interpreter guidance, and Joint Commission current communication/patient-safety principles.
+
 ## Cram lesson contract
 
 Every lesson must contain:
