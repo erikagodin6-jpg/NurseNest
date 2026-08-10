@@ -1,0 +1,25 @@
+[
+  {
+    "id":"np-copd-diagnosis-gold-staging-and-management",
+    "title":"COPD: Confirm Persistent Obstruction and Treat Symptoms, Exacerbations, and Risk",
+    "system":"Respiratory",
+    "blueprintDomains":["I.A Assessment","I.B Diagnosis","I.C Management","I.D Counselling","I.E Transition/Discharge/Documentation"],
+    "lifespan":["adult","older adult"],
+    "acuity":"mixed",
+    "bottomLine":"COPD requires persistent post-bronchodilator airflow obstruction in the right exposure/clinical context. Management is not based on FEV1 alone: treat symptoms and exacerbation risk with smoking cessation, vaccination, pulmonary rehabilitation and guideline-directed inhaled therapy, while reserving inhaled corticosteroid-containing regimens for patients whose exacerbation/eosinophil/asthma phenotype supports them.",
+    "recognize":["Progressive exertional dyspnea, chronic cough/sputum and recurrent exacerbations are common, but early disease can be subtle.","Smoking is a major risk factor but occupational exposure, biomass exposure and alpha-1 antitrypsin deficiency also matter.","A COPD exacerbation is an acute worsening beyond usual day-to-day variation and can be triggered by infection, pollution, heart failure, PE or other disease."],
+    "differentiate":["Asthma is characterized by variable airflow limitation and different anti-inflammatory treatment priorities; asthma and COPD can coexist.","Heart failure, bronchiectasis, ILD, lung cancer and deconditioning can mimic chronic dyspnea or worsen COPD symptoms.","FEV1 severity does not by itself determine symptom burden or exacerbation risk."],
+    "assessment":["Assess smoking/vaping and occupational exposure, dyspnea/activity limitation, exacerbation/hospitalization history, sputum pattern, inhaler technique/adherence, weight/frailty, oxygenation and comorbid cardiovascular disease, osteoporosis, anxiety/depression and sleep apnea.","Ask about childhood/previous asthma and eosinophilic features before deciding whether ICS benefit is likely."],
+    "workup":["Confirm persistent obstruction with post-bronchodilator spirometry; use imaging, alpha-1 antitrypsin testing or other investigations when age, exposure or clinical features are atypical.","During exacerbation, investigate pneumonia, heart failure, PE or pneumothorax when the presentation is not a straightforward mild COPD flare."],
+    "management":["Smoking cessation support is the highest-value disease-modifying intervention for ongoing tobacco exposure.","Use long-acting bronchodilator therapy according to symptom burden and exacerbation history; pulmonary rehabilitation and physical activity are core nonpharmacologic care.","Use inhaled corticosteroid-containing therapy selectively when exacerbation/eosinophil/asthma features support benefit rather than as automatic COPD therapy.","Acute exacerbations may require short-acting bronchodilators, systemic corticosteroid and antibiotics when a bacterial pattern/severity supports them; hospitalize respiratory failure or severe deterioration."],
+    "medicationSafety":["Inhaled corticosteroids can increase pneumonia/thrush/dysphonia risk; reassess the indication when exacerbation benefit is unlikely.","Repeated systemic corticosteroid bursts have cumulative metabolic, bone, infection and psychiatric toxicity.","Long-acting bronchodilators require correct inhaler technique and review of adverse effects/interactions rather than dose escalation for poor technique."],
+    "redFlags":["Acute hypoxemic or hypercapnic respiratory failure","Silent/poor air movement with exhaustion","Hemodynamic instability","New chest pain/hemoptysis","Failure to improve with initial exacerbation therapy","Rapidly increasing oxygen requirement"],
+    "counselling":["Teach inhaler technique, smoking cessation, vaccination, exercise/pulmonary rehabilitation and a clear exacerbation action plan.","Explain that breathlessness may have more than one cause and new symptoms deserve reassessment rather than automatic antibiotics/steroids."],
+    "followUp":["Reassess symptoms, exacerbations, inhaler technique/adherence, smoking status and comorbidities after treatment changes or exacerbations.","Repeat spirometry when clinically useful for diagnosis/trajectory rather than as the sole measure of treatment success."],
+    "examTrap":"Calling a smoker with dyspnea COPD without post-bronchodilator spirometry—or adding inhaled corticosteroid automatically because the FEV1 is low despite no asthma/eosinophil/exacerbation indication.",
+    "oneLinePearl":"Confirm COPD objectively, then treat symptoms and exacerbation biology—not FEV1 alone.",
+    "sourceBasis":["Canadian Thoracic Society 2023 Guideline on Pharmacotherapy in Patients with Stable COPD","Canadian Thoracic Society COPD tools and current guideline library"],
+    "sourceAsOf":"2026-08",
+    "localPolicyCheck":false
+  }
+]
