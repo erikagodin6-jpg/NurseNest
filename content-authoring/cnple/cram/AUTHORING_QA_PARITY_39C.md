@@ -1,67 +1,59 @@
 # CNPLE Cram V2 — Parity Batch 39C Clinical Second Pass
 
 Date: 2026-08-09
-Scope: `39c-respiratory-diagnostics-screening-parity.json`
+Scope: `39c-respiratory-parity.json`
 Result: **PASS — clinical authoring second pass**
 
 ## Exact identity contract
 
-- `np-pulmonary-nodule-evaluation-and-follow-up`
-- `np-interstitial-lung-disease-recognition-and-referral`
+- `np-pneumonia-cap-versus-hap-diagnosis-and-treatment`
+- `np-pulmonary-embolism-risk-stratification-and-treatment`
 - `np-sleep-apnea-diagnosis-and-cpap-management`
 - `np-pleural-effusion-differential-diagnosis-and-workup`
 - `np-hemoptysis-evaluation-and-management`
 - `np-chronic-cough-diagnostic-algorithm`
-- `np-tuberculosis-screening-and-treatment`
-- `np-lung-cancer-screening-criteria-and-follow-up`
 
-All IDs are literal slugs emitted by the canonical NP parity generator. PFT and oxygen are intentionally excluded because they already belong to audited 39B.
+All IDs are literal slugs emitted by the canonical NP parity generator. Pulmonary nodule remains in audited 39B. ILD, tuberculosis and lung-cancer screening are intentionally moved to 39D rather than duplicated here.
 
 ## Clinical review
 
-### Pulmonary nodule
-PASS. Risk, morphology, growth, symptoms and explicit follow-up ownership drive the pathway. Symptomatic disease is not treated as screening.
+### CAP versus HAP
+PASS. Severity and acquisition context are separated; recent microbiology/antibiotic exposure and local resistance guide empiric therapy. Aspiration pneumonitis is not automatically treated as bacterial pneumonia and broad-spectrum therapy is reassessed/de-escalated.
 
-### ILD
-PASS. Exposure/medication/autoimmune causes, HRCT/PFT pattern recognition, infection screening before immunosuppression and early specialty referral are explicit.
+### Pulmonary embolism
+PASS. Pretest probability precedes D-dimer/CTPA; confirmed PE is then risk-stratified by hemodynamics, RV strain/biomarkers, bleeding risk and outpatient suitability. Intermediate-risk disease is not taught as automatic thrombolysis.
 
-### OSA / CPAP
-PASS. Screening tools estimate probability but do not diagnose OSA. PAP follow-up includes usability, objective adherence, residual symptoms and driving risk.
+### Sleep apnea / CPAP
+PASS. Screening questionnaires estimate risk rather than diagnose OSA. Sleep testing is required through the appropriate pathway, CPAP efficacy/adherence is reassessed, and sedatives/opioids/driving risk are included.
 
 ### Pleural effusion
-PASS. Predictable transudative effusion is separated from unilateral/recurrent/febrile or malignant/infectious patterns. Empyema retains antibiotic plus drainage/source-control urgency.
+PASS. Effusion is treated as a sign with transudative/exudative/infectious/malignant differentials. Diagnostic thoracentesis and fluid studies are question-driven; complicated parapneumonic disease requires drainage/source-control planning.
 
 ### Hemoptysis
-PASS. Airway/oxygenation/hemodynamic stability precedes etiologic workup. Anticoagulation is a modifier, not a diagnosis.
+PASS. Airway and hemodynamic threat define urgency more reliably than a memorized volume cutoff. The lesson separates pseudohemoptysis/hematemesis, includes malignancy/TB/bronchiectasis/PE, and does not use a normal chest radiograph as a universal stop rule.
 
 ### Chronic cough
-PASS. Medication, upper-airway, asthma/eosinophilic, reflux/aspiration, exposure/TB/malignancy pathways are covered; repeated antibiotics without a bacterial syndrome are rejected.
-
-### Tuberculosis
-PASS. TB infection testing is separated from active disease. Active disease is excluded before preventive treatment, and suspected infectious pulmonary TB triggers isolation/public-health/microbiologic action.
-
-### Lung cancer screening
-PASS. Organized screening is limited to asymptomatic high-risk patients. Symptoms trigger diagnostic pathways. Provincial/territorial eligibility variability is preserved rather than hard-coding one Canada-wide criterion.
+PASS. The workup is stepwise and cause-based, includes ACE inhibitors and smoking/exposure, and prevents repeated empiric antibiotic or sedative-antitussive prescribing without a defensible diagnosis.
 
 ## Canadian source refresh
 
 Load-bearing sources rechecked on 2026-08-09:
 
-- Canadian Thoracic Society current Guideline Library and ILD/sleep/chest-procedure resources.
-- Public Health Agency of Canada / Canadian Thoracic Society, **Canadian Tuberculosis Standards, 8th edition**, including diagnosis, preventive treatment and transmission-control chapters.
-- Cancer Care Ontario, **Ontario Lung Screening Program** and current healthcare-provider referral/eligibility resources.
-- Current Canadian respiratory practice principles for pulmonary nodules, pleural disease, hemoptysis and chronic cough.
+- Thrombosis Canada 2025 Pulmonary Embolism Diagnosis, Treatment and High-/Intermediate-Risk clinical guides.
+- Canadian Thoracic Society current respiratory/sleep/cough resource catalogue.
+- Choosing Wisely Canada respiratory antimicrobial and diagnostic stewardship principles.
+- Canadian pleural-procedure and acute-care respiratory practice principles where exact operational rules vary locally.
+
+No universal anticoagulant, oxygen, pleural-procedure, hemoptysis-volume or sleep-testing threshold is invented where the current Canadian/local pathway is context dependent.
 
 ## Authoring gates
 
-- Required Cram fields: present in all eight records.
+- Required Cram fields: present in all six records by editorial review.
 - Canadian/SI framing: PASS.
-- Screening vs diagnosis separation: PASS.
-- Public-health/specialty boundaries: PASS.
-- Universal program/assay thresholds invented: none.
-- Red flags/escalation: present in all eight.
-- `localPolicyCheck`: true for all eight where program/procedure/referral implementation can vary.
+- PE pretest-probability and postdiagnosis risk logic: PASS.
+- Antibiotic stewardship: PASS.
+- Red flags and escalation: present in all six.
 
 ## Publication boundary
 
-Clinical authoring second pass only. Structural JSON/required-field validation, exact current Full-source anchoring, Bottom Line evidence, three eligible Quick Checks, runtime recipe integrity, learner rendering, merge and deployment remain downstream fail-closed gates.
+Clinical authoring second pass only. Structural parsing, exact current Full-source anchoring, Bottom Line evidence, exactly three eligible Quick Checks, runtime recipe integrity, learner rendering, merge and deployment remain downstream fail-closed gates.
