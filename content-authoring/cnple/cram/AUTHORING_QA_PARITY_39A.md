@@ -1,7 +1,7 @@
 # CNPLE Cram V2 — Parity Batch 39A Clinical Second Pass
 
 Date: 2026-08-09
-Scope: `39a-respiratory-advanced-parity.json`
+Scope: `39a-respiratory-advanced-practice-parity.json`
 Result: **PASS — clinical authoring second pass**
 
 ## Identity contract
@@ -41,10 +41,10 @@ PASS. The lesson requires objective airflow assessment and a defensible asthma p
 
 Load-bearing sources rechecked on 2026-08-09:
 
-- Canadian Thoracic Society (CTS) Guideline Library: current 2021 asthma guidance, current 2023 stable-COPD pharmacotherapy guidance, current interstitial-lung-disease resources, and current home-mechanical-ventilation guidance.
+- Canadian Thoracic Society Guideline Library: current asthma, COPD and home-mechanical-ventilation guidance and current respiratory guideline/position-statement resources.
 - Cystic Fibrosis Canada: Canadian Guidelines for Cystic Fibrosis Care, Guidelines & Standards of Care, CFTR-modulator resources, and the Canadian pulmonary-exacerbation guideline for non-CF specialists.
-- Pulmonary Hypertension Association of Canada: Canadian pulmonary-hypertension education/referral resources.
-- For bronchiectasis and sarcoidosis, where a current disease-specific Canadian national CPG was not identified in the CTS public guideline library, the lesson remains principle-based and specialist-linked; international disease-specific guidance may support the framework but no Canadian-specific threshold or drug algorithm is invented.
+- Canadian pulmonary-hypertension specialty/referral resources were used for Canadian care-system framing.
+- For bronchiectasis and sarcoidosis, where a current disease-specific Canadian national CPG was not identified in the CTS public guideline library, the lesson remains principle-based and specialist-linked; no Canadian-specific threshold or drug algorithm is invented.
 
 The previous audit wording naming specific CTS bronchiectasis/pulmonary-vascular working groups was removed because those exact labels were not independently verified in the current public CTS directory. Clinical conclusions were not changed by this source-label correction.
 
