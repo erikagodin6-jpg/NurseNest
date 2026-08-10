@@ -5,12 +5,12 @@
   "locale": "CA",
   "level": "Nurse Practitioner",
   "authoringStatus": "COMPREHENSIVE_TOPIC_BASELINE_AUDITED_FULL_LESSON_PARITY_IN_PROGRESS",
-  "sourceRefreshDate": "2026-08-09",
-  "rawLessonObjects": 702,
-  "uniqueLessonIds": 702,
+  "sourceRefreshDate": "2026-08-10",
+  "rawLessonObjects": 728,
+  "uniqueLessonIds": 728,
   "explicitCanonicalSupersessions": 8,
-  "canonicalTopicPathways": 694,
-  "clinicalJsonFiles": 65,
+  "canonicalTopicPathways": 720,
+  "clinicalJsonFiles": 66,
   "structuralValidation": {
     "status": "PASS",
     "jsonParse": true,
@@ -18,7 +18,7 @@
     "uniqueIds": true,
     "duplicateIdCount": 0,
     "canadianContaminationScan": "PASS",
-    "validatedAt": "2026-08-09"
+    "validatedAt": "2026-08-10"
   },
   "files": [
     {
@@ -309,6 +309,11 @@
       "path": "46a-musculoskeletal-generator-parity-consolidated.json",
       "lessons": 26,
       "role": "full_lesson_parity_consolidation"
+    },
+    {
+      "path": "48-womens-health-generator-parity.json",
+      "lessons": 26,
+      "role": "full_lesson_parity_expansion"
     }
   ],
   "canonicalOverrides": {
@@ -452,11 +457,14 @@
     "AUTHORING_QA_PARITY_44B.md",
     "AUTHORING_QA_PARITY_44C.md",
     "AUTHORING_CONSOLIDATION_CORE_SYSTEMS.json",
-    "AUTHORING_CONSOLIDATION_MSK.json"
+    "AUTHORING_CONSOLIDATION_MSK.json",
+    "AUTHORING_QA_WOMENS_46A.md",
+    "AUTHORING_QA_WOMENS_46B.md",
+    "AUTHORING_QA_WOMENS_COMPLETION.md"
   ],
   "fullLessonParity": {
     "status": "IN_PROGRESS",
-    "authoringCanonicalTopicPathways": 694,
+    "authoringCanonicalTopicPathways": 720,
     "currentSearchIndexLessonCountObserved": 1979,
     "currentSearchIndexManifest": "nursenest-core/src/content/lessons/search-index/ca-np-cnple.manifest.json",
     "rule": "Completion requires every current canonical public-complete ca-np-cnple Full lesson to resolve to exactly one reviewed Cram lesson/recipe; topic breadth alone is not completion.",
