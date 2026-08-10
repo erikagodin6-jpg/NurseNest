@@ -1,22 +1,22 @@
 # U.S. PN / NCLEX-PN Cram Coverage
 
 Status: ACTIVE AUTHORING
-Authored Cram lessons: 724
-Latest QA addendum: `AUTHORING_QA_ADDENDUM_724.md`
+Authored Cram lessons: 744
+Latest QA addendum: `AUTHORING_QA_ADDENDUM_744.md`
 Locale: United States
 Exam alignment: 2026 NCLEX-PN Test Plan
 
-The library contains 724 distinct U.S. PN/LPN/LVN Cram lessons across all NCLEX-PN Client Needs areas. No numeric authoring milestone is a production-completion claim.
+The library contains 744 distinct U.S. PN/LPN/LVN Cram lessons across all NCLEX-PN Client Needs areas. No numeric authoring milestone is a production-completion claim.
 
 ## Latest source-family depth
 
-The newest transfusion/blood-product batch adds positive patient/component identification, early transfusion monitoring, suspected-reaction response, acute hemolytic reaction, TACO, TRALI, allergic reaction, septic transfusion reaction, febrile nonhemolytic reaction, and transfusion-history handoff safety.
+The newest tracheostomy/airway-device batch adds obstruction, accidental decannulation, suctioning safety, humidification/secretions, cuff safety, stoma infection, tracheostomy bleeding, speaking-valve safety, aspiration/swallowing risk, and home emergency readiness.
 
-The newest ostomy/drainage/wound-device batch adds stoma perfusion, high-output ileostomy dehydration, peristomal skin injury, ostomy obstruction, prolapse/retraction, JP/Hemovac function, nephrostomy drainage, biliary-drain problems, drain dislodgement, and drain-output trend escalation.
+The newest urinary/urologic-device batch adds catheter indication, closed drainage, obstruction, retention/bladder scanning, intermittent catheterization, suprapubic catheter care, hematuria/clot retention, catheter urine-culture collection, asymptomatic bacteriuria stewardship, and post-removal voiding follow-up.
 
 These lessons are tagged `SOURCE_FAMILY_AUTHORED_NOT_ROW_MAPPED` and are not credited as production row closures.
 
-The transfusion tranche was refreshed against current CDC 2026 Hemovigilance and FDA blood-product safety guidance. Ostomy/drainage content remains deliberately conservative to established wound/ostomy and surgical/interventional drain-care principles.
+Current U.S. source refresh includes CDC 2026 occupational/airway-suction infection-control guidance, AHRQ tracheostomy safety material, CDC CAUTI recommendations, CDC urine-culture stewardship guidance, and AHRQ CAUTI prevention resources.
 
 ## Production denominator
 
