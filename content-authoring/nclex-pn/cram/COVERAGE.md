@@ -1,22 +1,20 @@
 # U.S. PN / NCLEX-PN Cram Coverage
 
 Status: ACTIVE AUTHORING
-Authored Cram lessons: 764
-Latest QA addendum: `AUTHORING_QA_ADDENDUM_764.md`
+Authored Cram lessons: 784
+Latest QA addendum: `AUTHORING_QA_ADDENDUM_784.md`
 Locale: United States
 Exam alignment: 2026 NCLEX-PN Test Plan
 
-The library contains 764 distinct U.S. PN/LPN/LVN Cram lessons across all NCLEX-PN Client Needs areas. No numeric authoring milestone is a production-completion claim.
+The library contains 784 distinct U.S. PN/LPN/LVN Cram lessons across all NCLEX-PN Client Needs areas. No numeric authoring milestone is a production-completion claim.
 
 ## Latest source-family depth
 
-The newest palliative/end-of-life batch adds comfort-focused pain and dyspnea care, terminal secretions, nausea/constipation, agitation/delirium, mouth care, skin comfort, medication-review awareness, goals-of-care handoff, and actively dying changes.
+The newest oncology emergency/symptom batch adds neutropenic fever, tumor lysis syndrome, malignant spinal cord compression, superior vena cava syndrome, cancer-related hypercalcemia, mucositis, thrombocytopenia bleeding precautions, vesicant extravasation, cancer-pain reassessment, and malignant pericardial-effusion/tamponade recognition.
 
-The newest cardiac-device/rhythm-procedure batch adds pacemaker aftercare, ICD-shock safety, device-pocket infection, lead displacement, temporary-pacing malfunction, CIED procedural handoff, elective-cardioversion preparation, post-cardioversion monitoring, post-ablation deterioration, and telemetry lead/artifact verification.
+The newest preventive/immunization batch adds vaccine contraindication screening, vaccination anaphylaxis readiness, cold-chain/storage safety, immunization-record reconciliation/catch-up logic, screening-versus-symptomatic diagnostic routing, tobacco cessation support, preventive fall-risk review, sexual-health screening, skin-cancer prevention, and preventive medication review.
 
 These lessons are tagged `SOURCE_FAMILY_AUTHORED_NOT_ROW_MAPPED` and are not credited as production row closures.
-
-Current U.S. source refresh includes CMS hospice guidance current through July 2026 and American Heart Association cardioversion, ICD/CIED, and periprocedural device-safety guidance. PN/LVN actions remain recognition, focused monitoring, safe ordered implementation, communication, and escalation; device programming, anticoagulation strategy, prescribing, and goals-of-care medical orders are not presented as autonomous PN functions.
 
 ## Production denominator
 
