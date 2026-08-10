@@ -1,0 +1,1728 @@
+[
+  {
+    "id": "np-palpitations-evaluation-and-management",
+    "title": "Palpitations: Capture the Rhythm, Then Explain the Symptom",
+    "system": "Cardiovascular",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Palpitations are a symptom, not a rhythm diagnosis. First decide whether the episode carries hemodynamic or ischemic risk, then use history, ECG and appropriately chosen ambulatory monitoring to correlate symptoms with rhythm before prescribing antiarrhythmic or rate-control therapy.",
+    "recognize": [
+      "Abrupt regular rapid palpitations suggest re-entrant tachycardia; an irregular sensation can reflect ectopy or atrial fibrillation, but patient description alone is not diagnostic.",
+      "Syncope, exertional onset, structural heart disease, family history of sudden death or documented wide-complex tachycardia increases risk."
+    ],
+    "differentiate": [
+      "Sinus tachycardia from fever, anemia, hyperthyroidism, hypovolemia, pain, pregnancy, stimulant use or anxiety should be managed by treating the cause rather than suppressing the rate reflexively.",
+      "Benign premature beats and dangerous ventricular arrhythmia can both feel like skipped beats; ECG/rhythm correlation matters."
+    ],
+    "assessment": [
+      "Clarify onset/offset, duration, regularity, triggers, exertion, chest pain, dyspnea, syncope, stimulant/caffeine/substance exposure and family cardiac history.",
+      "Review medications including decongestants, stimulants, thyroid hormone, QT-prolonging agents and rate-control drugs."
+    ],
+    "workup": [
+      "Obtain a 12-lead ECG and targeted CBC, electrolytes, thyroid or pregnancy testing when clinically indicated.",
+      "Choose ambulatory monitoring duration according to symptom frequency; very infrequent events require a longer strategy than a short Holter."
+    ],
+    "management": [
+      "Escalate unstable tachyarrhythmia or arrhythmia with ischemia/heart failure/syncope urgently.",
+      "For stable documented arrhythmia, treat the mechanism and underlying contributors and arrange cardiology/electrophysiology referral when recurrent symptoms, pre-excitation, sustained ventricular arrhythmia or diagnostic uncertainty warrants it."
+    ],
+    "medicationSafety": [
+      "Do not start an AV-nodal blocker blindly in an undifferentiated wide-complex tachycardia or pre-excited atrial fibrillation scenario.",
+      "Review QT-prolonging combinations and renal/electrolyte contributors before antiarrhythmic therapy."
+    ],
+    "redFlags": [
+      "Syncope with palpitations",
+      "Exertional palpitations with presyncope",
+      "Wide-complex tachycardia",
+      "Chest pain or acute heart failure",
+      "Family history of sudden unexplained death"
+    ],
+    "counselling": [
+      "Teach patients to document timing, pulse/rhythm when safe and triggers, and to seek urgent care for syncope, severe chest pain or persistent instability."
+    ],
+    "followUp": [
+      "Review rhythm-monitor results and symptom correlation rather than closing the case after a normal office ECG.",
+      "Reassess if frequency, exertional pattern or associated symptoms change."
+    ],
+    "examTrap": "Treating the sensation of a racing heart as SVT without first documenting the rhythm or looking for a physiologic cause of sinus tachycardia.",
+    "oneLinePearl": "Palpitations become a diagnosis only when symptoms meet a rhythm.",
+    "sourceBasis": [
+      "Canadian Cardiovascular Society arrhythmia resources",
+      "Canadian ambulatory rhythm-monitoring practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-cardiomyopathy-classification-and-management",
+    "title": "Cardiomyopathy: Phenotype First, Cause and Sudden-Death Risk Next",
+    "system": "Cardiovascular / Genetics",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling",
+      "I.E Transition/Discharge/Documentation"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Cardiomyopathy is not one disease. Define the phenotype—dilated, hypertrophic, arrhythmogenic or another pattern—identify reversible/inherited causes, and assess heart-failure, arrhythmic and sudden-death risk before assuming treatment is identical across phenotypes.",
+    "recognize": [
+      "Presentations include heart failure, exertional intolerance, atrial/ventricular arrhythmia, syncope, embolic events or incidental structural abnormalities.",
+      "Young age, family sudden death, unexplained ventricular hypertrophy, conduction disease or ventricular arrhythmia should raise inherited-disease concern."
+    ],
+    "differentiate": [
+      "Hypertrophic cardiomyopathy requires differentiation from hypertensive or valvular hypertrophy; arrhythmogenic cardiomyopathy may produce ventricular arrhythmia disproportionate to ventricular dysfunction.",
+      "Dilated cardiomyopathy can be ischemic, genetic, toxic, inflammatory, tachycardia-mediated, peripartum or metabolic."
+    ],
+    "assessment": [
+      "Assess heart-failure symptoms, syncope, palpitations, exercise history, alcohol/toxin/chemotherapy exposure, pregnancy/peripartum history, viral/inflammatory illness and a three-generation family history when inherited disease is plausible.",
+      "Perform cardiac examination and assess congestion/perfusion."
+    ],
+    "workup": [
+      "Use ECG and echocardiography as core tests; cardiac MRI, ischemic evaluation, laboratory testing and genetic assessment are selected according to phenotype and suspected cause.",
+      "First-degree relatives may need clinical/genetic screening when an inherited cardiomyopathy is established."
+    ],
+    "management": [
+      "Treat heart failure and arrhythmias according to phenotype while correcting reversible causes.",
+      "Refer inherited/high-risk phenotypes for cardiology/genetic assessment and sudden-death risk stratification; ICD decisions are individualized rather than based on ejection fraction alone in every cardiomyopathy."
+    ],
+    "medicationSafety": [
+      "Avoid abrupt removal of essential heart-failure therapy when stable unless a clear contraindication exists.",
+      "Pregnancy/peripartum cardiomyopathy changes medication options and requires cardio-obstetric coordination."
+    ],
+    "redFlags": [
+      "Exertional syncope",
+      "Sustained ventricular arrhythmia",
+      "Family history of sudden death",
+      "Cardiogenic shock or rapidly progressive heart failure",
+      "Pregnancy/peripartum decompensation"
+    ],
+    "counselling": [
+      "Discuss family screening, exercise recommendations and driving restrictions according to diagnosis and arrhythmic risk.",
+      "Explain that inherited disease can exist even when relatives feel well."
+    ],
+    "followUp": [
+      "Track ventricular function, arrhythmia burden and symptoms and close the loop on genetics/family screening where indicated."
+    ],
+    "examTrap": "Calling unexplained ventricular hypertrophy 'hypertensive heart disease' without asking about family history, syncope or inherited cardiomyopathy.",
+    "oneLinePearl": "Name the cardiomyopathy phenotype before you name the treatment plan.",
+    "sourceBasis": [
+      "Canadian Cardiovascular Society cardiomyopathy and inherited-arrhythmia resources",
+      "CCS Drive & Fly 2023 inherited cardiomyopathy risk framework"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-mitral-valve-prolapse-evaluation-and-counseling",
+    "title": "Mitral Valve Prolapse: Reassure the Benign, Detect the Regurgitant or Arrhythmic High Risk",
+    "system": "Cardiovascular / Valvular",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Most mitral valve prolapse is benign, but the clinically important questions are whether significant mitral regurgitation, ventricular remodeling, arrhythmia or high-risk symptoms are present. A click or incidental echo label does not automatically require activity restriction, antibiotic prophylaxis or repeated imaging at short intervals.",
+    "recognize": [
+      "MVP may be asymptomatic or associated with a midsystolic click and late systolic murmur; significant regurgitation changes prognosis and follow-up.",
+      "Palpitations, syncope or ventricular arrhythmia require a rhythm-risk assessment rather than reassurance based solely on the prolapse label."
+    ],
+    "differentiate": [
+      "Physiologic/trace mitral regurgitation on imaging is different from hemodynamically important MR with chamber enlargement or symptoms.",
+      "MVP alone is not an indication for routine infective-endocarditis prophylaxis."
+    ],
+    "assessment": [
+      "Assess exertional dyspnea, exercise tolerance, palpitations, syncope, family sudden death, connective-tissue features and pregnancy plans.",
+      "Characterize murmur and signs of volume overload/heart failure."
+    ],
+    "workup": [
+      "Echocardiography defines leaflet anatomy, MR severity and chamber effects; ECG/ambulatory monitoring is indicated when palpitations/syncope or arrhythmic concern exists.",
+      "Repeat imaging interval is based on MR severity, ventricular changes and symptoms rather than the prolapse diagnosis alone."
+    ],
+    "management": [
+      "Reassure asymptomatic low-risk MVP and manage cardiovascular health normally.",
+      "Refer significant MR, progressive chamber changes, new AF, pulmonary hypertension, ventricular arrhythmia or concerning symptoms for cardiology/valve evaluation."
+    ],
+    "medicationSafety": [
+      "Do not prescribe antibiotics before routine dental care solely for MVP.",
+      "Treat arrhythmia or heart-failure therapy according to the documented clinical problem rather than using beta blockers reflexively for every palpitation."
+    ],
+    "redFlags": [
+      "Syncope with ventricular arrhythmia",
+      "Severe/progressive mitral regurgitation",
+      "New heart failure",
+      "New atrial fibrillation",
+      "Pulmonary hypertension"
+    ],
+    "counselling": [
+      "Explain that most prolapse is not dangerous and that follow-up is driven by regurgitation, ventricular effects and symptoms.",
+      "Maintain routine dental health; prophylaxis is reserved for guideline-defined highest-risk cardiac conditions."
+    ],
+    "followUp": [
+      "Reassess symptoms and imaging according to MR severity; investigate new palpitations or syncope rather than assuming they are benign MVP symptoms."
+    ],
+    "examTrap": "Giving endocarditis prophylaxis or imposing major activity restrictions for uncomplicated MVP with no significant regurgitation.",
+    "oneLinePearl": "In MVP, the regurgitation and rhythm risk matter more than the click.",
+    "sourceBasis": [
+      "Canadian cardiovascular valvular-disease practice resources",
+      "Canadian infective-endocarditis prophylaxis practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-stress-test-selection-and-result-interpretation",
+    "title": "Stress Testing: Choose the Test That Answers the Pretest Question",
+    "system": "Cardiovascular / Diagnostics",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Stress testing is useful only when the patient is stable and the result can change management. Choose exercise versus pharmacologic stress and ECG-only versus imaging-based testing according to exercise capacity, baseline ECG interpretability, comorbidity and pretest probability; suspected acute coronary syndrome belongs on an acute pathway, not an outpatient stress-test pathway.",
+    "recognize": [
+      "Exercise capacity and symptoms during stress provide prognostic information beyond the ECG tracing.",
+      "Baseline ECG abnormalities, inability to exercise adequately or prior structural/revascularization context may make imaging-based stress testing more appropriate."
+    ],
+    "differentiate": [
+      "Stress testing evaluates inducible ischemia/risk in stable patients; it does not exclude acute MI in a symptomatic emergency presentation.",
+      "Low-risk patients may not benefit from testing, while very high-risk or unstable patients may need direct specialty/acute evaluation rather than a screening stress test."
+    ],
+    "assessment": [
+      "Clarify symptom pattern, stability, functional capacity, known CAD, prior revascularization, baseline ECG, medications and contraindications to exercise/pharmacologic agents."
+    ],
+    "workup": [
+      "Select the least invasive test that can answer the clinical question with adequate diagnostic performance.",
+      "Interpret the result in the context of achieved workload, symptoms, ECG/imaging changes and pretest probability; a test result is not independent of the patient who produced it."
+    ],
+    "management": [
+      "Escalate high-risk ischemic findings or significant symptoms to cardiology; optimize prevention/antianginal therapy when stable CAD is established.",
+      "A nondiagnostic study should lead to the next appropriate test or specialty assessment rather than being labelled negative."
+    ],
+    "medicationSafety": [
+      "Certain stress agents and beta blockers may affect test performance/contraindications; follow the testing laboratory's preparation protocol.",
+      "Do not withhold essential medications outside a defined test protocol."
+    ],
+    "redFlags": [
+      "Ongoing/rest chest pain",
+      "Hemodynamic instability",
+      "High-risk stress-test ischemia",
+      "Exercise-induced syncope",
+      "Sustained ventricular arrhythmia"
+    ],
+    "counselling": [
+      "Explain why the chosen stress modality fits the patient's exercise ability and ECG rather than promising that any single test can completely rule out coronary disease."
+    ],
+    "followUp": [
+      "Act on abnormal or nondiagnostic results with a documented plan; do not let a completed test become an unowned result."
+    ],
+    "examTrap": "Ordering an outpatient treadmill test for a patient with ongoing ischemic chest pain or choosing ECG-only exercise testing when the baseline ECG cannot be interpreted for ischemia.",
+    "oneLinePearl": "Stress testing starts with the question: stable patient, interpretable pathway, result that will change care.",
+    "sourceBasis": [
+      "Canadian Cardiovascular Society ischemic-heart-disease and diagnostic-testing resources",
+      "Canadian cardiology noninvasive-testing practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-echocardiogram-findings-and-clinical-correlation",
+    "title": "Echocardiography: Translate Structure and Hemodynamics Into the Patient's Problem",
+    "system": "Cardiovascular / Diagnostics",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "An echocardiogram is a structured hemodynamic study, not a list of incidental abnormalities. Interpret ventricular size/function, wall motion, valves, filling pressures, right-heart findings and pericardium in the clinical context; severity labels matter only when connected to symptoms, chamber consequences and management thresholds.",
+    "recognize": [
+      "Reduced LVEF, regional wall-motion abnormality, severe valve disease, RV dysfunction, major pulmonary-pressure probability or pericardial effusion/tamponade physiology can materially change care.",
+      "Normal LVEF does not exclude heart failure, diastolic dysfunction, pulmonary hypertension or significant valve disease."
+    ],
+    "differentiate": [
+      "Small physiologic valve regurgitation differs from severe regurgitation with chamber remodeling.",
+      "Pericardial effusion is not tamponade; tamponade is a clinical-hemodynamic syndrome."
+    ],
+    "assessment": [
+      "Know why the echo was ordered and reassess the patient for dyspnea, edema, syncope, murmur, chest pain or heart-failure signs that make a finding clinically relevant."
+    ],
+    "workup": [
+      "Review EF, chamber dimensions, regional motion, valve severity, RV function and pericardium; compare with prior studies when change is the clinical question.",
+      "Use repeat or advanced imaging only when it can resolve uncertainty or guide management."
+    ],
+    "management": [
+      "Act on severe/progressive structural disease, new ventricular dysfunction, high-risk valve findings or tamponade physiology with appropriate specialty/acute referral.",
+      "Do not treat mild incidental findings simply because they appear in the report."
+    ],
+    "medicationSafety": [
+      "Medication choices depend on the syndrome the echo supports—for example HFrEF versus HF with preserved/non-reduced EF—not the presence of an isolated echo phrase.",
+      "Avoid aggressive preload reduction when severe fixed outflow obstruction or tamponade physiology is present."
+    ],
+    "redFlags": [
+      "Tamponade physiology with clinical compromise",
+      "New severe LV/RV dysfunction",
+      "Severe symptomatic valve disease",
+      "Marked new pulmonary-pressure/right-heart abnormalities",
+      "Mechanical complication after MI"
+    ],
+    "counselling": [
+      "Explain important findings in terms of function and follow-up rather than alarming patients with every mild/trace abnormality."
+    ],
+    "followUp": [
+      "Repeat imaging according to disease severity, symptoms and guideline interval; close the loop on newly significant findings."
+    ],
+    "examTrap": "Equating a preserved ejection fraction with a normal heart or treating every trace valve leak as clinically important disease.",
+    "oneLinePearl": "Echo findings matter when they explain physiology, symptoms or risk.",
+    "sourceBasis": [
+      "Canadian Cardiovascular Society heart-failure and imaging resources",
+      "Canadian Society of Echocardiography practice principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-cardiac-ct-and-mri-indications-in-outpatient-practice",
+    "title": "Cardiac CT and MRI: Match the Imaging Modality to the Clinical Question",
+    "system": "Cardiovascular / Diagnostics",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Cardiac CT and MRI are complementary advanced tests. CT excels at coronary/anatomic questions and MRI at tissue characterization, ventricular phenotype and selected inflammatory/infiltrative disease; neither belongs as an automatic next test when history, ECG, echo or stress testing already answers the question.",
+    "recognize": [
+      "Coronary CT angiography can define coronary anatomy in selected stable chest-pain patients when pretest probability and local pathway support it.",
+      "Cardiac MRI can characterize scar, myocarditis, infiltrative disease and cardiomyopathy phenotype and quantify ventricular/valvular function without ionizing radiation."
+    ],
+    "differentiate": [
+      "CT uses ionizing radiation and usually iodinated contrast; MRI has no ionizing radiation but may involve gadolinium and device/claustrophobia considerations.",
+      "Neither outpatient modality is a substitute for emergency evaluation of unstable ACS, aortic catastrophe or hemodynamic compromise."
+    ],
+    "assessment": [
+      "Define the exact question, prior test results, renal function/contrast history, pregnancy status, implanted devices, rhythm/heart rate and ability to cooperate with breath-holding/claustrophobia requirements."
+    ],
+    "workup": [
+      "Choose CT for the validated coronary/anatomic question and MRI for tissue/phenotype questions when results will change management.",
+      "Check current device MRI-conditional status and local protocol rather than assuming every implanted cardiac device is an absolute contraindication."
+    ],
+    "management": [
+      "Use the advanced-imaging result to guide preventive therapy, revascularization/specialty evaluation or cardiomyopathy/inflammatory management as appropriate.",
+      "Avoid serial advanced imaging without a defined decision it will change."
+    ],
+    "medicationSafety": [
+      "Iodinated and gadolinium contrast require renal/allergy/risk assessment according to current radiology policy.",
+      "Rate-control medication for coronary CT is protocol-specific and should follow the imaging program rather than improvised prescribing."
+    ],
+    "redFlags": [
+      "Unstable chest pain/ACS",
+      "Suspected aortic dissection",
+      "Hemodynamic instability",
+      "Severe contrast reaction history requiring specialized planning"
+    ],
+    "counselling": [
+      "Explain why one modality is better suited to the clinical question and discuss radiation/contrast/device considerations accurately."
+    ],
+    "followUp": [
+      "Ensure advanced-imaging results are interpreted within the original pretest question and acted on; incidental findings also require ownership when clinically relevant."
+    ],
+    "examTrap": "Ordering cardiac MRI because it is 'more detailed' when the actual question is coronary anatomy—or ordering outpatient CT for unstable ischemic symptoms.",
+    "oneLinePearl": "Advanced cardiac imaging is question-driven: anatomy for CT, tissue/phenotype for MRI.",
+    "sourceBasis": [
+      "Canadian cardiovascular imaging resources",
+      "CCS cardiac CT and imaging position statements"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-post-mi-secondary-prevention-and-rehabilitation",
+    "title": "After MI: Prevent the Next Event, Restore Function, Close Every Transition",
+    "system": "Cardiovascular / Prevention / Rehabilitation",
+    "blueprintDomains": [
+      "I.C Management",
+      "I.D Counselling",
+      "I.E Transition/Discharge/Documentation",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Post-MI care is active secondary prevention, not a completed event. Reconcile antiplatelet and cardioprotective therapy, control lipids/BP/diabetes/smoking, refer to cardiac rehabilitation, assess LV function/heart-failure risk, and make follow-up ownership explicit before the patient leaves the transition window.",
+    "recognize": [
+      "Early recurrent ischemia, heart failure, arrhythmia, medication intolerance and psychosocial distress are common post-MI risks.",
+      "Cardiac rehabilitation combines exercise, education, risk-factor control and psychosocial support and should be actively offered rather than treated as optional wellness advice."
+    ],
+    "differentiate": [
+      "Secondary prevention intensity is higher than low-risk primary prevention because established ASCVD changes baseline risk.",
+      "Recurrent/rest chest pain after discharge is not a routine rehab symptom and requires urgent ischemia assessment."
+    ],
+    "assessment": [
+      "Review culprit event/revascularization, LV function, angina, dyspnea, bleeding, BP, heart rate, lipids, diabetes, smoking, mood, work/financial barriers and medication access/adherence."
+    ],
+    "workup": [
+      "Ensure planned LV-function, lipid and other follow-up testing is completed when clinically indicated; avoid duplicate testing that does not change the plan."
+    ],
+    "management": [
+      "Use guideline-directed antiplatelet therapy, intensive lipid lowering and indicated beta-blocker/RAAS/HF therapy according to the MI/revascularization/LV-function context.",
+      "Refer to cardiac rehabilitation and address smoking cessation, physical activity, diet, psychosocial recovery and return-to-work/activity guidance."
+    ],
+    "medicationSafety": [
+      "Balance antithrombotic benefit with bleeding risk and clarify duration when anticoagulation or complex PCI creates competing regimens.",
+      "Avoid NSAID use when cardiovascular/bleeding risk is relevant unless a clinician has reviewed alternatives and necessity."
+    ],
+    "redFlags": [
+      "Recurrent ischemic chest pain",
+      "New heart failure",
+      "Syncope or sustained arrhythmia",
+      "Major bleeding on antithrombotic therapy",
+      "Severe depression or suicidal risk after the event"
+    ],
+    "counselling": [
+      "Explain each secondary-prevention medication by purpose and duration rather than handing the patient a discharge list without rationale.",
+      "Address barriers to cardiac-rehab attendance, especially transportation, caregiving, cost/time and sex/gender inequities."
+    ],
+    "followUp": [
+      "Confirm cardiology/primary-care/cardiac-rehab handoffs and pending results.",
+      "Track BP, lipids, symptoms, adherence and functional recovery rather than focusing only on recurrent chest pain."
+    ],
+    "examTrap": "Focusing only on the stent and forgetting rehabilitation, smoking, lipids, LV function, medication duration and transition ownership.",
+    "oneLinePearl": "A treated infarct ends the acute event; secondary prevention starts the long-term work.",
+    "sourceBasis": [
+      "Canadian Cardiovascular Society Secondary Prevention Pathway",
+      "Heart & Stroke Foundation cardiac rehabilitation resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-endocarditis-prophylaxis-guidelines-and-risk-stratification",
+    "title": "Endocarditis Prophylaxis: Reserve Antibiotics for the Highest-Risk Cardiac Patients",
+    "system": "Cardiovascular / Infectious Disease / Prevention",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "child",
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Infective-endocarditis prophylaxis is not for every murmur, valve disease or dental procedure. Identify the small group of highest-risk cardiac conditions and the specific procedures where prophylaxis is recommended, while emphasizing oral health and prompt evaluation of unexplained bacteremic illness.",
+    "recognize": [
+      "Highest-risk groups include selected prosthetic cardiac valves/material, previous infective endocarditis and specific high-risk congenital-heart scenarios according to current guideline criteria.",
+      "Routine uncomplicated MVP, most native valve disease and coronary stents do not automatically qualify for dental prophylaxis."
+    ],
+    "differentiate": [
+      "Prophylaxis prevents a small subset of procedure-associated bacteremia risk; it does not prevent spontaneous endocarditis from daily-life bacteremia.",
+      "Active suspected infective endocarditis requires diagnostic cultures/imaging and treatment—not a prophylactic antibiotic dose."
+    ],
+    "assessment": [
+      "Verify the actual cardiac diagnosis/procedure history, prior endocarditis, prosthetic material and planned dental/procedural manipulation rather than relying on a vague 'heart murmur' history.",
+      "Review allergies and pregnancy when prophylaxis is truly indicated."
+    ],
+    "workup": [
+      "No prophylaxis workup is needed for a stable patient beyond confirming eligibility and procedure type; suspected active IE requires blood cultures before antibiotics when feasible and echocardiographic evaluation according to acuity."
+    ],
+    "management": [
+      "Use the current Canadian-adopted prophylaxis regimen only for qualifying cardiac conditions and procedures.",
+      "Promote regular dental care and treatment of oral disease as a more important long-term prevention strategy than indiscriminate antibiotics."
+    ],
+    "medicationSafety": [
+      "Avoid unnecessary antibiotic exposure and inaccurate penicillin-allergy labels that push broader alternatives.",
+      "Do not give prophylaxis after the procedure simply because eligibility was discovered late without checking the current timing recommendation."
+    ],
+    "redFlags": [
+      "Fever with prosthetic valve or prior endocarditis",
+      "New embolic or heart-failure features",
+      "Persistent bacteremia",
+      "New conduction abnormality with suspected endocarditis"
+    ],
+    "counselling": [
+      "Explain clearly whether the patient qualifies and document the reason so future dental/medical teams do not guess.",
+      "Teach that oral health and prompt assessment of unexplained fever remain important even when prophylaxis is not indicated."
+    ],
+    "followUp": [
+      "Update prophylaxis eligibility when valve surgery, congenital repair or endocarditis history changes."
+    ],
+    "examTrap": "Prescribing dental prophylaxis to every patient with mitral valve prolapse or a murmur instead of checking the high-risk criteria.",
+    "oneLinePearl": "Endocarditis prophylaxis is narrow by design: highest-risk heart, qualifying procedure, correct regimen.",
+    "sourceBasis": [
+      "Canadian cardiovascular infective-endocarditis prophylaxis practice",
+      "CCS guideline/position-statement library"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-coronary-artery-disease-risk-stratification-and-management",
+    "title": "Coronary Artery Disease: Risk Stratify Before You Test or Intensify",
+    "system": "Cardiovascular",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Stable coronary disease management starts with symptom stability and cardiovascular risk, then uses testing only when the result can change diagnosis or treatment. Established ASCVD requires active secondary prevention even when the patient is currently pain free.",
+    "recognize": [
+      "Exertional pressure, reduced exercise tolerance or ischemic equivalents in an at-risk patient can represent chronic coronary disease.",
+      "New rest pain, accelerating symptoms or hemodynamic instability changes the problem to possible ACS."
+    ],
+    "differentiate": [
+      "Low-pretest-probability atypical pain often does not benefit from indiscriminate advanced testing.",
+      "Secondary prevention intensity differs from primary prevention because prior ASCVD substantially changes baseline risk."
+    ],
+    "assessment": [
+      "Characterize symptom stability, functional limitation, prior MI/PCI/CABG, BP, diabetes, smoking, lipids, CKD, bleeding risk and medication adherence/access."
+    ],
+    "workup": [
+      "Use ECG and selected noninvasive testing according to pretest probability, functional capacity and baseline ECG; do not use elective testing to delay emergency assessment of unstable symptoms."
+    ],
+    "management": [
+      "Use comprehensive secondary prevention with lipid lowering, BP/diabetes control, smoking treatment, physical activity/cardiac rehabilitation and antiplatelet therapy when indicated.",
+      "Use antianginal therapy and cardiology/revascularization evaluation when symptoms persist or high-risk anatomy/ischemia is suspected."
+    ],
+    "medicationSafety": [
+      "Balance antithrombotic benefit with bleeding risk and avoid duplicate antithrombotic therapy without a defined indication.",
+      "Review nitrates with PDE-5 inhibitor exposure and hypotension risk."
+    ],
+    "redFlags": [
+      "Rest/accelerating chest pain",
+      "Heart failure",
+      "Syncope",
+      "Dynamic ischemic ECG change",
+      "Sustained ventricular arrhythmia"
+    ],
+    "counselling": [
+      "Explain that being pain free does not eliminate future-event risk after established CAD.",
+      "Teach when a change in angina pattern requires emergency assessment."
+    ],
+    "followUp": [
+      "Track symptoms, functional capacity, BP, lipids, diabetes control and adherence to secondary prevention."
+    ],
+    "examTrap": "Treating stable CAD as only a chest-pain problem and neglecting secondary prevention because symptoms are controlled.",
+    "oneLinePearl": "Stable CAD care prevents the next event while watching for the moment 'stable' stops being true.",
+    "sourceBasis": [
+      "Canadian Cardiovascular Society Secondary Prevention Pathway",
+      "CCS ischemic-heart-disease resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-stable-angina-diagnostic-workup-and-treatment",
+    "title": "Stable Angina: Confirm the Pattern, Control Symptoms, Prevent Events",
+    "system": "Cardiovascular",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Stable angina is a reproducible ischemic symptom pattern without acute instability. Confirm that the pattern is truly stable, estimate coronary probability, select testing appropriately, treat symptoms and secondary-prevention risk, and escalate any new rest or accelerating pain as possible ACS.",
+    "recognize": [
+      "Predictable exertional pressure relieved by rest or antianginal therapy supports a chronic ischemic pattern.",
+      "Dyspnea or reduced exercise capacity may be an ischemic equivalent, especially in older adults and people with diabetes."
+    ],
+    "differentiate": [
+      "Reproducible chest wall pain, reflux and anxiety can mimic angina, but no single symptom feature fully excludes CAD.",
+      "Unstable angina/ACS is defined by clinical change and acute risk, not merely by a higher pain score."
+    ],
+    "assessment": [
+      "Clarify triggers, duration, relief, functional class, prior CAD/revascularization, risk factors, medication use and bleeding/hypotension issues."
+    ],
+    "workup": [
+      "Use ECG and an evidence-based stable-chest-pain testing pathway; choose exercise, imaging or anatomic testing according to the clinical question and local access."
+    ],
+    "management": [
+      "Use antianginal therapy individualized to BP, heart rate, LV function and comorbidities while implementing secondary prevention.",
+      "Refer refractory symptoms, uncertain diagnosis or high-risk testing/anatomy for cardiology/revascularization assessment."
+    ],
+    "medicationSafety": [
+      "Nitrates can cause hypotension and are unsafe with recent PDE-5 inhibitor use.",
+      "Rate-slowing therapy requires caution with bradycardia, conduction disease or decompensated heart failure."
+    ],
+    "redFlags": [
+      "Rest pain",
+      "Increasing frequency/severity",
+      "Syncope",
+      "New heart failure",
+      "Dynamic ECG change"
+    ],
+    "counselling": [
+      "Teach the patient's usual stable pattern and the exact changes that require emergency evaluation."
+    ],
+    "followUp": [
+      "Track angina frequency, exercise tolerance, adverse effects and adherence to preventive therapy."
+    ],
+    "examTrap": "Calling recurrent rest pain 'stable' because the patient already has a CAD diagnosis.",
+    "oneLinePearl": "Angina is stable only while its pattern stays stable.",
+    "sourceBasis": [
+      "Canadian Cardiovascular Society chronic coronary disease resources",
+      "CCS Secondary Prevention Pathway"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-valvular-heart-disease-murmur-recognition-and-referral",
+    "title": "Valvular Heart Disease: Decide Which Murmur Needs an Echo or Urgent Referral",
+    "system": "Cardiovascular / Valvular",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "child",
+      "adolescent",
+      "adult",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "A murmur is a finding, not the final diagnosis. Symptoms, pulse/hemodynamic findings and structural suspicion determine whether the patient needs echocardiography, routine cardiology follow-up or urgent evaluation.",
+    "recognize": [
+      "Exertional syncope/angina/dyspnea with a harsh systolic murmur raises aortic-stenosis concern; holosystolic apical murmurs can suggest mitral regurgitation.",
+      "A new murmur with fever or after MI can signal infective or mechanical pathology."
+    ],
+    "differentiate": [
+      "Innocent childhood murmurs occur in otherwise well children with normal growth, pulses and oxygenation.",
+      "Murmur intensity alone does not define severity; severe valve disease can sometimes have a softer murmur when output is low."
+    ],
+    "assessment": [
+      "Assess timing/location/radiation, S2, pulses, BP, JVP, edema, dyspnea, syncope, angina, fever and prior valve disease."
+    ],
+    "workup": [
+      "Order echocardiography when structural disease is suspected from symptoms or examination; use urgent imaging when acute severe valve/mechanical disease is plausible."
+    ],
+    "management": [
+      "Refer significant valve disease based on severity, symptoms, ventricular consequences and guideline intervention thresholds.",
+      "Treat associated heart failure or arrhythmia while the structural problem is being addressed."
+    ],
+    "medicationSafety": [
+      "Avoid aggressive preload reduction in severe fixed outflow obstruction when unstable.",
+      "Antibiotic prophylaxis is not indicated for every murmur or native valve lesion."
+    ],
+    "redFlags": [
+      "Exertional syncope",
+      "Acute pulmonary edema",
+      "New murmur with fever",
+      "New murmur after MI",
+      "Cyanosis or severe hemodynamic compromise"
+    ],
+    "counselling": [
+      "Explain that the echo defines the valve lesion; the murmur only raises or lowers suspicion."
+    ],
+    "followUp": [
+      "Surveillance depends on valve severity and symptoms, not a generic annual-echo rule for every murmur."
+    ],
+    "examTrap": "Reassuring a symptomatic patient because the murmur is only grade 2/6.",
+    "oneLinePearl": "The murmur opens the question; symptoms and echo answer it.",
+    "sourceBasis": [
+      "Canadian cardiovascular valvular-heart-disease resources",
+      "Canadian echocardiography practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-peripheral-artery-disease-diagnosis-and-management",
+    "title": "Peripheral Artery Disease: Limb Symptoms Are a Cardiovascular Risk Marker",
+    "system": "Cardiovascular / Vascular",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "PAD is both a limb disease and a marker of systemic atherosclerotic risk. Diagnose exertional ischemic symptoms with vascular examination and ABI/vascular testing when appropriate, then combine walking/limb care with intensive cardiovascular prevention.",
+    "recognize": [
+      "Intermittent claudication is exertional muscle discomfort relieved by rest; chronic limb-threatening ischemia adds rest pain, tissue loss or nonhealing ischemic wounds.",
+      "Absent pulses, cool extremity and trophic changes increase suspicion but a normal-looking foot does not exclude PAD."
+    ],
+    "differentiate": [
+      "Neurogenic claudication varies with posture/spine position; venous disease causes edema/heaviness rather than reproducible arterial exertional pain.",
+      "Acute limb ischemia is a sudden threatened-limb emergency, not routine outpatient PAD."
+    ],
+    "assessment": [
+      "Assess walking distance, rest pain, wounds, pulses, skin/temperature, smoking, diabetes, renal disease, CAD/stroke and foot-care risk."
+    ],
+    "workup": [
+      "Use ABI as a common first physiologic test and vascular imaging when anatomy is needed for revascularization or the diagnosis remains uncertain."
+    ],
+    "management": [
+      "Use smoking treatment, structured exercise, lipid/BP/diabetes management and antithrombotic therapy according to current PAD guidance.",
+      "Refer lifestyle-limiting claudication despite optimal care or limb-threatening ischemia for vascular evaluation."
+    ],
+    "medicationSafety": [
+      "Antithrombotic intensity depends on ischemic and bleeding risk; avoid stacking agents without a defined indication.",
+      "Foot infection in an ischemic limb may deteriorate quickly and needs urgent vascular/infectious assessment."
+    ],
+    "redFlags": [
+      "Acute six-P limb ischemia",
+      "Rest pain with tissue loss",
+      "Nonhealing ischemic ulcer",
+      "Gangrene",
+      "Rapidly progressive infection in a poorly perfused limb"
+    ],
+    "counselling": [
+      "Explain that walking therapy and smoking cessation directly improve both limb and cardiovascular outcomes."
+    ],
+    "followUp": [
+      "Track walking function, wounds, pulse/vascular status and secondary-prevention targets."
+    ],
+    "examTrap": "Treating claudication only with analgesia and ignoring the patient's systemic ASCVD risk.",
+    "oneLinePearl": "PAD in the leg is a warning sign for the whole arterial tree.",
+    "sourceBasis": [
+      "Canadian Cardiovascular Society Peripheral Arterial Disease Guideline",
+      "CCS prevention resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-anticoagulation-management-and-reversal-strategies",
+    "title": "Anticoagulation: Match the Drug, Indication, Renal Function, Bleeding Risk, and Reversal Plan",
+    "system": "Cardiovascular / Hematology / Pharmacology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Safe anticoagulation requires knowing why the patient is anticoagulated, which drug is used, whether the dose fits renal/hepatic function and weight, how adherence/interactions are managed, and what the emergency reversal plan is. Do not use INR as a universal anticoagulant-effect test.",
+    "recognize": [
+      "Warfarin requires INR management; DOACs use indication- and renal-function-specific dosing and routine INR does not quantify their effect.",
+      "Major bleeding severity is defined clinically by site, hemodynamics and ongoing loss, not only by hemoglobin or a coagulation test."
+    ],
+    "differentiate": [
+      "Mechanical valves, AF, VTE and other indications have different drug options and treatment durations.",
+      "Minor nuisance bleeding is managed differently from intracranial, retroperitoneal, uncontrolled GI or hemodynamically significant bleeding."
+    ],
+    "assessment": [
+      "Confirm indication, drug/dose/last dose, adherence, renal/hepatic function, weight, interacting drugs, antiplatelets/NSAIDs, fall risk and bleeding history."
+    ],
+    "workup": [
+      "Use CBC/hemoglobin, renal function and clinically appropriate coagulation testing; recognize the limitations of PT/aPTT for DOAC activity.",
+      "In major bleeding, identify site/source and obtain urgent imaging/procedural evaluation when needed."
+    ],
+    "management": [
+      "Continue, adjust or stop anticoagulation according to thrombotic vs bleeding risk and current indication guidance.",
+      "Major/life-threatening bleeding requires drug cessation, resuscitation/source control and drug-specific reversal or prohemostatic strategy according to current Canadian protocol."
+    ],
+    "medicationSafety": [
+      "Renal decline can increase DOAC exposure; interacting drugs and duplicate antithrombotics require active review.",
+      "Do not restart anticoagulation after major bleeding without reassessing indication, source control and timing risk."
+    ],
+    "redFlags": [
+      "Intracranial bleeding",
+      "Hemodynamic instability",
+      "Ongoing major GI bleeding",
+      "Retroperitoneal bleeding",
+      "Acute neurologic deficit while anticoagulated"
+    ],
+    "counselling": [
+      "Teach adherence, missed-dose instructions specific to the drug, bleeding signs and when to seek emergency care.",
+      "Ensure patients know the anticoagulant name and indication."
+    ],
+    "followUp": [
+      "Monitor renal function/hemoglobin and medication interactions at clinically appropriate intervals and after major health changes."
+    ],
+    "examTrap": "Calling a normal INR proof that a DOAC patient is not anticoagulated—or ordering reversal without considering the drug, last dose, bleeding severity and renal function.",
+    "oneLinePearl": "Anticoagulation safety starts with five questions: why, which drug, right dose, bleeding risk, reversal plan.",
+    "sourceBasis": [
+      "Thrombosis Canada clinical guides",
+      "Canadian Cardiovascular Society AF/VTE-related resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-aortic-stenosis-severity-assessment-and-timing-of-intervention",
+    "title": "Aortic Stenosis: Symptoms, Flow, Gradient, and Ventricular Response Determine Urgency",
+    "system": "Cardiovascular / Valvular",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Aortic-stenosis severity is not determined by murmur loudness alone. Integrate symptoms, echo valve measurements, flow state and LV response; exertional syncope, angina or heart failure in severe AS should trigger expedited valve evaluation rather than repeated outpatient medication adjustments.",
+    "recognize": [
+      "Classic severe-AS symptoms are exertional dyspnea, angina and syncope; older patients may instead report reduced activity or fatigue.",
+      "Low-flow states can produce discordant gradients and require specialist interpretation rather than automatically calling disease mild."
+    ],
+    "differentiate": [
+      "Sclerosis without significant obstruction differs from severe stenosis.",
+      "Dyspnea in an older adult may be multifactorial; echo severity must be correlated with symptoms and LV/other valve findings."
+    ],
+    "assessment": [
+      "Assess exertional symptoms, falls/syncope, angina, heart-failure signs, BP and functional decline."
+    ],
+    "workup": [
+      "Echocardiography is the key severity test; discordant low-flow/low-gradient patterns may require additional specialist testing."
+    ],
+    "management": [
+      "Refer symptomatic severe AS and other guideline-defined high-risk severe disease for valve-team assessment for TAVI/SAVR.",
+      "Treat comorbid BP/volume issues cautiously while recognizing that medication does not fix the mechanical obstruction."
+    ],
+    "medicationSafety": [
+      "Avoid aggressive preload reduction or vasodilation in unstable severe AS without hemodynamic awareness.",
+      "Do not delay valve referral by repeatedly escalating diuretics for progressive obstruction symptoms."
+    ],
+    "redFlags": [
+      "Exertional syncope",
+      "Pulmonary edema",
+      "Angina with severe AS",
+      "LV dysfunction",
+      "Hypotension/low-output state"
+    ],
+    "counselling": [
+      "Teach patients to report new exertional dyspnea, chest pain or syncope promptly because symptom onset changes prognosis and timing."
+    ],
+    "followUp": [
+      "Echo surveillance depends on severity and symptoms; new symptoms override a distant routine follow-up date."
+    ],
+    "examTrap": "Reassuring a patient with severe AS because the murmur is not loud or treating progressive symptoms only with diuretics.",
+    "oneLinePearl": "In aortic stenosis, symptoms plus echo severity—not murmur grade—drive intervention timing.",
+    "sourceBasis": [
+      "Canadian cardiovascular valvular-heart-disease practice",
+      "Canadian valve-team/TAVI practice resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-cardiovascular-disease-prevention-strategies",
+    "title": "Cardiovascular Prevention: Treat Absolute Risk and Risk-Defining Conditions",
+    "system": "Cardiovascular / Prevention",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Prevention is risk-based, not one-number medicine. Identify established ASCVD and high-risk conditions first, then integrate BP, lipids, diabetes, CKD, smoking, family history, pregnancy-related risk factors, activity, nutrition and social access into an individualized prevention plan.",
+    "recognize": [
+      "Established ASCVD is secondary prevention and carries different treatment intensity from low-risk primary prevention.",
+      "Diabetes, CKD, severe dyslipidemia and selected risk enhancers can change treatment even when a short-term calculator appears modest."
+    ],
+    "differentiate": [
+      "Risk calculators support decisions in appropriate primary-prevention populations but are not substitutes for established disease or guideline-defined statin-indicated conditions.",
+      "Preventive medication should not be prescribed from age alone without considering benefit, bleeding/adverse effects and patient priorities."
+    ],
+    "assessment": [
+      "Assess smoking, BP, lipids, diabetes, kidney disease, family premature ASCVD, pregnancy-related risk history, activity/nutrition, alcohol, sleep and social barriers."
+    ],
+    "workup": [
+      "Use guideline-appropriate risk estimation and targeted testing; avoid repetitive screening that does not change management."
+    ],
+    "management": [
+      "Use evidence-based lipid/BP/diabetes and smoking treatments and support physical activity, nutrition and weight/health goals using non-stigmatizing shared decision-making.",
+      "Address access to medications, food, exercise and follow-up as part of prevention rather than labelling nonadherence as motivation failure."
+    ],
+    "medicationSafety": [
+      "Avoid routine aspirin for low-risk primary prevention when bleeding risk outweighs benefit.",
+      "Pregnancy/planning pregnancy changes the safety of several preventive medication classes."
+    ],
+    "redFlags": [
+      "Symptoms suggesting existing ASCVD rather than preventive screening",
+      "Severe uncontrolled BP with target-organ injury",
+      "Very high triglycerides with pancreatitis concern",
+      "Familial hypercholesterolemia pattern"
+    ],
+    "counselling": [
+      "Use absolute-risk language and explain why a medication can be useful even when the patient feels well."
+    ],
+    "followUp": [
+      "Reassess modifiable risks and treatment response rather than repeating a risk calculator without acting on it."
+    ],
+    "examTrap": "Treating a laboratory number while ignoring the patient's overall cardiovascular risk—or using screening guidance for a symptomatic patient.",
+    "oneLinePearl": "Prevention treats the patient's future event risk, not an isolated test result.",
+    "sourceBasis": [
+      "Canadian Cardiovascular Society prevention/dyslipidemia resources",
+      "Hypertension Canada",
+      "Diabetes Canada cardiorenal guidance"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-heart-failure-medication-titration-and-monitoring",
+    "title": "Heart Failure Medication Titration: Build the Evidence-Based Regimen, Then Monitor the Patient",
+    "system": "Cardiovascular / Pharmacology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling",
+      "I.E Transition/Discharge/Documentation"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Heart-failure titration is not 'max one drug before starting the next.' Build the evidence-based regimen appropriate to the EF phenotype and comorbidities, then titrate based on BP, volume status, heart rate, renal function, potassium, symptoms and tolerability while distinguishing chronic optimization from acute decompensation.",
+    "recognize": [
+      "HFrEF foundational therapy uses complementary disease-modifying classes rather than relying on diuretics alone.",
+      "HFnrEF/HFpEF management differs and should follow current CCS phenotype-specific guidance."
+    ],
+    "differentiate": [
+      "Loop diuretics relieve congestion but are not a substitute for disease-modifying therapy.",
+      "Worsening creatinine during decongestion must be interpreted with volume/perfusion context rather than automatically stopping every RAAS/SGLT2/MRA therapy."
+    ],
+    "assessment": [
+      "Assess congestion/perfusion, orthostasis, BP, heart rate/rhythm, weight trend, renal function, potassium, adherence, NSAID use, affordability and recent acute illness."
+    ],
+    "workup": [
+      "Trend renal function/electrolytes after clinically meaningful RAAS/MRA/diuretic changes and reassess EF/structure when it will change device or medication decisions."
+    ],
+    "management": [
+      "For stable HFrEF, introduce/titrate foundational therapy in a coordinated way rather than waiting months to maximize one agent first.",
+      "Escalate pulmonary edema, shock, severe hypotension, major AKI/hyperkalemia or rapidly worsening symptoms to acute-care management before routine titration."
+    ],
+    "medicationSafety": [
+      "RAAS/ARNI/MRA therapy requires potassium/renal monitoring; beta blockers should not be aggressively initiated/titrated in cardiogenic shock.",
+      "SGLT2 inhibitors require sick-day/perioperative counselling and euglycemic-DKA awareness."
+    ],
+    "redFlags": [
+      "Pulmonary edema",
+      "Cardiogenic shock",
+      "Severe hyperkalemia",
+      "Symptomatic hypotension",
+      "Rapidly progressive renal failure with poor perfusion"
+    ],
+    "counselling": [
+      "Teach daily symptom/weight monitoring when appropriate, medication purpose and what illness/dehydration scenarios require clinician contact."
+    ],
+    "followUp": [
+      "Schedule reassessment after titration soon enough to review BP, symptoms and required laboratory monitoring.",
+      "Do not leave newly started HF therapy without ownership for dose optimization."
+    ],
+    "examTrap": "Maximizing one HFrEF drug for months before starting other foundational classes—or treating congestion with diuretics while omitting disease-modifying therapy.",
+    "oneLinePearl": "Heart-failure titration builds a balanced regimen, then watches BP, kidneys, potassium, volume and symptoms together.",
+    "sourceBasis": [
+      "Canadian Cardiovascular Society/Canadian Heart Failure Society HF guidelines",
+      "CCS/CHFS HFnrEF Guideline 2025"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-hypertension-diagnosis-and-guideline-based-management",
+    "title": "Hypertension: Confirm the Diagnosis, Then Treat Risk",
+    "system": "Cardiovascular / Primary Care",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Canadian hypertension care begins with validated standardized blood-pressure measurement and out-of-office confirmation when appropriate. Hypertension Canada now defines adult hypertension as blood pressure at or above 130/80 mm Hg under optimal measurement conditions; treatment intensity then depends on cardiovascular risk, comorbidity, tolerability and patient priorities rather than one casual office reading.",
+    "recognize": [
+      "Hypertension is usually asymptomatic; symptoms such as focal neurologic deficit, pulmonary edema, ischemic chest pain or encephalopathy suggest acute target-organ injury rather than 'symptomatic chronic hypertension'.",
+      "White-coat and masked hypertension are common reasons to use home or ambulatory monitoring."
+    ],
+    "differentiate": [
+      "A single elevated office reading is not established chronic hypertension unless the clinical situation meets an emergency or very-high-risk exception.",
+      "Secondary hypertension is more likely with abrupt onset, resistant disease, marked hypokalemia, episodic adrenergic symptoms, kidney disease, sleep-apnea clues or medication/substance causes."
+    ],
+    "assessment": [
+      "Repeat blood pressure with correct cuff size and standardized technique; review orthostatic symptoms, cardiovascular risk, kidney disease, diabetes, pregnancy potential and medication/substance contributors.",
+      "Assess NSAIDs, stimulants, decongestants, corticosteroids, estrogen-containing therapy, alcohol, licorice and other contributors when clinically relevant."
+    ],
+    "workup": [
+      "Use out-of-office BP to confirm hypertension or identify white-coat/masked disease when feasible.",
+      "Perform routine cardiovascular-risk/end-organ assessment and targeted secondary-cause testing only when clinical clues justify it."
+    ],
+    "management": [
+      "Recommend healthy lifestyle measures for all patients with hypertension.",
+      "Hypertension Canada recommends pharmacotherapy for BP at or above 140/90 mm Hg and for systolic BP 130-139 mm Hg when cardiovascular risk is high; target systolic BP below 130 mm Hg when treatment is well tolerated.",
+      "Use first-line drug selection and combination therapy according to comorbidity, pregnancy potential, kidney function, potassium, orthostasis, frailty and access."
+    ],
+    "medicationSafety": [
+      "ACE inhibitors and ARBs require pregnancy avoidance/planning and renal/potassium monitoring after initiation or meaningful titration.",
+      "Avoid routine ACE inhibitor plus ARB combination therapy and reassess symptomatic hypotension, falls or acute kidney injury before simply adding more medication."
+    ],
+    "redFlags": [
+      "Neurologic deficit or encephalopathy",
+      "Acute pulmonary edema",
+      "Acute coronary syndrome",
+      "Suspected aortic syndrome",
+      "Acute kidney injury with severe hypertension",
+      "Pregnancy/postpartum severe hypertension"
+    ],
+    "counselling": [
+      "Teach validated home BP technique and explain why treatment is based on long-term vascular risk rather than how the patient feels on a given day."
+    ],
+    "followUp": [
+      "Reassess BP, adherence, adverse effects and relevant electrolytes/renal function after medication changes; use home readings and orthostatic symptoms to avoid overtreatment."
+    ],
+    "examTrap": "Diagnosing chronic hypertension from one nonstandardized reading or treating an asymptomatic high number as an emergency without looking for acute organ injury.",
+    "oneLinePearl": "Measure correctly, confirm outside the office when appropriate, then treat cardiovascular risk.",
+    "sourceBasis": [
+      "Hypertension Canada 2025 Primary Care Guideline"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-heart-failure-with-reduced-and-preserved-ejection-fraction",
+    "title": "Heart Failure: Congestion, Perfusion, and Ejection-Fraction Phenotype",
+    "system": "Cardiovascular",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.E Transition/Discharge/Documentation"
+    ],
+    "lifespan": [
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Heart failure is a clinical syndrome, not an ejection-fraction number. Determine whether the patient is congested or poorly perfused, identify the precipitant, then classify reduced versus non-reduced/preserved EF because disease-modifying therapy and evidence strength differ by phenotype.",
+    "recognize": [
+      "Orthopnea, paroxysmal nocturnal dyspnea, elevated JVP, edema, pulmonary congestion and rapid weight gain support volume overload.",
+      "Hypotension, cool extremities, oliguria and altered mentation suggest low-output physiology and make routine outpatient titration unsafe."
+    ],
+    "differentiate": [
+      "Normal or preserved EF does not exclude heart failure; HFnrEF/HFpEF requires compatible symptoms/signs plus objective evidence of elevated filling pressure or structural/functional abnormality.",
+      "BNP/NT-proBNP supports diagnosis/risk assessment but is modified by age, renal function, obesity and atrial fibrillation."
+    ],
+    "assessment": [
+      "Assess volume status, perfusion, oxygenation, rhythm, BP, renal function, medications, adherence and common precipitants such as ischemia, infection and arrhythmia.",
+      "Review NSAIDs and other agents that worsen fluid retention or kidney function."
+    ],
+    "workup": [
+      "Use ECG, renal function/electrolytes, CBC and cause-directed testing; echocardiography defines EF and structural disease.",
+      "Evaluate ischemia, thyroid disease, iron deficiency, sleep apnea or infiltrative/valvular disease when the presentation suggests them."
+    ],
+    "management": [
+      "For HFrEF, build evidence-based foundational therapy using complementary drug classes as tolerated rather than maximizing one class before initiating others.",
+      "For symptomatic HFnrEF with LVEF above 40%, use the current CCS/CHFS 2025 treatment algorithm and manage congestion/comorbidity aggressively.",
+      "Acute decompensation with pulmonary edema, shock, severe hypoxemia, ischemia or worsening renal/perfusion status requires hospital-level care."
+    ],
+    "medicationSafety": [
+      "Monitor renal function, potassium and BP during RAAS/ARNI/MRA titration; SGLT2 inhibitors require sick-day/peri-procedural counselling.",
+      "Do not start or aggressively titrate beta blockade in cardiogenic shock or severe unstable decompensation."
+    ],
+    "redFlags": [
+      "Pulmonary edema",
+      "Cardiogenic shock",
+      "New ischemia",
+      "Sustained ventricular arrhythmia",
+      "Rapid renal deterioration with poor perfusion"
+    ],
+    "counselling": [
+      "Teach daily symptom/weight awareness, sodium/medication considerations, when to seek urgent care and why feeling better on a diuretic does not replace disease-modifying therapy."
+    ],
+    "followUp": [
+      "Close the loop after hospitalization and after major medication changes; track volume status, BP, renal function, potassium, symptoms and adherence."
+    ],
+    "examTrap": "Calling preserved EF 'no heart failure' or treating congestion with diuretics while omitting disease-modifying therapy and precipitant review.",
+    "oneLinePearl": "Heart failure care starts with congestion/perfusion and then uses EF phenotype to choose long-term therapy.",
+    "sourceBasis": [
+      "CCS/CHFS Reduced EF Heart Failure guidance",
+      "CCS/CHFS HFnrEF Guideline 2025"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-atrial-fibrillation-rate-versus-rhythm-control-decisions",
+    "title": "Atrial Fibrillation: Stroke Prevention First, Then Rate or Rhythm Strategy",
+    "system": "Cardiovascular / Arrhythmia",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "AF management requires three linked decisions: is the patient unstable, does stroke prevention require anticoagulation, and is rate control or rhythm control the better symptom/outcome strategy. Do not let a normal heart rate distract from anticoagulation risk or use rhythm conversion without addressing thromboembolism context.",
+    "recognize": [
+      "AF produces an irregular atrial rhythm and may present with palpitations, dyspnea, exercise intolerance, chest discomfort, fatigue or no symptoms.",
+      "Hemodynamic instability, ischemia or pulmonary edema with AF changes the encounter from chronic management to an emergency rhythm pathway."
+    ],
+    "differentiate": [
+      "Sinus arrhythmia, frequent ectopy and atrial flutter can mimic an irregular pulse; obtain ECG confirmation.",
+      "Rate control and rhythm control are treatment strategies, not mutually exclusive lifetime labels; symptoms, duration, structural disease and patient preference influence choice."
+    ],
+    "assessment": [
+      "Assess onset/duration, symptoms, hemodynamics, heart failure, valve disease, thyroid/alcohol/sleep-apnea contributors, prior stroke/TIA, bleeding risk and renal function.",
+      "Review medication adherence and exact anticoagulant last dose when cardioversion is being considered."
+    ],
+    "workup": [
+      "Use 12-lead ECG, electrolytes/renal function and cause-directed thyroid/echo testing.",
+      "Use the current Canadian stroke-prevention algorithm and anticoagulant eligibility rather than relying on pulse control alone."
+    ],
+    "management": [
+      "Unstable AF requires urgent synchronized cardioversion/acute-care management.",
+      "Stable AF can use rate and/or rhythm-control therapy individualized to symptoms, heart failure, episode pattern, structural disease and patient preference.",
+      "Address anticoagulation independently using current Canadian AF/Thrombosis Canada guidance."
+    ],
+    "medicationSafety": [
+      "AV-nodal blockers can worsen hypotension/bradycardia and require caution in decompensated heart failure or pre-excitation scenarios.",
+      "DOAC dosing depends on the specific drug, renal function, age/weight criteria and interactions; INR is not used to titrate DOAC effect."
+    ],
+    "redFlags": [
+      "Hypotension/shock",
+      "Acute heart failure",
+      "Ongoing ischemia",
+      "Pre-excited AF/wide-complex irregular tachycardia",
+      "Stroke/TIA symptoms"
+    ],
+    "counselling": [
+      "Explain stroke prevention separately from symptom/rate control and review bleeding precautions, alcohol/sleep-apnea triggers and when recurrent symptoms require urgent care."
+    ],
+    "followUp": [
+      "Track symptom burden, rate/rhythm response, anticoagulant adherence/renal function and recurrence; revisit strategy when symptoms or ventricular function remain poor."
+    ],
+    "examTrap": "Stopping anticoagulation because sinus rhythm was restored or choosing cardioversion without considering AF duration and thromboembolic protection.",
+    "oneLinePearl": "AF has two risk problems: the rhythm and the clot—treat both deliberately.",
+    "sourceBasis": [
+      "Canadian Cardiovascular Society / Canadian Heart Rhythm Society Atrial Fibrillation guideline resources",
+      "Thrombosis Canada Stroke Prevention in Atrial Fibrillation"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-acute-coronary-syndrome-recognition-and-initial-management",
+    "title": "Acute Coronary Syndrome: Serial ECG and Troponin, Immediate Risk Decisions",
+    "system": "Cardiovascular / Acute Care",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.E Transition/Discharge/Documentation"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult",
+      "pregnancy"
+    ],
+    "acuity": "emergent",
+    "bottomLine": "Suspected ACS is a time-sensitive syndrome assessed with symptoms, serial ECG and serial high-sensitivity troponin in the appropriate pathway. Stabilize, identify STEMI/high-risk features, consider lethal mimics, and activate reperfusion/antithrombotic care rather than waiting for one normal early result.",
+    "recognize": [
+      "Pressure/heaviness, dyspnea, diaphoresis, nausea, epigastric discomfort or unexplained fatigue can be ischemic, and women/older adults/people with diabetes may present atypically.",
+      "A normal initial ECG or troponin does not exclude early ACS."
+    ],
+    "differentiate": [
+      "Aortic dissection, pulmonary embolism, tension pneumothorax, pericarditis and esophageal rupture are important dangerous alternatives.",
+      "Troponin elevation indicates myocardial injury; MI requires ischemic clinical evidence rather than the biomarker alone."
+    ],
+    "assessment": [
+      "Assess ABCs, hemodynamics, onset/character, recurrent pain, cardiovascular risk, bleeding risk, anticoagulants and stimulant use.",
+      "Look for pulse asymmetry, new murmur, heart failure, shock and alternative cardiopulmonary findings."
+    ],
+    "workup": [
+      "Obtain a 12-lead ECG promptly and repeat when symptoms evolve; use serial high-sensitivity troponin according to the local validated algorithm.",
+      "Select additional imaging/testing only for the clinical differential and do not delay reperfusion transfer for nonessential tests."
+    ],
+    "management": [
+      "Activate the emergency STEMI/reperfusion pathway when indicated and use antiplatelet/anticoagulant/anti-ischemic therapy according to the acute-care diagnosis and contraindications.",
+      "High-risk NSTEMI requires monitored acute-care/cardiology management; discharge decisions require a validated pathway rather than symptom resolution alone."
+    ],
+    "medicationSafety": [
+      "Nitrates can worsen hypotension and interact dangerously with recent PDE-5 inhibitor exposure; avoid routine oxygen in a normoxemic patient.",
+      "Do not give fibrinolysis when aortic dissection is suspected."
+    ],
+    "redFlags": [
+      "ST elevation/dynamic ischemic ECG",
+      "Shock",
+      "Recurrent refractory ischemia",
+      "Acute heart failure",
+      "Malignant arrhythmia",
+      "Suspected aortic dissection"
+    ],
+    "counselling": [
+      "Explain why emergency evaluation continues even if pain improves and ensure secondary-prevention transition planning after confirmed ACS."
+    ],
+    "followUp": [
+      "After ACS, close the loop on medication reconciliation, cardiac rehabilitation and the CCS secondary-prevention pathway."
+    ],
+    "examTrap": "Sending a concerning patient home after one normal early troponin or because chest pain resolved.",
+    "oneLinePearl": "ACS is a serial diagnosis; one normal snapshot is not the finish line.",
+    "sourceBasis": [
+      "Canadian Cardiovascular Society acute coronary syndrome resources",
+      "CCS Secondary Prevention Pathway 2025-2026"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-deep-vein-thrombosis-and-pulmonary-embolism-management",
+    "title": "DVT and PE: Probability, Confirmation, Anticoagulation, Disposition",
+    "system": "Cardiovascular / Thrombosis",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adult",
+      "pregnancy",
+      "postpartum",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "VTE management begins with clinical probability and appropriate confirmatory testing, then shifts to hemodynamic risk, bleeding risk and anticoagulant choice. D-dimer is a rule-out tool in selected patients, not proof of thrombosis or a severity marker after diagnosis.",
+    "recognize": [
+      "DVT may cause unilateral swelling/pain; PE may cause dyspnea, pleuritic pain, tachycardia, syncope or hypoxemia, but none is specific alone.",
+      "Cancer, prior VTE, immobility/surgery, estrogen/pregnancy, thrombophilia and major medical illness alter pretest probability."
+    ],
+    "differentiate": [
+      "Cellulitis, ruptured Baker cyst and venous insufficiency can mimic DVT; ACS, pneumonia, pneumothorax and heart failure can mimic PE.",
+      "Pregnancy/postpartum requires pregnancy-appropriate diagnostic and anticoagulation pathways."
+    ],
+    "assessment": [
+      "Assess hemodynamics, oxygenation, bleeding risk, renal/hepatic function, pregnancy, cancer, medication interactions, prior VTE and provoking factors."
+    ],
+    "workup": [
+      "Use validated probability plus D-dimer and compression ultrasound/CT pulmonary angiography as appropriate.",
+      "Once PE is diagnosed, assess hemodynamic/RV risk and social factors that determine outpatient versus monitored/hospital care."
+    ],
+    "management": [
+      "Start therapeutic anticoagulation when indicated and safe, using a drug/regimen appropriate to pregnancy, kidney function, cancer, interactions and adherence.",
+      "High-risk PE with shock/hypotension requires emergency reperfusion evaluation; stable low-risk VTE may be managed outpatient after structured assessment."
+    ],
+    "medicationSafety": [
+      "Warfarin uses INR monitoring; DOACs do not use INR to measure routine therapeutic effect but require renal function, bleeding and interaction follow-up.",
+      "Major bleeding or urgent surgery requires drug-specific reversal/holding decisions based on the anticoagulant and timing."
+    ],
+    "redFlags": [
+      "Shock/hypotension",
+      "Escalating hypoxemia",
+      "Limb-threatening phlegmasia",
+      "Major bleeding",
+      "Recurrent thrombosis despite therapy"
+    ],
+    "counselling": [
+      "Teach adherence, bleeding precautions, recurrence symptoms and medication/interacting-drug considerations."
+    ],
+    "followUp": [
+      "Define treatment duration from provoking factors, recurrence risk and bleeding risk; reassess persistent dyspnea or leg symptoms when post-thrombotic/CTEPH complications are plausible."
+    ],
+    "examTrap": "Ordering a D-dimer after high-probability VTE or treating an elevated D-dimer as the diagnosis itself.",
+    "oneLinePearl": "Probability decides the diagnostic path; stability and bleeding risk decide treatment intensity.",
+    "sourceBasis": [
+      "Thrombosis Canada DVT and PE clinical guides"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-hyperlipidemia-statin-selection-and-monitoring",
+    "title": "Dyslipidemia: Match Lipid Therapy to Absolute Cardiovascular Risk",
+    "system": "Cardiovascular / Prevention",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Lipid therapy is risk-based. Identify secondary-prevention disease and statin-indicated high-risk conditions first, then use Canadian risk assessment and lipid thresholds to decide treatment and intensification. A modest LDL value does not make a high-risk patient low risk, and a high LDL result does not remove the need to assess the whole patient.",
+    "recognize": [
+      "Established ASCVD generally warrants high-intensity or maximally tolerated statin-based secondary prevention.",
+      "Very high LDL-C/familial hypercholesterolemia, diabetes, CKD and other high-risk states can create a statin indication independent of a low short-term risk score."
+    ],
+    "differentiate": [
+      "Primary prevention requires global risk and risk modifiers; secondary prevention has a much lower threshold for intensive therapy.",
+      "Reported statin-associated muscle symptoms require evaluation/rechallenge strategy rather than automatic lifelong 'statin allergy' labeling."
+    ],
+    "assessment": [
+      "Assess prior ASCVD, smoking, BP, diabetes, CKD, premature family history, pregnancy plans, medication interactions, muscle/liver symptoms and adherence/access."
+    ],
+    "workup": [
+      "Use the current CCS lipid profile/risk framework; assess secondary causes when the pattern is severe or unexpected.",
+      "CK or liver tests are obtained when clinically indicated rather than as indiscriminate frequent surveillance in every stable patient."
+    ],
+    "management": [
+      "Use high-intensity or maximally tolerated statin therapy for secondary prevention and intensify with evidence-based nonstatin therapy when current CCS thresholds/benefit criteria are met.",
+      "For primary prevention, align statin therapy with calculated risk, statin-indicated conditions, patient preference and expected absolute benefit."
+    ],
+    "medicationSafety": [
+      "Review major interacting drugs and clinically significant unexplained muscle or hepatic symptoms.",
+      "Pregnancy/planning pregnancy requires medication-specific review and usually interruption of standard statin therapy unless specialist circumstances dictate otherwise."
+    ],
+    "redFlags": [
+      "Possible familial hypercholesterolemia",
+      "Severe hypertriglyceridemia with pancreatitis symptoms",
+      "Marked muscle weakness/dark urine after therapy",
+      "Premature/recurrent ASCVD despite treatment"
+    ],
+    "counselling": [
+      "Explain absolute risk reduction and why therapy may be indicated even when the LDL number does not look dramatic."
+    ],
+    "followUp": [
+      "Repeat lipids after initiation/intensification to assess response and adherence, then at clinically useful intervals."
+    ],
+    "examTrap": "Withholding a statin because LDL-C is only mildly elevated in a patient with established ASCVD.",
+    "oneLinePearl": "Treat vascular risk, then use the lipid panel to refine intensity.",
+    "sourceBasis": [
+      "Canadian Cardiovascular Society Dyslipidemia Guideline 2021",
+      "CCS Secondary Prevention Pathway 2025-2026"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-syncope-differential-diagnosis-and-workup",
+    "title": "Syncope: Identify Cardiac Risk Before Calling It Vasovagal",
+    "system": "Cardiovascular / Neurologic",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Syncope is transient loss of consciousness from global cerebral hypoperfusion. The NP priority is to identify cardiac, hemorrhagic, thromboembolic and other dangerous causes before assigning a benign reflex or orthostatic explanation.",
+    "recognize": [
+      "Vasovagal syncope often has a trigger/prodrome and rapid recovery; exertional syncope, abnormal ECG, structural heart disease or family history of sudden death raises cardiac risk.",
+      "Older adults may have multifactorial syncope from medications, orthostasis, arrhythmia or structural disease."
+    ],
+    "differentiate": [
+      "Seizure usually has a different recovery pattern and may include prolonged postictal confusion; hypoglycemia and intoxication can mimic syncope.",
+      "Falls without true loss of consciousness should not automatically be labelled syncope."
+    ],
+    "assessment": [
+      "Obtain event/witness history, orthostatic vitals when safe, cardiac and neurologic examination, medication review, bleeding assessment and pregnancy status when relevant.",
+      "Ask specifically about exertion, chest pain, dyspnea, palpitations and family sudden death."
+    ],
+    "workup": [
+      "ECG is core testing; additional rhythm monitoring, CBC, glucose, electrolytes, pregnancy testing or imaging is presentation-driven.",
+      "Routine neuroimaging or EEG is low-value in uncomplicated syncope without focal neurologic or seizure features."
+    ],
+    "management": [
+      "Urgently evaluate high-risk cardiac, hemorrhagic or thromboembolic features; manage clear reflex/orthostatic causes with trigger, hydration and medication strategies when appropriate.",
+      "Unexplained recurrent or high-risk syncope warrants cardiology/rhythm evaluation."
+    ],
+    "medicationSafety": [
+      "Antihypertensives, diuretics, nitrates, alpha blockers and QT-prolonging drugs can contribute and should be reviewed rather than reflexively continued unchanged."
+    ],
+    "redFlags": [
+      "Exertional syncope",
+      "Abnormal ECG",
+      "Structural heart disease",
+      "Chest pain/dyspnea",
+      "Major bleeding",
+      "Family history of sudden unexplained death"
+    ],
+    "counselling": [
+      "Discuss driving/work restrictions according to cause and current Canadian jurisdictional/CCS guidance rather than a universal interval."
+    ],
+    "followUp": [
+      "Close the loop on rhythm monitoring and specialist testing; reassess if the pattern changes."
+    ],
+    "examTrap": "Ordering routine CT head for uncomplicated syncope while missing exertional or ECG red flags.",
+    "oneLinePearl": "Syncope plus exertion or an abnormal ECG is cardiac until proven otherwise.",
+    "sourceBasis": [
+      "Canadian Cardiovascular Society Syncope Clinical Practice Update",
+      "CCS Fitness to Drive Guideline 2023/2024"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-pericarditis-and-myocarditis-diagnosis",
+    "title": "Pericarditis and Myocarditis: Chest Pain Beyond Coronary Ischemia",
+    "system": "Cardiovascular / Inflammatory",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Pericarditis and myocarditis can mimic ACS but carry different complications. Diagnose from the whole syndrome—pain pattern, ECG, biomarkers, ventricular function, inflammatory/infectious context—and look first for tamponade, malignant arrhythmia, heart failure or hemodynamic compromise.",
+    "recognize": [
+      "Pericarditis often causes pleuritic/positional chest pain and diffuse inflammatory ECG changes; myocarditis may present with chest pain, troponin elevation, arrhythmia or new ventricular dysfunction after infection or immune exposure.",
+      "Myopericarditis/perimyocarditis overlap exists and requires ventricular-function assessment."
+    ],
+    "differentiate": [
+      "Regional ischemic changes and a coronary symptom pattern favour ACS; tamponade physiology changes a pericardial effusion from a finding into an emergency.",
+      "Troponin elevation alone cannot distinguish myocarditis from MI."
+    ],
+    "assessment": [
+      "Assess recent infection, autoimmune disease, medication/immune therapy, pregnancy, hemodynamics, JVP, heart sounds, edema and arrhythmic symptoms."
+    ],
+    "workup": [
+      "Use ECG, troponin, inflammatory markers and echocardiography; cardiac MRI or specialty testing is selected according to severity and diagnostic uncertainty.",
+      "Do not delay ACS evaluation when ischemia remains plausible."
+    ],
+    "management": [
+      "Treat uncomplicated pericarditis according to current evidence and specialist/local pathways; myocarditis with ventricular dysfunction/arrhythmia requires cardiology follow-up and activity restriction.",
+      "Tamponade, shock, sustained arrhythmia or severe heart failure requires emergency care."
+    ],
+    "medicationSafety": [
+      "NSAID/colchicine use depends on renal/GI/pregnancy context and diagnosis; anticoagulation decisions require caution with significant pericardial disease/bleeding risk.",
+      "Avoid strenuous exercise during active myocarditis until specialist clearance."
+    ],
+    "redFlags": [
+      "Tamponade physiology",
+      "Sustained ventricular arrhythmia",
+      "Syncope",
+      "New significant ventricular dysfunction",
+      "Cardiogenic shock"
+    ],
+    "counselling": [
+      "Explain activity restriction and why recurrent chest pain after a viral illness still requires reassessment when dyspnea, syncope or palpitations appear."
+    ],
+    "followUp": [
+      "Track symptoms, ventricular function, rhythm and inflammatory course; refer persistent/recurrent disease or uncertain etiology."
+    ],
+    "examTrap": "Calling every troponin-positive viral chest-pain syndrome MI—or reassuring a pericardial effusion without checking hemodynamics.",
+    "oneLinePearl": "Inflammatory chest pain is diagnosed by pattern, but instability is managed before the label.",
+    "sourceBasis": [
+      "Canadian cardiovascular myocarditis/pericarditis practice resources",
+      "Canadian Cardiovascular Society guideline library"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-hypertensive-urgency-versus-emergency-decision-making",
+    "title": "Severe Blood Pressure: Target-Organ Injury Defines the Emergency",
+    "system": "Cardiovascular / Acute Care",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adult",
+      "pregnancy",
+      "postpartum",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Hypertensive emergency is severe blood-pressure elevation with acute target-organ injury. The number alone does not define the emergency; neurologic, cardiac, vascular, renal, retinal or pregnancy-related injury does.",
+    "recognize": [
+      "Concerning presentations include focal deficit, encephalopathy, seizure, pulmonary edema, ischemic chest pain, tearing chest/back pain, acute kidney injury, visual loss and pregnancy/postpartum severe features.",
+      "Pain, anxiety, missed medication and measurement error can produce marked BP elevation without acute organ injury."
+    ],
+    "differentiate": [
+      "Severe asymptomatic hypertension generally needs confirmation, medication review and timely oral management—not rapid IV normalization.",
+      "Pregnancy/postpartum hypertension has syndrome-specific thresholds and drugs and should use the obstetric emergency pathway."
+    ],
+    "assessment": [
+      "Repeat BP correctly; assess mental status, focal neurology, cardiopulmonary status, volume/perfusion, pregnancy/postpartum state, stimulant/cocaine exposure and abrupt medication withdrawal."
+    ],
+    "workup": [
+      "Tailor ECG/troponin, creatinine/electrolytes, urinalysis, fundoscopy and imaging to suspected organ injury; avoid the same broad panel for every asymptomatic high reading."
+    ],
+    "management": [
+      "Emergency organ injury requires ED/hospital management with syndrome-specific controlled BP reduction.",
+      "Without acute injury, address triggers, restart/intensify appropriate oral therapy and arrange close follow-up while avoiding precipitous reduction."
+    ],
+    "medicationSafety": [
+      "Rapid overcorrection can cause cerebral, coronary or renal hypoperfusion in chronically hypertensive patients."
+    ],
+    "redFlags": [
+      "Encephalopathy/focal deficit",
+      "Pulmonary edema",
+      "ACS",
+      "Aortic dissection",
+      "AKI",
+      "Pregnancy/postpartum severe hypertension"
+    ],
+    "counselling": [
+      "Explain the difference between a dangerous number with organ injury and a high reading that still needs prompt but controlled outpatient treatment."
+    ],
+    "followUp": [
+      "Severe asymptomatic hypertension needs prompt reassessment and medication/access review."
+    ],
+    "examTrap": "Rapidly normalizing BP solely because the reading is high in an otherwise asymptomatic patient.",
+    "oneLinePearl": "Treat the organ injury, not panic generated by the number.",
+    "sourceBasis": [
+      "Hypertension Canada 2025 Primary Care Guideline",
+      "Canadian acute-care hypertension practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-cardiac-biomarker-interpretation-in-acute-settings",
+    "title": "Cardiac Biomarkers: Injury, Congestion, and Trend in Clinical Context",
+    "system": "Cardiovascular / Diagnostics",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "urgent",
+    "bottomLine": "Cardiac biomarkers answer different questions. High-sensitivity troponin detects myocardial injury and requires serial/ischemic context to diagnose MI; BNP/NT-proBNP supports heart-failure probability/risk but is modified by age, renal function, obesity and AF. Biomarkers never replace the bedside syndrome.",
+    "recognize": [
+      "A rise/fall in troponin supports acute injury but sepsis, PE, myocarditis, tachyarrhythmia and renal disease can elevate troponin without type-1 MI.",
+      "BNP/NT-proBNP may rise with ventricular wall stress and support HF diagnosis/risk, but false reassurance/elevation occurs in important contexts."
+    ],
+    "differentiate": [
+      "Myocardial injury is not synonymous with myocardial infarction; MI requires ischemic evidence.",
+      "CK-MB is generally not preferred when modern troponin testing is available."
+    ],
+    "assessment": [
+      "Interpret biomarkers with symptom timing, ECG, hemodynamics, renal function, arrhythmia, PE/sepsis/myocarditis risk and prior values."
+    ],
+    "workup": [
+      "Use the local validated high-sensitivity troponin serial algorithm; pair natriuretic peptides with imaging/examination when HF is suspected.",
+      "Avoid serial biomarker testing when the result will not change the clinical decision."
+    ],
+    "management": [
+      "Treat the clinical syndrome causing myocardial injury or congestion; activate ACS/HF/PE/sepsis/myocarditis pathways according to the evidence rather than the laboratory label alone."
+    ],
+    "medicationSafety": [
+      "Do not give antithrombotic ACS therapy merely because troponin is elevated without ischemic evidence; balance bleeding risk and the true diagnosis."
+    ],
+    "redFlags": [
+      "Dynamic troponin with ischemic ECG/symptoms",
+      "Shock",
+      "Acute HF",
+      "Serious arrhythmia",
+      "Rapid biomarker rise with clinical deterioration"
+    ],
+    "counselling": [
+      "Explain that an abnormal troponin means heart-muscle injury occurred, but additional evidence determines the cause."
+    ],
+    "followUp": [
+      "Ensure abnormal biomarkers are assigned to a diagnosis/workup and not simply copied forward as 'elevated'."
+    ],
+    "examTrap": "Calling every elevated troponin an acute coronary thrombosis or using BNP alone to diagnose heart failure.",
+    "oneLinePearl": "Troponin tells you injury; the ECG, symptoms and physiology tell you why.",
+    "sourceBasis": [
+      "Canadian Cardiovascular Society ACS and heart-failure resources",
+      "Canadian laboratory/cardiology practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-ecg-interpretation-for-advanced-practice",
+    "title": "ECG Interpretation: Rate, Rhythm, Axis, Intervals, Morphology, Clinical Risk",
+    "system": "Cardiovascular / Diagnostics",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Advanced-practice ECG interpretation is systematic and clinical. Confirm technical quality, then assess rate, rhythm, axis, intervals and QRS/ST-T morphology; immediately escalate ischemia, high-grade block, pre-excitation, dangerous QT patterns and unstable wide-complex rhythms rather than chasing every minor automated interpretation.",
+    "recognize": [
+      "ECG interpretation should be reproducible: rhythm/atrial activity, AV conduction, QRS width/morphology, repolarization and comparison with prior tracings.",
+      "Automated ECG statements are aids, not diagnoses, and are particularly unreliable for artifacts, paced rhythms and some ischemic/arrhythmic patterns."
+    ],
+    "differentiate": [
+      "Sinus tachycardia is a physiologic response until a primary tachyarrhythmia is documented.",
+      "Wide-complex tachycardia should be treated as ventricular until appropriately evaluated; ST elevation has ischemic and nonischemic mimics."
+    ],
+    "assessment": [
+      "Tie the ECG to symptoms, hemodynamics, electrolyte/drug exposure, prior ECG, structural disease and syncope/family history."
+    ],
+    "workup": [
+      "Repeat ECG with correct lead placement when artifact or evolution is possible; use serial ECG/troponin, electrolytes, echo or rhythm monitoring when the clinical question requires it."
+    ],
+    "management": [
+      "Escalate ECG evidence of STEMI, unstable tachy/bradyarrhythmia, high-grade block or severe QT/electrolyte risk using the appropriate acute pathway.",
+      "Stable incidental abnormalities should trigger cause-directed follow-up rather than reflex emergency treatment."
+    ],
+    "medicationSafety": [
+      "Review QT-prolonging and rate-slowing drugs when conduction/repolarization abnormalities appear; correct clinically important electrolyte contributors."
+    ],
+    "redFlags": [
+      "STEMI/dynamic ischemia",
+      "High-grade AV block with symptoms",
+      "Sustained wide-complex tachycardia",
+      "Pre-excited AF",
+      "Marked QT prolongation with syncope",
+      "Brugada/inherited-arrhythmia concern"
+    ],
+    "counselling": [
+      "Explain important ECG findings in relation to symptoms and risk rather than alarming patients with every nonspecific automated phrase."
+    ],
+    "followUp": [
+      "Compare with prior tracings and close the loop on rhythm monitoring/cardiology when syncope, inherited risk or unexplained abnormalities persist."
+    ],
+    "examTrap": "Accepting the machine interpretation without checking rhythm, QRS width, ST-T morphology and clinical context.",
+    "oneLinePearl": "Read the ECG in the same order every time, then ask what finding changes the patient's risk today.",
+    "sourceBasis": [
+      "Canadian Cardiovascular Society arrhythmia/AF/syncope resources",
+      "Canadian ECG clinical practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-device-therapy-indications-pacemakers-and-icds",
+    "title": "Pacemakers and ICDs: Treat Bradycardia, Prevent Sudden Death, Verify the Indication",
+    "system": "Cardiovascular / Electrophysiology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Pacemakers and ICDs solve different problems. Pacemakers treat clinically important bradyarrhythmia/conduction disease; ICDs terminate life-threatening ventricular arrhythmias or reduce sudden-death risk in selected high-risk patients. Device referral follows symptoms, rhythm/EF phenotype and optimized medical therapy—not the presence of one ECG abnormality.",
+    "recognize": [
+      "Symptomatic high-grade AV block or significant sinus-node dysfunction may require pacing; isolated asymptomatic first-degree or bundle-branch findings often do not.",
+      "ICD consideration depends on documented ventricular arrhythmia or persistent sudden-death risk after the applicable disease/medical-therapy assessment."
+    ],
+    "differentiate": [
+      "A pacemaker does not provide the same ventricular-tachyarrhythmia protection as an ICD; CRT is a resynchronization therapy for selected ventricular-conduction/HF phenotypes.",
+      "Syncope in a patient with conduction disease requires cause assessment rather than automatic reassurance after one normal ECG."
+    ],
+    "assessment": [
+      "Assess syncope/presyncope, rhythm documentation, structural heart disease, EF, heart-failure status, reversible causes, life expectancy/goals and medication contributors."
+    ],
+    "workup": [
+      "Use ECG/rhythm monitoring and echocardiography as appropriate; reassess LVEF after guideline-directed HFrEF therapy before primary-prevention ICD referral when the CCS pathway calls for it."
+    ],
+    "management": [
+      "Refer symptomatic/high-risk conduction disease promptly for pacing assessment and ventricular-arrhythmia/high-risk cardiomyopathy/HFrEF for ICD/CRT assessment according to CCS criteria.",
+      "After implantation, ensure device-clinic/remote monitoring and evaluate shocks, syncope and pocket/infection complications."
+    ],
+    "medicationSafety": [
+      "Do not use pacing as a substitute for correcting reversible drug/electrolyte causes of bradycardia when safe to do so.",
+      "Multiple ICD shocks, ongoing syncope or electrical storm is an emergency."
+    ],
+    "redFlags": [
+      "High-grade block with syncope",
+      "Sustained VT/VF",
+      "Multiple ICD shocks",
+      "Device infection/pocket erosion",
+      "New syncope in a device patient"
+    ],
+    "counselling": [
+      "Explain the purpose of the device, shock plan, wound/pocket warnings and current CCS/provincial driving restrictions based on diagnosis and events."
+    ],
+    "followUp": [
+      "Ensure device interrogation/remote follow-up and reassess underlying HF/arrhythmia therapy rather than treating the implant as the end of care."
+    ],
+    "examTrap": "Referring for an ICD solely because EF was low before adequate HFrEF therapy was established or assuming every conduction abnormality requires a pacemaker.",
+    "oneLinePearl": "Pacing treats clinically important bradycardia; ICD therapy treats or prevents lethal ventricular rhythm risk.",
+    "sourceBasis": [
+      "CCS/CHFS HFrEF 2021 ICD/CRT referral guidance",
+      "CCS Fitness to Drive 2023 rhythm/device guidance"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  }
+]

@@ -1,0 +1,1427 @@
+[
+  {
+    "id": "np-np-scope-of-practice-and-regulation",
+    "title": "NP Scope of Practice: Know the Authority, Limit, and Escalation Point",
+    "system": "Professional Practice / Regulation",
+    "blueprintDomains": [
+      "I.C Management",
+      "III Leader",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Canadian NP practice authority is defined by provincial or territorial legislation, regulator standards, controlled acts/restricted activities, employer policy and individual competence. Before acting, confirm that the activity is authorized, within personal competence and supported by the practice setting; consult or refer when the patient's needs exceed any of those boundaries.",
+    "recognize": [
+      "NP authority can differ across jurisdictions and settings even when the clinical skill is similar.",
+      "Competence is narrower than legal authorization: being legally permitted to perform an activity does not mean every NP is individually competent to do it."
+    ],
+    "differentiate": [
+      "Scope of practice is not identical to job description, delegation, local privilege or employer policy.",
+      "A learner should not import a US NP board rule into a Canadian jurisdictional question."
+    ],
+    "assessment": [
+      "Identify the jurisdiction, practice setting, patient need, urgency, relevant legislation/standard and the NP's current competence/privileges."
+    ],
+    "workup": [
+      "Check the applicable regulator, provincial/territorial legislation and organizational policy when scope is uncertain; document consultation where clinically relevant."
+    ],
+    "management": [
+      "Proceed when authority, competence and setting align; otherwise stabilize urgent needs, consult/refer and ensure continuity rather than abandoning care."
+    ],
+    "medicationSafety": [
+      "Prescribing authority is a subset of scope and must also satisfy drug-specific federal/provincial restrictions and monitoring standards."
+    ],
+    "redFlags": [
+      "Performing an activity outside legislated authority",
+      "Proceeding despite insufficient competence",
+      "Emergency stabilization delayed because of uncertainty about routine scope",
+      "Employer policy more restrictive than legal scope and not reconciled"
+    ],
+    "counselling": [
+      "Explain referrals/consultation as part of safe team-based care, not as a failure of NP practice."
+    ],
+    "followUp": [
+      "Close the loop on consulted/referral plans and update competence/privilege gaps before future independent performance."
+    ],
+    "examTrap": "Assuming that because an NP in another province or country can perform an activity, the same authority automatically applies in the current Canadian jurisdiction.",
+    "oneLinePearl": "Safe NP scope is the intersection of law, regulator, setting and competence.",
+    "sourceBasis": [
+      "Canadian provincial/territorial NP regulation and regulator standards",
+      "CNPLE entry-level NP competencies"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-prescriptive-authority-and-regulations",
+    "title": "Prescriptive Authority: Clinical Need Plus Legal Authority Plus Monitoring",
+    "system": "Professional Practice / Pharmacology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "III Leader"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "routine",
+    "bottomLine": "A prescription is valid only when the NP has authority to prescribe that drug in the jurisdiction, has an appropriate therapeutic relationship and indication, checks contraindications/interactions/monitoring needs, documents the rationale and arranges follow-up. Prescribing authority is not a blanket permission detached from clinical assessment.",
+    "recognize": [
+      "Federal drug law, provincial/territorial legislation, regulator standards and local formularies/policies can all affect prescribing.",
+      "Virtual care does not remove identity, assessment, monitoring or documentation obligations."
+    ],
+    "differentiate": [
+      "A drug being marketed in Canada does not automatically mean every NP can prescribe it in every setting.",
+      "Renewal/refill is still a prescribing decision that requires enough information to determine ongoing benefit and safety."
+    ],
+    "assessment": [
+      "Confirm diagnosis/indication, allergies, pregnancy potential, kidney/liver function when relevant, medication reconciliation, interactions, prior response, access/cost and monitoring capacity."
+    ],
+    "workup": [
+      "Use current Canadian monographs/guidelines and jurisdictional regulator resources for restrictions or required monitoring."
+    ],
+    "management": [
+      "Choose an evidence-based therapy, dose/route/duration and monitoring plan individualized to the patient and scope."
+    ],
+    "medicationSafety": [
+      "Avoid prescribing for self/family or in other boundary-risk situations except where narrowly permitted and clinically justified by the regulator's standards.",
+      "High-risk medications require explicit follow-up and risk mitigation."
+    ],
+    "redFlags": [
+      "No clinical indication",
+      "Serious interaction/contraindication",
+      "Required monitoring unavailable",
+      "Drug outside NP authority",
+      "Prescription request for a patient not appropriately assessed"
+    ],
+    "counselling": [
+      "Explain expected benefit, key harms, alternatives, monitoring and when to seek urgent care."
+    ],
+    "followUp": [
+      "Review effectiveness, adherence, adverse effects and required labs/measurements before continuing long-term therapy."
+    ],
+    "examTrap": "Treating prescriptive authority as permission to renew any medication without reassessing indication, safety or monitoring.",
+    "oneLinePearl": "Prescribing requires authority, indication, safety checks and ownership of follow-up.",
+    "sourceBasis": [
+      "Provincial/territorial NP prescribing standards",
+      "Health Canada drug and controlled-substance regulation"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-controlled-substance-registration",
+    "title": "Controlled Substances: Federal Rules Plus Provincial NP Scope",
+    "system": "Professional Practice / Pharmacology / Law",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "III Leader"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Canadian controlled-substance prescribing is governed by the Controlled Drugs and Substances Act framework and federal regulations/exemptions together with provincial or territorial NP authority and regulator policy. The current class-exemption framework is transitional: new federal Controlled Substances Regulations take effect October 1, 2026, so learners must use the current law rather than memorizing a temporary rule as permanent.",
+    "recognize": [
+      "NP controlled-substance authority depends on being authorized within the province or territory and complying with applicable federal requirements.",
+      "Record keeping, therapeutic relationship, indication and diversion/overdose risk remain part of safe prescribing regardless of the specific federal mechanism in force."
+    ],
+    "differentiate": [
+      "Canada does not use the US DEA-registration model for NP prescribing; importing that framework is incorrect.",
+      "Federal permission does not override a provincial regulator or employer restriction."
+    ],
+    "assessment": [
+      "Assess indication, substance-use/overdose risk, prior therapy, interactions, monitoring, pregnancy where relevant, prescription history and the patient's functional goals."
+    ],
+    "workup": [
+      "Verify the current Health Canada controlled-substance rules and the applicable provincial/territorial NP prescribing standard before relying on a specific exemption or prescribing process."
+    ],
+    "management": [
+      "Use the lowest-risk effective strategy, document rationale and monitoring, and integrate non-drug/supportive treatment when appropriate."
+    ],
+    "medicationSafety": [
+      "Avoid unsafe sedative combinations and check controlled-substance prescription monitoring/dispensing information where available and permitted.",
+      "Do not rely on an exemption after its effective period or apply a rule from another jurisdiction."
+    ],
+    "redFlags": [
+      "Suspected diversion",
+      "High overdose risk",
+      "Concurrent opioid/benzodiazepine or other dangerous sedative exposure",
+      "Prescribing outside current authority",
+      "Acute intoxication/withdrawal requiring emergency care"
+    ],
+    "counselling": [
+      "Discuss storage, sharing, impairment, overdose prevention and safe disposal without stigmatizing the patient."
+    ],
+    "followUp": [
+      "Reassess function, harms, adherence and ongoing indication at defined intervals; use current law at every regulatory transition."
+    ],
+    "examTrap": "Choosing a US DEA-registration rule—or a now-expired Canadian temporary exemption—as the basis for a CNPLE controlled-substance question.",
+    "oneLinePearl": "Controlled-substance prescribing in Canada = current federal law + provincial NP authority + clinical safety.",
+    "sourceBasis": [
+      "Health Canada Controlled Drugs and Substances Act resources",
+      "Health Canada Controlled Substances Regulations transition effective October 1, 2026",
+      "Provincial/territorial NP regulator standards"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-malpractice-and-liability",
+    "title": "Professional Liability: Standard of Care, Documentation, and Safe Systems",
+    "system": "Professional Practice / Law / Quality",
+    "blueprintDomains": [
+      "III Leader",
+      "II Quality Improvement and Research/Scholar",
+      "I.E Transition/Discharge/Documentation"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Professional liability risk is reduced by practicing within scope and competence, meeting the applicable standard of care, obtaining informed consent, documenting clinical reasoning, communicating critical results, closing referrals/follow-up and addressing unsafe systems. Defensive overtesting is not a substitute for good care.",
+    "recognize": [
+      "Common liability failures include missed follow-up, poor documentation, inadequate consent, failure to escalate deterioration and practising outside competence.",
+      "Team-based care does not eliminate individual accountability for the actions and follow-up the NP owns."
+    ],
+    "differentiate": [
+      "A poor outcome does not automatically mean negligence; liability depends on duty, standard, breach, causation and harm under the applicable law.",
+      "Documentation should record clinical reasoning and actions, not be altered retrospectively to create a different story."
+    ],
+    "assessment": [
+      "Identify what information, decision, communication or follow-up responsibility the NP owns in the current encounter."
+    ],
+    "workup": [
+      "Use regulator/employer risk resources and obtain legal/professional advice when a significant adverse event or complaint requires it."
+    ],
+    "management": [
+      "Address patient safety first, disclose/escalate adverse events according to law/policy, preserve accurate records and participate in quality improvement."
+    ],
+    "medicationSafety": [
+      "Medication reconciliation, interaction checking, monitoring and clear prescribing documentation are core liability safeguards."
+    ],
+    "redFlags": [
+      "Critical result with no assigned owner",
+      "Patient deterioration not escalated",
+      "Retrospective record alteration",
+      "Practice outside competence/scope",
+      "Known system hazard left unaddressed"
+    ],
+    "counselling": [
+      "Communicate uncertainty, follow-up plans and return precautions clearly rather than offering false reassurance."
+    ],
+    "followUp": [
+      "Close all pending tests/referrals and document significant communication and escalation."
+    ],
+    "examTrap": "Ordering unnecessary tests purely to reduce liability instead of using evidence-based care and reliable follow-up systems.",
+    "oneLinePearl": "Liability protection is good clinical process: safe scope, sound reasoning, clear records and closed loops.",
+    "sourceBasis": [
+      "Canadian NP regulator professional standards",
+      "Canadian professional liability and patient-safety principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-informed-consent",
+    "title": "Informed Consent: Capacity, Information, Voluntariness, and the Right to Refuse",
+    "system": "Professional Practice / Ethics / Law",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.D Counselling",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Valid consent requires decision-making capacity for the specific decision, adequate information about material benefits/risks/alternatives, voluntariness and opportunity to ask questions. Capacity is decision-specific and may fluctuate; a capable patient can refuse recommended care even when the clinician disagrees.",
+    "recognize": [
+      "Consent can be express or implied depending on the intervention, but higher-risk/invasive decisions require more explicit informed discussion/documentation.",
+      "Capacity is not determined by diagnosis, age alone or whether the patient makes the clinician's preferred choice."
+    ],
+    "differentiate": [
+      "Capacity is a clinical/legal decision concept; competency is often a court/legal term depending on jurisdiction.",
+      "Substitute decision-making applies only when the patient lacks capacity for the relevant decision and follows jurisdiction-specific hierarchy/rules."
+    ],
+    "assessment": [
+      "Assess whether the patient understands relevant information, appreciates foreseeable consequences, communicates a choice and is free from coercion; address language/hearing/cognitive barriers."
+    ],
+    "workup": [
+      "Use professional interpretation and formal capacity/legal processes when the situation is complex or disputed."
+    ],
+    "management": [
+      "Provide information at the patient's level, correct reversible causes of impaired capacity, respect refusal by a capable patient and use emergency exceptions only when legally justified."
+    ],
+    "medicationSafety": [
+      "Medication decisions require discussion of material risks and alternatives proportionate to the treatment's seriousness."
+    ],
+    "redFlags": [
+      "Coercion",
+      "Delirium/intoxication affecting capacity",
+      "Family attempting to override a capable patient's choice",
+      "Urgent life-threatening need with no available decision-maker"
+    ],
+    "counselling": [
+      "Use teach-back and document the patient's questions, values and decision—not merely 'consent obtained'."
+    ],
+    "followUp": [
+      "Reassess capacity when the condition changes and revisit consent when the treatment plan materially changes."
+    ],
+    "examTrap": "Assuming an older adult with dementia diagnosis automatically lacks capacity for every decision.",
+    "oneLinePearl": "Consent is a process: capacity + information + voluntariness + choice.",
+    "sourceBasis": [
+      "Canadian provincial/territorial consent legislation",
+      "Canadian nursing regulator consent standards"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-confidentiality-and-hipaa",
+    "title": "Privacy and Confidentiality: Use Canadian Law, Not HIPAA",
+    "system": "Professional Practice / Privacy / Law",
+    "blueprintDomains": [
+      "I.E Transition/Discharge/Documentation",
+      "III Leader",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "routine",
+    "bottomLine": "For CNPLE, confidentiality and health-information privacy are governed by Canadian federal/provincial/territorial law, regulator standards and organizational policy—not HIPAA. Access, use and disclosure should be limited to legitimate care/legal purposes, and exceptions to confidentiality must be grounded in the applicable law or a serious safety/public-interest duty.",
+    "recognize": [
+      "Canadian privacy requirements vary by province/territory and by health-sector/federal context.",
+      "Being a health professional does not grant unrestricted access to any chart; access must relate to a legitimate role/purpose."
+    ],
+    "differentiate": [
+      "HIPAA is a US law and is not the governing privacy statute for Canadian NP practice.",
+      "Confidentiality is not absolute: mandatory reporting, court/legal authority or serious imminent safety concerns can create lawful disclosure duties/permissions."
+    ],
+    "assessment": [
+      "Identify who is requesting information, why, the patient's consent/preferences, the minimum necessary information and the applicable jurisdiction/policy."
+    ],
+    "workup": [
+      "Consult privacy officer/regulator/legal resources when the disclosure authority is unclear or high stakes."
+    ],
+    "management": [
+      "Use secure communication/documentation, verify recipient identity, disclose only what is authorized/necessary and document significant non-routine disclosures."
+    ],
+    "medicationSafety": [
+      "Protect sensitive medication/substance-use/reproductive/mental-health information according to the applicable privacy framework without blocking clinically necessary information sharing."
+    ],
+    "redFlags": [
+      "Unauthorized chart access",
+      "Sending information to an unverified recipient",
+      "Posting patient information on social media",
+      "Withholding mandatory safety/public-health reporting because 'everything is confidential'"
+    ],
+    "counselling": [
+      "Explain privacy limits transparently, especially when mandatory reporting or serious-harm exceptions may apply."
+    ],
+    "followUp": [
+      "Report privacy incidents through organizational/regulatory processes and mitigate harm promptly."
+    ],
+    "examTrap": "Selecting HIPAA as the governing privacy law in a Canadian CNPLE scenario.",
+    "oneLinePearl": "Canadian NP privacy questions start with jurisdiction—not HIPAA.",
+    "sourceBasis": [
+      "Canadian federal/provincial/territorial health privacy law",
+      "Canadian nursing regulator confidentiality/privacy standards"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-mandatory-reporting-requirements",
+    "title": "Mandatory Reporting: Know the Trigger, Authority, and Minimum Necessary Disclosure",
+    "system": "Professional Practice / Law / Safeguarding",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "III Leader",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Mandatory reporting duties are jurisdiction- and circumstance-specific. When a statutory trigger is met—such as defined child-protection, communicable-disease, professional-conduct or other legally reportable situations—the NP must follow the applicable law, disclose only what is required and maintain safety/trauma-informed care; do not invent a universal Canada-wide list or threshold.",
+    "recognize": [
+      "Reporting duties can arise from provincial/territorial child protection, public health, professional regulation and other legislation.",
+      "A patient's request for secrecy does not override a clear statutory reporting duty, but unnecessary disclosure beyond the duty can still breach privacy."
+    ],
+    "differentiate": [
+      "Mandatory reporting is different from discretionary disclosure to prevent serious harm and from routine care-team information sharing.",
+      "Adult intimate-partner violence is not automatically reportable in every Canadian jurisdiction; assess safety and the exact law."
+    ],
+    "assessment": [
+      "Clarify the facts, immediate safety, patient age/dependency, suspected abuse/neglect, communicable-disease/public-health trigger and jurisdiction."
+    ],
+    "workup": [
+      "Check the current statute/regulator/public-health policy or consult the designated safeguarding/privacy/legal resource when uncertain."
+    ],
+    "management": [
+      "Make the required report promptly, document objective facts and actions, maintain immediate safety and continue clinically appropriate care."
+    ],
+    "medicationSafety": [
+      "Do not withhold needed treatment while waiting for a reporting process unless safety requires otherwise."
+    ],
+    "redFlags": [
+      "Suspected child abuse/neglect",
+      "Imminent serious harm",
+      "Reportable communicable disease/public-health emergency",
+      "Professional misconduct trigger requiring regulator action"
+    ],
+    "counselling": [
+      "When safe, explain the reporting duty, what information will be shared and what support remains available."
+    ],
+    "followUp": [
+      "Document the report and ensure ongoing clinical/safety needs are not lost after referral to authorities."
+    ],
+    "examTrap": "Assuming every disclosure concern is either always confidential or always reportable without checking the statutory trigger.",
+    "oneLinePearl": "Mandatory reporting is trigger-specific: know the law, report what is required, keep caring for the patient.",
+    "sourceBasis": [
+      "Canadian provincial/territorial safeguarding and public-health legislation",
+      "Canadian nursing regulator professional standards"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-professional-boundaries",
+    "title": "Professional Boundaries: Keep the Relationship Therapeutic Across In-Person and Digital Care",
+    "system": "Professional Practice / Ethics",
+    "blueprintDomains": [
+      "III Leader",
+      "IV Educator",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "routine",
+    "bottomLine": "The nurse-client relationship must remain therapeutic and focused on the client's needs. Power imbalance persists across in-person, virtual and social-media interactions; prevent financial, sexual, emotional, social or digital boundary violations and seek consultation early when roles begin to blur.",
+    "recognize": [
+      "Boundary crossings can become harmful when they shift focus toward the clinician's needs, create dependency, exploit vulnerability or interfere with objectivity.",
+      "Digital messaging/social media can create the same confidentiality and dual-relationship risks as in-person contact."
+    ],
+    "differentiate": [
+      "Therapeutic warmth and culturally respectful connection are not boundary violations; the question is purpose, power, risk and whose need is being served.",
+      "Some small-community/rural dual relationships may be difficult to avoid and require active boundary planning rather than denial of care."
+    ],
+    "assessment": [
+      "Ask whether the interaction benefits the client's therapeutic goals, creates secrecy/specialness, changes objectivity, involves gifts/money/social contact or would be difficult to document transparently."
+    ],
+    "workup": [
+      "Use regulator standards, supervision/manager consultation and ethics resources when a boundary situation is ambiguous."
+    ],
+    "management": [
+      "Re-establish limits, document clinically relevant boundary actions, transfer care when necessary/safe and report abuse or serious misconduct according to law/regulator processes."
+    ],
+    "medicationSafety": [
+      "Do not prescribe or provide controlled/high-risk medication within an inappropriate personal relationship that compromises objective assessment except where a narrow emergency exception is legally/professionally justified."
+    ],
+    "redFlags": [
+      "Sexual/romantic relationship with current client",
+      "Financial exploitation",
+      "Secret personal communication outside therapeutic purpose",
+      "Social-media disclosure",
+      "Retaliation after a boundary is challenged"
+    ],
+    "counselling": [
+      "Use clear, respectful explanations of communication and relationship limits without shaming the patient."
+    ],
+    "followUp": [
+      "Seek supervision and monitor recurrent boundary pressure; ensure continuity if care transfer is needed."
+    ],
+    "examTrap": "Assuming boundary standards stop applying in virtual care or social media because contact is not face-to-face.",
+    "oneLinePearl": "A professional boundary keeps the relationship centred on the client's therapeutic needs.",
+    "sourceBasis": [
+      "College of Nurses of Ontario Professional Boundaries and Nurse-Client Relationships standard effective 2026",
+      "Canadian nursing regulator boundary standards"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-ethical-decision-making",
+    "title": "Ethical Decision-Making: Name the Conflict, Stakeholders, Duties, and Least Harmful Path",
+    "system": "Professional Practice / Ethics",
+    "blueprintDomains": [
+      "III Leader",
+      "V Advocate",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Ethical problems are not solved by naming autonomy, beneficence, nonmaleficence or justice and stopping. Define the clinical facts, patient values/capacity, stakeholders, legal duties, equity implications and feasible options, then choose and document the most defensible patient-centred plan with consultation when conflict persists.",
+    "recognize": [
+      "Ethical conflict commonly appears when values, resource limits, safety, substitute decision-making or clinician moral concerns pull in different directions.",
+      "Law, ethics and policy overlap but are not identical."
+    ],
+    "differentiate": [
+      "A capable patient's informed refusal is not automatically unethical simply because it increases medical risk.",
+      "Conscientious objection does not permit patient abandonment or obstruction of legally available care; follow the applicable regulator's expectations."
+    ],
+    "assessment": [
+      "Clarify capacity, goals, cultural context, power imbalance, harms/benefits, urgency, alternatives and whose interests are being prioritized."
+    ],
+    "workup": [
+      "Use ethics consultation, legal/regulatory resources or Indigenous/cultural supports when complexity warrants them."
+    ],
+    "management": [
+      "Use transparent shared decision-making, mitigate inequitable barriers and document the reasoning and unresolved uncertainty."
+    ],
+    "medicationSafety": [
+      "Do not use sedation/restraint or medication primarily to resolve staff inconvenience or value conflict when safer alternatives exist."
+    ],
+    "redFlags": [
+      "Coercion",
+      "Discrimination",
+      "Conflict delaying urgent care",
+      "Patient abandonment",
+      "Substitute decision-maker acting contrary to applicable legal/ethical standards"
+    ],
+    "counselling": [
+      "Acknowledge disagreement respectfully and explain the ethical/legal limits of available options."
+    ],
+    "followUp": [
+      "Revisit decisions when facts, capacity or patient goals change."
+    ],
+    "examTrap": "Choosing the clinician's preferred outcome and labelling it beneficence without addressing a capable patient's values and refusal.",
+    "oneLinePearl": "Ethics is structured reasoning about competing duties, not a vocabulary quiz.",
+    "sourceBasis": [
+      "Canadian nursing ethics/regulator standards",
+      "CNPLE professional competency framework"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-cultural-competence-in-practice",
+    "title": "Cultural Safety: Make the Patient's Experience of Care the Test",
+    "system": "Professional Practice / Equity / Cultural Safety",
+    "blueprintDomains": [
+      "V Advocate",
+      "IV Educator",
+      "III Leader"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "routine",
+    "bottomLine": "For Canadian NP practice, cultural safety goes beyond memorizing traits of cultural groups. Examine power, racism/colonialism, communication barriers and institutional practices, ask what matters to the individual, and adapt care so the patient experiences respect, choice and safety.",
+    "recognize": [
+      "Cultural humility means ongoing self-reflection and avoiding assumptions about beliefs, family roles or treatment preferences.",
+      "Indigenous cultural safety requires awareness of colonial harms, anti-Indigenous racism and the need for patient-defined respectful care."
+    ],
+    "differentiate": [
+      "Cultural safety is not achieved by stereotyping a patient from ancestry, language or religion.",
+      "Professional interpretation is different from asking a child/family member to translate sensitive medical information."
+    ],
+    "assessment": [
+      "Ask preferred language, decision-making supports, cultural/spiritual practices relevant to care, prior harmful healthcare experiences and access barriers."
+    ],
+    "workup": [
+      "Use professional interpreters, Indigenous patient navigators/Elders or cultural supports when the patient wants them and local resources permit."
+    ],
+    "management": [
+      "Offer clinically safe choices, explain reasons transparently and address discriminatory/system barriers rather than blaming adherence."
+    ],
+    "medicationSafety": [
+      "Ask about traditional medicines/supplements respectfully and assess interactions without dismissing cultural practices."
+    ],
+    "redFlags": [
+      "Racist/discriminatory treatment",
+      "Interpreter need ignored for high-stakes consent",
+      "Stereotype replacing individualized assessment",
+      "Patient avoiding care due to prior healthcare harm"
+    ],
+    "counselling": [
+      "Use curiosity and permission-based questions rather than assumptions."
+    ],
+    "followUp": [
+      "Check whether the care plan was feasible and felt respectful/safe to the patient."
+    ],
+    "examTrap": "Choosing a treatment plan based on a presumed cultural belief rather than asking the individual patient what matters to them.",
+    "oneLinePearl": "Cultural safety is judged by the patient's experience, not the clinician's intention.",
+    "sourceBasis": [
+      "Canadian nursing cultural-safety standards",
+      "Truth and Reconciliation-informed health practice",
+      "PHAC health equity resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-health-equity-and-social-determinants",
+    "title": "Health Equity and Social Determinants: Treat the Barrier as Clinical Data",
+    "system": "Professional Practice / Population Health",
+    "blueprintDomains": [
+      "V Advocate",
+      "III Leader",
+      "II Quality Improvement and Research/Scholar"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Income, housing, food security, racism, disability access, language, transportation, geography and other social/structural determinants change health outcomes and the feasibility of a treatment plan. Assess barriers without stigma and modify care so the plan can actually be carried out.",
+    "recognize": [
+      "A medically ideal plan can fail when medication cost, housing instability, transportation or caregiving demands make it inaccessible.",
+      "Health inequities are shaped by structural conditions, not simply individual choices."
+    ],
+    "differentiate": [
+      "Equity means allocating support according to need/barrier, not giving every patient identical resources.",
+      "Screening for social needs without a response/referral pathway can create burden without benefit."
+    ],
+    "assessment": [
+      "Ask permission to discuss medication cost, food/housing, transportation, caregiving, disability accommodations, discrimination, safety and access to follow-up."
+    ],
+    "workup": [
+      "Use local benefits, social work, Indigenous/community, disability and language resources when relevant."
+    ],
+    "management": [
+      "Choose affordable/equivalent treatments when possible, simplify regimens, coordinate services and advocate for accessible follow-up."
+    ],
+    "medicationSafety": [
+      "Food insecurity, unstable housing, heat/cold exposure and inability to store/refrigerate medication can create direct medication risk."
+    ],
+    "redFlags": [
+      "Unsafe housing",
+      "No access to essential medication/food",
+      "Violence/exploitation",
+      "Disability barrier preventing urgent care",
+      "Discharge plan impossible to execute"
+    ],
+    "counselling": [
+      "Use nonjudgmental language and avoid framing structural barriers as noncompliance."
+    ],
+    "followUp": [
+      "Reassess whether referrals/resources were actually accessible and whether barriers changed."
+    ],
+    "examTrap": "Repeating adherence teaching when the patient cannot afford or safely store the medication.",
+    "oneLinePearl": "A barrier that prevents treatment is part of the clinical problem.",
+    "sourceBasis": [
+      "Public Health Agency of Canada health equity and determinants-of-health resources",
+      "Canadian NP advocacy competencies"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-interprofessional-collaboration",
+    "title": "Interprofessional Collaboration: Clarify Roles, Share the Plan, Close the Loop",
+    "system": "Professional Practice / Team Care",
+    "blueprintDomains": [
+      "III Leader",
+      "I.E Transition/Discharge/Documentation",
+      "IV Educator"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Team care is safe when roles, decision ownership and follow-up are explicit. Communicate the clinical question and urgency, respect discipline-specific expertise, resolve disagreement around patient safety and confirm who is responsible for pending results/referrals rather than assuming 'the team' will handle it.",
+    "recognize": [
+      "Complex patients often require pharmacy, nursing, medicine, rehabilitation, social work, dietetics and specialty collaboration.",
+      "Transitions are high-risk when responsibilities are implicit."
+    ],
+    "differentiate": [
+      "Consultation does not transfer all responsibility unless care is explicitly accepted/handed over.",
+      "Hierarchy should not prevent escalation of a serious patient-safety concern."
+    ],
+    "assessment": [
+      "Identify the patient's goals, disciplines needed, decision owner, pending work and barriers to communication."
+    ],
+    "workup": [
+      "Use structured communication and shared documentation; escalate unresolved safety concerns through organizational pathways."
+    ],
+    "management": [
+      "Create one coherent plan, reconcile conflicting recommendations and confirm the patient understands who to contact."
+    ],
+    "medicationSafety": [
+      "Medication reconciliation and pharmacist collaboration are especially valuable during transitions/polypharmacy/high-risk prescribing."
+    ],
+    "redFlags": [
+      "Conflicting plans with no owner",
+      "Critical result assumed to belong to someone else",
+      "Unsafe discharge because referral not accepted",
+      "Team hierarchy suppressing safety escalation"
+    ],
+    "counselling": [
+      "Tell the patient who is coordinating which part of care and how to reach the team if the plan fails."
+    ],
+    "followUp": [
+      "Confirm referrals/consults were received and recommendations integrated."
+    ],
+    "examTrap": "Documenting 'referred' and assuming responsibility ended even though no clinician accepted the referral.",
+    "oneLinePearl": "Collaboration works when ownership is explicit and loops are closed.",
+    "sourceBasis": [
+      "Canadian interprofessional practice standards",
+      "CNPLE leadership/transition competencies"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-leadership-in-healthcare",
+    "title": "Clinical Leadership: Create Conditions for Safe Care, Not Just Give Instructions",
+    "system": "Professional Practice / Leadership",
+    "blueprintDomains": [
+      "III Leader",
+      "II Quality Improvement and Research/Scholar",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "routine",
+    "bottomLine": "NP leadership includes situational awareness, prioritization, communication, conflict resolution, role clarity, mentoring and systems improvement. Leadership is not positional authority alone; it is the ability to identify risk and organize people/resources so patients receive safe, equitable care.",
+    "recognize": [
+      "High-risk systems failures often appear as repeated workarounds, ambiguous responsibility, communication gaps or resource inequity.",
+      "Psychological safety supports staff speaking up about risk."
+    ],
+    "differentiate": [
+      "Delegation/assignment does not eliminate accountability for appropriate supervision and follow-up.",
+      "Leadership is not overriding other disciplines; it includes using their expertise effectively."
+    ],
+    "assessment": [
+      "Identify the patient-safety problem, stakeholders, resources, authority, competing priorities and people affected by change."
+    ],
+    "workup": [
+      "Use incident/quality data and frontline input before designing interventions."
+    ],
+    "management": [
+      "Prioritize urgent harm, communicate goals/roles, remove barriers, monitor outcomes and adjust the system rather than blaming individuals for predictable failures."
+    ],
+    "medicationSafety": [
+      "Medication-safety leadership includes standardized reconciliation, high-alert safeguards and response to recurring prescribing/dispensing errors."
+    ],
+    "redFlags": [
+      "Known unsafe system with no mitigation",
+      "Retaliation against safety reporting",
+      "Resource allocation that predictably excludes a high-risk group",
+      "Repeated near misses ignored"
+    ],
+    "counselling": [
+      "Include patients/families in relevant safety/improvement conversations and explain changes transparently."
+    ],
+    "followUp": [
+      "Measure whether the intervention reduced harm and created unintended consequences."
+    ],
+    "examTrap": "Responding to a recurring systems error only by retraining the individual who made the last mistake.",
+    "oneLinePearl": "Leadership fixes the conditions that shape care, not just the last person's behaviour.",
+    "sourceBasis": [
+      "CNPLE NP leadership competencies",
+      "Canadian patient-safety and quality principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-quality-and-safety-improvement",
+    "title": "Quality and Safety Improvement: Define the Problem, Measure It, Test Change, Sustain What Works",
+    "system": "Professional Practice / Quality Improvement",
+    "blueprintDomains": [
+      "II Quality Improvement and Research/Scholar",
+      "III Leader"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Quality improvement starts with a defined local process/problem and measurable baseline. Choose an intervention linked to the cause, test it in a controlled way, monitor balancing measures and sustain/scale only when the data show meaningful improvement without creating new harm.",
+    "recognize": [
+      "Process, outcome and balancing measures answer different quality questions.",
+      "A change can improve one metric while worsening workload, equity or another safety outcome."
+    ],
+    "differentiate": [
+      "QI aims to improve a local system; research aims to produce generalizable knowledge, though governance boundaries can overlap.",
+      "Audit without feedback/action is measurement, not full improvement."
+    ],
+    "assessment": [
+      "Define population, process, defect, baseline performance, root causes and equity implications."
+    ],
+    "workup": [
+      "Use run/control charts, audits, incident reports and qualitative frontline/patient input appropriate to the problem."
+    ],
+    "management": [
+      "Use small tests of change, standardize effective interventions and create ownership for ongoing monitoring."
+    ],
+    "medicationSafety": [
+      "Medication-related QI should include high-alert events, reconciliation reliability and adverse-drug-event signals."
+    ],
+    "redFlags": [
+      "Improvement metric hides patient harm",
+      "No baseline/comparator",
+      "Change excludes a vulnerable group",
+      "Data manipulated to show success"
+    ],
+    "counselling": [
+      "Engage patients/families when their experience or behaviour is affected by the redesigned process."
+    ],
+    "followUp": [
+      "Monitor durability and balancing measures after implementation."
+    ],
+    "examTrap": "Declaring a QI intervention successful because one post-change data point improved.",
+    "oneLinePearl": "QI is measurable iterative change, not a one-time policy memo.",
+    "sourceBasis": [
+      "Canadian healthcare quality-improvement principles",
+      "CNPLE Scholar/Leader competencies"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-evidence-based-practice",
+    "title": "Evidence-Based Practice: Combine Best Evidence, Clinical Expertise, and Patient Context",
+    "system": "Professional Practice / Scholarship",
+    "blueprintDomains": [
+      "II Quality Improvement and Research/Scholar",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Evidence-based practice is not blindly following the newest paper. Frame a focused question, find the best current evidence, appraise validity/applicability, integrate patient values/comorbidity/resources and monitor the real-world outcome.",
+    "recognize": [
+      "Randomized trials, observational studies, diagnostic studies, systematic reviews and qualitative research answer different questions.",
+      "Statistical significance does not automatically equal clinically meaningful benefit."
+    ],
+    "differentiate": [
+      "Relative risk reduction can exaggerate perceived benefit when baseline risk is low; absolute effects and harms matter.",
+      "Guideline recommendations vary in evidence certainty and strength."
+    ],
+    "assessment": [
+      "Define population, intervention/exposure, comparator and outcome plus the patient's baseline risk and priorities."
+    ],
+    "workup": [
+      "Prefer high-quality systematic/current sources and examine bias, confidence intervals, applicability and conflicts of interest."
+    ],
+    "management": [
+      "Use evidence proportionate to certainty and patient context; choose shared decision-making when benefits/harms are preference-sensitive."
+    ],
+    "medicationSafety": [
+      "Do not generalize medication benefits to excluded populations or ignore adverse-event evidence and interactions."
+    ],
+    "redFlags": [
+      "Surrogate outcome used as proof of patient benefit",
+      "Major conflict/bias ignored",
+      "Evidence applied to a population not studied",
+      "Harms omitted from decision"
+    ],
+    "counselling": [
+      "Communicate uncertainty and absolute benefits/harms in understandable terms."
+    ],
+    "followUp": [
+      "Update practice when stronger evidence/guidelines emerge and monitor patient outcomes after implementation."
+    ],
+    "examTrap": "Choosing an intervention because one statistically significant study exists without judging bias, applicability or absolute benefit.",
+    "oneLinePearl": "Evidence informs care; context and patient values determine how it is used.",
+    "sourceBasis": [
+      "Canadian evidence-based practice principles",
+      "CNPLE Scholar competencies"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-clinical-practice-guidelines",
+    "title": "Clinical Practice Guidelines: Use the Recommendation, Grade, Scope, and Date",
+    "system": "Professional Practice / Scholarship",
+    "blueprintDomains": [
+      "II Quality Improvement and Research/Scholar",
+      "I.C Management",
+      "III Leader"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "routine",
+    "bottomLine": "A guideline is useful only if it is current, trustworthy and applicable to the patient/jurisdiction. Check who produced it, evidence/recommendation strength, target population, exclusions, update date and implementation context; Canadian guidance should take priority when jurisdiction matters.",
+    "recognize": [
+      "Strong recommendations can exist with varying evidence certainty and may depend on values/resources.",
+      "High-change topics such as infectious disease, immunization, prescribing and screening require date-sensitive review."
+    ],
+    "differentiate": [
+      "A society statement, consensus opinion and formal evidence-graded guideline are not equivalent.",
+      "A US guideline can inform science but cannot automatically replace Canadian law, funded programs, units or regulatory practice."
+    ],
+    "assessment": [
+      "Confirm the patient's population/risk group and whether exclusions/comorbidities make the recommendation less applicable."
+    ],
+    "workup": [
+      "Check guideline currency, methodology/conflicts and Canadian/provincial implementation before applying a threshold or schedule."
+    ],
+    "management": [
+      "Individualize recommendations through shared decision-making and document justified deviation when the patient's context requires it."
+    ],
+    "medicationSafety": [
+      "Drug recommendations must also be reconciled with current Canadian monographs, contraindications and formulary/access context."
+    ],
+    "redFlags": [
+      "Outdated infectious/immunization guidance",
+      "Foreign legal/regulatory rule treated as Canadian",
+      "Recommendation applied outside target population",
+      "Guideline conflicts with a time-critical patient-specific contraindication"
+    ],
+    "counselling": [
+      "Explain when more than one reasonable guideline-based option exists and why patient preference matters."
+    ],
+    "followUp": [
+      "Refresh high-change guidance and update local pathways when recommendations materially change."
+    ],
+    "examTrap": "Choosing an old memorized guideline threshold after the Canadian recommendation has changed.",
+    "oneLinePearl": "Guidelines need four checks: source, strength, scope and date.",
+    "sourceBasis": [
+      "Canadian guideline appraisal principles",
+      "CNPLE Scholar competencies"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-continuing-education-requirements",
+    "title": "Continuing Competence: Identify Learning Needs and Prove Practice Improvement",
+    "system": "Professional Practice / Regulation",
+    "blueprintDomains": [
+      "II Quality Improvement and Research/Scholar",
+      "III Leader"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Canadian NP continuing competence is regulator- and jurisdiction-specific. In Ontario's 2026 single-classification framework, Quality Assurance requirements continue to include self-assessment, learning plans and participation in QA assessment when selected; continuing education should respond to actual practice gaps rather than collecting hours without evidence of competence.",
+    "recognize": [
+      "A change in population, setting, procedure or prescribing responsibility creates a competence assessment need even when legal scope permits the activity.",
+      "Learning plans should be linked to practice outcomes and updated as needs change."
+    ],
+    "differentiate": [
+      "Continuing competence is broader than course attendance or credit accumulation.",
+      "Single NP classification does not mean automatic competence across every population or specialty."
+    ],
+    "assessment": [
+      "Review current role, incident/feedback data, new evidence, patient population and areas where knowledge/skill/judgment are insufficient."
+    ],
+    "workup": [
+      "Use regulator QA requirements and evidence-based education/supervision to close gaps."
+    ],
+    "management": [
+      "Create measurable learning goals, obtain supervised experience where needed and restrict independent practice until competence is achieved."
+    ],
+    "medicationSafety": [
+      "New prescribing areas require drug-specific competence and monitoring knowledge before independent prescribing."
+    ],
+    "redFlags": [
+      "Practising new specialty care without competence",
+      "Falsifying QA/education records",
+      "Repeated safety event with no learning response"
+    ],
+    "counselling": [
+      "Explain to patients when consultation/supervision is being used to support safe care."
+    ],
+    "followUp": [
+      "Evaluate whether learning changed practice performance rather than merely documenting completion."
+    ],
+    "examTrap": "Assuming single NP classification means the NP is automatically competent in every patient population.",
+    "oneLinePearl": "Legal flexibility expands practice only as fast as competence grows.",
+    "sourceBasis": [
+      "CNO single NP classification and Quality Assurance resources",
+      "Canadian NP regulator continuing competence standards"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-certification-and-recertification",
+    "title": "NP Registration and Ongoing Competence: Use the Canadian Framework",
+    "system": "Professional Practice / Regulation",
+    "blueprintDomains": [
+      "III Leader",
+      "II Quality Improvement and Research/Scholar"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "routine",
+    "bottomLine": "For CNPLE, distinguish entry-to-practice licensure/registration from US specialty-board recertification. As of July 1, 2026, Ontario uses a single NP classification and CNPLE as the national entry-level registration exam; ongoing practice depends on registration renewal, regulator standards, competence/QA and jurisdiction-specific requirements rather than maintaining an AANP/ANCC credential as the core Canadian rule.",
+    "recognize": [
+      "Registration requirements and ongoing renewal/QA are set by provincial/territorial regulators.",
+      "Ontario removed population-specific NP registration certificates under the single-classification framework."
+    ],
+    "differentiate": [
+      "CNPLE is a Canadian licensure/registration exam, not an American specialty certification exam.",
+      "Voluntary specialty credentials/employer requirements may exist but are not interchangeable with statutory NP registration."
+    ],
+    "assessment": [
+      "Identify jurisdiction, registration status, practice setting, competence and any employer/specialty requirements."
+    ],
+    "workup": [
+      "Verify current regulator registration/renewal requirements rather than relying on old population-specific exam rules."
+    ],
+    "management": [
+      "Maintain registration and QA obligations and develop new population/specialty competence through education/supervision as practice changes."
+    ],
+    "medicationSafety": [
+      "Prescribing authority depends on current registration/scope and competence, not an expired or foreign credential."
+    ],
+    "redFlags": [
+      "Practising while unregistered/suspended",
+      "Misrepresenting credentials",
+      "Using old population certificate as permanent scope limit after regulatory change"
+    ],
+    "counselling": [
+      "Use accurate professional titles and explain specialty expertise without overstating statutory certification."
+    ],
+    "followUp": [
+      "Monitor regulator updates because national/provincial transition details can change."
+    ],
+    "examTrap": "Choosing AANP/ANCC recertification as the governing ongoing-registration requirement for a Canadian NP.",
+    "oneLinePearl": "Canadian NP registration is regulator-based; CNPLE is entry-to-practice, not US board recertification.",
+    "sourceBasis": [
+      "CNO single NP classification and CNPLE registration exam resources",
+      "Canadian provincial/territorial NP regulation"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-career-development-for-nps",
+    "title": "NP Career Development: Expand Roles Through Competence, Not Title Inflation",
+    "system": "Professional Practice / Leadership",
+    "blueprintDomains": [
+      "III Leader",
+      "IV Educator",
+      "II Quality Improvement and Research/Scholar"
+    ],
+    "lifespan": [
+      "adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "NP career development should align evolving patient needs, personal goals and system opportunities with deliberate competence development, mentorship and scope/regulatory awareness. A new job title or specialty interest does not itself establish competence.",
+    "recognize": [
+      "Career pathways can include advanced clinical specialty, leadership, education, research, quality, policy and entrepreneurship roles.",
+      "Practice transitions often require supervised skill acquisition and organizational privileging."
+    ],
+    "differentiate": [
+      "Career advancement is not synonymous with leaving clinical care or taking on maximal independent scope.",
+      "Expertise in one population/system does not automatically transfer to another."
+    ],
+    "assessment": [
+      "Identify strengths, learning gaps, population needs, mentorship/supervision options, regulatory limits and sustainability/burnout risk."
+    ],
+    "workup": [
+      "Build a development plan using formal education, supervised practice, feedback and outcome data."
+    ],
+    "management": [
+      "Progress responsibilities as competence is demonstrated and maintain referral/collaboration networks."
+    ],
+    "medicationSafety": [
+      "Specialty prescribing should expand only after corresponding pharmacology/monitoring competence."
+    ],
+    "redFlags": [
+      "Role expansion without supervision/competence",
+      "Misrepresentation of expertise",
+      "Burnout impairing safe practice"
+    ],
+    "counselling": [
+      "Be transparent with patients about role and specialty expertise."
+    ],
+    "followUp": [
+      "Reassess competence and goals as practice changes."
+    ],
+    "examTrap": "Assuming a single NP classification removes the obligation to develop competence before entering a new specialty field.",
+    "oneLinePearl": "Career flexibility is earned through competence, mentorship and safe role transition.",
+    "sourceBasis": [
+      "Canadian NP competency and regulator standards",
+      "CNO single-classification framework"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-practice-transition-and-onboarding",
+    "title": "Practice Transition: Build Safe Independence Deliberately",
+    "system": "Professional Practice / Leadership",
+    "blueprintDomains": [
+      "III Leader",
+      "I.E Transition/Discharge/Documentation"
+    ],
+    "lifespan": [
+      "adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "A new NP role should include orientation to scope, referral networks, emergency pathways, prescribing systems, documentation, critical-result follow-up, privileges and supervision/escalation. Independence should increase as competence and local-system knowledge are demonstrated—not simply because orientation time elapsed.",
+    "recognize": [
+      "Transition risk is highest when responsibilities are unclear or clinical backup/referral access is undefined.",
+      "New graduates and experienced NPs changing specialty both need role-specific onboarding."
+    ],
+    "differentiate": [
+      "Orientation is not merely HR policy training; it includes clinical-system safety and competence verification.",
+      "Probation/employment status does not define professional scope."
+    ],
+    "assessment": [
+      "Identify high-risk decisions, procedures, populations, prescribing tasks, local resources and escalation gaps."
+    ],
+    "workup": [
+      "Use competency checklists, direct observation, chart review and structured mentorship where appropriate."
+    ],
+    "management": [
+      "Set graded responsibility, protected consultation and explicit emergency/critical-result pathways."
+    ],
+    "medicationSafety": [
+      "Confirm access to medication reconciliation, prescribing decision support and local high-alert monitoring systems."
+    ],
+    "redFlags": [
+      "Independent high-risk practice before competence verification",
+      "No identified supervising/consulting pathway",
+      "Critical results with no ownership process"
+    ],
+    "counselling": [
+      "Patients should know how to access the team when the NP is unavailable or escalation is needed."
+    ],
+    "followUp": [
+      "Review onboarding outcomes and unresolved competence/system gaps."
+    ],
+    "examTrap": "Equating completion of a fixed orientation period with automatic competence for every role responsibility.",
+    "oneLinePearl": "Safe onboarding turns role expectations into demonstrated competence and reliable backup.",
+    "sourceBasis": [
+      "Canadian NP transition-to-practice and regulator competency principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-mentorship-and-precepting",
+    "title": "Mentorship and Precepting: Support Learning Without Delegating Beyond Competence",
+    "system": "Professional Practice / Education / Leadership",
+    "blueprintDomains": [
+      "IV Educator",
+      "III Leader"
+    ],
+    "lifespan": [
+      "adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Effective precepting matches learner responsibility to demonstrated competence, provides direct observation and timely feedback, protects patients from unsupported practice and preserves the preceptor's accountability for supervision within the applicable educational/organizational model.",
+    "recognize": [
+      "Learners progress through entrustment based on observed competence, not seniority alone.",
+      "Psychological safety improves disclosure of uncertainty/errors and learning."
+    ],
+    "differentiate": [
+      "Mentorship is developmental support; formal precepting/supervision may carry explicit patient-care accountability.",
+      "Giving a learner more autonomy is not the same as abandoning oversight."
+    ],
+    "assessment": [
+      "Clarify learner level, objectives, prior competence, patient complexity and task risk before assigning responsibility."
+    ],
+    "workup": [
+      "Use direct observation, case discussion and documented feedback to judge readiness."
+    ],
+    "management": [
+      "Intervene when patient safety is at risk and provide specific actionable feedback after the event."
+    ],
+    "medicationSafety": [
+      "High-risk prescribing/procedures require closer supervision and clear co-sign/authorization rules where applicable."
+    ],
+    "redFlags": [
+      "Learner asked to perform beyond competence",
+      "Preceptor unavailable during high-risk activity",
+      "Feedback withheld after safety event"
+    ],
+    "counselling": [
+      "Explain learner involvement to patients and respect consent/choice regarding participation."
+    ],
+    "followUp": [
+      "Track progress toward competence and adjust supervision accordingly."
+    ],
+    "examTrap": "Letting an advanced learner manage a high-risk unfamiliar case independently because they are near graduation.",
+    "oneLinePearl": "Entrust autonomy when competence is demonstrated, not merely when training time has passed.",
+    "sourceBasis": [
+      "Canadian nursing education/preceptorship standards",
+      "CNPLE Educator competencies"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-research-utilization",
+    "title": "Research Utilization: Decide Whether Evidence Is Valid, Applicable, and Worth Changing Practice For",
+    "system": "Professional Practice / Scholarship",
+    "blueprintDomains": [
+      "II Quality Improvement and Research/Scholar",
+      "III Leader"
+    ],
+    "lifespan": [
+      "adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Before changing practice from research, assess study validity, effect size/precision, harms, applicability, consistency with the wider evidence and patient/system context. One exciting paper should not override a mature evidence base without strong reason.",
+    "recognize": [
+      "Internal validity asks whether the result is credible; external validity asks whether it applies to the patient/setting.",
+      "Systematic reviews can be limited by poor included studies or heterogeneity."
+    ],
+    "differentiate": [
+      "Research utilization is not identical to conducting research; implementation may be QI when applying established evidence locally.",
+      "Surrogate endpoint improvement may not translate to meaningful patient benefit."
+    ],
+    "assessment": [
+      "Define the clinical question, current standard, evidence gap and population/setting differences."
+    ],
+    "workup": [
+      "Appraise design, bias, confounding, effect estimates, confidence intervals and conflicts of interest."
+    ],
+    "management": [
+      "Implement strong applicable evidence with appropriate stakeholder/patient input and measure outcomes."
+    ],
+    "medicationSafety": [
+      "Do not extrapolate drug benefits/harms to excluded populations without supporting evidence."
+    ],
+    "redFlags": [
+      "Practice change based on retracted/low-quality evidence",
+      "Harms ignored",
+      "Study population materially unlike local patients"
+    ],
+    "counselling": [
+      "Communicate uncertainty when evidence is evolving."
+    ],
+    "followUp": [
+      "Monitor new evidence and local outcomes after implementation."
+    ],
+    "examTrap": "Changing standard practice after one small uncontrolled study because the result is statistically significant.",
+    "oneLinePearl": "Research becomes practice only after validity, applicability and meaningful benefit survive appraisal.",
+    "sourceBasis": [
+      "Canadian evidence appraisal and NP Scholar competencies"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-policy-and-advocacy",
+    "title": "Policy and Advocacy: Turn Recurrent Patient Barriers Into System Action",
+    "system": "Professional Practice / Advocacy / Policy",
+    "blueprintDomains": [
+      "V Advocate",
+      "III Leader",
+      "II Quality Improvement and Research/Scholar"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "routine",
+    "bottomLine": "NP advocacy operates at individual, organizational and policy levels. Identify recurring barriers or inequities, gather credible evidence and patient/community perspectives, act within professional role and conflicts-of-interest rules, and evaluate whether the policy change improves access, safety or outcomes.",
+    "recognize": [
+      "Repeated inability to access medication, primary care, disability accommodation or culturally safe services can reflect a system problem rather than isolated patient behaviour.",
+      "Advocacy should centre affected communities rather than speaking over them."
+    ],
+    "differentiate": [
+      "Advocacy is not partisan endorsement; professional advocacy can address evidence-based health policy while respecting employer/regulator obligations.",
+      "One anecdote can reveal a problem but usually should not be the sole evidence for broad policy change."
+    ],
+    "assessment": [
+      "Define affected population, barrier, decision-maker, evidence, stakeholders and potential unintended consequences."
+    ],
+    "workup": [
+      "Use patient/community data, quality metrics, policy analysis and equity assessment."
+    ],
+    "management": [
+      "Use appropriate organizational, professional association, public-health or government channels and evaluate outcomes after change."
+    ],
+    "medicationSafety": [
+      "Advocacy may include equitable formulary/coverage and harm-reduction access while preserving evidence-based safety."
+    ],
+    "redFlags": [
+      "Conflict of interest hidden",
+      "Advocacy exposes identifiable patient information without consent",
+      "Policy change worsens inequity"
+    ],
+    "counselling": [
+      "Engage patients/communities in defining priorities and acceptable solutions."
+    ],
+    "followUp": [
+      "Measure whether advocacy changed the barrier and adjust strategy."
+    ],
+    "examTrap": "Treating a repeated access failure only as an individual adherence problem instead of recognizing a system-level advocacy opportunity.",
+    "oneLinePearl": "Advocacy begins when a patient-level problem is recognized as a repeatable system barrier.",
+    "sourceBasis": [
+      "CNPLE Advocate competencies",
+      "Canadian health equity/public policy principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-healthcare-systems-and-finance",
+    "title": "Canadian Health Systems and Finance: Federal Conditions, Provincial Delivery, Local Access",
+    "system": "Professional Practice / Health Systems",
+    "blueprintDomains": [
+      "III Leader",
+      "V Advocate",
+      "II Quality Improvement and Research/Scholar"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Canada has a publicly funded health system, but provinces and territories administer their own insurance plans and decide coverage for many services. The Canada Health Act sets federal criteria/conditions for insured hospital/physician-type services and the Canada Health Transfer provides major federal funding; NP care plans must still account for provincial formularies, uninsured services and local access.",
+    "recognize": [
+      "Public insurance does not mean every drug, device, allied service or outpatient intervention is universally funded.",
+      "Coverage and referral/access pathways differ by province/territory."
+    ],
+    "differentiate": [
+      "Canada is not a single federal payer operating one identical national benefit plan.",
+      "US Medicare/Medicaid concepts should not be substituted for Canadian provincial/territorial public insurance."
+    ],
+    "assessment": [
+      "Assess the patient's provincial/territorial coverage, medication/device benefits, private/Indigenous/federal programs when relevant and access barriers."
+    ],
+    "workup": [
+      "Check current public formulary/program criteria before assuming coverage."
+    ],
+    "management": [
+      "Choose clinically appropriate, accessible options and advocate/appeal where evidence-supported treatment is blocked by coverage."
+    ],
+    "medicationSafety": [
+      "Cost-related nonadherence can create safety events; ask explicitly before escalating therapy for presumed treatment failure."
+    ],
+    "redFlags": [
+      "Patient cannot access essential treatment",
+      "Unsafe discharge because community supports are unfunded/unavailable",
+      "Incorrect US insurance assumption drives care"
+    ],
+    "counselling": [
+      "Explain when a service is publicly insured versus subject to provincial program/private coverage rules."
+    ],
+    "followUp": [
+      "Confirm the patient successfully accessed the funded program/service rather than assuming approval."
+    ],
+    "examTrap": "Selecting Medicare or Medicaid as the mechanism that determines a Canadian patient's routine health coverage.",
+    "oneLinePearl": "Canadian health care is federally conditioned, provincially/territorially administered and locally variable in access.",
+    "sourceBasis": [
+      "Canada Health Act",
+      "Canada Health Transfer resources",
+      "Health Canada overview of the Canadian health system"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-value-based-care",
+    "title": "High-Value Care: Maximize Meaningful Benefit and Reduce Avoidable Harm",
+    "system": "Professional Practice / Quality / Health Systems",
+    "blueprintDomains": [
+      "II Quality Improvement and Research/Scholar",
+      "III Leader",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "routine",
+    "bottomLine": "For Canadian CNPLE, high-value care means choosing tests/treatments that meaningfully improve patient outcomes relative to harms, burden and resource use—not importing a US reimbursement formula. Avoid low-value overtesting/overtreatment while ensuring cost-consciousness never becomes denial of indicated care.",
+    "recognize": [
+      "Low-value care can create false positives, cascades, adverse effects, workload and inequitable resource use.",
+      "Value includes patient-important outcomes and access, not only financial cost."
+    ],
+    "differentiate": [
+      "Cost-effective care is not necessarily the cheapest care.",
+      "Avoiding low-value testing is different from rationing a high-benefit intervention."
+    ],
+    "assessment": [
+      "Ask whether the intervention changes management, improves outcomes, creates downstream harms and is feasible for the patient/system."
+    ],
+    "workup": [
+      "Use evidence, Choosing Wisely-type recommendations, local utilization data and patient preferences."
+    ],
+    "management": [
+      "Prefer high-benefit lower-burden options and stop routine interventions that no longer provide benefit."
+    ],
+    "medicationSafety": [
+      "Deprescribe ineffective/high-risk drugs and avoid duplicative therapy while preserving essential treatment."
+    ],
+    "redFlags": [
+      "Cost used to deny urgent indicated care",
+      "Routine testing creates harmful cascade",
+      "Patient charged/redirected contrary to applicable coverage rules"
+    ],
+    "counselling": [
+      "Explain why not ordering a low-value test can be an active evidence-based safety decision."
+    ],
+    "followUp": [
+      "Monitor outcomes after reducing low-value care to ensure needed care is not missed."
+    ],
+    "examTrap": "Equating high-value care with simply choosing the least expensive option.",
+    "oneLinePearl": "High value means more meaningful health benefit with less avoidable harm and burden.",
+    "sourceBasis": [
+      "Choosing Wisely Canada principles",
+      "Canadian health-system quality principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-population-health-and-public-health",
+    "title": "Population and Public Health: Think Beyond the Individual Encounter",
+    "system": "Professional Practice / Public Health",
+    "blueprintDomains": [
+      "V Advocate",
+      "III Leader",
+      "II Quality Improvement and Research/Scholar"
+    ],
+    "lifespan": [
+      "all"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Population/public-health practice uses surveillance, prevention, immunization, outbreak/reporting systems, social determinants and equity analysis to reduce risk across communities. The NP must treat the patient in front of them while recognizing when the condition has communicable-disease, exposure, environmental or system implications for others.",
+    "recognize": [
+      "Individual infections/exposures may trigger public-health reporting, contact management, prophylaxis or outbreak investigation.",
+      "Population health also includes chronic-disease prevention and structural determinants."
+    ],
+    "differentiate": [
+      "Public health is not limited to infectious disease.",
+      "Population-level recommendations may differ from individualized decisions for high-risk patients."
+    ],
+    "assessment": [
+      "Ask exposure setting, contacts, occupation, travel, congregate living and community/system barriers when relevant."
+    ],
+    "workup": [
+      "Use current PHAC/provincial public-health surveillance/reporting and preventive guidance."
+    ],
+    "management": [
+      "Notify public health when required, implement appropriate isolation/prophylaxis/prevention and address inequities in access."
+    ],
+    "medicationSafety": [
+      "Vaccination/PEP/prophylaxis decisions are time- and condition-specific; use current guidance rather than memorized outdated schedules."
+    ],
+    "redFlags": [
+      "Outbreak/high-consequence infection",
+      "Unsafe environmental exposure",
+      "Large vulnerable population at risk",
+      "Failure to report a legally reportable condition"
+    ],
+    "counselling": [
+      "Explain why contact/public-health actions may be necessary while preserving confidentiality as far as law permits."
+    ],
+    "followUp": [
+      "Close the loop on public-health actions and population interventions."
+    ],
+    "examTrap": "Treating a reportable communicable disease as only an individual prescription problem.",
+    "oneLinePearl": "Population health asks what this patient's problem means for everyone exposed to the same risk.",
+    "sourceBasis": [
+      "Public Health Agency of Canada resources",
+      "CNPLE Advocate/Leader competencies"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  }
+]

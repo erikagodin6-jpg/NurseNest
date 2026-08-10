@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "validatedAt": "2026-08-09",
+  "status": "PASS",
+  "baseRawObjects": 570,
+  "addedBySystem": {
+    "cardiovascular": 28,
+    "diagnostics": 26,
+    "professional": 26,
+    "primaryCare": 26
+  },
+  "addedTotal": 106,
+  "exactExistingCount": 0,
+  "rawLessonObjects": 676,
+  "uniqueLessonIds": 676,
+  "canonicalTopicPathways": 668,
+  "clinicalJsonFiles": 64,
+  "conflicts": 0,
+  "generatorParity": {
+    "cardiovascular": 28,
+    "diagnostics": 26,
+    "professional": 26,
+    "primaryCare": 26
+  },
+  "cbcIdentity": "lab-complete-blood-count"
+}
