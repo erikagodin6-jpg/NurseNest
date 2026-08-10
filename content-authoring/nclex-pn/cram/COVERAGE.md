@@ -1,22 +1,22 @@
 # U.S. PN / NCLEX-PN Cram Coverage
 
 Status: ACTIVE AUTHORING
-Authored Cram lessons: 704
-Latest QA addendum: `AUTHORING_QA_ADDENDUM_704.md`
+Authored Cram lessons: 724
+Latest QA addendum: `AUTHORING_QA_ADDENDUM_724.md`
 Locale: United States
 Exam alignment: 2026 NCLEX-PN Test Plan
 
-The library contains 704 distinct U.S. PN/LPN/LVN Cram lessons across all NCLEX-PN Client Needs areas. No numeric authoring milestone is a production-completion claim.
+The library contains 724 distinct U.S. PN/LPN/LVN Cram lessons across all NCLEX-PN Client Needs areas. No numeric authoring milestone is a production-completion claim.
 
 ## Latest source-family depth
 
-The newest dialysis/renal-replacement batch adds hemodialysis access protection, intradialytic hypotension, dialysis infection, fluid overload, hyperkalemia cues, peritoneal-dialysis peritonitis, poor PD outflow, post-dialysis bleeding, missed-dialysis deterioration, and dialysis-day medication-timing safety.
+The newest transfusion/blood-product batch adds positive patient/component identification, early transfusion monitoring, suspected-reaction response, acute hemolytic reaction, TACO, TRALI, allergic reaction, septic transfusion reaction, febrile nonhemolytic reaction, and transfusion-history handoff safety.
 
-The newest diabetes-device/glucose-monitoring batch adds CGM confirmation when symptoms and sensor values disagree, compression-low artifacts, sensor failure backup monitoring, pump interruption, infusion-site failure, sick-day ketone escalation, hypoglycemia alarm response, automated-insulin-delivery limitations, patient-dedicated device safety, and technology backup planning.
+The newest ostomy/drainage/wound-device batch adds stoma perfusion, high-output ileostomy dehydration, peristomal skin injury, ostomy obstruction, prolapse/retraction, JP/Hemovac function, nephrostomy drainage, biliary-drain problems, drain dislodgement, and drain-output trend escalation.
 
 These lessons are tagged `SOURCE_FAMILY_AUTHORED_NOT_ROW_MAPPED` and are not credited as production row closures.
 
-The external source-search endpoint was unavailable during this tranche. Content was therefore kept conservative to established U.S. dialysis and diabetes-device safety principles without introducing new exact thresholds, doses, or product-specific claims; current-source refresh remains required before publication.
+The transfusion tranche was refreshed against current CDC 2026 Hemovigilance and FDA blood-product safety guidance. Ostomy/drainage content remains deliberately conservative to established wound/ostomy and surgical/interventional drain-care principles.
 
 ## Production denominator
 
