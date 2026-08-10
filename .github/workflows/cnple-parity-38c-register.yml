@@ -30,10 +30,12 @@ jobs:
           root = Path('content-authoring/cnple/cram')
           manifest_path = root/'manifest.json'
           m = json.loads(manifest_path.read_text())
-          expected = (418, 418, 410, 41)
+          predecessor = (418, 418, 410, 41)
+          registered = (426, 426, 418, 42)
           got = (m['rawLessonObjects'], m['uniqueLessonIds'], m['canonicalTopicPathways'], m['clinicalJsonFiles'])
-          if got != expected:
-              raise SystemExit(f'refusing: predecessor state {got} != {expected}')
+          if got not in (predecessor, registered):
+              raise SystemExit(f'refusing: unexpected manifest state {got}')
+
           path = '38c-lab-liver-inflammation-endocrine-parity.json'
           rows = json.loads((root/path).read_text())
           expected_ids = [
@@ -48,21 +50,32 @@ jobs:
           required = ['id','title','system','blueprintDomains','lifespan','acuity','bottomLine','recognize','differentiate','assessment','workup','management','medicationSafety','redFlags','counselling','followUp','examTrap','oneLinePearl','sourceBasis','sourceAsOf','localPolicyCheck']
           for r in rows:
               missing = [k for k in required if k not in r]
-              if missing: raise SystemExit(f"{r.get('id')}: missing {missing}")
-          m['rawLessonObjects'] = 426
-          m['uniqueLessonIds'] = 426
-          m['canonicalTopicPathways'] = 418
-          m['clinicalJsonFiles'] = 42
-          if not any(f['path'] == path for f in m['files']):
+              if missing:
+                  raise SystemExit(f"{r.get('id')}: missing {missing}")
+
+          if got == predecessor:
+              m['rawLessonObjects'] = 426
+              m['uniqueLessonIds'] = 426
+              m['canonicalTopicPathways'] = 418
+              m['clinicalJsonFiles'] = 42
               m['files'].append({'path': path, 'lessons': 8, 'role': 'full_lesson_parity_expansion'})
-          if 'AUTHORING_QA_PARITY_38C.md' not in m['auditDocuments']:
               m['auditDocuments'].append('AUTHORING_QA_PARITY_38C.md')
-          m['fullLessonParity']['authoringCanonicalTopicPathways'] = 418
-          pub = m['publication']
-          pub['secondPassClinicalAuditCompleteForParity38C'] = True
-          pub['newExpansionBatchPendingSecondPassAudit'] = False
-          pub['note'] = 'The 426-object library is an audited topic baseline plus active Full-lesson parity expansions. Batches 37, 38A, 38B and 38C have passed clinical second-pass review; private-core identity/source/Quick-Check/runtime certification remains fail-closed and Full-lesson parity is not complete.'
-          # Global registered estate parse/count/ID uniqueness.
+              m['fullLessonParity']['authoringCanonicalTopicPathways'] = 418
+              pub = m['publication']
+              pub['secondPassClinicalAuditCompleteForParity38C'] = True
+              pub['newExpansionBatchPendingSecondPassAudit'] = False
+              pub['note'] = 'The 426-object library is an audited topic baseline plus active Full-lesson parity expansions. Batches 37, 38A, 38B and 38C have passed clinical second-pass review; private-core identity/source/Quick-Check/runtime certification remains fail-closed and Full-lesson parity is not complete.'
+          else:
+              matches = [f for f in m['files'] if f.get('path') == path]
+              if matches != [{'path': path, 'lessons': 8, 'role': 'full_lesson_parity_expansion'}]:
+                  raise SystemExit(f'refusing: registered 38C file entry invalid: {matches}')
+              if m['auditDocuments'].count('AUTHORING_QA_PARITY_38C.md') != 1:
+                  raise SystemExit('refusing: 38C audit registration is not exactly once')
+              if m['fullLessonParity']['authoringCanonicalTopicPathways'] != 418:
+                  raise SystemExit('refusing: registered parity pathway count drift')
+              if m['publication'].get('secondPassClinicalAuditCompleteForParity38C') is not True:
+                  raise SystemExit('refusing: 38C clinical audit flag missing')
+
           all_ids=[]
           total=0
           for f in m['files']:
@@ -85,5 +98,5 @@ jobs:
           git rm .github/workflows/cnple-parity-38c-register.yml
           git add content-authoring/cnple/cram/manifest.json content-authoring/cnple/cram/38c-lab-liver-inflammation-endocrine-parity.json content-authoring/cnple/cram/AUTHORING_QA_PARITY_38C.md
           git diff --cached --check
-          git commit -m 'content(cnple-cram): register audited parity batch 38C'
+          git commit -m 'content(cnple-cram): finalize audited parity batch 38C registration'
           git push origin HEAD:content/cnple-cram-parity-labs-38c-20260808
