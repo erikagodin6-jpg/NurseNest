@@ -1,22 +1,22 @@
 # U.S. PN / NCLEX-PN Cram Coverage
 
 Status: ACTIVE AUTHORING
-Authored Cram lessons: 684
-Latest QA addendum: `AUTHORING_QA_ADDENDUM_684.md`
+Authored Cram lessons: 704
+Latest QA addendum: `AUTHORING_QA_ADDENDUM_704.md`
 Locale: United States
 Exam alignment: 2026 NCLEX-PN Test Plan
 
-The library contains 684 distinct U.S. PN/LPN/LVN Cram lessons across all NCLEX-PN Client Needs areas. No numeric authoring milestone is a production-completion claim.
+The library contains 704 distinct U.S. PN/LPN/LVN Cram lessons across all NCLEX-PN Client Needs areas. No numeric authoring milestone is a production-completion claim.
 
 ## Latest source-family depth
 
-The newest diagnostic/laboratory batch adds specimen identity/integrity, blood-culture collection quality, timed drug levels, point-of-care glucose quality, coagulation-specimen safety, urine-culture collection, stool-testing requirements, critical-result escalation, test-preparation verification, and hemolyzed-specimen recollection logic.
+The newest dialysis/renal-replacement batch adds hemodialysis access protection, intradialytic hypotension, dialysis infection, fluid overload, hyperkalemia cues, peritoneal-dialysis peritonitis, poor PD outflow, post-dialysis bleeding, missed-dialysis deterioration, and dialysis-day medication-timing safety.
 
-The newest emergency/disaster/environmental batch adds heat stroke, hypothermia, carbon-monoxide poisoning, drowning, lightning injury, chemical exposure/decontamination, mass-casualty triage, generator safety, smoke inhalation, and disaster medication-continuity planning.
+The newest diabetes-device/glucose-monitoring batch adds CGM confirmation when symptoms and sensor values disagree, compression-low artifacts, sensor failure backup monitoring, pump interruption, infusion-site failure, sick-day ketone escalation, hypoglycemia alarm response, automated-insulin-delivery limitations, patient-dedicated device safety, and technology backup planning.
 
 These lessons are tagged `SOURCE_FAMILY_AUTHORED_NOT_ROW_MAPPED` and are not credited as production row closures.
 
-Current U.S. source refresh includes CDC adult blood-culture contamination-prevention guidance updated March 31, 2026, CDC/NIOSH heat-illness guidance updated March 3, 2026, CDC carbon-monoxide guidance updated January 12, 2026, AHA emergency-resuscitation principles, CLIA specimen-integrity requirements, and the 2026 NCLEX-PN blueprint.
+The external source-search endpoint was unavailable during this tranche. Content was therefore kept conservative to established U.S. dialysis and diabetes-device safety principles without introducing new exact thresholds, doses, or product-specific claims; current-source refresh remains required before publication.
 
 ## Production denominator
 
