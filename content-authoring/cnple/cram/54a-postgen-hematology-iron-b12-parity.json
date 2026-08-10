@@ -1,0 +1,144 @@
+[
+  {
+    "id": "np-iron-deficiency-anemia-evaluation",
+    "title": "Iron Deficiency Anemia: Prove Deficiency and Find the Cause",
+    "system": "Hematology / Primary Care",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling"],
+    "lifespan": ["adolescent", "adult", "pregnancy", "older adult"],
+    "acuity": "mixed",
+    "bottomLine": "Iron deficiency is a diagnosis and an etiologic problem, not merely a low hemoglobin. Confirm iron deficiency with CBC plus ferritin interpreted in clinical context, assess severity and symptoms, then determine why iron is being lost, not absorbed or not supplied before assuming diet is the explanation.",
+    "recognize": [
+      "Iron deficiency can cause fatigue, reduced exercise tolerance, restless legs, hair/nail change or pica even before frank anemia develops.",
+      "Microcytosis supports iron deficiency but is not specific; thalassemia and other disorders can produce a low MCV without iron depletion."
+    ],
+    "differentiate": [
+      "Ferritin is the preferred initial iron-store test, but it is an acute-phase reactant and can be misleadingly normal or elevated with inflammation, chronic disease or malignancy.",
+      "Iron deficiency, anemia of inflammation/chronic disease, thalassemia, CKD-related anemia, B12/folate deficiency and mixed etiologies can coexist; interpret the pattern rather than one isolated index."
+    ],
+    "assessment": [
+      "Assess bleeding history including menstrual, gastrointestinal and genitourinary loss; diet, pregnancy, blood donation, NSAID/anticoagulant exposure, GI symptoms, weight loss, bowel change, malabsorption risk and family history.",
+      "Assess hemodynamics, exertional symptoms, chest pain, dyspnea, syncope and functional impact to decide whether the patient is stable enough for outpatient investigation."
+    ],
+    "workup": [
+      "Start with CBC and ferritin in an otherwise well patient; add iron studies or other tests when inflammation/chronic disease makes ferritin difficult to interpret or when the differential remains broad.",
+      "Unexplained iron deficiency in adult men and postmenopausal patients, and unexplained deficiency without a convincing benign source in other adults, requires evaluation for gastrointestinal/genitourinary blood loss and malabsorption rather than empiric iron alone.",
+      "Do not use FIT/FOBT to rule out a diagnostic gastrointestinal bleeding source in a patient whose iron deficiency itself warrants evaluation."
+    ],
+    "management": [
+      "Treat confirmed deficiency while investigating and correcting the cause; oral iron is usually first-line when absorption is expected and treatment is tolerated.",
+      "Address heavy menstrual bleeding, gastrointestinal disease, nutrition, blood donation or medication contributors through the appropriate clinical pathway.",
+      "Urgent care, transfusion assessment or hospital-level evaluation is based on hemodynamic compromise, active bleeding, ischemic symptoms and overall clinical status rather than one universal hemoglobin number."
+    ],
+    "medicationSafety": [
+      "Do not give prolonged iron to a patient with microcytosis and normal iron stores without confirming the diagnosis; unnecessary iron can cause harm.",
+      "Iron can interact with several oral medications and supplements; separate administration when clinically required and store iron safely away from children."
+    ],
+    "redFlags": ["Hemodynamic instability or ongoing active bleeding", "Chest pain, severe dyspnea, syncope or heart-failure symptoms with significant anemia", "Unexplained iron deficiency with weight loss, GI bleeding or bowel change", "Pancytopenia, blasts or another marrow-failure/malignancy pattern"],
+    "counselling": ["Explain that replacing iron is only half the plan: the source of the deficiency still needs to be identified.", "Use non-stigmatizing dietary counselling and avoid assuming vegetarian or low-meat intake is the only cause of iron deficiency."],
+    "followUp": ["Reassess symptoms and CBC according to severity after treatment starts and recheck iron stores after hematologic recovery when clinically appropriate.", "Failure to respond should trigger an adherence, absorption, ongoing-loss and alternate-diagnosis review rather than automatic dose escalation."],
+    "examTrap": "Seeing microcytosis and immediately prescribing months of iron without confirming iron deficiency or investigating unexplained blood loss.",
+    "oneLinePearl": "Confirm the deficiency, grade the danger, then find where the iron went.",
+    "sourceBasis": ["BC Guidelines — Iron Deficiency: Diagnosis and Management", "Canadian patient-blood-management principles"],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-iron-deficiency-anemia-oral-therapy",
+    "title": "Oral Iron: Make the Regimen Tolerable Enough to Work",
+    "system": "Hematology / Pharmacology",
+    "blueprintDomains": ["I.A Assessment", "I.C Management", "I.D Counselling", "I.E Transition/Discharge/Documentation"],
+    "lifespan": ["adolescent", "adult", "pregnancy", "older adult"],
+    "acuity": "routine",
+    "bottomLine": "There is no universal oral-iron schedule that every patient must tolerate. Choose an appropriate elemental-iron preparation and use the lowest effective, tolerable schedule—including lower-dose or alternate-day strategies when useful—then judge success by clinical and hematologic response while continuing to treat the cause of iron loss.",
+    "recognize": [
+      "Nausea, dyspepsia, constipation, diarrhea and dark stools are common reasons patients stop oral iron.",
+      "A regimen that is theoretically high dose but repeatedly missed is less effective than a tolerated regimen the patient can actually take."
+    ],
+    "differentiate": [
+      "Poor response can result from non-adherence, ongoing bleeding, malabsorption, inflammation, incorrect diagnosis or insufficient duration—not simply an inadequate milligram dose.",
+      "Dark stool from oral iron is expected; melena with concerning symptoms or hemodynamic change is a different clinical problem."
+    ],
+    "assessment": ["Review formulation, elemental dose, schedule, adverse effects, adherence, food/supplement timing, interacting medicines, bleeding symptoms and whether the original cause has been addressed."],
+    "workup": [
+      "For moderate/severe anemia, reassess CBC within a clinically appropriate early interval; hemoglobin should demonstrate a meaningful upward trend when treatment and diagnosis are correct.",
+      "If hemoglobin or ferritin fails to improve as expected, investigate ongoing loss, malabsorption, adherence and alternative/mixed anemia before switching therapy reflexively."
+    ],
+    "management": [
+      "Use an oral iron preparation the patient can tolerate; start lower and titrate, use divided or alternate-day dosing, change preparations or take with food when necessary for adherence, recognizing that food can reduce absorption for iron salts.",
+      "Continue replacement beyond hemoglobin normalization long enough to replenish stores, then reassess whether ongoing maintenance is needed for a continuing source of iron loss.",
+      "Escalate to IV iron only when the indication is established, such as oral failure/intolerance, inadequate absorption, continued loss, selected CKD/preoperative or other disease-specific circumstances."
+    ],
+    "medicationSafety": [
+      "Separate oral iron from calcium/antacids and other interacting medications when required; review the patient's full medication schedule rather than giving generic timing advice they cannot follow.",
+      "Iron is toxic in overdose, especially in children; safe storage is part of prescribing."
+    ],
+    "redFlags": ["Clinical deterioration or active bleeding despite treatment", "No expected hematologic response despite verified adherence", "Severe intolerance preventing any effective oral regimen", "Possible iron overdose"],
+    "counselling": ["Warn about expected GI effects and dark stools before they occur so the patient does not stop therapy without discussion.", "Explain that treatment usually continues after the blood count improves because restoring iron stores takes longer than correcting hemoglobin."],
+    "followUp": ["Review tolerance/adherence early enough to rescue a failing regimen and repeat CBC/ferritin according to anemia severity and response.", "Document a stop/maintenance plan once the underlying cause and iron stores have been addressed."],
+    "examTrap": "Insisting on ferrous sulfate three times daily despite significant intolerance instead of adjusting the regimen and checking why the patient is not responding.",
+    "oneLinePearl": "For oral iron, adherence and cause control beat a rigid dose schedule.",
+    "sourceBasis": ["BC Guidelines — Iron Deficiency: Diagnosis and Management", "Canadian Blood Services iron-deficiency resources"],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-iv-iron-therapy",
+    "title": "IV Iron: Use It for the Right Indication and the Right Product",
+    "system": "Hematology / Infusion Therapy",
+    "blueprintDomains": ["I.A Assessment", "I.C Management", "I.D Counselling", "I.E Transition/Discharge/Documentation"],
+    "lifespan": ["adolescent", "adult", "pregnancy", "older adult"],
+    "acuity": "mixed",
+    "bottomLine": "IV iron is not routine first-line replacement. Use it when oral iron is ineffective, not tolerated, inadequately absorbed, unable to keep pace with continued loss, or when a validated disease-specific/preoperative indication requires it; product, dose, infusion rate and observation requirements come from the current Canadian monograph and local infusion protocol.",
+    "recognize": ["Common appropriate contexts include true oral treatment failure/intolerance, malabsorption, selected CKD, continued clinically important loss and time-sensitive preoperative optimization.", "Some Canadian IV iron products also have disease-specific indications such as iron deficiency in selected heart-failure patients."],
+    "differentiate": ["IV iron corrects iron deficiency; it does not replace resuscitation or transfusion assessment in an unstable patient with active hemorrhage or severe symptomatic anemia.", "Post-infusion ferritin can be transiently elevated, so very early ferritin measurements can be misleading if used as proof of durable repletion."],
+    "assessment": ["Confirm the diagnosis and indication, review prior infusion reactions, allergies, pregnancy, active infection concerns, organ comorbidity, current access/coverage and the exact product being ordered."],
+    "workup": ["Use CBC and iron indices to establish iron deficiency and treatment need; additional testing depends on CKD, heart failure, inflammation, pregnancy or other disease-specific context."],
+    "management": [
+      "Select a Health Canada-authorized product and dose it according to its current monograph and local infusion protocol; formulations are not interchangeable by dose or infusion schedule.",
+      "Ensure trained staff, infusion monitoring and an emergency response process are available; observe and manage infusion reactions according to the actual reaction pattern and protocol.",
+      "Reassess hematologic response and iron stores at an interval that avoids misinterpreting immediate post-infusion indices."
+    ],
+    "medicationSafety": ["Do not memorize one universal IV iron dose or test-dose rule across formulations; current products differ in maximum dose, infusion time and reaction precautions.", "Stop and assess significant hypersensitivity, hypotension, chest tightness, dyspnea or other serious symptoms during infusion; management follows severity and the product/local protocol."],
+    "redFlags": ["Anaphylaxis or severe infusion reaction", "Hemodynamic instability from ongoing blood loss", "Failure to respond despite adequate replacement", "Repeated IV iron without reassessing the cause of iron loss"],
+    "counselling": ["Explain why IV therapy is being chosen and that the goal is iron repletion, not an instant normalization of hemoglobin.", "Review when to seek urgent care after an infusion and the need to continue investigation/treatment of the underlying cause."],
+    "followUp": ["Repeat CBC/iron assessment according to indication and product timing; do not schedule indefinite infusions without objective evidence of continuing need.", "Coordinate specialty or infusion-program follow-up when the indication is CKD, heart failure, pregnancy, chronic bleeding or another condition requiring shared management."],
+    "examTrap": "Choosing a memorized ferric-carboxymaltose dose for every patient or using IV iron as a substitute for stabilizing active hemorrhage.",
+    "oneLinePearl": "IV iron is formulation-specific replacement, not a universal rescue dose.",
+    "sourceBasis": ["BC Guidelines — Iron Deficiency: Diagnosis and Management", "BC PharmaCare intravenous iron coverage/product updates", "Current Health Canada product monographs and local infusion protocols"],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-vitamin-b12-deficiency",
+    "title": "Vitamin B12 Deficiency: Treat Neurologic Risk Early",
+    "system": "Hematology / Neurologic / Nutrition",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling"],
+    "lifespan": ["adult", "pregnancy", "older adult"],
+    "acuity": "mixed",
+    "bottomLine": "B12 deficiency can cause irreversible neurologic injury and can exist without dramatic anemia. Test when symptoms or clinical features justify it, interpret the result with the laboratory reference range and clinical risk, and start treatment promptly when neurologic or other specific deficiency manifestations are present.",
+    "recognize": [
+      "Risk factors include pernicious anemia/food-cobalamin malabsorption, gastric or ileal disease/surgery, vegan/strict vegetarian diet and medications such as metformin or acid-suppressing therapy.",
+      "Neurologic manifestations include paresthesias, gait disturbance, proprioceptive/vibration loss, cognitive or neuropsychiatric change and can precede macrocytic anemia."
+    ],
+    "differentiate": [
+      "Macrocytosis also occurs with alcohol, liver disease, hypothyroidism, medications, marrow disease and folate deficiency; absence of macrocytosis does not exclude clinically important B12 deficiency.",
+      "Serum B12 has an indeterminate zone and does not correlate perfectly with symptoms; use the current laboratory/clinical algorithm rather than one universal numeric cutoff."
+    ],
+    "assessment": ["Assess neurologic symptoms/exam, cognition, diet, GI surgery/disease, medications, pregnancy, anemia symptoms and causes of macrocytosis.", "If severe neurologic findings are present, do not postpone treatment solely to complete an extensive outpatient workup."],
+    "workup": ["Order B12 in patients with specific compatible symptoms or a focused clinical indication; use additional laboratory investigation or specialist/laboratory consultation when the result is indeterminate or discordant with the clinical syndrome.", "Investigate pernicious anemia or malabsorptive causes when they would change lifelong treatment or follow-up."],
+    "management": [
+      "Use high-dose oral B12 for many stable patients when absorption/adherence are adequate; parenteral therapy is appropriate for symptomatic anemia, neurologic/neuropsychiatric findings, pregnancy or selected permanent malabsorption/anatomic contexts according to current guidance.",
+      "Treat early when neurologic involvement is suspected because delayed recovery may be incomplete.",
+      "When folate deficiency is also possible, ensure B12 is replaced rather than giving folate alone to a patient with possible cobalamin deficiency."
+    ],
+    "medicationSafety": ["Folate alone can correct the hematologic picture while B12-related neurologic injury progresses; never let a normalized CBC falsely close the neurologic problem.", "Long-term therapy may be lifelong when the cause is permanent malabsorption; stopping after hemoglobin normalization can allow recurrence."],
+    "redFlags": ["Progressive gait abnormality or objective myeloneuropathy", "Severe symptomatic anemia or pancytopenia", "Pregnancy with symptomatic deficiency", "Rapid neurologic progression or diagnostic uncertainty requiring specialist assessment"],
+    "counselling": ["Explain that neurologic recovery can lag behind blood-count recovery and may be incomplete when treatment is delayed.", "Patients with permanent absorption problems need an ongoing replacement plan; vegan/vegetarian patients need reliable dietary supplementation."],
+    "followUp": ["Assess symptom and hematologic response after treatment; repeat B12 testing only when it answers adherence/response or a new clinical question rather than as automatic frequent screening.", "Reassess the cause when deficiency recurs despite an apparently adequate replacement plan."],
+    "examTrap": "Waiting for severe macrocytic anemia before treating a patient with compatible progressive neurologic B12 deficiency—or giving folate alone because the CBC looks megaloblastic.",
+    "oneLinePearl": "B12 deficiency is a neurologic diagnosis as much as a hematologic one.",
+    "sourceBasis": ["BC Guidelines — Cobalamin (Vitamin B12) and Folate Deficiency (2023)", "BC Guidelines — Folate Deficiency: Investigation and Management"],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  }
+]
