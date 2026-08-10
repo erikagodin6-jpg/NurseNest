@@ -1,0 +1,138 @@
+name: CNPLE V2 493 Global Audit
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - .github/workflows/cnple-v2-493-global-audit.yml
+      - content-authoring/cnple/cram/**
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    if: github.event.pull_request.head.ref == 'content/cnple-cram-parity-endocrine-40c-20260809'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: content/cnple-cram-parity-endocrine-40c-20260809
+          fetch-depth: 0
+      - name: Validate complete 493-object CNPLE authoring estate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          root=Path('content-authoring/cnple/cram')
+          m=json.loads((root/'manifest.json').read_text())
+          expected_state=(493,493,485,51)
+          got=(m['rawLessonObjects'],m['uniqueLessonIds'],m['canonicalTopicPathways'],m['clinicalJsonFiles'])
+          if got != expected_state:
+              raise SystemExit(f'manifest state {got} != {expected_state}')
+          if len(m['files']) != 51:
+              raise SystemExit(f"manifest file count {len(m['files'])} != 51")
+          if m.get('explicitCanonicalSupersessions') != 8:
+              raise SystemExit('canonical supersession count must remain 8')
+          if m['rawLessonObjects'] - m['explicitCanonicalSupersessions'] != m['canonicalTopicPathways']:
+              raise SystemExit('canonical pathway arithmetic drift')
+
+          required=['id','title','system','blueprintDomains','lifespan','acuity','bottomLine','recognize','differentiate','assessment','workup','management','medicationSafety','redFlags','counselling','followUp','examTrap','oneLinePearl','sourceBasis','sourceAsOf','localPolicyCheck']
+          all_ids=[]
+          total=0
+          for f in m['files']:
+              p=root/f['path']
+              if not p.exists(): raise SystemExit(f'missing file: {f["path"]}')
+              data=json.loads(p.read_text())
+              if not isinstance(data,list): raise SystemExit(f'{f["path"]}: not array')
+              if len(data)!=f['lessons']: raise SystemExit(f'{f["path"]}: {len(data)} != {f["lessons"]}')
+              for r in data:
+                  missing=[k for k in required if k not in r]
+                  if missing: raise SystemExit(f'{f["path"]}:{r.get("id")}: missing {missing}')
+                  if not isinstance(r['id'],str) or not r['id'].strip(): raise SystemExit(f'{f["path"]}: invalid id')
+                  for k in ['title','system','acuity','bottomLine','examTrap','oneLinePearl','sourceAsOf']:
+                      if not isinstance(r[k],str) or not r[k].strip(): raise SystemExit(f'{r["id"]}: invalid {k}')
+                  for k in ['blueprintDomains','lifespan','recognize','differentiate','assessment','workup','management','medicationSafety','redFlags','counselling','followUp','sourceBasis']:
+                      if not isinstance(r[k],list) or not r[k] or not all(isinstance(x,str) and x.strip() for x in r[k]):
+                          raise SystemExit(f'{r["id"]}: invalid {k}')
+                  if not isinstance(r['localPolicyCheck'],bool): raise SystemExit(f'{r["id"]}: invalid localPolicyCheck')
+                  all_ids.append(r['id'])
+              total+=len(data)
+          if total != 493 or len(all_ids) != 493 or len(set(all_ids)) != 493:
+              raise SystemExit(f'global object/id validation failed total={total} ids={len(all_ids)} unique={len(set(all_ids))}')
+
+          lab_titles=[
+            'Complete Blood Count','Hemoglobin and Hematocrit','White Blood Cells and Differential','Platelets and Coagulation Basics',
+            'Sodium Disorders','Potassium Disorders','Calcium Disorders','Magnesium Disorders','Phosphate Disorders',
+            'BUN and Creatinine','eGFR and Renal Function','Acute Kidney Injury Lab Trends',
+            'AST and ALT','Bilirubin and Jaundice','Liver Function Patterns',
+            'Glucose Interpretation','A1C Interpretation','Thyroid Function Tests',
+            'Troponin','BNP and Heart Failure','CK and CK-MB','CRP','ESR','Procalcitonin','Lactate',
+            'PT and INR','aPTT','D-Dimer','ABG Fundamentals','Respiratory Acidosis','Respiratory Alkalosis','Metabolic Acidosis','Metabolic Alkalosis','Mixed Disorders',
+            'Sepsis Lab Recognition','DKA Lab Patterns','GI Bleed Lab Trends','Heart Failure Lab Patterns','Shock Lab Patterns','Multi-Lab Clinical Judgment'
+          ]
+          def slugify(s):
+              import re
+              return re.sub(r'^-|-$','',re.sub(r'[^a-z0-9]+','-',s.lower()))
+          expected_lab={f'lab-{slugify(x)}' for x in lab_titles}
+          actual_lab={x for x in all_ids if x.startswith('lab-')}
+          if actual_lab != expected_lab:
+              raise SystemExit(f'lab parity mismatch missing={sorted(expected_lab-actual_lab)} extra={sorted(actual_lab-expected_lab)}')
+
+          resp_concepts=[
+            'asthma diagnosis and stepwise management','COPD diagnosis GOLD staging and management','pneumonia CAP versus HAP diagnosis and treatment','pulmonary nodule evaluation and follow up','interstitial lung disease recognition and referral','pulmonary embolism risk stratification and treatment','sleep apnea diagnosis and CPAP management','pleural effusion differential diagnosis and workup','hemoptysis evaluation and management','chronic cough diagnostic algorithm','tuberculosis screening and treatment','bronchiectasis diagnosis and management','pulmonary function test interpretation','oxygen therapy indications and prescribing','lung cancer screening criteria and follow up','allergic rhinitis and sinusitis management','acute bronchitis versus pneumonia differentiation','pulmonary hypertension recognition and referral','sarcoidosis diagnosis and management','occupational lung disease evaluation','cystic fibrosis adult management basics','respiratory infection in immunocompromised host','thoracentesis indications and complications','mechanical ventilation basics for NP','asthma COPD overlap syndrome management'
+          ]
+          expected_resp={f'np-{slugify(x)[:72]}' for x in resp_concepts}
+          resp_files=['39a-respiratory-advanced-parity.json','39b-respiratory-diagnostics-procedures-parity.json','39c-respiratory-diagnostics-screening-parity.json','39d-respiratory-core-completion-parity.json']
+          actual_resp=set()
+          for fn in resp_files:
+              actual_resp.update(r['id'] for r in json.loads((root/fn).read_text()))
+          if actual_resp != expected_resp:
+              raise SystemExit(f'respiratory parity mismatch missing={sorted(expected_resp-actual_resp)} extra={sorted(actual_resp-expected_resp)}')
+
+          endo_concepts=[
+            'type 2 diabetes diagnosis and initial management','type 1 diabetes insulin regimen selection','diabetes medication selection beyond metformin','insulin initiation and titration protocols','continuous glucose monitoring interpretation','diabetic ketoacidosis recognition and management','hyperosmolar hyperglycemic state management','hypoglycemia evaluation and prevention','hypothyroidism diagnosis and levothyroxine dosing','hyperthyroidism diagnosis and management','thyroid nodule evaluation and FNA indications','thyroid cancer follow up and surveillance','adrenal insufficiency diagnosis and management','Cushing syndrome evaluation','pheochromocytoma recognition and workup','hyperparathyroidism diagnosis and management','hypoparathyroidism management','vitamin D deficiency evaluation and treatment','osteoporosis diagnosis and pharmacotherapy','metabolic bone disease evaluation','pituitary adenoma recognition and management','polycystic ovary syndrome metabolic management','lipid disorders diagnosis and management','obesity pharmacotherapy selection','electrolyte disorders sodium and potassium','calcium disorders hypercalcemia and hypocalcemia'
+          ]
+          expected_endo={f'np-{slugify(x)[:72]}' for x in endo_concepts}
+          endo_files=['40a-endocrine-diabetes-parity.json','40b-endocrine-thyroid-adrenal-parathyroid-parity.json','40c-endocrine-bone-metabolic-parity.json']
+          actual_endo=set()
+          for fn in endo_files:
+              actual_endo.update(r['id'] for r in json.loads((root/fn).read_text()))
+          if actual_endo != expected_endo:
+              raise SystemExit(f'endocrine parity mismatch missing={sorted(expected_endo-actual_endo)} extra={sorted(actual_endo-expected_endo)}')
+
+          report={
+            'schemaVersion':1,'validatedAt':'2026-08-09','status':'PASS',
+            'rawLessonObjects':493,'uniqueLessonIds':493,'canonicalTopicPathways':485,'clinicalJsonFiles':51,
+            'exactGeneratorParity':{'labInterpretation':40,'respiratory':25,'endocrine':26},
+            'requiredFieldsValidated':True,'globalJsonParse':True,'globalIdUniqueness':True,
+            'note':'Clinical authoring parity is validated for these generator families only. Full CNPLE curriculum parity, source anchors, Quick Checks, runtime certification, merge and deployment remain incomplete.'
+          }
+          (root/'AUTHORING_GLOBAL_AUDIT_493.json').write_text(json.dumps(report,indent=2)+'\n')
+          m['structuralValidation']={
+            'status':'PASS','jsonParse':True,'requiredFields':True,'uniqueIds':True,'duplicateIdCount':0,
+            'canadianContaminationScan':m.get('structuralValidation',{}).get('canadianContaminationScan','PASS'),'validatedAt':'2026-08-09'
+          }
+          if 'AUTHORING_GLOBAL_AUDIT_493.json' not in m['auditDocuments']:
+              m['auditDocuments'].append('AUTHORING_GLOBAL_AUDIT_493.json')
+          m['publication']['newExpansionBatchPendingSecondPassAudit']=False
+          m['publication']['note']='The 493-object library has passed a fresh global JSON/required-field/ID audit and exact generator-identity parity validation for Lab Interpretation, Respiratory and Endocrine. Full CNPLE curriculum parity, private-core source anchoring, Quick Checks, runtime certification, merge and deployment remain incomplete.'
+          (root/'manifest.json').write_text(json.dumps(m,indent=2,ensure_ascii=False)+'\n')
+          PY
+          git diff --check -- content-authoring/cnple/cram/manifest.json content-authoring/cnple/cram/AUTHORING_GLOBAL_AUDIT_493.json
+      - name: Persist audit evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'NurseNest CNPLE audit'
+          git config user.email 'actions@users.noreply.github.com'
+          git add content-authoring/cnple/cram/manifest.json content-authoring/cnple/cram/AUTHORING_GLOBAL_AUDIT_493.json
+          if git diff --cached --quiet; then
+            echo 'Audit evidence already current.'
+          else
+            git commit -m 'audit(cnple-cram): certify 493-object authoring estate structure'
+            git push origin HEAD:content/cnple-cram-parity-endocrine-40c-20260809
+          fi
