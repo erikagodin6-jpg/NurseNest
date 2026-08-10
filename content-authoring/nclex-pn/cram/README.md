@@ -4,8 +4,8 @@ Status: ACTIVE AUTHORING
 Locale: United States
 Exam: NCLEX-PN
 Level: Entry-level practical/vocational nursing (LPN/LVN)
-Authored checkpoint: 504 Cram lessons
-Latest QA addendum: `AUTHORING_QA_ADDENDUM_504.md`
+Authored checkpoint: 524 Cram lessons
+Latest QA addendum: `AUTHORING_QA_ADDENDUM_524.md`
 
 ## Purpose
 
@@ -15,7 +15,7 @@ The library is authored against the current NCSBN NCLEX-PN test plan and U.S. en
 
 The numeric authoring checkpoint is not a production-completion claim. Production completion requires stable reconciliation against the learner-reachable `us-lpn-nclex-pn` full-lesson estate and zero unexplained `MISSING_CRAM` rows. Aggregate audit/source counts and sample slugs do not by themselves prove that a newly authored topic closes a serving production row.
 
-The 504 checkpoint adds an exact-audit-source authoring layer. `sourceLessonSlugCandidate` proves the intended source identity only; `lineageStatus` remains provisional until learner reachability, source content, and the specific audit deficiency are independently verified.
+The 504 checkpoint added an exact-audit-source authoring layer. The 524 checkpoint adds source-family depth from the dominant PN-015 health-assessment/fundamentals and perioperative/procedure catalog families. Source-family coverage is deliberately not treated as row-level lineage.
 
 ## Cram lesson contract
 
@@ -46,7 +46,7 @@ Every lesson must contain:
 
 Optional reconciliation fields:
 - `sourceLessonSlugCandidate` — exact audited source slug when available
-- `lineageStatus` — provisional classification until production row verification is complete
+- `lineageStatus` — provisional classification until production row verification is complete; source-family records use `SOURCE_FAMILY_AUTHORED_NOT_ROW_MAPPED`
 
 ## Authoring rules
 
@@ -60,7 +60,7 @@ Optional reconciliation fields:
 8. Include pediatrics, maternity/newborn, adult, older adult, mental health, rehabilitation, long-term care, and community settings across the library.
 9. Use U.S. units and conventions where they are standard in NCLEX-PN preparation, while teaching conversions when clinically necessary.
 10. Avoid obsolete protocols, unsupported mnemonics, fake precision, blanket oxygen administration, and other legacy exam-prep shortcuts that conflict with current practice.
-11. Never decrement production PN-013/PN-015 counts solely because a source slug now has an authored Cram candidate.
+11. Never decrement production PN-013/PN-015 counts solely because a source slug now has an authored Cram candidate or because a source family has broader authored coverage.
 12. PN-011/PN-012 sample slugs identify audited Full lessons with assessment gaps; they must not be mislabeled as proven Cram gaps without separate evidence.
 
 ## Source hierarchy
