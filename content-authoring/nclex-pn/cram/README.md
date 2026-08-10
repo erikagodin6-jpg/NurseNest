@@ -4,8 +4,8 @@ Status: ACTIVE AUTHORING
 Locale: United States
 Exam: NCLEX-PN
 Level: Entry-level practical/vocational nursing (LPN/LVN)
-Authored checkpoint: 764 Cram lessons
-Latest QA addendum: `AUTHORING_QA_ADDENDUM_764.md`
+Authored checkpoint: 784 Cram lessons
+Latest QA addendum: `AUTHORING_QA_ADDENDUM_784.md`
 
 ## Purpose
 
@@ -15,7 +15,7 @@ The library is authored against the 2026 NCLEX-PN test plan and U.S. entry-level
 
 The numeric authoring checkpoint is not a production-completion claim. Production completion requires stable reconciliation against the learner-reachable `us-lpn-nclex-pn` full-lesson estate and zero unexplained `MISSING_CRAM` rows.
 
-The 504 checkpoint added an exact-audit-source authoring layer. The 764 checkpoint now includes 260 source-family lessons beyond that exact-source layer. Newest depth adds palliative/end-of-life safety and cardiac-device/rhythm-procedure safety on top of tracheostomy/airway-device safety, urinary/urologic-device safety, transfusion, ostomy/drainage, dialysis, diabetes-device monitoring, diagnostics, disaster/environmental care, infection/isolation, psychosocial crisis care, nutrition support, HEENT, IV/medication calculations, burns, procedures, postpartum, pediatric, gerontology, rehabilitation, and community/home-health safety.
+The 504 checkpoint added an exact-audit-source authoring layer. The 784 checkpoint now includes 280 source-family lessons beyond that exact-source layer. Newest depth adds oncology emergency/symptom safety and preventive/immunization safety on top of palliative/end-of-life, cardiac-device/rhythm-procedure, tracheostomy/airway-device, urinary/urologic-device, transfusion, ostomy/drainage, dialysis, diabetes-device monitoring, diagnostics, disaster/environmental care, infection/isolation, psychosocial crisis care, nutrition support, HEENT, IV/medication calculations, burns, procedures, postpartum, pediatric, gerontology, rehabilitation, and community/home-health safety.
 
 ## Cram lesson contract
 
