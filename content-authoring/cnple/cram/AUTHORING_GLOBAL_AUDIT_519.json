@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "validatedAt": "2026-08-09",
+  "status": "PASS",
+  "rawLessonObjects": 519,
+  "uniqueLessonIds": 519,
+  "canonicalTopicPathways": 511,
+  "clinicalJsonFiles": 54,
+  "exactGeneratorParity": {
+    "gastrointestinal": 26
+  },
+  "globalJsonParse": true,
+  "requiredFieldsValidated": true,
+  "globalIdUniqueness": true
+}

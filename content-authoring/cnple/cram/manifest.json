@@ -18,7 +18,7 @@
     "uniqueIds": true,
     "duplicateIdCount": 0,
     "canadianContaminationScan": "PASS",
-    "validatedAt": "2026-08-08"
+    "validatedAt": "2026-08-09"
   },
   "files": [
     {
@@ -389,7 +389,8 @@
     "AUTHORING_QA_PARITY_40C.md",
     "AUTHORING_QA_PARITY_41A.md",
     "AUTHORING_QA_PARITY_41B.md",
-    "AUTHORING_QA_PARITY_41C.md"
+    "AUTHORING_QA_PARITY_41C.md",
+    "AUTHORING_GLOBAL_AUDIT_519.json"
   ],
   "fullLessonParity": {
     "status": "IN_PROGRESS",
@@ -411,7 +412,7 @@
     "rendererMappingComplete": false,
     "productionMerged": false,
     "productionDeployed": false,
-    "note": "The 519-object CNPLE Cram V2 estate contains the audited baseline plus clinically reviewed Full-lesson parity expansions. The canonical shared Lab Interpretation and the canonical NP Respiratory, Endocrine, and Gastrointestinal generator families now have complete clinical authoring coverage. Global Full-lesson parity remains incomplete; private-core exact-current-Full reconciliation, source anchors, Bottom Line evidence, Quick Checks, runtime certification, and learner rendering remain mandatory.",
+    "note": "The 519-object library has passed fresh global JSON/required-field/ID validation and exact Gastrointestinal generator parity (26/26). Full CNPLE curriculum parity and downstream private-core certification remain incomplete.",
     "secondPassClinicalAuditCompleteForParity38B": true,
     "secondPassClinicalAuditCompleteForParity38C": true,
     "secondPassClinicalAuditCompleteForParity38D": true,
