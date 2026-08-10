@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-08-10",
+  "status": "SOURCE_BLOBS_RECOVERED_MANIFEST_REGISTRATION_PENDING",
+  "baseBranch": "content/cnple-cram-parity-pharmacology-52-20260810",
+  "baseCounts": {
+    "rawLessonObjects": 832,
+    "uniqueLessonIds": 832,
+    "canonicalTopicPathways": 824,
+    "clinicalJsonFiles": 70
+  },
+  "generatorDenominator": 25,
+  "prerequisiteExistingIds": [
+    "np-headache-differential-diagnosis-and-management",
+    "np-tension-type-headache-management",
+    "np-cluster-headache-diagnosis-and-treatment",
+    "np-syncope-neurologic-evaluation"
+  ],
+  "recoveredSources": [
+    {
+      "path": "53a-neurology-high-yield-recovered.json",
+      "lessonCount": 10,
+      "blobSha": "673065c9bf8a0944126e12b91c637b52c068f528",
+      "sourceBranch": "content/cnple-cram-parity-neurology-40b-20260809",
+      "sourcePath": "40a-neurology-high-yield-parity.json"
+    },
+    {
+      "path": "53b-neurology-diagnostics-neuromuscular-recovered.json",
+      "lessonCount": 10,
+      "blobSha": "5d6f180c97b02a44abcfe6bb0566677aa7240028",
+      "sourceBranch": "content/cnple-cram-parity-neurology-40b-20260809",
+      "sourcePath": "40b-neurology-diagnostics-neuromuscular-parity.json"
+    },
+    {
+      "path": "53c-neurology-stroke-recovered.json",
+      "lessonCount": 1,
+      "blobSha": "1540d3e042b8c178e7c144a1327ab93de5c633ed",
+      "sourceBranch": "content/cnple-cram-parity-neurology-stroke-20260809",
+      "sourcePath": "46b-neurology-stroke-parity.json"
+    }
+  ],
+  "recoveredLessonCount": 21,
+  "expectedPostRegistrationCounts": {
+    "rawLessonObjects": 853,
+    "uniqueLessonIds": 853,
+    "canonicalTopicPathways": 845,
+    "clinicalJsonFiles": 73
+  },
+  "clinicalTextRegenerated": false,
+  "blobIdentityPreserved": true,
+  "actionsRun": {
+    "runId": 31436453194,
+    "conclusion": "failure",
+    "usableStepLogAvailable": false,
+    "note": "Recovery was therefore performed through Git data/blob reuse rather than by trusting the workflow run."
+  },
+  "remainingGate": "Register the three recovered files in manifest.json and rerun full manifest/schema/global-ID validation before treating 853/845 as governed authoring counts."
+}
