@@ -6,11 +6,11 @@
   "level": "Nurse Practitioner",
   "authoringStatus": "COMPREHENSIVE_TOPIC_BASELINE_AUDITED_FULL_LESSON_PARITY_IN_PROGRESS",
   "sourceRefreshDate": "2026-08-10",
-  "rawLessonObjects": 754,
-  "uniqueLessonIds": 754,
+  "rawLessonObjects": 780,
+  "uniqueLessonIds": 780,
   "explicitCanonicalSupersessions": 8,
-  "canonicalTopicPathways": 746,
-  "clinicalJsonFiles": 67,
+  "canonicalTopicPathways": 772,
+  "clinicalJsonFiles": 68,
   "structuralValidation": {
     "status": "PASS",
     "jsonParse": true,
@@ -319,6 +319,11 @@
       "path": "50-pediatrics-generator-parity.json",
       "lessons": 26,
       "role": "full_lesson_parity_expansion"
+    },
+    {
+      "path": "50-geriatrics-consolidated-parity.json",
+      "lessons": 26,
+      "role": "full_lesson_parity_expansion"
     }
   ],
   "canonicalOverrides": {
@@ -466,7 +471,8 @@
     "AUTHORING_QA_WOMENS_46A.md",
     "AUTHORING_QA_WOMENS_46B.md",
     "AUTHORING_QA_WOMENS_COMPLETION.md",
-    "AUTHORING_QA_PEDIATRICS_49.md"
+    "AUTHORING_QA_PEDIATRICS_49.md",
+    "AUTHORING_QA_GERIATRICS_50.md"
   ],
   "fullLessonParity": {
     "status": "IN_PROGRESS",
