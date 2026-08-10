@@ -13,12 +13,14 @@
     "PN-013-pharmacology-element-gap":{"usLpnCount":139,"pnFamilyCount":320,"status":"ACTIVE_PRIORITY","priorityReason":"Production audit ranked this ahead of general Cram remediation because pharmacology lessons missing mechanism, indications, contraindications, interactions, or administration safety carry higher clinical risk.","sampleSlugs":["insulin-administration-checks","oral-hypoglycemics","antibiotic-side-effect-reporting"]},
     "PN-015-cram-safety-gap":{"usLpnCount":971,"pnFamilyCount":2244,"status":"ACTIVE_AFTER_PHARMACOLOGY","sampleSlugs":["therapeutic-communication","documentation-do-nots","hypertension-teaching","edema-daily-weights","inhaler-technique-teaching","copd-home-care","i-o-fluid-restriction-teaching","hypokalemia-symptoms"]}
   },
-  "authoredCramLibraryCheckpoint":504,
+  "authoredCramLibraryCheckpoint":524,
   "exactAuditSourceCandidateCount":24,
-  "lineageStatus":"EXACT_SOURCE_CANDIDATES_AUTHORED_NOT_YET_ROW_CERTIFIED",
+  "newSourceFamilyAuthoredAt524":20,
+  "sourceFamilyTargetsAt524":["nursing-health-assessment-expansion-catalog.json","nursing-fundamentals-expansion-catalog.json","nursing-perioperative-expansion-catalog.json"],
+  "lineageStatus":"EXACT_SOURCE_CANDIDATES_PLUS_SOURCE_FAMILY_AUTHORING_NOT_YET_ROW_CERTIFIED",
   "lineageCandidateFile":"LINEAGE_CANDIDATES.json",
   "countedResolvedProductionRows":0,
-  "auditVisibilityLimitation":"The checked-in audit preserves aggregate/source counts and sample slugs, not a complete current U.S. PN-013/PN-015 source-row list. PN-011/PN-012 sample identity does not prove a Cram gap, and PN-008 is a curation/indexing family rather than a Cram-gap family.",
-  "nextReconciliationStep":"Verify each candidate against the actual serving us-lpn-nclex-pn source row, its learner reachability, its source content and its specific audit deficiency; then classify the serving row as MATCHED, MISSING_CRAM, NOT_APPLICABLE_TO_US_PN, or CURATION_REQUIRED as appropriate.",
-  "completionRule":"Do not infer production completion from authored lesson count or exact-source candidate count. Completion requires zero unexplained MISSING_CRAM rows for the serving U.S. LPN/LVN pathway."
+  "auditVisibilityLimitation":"The checked-in audit preserves aggregate/source counts and sample slugs, not a complete current U.S. PN-013/PN-015 source-row list. PN-011/PN-012 sample identity does not prove a Cram gap, PN-008 is a curation/indexing family, and source-family authoring cannot be credited as row closure without exact lineage.",
+  "nextReconciliationStep":"Verify each exact candidate against the actual serving us-lpn-nclex-pn source row and continue recovering row-level identities from the dominant PN-015 source families; classify each serving row as MATCHED, MISSING_CRAM, NOT_APPLICABLE_TO_US_PN, or CURATION_REQUIRED as appropriate.",
+  "completionRule":"Do not infer production completion from authored lesson count, exact-source candidate count, or source-family coverage. Completion requires zero unexplained MISSING_CRAM rows for the serving U.S. LPN/LVN pathway."
 }
