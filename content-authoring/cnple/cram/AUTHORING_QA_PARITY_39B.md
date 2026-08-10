@@ -1,7 +1,7 @@
 # CNPLE Cram V2 — Parity Batch 39B Clinical Second Pass
 
 Date: 2026-08-09
-Scope: `39b-respiratory-parity.json`
+Scope: `39b-respiratory-diagnostics-procedures-parity.json`
 Result: **PASS — clinical authoring second pass**
 
 ## Exact identity contract
