@@ -1,0 +1,101 @@
+name: CNPLE Post-Generator Hematology 54A Registration
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - .github/workflows/cnple-postgen-heme-54a-register.yml
+      - content-authoring/cnple/cram/54a-postgen-hematology-iron-b12-parity.json
+      - content-authoring/cnple/cram/AUTHORING_QA_POSTGEN_HEME_54A.md
+
+permissions:
+  contents: write
+
+jobs:
+  register:
+    if: github.event.pull_request.head.ref == 'content/cnple-cram-postgen-heme-54a-20260810'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: content/cnple-cram-postgen-heme-54a-20260810
+          fetch-depth: 0
+
+      - name: Validate and register exact Hematology Full identities
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('content-authoring/cnple/cram')
+          mp=root/'manifest.json'; m=json.loads(mp.read_text())
+          candidate_path='54a-postgen-hematology-iron-b12-parity.json'
+          audit='AUTHORING_QA_POSTGEN_HEME_54A.md'
+          expected=['np-iron-deficiency-anemia-evaluation','np-iron-deficiency-anemia-oral-therapy','np-iv-iron-therapy','np-vitamin-b12-deficiency']
+          required=['id','title','system','blueprintDomains','lifespan','acuity','bottomLine','recognize','differentiate','assessment','workup','management','medicationSafety','redFlags','counselling','followUp','examTrap','oneLinePearl','sourceBasis','sourceAsOf','localPolicyCheck']
+
+          base={}; base_total=0
+          for f in m['files']:
+              rows=json.loads((root/f['path']).read_text())
+              if len(rows)!=f['lessons']: raise SystemExit(f"{f['path']}: count drift")
+              base_total += len(rows)
+              for r in rows:
+                  miss=[k for k in required if k not in r]
+                  if miss: raise SystemExit(f"{r.get('id')}: missing {miss}")
+                  if r['id'] in base: raise SystemExit(f"duplicate base id: {r['id']}")
+                  base[r['id']]=r
+
+          rows=json.loads((root/candidate_path).read_text())
+          if [r.get('id') for r in rows] != expected: raise SystemExit(f'54A ids/order mismatch: {[r.get("id") for r in rows]}')
+          for r in rows:
+              miss=[k for k in required if k not in r]
+              if miss: raise SystemExit(f"{r.get('id')}: candidate missing {miss}")
+          missing=[]; equivalent=[]; conflicts=[]
+          for r in rows:
+              rid=r['id']
+              if rid not in base: missing.append(r)
+              elif base[rid] == r: equivalent.append(rid)
+              else: conflicts.append(rid)
+          if conflicts: raise SystemExit(f'divergent same-id Hematology conflicts: {conflicts}')
+
+          register_path='54a-postgen-hematology-iron-b12-parity-registered.json'
+          if missing:
+              (root/register_path).write_text(json.dumps(missing,indent=2,ensure_ascii=False)+'\n')
+              if register_path not in {f['path'] for f in m['files']}:
+                  m['files'].append({'path':register_path,'lessons':len(missing),'role':'post_generator_full_lesson_parity'})
+          post=base_total+len(missing)
+          m['rawLessonObjects']=post; m['uniqueLessonIds']=post
+          m['canonicalTopicPathways']=post-m['explicitCanonicalSupersessions']
+          m['clinicalJsonFiles']=len(m['files']); m['sourceRefreshDate']='2026-08-10'
+          m.setdefault('fullLessonParity',{})['authoringCanonicalTopicPathways']=m['canonicalTopicPathways']
+          if audit not in m.get('auditDocuments',[]): m.setdefault('auditDocuments',[]).append(audit)
+          m['structuralValidation']={'status':'PASS','jsonParse':True,'requiredFields':True,'uniqueIds':True,'duplicateIdCount':0,'canadianContaminationScan':m.get('structuralValidation',{}).get('canadianContaminationScan','PASS'),'validatedAt':'2026-08-10'}
+          mp.write_text(json.dumps(m,indent=2,ensure_ascii=False)+'\n')
+
+          ids=[]; total=0
+          for f in m['files']:
+              rr=json.loads((root/f['path']).read_text()); total+=len(rr)
+              if len(rr)!=f['lessons']: raise SystemExit(f"{f['path']}: final count drift")
+              ids.extend(x['id'] for x in rr)
+          if total!=post or len(ids)!=len(set(ids)): raise SystemExit(f'final estate invalid: total={total}, unique={len(set(ids))}, post={post}')
+          if not set(expected).issubset(set(ids)): raise SystemExit('54A exact Full identities not all registered')
+          report={'schemaVersion':1,'validatedAt':'2026-08-10','baseObjectsRecomputed':base_total,'candidateIds':expected,'importedMissing':len(missing),'alreadyEquivalent':equivalent,'postObjects':post,'postCanonicalPathways':m['canonicalTopicPathways'],'postClinicalJsonFiles':m['clinicalJsonFiles']}
+          (root/'AUTHORING_CONSOLIDATION_POSTGEN_HEME_54A.json').write_text(json.dumps(report,indent=2)+'\n')
+          print(json.dumps(report,indent=2))
+          PY
+          git diff --check -- content-authoring/cnple/cram
+
+      - name: Commit governed registration
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'NurseNest CNPLE post-generator authoring'
+          git config user.email 'actions@users.noreply.github.com'
+          git rm .github/workflows/cnple-postgen-heme-54a-register.yml
+          rm -f content-authoring/cnple/cram/54a-postgen-hematology-iron-b12-parity.json
+          git add -A content-authoring/cnple/cram .github/workflows/cnple-postgen-heme-54a-register.yml
+          git diff --cached --check
+          git commit -m 'content(cnple-cram): register post-generator hematology 54A'
+          git push origin HEAD:content/cnple-cram-postgen-heme-54a-20260810
