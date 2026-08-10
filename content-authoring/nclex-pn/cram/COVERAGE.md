@@ -2,15 +2,15 @@
 
 Status: ACTIVE AUTHORING
 Baseline date: 2026-08-07
-Authored Cram lessons: 504
-Latest QA addendum: `AUTHORING_QA_ADDENDUM_504.md`
+Authored Cram lessons: 524
+Latest QA addendum: `AUTHORING_QA_ADDENDUM_524.md`
 Locale: United States
 Level: PN / LPN / LVN entry-level practice
 Exam alignment: 2026 NCLEX-PN Test Plan
 
 ## Current baseline
 
-The library contains 504 distinct authored Cram lessons spanning all NCLEX-PN Client Needs areas and major practical-nursing clinical domains. The 484-lesson pharmacology estate is preserved, and the newest 20 lessons add an explicit exact-audit-source reconciliation layer rather than another broad topic-only expansion.
+The library contains 524 distinct authored Cram lessons spanning all NCLEX-PN Client Needs areas and major practical-nursing clinical domains. The 504-lesson estate is preserved; the newest 20 lessons deepen the two largest still-open PN-015 source families: health assessment/fundamentals and perioperative/procedure safety.
 
 No numeric milestone by itself is a declaration of complete coverage.
 
@@ -20,20 +20,22 @@ The 2026-08-05 practical-nursing production audit measured `us-lpn-nclex-pn` at 
 
 `countedResolvedProductionRows` remains **0**. Authored Cram volume is not used to decrement those measured serving gaps.
 
-## Latest authoring: exact audit-source reconciliation prep
+## Latest authoring: source-family PN-015 depth
 
-`50-audit-exact-source-remediation.json` adds dedicated source-slug candidates for `hypertension-teaching`, `edema-daily-weights`, `copd-home-care`, `hypokalemia-symptoms`, `pn-scope-safety-basics`, `vital-signs-escalation`, `heart-failure-monitoring`, `oxygen-devices-for-pn-care`, `insulin-administration-checks`, and `oral-hypoglycemics`.
+`52-health-assessment-fundamentals-depth.json` adds orthostatic assessment, pulse-oximetry limitations, respiratory-work-of-breathing deterioration, delirium recognition, peripheral neurovascular checks, pressure-injury risk/skin assessment, fluid-status trends, pain reassessment, focused acute-abdominal deterioration, and post-fall assessment.
 
-`51-audit-exact-labor-medication-remediation.json` adds dedicated candidates for `antibiotic-side-effect-reporting`, `us-pn-angina`, and eight exact U.S. labour/delivery audit samples: 5 Ps, fetal positions, mechanisms of labor, true labor vs prelabor, labor breathing techniques, fetal monitoring, FHR variability, and the four stages of labor.
+`53-perioperative-procedure-safety-depth.json` adds preprocedure verification/time-out safety, postoperative airway/respiratory deterioration, postoperative hemorrhage, surgical-site infection prevention, postoperative urinary retention/catheter safety, VTE prevention, pulmonary-expansion care, surgical-drain safety, dehiscence/evisceration response, and postoperative hypothermia/rewarming.
 
-The fetal-monitoring lessons use ACOG Clinical Practice Guideline No. 10 (October 2025) and the ACOG fetal-monitoring patient resource reviewed January 2026. Labor-management lessons use ACOG Clinical Practice Guideline No. 8. Diabetes medication content is aligned to ADA Standards of Care in Diabetes—2026, and antibiotic adverse-effect reporting uses current CDC 2026 stewardship, allergy, and C. difficile guidance.
+Current U.S. source refresh for these tranches includes FDA pulse-oximetry limitations and skin-pigmentation accuracy concerns; AHRQ Fall TIPS and pressure-injury prevention resources; Joint Commission 2026 National Performance Goals and Universal Protocol; CDC SSI, CAUTI, and healthcare-associated VTE resources.
 
-These 20 records include `sourceLessonSlugCandidate` and a provisional `lineageStatus`. They are intentionally authored close to exact serving identities, but they are **not** counted as production-resolved rows until the corresponding source row is independently confirmed as learner-reachable on the U.S. pathway and the audit family/Cram deficiency is proven for that row.
+These 20 records are **source-family authoring**, not exact source-row reconciliation. They carry `SOURCE_FAMILY_AUTHORED_NOT_ROW_MAPPED` and do not alter measured PN-013/PN-015 counts.
 
-## Lineage and completion gate
+## Exact audit-source reconciliation layer
 
-`LINEAGE_CANDIDATES.json` records the audit samples and proposed authored Cram counterparts. No candidate reduces a production gap count until its source row is verified on `us-lpn-nclex-pn` and substantive content equivalence is reviewed.
+`50-audit-exact-source-remediation.json` and `51-audit-exact-labor-medication-remediation.json` retain the 20 exact audit/source candidates authored at the 504 checkpoint. `LINEAGE_CANDIDATES.json` remains provisional and no source-slug candidate reduces a production gap until learner reachability and substantive equivalence are proven.
 
-The checked-in production audit exposes aggregate/source counts and sample slugs, not a complete checked-in list of all 139 U.S. PN-013 or 971 U.S. PN-015 source rows. Some sample slugs come from PN-011/PN-012 assessment gaps rather than PN-015; authoring them improves source alignment but does not prove they were missing Cram.
+## Completion gate
 
-Completion requires every applicable serving U.S. PN full lesson to be classified with a stable identifier as `MATCHED`, `MISSING_CRAM`, or `NOT_APPLICABLE_TO_US_PN`, with zero unexplained `MISSING_CRAM` rows. Canadian REx-PN assumptions must not leak into the U.S. pathway, and state-variable LPN/LVN scope must remain tagged rather than presented as universal law.
+The checked-in production audit exposes aggregate/source counts and samples, not a complete checked-in list of all 139 U.S. PN-013 or 971 U.S. PN-015 rows. Source-family authoring therefore improves clinical coverage but cannot be credited as row closure by inference.
+
+Completion requires every applicable serving U.S. PN full lesson to be classified with a stable identifier as `MATCHED`, `MISSING_CRAM`, `NOT_APPLICABLE_TO_US_PN`, or a documented curation disposition, with zero unexplained `MISSING_CRAM` rows. Canadian REx-PN assumptions must not leak into the U.S. pathway, and state-variable LPN/LVN scope must remain tagged rather than presented as universal law.
