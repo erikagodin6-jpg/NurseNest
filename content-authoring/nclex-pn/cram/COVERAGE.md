@@ -1,20 +1,20 @@
 # U.S. PN / NCLEX-PN Cram Coverage
 
 Status: ACTIVE AUTHORING
-Authored Cram lessons: 544
-Latest QA addendum: `AUTHORING_QA_ADDENDUM_544.md`
+Authored Cram lessons: 604
+Latest QA addendum: `AUTHORING_QA_ADDENDUM_604.md`
 Locale: United States
 Exam alignment: 2026 NCLEX-PN Test Plan
 
-The library contains 544 distinct U.S. PN/LPN/LVN Cram lessons across all NCLEX-PN Client Needs areas. No numeric authoring milestone is a production-completion claim.
+The library contains 604 distinct U.S. PN/LPN/LVN Cram lessons across all NCLEX-PN Client Needs areas. No numeric authoring milestone is a production-completion claim.
 
 ## Latest source-family depth
 
-The newest neurologic/procedure batch adds serial neurologic checks, post-stroke dysphagia safety, EVD monitoring, seizure precautions, lumbar-puncture aftercare, post-craniotomy deterioration, spinal-cord precautions, autonomic dysreflexia, neurogenic bladder/bowel safety, and acute ICH monitoring.
+The newest postpartum batch adds postpartum hemorrhage, postpartum preeclampsia, endometritis, VTE, cesarean/perineal wound complications, urinary retention, lactational mastitis, postpartum depression, postpartum psychosis, and peripartum cardiomyopathy.
 
-The newest newborn/neonatal batch adds newborn transition, thermoregulation, hypoglycemia, jaundice, feeding safety, safe sleep, cord care, circumcision aftercare, newborn screening, and preterm discharge/car-seat safety.
+The newest professional-practice/coordinated-care batch adds delegation vs assignment, chain of command, informed-consent boundaries, clinical documentation, incident reporting, HIPAA/privacy, qualified interpreter use, handoff communication, restraint safety, and discharge medication reconciliation.
 
-These lessons target the large `nursing-clinical-procedures-neuro-expansion-catalog.json` and U.S. newborn/neonatal PN-015 source families. They are tagged `SOURCE_FAMILY_AUTHORED_NOT_ROW_MAPPED` and are not credited as production row closures.
+These lessons are tagged `SOURCE_FAMILY_AUTHORED_NOT_ROW_MAPPED` and are not credited as production row closures.
 
 ## Production denominator
 
