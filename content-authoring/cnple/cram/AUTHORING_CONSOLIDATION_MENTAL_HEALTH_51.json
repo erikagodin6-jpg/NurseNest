@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "family": "Mental Health",
+  "canonicalGeneratorIdentities": 26,
+  "sourceBranch": "content/cnple-cram-parity-mental-health-48c-20260809",
+  "sourceClinicalSecondPass": "PASS",
+  "added": 26,
+  "alreadyPresentByteEquivalent": 0,
+  "conflicts": [],
+  "finalRawLessonObjects": 806,
+  "finalCanonicalTopicPathways": 798,
+  "finalClinicalJsonFiles": 69,
+  "fullGeneratorCoverage": true,
+  "publicationBoundary": "Authoring parity only; Full-source anchors, Bottom Line evidence, exactly three eligible Quick Checks, runtime certification and learner render QA remain required."
+}

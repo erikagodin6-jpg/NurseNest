@@ -1,0 +1,1553 @@
+[
+  {
+    "id": "np-adhd-in-adults-diagnosis-and-management",
+    "title": "Adult ADHD: Prove the Developmental Pattern and Treat Functional Impairment",
+    "system": "Mental Health / Neurodevelopment",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Adult ADHD is a neurodevelopmental condition with symptoms beginning in childhood and persistent impairment across settings. Current concentration problems alone—especially during depression, anxiety, sleep loss or substance use—do not establish ADHD; rating scales support but do not replace developmental assessment.",
+    "recognize": [
+      "Chronic disorganization, distractibility, impulsivity and task-completion difficulty can persist into adult education/work/relationships."
+    ],
+    "differentiate": [
+      "Depression/anxiety/PTSD/sleep deprivation/substances and bipolar disorder can mimic or coexist; mania is episodic with abnormal mood/energy/decreased need for sleep."
+    ],
+    "assessment": [
+      "Establish childhood onset/developmental history, impairment in multiple settings, collateral where available, sleep, mood/anxiety, trauma, substance use, learning history and cardiovascular history."
+    ],
+    "workup": [
+      "No routine neuroimaging/lab test diagnoses ADHD; use targeted testing for mimics and validated rating tools as adjuncts."
+    ],
+    "management": [
+      "Use environmental/organizational/psychological supports plus evidence-based stimulant or nonstimulant pharmacotherapy based on impairment, preference and risk."
+    ],
+    "medicationSafety": [
+      "Monitor BP/HR, appetite/weight, sleep, mood, misuse/diversion and interactions; routine ECG is not required for every patient without cardiac risk/history."
+    ],
+    "redFlags": [
+      "Psychosis/mania",
+      "Active uncontrolled stimulant use disorder",
+      "Suicidality",
+      "Syncope/exertional cardiac symptoms",
+      "Severe uncontrolled hypertension/arrhythmia concern"
+    ],
+    "counselling": [
+      "Set functional goals and discuss safe storage/diversion prevention."
+    ],
+    "followUp": [
+      "Track function and adverse effects, not only symptom scores."
+    ],
+    "examTrap": "Diagnosing adult ADHD solely from current concentration problems during untreated depression with no childhood history.",
+    "oneLinePearl": "Adult ADHD is a lifelong pattern—not a new adult attention symptom.",
+    "sourceBasis": [
+      "CADDRA Canadian ADHD Practice Guidelines 4.1",
+      "CAMH adult ADHD resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-alcohol-use-disorder-management",
+    "title": "Alcohol Use Disorder: Withdrawal Safety, Evidence-Based Treatment, and Harm Reduction",
+    "system": "Mental Health / Addiction Medicine",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "AUD care begins by identifying withdrawal/seizure risk and acute medical danger, then offers evidence-based pharmacotherapy, psychosocial treatment and harm-reduction goals. Do not tell a high-risk physiologically dependent patient to stop abruptly at home without assessing withdrawal severity/history.",
+    "recognize": [
+      "Tolerance, withdrawal, loss of control, craving, consequences and continued use despite harm support AUD; autonomic symptoms/tremor/agitation can mark withdrawal."
+    ],
+    "differentiate": [
+      "Mild withdrawal differs from seizure/delirium-tremens risk; intoxication, head injury, hypoglycemia, sepsis and other causes can mimic altered behaviour."
+    ],
+    "assessment": [
+      "Assess amount/pattern/last drink, prior severe withdrawal/seizures/DTs, other sedatives, liver disease, pregnancy, nutrition, mental health/suicide, supports and treatment goals."
+    ],
+    "workup": [
+      "Use glucose/electrolytes/CBC/liver tests/ECG/toxicology according to severity; structured withdrawal scales support but do not replace clinical assessment."
+    ],
+    "management": [
+      "Use medically supervised withdrawal when risk requires it, give thiamine/nutrition support as appropriate, and offer evidence-based AUD medications plus counselling/peer/addiction supports.",
+      "Use reduction/harm-reduction goals when clinically appropriate and patient-centred."
+    ],
+    "medicationSafety": [
+      "Medication selection depends on liver/renal function, opioid use, pregnancy and interactions; benzodiazepines are withdrawal treatment in selected patients, not chronic AUD therapy."
+    ],
+    "redFlags": [
+      "Withdrawal seizure",
+      "Delirium/tremens",
+      "Severe autonomic instability",
+      "Suicidality",
+      "Major GI bleed/pancreatitis/hepatitis",
+      "Pregnancy with withdrawal risk"
+    ],
+    "counselling": [
+      "Discuss safer-use/abstinence options without shame and explain that withdrawal risk can make abrupt cessation dangerous."
+    ],
+    "followUp": [
+      "Monitor drinking/withdrawal risk, medication response, liver/mental health and engagement; coordinate addiction care."
+    ],
+    "examTrap": "Telling a patient with prior withdrawal seizures to stop drinking immediately at home without a withdrawal plan.",
+    "oneLinePearl": "AUD treatment starts with withdrawal safety, then builds sustained pharmacologic and psychosocial recovery support.",
+    "sourceBasis": [
+      "Canadian Guideline for the Clinical Management of High-Risk Drinking and Alcohol Use Disorder 2023",
+      "CAMH addiction resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-antidepressant-selection-and-monitoring",
+    "title": "Antidepressants: Select for the Patient, Monitor Benefit, Activation, Withdrawal, and Safety",
+    "system": "Mental Health / Pharmacology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "postpartum",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Antidepressant prescribing requires a correct target diagnosis, bipolar/suicide assessment, patient-specific drug selection and measurement of both response and harm. Monitor early activation/adverse effects, adequate dose/duration, adherence and discontinuation risk; do not switch or augment randomly.",
+    "recognize": [
+      "Different agents vary in activation/sedation, sexual effects, weight, BP, anticholinergic/QT, interaction and discontinuation burden."
+    ],
+    "differentiate": [
+      "Nonresponse may reflect wrong diagnosis, bipolarity, inadequate trial, nonadherence, substance use or untreated medical illness.",
+      "Discontinuation symptoms differ from relapse and are more likely with abrupt cessation/short half-life agents."
+    ],
+    "assessment": [
+      "Review diagnosis, mania/hypomania, suicide risk, prior response, pregnancy, anxiety/pain/sleep symptoms, interactions, organ function, bleeding/hyponatremia/QT risk and patient priorities."
+    ],
+    "workup": [
+      "Use targeted sodium/ECG/labs when risk/agent requires them; routine broad laboratory or pharmacogenomic testing is not required for every patient."
+    ],
+    "management": [
+      "Start a guideline-supported option, optimize deliberately and switch/augment according to CANMAT response/tolerability sequencing.",
+      "Psychotherapy and combined treatment remain important according to severity and preference."
+    ],
+    "medicationSafety": [
+      "Monitor emerging mania, serotonin toxicity, suicidality/activation, hyponatremia, bleeding/BP/QT and withdrawal according to agent/patient.",
+      "Consider overdose toxicity and quantity when acute suicide risk is relevant."
+    ],
+    "redFlags": [
+      "Emerging mania",
+      "Worsening suicidal intent",
+      "Serotonin syndrome",
+      "Severe hyponatremia",
+      "Major arrhythmia/QT concern",
+      "Severe drug reaction"
+    ],
+    "counselling": [
+      "Explain time to benefit, common early effects and why abrupt stopping can cause symptoms."
+    ],
+    "followUp": [
+      "Measure symptoms/function/adverse effects after initiation/titration and document rationale for switch/augmentation."
+    ],
+    "examTrap": "Adding a second antidepressant after a brief low-dose trial without checking adherence, bipolarity or adequate duration.",
+    "oneLinePearl": "Antidepressants need a diagnosis, an adequate trial and a measurement plan—not serial guesswork.",
+    "sourceBasis": [
+      "CANMAT 2023 Major Depressive Disorder guideline"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-antipsychotic-prescribing-and-monitoring",
+    "title": "Antipsychotics: Target the Syndrome, Monitor Metabolic and Neurologic Harm",
+    "system": "Mental Health / Pharmacology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Antipsychotic treatment requires a defined psychotic/mood target and planned metabolic, movement, cardiovascular and agent-specific monitoring. Choose the lowest effective burden that supports recovery; do not use antipsychotics routinely for insomnia, uncomplicated anxiety or dementia behaviours without narrow justification.",
+    "recognize": [
+      "Weight/metabolic changes, akathisia/parkinsonism/tardive dyskinesia, prolactin effects, sedation/orthostasis and QT risk vary among agents."
+    ],
+    "differentiate": [
+      "Akathisia can mimic anxiety/agitation; NMS is a medical emergency rather than worsening psychosis.",
+      "Delirium/dementia agitation requires cause/environment assessment before reflex antipsychotic use."
+    ],
+    "assessment": [
+      "Confirm target diagnosis/symptoms, prior response/EPS, weight/BMI/waist, BP, glucose/A1C/lipids, cardiac/QT risks, prolactin symptoms, smoking/substances, pregnancy and interactions."
+    ],
+    "workup": [
+      "Use metabolic measurements and movement-disorder assessment longitudinally; ECG/prolactin/other tests are agent/risk specific.",
+      "Clozapine uses current Canadian hematologic/clinical monitoring pathways rather than obsolete U.S. REMS assumptions."
+    ],
+    "management": [
+      "Use shared-decision evidence-based antipsychotic therapy with psychosocial rehabilitation; optimize one agent before unnecessary polypharmacy and use clozapine when treatment-resistant schizophrenia criteria/monitoring allow."
+    ],
+    "medicationSafety": [
+      "Monitor NMS, severe EPS/tardive dyskinesia, metabolic disease, QT/orthostasis and clozapine neutropenia/myocarditis/seizure/constipation risks."
+    ],
+    "redFlags": [
+      "NMS",
+      "Severe dystonia/airway compromise",
+      "Syncope/arrhythmia",
+      "Clozapine fever/neutropenia concern",
+      "Severe constipation/ileus",
+      "Acute metabolic decompensation"
+    ],
+    "counselling": [
+      "Explain expected benefit, metabolic/movement monitoring and why abrupt discontinuation can destabilize illness."
+    ],
+    "followUp": [
+      "Track symptoms/function, movement/metabolic measures and ongoing indication; simplify polypharmacy when possible."
+    ],
+    "examTrap": "Treating new restlessness as worsening psychosis and increasing the antipsychotic without considering akathisia.",
+    "oneLinePearl": "Antipsychotic monitoring follows the whole patient—not just hallucinations.",
+    "sourceBasis": [
+      "CAMH psychosis/antipsychotic monitoring resources",
+      "Canadian schizophrenia practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-anxiety-disorders-diagnosis-and-management",
+    "title": "Anxiety Disorders: Identify the Pattern and Rule Out the Dangerous Mimic",
+    "system": "Mental Health / Primary Care",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Anxiety is diagnosed from a persistent fear/worry/avoidance pattern with impairment after the presentation fits and important medical/substance mimics are considered. Treatment is disorder-specific psychotherapy plus appropriate maintenance medication when indicated—not repeated sedative rescue.",
+    "recognize": [
+      "GAD, panic, social anxiety, phobias, OCD/PTSD-related symptoms and illness anxiety have different core patterns."
+    ],
+    "differentiate": [
+      "Arrhythmia/ACS/PE/asthma/hypoglycemia/hyperthyroidism/stimulant use or withdrawal can mimic acute anxiety.",
+      "Mania can look like agitation/anxiety but includes pathologic energy/sleep/mood change."
+    ],
+    "assessment": [
+      "Clarify onset, triggers, worry domains, panic, avoidance, compulsions/trauma, function, sleep, substances/caffeine, depression/suicide, medications and medical symptoms."
+    ],
+    "workup": [
+      "Use targeted ECG/glucose/thyroid or other tests only when risk/features justify them; validated scales support severity tracking rather than replacing diagnosis."
+    ],
+    "management": [
+      "Use CBT/exposure-based therapy matched to the disorder and evidence-based SSRI/SNRI or other maintenance options when appropriate; address sleep/substance contributors."
+    ],
+    "medicationSafety": [
+      "Avoid routine long-term benzodiazepine monotherapy because dependence, falls, cognition and opioid/alcohol interaction risks can outweigh benefit."
+    ],
+    "redFlags": [
+      "Syncope/exertional cardiopulmonary symptoms",
+      "Suicidal intent",
+      "Mania/psychosis",
+      "Severe withdrawal",
+      "Pregnancy/postpartum acute psychiatric deterioration"
+    ],
+    "counselling": [
+      "Validate physiologic symptoms while explaining the avoidance-anxiety cycle and role of gradual exposure."
+    ],
+    "followUp": [
+      "Track function/avoidance and reassess if the clinical pattern changes."
+    ],
+    "examTrap": "Calling new chest pain/palpitations panic before assessing medical causes.",
+    "oneLinePearl": "Anxiety diagnosis is pattern plus impairment after the dangerous mimic is considered.",
+    "sourceBasis": [
+      "Canadian mood/anxiety clinical practice",
+      "CAMH/CANMAT resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-benzodiazepine-prescribing-considerations",
+    "title": "Benzodiazepines: Narrow Indications, Short Exposure, Interaction and Withdrawal Safety",
+    "system": "Mental Health / Pharmacology / Safety",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Benzodiazepines can be useful for selected acute indications but are poor default long-term treatment for anxiety or insomnia. Before prescribing, assess substance use, respiratory/falls/cognitive risk and concurrent opioids/alcohol; if dependence is established, taper gradually rather than abruptly stopping and precipitating withdrawal/seizures.",
+    "recognize": [
+      "Sedation, psychomotor impairment, falls, memory problems, tolerance and physical dependence increase with exposure/risk factors."
+    ],
+    "differentiate": [
+      "Physical dependence is expected with repeated use and is not identical to benzodiazepine use disorder.",
+      "Alcohol/benzodiazepine withdrawal can be medically dangerous unlike uncomplicated anxiety rebound."
+    ],
+    "assessment": [
+      "Confirm indication, duration/prior use, opioid/alcohol/other sedatives, OSA/COPD, falls/cognition, pregnancy, driving/work risk and substance-use history."
+    ],
+    "workup": [
+      "No routine labs diagnose dependence; use targeted toxicology/organ testing when clinical context requires it."
+    ],
+    "management": [
+      "Prefer evidence-based psychotherapy/maintenance alternatives for chronic anxiety/insomnia.",
+      "For chronic use without ongoing benefit, use collaborative gradual taper individualized to dose/duration/withdrawal history."
+    ],
+    "medicationSafety": [
+      "Opioids/alcohol and benzodiazepines markedly increase respiratory/overdose risk; abrupt withdrawal can cause severe anxiety, autonomic symptoms and seizures."
+    ],
+    "redFlags": [
+      "Respiratory depression/overdose",
+      "Severe withdrawal/seizure",
+      "Falls/delirium",
+      "Unsafe polysubstance use",
+      "Pregnancy/newborn exposure concern"
+    ],
+    "counselling": [
+      "Discuss driving/impairment, dependence and tapering honestly without stigmatizing prescribed use."
+    ],
+    "followUp": [
+      "Reassess ongoing indication and taper progress; monitor withdrawal and function rather than automatic refills."
+    ],
+    "examTrap": "Abruptly stopping long-term high-dose benzodiazepines because the medication is high risk.",
+    "oneLinePearl": "High-risk prescribing is not fixed by high-risk withdrawal—taper safely.",
+    "sourceBasis": [
+      "Choosing Wisely Canada Geriatrics/Hospital Pharmacy recommendations",
+      "Canadian deprescribing practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-bipolar-disorder-recognition-and-management",
+    "title": "Bipolar Disorder: Identify Mania, Protect Safety, Treat the Correct Mood Polarity",
+    "system": "Mental Health / Mood Disorders",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "postpartum",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Bipolar disorder is defined by mania/hypomania history, not ordinary mood swings. Severe mania, mixed symptoms, psychosis or dangerous behaviour can require urgent hospitalization; bipolar depression is not managed as unipolar depression with antidepressant monotherapy.",
+    "recognize": [
+      "Decreased need for sleep, elevated/irritable mood, pressured speech, racing thoughts, grandiosity, increased goal-directed activity and risky behaviour characterize mania/hypomania."
+    ],
+    "differentiate": [
+      "Stimulant/substance intoxication, corticosteroids, hyperthyroidism and ADHD can mimic activation.",
+      "ADHD is chronic/developmental; mania is episodic change from baseline with altered mood/energy/sleep."
+    ],
+    "assessment": [
+      "Assess sleep, spending/sexual/risk behaviour, psychosis, agitation, suicide/violence risk, substances, medication causes, pregnancy/postpartum and collateral history."
+    ],
+    "workup": [
+      "Use targeted toxicology/thyroid/medical testing for atypical/first episodes; baseline labs depend on planned mood stabilizer/antipsychotic."
+    ],
+    "management": [
+      "Use evidence-based mood stabilizers/atypical antipsychotics matched to acute mania, bipolar depression and maintenance; urgent psychiatry/hospitalization for severe unsafe episodes."
+    ],
+    "medicationSafety": [
+      "Lithium requires renal/thyroid/calcium/level and interaction monitoring; valproate has major reproductive risk; antipsychotics require metabolic/movement monitoring."
+    ],
+    "redFlags": [
+      "Psychosis",
+      "Severe agitation/aggression",
+      "Suicidal mixed state",
+      "No sleep for days with escalating behaviour",
+      "Postpartum mania/psychosis",
+      "Inability to meet basic needs"
+    ],
+    "counselling": [
+      "Teach early relapse signs—especially reduced need for sleep—and medication toxicity/interactions."
+    ],
+    "followUp": [
+      "Monitor polarity, sleep, adherence and drug-specific organ/metabolic effects."
+    ],
+    "examTrap": "Prescribing antidepressant monotherapy to a patient with a clear prior manic episode.",
+    "oneLinePearl": "A history of mania changes the entire depression treatment plan.",
+    "sourceBasis": [
+      "CANMAT/ISBD bipolar disorder guidance",
+      "Canadian psychiatric practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-collaborative-care-models",
+    "title": "Collaborative Mental Health Care: Shared Plan, Measurement, Communication, and Escalation",
+    "system": "Mental Health / Health Systems / Leadership",
+    "blueprintDomains": [
+      "I.C Management",
+      "I.E Transition/Discharge/Documentation",
+      "III Leader",
+      "IV Educator"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Collaborative care works when primary care, mental-health specialists and allied professionals share a treatment plan, measurement, communication and escalation rules. A referral without feedback/ownership is not collaborative care.",
+    "recognize": [
+      "Psychotherapy access, medication management, social needs and medical comorbidity often require multiple disciplines."
+    ],
+    "differentiate": [
+      "Co-location alone does not create integrated care; collaboration requires defined roles and closed-loop information flow."
+    ],
+    "assessment": [
+      "Identify diagnosis/severity, safety, functional goals, barriers, current team, patient-preferred supports and who owns medication/therapy/follow-up."
+    ],
+    "workup": [
+      "Use shared symptom/function measures when useful to track response across the team; tests remain diagnosis driven."
+    ],
+    "management": [
+      "Create one care plan with clear roles, communication interval, treatment targets and escalation threshold; use psychiatric consultation for complexity while maintaining primary-care continuity when appropriate."
+    ],
+    "medicationSafety": [
+      "Avoid duplicate/conflicting psychotropic prescribing across teams; reconcile after ED/hospital/specialty changes."
+    ],
+    "redFlags": [
+      "No clinician owns suicide-risk follow-up",
+      "Conflicting medication plans",
+      "Referral lost without feedback",
+      "Rapid deterioration awaiting routine specialty appointment"
+    ],
+    "counselling": [
+      "Explain team roles to the patient and preserve consent/privacy boundaries for information sharing."
+    ],
+    "followUp": [
+      "Track whether referrals occurred and recommendations were implemented, not merely whether they were sent."
+    ],
+    "examTrap": "Assuming a patient is safe because a psychiatry referral was placed despite no appointment, no safety plan and no interim follow-up.",
+    "oneLinePearl": "Collaborative care needs shared ownership, not shared paperwork.",
+    "sourceBasis": [
+      "Canadian collaborative mental-health care models",
+      "CAMH primary-care integration resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-crisis-intervention-basics",
+    "title": "Mental Health Crisis Intervention: Safety, De-Escalation, Medical Causes, and the Least Restrictive Effective Plan",
+    "system": "Mental Health / Emergency",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling",
+      "I.E Transition/Discharge/Documentation"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "postpartum",
+      "older adult"
+    ],
+    "acuity": "emergent",
+    "bottomLine": "In a mental-health crisis, stabilize medical threats, assess suicide/violence/psychosis/intoxication and capacity, use calm trauma-informed de-escalation and choose the least restrictive setting that can actually maintain safety. Medication/restraint is not a substitute for assessment or environmental de-escalation.",
+    "recognize": [
+      "Agitation can result from psychosis/mania, delirium, intoxication/withdrawal, trauma, pain, hypoxia/hypoglycemia or interpersonal crisis."
+    ],
+    "differentiate": [
+      "Delirium/medical instability changes the pathway from purely psychiatric management.",
+      "Distress without imminent danger may be safely managed outpatient only when supports/follow-up are real."
+    ],
+    "assessment": [
+      "ABCs/vitals/glucose/medical screen when indicated, suicide/violence/means, psychosis/mania, substances/withdrawal, capacity, dependents, supports and triggers."
+    ],
+    "workup": [
+      "Use targeted tox/metabolic/injury/infection testing according to presentation; do not delay immediate safety/stabilization for exhaustive testing."
+    ],
+    "management": [
+      "Use verbal/environmental de-escalation, remove weapons/means, involve supports/security/EMS as appropriate and use emergency psychiatric care when safety cannot be maintained.",
+      "Use medication/restraint only when clinically justified, monitored and consistent with law/policy."
+    ],
+    "medicationSafety": [
+      "Sedation choice requires respiratory/cardiac/substance context and ongoing monitoring; avoid stacking sedatives without reassessing response."
+    ],
+    "redFlags": [
+      "Imminent suicide/violence risk",
+      "Severe psychosis/mania",
+      "Delirium/abnormal vitals",
+      "Severe intoxication/withdrawal",
+      "Postpartum psychosis",
+      "Unable to maintain dependent safety"
+    ],
+    "counselling": [
+      "After stabilization, explain the plan, preserve dignity and include the patient's priorities where possible."
+    ],
+    "followUp": [
+      "Every discharge from crisis requires a concrete safety/medication/follow-up plan with ownership."
+    ],
+    "examTrap": "Escalating sedative medication for an agitated hypoglycemic/delirious patient before identifying the medical cause.",
+    "oneLinePearl": "Crisis care is safety plus diagnosis plus de-escalation—not sedation alone.",
+    "sourceBasis": [
+      "CAMH suicide/crisis clinical resources",
+      "Canadian emergency psychiatry practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-depression-pharmacotherapy-selection",
+    "title": "Depression Pharmacotherapy: Match the Drug to Symptoms, Comorbidity, Prior Response, and Safety",
+    "system": "Mental Health / Pharmacology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adult",
+      "pregnancy",
+      "postpartum",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Antidepressant selection is individualized: use prior response, symptom profile, comorbidity, interactions, reproductive context, adverse-effect priorities, overdose risk and patient preference. 'First line' is a set of reasonable options, not one universal best drug.",
+    "recognize": [
+      "SSRIs/SNRIs and several other agents are evidence-supported first-line choices in appropriate adults; psychotherapy may be preferred or combined depending on severity/preferences.",
+      "Sexual effects, GI symptoms, activation, sedation, weight effects and discontinuation burden differ among agents."
+    ],
+    "differentiate": [
+      "Bipolar depression requires a bipolar strategy rather than antidepressant monotherapy.",
+      "Psychotic/catatonic/severe treatment-resistant depression needs specialty treatment rather than serial unstructured primary-care switches."
+    ],
+    "assessment": [
+      "Review prior antidepressants, adherence/dose/duration, bipolarity, anxiety/pain/sleep symptoms, suicide/overdose risk, medications/interactions, pregnancy/lactation, renal/hepatic status and patient priorities."
+    ],
+    "workup": [
+      "No routine pharmacogenomic test is required before standard treatment; use targeted ECG/labs when the drug/patient risk makes them clinically relevant."
+    ],
+    "management": [
+      "Start an evidence-based option and optimize dose/duration/adherence before declaring failure; switch/augment according to response, tolerability and CANMAT sequencing rather than stacking drugs without a plan."
+    ],
+    "medicationSafety": [
+      "Avoid abrupt discontinuation of agents with withdrawal risk; watch serotonin toxicity, hyponatremia/bleeding/QT or BP effects according to agent and patient.",
+      "Use overdose toxicity/dispensed quantity in suicide-risk planning."
+    ],
+    "redFlags": [
+      "Emerging mania",
+      "Worsening suicidality",
+      "Serotonin toxicity",
+      "Severe hyponatremia",
+      "Significant arrhythmia/QT concern",
+      "Severe drug reaction"
+    ],
+    "counselling": [
+      "Set realistic response timeline and explain early adverse effects versus expected therapeutic benefit."
+    ],
+    "followUp": [
+      "Measure symptoms/function and adverse effects; adjust systematically when response is partial or absent."
+    ],
+    "examTrap": "Calling a medication ineffective after a few days or escalating antidepressants in unrecognized bipolar disorder.",
+    "oneLinePearl": "Choose for the patient, optimize deliberately, and reassess both benefit and harm.",
+    "sourceBasis": [
+      "CANMAT 2023 Major Depressive Disorder guideline"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-depression-screening-and-diagnosis",
+    "title": "Depression: Screen, Diagnose the Episode, Assess Safety and Bipolarity",
+    "system": "Mental Health / Primary Care",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "postpartum",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "A depression screen identifies possible illness; the clinical interview establishes syndrome, duration, impairment, suicide risk, psychosis and bipolarity while considering substances, medications and medical mimics. A positive PHQ score is not the diagnosis and a low score does not overrule a dangerous history.",
+    "recognize": [
+      "Low mood or loss of interest plus cognitive, sleep, appetite, energy, psychomotor and guilt/worthlessness symptoms can define a depressive episode when duration/impairment fit.",
+      "Irritability/somatic symptoms can dominate in younger or older patients."
+    ],
+    "differentiate": [
+      "Past mania/hypomania, decreased need for sleep or antidepressant activation changes the diagnosis/strategy.",
+      "Grief can coexist with MDD; thyroid disease, anemia, sleep disorders, medications and substances can mimic/worsen symptoms."
+    ],
+    "assessment": [
+      "Assess function, episode history, suicide/self-harm, mania/hypomania, psychosis, substances, trauma/anxiety, pregnancy/perinatal status, medical disease and medication contributors."
+    ],
+    "workup": [
+      "Use validated symptom scales for severity/change, not diagnosis; order targeted medical tests only when a plausible mimic/contributor exists."
+    ],
+    "management": [
+      "Match psychotherapy, medication or combined treatment to severity, preference, access and past response; urgent psychiatry/acute care for imminent suicide risk, psychotic depression, catatonia or severe inability to care for self/dependent."
+    ],
+    "medicationSafety": [
+      "Do not start antidepressant treatment before checking bipolarity/safety; monitor activation, emerging mania, adverse effects and adherence after initiation/change."
+    ],
+    "redFlags": [
+      "Suicidal intent/plan/means",
+      "Psychosis",
+      "Catatonia",
+      "Mania/mixed state",
+      "Severe self-neglect",
+      "Postpartum psychosis concern"
+    ],
+    "counselling": [
+      "Explain that screening begins assessment and that treatment is adjusted by symptoms, function and tolerability rather than one score."
+    ],
+    "followUp": [
+      "Arrange early follow-up after treatment changes and faster reassessment for high-risk patients."
+    ],
+    "examTrap": "Starting an SSRI after a positive depression screen without asking about prior mania or current suicide risk.",
+    "oneLinePearl": "Depression diagnosis starts by excluding immediate danger and bipolarity.",
+    "sourceBasis": [
+      "CANMAT 2023 Major Depressive Disorder guideline",
+      "Canadian mental-health primary-care practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-eating-disorders-recognition-and-referral",
+    "title": "Eating Disorders: Medical Instability Can Occur at Any Body Size",
+    "system": "Mental Health / Adolescent Medicine / Endocrine",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Eating-disorder severity is determined by behaviour, physiologic instability and psychiatric risk—not appearance or BMI. Ask about restriction, bingeing, purging and compulsive exercise, assess orthostasis/electrolytes/ECG and suicide risk when indicated, and urgently refer medically unstable patients.",
+    "recognize": [
+      "Restriction, bingeing, vomiting/laxatives/diuretics, compulsive exercise and intense weight/shape concern occur across anorexia, bulimia, binge-eating and other disorders.",
+      "Atypical anorexia can cause severe malnutrition despite normal/high BMI."
+    ],
+    "differentiate": [
+      "ARFID is driven by sensory/aversive/low-interest factors rather than weight/shape concerns.",
+      "GI/endocrine disease, depression and diabetes can change weight/appetite but do not by themselves establish an eating disorder."
+    ],
+    "assessment": [
+      "Ask privately about intake, binge/purge methods, exercise, weight trajectory, syncope/chest symptoms, menses/endocrine effects, substances and suicide/self-harm; check orthostatic vitals/temperature and hydration."
+    ],
+    "workup": [
+      "Use electrolytes, glucose, magnesium/phosphate, CBC, renal/liver tests and ECG according to restriction/purging/instability; testing does not replace clinical severity assessment."
+    ],
+    "management": [
+      "Urgently manage medical instability; use evidence-based multidisciplinary psychotherapy/nutrition/medical monitoring and specialty eating-disorder care."
+    ],
+    "medicationSafety": [
+      "Bupropion is contraindicated in anorexia/bulimia because of seizure risk; QT-prolonging drugs are hazardous with electrolyte disturbance.",
+      "Refeeding high-risk malnutrition requires electrolyte/clinical monitoring."
+    ],
+    "redFlags": [
+      "Syncope",
+      "Marked bradycardia/hypotension",
+      "Severe electrolyte disturbance",
+      "Arrhythmia/QT concern",
+      "Acute food/fluid refusal",
+      "Rapid weight loss",
+      "Suicidal intent"
+    ],
+    "counselling": [
+      "Use weight-neutral, non-shaming language and focus on medical recovery/function."
+    ],
+    "followUp": [
+      "Track vitals, behaviours, labs when indicated, weight trajectory and psychiatric safety with the treatment team."
+    ],
+    "examTrap": "Reassuring a normal-BMI patient who has rapid loss, bradycardia and daily purging.",
+    "oneLinePearl": "Eating-disorder severity is physiology and behaviour—not visible body size.",
+    "sourceBasis": [
+      "Canadian eating-disorder clinical practice",
+      "Canadian adolescent medicine resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-generalized-anxiety-disorder-management",
+    "title": "Generalized Anxiety Disorder: Persistent Worry Needs Functional Treatment, Not Chronic Sedation",
+    "system": "Mental Health / Anxiety",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "GAD is excessive difficult-to-control worry across domains with associated physical/cognitive symptoms and impairment. Treat with CBT and evidence-based maintenance medication when needed, while addressing sleep, substances and medical mimics; chronic benzodiazepine use is not a durable first-line plan.",
+    "recognize": [
+      "Restlessness, tension, fatigue, irritability, sleep and concentration problems often accompany pervasive worry."
+    ],
+    "differentiate": [
+      "Hyperthyroidism, stimulant/caffeine use, withdrawal, arrhythmia and medication effects can contribute.",
+      "OCD has obsessions/compulsions; panic disorder has discrete attacks; PTSD is trauma-linked."
+    ],
+    "assessment": [
+      "Assess duration, domains/controllability of worry, impairment, sleep, depression/suicide, trauma, substances/caffeine, medications and medical symptoms."
+    ],
+    "workup": [
+      "Target tests to plausible medical contributors; scales support severity/follow-up, not diagnosis alone."
+    ],
+    "management": [
+      "Use CBT and evidence-supported SSRI/SNRI/other options individualized to patient; behavioural sleep/activity and reduction of excess stimulants/alcohol support recovery."
+    ],
+    "medicationSafety": [
+      "Monitor activation, BP/serotonin or discontinuation effects by agent; benzodiazepines have dependence, falls and cognitive risks especially with opioids/alcohol/older age."
+    ],
+    "redFlags": [
+      "Suicidality",
+      "Mania/psychosis",
+      "Severe substance withdrawal",
+      "Major unexplained cardiopulmonary symptoms"
+    ],
+    "counselling": [
+      "Use worry-management/exposure skills and explain that treatment targets functioning, not elimination of every normal worry."
+    ],
+    "followUp": [
+      "Track function, worry control, sleep and medication harms."
+    ],
+    "examTrap": "Treating months of GAD with ongoing PRN benzodiazepines without psychotherapy or maintenance strategy.",
+    "oneLinePearl": "GAD treatment builds tolerance of uncertainty; it does not sedate every worry.",
+    "sourceBasis": [
+      "Canadian anxiety-treatment practice",
+      "CANMAT/CAMH resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-insomnia-evaluation-and-management",
+    "title": "Insomnia: Diagnose the Sleep Problem Before Reaching for Sedation",
+    "system": "Mental Health / Sleep",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Chronic insomnia is persistent difficulty initiating/maintaining sleep with daytime impact despite adequate opportunity. Evaluate schedule, OSA/restless legs/circadian disease, mood, substances, pain and medications; CBT-I is first-line and chronic sedative prescribing should not replace diagnosis.",
+    "recognize": [
+      "Conditioned arousal, variable schedule and excess time awake in bed perpetuate insomnia.",
+      "Daytime sleepiness can signal OSA or medication effects rather than primary insomnia."
+    ],
+    "differentiate": [
+      "Mania causes decreased need for sleep rather than distress about inability to sleep.",
+      "OSA, restless legs, circadian disorders and parasomnias have distinct histories and treatments."
+    ],
+    "assessment": [
+      "Review sleep schedule, naps, caffeine/alcohol/cannabis, medications, snoring/apneas, leg symptoms, pain, mood/anxiety, work schedule and daytime safety."
+    ],
+    "workup": [
+      "Sleep study is for suspected sleep-disordered breathing/other defined sleep disorders, not routine primary insomnia."
+    ],
+    "management": [
+      "Use CBT-I including stimulus control/sleep consolidation and treat contributing disorders; use medication only selectively with clear indication/duration/reassessment."
+    ],
+    "medicationSafety": [
+      "Benzodiazepines/Z-drugs cause dependence, falls/cognitive impairment and interaction with opioids/alcohol; sedating OTC anticholinergics are poor routine choices."
+    ],
+    "redFlags": [
+      "Dangerous daytime sleepiness",
+      "Severe OSA concern",
+      "Mania",
+      "Suicidality",
+      "Sedative-related falls/delirium"
+    ],
+    "counselling": [
+      "Explain how behavioural sleep treatment retrains sleep drive rather than merely sedating wakefulness."
+    ],
+    "followUp": [
+      "Track sleep efficiency/daytime function and taper chronic sedatives when appropriate."
+    ],
+    "examTrap": "Starting nightly benzodiazepines before asking about OSA, bipolar symptoms, alcohol and daytime impairment.",
+    "oneLinePearl": "Insomnia treatment changes sleep behaviour; sedation alone does not fix the disorder.",
+    "sourceBasis": [
+      "Choosing Wisely Canada Geriatrics/Hospital Pharmacy sleep recommendations",
+      "Canadian sleep-medicine practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-mental-health-in-primary-care",
+    "title": "Mental Health in Primary Care: Safety, Longitudinal Diagnosis, Treatment, and Integration",
+    "system": "Mental Health / Primary Care",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling",
+      "I.E Transition/Discharge/Documentation"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "postpartum",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Primary care can diagnose and longitudinally manage many common mental-health conditions when safety, diagnostic uncertainty, comorbidity and treatment response are actively reassessed. Every visit should preserve the ability to detect suicide risk, bipolarity, psychosis, substance use and medical contributors rather than reducing care to medication refills.",
+    "recognize": [
+      "Depression/anxiety/insomnia/substance use frequently present through somatic or functional concerns.",
+      "Continuity allows diagnostic evolution and measurement-based treatment adjustment."
+    ],
+    "differentiate": [
+      "Primary-care management is appropriate for many stable conditions; severe mania/psychosis, imminent suicide risk, complex eating disorders or treatment-resistant illness may require specialty/acute care."
+    ],
+    "assessment": [
+      "Assess symptoms/function, safety, bipolarity/psychosis, substances, sleep/trauma, medical/medication contributors, supports and treatment preference."
+    ],
+    "workup": [
+      "Use validated scales as adjuncts and targeted labs only for plausible medical mimics; avoid broad psychiatric testing panels."
+    ],
+    "management": [
+      "Use evidence-based psychotherapy/medications, collaborative goal setting and regular follow-up; integrate chronic disease, reproductive and substance-use care."
+    ],
+    "medicationSafety": [
+      "Reconcile psychotropics at every transition and monitor class-specific metabolic, organ, interaction and withdrawal risks."
+    ],
+    "redFlags": [
+      "Suicidal intent",
+      "Mania/psychosis",
+      "Severe self-neglect/eating instability",
+      "Dangerous intoxication/withdrawal",
+      "Failure of multiple adequate treatments with diagnostic uncertainty"
+    ],
+    "counselling": [
+      "Normalize mental health as longitudinal medical care and involve supports with consent."
+    ],
+    "followUp": [
+      "Track function/symptoms and ensure specialty referrals/pending assessments are closed-loop."
+    ],
+    "examTrap": "Continuing serial antidepressant refills for years without ever reassessing diagnosis, bipolarity, substance use or functional outcome.",
+    "oneLinePearl": "Primary mental-health care is longitudinal clinical reasoning—not prescription maintenance.",
+    "sourceBasis": [
+      "CANMAT/CAMH Canadian primary-care mental-health resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-mental-health-referral-indications",
+    "title": "Mental Health Referral: Escalate for Risk, Diagnostic Complexity, Treatment Resistance, or Specialty Therapy Need",
+    "system": "Mental Health / Care Coordination",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.E Transition/Discharge/Documentation"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "postpartum",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Referral is driven by risk and complexity, not diagnostic label alone. Emergency referral is required when safety or medical stability cannot be maintained; specialty referral is appropriate for diagnostic uncertainty, severe/complex illness, treatment resistance, specialty medications/therapies or major functional deterioration. Referral never transfers responsibility before care is actually received.",
+    "recognize": [
+      "Psychosis, bipolar disorder, severe eating disorders, recurrent self-harm, complex substance use and treatment-resistant mood/anxiety often need specialty input."
+    ],
+    "differentiate": [
+      "Routine consult differs from emergency psychiatric assessment; waiting months is unsafe for active suicide/mania/psychosis or rapid deterioration."
+    ],
+    "assessment": [
+      "Define risk, diagnosis/uncertainty, treatments tried with dose/duration/adherence, comorbidities, function, supports, substances and urgency."
+    ],
+    "workup": [
+      "Complete appropriate basic medical/substance evaluation before referral when safe, but do not delay emergency transfer for diagnostic perfection."
+    ],
+    "management": [
+      "Use emergency services for imminent danger/medical instability; use psychiatry/addiction/eating-disorder/trauma/perinatal/early-psychosis specialty services according to need.",
+      "Maintain interim treatment/safety follow-up until handoff is closed."
+    ],
+    "medicationSafety": [
+      "Do not initiate specialty/high-risk medication outside competence/monitoring capacity merely because the referral wait is long; coordinate bridging treatment safely."
+    ],
+    "redFlags": [
+      "Suicidal intent/plan",
+      "Severe mania/psychosis/catatonia",
+      "Eating-disorder medical instability",
+      "Severe withdrawal/intoxication",
+      "Diagnostic uncertainty with rapid decline",
+      "Treatment-resistant severe depression"
+    ],
+    "counselling": [
+      "Explain why referral is recommended and what the patient should do if symptoms worsen before the appointment."
+    ],
+    "followUp": [
+      "Confirm appointment/consult outcome and integrate recommendations; retain ownership of unresolved safety issues."
+    ],
+    "examTrap": "Assuming responsibility ended when a referral was faxed despite ongoing high suicide risk and no appointment.",
+    "oneLinePearl": "A referral is not a handoff until someone accepts the clinical work.",
+    "sourceBasis": [
+      "Canadian mental-health referral and collaborative-care practice",
+      "CAMH clinician resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-mood-stabilizer-management",
+    "title": "Mood Stabilizers: Lithium, Valproate, Carbamazepine, and Lamotrigine Need Different Monitoring",
+    "system": "Mental Health / Pharmacology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "There is no generic 'mood stabilizer monitoring.' Match efficacy and toxicity surveillance to the actual agent, mood polarity, organ function, pregnancy potential and interactions. Lithium levels never override clinical toxicity; valproate reproductive risk and lamotrigine severe-rash risk must be actively managed.",
+    "recognize": [
+      "Lithium is effective for bipolar maintenance/mania and has a narrow therapeutic index; valproate/carbamazepine/lamotrigine have distinct episode roles and toxicities."
+    ],
+    "differentiate": [
+      "Lamotrigine is useful for bipolar depression/maintenance but not acute mania; lithium toxicity can occur with levels previously tolerated when renal/sodium/fluid status changes."
+    ],
+    "assessment": [
+      "Review mood polarity, pregnancy potential, renal/hepatic/thyroid status, sodium/fluid changes, interacting drugs, prior rash and adherence."
+    ],
+    "workup": [
+      "Lithium uses serum level plus renal/thyroid/calcium and clinical monitoring; valproate uses hepatic/CBC/reproductive context; carbamazepine uses CBC/liver/sodium/interactions; lamotrigine is titration/rash focused."
+    ],
+    "management": [
+      "Choose/titrate according to bipolar episode/maintenance evidence and patient risk; reinforce hydration/sick-day/interactions for lithium and slow lamotrigine titration."
+    ],
+    "medicationSafety": [
+      "NSAIDs, ACEi/ARBs, diuretics and dehydration can raise lithium toxicity risk.",
+      "Valproate has major teratogenic/reproductive risk; serious lamotrigine rash/mucosal symptoms require urgent evaluation."
+    ],
+    "redFlags": [
+      "Lithium neuro/GI toxicity",
+      "Severe rash/mucosal involvement",
+      "Hepatic injury",
+      "Severe cytopenia",
+      "Pregnancy exposure concern",
+      "Severe hyponatremia"
+    ],
+    "counselling": [
+      "Teach agent-specific toxicity signs, interaction/sick-day rules and contraception/pregnancy planning."
+    ],
+    "followUp": [
+      "Monitor mood plus agent-specific labs/levels and reassess as renal function/medications/pregnancy status change."
+    ],
+    "examTrap": "Calling a lithium level 'therapeutic' and dismissing tremor, ataxia and vomiting after dehydration/NSAID exposure.",
+    "oneLinePearl": "Mood stabilizers share a goal, not a monitoring plan.",
+    "sourceBasis": [
+      "CANMAT/ISBD bipolar guidance",
+      "Canadian psychiatric pharmacology practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-opioid-use-disorder-treatment",
+    "title": "Opioid Use Disorder: Offer Evidence-Based Agonist Treatment and Overdose Prevention",
+    "system": "Mental Health / Addiction Medicine",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Opioid use disorder is a treatable chronic condition. Offer evidence-based opioid agonist treatment, overdose prevention and harm reduction rather than requiring detoxification or abstinence first; withdrawal management alone is not definitive OUD treatment and carries high relapse/overdose risk.",
+    "recognize": [
+      "Loss of control, craving, tolerance/withdrawal and continued use despite harm support OUD; illicit supply exposure increases unpredictable fentanyl/toxic-drug risk.",
+      "Reduced tolerance after abstinence raises overdose risk."
+    ],
+    "differentiate": [
+      "Physiologic dependence from prescribed opioids is not automatically OUD; diagnosis requires a problematic behavioural/clinical pattern.",
+      "Withdrawal is usually not life-threatening but can drive rapid return to use; overdose is a respiratory emergency."
+    ],
+    "assessment": [
+      "Assess current/last opioid, route, overdose history, withdrawal, other sedatives/alcohol, pain, pregnancy, mental health/suicide, infections, housing and treatment goals."
+    ],
+    "workup": [
+      "Use urine drug testing selectively to inform care rather than punish; check pregnancy/infection/liver/renal/ECG data when treatment choice or clinical presentation requires it."
+    ],
+    "management": [
+      "Offer first-line opioid agonist treatment according to current CRISM guidance, naloxone/overdose education and harm-reduction supports; do not withhold care because abstinence is not the current goal.",
+      "Coordinate pain, mental-health, infectious-disease and social care."
+    ],
+    "medicationSafety": [
+      "Induction/titration depends on agent, withdrawal state and fentanyl exposure; follow current Canadian protocols rather than an obsolete one-size-fits-all induction.",
+      "Benzodiazepines/alcohol increase respiratory risk but should prompt safety management, not automatic denial of OAT."
+    ],
+    "redFlags": [
+      "Respiratory depression/overdose",
+      "Severe polysubstance intoxication",
+      "Suicidality",
+      "Pregnancy with unstable opioid use",
+      "Severe injection-related infection",
+      "Loss of tolerance after abstinence"
+    ],
+    "counselling": [
+      "Use person-first non-stigmatizing language and provide naloxone education to patient/supports."
+    ],
+    "followUp": [
+      "Use low-barrier frequent early follow-up and adjust treatment after recurrence rather than discharging the patient."
+    ],
+    "examTrap": "Sending a patient to detox without offering OAT, then assuming relapse represents treatment failure rather than predictable overdose risk.",
+    "oneLinePearl": "OUD treatment is agonist therapy plus harm reduction and continuity—not detox alone.",
+    "sourceBasis": [
+      "CRISM National Guideline for Clinical Management of Opioid Use Disorder — 2024 update"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-panic-disorder-diagnosis-and-treatment",
+    "title": "Panic Disorder: First Rule Out the Acute Mimic, Then Treat the Fear Cycle",
+    "system": "Mental Health / Anxiety",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Panic disorder requires recurrent unexpected panic attacks plus ongoing worry or behaviour change; a first attack is not automatically psychiatric. Once the pattern is established, CBT/exposure and evidence-based maintenance therapy outperform repeated benzodiazepine rescue.",
+    "recognize": [
+      "Attacks peak rapidly with intense fear plus palpitations, dyspnea, chest discomfort, dizziness, tremor, sweating or fear of dying/losing control."
+    ],
+    "differentiate": [
+      "ACS/arrhythmia/PE/asthma/hypoglycemia/hyperthyroidism/stimulants and withdrawal can mimic panic.",
+      "GAD is sustained diffuse worry rather than abrupt attacks; phobias are cue-linked."
+    ],
+    "assessment": [
+      "For first/atypical attack assess vitals, cardiopulmonary risk, substances/medications and medical history; assess avoidance/agoraphobia, depression and suicide risk."
+    ],
+    "workup": [
+      "Use ECG/glucose/thyroid or other testing based on clinical risk, not a universal panic panel; avoid repeated extensive workup when a stable documented pattern has no new red flags."
+    ],
+    "management": [
+      "CBT with interoceptive/exposure strategies is core; use maintenance pharmacotherapy when appropriate and treat comorbid depression/substance use."
+    ],
+    "medicationSafety": [
+      "Benzodiazepines create dependence/sedation and interaction risk and can reinforce rescue dependence; keep use narrow/short if used at all."
+    ],
+    "redFlags": [
+      "Syncope",
+      "Persistent hypoxemia",
+      "Exertional chest pain",
+      "New arrhythmia",
+      "Severe withdrawal",
+      "Suicidal intent"
+    ],
+    "counselling": [
+      "Explain panic physiology without dismissing symptoms and teach exposure-based recovery rather than broad avoidance."
+    ],
+    "followUp": [
+      "Track attack frequency, anticipatory anxiety and return to avoided activities."
+    ],
+    "examTrap": "Diagnosing panic disorder from one first episode of chest pain and tachycardia without a medical assessment.",
+    "oneLinePearl": "The first panic-like attack gets a differential; recurrent panic gets a fear-cycle treatment plan.",
+    "sourceBasis": [
+      "Canadian anxiety-treatment practice",
+      "CAMH resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-personality-disorders-recognition",
+    "title": "Personality Disorders: Recognize Enduring Patterns Without Using the Label as a Dismissal",
+    "system": "Mental Health / Personality / Primary Care",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Personality disorders are enduring inflexible patterns across contexts that cause distress/impairment and are diagnosed longitudinally—not from one difficult encounter. The label never replaces assessment of suicide risk, trauma, mood, psychosis, substance use or medical illness.",
+    "recognize": [
+      "Borderline patterns can include affective instability, abandonment sensitivity, self-harm and unstable relationships; other personality patterns have different cognitive/interpersonal features."
+    ],
+    "differentiate": [
+      "Bipolar disorder is episodic; PTSD/ADHD/autism/substance use can overlap with personality features.",
+      "Acute suicidality or psychosis is not 'just personality' and needs its own assessment."
+    ],
+    "assessment": [
+      "Review longstanding patterns across relationships/work, developmental/trauma history, mood episodes, self-harm/suicide, substance use, psychosis, function and prior treatments."
+    ],
+    "workup": [
+      "No laboratory test diagnoses personality disorder; targeted testing follows plausible medical/substance mimics."
+    ],
+    "management": [
+      "Use structured evidence-based psychotherapy and consistent collaborative boundaries; treat comorbid mood/anxiety/substance conditions and crisis risk rather than prescribing to a personality label."
+    ],
+    "medicationSafety": [
+      "Avoid polypharmacy aimed at rapidly controlling every affective/interpersonal symptom; prescribe only for defined target conditions with monitoring."
+    ],
+    "redFlags": [
+      "Active suicidal intent",
+      "Escalating self-harm",
+      "Psychosis/mania",
+      "Severe substance intoxication/withdrawal",
+      "Interpersonal violence/unsafe environment"
+    ],
+    "counselling": [
+      "Use non-stigmatizing language and emphasize treatability, function and skills rather than character judgments."
+    ],
+    "followUp": [
+      "Maintain continuity/clear care plans and reassess risk during crises/relationship transitions."
+    ],
+    "examTrap": "Dismissing new suicidality as 'attention seeking' because a patient carries a borderline-personality diagnosis.",
+    "oneLinePearl": "A personality diagnosis explains a pattern; it never excuses skipping a fresh safety assessment.",
+    "sourceBasis": [
+      "Canadian psychiatric/personality-disorder practice",
+      "CAMH clinical resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-psychopharmacology-basics",
+    "title": "Psychopharmacology Basics: Diagnosis, Target Symptom, Time Course, Interactions, and Monitoring",
+    "system": "Mental Health / Pharmacology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "postpartum",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Psychiatric prescribing starts with a defensible diagnosis/target, baseline risks and a monitoring plan. Know expected time course, common/serious adverse effects, withdrawal/rebound, interactions and what outcome defines success; avoid adding medications to treat side effects from an unreviewed regimen.",
+    "recognize": [
+      "Antidepressants, antipsychotics, mood stabilizers, stimulants and sedatives have different onset/monitoring and toxicity profiles.",
+      "Treatment response includes function and tolerability, not symptom score alone."
+    ],
+    "differentiate": [
+      "Medication nonresponse can reflect wrong diagnosis, inadequate dose/duration, nonadherence, interaction or untreated substance/medical disorder.",
+      "Side effects can mimic new psychiatric symptoms and create prescribing cascades."
+    ],
+    "assessment": [
+      "Review diagnosis/target, prior response, bipolarity/suicide risk, substances, pregnancy, metabolic/cardiac/renal/hepatic risks, current medications and patient priorities."
+    ],
+    "workup": [
+      "Order baseline/follow-up labs/ECG/levels only when required by the drug or patient risk; do not use routine broad panels for every psychotropic."
+    ],
+    "management": [
+      "Choose evidence-based monotherapy where possible, titrate deliberately, define response timeline and only augment/polypharmacy when rationale/monitoring are explicit."
+    ],
+    "medicationSafety": [
+      "Monitor serotonin toxicity, metabolic/movement/QT effects, lithium/valproate organ toxicity, stimulant CV/misuse risk and sedative dependence according to agent.",
+      "Avoid abrupt discontinuation when withdrawal/rebound is plausible."
+    ],
+    "redFlags": [
+      "Emerging mania/psychosis",
+      "Severe suicidality",
+      "Serotonin syndrome/NMS",
+      "Major arrhythmia",
+      "Lithium/valproate toxicity",
+      "Severe withdrawal"
+    ],
+    "counselling": [
+      "Explain target benefit, expected onset, common harms and what symptoms require urgent contact."
+    ],
+    "followUp": [
+      "Measure benefit/harm and reconcile the regimen at every meaningful change."
+    ],
+    "examTrap": "Adding a second psychiatric drug to treat an adverse effect without reviewing whether the first drug is still indicated.",
+    "oneLinePearl": "Every psychotropic needs a target, monitoring plan and exit strategy.",
+    "sourceBasis": [
+      "CANMAT/CAMH/CADDRA Canadian psychopharmacology resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-ptsd-diagnosis-and-management",
+    "title": "PTSD: Trauma-Informed Diagnosis and Evidence-Based Recovery Without Forced Disclosure",
+    "system": "Mental Health / Trauma-Informed Care",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "PTSD requires a trauma-related pattern of intrusion, avoidance, negative mood/cognition and hyperarousal with impairment after the appropriate duration. Trauma-informed care prioritizes safety, choice and control; the clinician does not need to force a detailed trauma narrative before validating symptoms or starting evidence-based treatment.",
+    "recognize": [
+      "Nightmares, flashbacks, avoidance, hypervigilance, guilt/numbing and physiologic reactivity are common; somatic symptoms and high health-care use can occur."
+    ],
+    "differentiate": [
+      "Acute stress reactions, depression, panic, OCD, substance use and traumatic brain injury can overlap.",
+      "Psychosis/dissociation require careful phenomenology rather than assuming all unusual experiences are PTSD."
+    ],
+    "assessment": [
+      "Ask permission before trauma questions; assess current safety, suicide/self-harm, dissociation, sleep, substances, ongoing violence and functional impairment."
+    ],
+    "workup": [
+      "Use validated PTSD screens/severity tools as adjuncts; order medical/neurologic testing only when a plausible alternate diagnosis exists."
+    ],
+    "management": [
+      "Use trauma-focused psychotherapy as core treatment and evidence-based pharmacotherapy for PTSD/comorbid symptoms when indicated; address ongoing safety and social needs."
+    ],
+    "medicationSafety": [
+      "Avoid routine long-term benzodiazepines for PTSD; monitor medication-specific adverse effects/interactions and substance self-medication."
+    ],
+    "redFlags": [
+      "Active suicidality",
+      "Ongoing abuse/trafficking",
+      "Severe dissociation with unsafe behaviour",
+      "Psychosis/mania",
+      "Dangerous substance use"
+    ],
+    "counselling": [
+      "Explain that the patient controls the depth/timing of disclosure and treatment does not require recounting every detail at the first visit."
+    ],
+    "followUp": [
+      "Track function, sleep, avoidance and safety and coordinate psychotherapy/specialty care."
+    ],
+    "examTrap": "Insisting on a detailed trauma retelling in the first visit before offering care.",
+    "oneLinePearl": "Trauma-informed care restores control; it does not demand a story as proof.",
+    "sourceBasis": [
+      "CAMH PTSD professional resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-schizophrenia-diagnosis-and-management",
+    "title": "Schizophrenia and Psychotic Disorders: Diagnose Longitudinally, Treat Early, Monitor the Whole Patient",
+    "system": "Mental Health / Psychosis",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Psychosis is a syndrome; schizophrenia requires longitudinal primary-psychotic illness after mood, substance, delirium/medical and neurologic causes are assessed. Safety and early treatment matter, but do not diagnose chronic schizophrenia from one new psychotic episode.",
+    "recognize": [
+      "Delusions, hallucinations, disorganization, negative symptoms and functional decline can occur; first-episode psychosis often emerges in adolescence/young adulthood."
+    ],
+    "differentiate": [
+      "Delirium has impaired attention/fluctuation; mania/depression can include psychosis; substances/steroids/neurologic disease may cause secondary psychosis.",
+      "New late-life psychosis deserves a broad medical/cognitive differential."
+    ],
+    "assessment": [
+      "Assess suicide/violence, command hallucinations, ability to care for self, substances, medications, attention/cognition, neurologic symptoms, mood syndrome and collateral history."
+    ],
+    "workup": [
+      "Use targeted CBC/chemistry/thyroid/pregnancy/toxicology/infectious/neuroimaging tests according to onset/risk; no lab test diagnoses schizophrenia."
+    ],
+    "management": [
+      "Urgent care for unsafe/agitated/medically abnormal patients; use early-psychosis services and shared-decision antipsychotic treatment plus psychosocial/functional support."
+    ],
+    "medicationSafety": [
+      "Monitor weight/metabolic measures, movement disorders, prolactin/QT/other agent-specific risk; clozapine uses current Canadian hematologic safety pathways for appropriate treatment-resistant illness."
+    ],
+    "redFlags": [
+      "Command hallucinations with intent",
+      "Severe agitation",
+      "Catatonia",
+      "Delirium/abnormal vitals",
+      "Postpartum psychosis",
+      "Focal neurologic findings"
+    ],
+    "counselling": [
+      "Use non-confrontational communication and involve supports with consent; address sleep/substance relapse factors."
+    ],
+    "followUp": [
+      "Reassess diagnosis over time and monitor function, adherence and treatment harms."
+    ],
+    "examTrap": "Diagnosing schizophrenia in an older adult with abrupt visual hallucinations and fluctuating attention without evaluating delirium/medical disease.",
+    "oneLinePearl": "First psychosis gets a syndrome workup; schizophrenia is a longitudinal diagnosis.",
+    "sourceBasis": [
+      "CAMH psychosis resources",
+      "Canadian schizophrenia/early-psychosis practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-substance-use-disorder-screening",
+    "title": "Substance Use Screening: Ask Universally, Assess Risk, Diagnose the Pattern Without Stigma",
+    "system": "Mental Health / Addiction / Primary Care",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Use routine nonjudgmental substance-use screening and then assess substance, route, quantity/frequency, consequences, tolerance/withdrawal, overdose risk and readiness/goals. A positive screen is not automatically a substance use disorder; diagnosis requires a problematic pattern and impairment/risk.",
+    "recognize": [
+      "Alcohol, opioids, stimulants, cannabis, sedatives and nicotine can produce different intoxication/withdrawal syndromes and harms."
+    ],
+    "differentiate": [
+      "Use without disorder differs from hazardous use and SUD; prescribed medication use can still become harmful but is not assumed to be addiction."
+    ],
+    "assessment": [
+      "Ask privately when appropriate about substances, route, last use, overdose/withdrawal, injection/infection risk, medications, pregnancy, mental health/suicide, housing and goals using person-first language."
+    ],
+    "workup": [
+      "Use validated screens and targeted toxicology/infection/liver/ECG/pregnancy testing only when results change care; routine urine drug testing is not a truth detector for all substance use."
+    ],
+    "management": [
+      "Provide brief intervention/harm reduction, overdose prevention, vaccination/infection care and evidence-based treatment/referral matched to substance and severity."
+    ],
+    "medicationSafety": [
+      "Avoid abrupt sedative/alcohol withdrawal plans when severe withdrawal is plausible; opioid/benzodiazepine/alcohol combinations markedly increase overdose risk."
+    ],
+    "redFlags": [
+      "Overdose/respiratory depression",
+      "Severe alcohol/benzodiazepine withdrawal",
+      "Psychosis/severe agitation",
+      "Suicidality",
+      "Pregnancy with high-risk substance use",
+      "Injection-related severe infection"
+    ],
+    "counselling": [
+      "Use collaborative goals including reduced use/harm when abstinence is not the patient's current goal."
+    ],
+    "followUp": [
+      "Reassess harms/function and treatment engagement; relapse prompts plan adjustment, not discharge from care."
+    ],
+    "examTrap": "Calling every positive screening response an addiction diagnosis or using stigmatizing language that blocks disclosure/care.",
+    "oneLinePearl": "Screen universally, diagnose carefully, and treat harm without stigma.",
+    "sourceBasis": [
+      "Canadian substance-use screening/harm-reduction practice",
+      "CRISM resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-suicide-risk-assessment",
+    "title": "Suicide Risk: Ask Directly, Assess Dynamic Risk, Build a Specific Safety Plan",
+    "system": "Mental Health / Emergency / Primary Care",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling",
+      "I.E Transition/Discharge/Documentation"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "postpartum",
+      "older adult"
+    ],
+    "acuity": "emergent",
+    "bottomLine": "Suicide assessment is not prediction and no score can certify discharge safety. Ask directly about thoughts, intent, plan, access to means, recent behaviour, prior attempts, intoxication/psychosis and dynamic stressors, then choose a level of care capable of maintaining safety and create a collaborative safety plan when outpatient care is appropriate.",
+    "recognize": [
+      "Recent attempt, current intent/plan/means, agitation, psychosis, intoxication, severe insomnia, hopelessness and transition/discharge periods increase acute concern."
+    ],
+    "differentiate": [
+      "Passive death wish differs from active intent but still requires assessment.",
+      "Protective factors reduce risk but do not cancel specific active intent/means."
+    ],
+    "assessment": [
+      "Ask ideation, intent, plan, rehearsal/preparation, means access, past attempts, self-harm, substances, psychosis, supports, dependents and ability/willingness to use a safety plan."
+    ],
+    "workup": [
+      "Medical/toxicology assessment is indicated for overdose/intoxication/injury/delirium; screening scores do not replace interview/collateral/clinical judgment."
+    ],
+    "management": [
+      "Imminent risk or inability to maintain safety requires emergency psychiatric/medical assessment and a secure setting.",
+      "Appropriate outpatient care includes a specific written safety plan, lethal-means reduction, treatment of underlying illness and rapid proactive follow-up."
+    ],
+    "medicationSafety": [
+      "Consider overdose toxicity/dispensed quantities and sedative combinations while still treating the underlying disorder."
+    ],
+    "redFlags": [
+      "Current intent with accessible lethal means",
+      "Recent attempt/preparatory act",
+      "Command hallucinations",
+      "Severe intoxication/agitation",
+      "Postpartum psychosis",
+      "No viable safety support when required"
+    ],
+    "counselling": [
+      "Explain that asking directly about suicide does not create suicidal thoughts and involve trusted supports with consent when safe/appropriate."
+    ],
+    "followUp": [
+      "Arrange rapid follow-up after crisis/discharge and document assessment, safety plan and ownership."
+    ],
+    "examTrap": "Using a signed no-suicide contract or low screening score as the reason to discharge a patient with a specific plan and accessible means.",
+    "oneLinePearl": "Risk assessment asks what may happen; safety planning specifies what happens instead.",
+    "sourceBasis": [
+      "CAMH Assessment and Management of Suicide Risk"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-tobacco-cessation-counseling-and-pharmacotherapy",
+    "title": "Tobacco Cessation: Ask, Advise, Treat Nicotine Dependence, and Follow Up",
+    "system": "Mental Health / Addiction / Preventive Care",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Smoking cessation works best when behavioural support is paired with effective quit medication when appropriate. Ask routinely, assess nicotine dependence/readiness and past attempts, offer counselling plus NRT/varenicline/bupropion as clinically suitable, and treat lapse as a reason to adjust—not abandon—the plan.",
+    "recognize": [
+      "Nicotine withdrawal includes craving, irritability, restlessness, sleep/concentration change and appetite change.",
+      "Health benefits of quitting occur at any age; repeated attempts are common."
+    ],
+    "differentiate": [
+      "Commercial tobacco dependence should be discussed separately and respectfully from sacred/ceremonial tobacco use in Indigenous communities.",
+      "Vaping products are not the same as Health Canada-authorized cessation medications."
+    ],
+    "assessment": [
+      "Ask tobacco/nicotine products, frequency/time-to-first use, prior attempts/medications, pregnancy, mental health, cardiovascular history, medications and patient goals."
+    ],
+    "workup": [
+      "No laboratory testing is required to begin cessation treatment; targeted testing follows comorbidity, not nicotine dependence itself."
+    ],
+    "management": [
+      "Provide brief behavioural counselling and quit support; use combination long-acting plus short-acting NRT or prescription pharmacotherapy when appropriate and preferred.",
+      "Link to provincial/territorial quit services and plan for triggers/lapse."
+    ],
+    "medicationSafety": [
+      "Choose medication based on contraindications, pregnancy/reproductive context, mental-health history, interactions and prior response.",
+      "Do not imply nicotine replacement carries the same disease risk as continued combustible tobacco exposure."
+    ],
+    "redFlags": [
+      "Acute psychiatric instability during quit attempt",
+      "Medication adverse reaction",
+      "Pregnancy requiring individualized medication discussion",
+      "Severe cardiovascular event requiring coordinated treatment rather than cessation delay"
+    ],
+    "counselling": [
+      "Use motivational, non-shaming language and separate tobacco dependence from cultural tobacco practices."
+    ],
+    "followUp": [
+      "Follow soon after quit date/medication start and adjust for cravings, adverse effects and lapse."
+    ],
+    "examTrap": "Telling a patient to quit without offering counselling or medication—or presenting vaping as an approved prescription cessation treatment in Canada.",
+    "oneLinePearl": "Treat nicotine dependence like a chronic condition: medication plus support plus repeated follow-up.",
+    "sourceBasis": [
+      "Health Canada Quit with Confidence resources",
+      "Canadian tobacco-treatment practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  }
+]
