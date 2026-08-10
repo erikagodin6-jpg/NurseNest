@@ -6,11 +6,11 @@
   "level": "Nurse Practitioner",
   "authoringStatus": "COMPREHENSIVE_TOPIC_BASELINE_AUDITED_FULL_LESSON_PARITY_IN_PROGRESS",
   "sourceRefreshDate": "2026-08-10",
-  "rawLessonObjects": 728,
-  "uniqueLessonIds": 728,
+  "rawLessonObjects": 754,
+  "uniqueLessonIds": 754,
   "explicitCanonicalSupersessions": 8,
-  "canonicalTopicPathways": 720,
-  "clinicalJsonFiles": 66,
+  "canonicalTopicPathways": 746,
+  "clinicalJsonFiles": 67,
   "structuralValidation": {
     "status": "PASS",
     "jsonParse": true,
@@ -314,6 +314,11 @@
       "path": "48-womens-health-generator-parity.json",
       "lessons": 26,
       "role": "full_lesson_parity_expansion"
+    },
+    {
+      "path": "50-pediatrics-generator-parity.json",
+      "lessons": 26,
+      "role": "full_lesson_parity_expansion"
     }
   ],
   "canonicalOverrides": {
@@ -460,11 +465,12 @@
     "AUTHORING_CONSOLIDATION_MSK.json",
     "AUTHORING_QA_WOMENS_46A.md",
     "AUTHORING_QA_WOMENS_46B.md",
-    "AUTHORING_QA_WOMENS_COMPLETION.md"
+    "AUTHORING_QA_WOMENS_COMPLETION.md",
+    "AUTHORING_QA_PEDIATRICS_49.md"
   ],
   "fullLessonParity": {
     "status": "IN_PROGRESS",
-    "authoringCanonicalTopicPathways": 720,
+    "authoringCanonicalTopicPathways": 746,
     "currentSearchIndexLessonCountObserved": 1979,
     "currentSearchIndexManifest": "nursenest-core/src/content/lessons/search-index/ca-np-cnple.manifest.json",
     "rule": "Completion requires every current canonical public-complete ca-np-cnple Full lesson to resolve to exactly one reviewed Cram lesson/recipe; topic breadth alone is not completion.",
