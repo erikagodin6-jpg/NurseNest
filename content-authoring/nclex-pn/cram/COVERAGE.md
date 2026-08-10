@@ -1,22 +1,22 @@
 # U.S. PN / NCLEX-PN Cram Coverage
 
 Status: ACTIVE AUTHORING
-Authored Cram lessons: 624
-Latest QA addendum: `AUTHORING_QA_ADDENDUM_624.md`
+Authored Cram lessons: 684
+Latest QA addendum: `AUTHORING_QA_ADDENDUM_684.md`
 Locale: United States
 Exam alignment: 2026 NCLEX-PN Test Plan
 
-The library contains 624 distinct U.S. PN/LPN/LVN Cram lessons across all NCLEX-PN Client Needs areas. No numeric authoring milestone is a production-completion claim.
+The library contains 684 distinct U.S. PN/LPN/LVN Cram lessons across all NCLEX-PN Client Needs areas. No numeric authoring milestone is a production-completion claim.
 
 ## Latest source-family depth
 
-The newest IV/medication-calculation batch adds concentration verification, reconstitution, mg/kg/day versus mg/kg/dose, infusion-rate verification, line tracing, IV compatibility, renal-dose cues, hepatic-dose cues, medication reconciliation, and dose-reasonableness checks.
+The newest diagnostic/laboratory batch adds specimen identity/integrity, blood-culture collection quality, timed drug levels, point-of-care glucose quality, coagulation-specimen safety, urine-culture collection, stool-testing requirements, critical-result escalation, test-preparation verification, and hemolyzed-specimen recollection logic.
 
-The newest critical-care/burn batch adds inhalation injury, electrical injury, chemical decontamination, circumferential-burn perfusion monitoring, burn-shock monitoring, hypothermia prevention, burn infection/sepsis, tetanus wound prophylaxis, procedural pain, and contracture prevention.
+The newest emergency/disaster/environmental batch adds heat stroke, hypothermia, carbon-monoxide poisoning, drowning, lightning injury, chemical exposure/decontamination, mass-casualty triage, generator safety, smoke inhalation, and disaster medication-continuity planning.
 
-These lessons target the high-volume `nursing-medication-dosage-iv-expansion-catalog.json` and `procedures-critical-care-burns-tiered-catalog.json` families. They are tagged `SOURCE_FAMILY_AUTHORED_NOT_ROW_MAPPED` and are not credited as production row closures.
+These lessons are tagged `SOURCE_FAMILY_AUTHORED_NOT_ROW_MAPPED` and are not credited as production row closures.
 
-The burn tranche was refreshed against current American Burn Association guidance and CDC wound/tetanus guidance. CDC classifies burns containing devitalized tissue as dirty/major wounds for tetanus risk and bases vaccination/TIG decisions on wound type and immunization history; antibiotics are not recommended solely for tetanus prophylaxis.
+Current U.S. source refresh includes CDC adult blood-culture contamination-prevention guidance updated March 31, 2026, CDC/NIOSH heat-illness guidance updated March 3, 2026, CDC carbon-monoxide guidance updated January 12, 2026, AHA emergency-resuscitation principles, CLIA specimen-integrity requirements, and the 2026 NCLEX-PN blueprint.
 
 ## Production denominator
 
