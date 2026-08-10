@@ -6,11 +6,11 @@
   "level": "Nurse Practitioner",
   "authoringStatus": "COMPREHENSIVE_TOPIC_BASELINE_AUDITED_FULL_LESSON_PARITY_IN_PROGRESS",
   "sourceRefreshDate": "2026-08-08",
-  "rawLessonObjects": 426,
-  "uniqueLessonIds": 426,
+  "rawLessonObjects": 434,
+  "uniqueLessonIds": 434,
   "explicitCanonicalSupersessions": 8,
-  "canonicalTopicPathways": 418,
-  "clinicalJsonFiles": 42,
+  "canonicalTopicPathways": 426,
+  "clinicalJsonFiles": 43,
   "structuralValidation": {
     "status": "PASS",
     "jsonParse": true,
@@ -194,6 +194,11 @@
       "path": "38c-lab-liver-inflammation-endocrine-parity.json",
       "lessons": 8,
       "role": "full_lesson_parity_expansion"
+    },
+    {
+      "path": "38d-lab-cbc-electrolyte-acid-base-parity.json",
+      "lessons": 8,
+      "role": "full_lesson_parity_expansion"
     }
   ],
   "canonicalOverrides": {
@@ -317,11 +322,12 @@
     "AUTHORING_QA_PARITY_37.md",
     "AUTHORING_QA_PARITY_38A.md",
     "AUTHORING_QA_PARITY_38B.md",
-    "AUTHORING_QA_PARITY_38C.md"
+    "AUTHORING_QA_PARITY_38C.md",
+    "AUTHORING_QA_PARITY_38D.md"
   ],
   "fullLessonParity": {
     "status": "IN_PROGRESS",
-    "authoringCanonicalTopicPathways": 418,
+    "authoringCanonicalTopicPathways": 426,
     "currentSearchIndexLessonCountObserved": 1979,
     "currentSearchIndexManifest": "nursenest-core/src/content/lessons/search-index/ca-np-cnple.manifest.json",
     "rule": "Completion requires every current canonical public-complete ca-np-cnple Full lesson to resolve to exactly one reviewed Cram lesson/recipe; topic breadth alone is not completion.",
@@ -339,8 +345,9 @@
     "rendererMappingComplete": false,
     "productionMerged": false,
     "productionDeployed": false,
-    "note": "The 426-object library is an audited topic baseline plus active specialty/full-lesson parity expansions; it is not complete Full-lesson parity. Batches 37, 38A, 38B and 38C have passed clinical second-pass review, while exact current Full identity/source-anchor/Quick-Check/runtime certification remains fail-closed in private-core. CNPLE Cram authoring remains open until reverse coverage reaches 100% and all serving gates certify.",
+    "note": "The 434-object library is an audited topic baseline plus active Full-lesson parity expansions through 38D. Private-core identity/source/Quick-Check/runtime certification remains fail-closed and Full-lesson parity is not complete.",
     "secondPassClinicalAuditCompleteForParity38B": true,
-    "secondPassClinicalAuditCompleteForParity38C": true
+    "secondPassClinicalAuditCompleteForParity38C": true,
+    "secondPassClinicalAuditCompleteForParity38D": true
   }
 }
