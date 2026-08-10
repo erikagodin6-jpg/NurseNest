@@ -4,8 +4,8 @@ Status: ACTIVE AUTHORING
 Locale: United States
 Exam: NCLEX-PN
 Level: Entry-level practical/vocational nursing (LPN/LVN)
-Authored checkpoint: 724 Cram lessons
-Latest QA addendum: `AUTHORING_QA_ADDENDUM_724.md`
+Authored checkpoint: 744 Cram lessons
+Latest QA addendum: `AUTHORING_QA_ADDENDUM_744.md`
 
 ## Purpose
 
@@ -15,7 +15,7 @@ The library is authored against the 2026 NCLEX-PN test plan and U.S. entry-level
 
 The numeric authoring checkpoint is not a production-completion claim. Production completion requires stable reconciliation against the learner-reachable `us-lpn-nclex-pn` full-lesson estate and zero unexplained `MISSING_CRAM` rows.
 
-The 504 checkpoint added an exact-audit-source authoring layer. The 724 checkpoint now includes 220 source-family lessons beyond that exact-source layer. Newest depth includes transfusion/blood-product safety and ostomy/drainage/wound-device safety, on top of dialysis, diabetes-device monitoring, diagnostics, disaster/environmental care, infection/isolation, psychosocial crisis care, nutrition support, HEENT, IV/medication calculations, burns, procedures, postpartum, pediatric, gerontology, rehabilitation, and community/home-health safety.
+The 504 checkpoint added an exact-audit-source authoring layer. The 744 checkpoint now includes 240 source-family lessons beyond that exact-source layer. Newest depth adds tracheostomy/airway-device safety and urinary/urologic-device safety on top of transfusion, ostomy/drainage, dialysis, diabetes-device monitoring, diagnostics, disaster/environmental care, infection/isolation, psychosocial crisis care, nutrition support, HEENT, IV/medication calculations, burns, procedures, postpartum, pediatric, gerontology, rehabilitation, and community/home-health safety.
 
 ## Cram lesson contract
 
