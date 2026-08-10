@@ -1,0 +1,1462 @@
+[
+  {
+    "id": "np-osteoarthritis-diagnosis-and-management",
+    "title": "Osteoarthritis: Diagnose Clinically, Treat Function, Image Selectively",
+    "system": "Musculoskeletal / Rheumatology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Typical osteoarthritis is primarily a clinical diagnosis. Treat pain and function with exercise/strengthening, activity/weight support when desired, topical or systemic analgesic strategies matched to risk, and reserve imaging or surgery for atypical features, treatment failure or procedural planning rather than routine confirmation.",
+    "recognize": [
+      "Mechanical pain worsens with load/activity, morning stiffness is usually brief, and crepitus/bony enlargement/reduced range can occur.",
+      "Radiographic severity and pain severity often correlate poorly."
+    ],
+    "differentiate": [
+      "Prolonged inflammatory morning stiffness, marked warmth/swelling, systemic symptoms or abrupt hot-joint presentation should trigger inflammatory/septic/crystal differentials."
+    ],
+    "assessment": [
+      "Assess affected joints, function, falls, prior injury, occupational load, pain pattern, inflammatory signs, medication risk, patient goals and psychosocial impact."
+    ],
+    "workup": [
+      "Do not routinely order MRI/X-ray for a classic uncomplicated presentation; image when trauma, atypical symptoms, surgical planning or another diagnosis is plausible."
+    ],
+    "management": [
+      "Exercise/therapeutic activity and function-focused self-management are core; use topical NSAID or selected oral analgesic therapy according to joint/site and GI/renal/CV risk.",
+      "Consider injections or orthopedic referral for persistent severe functional limitation after appropriate conservative care."
+    ],
+    "medicationSafety": [
+      "Review renal, GI, cardiovascular, anticoagulant and BP risk before systemic NSAIDs; chronic opioids are not routine OA therapy."
+    ],
+    "redFlags": [
+      "Hot acutely swollen joint",
+      "Inability to bear weight after trauma",
+      "Rapid destructive symptoms",
+      "Systemic illness",
+      "Night/rest pain with cancer/infection concern"
+    ],
+    "counselling": [
+      "Explain that movement is treatment and that imaging changes do not define the person's pain or prognosis."
+    ],
+    "followUp": [
+      "Track function and adverse effects; reassess diagnosis if the course becomes inflammatory, rapidly progressive or treatment-resistant."
+    ],
+    "examTrap": "Ordering MRI to prove routine knee OA before starting evidence-based conservative management.",
+    "oneLinePearl": "OA care treats the person's function, not the X-ray.",
+    "sourceBasis": [
+      "Arthritis Society Canada osteoarthritis resources",
+      "Canadian primary-care OA tool/practice standards"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-rheumatoid-arthritis-diagnosis-and-management",
+    "title": "Rheumatoid Arthritis: Recognize Inflammatory Synovitis and Refer Early",
+    "system": "Musculoskeletal / Rheumatology / Immunology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.E Transition/Discharge/Documentation"
+    ],
+    "lifespan": [
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Persistent inflammatory synovitis—especially symmetric small-joint disease with prolonged morning stiffness—requires early rheumatology referral because DMARD treatment prevents irreversible joint damage. Serology supports the diagnosis but does not replace examination or justify delay while waiting for perfect labs.",
+    "recognize": [
+      "Tender/swollen MCP/PIP/wrist joints, prolonged morning stiffness and functional loss support inflammatory arthritis.",
+      "RF/anti-CCP positivity increases probability/prognostic information but seronegative RA exists."
+    ],
+    "differentiate": [
+      "OA usually has mechanical pattern/bony enlargement; psoriatic arthritis, lupus, viral arthritis, crystal disease and septic arthritis can mimic RA."
+    ],
+    "assessment": [
+      "Document true synovitis distribution, duration, extra-articular symptoms, infection risk, smoking, pregnancy plans and functional impairment."
+    ],
+    "workup": [
+      "Use CBC, renal/liver tests, inflammatory markers and RF/anti-CCP as supportive/baseline tests; obtain imaging selectively for damage/diagnostic uncertainty and screen infection/immunization status before immunosuppressive therapy."
+    ],
+    "management": [
+      "Refer early for DMARD initiation/treat-to-target care; use symptom control without allowing repeated NSAID/steroid courses to substitute for disease modification.",
+      "Coordinate vaccination, contraception/pregnancy planning, cardiovascular/bone risk and rehabilitation."
+    ],
+    "medicationSafety": [
+      "Methotrexate and other DMARDs require drug-specific CBC/liver/renal and reproductive monitoring; serious infection may require therapy interruption/specialist guidance."
+    ],
+    "redFlags": [
+      "Single hot joint/septic arthritis concern",
+      "Rapid systemic illness",
+      "Cervical neurologic symptoms in longstanding RA",
+      "Severe extra-articular organ disease"
+    ],
+    "counselling": [
+      "Explain that early DMARD treatment protects future joint function even when pain is currently tolerable."
+    ],
+    "followUp": [
+      "Ensure rheumatology access and monitor symptoms/function/toxicity while specialty treatment is established."
+    ],
+    "examTrap": "Treating inflammatory small-joint disease for months with NSAIDs while delaying DMARD referral until erosions appear.",
+    "oneLinePearl": "RA damage begins before the X-ray looks dramatic—recognize synovitis and refer early.",
+    "sourceBasis": [
+      "Canadian Rheumatology Association guideline/resources",
+      "Arthritis Society Canada rheumatoid arthritis resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-gout-and-pseudogout-diagnosis-and-treatment",
+    "title": "Gout and CPPD: A Hot Joint Is Septic Until the Story Fits",
+    "system": "Musculoskeletal / Rheumatology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Acute crystal arthritis can mimic septic arthritis. In a first, atypical or high-risk hot joint, aspirate when feasible to evaluate crystals and infection; treat the flare with patient-appropriate anti-inflammatory therapy, and use urate-lowering prevention based on recurrence/tophi/stone/renal risk rather than the acute pain alone.",
+    "recognize": [
+      "Gout often causes abrupt severe monoarthritis such as first MTP/ankle/knee; CPPD commonly affects knee/wrist and older adults."
+    ],
+    "differentiate": [
+      "Septic arthritis can coexist with crystals; a high serum urate neither proves gout nor excludes it when normal during a flare."
+    ],
+    "assessment": [
+      "Assess fever/toxicity, prosthetic joint, immunosuppression, trauma, prior flares/tophi, renal disease, diuretics/alcohol/diet triggers and anticoagulation."
+    ],
+    "workup": [
+      "Perform arthrocentesis for synovial WBC/culture/crystal analysis when infection is plausible or diagnosis uncertain; serum urate is most useful for longitudinal urate-lowering strategy."
+    ],
+    "management": [
+      "Treat flare with NSAID, colchicine or corticosteroid according to comorbidities/timing; initiate/titrate urate-lowering therapy and prophylaxis when indicated, using serum urate/tolerance/adherence longitudinally.",
+      "CPPD management targets flare control and underlying metabolic contributors when indicated."
+    ],
+    "medicationSafety": [
+      "NSAIDs/colchicine require renal/GI/drug-interaction review; allopurinol hypersensitivity warning symptoms require urgent reassessment."
+    ],
+    "redFlags": [
+      "Hot prosthetic joint",
+      "Sepsis/toxicity",
+      "Immunocompromised hot joint",
+      "Rapidly destructive joint",
+      "Unable to bear weight with uncertain diagnosis"
+    ],
+    "counselling": [
+      "Do not frame gout as a moral failure from diet; explain urate physiology and medication adherence/prevention."
+    ],
+    "followUp": [
+      "Recheck serum urate and flare burden after preventive therapy changes and address renal/cardiovascular/metabolic risk."
+    ],
+    "examTrap": "Stopping evaluation when crystals are seen in synovial fluid despite fever and high septic-joint risk.",
+    "oneLinePearl": "Crystals answer one question; culture still matters when infection is plausible.",
+    "sourceBasis": [
+      "Canadian Rheumatology Association/Canadian gout practice resources",
+      "Arthritis Society Canada gout resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-systemic-lupus-erythematosus-diagnosis-and-management",
+    "title": "Systemic Lupus: Diagnose the Pattern and Find Organ Threats",
+    "system": "Rheumatology / Immunology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "SLE is a multisystem clinical diagnosis supported by immunologic findings. ANA is sensitive but nonspecific; interpret it only in a compatible phenotype, and urgently identify nephritis, neuropsychiatric disease, severe cytopenia, thrombosis, myocarditis/pericarditis or other organ-threatening involvement.",
+    "recognize": [
+      "Inflammatory joints, photosensitive/cutaneous disease, oral ulcers, serositis, cytopenias, renal abnormalities and neurologic features can occur in varying combinations."
+    ],
+    "differentiate": [
+      "A positive ANA alone is common and does not diagnose lupus; infection, drug-induced lupus, other connective-tissue disease and fibromyalgia can mimic symptoms."
+    ],
+    "assessment": [
+      "Assess organ symptoms, BP/edema/urine changes, pregnancy plans, thrombosis history, infection, medications and cardiovascular/bone risk."
+    ],
+    "workup": [
+      "Use CBC, creatinine/eGFR, urinalysis/protein quantification, complements and disease-specific autoantibodies according to clinical question; nephritic/proteinuric findings may require urgent nephrology/rheumatology and biopsy."
+    ],
+    "management": [
+      "Coordinate rheumatology disease-modifying therapy matched to organ involvement; hydroxychloroquine is foundational for many patients unless contraindicated, with eye monitoring per guidance.",
+      "Organ-threatening disease requires urgent specialist management rather than repeated outpatient steroid bursts."
+    ],
+    "medicationSafety": [
+      "Immunosuppressants have infection, vaccination and reproductive risks; pregnancy should be planned around disease activity and medication safety."
+    ],
+    "redFlags": [
+      "Nephritic syndrome/rapid renal decline",
+      "Seizure/psychosis",
+      "Severe cytopenia/bleeding",
+      "Thrombosis",
+      "Myocarditis/pericardial tamponade",
+      "Pregnancy with active major-organ disease"
+    ],
+    "counselling": [
+      "Teach sun protection and flare warning signs without suggesting all fatigue/pain equals inflammatory activity."
+    ],
+    "followUp": [
+      "Monitor organ-specific labs, disease activity and treatment toxicity with rheumatology."
+    ],
+    "examTrap": "Diagnosing lupus from fatigue, arthralgia and an isolated positive ANA without objective compatible disease.",
+    "oneLinePearl": "ANA opens the differential; organ pattern establishes the lupus problem.",
+    "sourceBasis": [
+      "Canadian Rheumatology Association resources",
+      "Arthritis Society Canada SLE resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-polymyalgia-rheumatica-diagnosis-and-treatment",
+    "title": "Polymyalgia Rheumatica: Always Ask About Giant-Cell Arteritis",
+    "system": "Rheumatology / Vascular",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "PMR causes new bilateral shoulder/hip-girdle aching and prolonged morning stiffness in adults over 50 with inflammatory context, but the safety step is screening every presentation and follow-up for giant-cell arteritis. New visual symptoms, jaw claudication or ischemic headache require immediate GCA treatment/referral rather than waiting for confirmatory testing.",
+    "recognize": [
+      "Bilateral shoulder/hip pain/stiffness with elevated inflammatory markers and rapid glucocorticoid response can support PMR after mimics are assessed."
+    ],
+    "differentiate": [
+      "RA, inflammatory myopathy, hypothyroidism, infection/malignancy and mechanical shoulder disease can mimic PMR; true objective muscle weakness suggests another diagnosis."
+    ],
+    "assessment": [
+      "Ask specifically about new headache, scalp tenderness, jaw/tongue claudication, visual symptoms and constitutional signs; examine shoulders/hips and peripheral joints."
+    ],
+    "workup": [
+      "Use CRP/ESR, CBC and cause-directed testing to exclude mimics; suspected GCA follows urgent vascular/imaging/biopsy pathways without delaying treatment when vision is threatened."
+    ],
+    "management": [
+      "Treat PMR with individualized glucocorticoid therapy/taper plus osteoporosis risk prevention and reassessment; steroid-sparing therapy/rheumatology is considered for relapse/toxicity."
+    ],
+    "medicationSafety": [
+      "Prolonged glucocorticoids require glucose/BP/infection/bone/eye monitoring and should not be abruptly stopped after chronic exposure."
+    ],
+    "redFlags": [
+      "Visual loss/diplopia",
+      "Jaw/tongue claudication",
+      "New focal neurologic/ischemic symptoms",
+      "Aortic syndrome symptoms",
+      "Poor response to expected PMR therapy"
+    ],
+    "counselling": [
+      "Teach GCA symptoms at every phase because they can emerge before or during PMR treatment."
+    ],
+    "followUp": [
+      "Track symptoms/function, inflammatory markers when useful and glucocorticoid toxicity/relapse."
+    ],
+    "examTrap": "Sending a patient with PMR and new transient visual loss for routine outpatient testing before starting urgent GCA treatment.",
+    "oneLinePearl": "PMR is uncomfortable; associated GCA can cause irreversible blindness.",
+    "sourceBasis": [
+      "Canadian Rheumatology Association resources",
+      "Arthritis Society Canada PMR resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-fibromyalgia-diagnosis-and-management",
+    "title": "Fibromyalgia: Nociplastic Pain Without Inventing Inflammation",
+    "system": "Musculoskeletal / Chronic Pain",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Fibromyalgia is chronic widespread nociplastic pain with fatigue/sleep/cognitive symptoms, not inflammatory arthritis or structural muscle damage. Diagnose positively after a focused evaluation for important mimics, emphasize graded self-management and function, and avoid endless imaging/labs, opioids or immunosuppression.",
+    "recognize": [
+      "Multisite pain for at least several months plus sleep/fatigue and sensory/cognitive amplification supports the syndrome."
+    ],
+    "differentiate": [
+      "Inflammatory arthritis produces objective synovitis/inflammatory pattern; myopathy produces weakness/CK context; hypothyroidism/anemia/sleep apnea and mood disorders can contribute symptoms."
+    ],
+    "assessment": [
+      "Assess pain distribution, sleep, fatigue, activity/function, mood/trauma, headache/IBS and objective inflammatory/neurologic findings."
+    ],
+    "workup": [
+      "Use limited targeted testing for plausible mimics; extensive autoimmune panels, repeated imaging and broad laboratory screens are not needed in a typical presentation."
+    ],
+    "management": [
+      "Education, pacing/graded activity, sleep optimization and psychological/rehabilitative strategies are first-line; medications may target selected pain/sleep/mood symptoms but usually have modest benefit.",
+      "Avoid chronic opioid escalation because harms commonly outweigh benefit in nociplastic pain."
+    ],
+    "medicationSafety": [
+      "Gabapentinoids, sedating antidepressants and other centrally acting drugs can increase dizziness/falls; taper medications that are ineffective rather than layering polypharmacy."
+    ],
+    "redFlags": [
+      "Objective weakness",
+      "True synovitis",
+      "Fever/weight loss",
+      "Focal neurologic deficit",
+      "New severe inflammatory/systemic pattern"
+    ],
+    "counselling": [
+      "Validate the pain as biologically real while explaining that no joint/muscle destruction is occurring and recovery focuses on nervous-system regulation/function."
+    ],
+    "followUp": [
+      "Track function, sleep and meaningful goals rather than serial inflammatory tests."
+    ],
+    "examTrap": "Ordering repeated autoimmune tests or escalating opioids because pain remains widespread despite no objective inflammatory disease.",
+    "oneLinePearl": "Fibromyalgia is real nociplastic pain; more inflammation testing does not make it inflammatory disease.",
+    "sourceBasis": [
+      "Arthritis Society Canada Fibromyalgia resource updated 2026",
+      "Canadian chronic pain practice principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-low-back-pain-evaluation-and-management",
+    "title": "Low Back Pain: Red Flags Before Imaging, Function Before Bed Rest",
+    "system": "Musculoskeletal / Neurologic",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Most acute low-back pain is nonspecific and improves without imaging. First identify cauda equina, infection, fracture, cancer or major neurologic deficit; absent those features, encourage activity/function, use conservative analgesia and image only when the result will change management.",
+    "recognize": [
+      "Mechanical pain varies with movement/position and usually lacks systemic/neuro red flags; radicular pain follows a nerve-root distribution."
+    ],
+    "differentiate": [
+      "Renal/vascular/GI/pelvic disease can refer to the back; inflammatory axial disease has younger onset, prolonged morning stiffness and improvement with activity."
+    ],
+    "assessment": [
+      "Assess trauma/osteoporosis/steroid use, cancer/infection/IVDU/immunosuppression, fever/weight loss, saddle symptoms, bladder/bowel function and progressive weakness; perform focused neuro exam."
+    ],
+    "workup": [
+      "Avoid routine X-ray/CT/MRI for uncomplicated nonspecific pain; urgent MRI/emergency referral is indicated for cauda-equina/severe neurologic or infection/malignancy concerns."
+    ],
+    "management": [
+      "Reassure, encourage continued activity and graded return, use heat/physical therapy/exercise and risk-appropriate analgesia; prolonged bed rest is harmful.",
+      "Persistent radiculopathy/neurologic deficit or refractory functional limitation may require imaging/specialty referral."
+    ],
+    "medicationSafety": [
+      "Avoid routine opioid initiation for uncomplicated acute low-back pain; review NSAID GI/renal/CV risk and sedative muscle-relaxant harms."
+    ],
+    "redFlags": [
+      "Urinary retention/saddle anesthesia",
+      "Progressive motor deficit",
+      "Fever/immunosuppression",
+      "Major trauma/fragility fracture risk",
+      "Cancer history with new concerning pain",
+      "Pulsatile/vascular syndrome"
+    ],
+    "counselling": [
+      "Explain why no immediate MRI is often safer and that staying active improves recovery."
+    ],
+    "followUp": [
+      "Reassess if pain persists beyond expected recovery or new red flags develop."
+    ],
+    "examTrap": "Ordering MRI on day one for uncomplicated axial back pain with a normal neurologic examination.",
+    "oneLinePearl": "Back pain imaging is driven by red flags and decisions—not by pain score alone.",
+    "sourceBasis": [
+      "Canadian evidence-informed primary-care low-back pain guidance",
+      "Choosing Wisely Canada imaging recommendations"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-neck-pain-evaluation-and-management",
+    "title": "Neck Pain: Mechanical, Radicular, Myelopathic, or Dangerous?",
+    "system": "Musculoskeletal / Neurologic",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Most neck pain is mechanical, but cervical myelopathy, infection, fracture, vascular dissection and cancer change urgency. Localize axial pain versus radiculopathy versus cord dysfunction and avoid routine imaging when there are no red flags or neurologic deficits.",
+    "recognize": [
+      "Radiculopathy produces dermatomal arm pain/sensory/reflex/weakness findings; myelopathy may cause hand clumsiness, gait imbalance, hyperreflexia and bowel/bladder dysfunction."
+    ],
+    "differentiate": [
+      "Shoulder disease can mimic cervical radicular pain; headache/neck pain with focal neuro findings or Horner syndrome raises cervical artery dissection."
+    ],
+    "assessment": [
+      "Assess trauma, fever/infection risk, cancer, osteoporosis, neurologic symptoms, gait/hand function and vascular warning symptoms; perform cervical and upper-limb neuro exam."
+    ],
+    "workup": [
+      "No routine imaging is needed for uncomplicated mechanical neck pain; MRI/urgent evaluation is indicated for myelopathy, major neurologic deficit, infection/cancer concern or severe trauma."
+    ],
+    "management": [
+      "Use education, activity/exercise/physical therapy and risk-appropriate analgesia; refer persistent/progressive radiculopathy and urgently refer myelopathy."
+    ],
+    "medicationSafety": [
+      "Avoid prolonged sedative muscle relaxants/opioids for routine neck pain; review NSAID risk."
+    ],
+    "redFlags": [
+      "Myelopathy/gait disturbance",
+      "Progressive weakness",
+      "Fever/immunosuppression",
+      "Major trauma",
+      "Cancer red flags",
+      "Sudden neck/head pain with focal neurologic signs"
+    ],
+    "counselling": [
+      "Teach early return for weakness, gait problems or bowel/bladder changes."
+    ],
+    "followUp": [
+      "Reassess function/neurology if symptoms persist or progress."
+    ],
+    "examTrap": "Treating hand clumsiness and gait imbalance as simple cervical muscle spasm without checking for myelopathy.",
+    "oneLinePearl": "Neck pain becomes urgent when the spinal cord, infection, fracture or vascular system enters the story.",
+    "sourceBasis": [
+      "Canadian neck-pain clinical practice guidance",
+      "Canadian neurologic/spine practice principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-shoulder-pain-differential-diagnosis",
+    "title": "Shoulder Pain: Localize Rotator Cuff, Joint, Neck, and Referred Disease",
+    "system": "Musculoskeletal",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Shoulder pain diagnosis starts by deciding whether the source is glenohumeral/AC joint, rotator cuff/subacromial tissue, cervical nerve root or referred cardiopulmonary/visceral disease. Use history and active/passive range plus strength before ordering routine MRI.",
+    "recognize": [
+      "Painful arc/impingement pattern and weakness can suggest rotator cuff disease; global restriction of active and passive motion supports adhesive capsulitis or joint disease."
+    ],
+    "differentiate": [
+      "Cervical radiculopathy produces neck/dermatomal neurologic features; ACS/diaphragmatic disease can refer pain to the shoulder and must be considered when symptoms are nonmechanical/systemic."
+    ],
+    "assessment": [
+      "Assess trauma, age/occupation/sport, pain location/night pain, weakness, neck symptoms and systemic/cardiopulmonary symptoms; compare active vs passive ROM and perform focused cuff/AC/neck exam."
+    ],
+    "workup": [
+      "Use plain radiography/ultrasound or MRI only when trauma, persistent weakness, suspected full-thickness tear, arthritis or procedural/surgical planning creates a management question."
+    ],
+    "management": [
+      "Use activity modification, targeted exercise/physical therapy and risk-appropriate analgesia; selected subacromial/intra-articular injection may be appropriate after diagnosis and contraindication review.",
+      "Acute traumatic major weakness or persistent refractory disease warrants orthopedic/MSK referral."
+    ],
+    "medicationSafety": [
+      "Avoid repeated corticosteroid injections without reassessing tendon integrity/diagnosis; consider glucose and infection risk."
+    ],
+    "redFlags": [
+      "Acute deformity/dislocation",
+      "Neurovascular compromise",
+      "Septic joint concern",
+      "Unexplained severe night/systemic pain",
+      "Chest pain/dyspnea with referred shoulder pain"
+    ],
+    "counselling": [
+      "Explain that many shoulder disorders recover with progressive loading/rehabilitation and do not require immediate MRI."
+    ],
+    "followUp": [
+      "Reassess strength/function and escalate persistent weakness or loss of motion."
+    ],
+    "examTrap": "Ordering MRI for every painful shoulder without comparing active and passive range or examining the neck.",
+    "oneLinePearl": "Shoulder diagnosis starts with localization, not imaging.",
+    "sourceBasis": [
+      "Canadian MSK primary-care practice resources",
+      "Choosing Wisely Canada imaging principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-knee-pain-evaluation-and-management",
+    "title": "Knee Pain: Localize the Structure Before Ordering MRI",
+    "system": "Musculoskeletal",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Knee pain is localized by mechanism, effusion, weight-bearing ability, range of motion and focused ligament/meniscal/patellofemoral examination before imaging. A hot swollen joint, neurovascular injury or major trauma changes the pathway immediately.",
+    "recognize": [
+      "Effusion after trauma raises internal derangement; atraumatic warmth/effusion raises crystal, inflammatory or septic disease."
+    ],
+    "differentiate": [
+      "OA, meniscal injury, ligament injury, patellofemoral pain, bursitis and referred hip pain require different management."
+    ],
+    "assessment": [
+      "Assess trauma mechanism, locking/giving way, swelling timing, fever, weight bearing, ROM, joint-line tenderness, ligament stability and hip exam when indicated."
+    ],
+    "workup": [
+      "Use validated radiograph criteria after acute trauma; MRI is reserved for suspected internal derangement when results will alter management.",
+      "Arthrocentesis is urgent when septic arthritis is plausible."
+    ],
+    "management": [
+      "Treat stable mechanical disease with activity modification, exercise/physiotherapy and condition-specific analgesia; urgent orthopedic/emergency care for unstable fracture, septic joint or neurovascular compromise."
+    ],
+    "medicationSafety": [
+      "NSAIDs require GI/renal/CV risk review; intra-articular steroid should not be given into a joint with possible infection."
+    ],
+    "redFlags": [
+      "Hot swollen joint with systemic illness",
+      "Unable to bear weight after significant trauma",
+      "Locked knee",
+      "Neurovascular deficit"
+    ],
+    "counselling": [
+      "Explain why rehabilitation often matters more than immediate MRI in uncomplicated mechanical pain."
+    ],
+    "followUp": [
+      "Reassess function and instability; persistent locking or failure of conservative care may warrant imaging/specialty referral."
+    ],
+    "examTrap": "Ordering MRI before localizing the injury or injecting a hot joint before excluding infection.",
+    "oneLinePearl": "Knee pain becomes easier when you first decide trauma, effusion, instability, or inflammation.",
+    "sourceBasis": [
+      "Choosing Wisely Canada MSK imaging principles",
+      "Canadian orthopedic and primary-care practice resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-hip-pain-evaluation-and-management",
+    "title": "Hip Pain: Joint, Lateral Soft Tissue, Spine, or Fracture?",
+    "system": "Musculoskeletal",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Hip pain location and function narrow the differential: groin pain suggests intra-articular disease, lateral pain often reflects greater-trochanteric pain, posterior pain may be spinal or deep-gluteal, and inability to bear weight after trauma raises occult fracture concern.",
+    "recognize": [
+      "OA commonly causes activity-related groin pain and reduced internal rotation; fracture may be subtle after low-energy trauma in older adults."
+    ],
+    "differentiate": [
+      "Lumbar radiculopathy, bursitis/tendinopathy, avascular necrosis and septic arthritis can mimic hip OA."
+    ],
+    "assessment": [
+      "Assess trauma, weight bearing, ROM, gait, groin/lateral/posterior location, fever, steroid/alcohol risk and neurologic symptoms."
+    ],
+    "workup": [
+      "Use radiographs for suspected OA/fracture; persistent high fracture suspicion despite negative radiograph requires advanced imaging.",
+      "Urgent aspiration/specialty assessment when septic arthritis is possible."
+    ],
+    "management": [
+      "Use exercise/physiotherapy, analgesia and risk-factor management for stable degenerative disease; urgent orthopedic care for fracture, septic joint or threatened function."
+    ],
+    "medicationSafety": [
+      "Avoid repeated corticosteroid exposure without diagnosis and risk review, especially with possible osteonecrosis or infection."
+    ],
+    "redFlags": [
+      "Inability to bear weight",
+      "Fever with severe ROM pain",
+      "Trauma with persistent fracture suspicion",
+      "Rapidly progressive neurologic deficit"
+    ],
+    "counselling": [
+      "Teach falls prevention and explain that pain location helps distinguish hip joint disease from spine/soft-tissue causes."
+    ],
+    "followUp": [
+      "Reassess mobility and function; refer persistent severe OA or structural disease when surgery may improve function."
+    ],
+    "examTrap": "Calling all lateral hip pain hip-joint OA or dismissing an older adult's fracture because the first radiograph is negative.",
+    "oneLinePearl": "Groin, lateral hip, and posterior hip pain are different diagnostic neighborhoods.",
+    "sourceBasis": [
+      "Canadian orthopedic/primary-care MSK resources",
+      "Choosing Wisely Canada imaging principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-hand-and-wrist-disorders",
+    "title": "Hand and Wrist Disorders: Tendon, Nerve, Joint, or Fracture?",
+    "system": "Musculoskeletal / Neurologic",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Hand/wrist complaints are localized by trauma, tendon function, nerve distribution, joint inflammation and vascular status. Snuffbox tenderness, tendon rupture, infection and neurovascular compromise deserve more than a generic wrist-sprain label.",
+    "recognize": [
+      "De Quervain, carpal tunnel, trigger finger, OA/inflammatory arthritis and occult scaphoid fracture have distinct patterns."
+    ],
+    "differentiate": [
+      "Median neuropathy differs from cervical radiculopathy and generalized neuropathy; inflammatory polyarthritis differs from isolated overuse pain."
+    ],
+    "assessment": [
+      "Assess trauma, swelling, deformity, tendon function, sensory distribution, provocative maneuvers, grip and perfusion."
+    ],
+    "workup": [
+      "Use targeted radiographs for trauma; occult scaphoid suspicion requires immobilization and repeat/advanced imaging despite an initial negative study.",
+      "Electrodiagnostics are used selectively for uncertain/severe neuropathy."
+    ],
+    "management": [
+      "Use splinting/activity modification/therapy for appropriate soft-tissue or nerve syndromes and urgent hand/orthopedic referral for unstable fracture, tendon injury, deep infection or neurovascular compromise."
+    ],
+    "medicationSafety": [
+      "Repeated steroid injection carries tendon/skin/nerve risk and should follow diagnosis-specific guidance."
+    ],
+    "redFlags": [
+      "Open injury",
+      "Flexor tenosynovitis signs",
+      "Neurovascular deficit",
+      "Suspected scaphoid fracture",
+      "Tendon rupture"
+    ],
+    "counselling": [
+      "Teach splint use, ergonomic modification and signs that require urgent reassessment."
+    ],
+    "followUp": [
+      "Reassess persistent weakness/numbness, instability or unresolved trauma."
+    ],
+    "examTrap": "Calling a negative initial wrist X-ray reassuring despite classic scaphoid tenderness.",
+    "oneLinePearl": "A hand exam is anatomy in motion—test the tendon, nerve and bone you suspect.",
+    "sourceBasis": [
+      "Canadian hand/orthopedic practice principles",
+      "Choosing Wisely Canada imaging guidance"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-foot-and-ankle-disorders",
+    "title": "Foot and Ankle Disorders: Weight Bearing, Stability, and Neurovascular Safety",
+    "system": "Musculoskeletal",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Foot and ankle evaluation starts with mechanism, ability to bear weight, focal bony tenderness, stability and neurovascular status. Use validated radiograph rules for acute injury and do not miss diabetic foot infection, Achilles rupture or compartment/neurovascular emergencies.",
+    "recognize": [
+      "Lateral ankle sprain, Achilles injury, plantar fascia pain, stress injury and fracture have different exam patterns."
+    ],
+    "differentiate": [
+      "Cellulitis/gout/Charcot arthropathy can mimic musculoskeletal injury, especially in diabetes/neuropathy."
+    ],
+    "assessment": [
+      "Assess mechanism, bony tenderness, swelling, weight bearing, Achilles integrity, pulses/sensation and diabetic ulcer/infection risk."
+    ],
+    "workup": [
+      "Use Ottawa ankle/foot principles where applicable; advanced imaging for occult/stress injury or tendon pathology when clinically justified."
+    ],
+    "management": [
+      "Functional rehabilitation is preferred for stable sprain; immobilize/refer fractures or tendon rupture as indicated.",
+      "Diabetic foot infection or Charcot concern requires prompt multidisciplinary evaluation."
+    ],
+    "medicationSafety": [
+      "NSAID choice requires renal/GI/CV risk review; avoid corticosteroid injection into suspected infection."
+    ],
+    "redFlags": [
+      "Neurovascular compromise",
+      "Open fracture",
+      "Achilles rupture",
+      "Severe diabetic foot infection",
+      "Compartment syndrome"
+    ],
+    "counselling": [
+      "Teach protected weight bearing and gradual rehabilitation rather than prolonged unnecessary immobilization."
+    ],
+    "followUp": [
+      "Reassess instability, persistent pain or inability to progress weight bearing."
+    ],
+    "examTrap": "Ordering X-rays for every ankle sprain or missing an Achilles rupture because plantar flexion is still possible from other muscles.",
+    "oneLinePearl": "Foot/ankle triage is weight bearing, focal bone, tendon integrity and circulation.",
+    "sourceBasis": [
+      "Canadian emergency/orthopedic MSK practice",
+      "Choosing Wisely Canada imaging principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-sports-medicine-common-injuries",
+    "title": "Sports Injuries: Mechanism and Function Before Imaging",
+    "system": "Musculoskeletal / Sports Medicine",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Sports injury care is mechanism- and function-driven. Identify fracture/dislocation, concussion, tendon rupture and neurovascular injury first, then use progressive rehabilitation and return-to-sport criteria rather than imaging every painful joint.",
+    "recognize": [
+      "Acute swelling, inability to continue play, instability, focal bony tenderness or neurologic symptoms increase structural-injury concern."
+    ],
+    "differentiate": [
+      "Overuse tendinopathy differs from acute tear; muscle strain differs from avulsion/fracture; concussion can occur without loss of consciousness."
+    ],
+    "assessment": [
+      "Assess mechanism, immediate symptoms, swelling, ROM, strength, stability, neurologic status and prior injury."
+    ],
+    "workup": [
+      "Use validated injury-specific imaging rules; ultrasound/MRI is selected when tendon/ligament diagnosis will change management."
+    ],
+    "management": [
+      "Protect serious injury, then use early appropriate loading and physiotherapy for stable injuries; return to sport requires functional recovery, not merely pain improvement."
+    ],
+    "medicationSafety": [
+      "Avoid masking serious injury with repeated analgesia while continuing unsafe play; opioid therapy is rarely appropriate for routine sports injury."
+    ],
+    "redFlags": [
+      "Concussion danger signs",
+      "Dislocation/neurovascular deficit",
+      "Open fracture",
+      "Tendon rupture",
+      "Compartment syndrome"
+    ],
+    "counselling": [
+      "Teach graded return and injury-prevention strategies; concussion return-to-play requires a dedicated protocol."
+    ],
+    "followUp": [
+      "Reassess function and sport-specific tasks before clearance."
+    ],
+    "examTrap": "Clearing an athlete because pain is gone despite persistent instability or concussion symptoms.",
+    "oneLinePearl": "Return to sport is a functional decision, not a pain score.",
+    "sourceBasis": [
+      "Canadian sport medicine practice resources",
+      "Choosing Wisely Canada MSK imaging principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-tendonitis-and-bursitis-management",
+    "title": "Tendinopathy and Bursitis: Load the Right Tissue, Do Not Inject the Wrong Diagnosis",
+    "system": "Musculoskeletal",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Most tendinopathy and noninfectious bursitis are clinical diagnoses treated with activity/load modification and progressive rehabilitation. Acute hot swelling, tendon rupture or systemic illness changes the pathway and corticosteroid injection should never substitute for diagnostic certainty.",
+    "recognize": [
+      "Tendinopathy causes load-related tendon pain and reduced function; bursitis produces focal periarticular tenderness/swelling."
+    ],
+    "differentiate": [
+      "Septic bursitis, gout, inflammatory arthritis and tendon tear can mimic routine overuse disease."
+    ],
+    "assessment": [
+      "Assess repetitive load, trauma, ROM, resisted strength, swelling/warmth, skin breaks and systemic symptoms."
+    ],
+    "workup": [
+      "Imaging is usually unnecessary initially; ultrasound or MRI is reserved for uncertain diagnosis, suspected tear or failure of appropriate rehabilitation.",
+      "Aspirate when septic/crystal bursitis is clinically plausible."
+    ],
+    "management": [
+      "Use relative activity modification, graded tendon loading/physiotherapy and short-term symptom control.",
+      "Treat septic bursitis as infection and refer complete tendon rupture when repair/immobilization decisions are time-sensitive."
+    ],
+    "medicationSafety": [
+      "Repeated corticosteroid injection near tendons can weaken tissue; avoid injection into infection or directly into high-risk tendons."
+    ],
+    "redFlags": [
+      "Fever/hot fluctuant bursa",
+      "Sudden loss of tendon function",
+      "Neurovascular compromise",
+      "Rapidly progressive swelling"
+    ],
+    "counselling": [
+      "Explain that tendon recovery requires progressive loading and often takes longer than pain relief."
+    ],
+    "followUp": [
+      "Reassess function; persistent symptoms need diagnostic reconsideration rather than serial injections."
+    ],
+    "examTrap": "Injecting a painful swollen bursa before considering infection.",
+    "oneLinePearl": "Tendon treatment is controlled loading; infection and rupture are different diseases.",
+    "sourceBasis": [
+      "Canadian sport medicine/orthopedic practice principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-ligament-injuries-evaluation",
+    "title": "Ligament Injury: Grade Stability and Protect the Joint",
+    "system": "Musculoskeletal / Sports Medicine",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Ligament injury is diagnosed from mechanism, swelling, stability testing and function. The NP must identify unstable injury, associated fracture/dislocation and neurovascular compromise before choosing rehabilitation versus immobilization or surgical referral.",
+    "recognize": [
+      "Rapid swelling and giving-way after pivot injury suggests major knee ligament/internal derangement; ankle inversion injury commonly affects lateral ligaments."
+    ],
+    "differentiate": [
+      "Pain-limited guarding can mimic instability; fracture, tendon rupture and meniscal injury can coexist."
+    ],
+    "assessment": [
+      "Assess mechanism, immediate swelling, ability to continue activity, joint-line/bony tenderness, stability tests and distal neurovascular function."
+    ],
+    "workup": [
+      "Use radiographs according to validated trauma rules and MRI selectively when high-grade ligament/internal derangement diagnosis will change management."
+    ],
+    "management": [
+      "Use protection followed by progressive rehabilitation for stable low-grade injuries; refer unstable/high-grade injuries, associated fracture or multi-ligament trauma."
+    ],
+    "medicationSafety": [
+      "Avoid prolonged immobilization without indication because stiffness, weakness and thrombosis risk can increase."
+    ],
+    "redFlags": [
+      "Dislocation",
+      "Neurovascular deficit",
+      "Multi-ligament instability",
+      "Open injury",
+      "Compartment syndrome"
+    ],
+    "counselling": [
+      "Teach bracing/rehabilitation and sport-specific return criteria."
+    ],
+    "followUp": [
+      "Reassess stability and function after swelling decreases because acute guarding can limit the first exam."
+    ],
+    "examTrap": "Ordering MRI before basic stability/bony assessment or clearing play with unresolved instability.",
+    "oneLinePearl": "Ligament care is about stability, associated injury and functional recovery.",
+    "sourceBasis": [
+      "Canadian orthopedic/sport medicine practice principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-meniscal-tears-diagnosis-and-management",
+    "title": "Meniscal Tear: Mechanical Symptoms Matter More Than MRI Words",
+    "system": "Musculoskeletal / Sports Medicine",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Meniscal tears are interpreted in clinical context because degenerative MRI findings are common. Locking, recurrent effusion, joint-line symptoms and functional limitation guide management; many degenerative tears improve with exercise-based therapy rather than immediate arthroscopy.",
+    "recognize": [
+      "Twisting injury, joint-line pain, delayed effusion and catching/locking support a meniscal syndrome."
+    ],
+    "differentiate": [
+      "OA, ligament injury, patellofemoral pain and loose body can mimic meniscal symptoms."
+    ],
+    "assessment": [
+      "Assess trauma, true mechanical locking, effusion, ROM, joint-line tenderness, ligament stability and OA features."
+    ],
+    "workup": [
+      "Radiographs assess OA/trauma first when indicated; MRI is reserved for persistent clinically meaningful internal derangement when results will change management."
+    ],
+    "management": [
+      "Use physiotherapy/activity modification for most stable/degenerative tears; urgent orthopedic assessment for a truly locked knee or repairable traumatic tear in the appropriate patient."
+    ],
+    "medicationSafety": [
+      "Avoid routine opioid therapy and repeated injections as substitutes for rehabilitation/diagnostic reassessment."
+    ],
+    "redFlags": [
+      "Locked knee",
+      "Associated unstable ligament injury",
+      "Septic-joint features",
+      "Major traumatic hemarthrosis"
+    ],
+    "counselling": [
+      "Explain that an MRI tear does not automatically require surgery, particularly with degenerative disease."
+    ],
+    "followUp": [
+      "Reassess mechanical symptoms and function after rehabilitation."
+    ],
+    "examTrap": "Sending every degenerative meniscal MRI tear to arthroscopy despite no true mechanical locking.",
+    "oneLinePearl": "Treat the symptomatic knee, not the incidental MRI tear.",
+    "sourceBasis": [
+      "Choosing Wisely Canada Orthopaedics principles",
+      "Canadian sport medicine practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-rotator-cuff-disorders",
+    "title": "Rotator Cuff Disorders: Weakness, Painful Arc, or Tear?",
+    "system": "Musculoskeletal",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Rotator-cuff disease is localized from active versus passive motion, strength and provocative testing. Acute traumatic weakness, pseudoparalysis or persistent function loss raises tear concern; uncomplicated tendinopathy is initially rehabilitation-based rather than MRI-first.",
+    "recognize": [
+      "Painful arc/night pain and pain with resisted abduction/external rotation support cuff pathology; major weakness after trauma suggests full-thickness tear."
+    ],
+    "differentiate": [
+      "Adhesive capsulitis limits active and passive ROM; cervical radiculopathy and referred cardiac disease can mimic shoulder pain."
+    ],
+    "assessment": [
+      "Assess trauma, active/passive ROM, strength, neck/neurologic exam and functional demands."
+    ],
+    "workup": [
+      "Radiographs are used selectively; ultrasound/MRI when a significant tear is suspected or persistent symptoms would change treatment."
+    ],
+    "management": [
+      "Use activity modification, analgesia and progressive physiotherapy for most tendinopathy/partial disease; refer acute major tear, pseudoparalysis or refractory significant dysfunction."
+    ],
+    "medicationSafety": [
+      "Corticosteroid injection can provide short-term relief but repeated injections may impair tendon quality and should not replace rehabilitation."
+    ],
+    "redFlags": [
+      "Acute traumatic pseudoparalysis",
+      "Dislocation/neurovascular deficit",
+      "Septic joint",
+      "Cardiac ischemic referred pain"
+    ],
+    "counselling": [
+      "Teach that strengthening and scapular mechanics are core treatment even when imaging shows degenerative changes."
+    ],
+    "followUp": [
+      "Reassess strength/function after rehabilitation and escalate persistent major weakness."
+    ],
+    "examTrap": "Ordering immediate MRI for atraumatic shoulder pain before testing active/passive ROM and strength.",
+    "oneLinePearl": "Shoulder diagnosis starts with motion and strength before imaging.",
+    "sourceBasis": [
+      "Choosing Wisely Canada MSK imaging principles",
+      "Canadian orthopedic practice"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-carpal-tunnel-syndrome-management",
+    "title": "Carpal Tunnel Syndrome: Confirm Median Neuropathy and Protect Function",
+    "system": "Musculoskeletal / Neurologic",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adult",
+      "pregnancy",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Carpal tunnel syndrome is median-nerve compression at the wrist diagnosed clinically in a compatible pattern; electrodiagnostics are reserved for uncertainty, severe deficit or procedural planning. Night splinting and cause/risk review are first-line for many patients, while objective weakness or thenar atrophy requires timely surgical assessment.",
+    "recognize": [
+      "Nocturnal numbness/tingling in the thumb-index-middle/radial ring fingers and hand shaking for relief are classic; weakness/thenar wasting indicates more advanced disease."
+    ],
+    "differentiate": [
+      "Cervical radiculopathy, proximal median neuropathy and generalized polyneuropathy can mimic CTS."
+    ],
+    "assessment": [
+      "Assess sensory distribution, thenar strength/atrophy, provocative wrist maneuvers, occupation/repetitive load, pregnancy, diabetes and thyroid/inflammatory disease when clinically relevant."
+    ],
+    "workup": [
+      "Typical mild/moderate CTS can be diagnosed clinically; use nerve-conduction/electrodiagnostic testing for atypical symptoms, persistent weakness, diagnostic uncertainty or preoperative severity assessment when required."
+    ],
+    "management": [
+      "Use neutral-position night splinting and ergonomic/load modification; corticosteroid injection can provide selected short-term relief.",
+      "Refer persistent function-limiting symptoms, objective weakness/atrophy or severe electrodiagnostic disease for decompression evaluation."
+    ],
+    "medicationSafety": [
+      "Repeated steroid injection should not delay decompression when progressive motor deficit is present."
+    ],
+    "redFlags": [
+      "Thenar atrophy",
+      "Progressive motor weakness",
+      "Acute traumatic median-nerve injury",
+      "Diffuse neurologic deficits inconsistent with CTS"
+    ],
+    "counselling": [
+      "Teach neutral wrist positioning and that persistent weakness is more concerning than intermittent tingling alone."
+    ],
+    "followUp": [
+      "Reassess sensory and motor function after conservative therapy and escalate progression."
+    ],
+    "examTrap": "Ordering electrodiagnostics for every classic mild CTS presentation—or continuing injections despite progressive thenar weakness.",
+    "oneLinePearl": "CTS becomes urgent when compression starts stealing motor function.",
+    "sourceBasis": [
+      "Canadian hand/neurology practice principles",
+      "Choosing Wisely Canada electrodiagnostic stewardship"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-trigger-finger-diagnosis-and-treatment",
+    "title": "Trigger Finger: Stenosing Tendon Sheath Disease, Not Joint Locking",
+    "system": "Musculoskeletal / Hand",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Trigger finger is stenosing flexor tenosynovitis causing painful catching or locking at the A1 pulley. Diagnose clinically, distinguish it from joint disease or tendon rupture, then use activity modification, splinting/injection or hand referral according to severity and persistence.",
+    "recognize": [
+      "Painful clicking/catching with flexion-extension and focal A1-pulley tenderness are typical; diabetes increases risk."
+    ],
+    "differentiate": [
+      "MCP arthritis, Dupuytren disease and tendon rupture create different motion abnormalities."
+    ],
+    "assessment": [
+      "Assess which digit, duration, fixed locking, palpable nodule/tenderness, diabetes/inflammatory disease and hand function."
+    ],
+    "workup": [
+      "Routine imaging is unnecessary for a classic presentation unless trauma or alternate joint pathology is suspected."
+    ],
+    "management": [
+      "Use activity modification/splinting and consider corticosteroid injection for persistent symptomatic disease; refer fixed locking, recurrent disease or failed appropriate conservative care for release."
+    ],
+    "medicationSafety": [
+      "Injection requires sterile technique and caution with diabetes-related transient hyperglycemia; repeated injections have diminishing benefit/tendon risk."
+    ],
+    "redFlags": [
+      "Infectious flexor tenosynovitis signs",
+      "Acute tendon rupture",
+      "Neurovascular compromise"
+    ],
+    "counselling": [
+      "Explain that the catching occurs at the tendon pulley rather than because the finger joint is 'out of place'."
+    ],
+    "followUp": [
+      "Reassess locking and function after treatment."
+    ],
+    "examTrap": "Imaging a classic trigger finger extensively or mistaking infectious flexor tenosynovitis for routine stenosing disease.",
+    "oneLinePearl": "Trigger finger is a tendon-pulley problem; infection is the dangerous mimic.",
+    "sourceBasis": [
+      "Canadian hand-surgery/primary-care practice principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-plantar-fasciitis-management",
+    "title": "Plantar Fasciitis: Load-Related Heel Pain with a Rehabilitation Plan",
+    "system": "Musculoskeletal",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Plantar fasciitis is usually a clinical diagnosis of plantar-medial heel pain worst with first steps after rest. Treat with load modification, calf/plantar fascia stretching and progressive strengthening; image or broaden the differential when the pattern is atypical or persistent.",
+    "recognize": [
+      "First-step morning pain and focal medial calcaneal tenderness are typical."
+    ],
+    "differentiate": [
+      "Calcaneal stress fracture, inflammatory enthesitis, nerve entrapment, fat-pad pain and infection have different clues."
+    ],
+    "assessment": [
+      "Assess activity/load change, footwear, BMI/weight-bearing load without stigma, calf tightness, neurologic symptoms, systemic inflammatory features and focal bone tenderness."
+    ],
+    "workup": [
+      "No routine imaging is required for a classic presentation; use imaging when stress fracture, mass, inflammatory disease or prolonged atypical course is suspected."
+    ],
+    "management": [
+      "Use supportive footwear, stretching and progressive foot/calf strengthening; temporary inserts/taping can support recovery.",
+      "Refer persistent refractory disease or alternative structural diagnosis as appropriate."
+    ],
+    "medicationSafety": [
+      "Repeated corticosteroid injection can increase fascia rupture/fat-pad risk and is not first-line routine management."
+    ],
+    "redFlags": [
+      "Inability to bear weight after sudden load",
+      "Night/rest pain with systemic features",
+      "Neurologic deficit",
+      "Infection signs"
+    ],
+    "counselling": [
+      "Explain that improvement is gradual and depends on consistent load management rather than bed rest."
+    ],
+    "followUp": [
+      "Reassess adherence, diagnosis and functional progress if symptoms persist."
+    ],
+    "examTrap": "Ordering an X-ray because a heel spur must be the cause or prescribing prolonged rest instead of progressive rehabilitation.",
+    "oneLinePearl": "First-step heel pain is usually a load problem treated by progressive loading, not a spur problem.",
+    "sourceBasis": [
+      "Canadian sport medicine/foot practice principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-osteoporosis-screening-and-pharmacotherapy",
+    "title": "Osteoporosis: Fracture Risk Determines Treatment",
+    "system": "Musculoskeletal / Endocrine / Geriatrics",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adult",
+      "postmenopause",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Osteoporosis care is fracture-risk care. Use age/risk-appropriate bone density and clinical fracture-risk assessment, recognize that a fragility fracture can establish high risk regardless of T-score, and select anti-fracture therapy with a clear duration/transition plan.",
+    "recognize": [
+      "Prior fragility fracture, glucocorticoids, falls, low BMD and selected secondary causes raise fracture risk."
+    ],
+    "differentiate": [
+      "Osteomalacia, hyperparathyroidism and CKD-mineral bone disorder require different treatment; low BMD alone does not identify the cause."
+    ],
+    "assessment": [
+      "Assess fracture/fall history, medications, glucocorticoids, nutrition, alcohol/smoking, renal function, menopause/hypogonadism and secondary-cause clues."
+    ],
+    "workup": [
+      "Use BMD and fracture-risk tools according to Osteoporosis Canada guidance and targeted labs for secondary causes."
+    ],
+    "management": [
+      "Use exercise/falls prevention, adequate calcium/vitamin D intake and risk-appropriate pharmacotherapy.",
+      "Choose bisphosphonate, denosumab, anabolic or other therapy according to fracture risk, renal function, contraindications, access and treatment sequence."
+    ],
+    "medicationSafety": [
+      "Denosumab should not be stopped without a transition plan because rebound vertebral fracture risk can occur.",
+      "Bisphosphonate therapy requires renal/oral administration and rare atypical-femur/jaw risk review."
+    ],
+    "redFlags": [
+      "New fragility fracture",
+      "Severe hypocalcemia",
+      "Suspected atypical femoral fracture",
+      "Multiple vertebral fractures"
+    ],
+    "counselling": [
+      "Explain that therapy prevents future fracture and requires long-term planning, not just improvement in a density number."
+    ],
+    "followUp": [
+      "Reassess adherence, falls/fractures and treatment sequence; repeat BMD when it will inform management."
+    ],
+    "examTrap": "Treating only the T-score while ignoring a recent fragility fracture—or stopping denosumab without follow-on antiresorptive therapy.",
+    "oneLinePearl": "The outcome that matters is fracture, not the bone-density number alone.",
+    "sourceBasis": [
+      "Osteoporosis Canada 2023 Clinical Practice Guideline"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-bone-health-in-special-populations",
+    "title": "Bone Health in Special Populations: Find the Secondary Risk",
+    "system": "Musculoskeletal / Endocrine",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "postpartum",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Bone-health decisions change with glucocorticoids, premature ovarian insufficiency, eating disorders, malabsorption, CKD, transplant, cancer therapy, pregnancy/lactation and young age. Do not apply routine postmenopausal osteoporosis rules without identifying the secondary physiology and reproductive context.",
+    "recognize": [
+      "Fragility fracture or unexpectedly low BMD in a younger patient should trigger secondary-cause evaluation.",
+      "Glucocorticoids can raise fracture risk before major BMD loss is obvious."
+    ],
+    "differentiate": [
+      "Pregnancy/lactation-associated bone loss, CKD-MBD, osteomalacia and medication-induced bone loss require distinct pathways."
+    ],
+    "assessment": [
+      "Review age, menstrual/reproductive history, pregnancy/lactation, nutrition/eating disorder, GI disease, CKD, endocrine disease, glucocorticoids, anticonvulsants, cancer/transplant therapy and prior fractures."
+    ],
+    "workup": [
+      "Use risk-specific BMD/labs and specialist evaluation rather than universal screening in every young adult."
+    ],
+    "management": [
+      "Treat the cause, optimize weight-bearing/resistance exercise and calcium/vitamin D adequacy, and use pharmacotherapy only when benefits/risks fit the population and reproductive plan."
+    ],
+    "medicationSafety": [
+      "Many osteoporosis drugs have pregnancy/fertility implications and long skeletal persistence; discuss reproductive plans before therapy in people who may become pregnant."
+    ],
+    "redFlags": [
+      "Recurrent fractures in a young person",
+      "Severe malnutrition",
+      "CKD with major mineral abnormalities",
+      "Pregnancy-associated vertebral fracture"
+    ],
+    "counselling": [
+      "Avoid equating low weight or low BMD with personal failure; explain the medical contributors."
+    ],
+    "followUp": [
+      "Monitor the underlying disease/medication exposure and fracture risk longitudinally."
+    ],
+    "examTrap": "Applying routine postmenopausal bisphosphonate logic to a young patient without investigating secondary causes or pregnancy plans.",
+    "oneLinePearl": "Unexpected bone loss means ask why before choosing the drug.",
+    "sourceBasis": [
+      "Osteoporosis Canada guidance",
+      "Canadian endocrine/renal/reproductive bone-health practice principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-musculoskeletal-imaging-interpretation",
+    "title": "Musculoskeletal Imaging: Choose the Modality for the Question",
+    "system": "Musculoskeletal / Diagnostics",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "II Quality Improvement and Research/Scholar"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "MSK imaging should answer a defined question. Radiographs evaluate many fractures, alignment and advanced OA; ultrasound assesses selected tendon/effusion problems; MRI is valuable for occult fracture, marrow, soft tissue and internal derangement when results will change care—not as a first reflex for nonspecific pain.",
+    "recognize": [
+      "Incidental degenerative abnormalities are common and may not explain symptoms."
+    ],
+    "differentiate": [
+      "A normal radiograph does not exclude occult fracture, early infection or soft-tissue injury when suspicion remains high."
+    ],
+    "assessment": [
+      "Localize symptoms clinically, define trauma/red flags and decide what diagnosis or management choice the image must address."
+    ],
+    "workup": [
+      "Use validated trauma rules and the lowest-complexity modality that can answer the question; escalate imaging when high-risk disease remains plausible despite a negative initial study."
+    ],
+    "management": [
+      "Treat the patient, not incidental findings; correlate every reported abnormality with the clinical syndrome before escalating intervention."
+    ],
+    "medicationSafety": [
+      "Contrast MRI/CT considerations depend on indication, renal function and product/protocol; avoid contrast without a management-changing reason."
+    ],
+    "redFlags": [
+      "Occult fracture suspicion",
+      "Infection/tumor features",
+      "Neurovascular compromise",
+      "Cauda equina/myelopathy"
+    ],
+    "counselling": [
+      "Explain why more detailed imaging is not always more useful and may reveal unrelated abnormalities."
+    ],
+    "followUp": [
+      "Ensure actionable findings have clear ownership and avoid repeating imaging without a new clinical question."
+    ],
+    "examTrap": "Ordering MRI for uncomplicated mechanical pain before a focused exam or treating an incidental degenerative finding as the diagnosis.",
+    "oneLinePearl": "The best image is the one that answers the next management question.",
+    "sourceBasis": [
+      "Choosing Wisely Canada Radiology/Orthopaedics recommendations"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-joint-injection-techniques",
+    "title": "Joint Injection: Diagnosis, Anatomy, Asepsis, and Aftercare",
+    "system": "Musculoskeletal / Procedures",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Joint or periarticular injection is appropriate only after the diagnosis and target are clear, infection has been excluded and risks are reviewed. Steroid injection can reduce selected inflammatory/mechanical symptoms, but it does not replace disease-modifying treatment, rehabilitation or source control.",
+    "recognize": [
+      "Intra-articular injection differs from tendon-sheath/bursal injection; target selection matters for efficacy and complication risk."
+    ],
+    "differentiate": [
+      "A hot swollen joint must be evaluated for septic/crystal arthritis before steroid injection.",
+      "Tendon rupture or uncontrolled structural instability is not fixed by injection."
+    ],
+    "assessment": [
+      "Confirm indication, anatomy, overlying skin/infection, anticoagulation/bleeding context, diabetes, prior injections/allergy and post-procedure support."
+    ],
+    "workup": [
+      "Aspirate diagnostically when infection/crystal disease is plausible; ultrasound guidance is useful for selected deep or difficult targets."
+    ],
+    "management": [
+      "Use sterile technique, correct target/agent/dose within scope/local standards and provide aftercare/return precautions.",
+      "Pair injection with rehabilitation and definitive disease management."
+    ],
+    "medicationSafety": [
+      "Steroid can cause transient hyperglycemia and local tissue effects; repeated injections may damage cartilage/tendon depending on site/frequency.",
+      "Do not inject through cellulitis or into a suspected infected joint."
+    ],
+    "redFlags": [
+      "Post-injection fever/hot swollen joint",
+      "Neurovascular symptoms",
+      "Severe allergic reaction",
+      "Rapidly worsening pain after procedure"
+    ],
+    "counselling": [
+      "Explain expected short-term flare, delayed steroid onset and infection warning signs."
+    ],
+    "followUp": [
+      "Document response and avoid serial injection without reassessing diagnosis/function."
+    ],
+    "examTrap": "Injecting a hot effused joint before excluding septic arthritis.",
+    "oneLinePearl": "A safe injection starts with a safe diagnosis.",
+    "sourceBasis": [
+      "Canadian rheumatology/primary-care procedure principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-physical-therapy-referral-and-coordination",
+    "title": "Physical Therapy Referral: Prescribe Function, Not Just 'PT'",
+    "system": "Musculoskeletal / Rehabilitation",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling",
+      "I.E Transition/Discharge/Documentation"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "A high-value PT referral states the diagnosis or working syndrome, red flags already assessed, functional deficits, precautions and goals. Rehabilitation should be coordinated with the patient's actual barriers and progress rather than used as a vague endpoint after imaging.",
+    "recognize": [
+      "Most stable mechanical MSK disorders benefit from active exercise/functional rehabilitation more than prolonged rest."
+    ],
+    "differentiate": [
+      "PT is inappropriate as the sole next step for fracture instability, septic joint, progressive neurologic deficit, cauda equina, acute tendon rupture or other conditions needing urgent medical/surgical management."
+    ],
+    "assessment": [
+      "Define pain/function, ROM/strength/balance, falls risk, work/sport demands, home environment, access and patient goals."
+    ],
+    "workup": [
+      "Complete necessary medical/red-flag evaluation before referral; imaging is not a prerequisite for most uncomplicated mechanical disorders."
+    ],
+    "management": [
+      "Refer with specific goals such as gait, strength, range, graded loading, balance, vestibular or return-to-work/sport needs.",
+      "Coordinate occupational therapy, orthotics, pain, rheumatology or surgery when the disability requires a broader team."
+    ],
+    "medicationSafety": [
+      "Use rehabilitation to reduce unnecessary sedative/opioid reliance; monitor analgesic effects that could mask unsafe loading or falls."
+    ],
+    "redFlags": [
+      "Progressive neurologic deficit",
+      "Suspected fracture/instability",
+      "Infection",
+      "Acute tendon rupture",
+      "Cauda equina"
+    ],
+    "counselling": [
+      "Set expectations that active practice between visits is part of rehabilitation and goals should be functional and measurable."
+    ],
+    "followUp": [
+      "Review progress and revise the diagnosis if function is not improving as expected."
+    ],
+    "examTrap": "Ordering MRI before PT for uncomplicated mechanical pain or sending a red-flag neurologic syndrome to routine rehabilitation first.",
+    "oneLinePearl": "A PT referral is a functional treatment plan, not a disposal bin for musculoskeletal pain.",
+    "sourceBasis": [
+      "Choosing Wisely Canada MSK imaging principles",
+      "Canadian rehabilitation practice principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  }
+]

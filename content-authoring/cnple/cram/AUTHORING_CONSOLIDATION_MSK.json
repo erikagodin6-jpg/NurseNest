@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "validatedAt": "2026-08-09",
+  "status": "PASS",
+  "baseRawObjects": 676,
+  "added": 26,
+  "exactExisting": 0,
+  "conflicts": 0,
+  "rawLessonObjects": 702,
+  "uniqueLessonIds": 702,
+  "canonicalTopicPathways": 694,
+  "clinicalJsonFiles": 65,
+  "musculoskeletalGeneratorParity": 26
+}

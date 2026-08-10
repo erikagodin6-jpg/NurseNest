@@ -6,11 +6,11 @@
   "level": "Nurse Practitioner",
   "authoringStatus": "COMPREHENSIVE_TOPIC_BASELINE_AUDITED_FULL_LESSON_PARITY_IN_PROGRESS",
   "sourceRefreshDate": "2026-08-09",
-  "rawLessonObjects": 676,
-  "uniqueLessonIds": 676,
+  "rawLessonObjects": 702,
+  "uniqueLessonIds": 702,
   "explicitCanonicalSupersessions": 8,
-  "canonicalTopicPathways": 668,
-  "clinicalJsonFiles": 64,
+  "canonicalTopicPathways": 694,
+  "clinicalJsonFiles": 65,
   "structuralValidation": {
     "status": "PASS",
     "jsonParse": true,
@@ -304,6 +304,11 @@
       "path": "45d-primary-care-generator-parity-consolidated.json",
       "lessons": 26,
       "role": "full_lesson_parity_consolidation"
+    },
+    {
+      "path": "46a-musculoskeletal-generator-parity-consolidated.json",
+      "lessons": 26,
+      "role": "full_lesson_parity_consolidation"
     }
   ],
   "canonicalOverrides": {
@@ -446,11 +451,12 @@
     "AUTHORING_QA_PARITY_44A.md",
     "AUTHORING_QA_PARITY_44B.md",
     "AUTHORING_QA_PARITY_44C.md",
-    "AUTHORING_CONSOLIDATION_CORE_SYSTEMS.json"
+    "AUTHORING_CONSOLIDATION_CORE_SYSTEMS.json",
+    "AUTHORING_CONSOLIDATION_MSK.json"
   ],
   "fullLessonParity": {
     "status": "IN_PROGRESS",
-    "authoringCanonicalTopicPathways": 668,
+    "authoringCanonicalTopicPathways": 694,
     "currentSearchIndexLessonCountObserved": 1979,
     "currentSearchIndexManifest": "nursenest-core/src/content/lessons/search-index/ca-np-cnple.manifest.json",
     "rule": "Completion requires every current canonical public-complete ca-np-cnple Full lesson to resolve to exactly one reviewed Cram lesson/recipe; topic breadth alone is not completion.",
@@ -468,7 +474,7 @@
     "rendererMappingComplete": false,
     "productionMerged": false,
     "productionDeployed": false,
-    "note": "This consolidated authoring estate includes the validated 570-object Lab/Respiratory/Endocrine/GI/Renal/Derm lineage plus deduplicated exact-generator Cardiovascular, Diagnostics, Professional Practice and Primary Care identities. Same-ID/different-content conflicts are prohibited. Full CNPLE curriculum parity and private-core certification remain incomplete.",
+    "note": "The deduplicated CNPLE authoring estate now includes exact generator parity for Musculoskeletal/Rheumatology (26/26) on top of the consolidated core-system baseline. Full curriculum parity and private-core publication certification remain incomplete.",
     "secondPassClinicalAuditCompleteForParity38B": true,
     "secondPassClinicalAuditCompleteForParity38C": true,
     "secondPassClinicalAuditCompleteForParity38D": true,
