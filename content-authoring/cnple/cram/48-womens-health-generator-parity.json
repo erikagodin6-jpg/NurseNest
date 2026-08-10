@@ -1,0 +1,1569 @@
+[
+  {
+    "id": "np-contraceptive-counseling-and-selection",
+    "title": "Contraceptive Counselling and Selection: Match the Method to Goals, Safety, and Access",
+    "system": "Women's Health / Reproductive Health",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "postpartum"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Contraceptive counselling is a shared, preference-sensitive decision. Start with reproductive goals, desired effectiveness, bleeding priorities, privacy, reversibility, adherence, STI protection and medical eligibility; do not rank methods for the patient or use age, parity, disability or relationship status as gatekeeping.",
+    "recognize": [
+      "Long-acting reversible contraception is highly effective but is not automatically the best choice for every patient.",
+      "Combined estrogen-containing methods, progestin-only methods, non-hormonal methods and permanent contraception have different benefits, risks and user burdens."
+    ],
+    "differentiate": [
+      "Contraceptive efficacy and STI prevention are separate goals; barrier methods remain relevant for STI prevention even when another method prevents pregnancy.",
+      "Medical contraindications to estrogen do not automatically contraindicate progestin-only or non-hormonal methods."
+    ],
+    "assessment": [
+      "Ask pregnancy intention/timing, prior method experience, bleeding goals, migraine aura, VTE/cardiovascular risk, smoking/nicotine, postpartum/breastfeeding status, medications/interactions, breast/liver disease, STI risk, reproductive coercion and access/cost barriers."
+    ],
+    "workup": [
+      "Use pregnancy testing, blood pressure, STI testing or procedure-specific examination only when relevant to the chosen method; routine pelvic examination or broad laboratory testing is not required merely to discuss contraception."
+    ],
+    "management": [
+      "Offer all medically appropriate options with balanced counselling on effectiveness, side effects, bleeding patterns and reversibility.",
+      "Provide same-day initiation when safe and feasible, including bridging or emergency contraception when indicated, and respect immediate removal/discontinuation requests."
+    ],
+    "medicationSafety": [
+      "Review estrogen-related thrombotic/vascular contraindications and strong enzyme-inducing drug interactions.",
+      "Do not pressure continuation of an effective method when adverse effects or patient preference make it unacceptable."
+    ],
+    "redFlags": [
+      "Possible pregnancy with pain/bleeding",
+      "New VTE/stroke symptoms on estrogen-containing contraception",
+      "Reproductive coercion or assault",
+      "Severe hypertension or new major contraindication"
+    ],
+    "counselling": [
+      "Use non-directive, autonomy-preserving language and explain which methods do and do not protect against STIs."
+    ],
+    "followUp": [
+      "Reassess satisfaction, bleeding, adherence, medication changes and reproductive goals; follow-up intensity depends on method and symptoms."
+    ],
+    "examTrap": "Choosing the 'most effective' method for the patient without asking what they value—or withholding LARC because they are young or nulliparous.",
+    "oneLinePearl": "The best contraceptive is the safest acceptable method the patient can actually use and wants to continue.",
+    "sourceBasis": [
+      "Society of Obstetricians and Gynaecologists of Canada contraception guidance and current position statements"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-iud-insertion-and-management",
+    "title": "Intrauterine Contraception: Eligibility, Safe Insertion, and Problem-Focused Follow-Up",
+    "system": "Women's Health / Reproductive Health",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "postpartum"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Intrauterine contraception is highly effective and appropriate for many adolescents, nulliparous patients and postpartum patients. Confirm pregnancy is reasonably excluded, assess infection/anatomic issues that actually affect insertion, choose copper versus levonorgestrel IUC by goals and contraindications, and investigate pain, bleeding, pregnancy symptoms or missing strings according to the clinical problem rather than scheduling unnecessary routine procedures.",
+    "recognize": [
+      "Copper IUC provides hormone-free long-term contraception; levonorgestrel systems reduce bleeding for many users.",
+      "Nulliparity and adolescence are not contraindications by themselves."
+    ],
+    "differentiate": [
+      "Current purulent cervicitis/untreated gonorrhea or chlamydia changes insertion timing; remote STI history alone does not prohibit IUC use.",
+      "Expected early cramping/spotting differs from severe pain, fever, pregnancy symptoms or heavy bleeding that raises expulsion, perforation, infection or ectopic-pregnancy concern."
+    ],
+    "assessment": [
+      "Clarify contraceptive goals, pregnancy possibility, recent unprotected intercourse, bleeding pattern, STI risk/symptoms, uterine/anatomic history and preferences around hormones/menstrual effects."
+    ],
+    "workup": [
+      "Use pregnancy testing and STI testing according to timing/risk without creating unnecessary insertion delays when same-day care is safe under the current pathway.",
+      "Missing strings require pregnancy assessment and localization rather than blind instrumentation."
+    ],
+    "management": [
+      "Provide informed choice, aseptic insertion and immediate complication assessment according to local scope/training.",
+      "Manage expected bleeding/cramping conservatively; evaluate suspected expulsion, perforation, pregnancy or infection promptly.",
+      "Removal should be timely and patient-directed when requested; difficult/nonvisible-string removals require appropriate expertise."
+    ],
+    "medicationSafety": [
+      "Routine prophylactic antibiotics are not indicated for every insertion.",
+      "If pregnancy occurs with an IUC, promptly assess location because ectopic pregnancy must be excluded; removal decisions depend on string/access and pregnancy goals."
+    ],
+    "redFlags": [
+      "Pregnancy with pain/bleeding",
+      "Severe or escalating pelvic pain after insertion",
+      "Fever/purulent discharge",
+      "Suspected perforation",
+      "Heavy bleeding/hemodynamic symptoms"
+    ],
+    "counselling": [
+      "Discuss expected bleeding changes, efficacy, STI protection limitations, how to seek help for warning symptoms and that removal is available whenever desired."
+    ],
+    "followUp": [
+      "Routine mandatory string-check visits are not required for every asymptomatic user; follow up for symptoms, concerns, difficult insertion or local policy indications."
+    ],
+    "examTrap": "Treating adolescence/nulliparity as a contraindication—or delaying a safe insertion for STI test results in an asymptomatic patient when testing can be performed at insertion under the current pathway.",
+    "oneLinePearl": "IUC care is eligibility plus informed choice plus symptom-triggered follow-up—not parity-based gatekeeping.",
+    "sourceBasis": [
+      "Society of Obstetricians and Gynaecologists of Canada contraception resources and current IUC statements"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-implantable-contraceptive-management",
+    "title": "Contraceptive Implant: Expected Bleeding, Drug Interactions, and Safe Removal",
+    "system": "Women's Health / Reproductive Health",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "postpartum"
+    ],
+    "acuity": "routine",
+    "bottomLine": "The etonogestrel implant is a highly effective progestin-only contraceptive. Counsel before placement that irregular bleeding is common, assess enzyme-inducing drug interactions and pregnancy timing, and manage bleeding or removal requests without pressuring the patient to continue a method they no longer want.",
+    "recognize": [
+      "Unpredictable spotting, prolonged bleeding or amenorrhea can all occur and do not by themselves mean reduced contraceptive efficacy.",
+      "The implant is suitable for many patients who cannot use estrogen."
+    ],
+    "differentiate": [
+      "New heavy bleeding, pelvic pain or pregnancy symptoms require evaluation for another cause rather than automatic attribution to the implant.",
+      "Strong hepatic enzyme inducers can reduce implant effectiveness and require an alternative/additional contraceptive strategy."
+    ],
+    "assessment": [
+      "Review pregnancy possibility, bleeding history, medications/herbals, liver disease, breast-cancer history and reproductive goals."
+    ],
+    "workup": [
+      "Investigate pregnancy, anemia, infection or structural bleeding causes when the clinical pattern warrants it; routine imaging is not needed when the implant is readily palpable and functioning."
+    ],
+    "management": [
+      "Use evidence-based short-term strategies for bothersome bleeding when appropriate and desired, while offering removal at any time.",
+      "Nonpalpable/deep implants require localization and experienced removal rather than blind exploration."
+    ],
+    "medicationSafety": [
+      "Review enzyme-inducing antiseizure drugs, rifamycins and other relevant interactions.",
+      "Do not repeatedly expose a patient to estrogen/NSAID treatment for bleeding without reviewing contraindications and whether they simply prefer removal."
+    ],
+    "redFlags": [
+      "Nonpalpable implant after insertion/removal attempt",
+      "Neurovascular symptoms near implant",
+      "Pregnancy symptoms",
+      "Severe unexplained bleeding"
+    ],
+    "counselling": [
+      "Set realistic bleeding expectations and explain that troublesome bleeding is treatable but removal remains the patient's choice."
+    ],
+    "followUp": [
+      "Reassess bleeding, interaction changes and patient satisfaction; confirm complete removal when removal is performed."
+    ],
+    "examTrap": "Calling irregular bleeding 'treatment failure'—or refusing requested removal because the implant remains medically effective.",
+    "oneLinePearl": "Implant success includes contraceptive efficacy, bleeding tolerability and patient control over continuation.",
+    "sourceBasis": [
+      "SOGC 2025 position statements on contraceptive implant removal and progestin-only contraceptive bleeding"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-oral-contraceptive-prescribing-and-monitoring",
+    "title": "Oral Contraception: Match Estrogen Risk, Adherence, and Reproductive Goals",
+    "system": "Women's Health / Reproductive Health / Pharmacology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Choose combined versus progestin-only oral contraception from medical eligibility, thrombosis/vascular risk, medication interactions, bleeding preferences and adherence needs. A pelvic exam is not required merely to prescribe pills, but blood pressure and a focused contraindication history matter before estrogen-containing contraception.",
+    "recognize": [
+      "Combined hormonal contraception can improve cycle control and dysmenorrhea but adds estrogen-related thrombotic/vascular risk.",
+      "Progestin-only pills are useful when estrogen is unsuitable but adherence/timing characteristics differ by product."
+    ],
+    "differentiate": [
+      "Migraine with aura, major VTE/thrombophilia risk, certain cardiovascular disease, severe uncontrolled hypertension and some smoking/age combinations can make estrogen-containing contraception unsafe.",
+      "Common breakthrough bleeding/nausea differs from symptoms concerning for VTE, stroke or pregnancy."
+    ],
+    "assessment": [
+      "Measure BP and review migraine aura, VTE history, smoking/nicotine, cardiovascular disease, postpartum status, liver/breast disease, medications/herbals and adherence preferences."
+    ],
+    "workup": [
+      "Pregnancy testing is guided by timing/possibility; routine thrombophilia screening, pelvic examination or laboratory panels are not required before pills in an otherwise appropriate patient."
+    ],
+    "management": [
+      "Use the safest effective formulation consistent with preferences and current Canadian eligibility guidance.",
+      "Address adherence, missed pills and backup/emergency contraception using the specific product instructions rather than one rule for all pills."
+    ],
+    "medicationSafety": [
+      "Review enzyme-inducing drugs that can reduce efficacy.",
+      "New severe headache/focal neurologic symptoms, chest pain/dyspnea or unilateral leg swelling require urgent thrombotic/vascular assessment rather than routine pill follow-up."
+    ],
+    "redFlags": [
+      "Possible VTE/PE",
+      "New focal neurologic deficit",
+      "Severe hypertension",
+      "Pregnancy concern with significant pain/bleeding"
+    ],
+    "counselling": [
+      "Discuss benefits, common bleeding effects, STI protection limitations and a missed-pill plan using the exact formulation."
+    ],
+    "followUp": [
+      "Recheck BP and tolerability at clinically appropriate intervals and whenever cardiovascular risk or medications change."
+    ],
+    "examTrap": "Ordering pelvic exam/thrombophilia labs for every pill start—or prescribing estrogen without asking about migraine aura and VTE risk.",
+    "oneLinePearl": "For oral contraception, the key pre-prescribing tests are history, blood pressure and pregnancy timing—not a routine pelvic exam.",
+    "sourceBasis": [
+      "Society of Obstetricians and Gynaecologists of Canada contraception guidance"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-emergency-contraception-counseling",
+    "title": "Emergency Contraception: Act on Timing and Ongoing Pregnancy Risk",
+    "system": "Women's Health / Reproductive Health",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult"
+    ],
+    "acuity": "urgent",
+    "bottomLine": "Emergency contraception is time-sensitive and should be offered after unprotected intercourse or contraceptive failure without unnecessary examination or testing delays. Choose the most effective feasible option for timing, body/medication factors and patient preference, then establish ongoing contraception and pregnancy follow-up.",
+    "recognize": [
+      "Copper IUC is a highly effective emergency-contraception option and provides ongoing contraception.",
+      "Oral emergency-contraception effectiveness depends on timing and product; ongoing intercourse after the dose creates new pregnancy risk."
+    ],
+    "differentiate": [
+      "Emergency contraception prevents pregnancy before implantation and does not terminate an established pregnancy.",
+      "It does not protect against STIs and does not replace evaluation after sexual assault or coercion when applicable."
+    ],
+    "assessment": [
+      "Clarify intercourse dates, cycle/pregnancy possibility, current contraception, medications including enzyme inducers, IUC eligibility and reproductive goals."
+    ],
+    "workup": [
+      "Do not require pregnancy testing before EC when it would delay treatment and established pregnancy is not suspected; arrange follow-up testing based on timing and subsequent menses/symptoms."
+    ],
+    "management": [
+      "Offer copper IUC or oral EC according to current Canadian guidance and availability; do not withhold because the patient may have had other unprotected intercourse without discussing the appropriate pathway.",
+      "Provide a clear plan for starting/resuming ongoing contraception because timing differs after different oral EC products."
+    ],
+    "medicationSafety": [
+      "Enzyme-inducing medications can reduce oral EC effectiveness and may favour a non-interacting option.",
+      "Do not advise taking conflicting hormonal regimens without accounting for the chosen EC product's mechanism and restart interval."
+    ],
+    "redFlags": [
+      "Positive pregnancy test with pain/bleeding",
+      "Sexual assault/coercion requiring urgent comprehensive care",
+      "Severe abdominal pain after subsequent pregnancy concern"
+    ],
+    "counselling": [
+      "Explain expected bleeding changes, pregnancy-test timing, STI considerations and ongoing contraception options without judgment."
+    ],
+    "followUp": [
+      "Confirm pregnancy status if the expected menses does not occur and ensure ongoing contraception access."
+    ],
+    "examTrap": "Delaying EC for a pelvic exam or routine laboratory testing until the time-sensitive window narrows.",
+    "oneLinePearl": "Emergency contraception is a clock: treat first, then close the loop on ongoing contraception and pregnancy testing.",
+    "sourceBasis": [
+      "Society of Obstetricians and Gynaecologists of Canada contraception resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-preconception-counseling-and-care",
+    "title": "Preconception Care: Optimize Health Before Embryogenesis Begins",
+    "system": "Women's Health / Preventive Care",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Preconception care identifies modifiable medical, medication, nutritional, infectious, genetic and social risks before pregnancy, when changes can prevent early fetal exposure and improve fertility/pregnancy outcomes. Start with reproductive goals and patient priorities rather than assuming pregnancy intention.",
+    "recognize": [
+      "Diabetes, hypertension, thyroid/autoimmune disease, epilepsy, obesity, mental health/substance use and teratogenic medications can materially change pregnancy planning.",
+      "Rubella/varicella and other vaccine status matters because selected live vaccines must be given before pregnancy rather than during pregnancy."
+    ],
+    "differentiate": [
+      "Routine preconception counselling differs from infertility evaluation and from prenatal care after pregnancy is established.",
+      "Folic-acid needs are risk-specific; not every patient requires the same high-dose regimen."
+    ],
+    "assessment": [
+      "Ask whether and when pregnancy is desired, chronic disease control, medications/supplements, immunization/STI risk, prior pregnancy outcomes, genetic/family history, nutrition, substance exposure, mental health, IPV and social/access barriers."
+    ],
+    "workup": [
+      "Use disease/risk-directed labs, immunity or carrier/genetic testing; avoid indiscriminate panels without a clinical indication."
+    ],
+    "management": [
+      "Optimize chronic disease before conception, replace contraindicated medications safely rather than abruptly stopping needed therapy, provide risk-appropriate folic-acid guidance and update immunizations.",
+      "Refer genetics, maternal-fetal medicine or disease specialists when risk requires it."
+    ],
+    "medicationSafety": [
+      "ACE inhibitors/ARBs, valproate and other known pregnancy-risk medications require indication-specific preconception review and safer alternatives where possible.",
+      "Do not stop essential psychiatric/neurologic therapy abruptly solely because pregnancy is planned; balance relapse and fetal risks."
+    ],
+    "redFlags": [
+      "Poorly controlled high-risk chronic disease",
+      "Current teratogenic medication without a safe transition plan",
+      "Active severe substance use/mental-health instability",
+      "IPV/coercion affecting reproductive safety"
+    ],
+    "counselling": [
+      "Use inclusive, non-stigmatizing counselling about nutrition, activity, age-related fertility, substances and reproductive timing."
+    ],
+    "followUp": [
+      "Confirm medication/vaccine/chronic-disease changes are completed and arrange timely pregnancy/infertility follow-up based on goals."
+    ],
+    "examTrap": "Waiting until the first prenatal visit to review teratogenic medications, diabetes control or live-vaccine needs.",
+    "oneLinePearl": "Preconception care moves preventable risk reduction to before the pregnancy test turns positive.",
+    "sourceBasis": [
+      "SOGC Preconception Health Hub and current preconception guidance",
+      "Public Health Agency of Canada preconception resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-infertility-initial-evaluation",
+    "title": "Infertility: Evaluate Ovulation, Anatomy, and Sperm in Parallel",
+    "system": "Women's Health / Reproductive Endocrinology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Initial infertility evaluation should assess the major contributors in parallel—ovulation, uterine/tubal anatomy and sperm—while timing referral earlier for advanced reproductive age, amenorrhea, known tubal disease, severe male-factor risk or other clear fertility threats. Do not make one partner complete an exhaustive workup before evaluating the other.",
+    "recognize": [
+      "Irregular/absent menses suggests ovulatory dysfunction; prior PID/ectopic/endometriosis/surgery raises tubal risk; testicular disease, chemotherapy or sexual dysfunction raises male-factor risk."
+    ],
+    "differentiate": [
+      "Infertility is not synonymous with anovulation or PCOS; age-related ovarian reserve, tubal disease, endometriosis and sperm factors are common alternatives/cofactors."
+    ],
+    "assessment": [
+      "Clarify duration/frequency/timing of intercourse or insemination, menstrual/ovulatory pattern, pregnancies/losses, pelvic infection/surgery, endometriosis symptoms, medications/substances, age and goals; obtain semen-factor history concurrently."
+    ],
+    "workup": [
+      "Use pregnancy/TSH/prolactin or other endocrine testing when clinically indicated, document ovulation when uncertain, obtain semen analysis early and assess tubal/uterine anatomy according to history and referral pathway.",
+      "Ovarian-reserve tests estimate response to stimulation better than they predict spontaneous fertility in isolation."
+    ],
+    "management": [
+      "Treat reversible contributors and refer to fertility/reproductive endocrinology according to duration, age and high-risk features rather than applying one waiting period to everyone."
+    ],
+    "medicationSafety": [
+      "Ovulation-induction medications require diagnosis-specific monitoring and multiple-gestation/ovarian-response safety; do not empirically prescribe them before completing basic evaluation."
+    ],
+    "redFlags": [
+      "Amenorrhea with pituitary/endocrine red flags",
+      "Severe pelvic pain/mass",
+      "Prior gonadotoxic therapy",
+      "Marked male-factor findings",
+      "Pregnancy symptoms/pain during evaluation"
+    ],
+    "counselling": [
+      "Use non-blaming language and explain that infertility commonly has more than one contributor."
+    ],
+    "followUp": [
+      "Close the loop on semen/anatomic/endocrine results and ensure age-sensitive referral is not delayed by serial low-value tests."
+    ],
+    "examTrap": "Ordering months of endocrine testing for one partner before obtaining a basic semen analysis and reproductive history from both contributors.",
+    "oneLinePearl": "Infertility workup is parallel: ovulation, anatomy and sperm—not a one-partner obstacle course.",
+    "sourceBasis": [
+      "SOGC fertility and advanced reproductive age guidance",
+      "Canadian fertility specialty practice principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-abnormal-uterine-bleeding-evaluation",
+    "title": "Abnormal Uterine Bleeding: Stabilize, Exclude Pregnancy, Then Classify the Cause",
+    "system": "Women's Health / Gynecology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "perimenopause",
+      "postmenopause"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Abnormal uterine bleeding is a syndrome, not a diagnosis. First assess hemodynamic stability and pregnancy, then use age, bleeding pattern, medication history and structural versus non-structural causes to decide when CBC/iron studies, ultrasound, endocrine testing or endometrial sampling are warranted.",
+    "recognize": [
+      "Heavy, prolonged, frequent, irregular or intermenstrual bleeding can arise from structural uterine disease, ovulatory dysfunction, endometrial disease, coagulopathy, medications or pregnancy-related causes.",
+      "Postmenopausal bleeding is a diagnostic pathway for endometrial pathology rather than routine menstrual management."
+    ],
+    "differentiate": [
+      "Pregnancy-related bleeding, cervical/vaginal bleeding and urinary or GI bleeding can mimic uterine bleeding.",
+      "Fibroids, polyps and adenomyosis are structural causes; coagulopathy, ovulatory dysfunction, endometrial dysfunction and iatrogenic causes are non-structural categories."
+    ],
+    "assessment": [
+      "Assess amount/tempo, orthostasis, pregnancy possibility, cycle pattern, pain, medications/anticoagulants, bleeding history, anemia symptoms, obesity/anovulation/PCOS, tamoxifen and endometrial-cancer risks."
+    ],
+    "workup": [
+      "Obtain pregnancy testing when pregnancy is possible and CBC/ferritin when blood loss may be clinically meaningful.",
+      "Use pelvic ultrasound and endometrial sampling according to age, risk and bleeding pattern rather than as universal tests; postmenopausal bleeding requires timely endometrial evaluation."
+    ],
+    "management": [
+      "Stabilize acute severe bleeding first, then use cause- and goal-directed medical or procedural therapy.",
+      "Treat iron deficiency and address structural/endometrial pathology through gynecology when indicated."
+    ],
+    "medicationSafety": [
+      "Estrogen-containing acute or chronic regimens require thrombotic/vascular eligibility review; NSAIDs are inappropriate when renal/GI/bleeding risks outweigh benefit.",
+      "Do not repeatedly suppress unexplained high-risk bleeding with hormones without completing indicated endometrial evaluation."
+    ],
+    "redFlags": [
+      "Hemodynamic instability",
+      "Pregnancy with significant pain/bleeding",
+      "Postmenopausal bleeding",
+      "Severe anemia/syncope",
+      "Bleeding with pelvic mass or cancer risk"
+    ],
+    "counselling": [
+      "Explain that the evaluation seeks the cause and severity, not merely whether the bleeding is 'heavy enough'."
+    ],
+    "followUp": [
+      "Confirm bleeding response, iron recovery and closure of imaging/pathology referrals; recurrence after initial reassurance requires reassessment."
+    ],
+    "examTrap": "Calling irregular bleeding 'perimenopause' or 'fibroids' without first excluding pregnancy and endometrial risk.",
+    "oneLinePearl": "AUB reasoning is stability, pregnancy, pattern, risk, then cause.",
+    "sourceBasis": [
+      "Society of Obstetricians and Gynaecologists of Canada abnormal uterine bleeding resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-dysmenorrhea-evaluation-and-management",
+    "title": "Dysmenorrhea: Primary Pain or a Secondary Pelvic Disorder?",
+    "system": "Women's Health / Gynecology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Primary dysmenorrhea is cyclic menstrual pain without pelvic pathology, but progressive pain, dyspareunia, abnormal bleeding, infertility, pelvic mass, fever or poor response to appropriate first-line therapy should trigger evaluation for endometriosis, adenomyosis, PID or another secondary cause.",
+    "recognize": [
+      "Primary dysmenorrhea usually begins after ovulatory cycles are established and is strongest around menstrual onset.",
+      "Endometriosis commonly causes progressive dysmenorrhea, deep dyspareunia, chronic pelvic pain or infertility, but symptoms vary."
+    ],
+    "differentiate": [
+      "Acute unilateral pain with pregnancy risk is not routine dysmenorrhea and requires ectopic/torsion assessment.",
+      "PID adds infectious/cervical/adnexal features; adenomyosis often combines dysmenorrhea with heavy bleeding and a tender enlarged uterus."
+    ],
+    "assessment": [
+      "Characterize timing, severity, school/work impact, bleeding, dyspareunia, bowel/bladder symptoms, infertility goals, pregnancy/STI risk and prior treatment response."
+    ],
+    "workup": [
+      "Typical primary dysmenorrhea does not require routine imaging.",
+      "Use pelvic examination/imaging when secondary disease is suspected and pregnancy/STI testing when indicated."
+    ],
+    "management": [
+      "Use NSAIDs and/or hormonal menstrual suppression when medically appropriate and desired, plus heat/activity/supportive strategies.",
+      "Escalate persistent or secondary-pattern pain to endometriosis/gynecology evaluation rather than repeatedly changing analgesics without revisiting the diagnosis."
+    ],
+    "medicationSafety": [
+      "Review NSAID renal/GI/bleeding risk and contraceptive/hormonal contraindications.",
+      "Do not use opioids as routine chronic dysmenorrhea therapy."
+    ],
+    "redFlags": [
+      "Pregnancy with acute pelvic pain",
+      "Fever/toxic appearance",
+      "Pelvic mass/torsion concern",
+      "Progressive pain with abnormal bleeding",
+      "Severe pain refractory to appropriate therapy"
+    ],
+    "counselling": [
+      "Validate functional impact and avoid normalizing disabling menstrual pain as something the patient must tolerate."
+    ],
+    "followUp": [
+      "Reassess function and response after an adequate treatment trial; persistent symptoms require diagnostic reconsideration."
+    ],
+    "examTrap": "Calling years of progressively worsening pain and deep dyspareunia 'normal cramps' because the pain is menstrual.",
+    "oneLinePearl": "Primary dysmenorrhea should behave like primary dysmenorrhea; progression or treatment failure earns a secondary-cause workup.",
+    "sourceBasis": [
+      "Society of Obstetricians and Gynaecologists of Canada chronic pelvic pain and endometriosis guidance"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-endometriosis-diagnosis-and-management",
+    "title": "Endometriosis: Clinical Diagnosis, Symptom Control, and Fertility Goals",
+    "system": "Women's Health / Gynecology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Endometriosis can be diagnosed clinically from a compatible history, examination and appropriate imaging; laparoscopy with histology is not mandatory before every patient can receive treatment. Management should follow pain, function, fertility goals, anatomy and response—not a requirement to prove disease surgically first.",
+    "recognize": [
+      "Progressive dysmenorrhea, deep dyspareunia, chronic pelvic pain, cyclic bowel/bladder symptoms and infertility are common patterns.",
+      "A normal routine pelvic ultrasound does not exclude superficial endometriosis."
+    ],
+    "differentiate": [
+      "Adenomyosis, IBS, bladder pain syndrome, pelvic-floor myalgia, PID and other chronic pain disorders may coexist or mimic endometriosis.",
+      "Endometrioma or deep infiltrating disease can often be identified with targeted expert imaging and changes referral/surgical planning."
+    ],
+    "assessment": [
+      "Assess symptom timing, sexual/pelvic pain, bowel/bladder features, fertility goals, bleeding, prior therapies, psychosocial impact and pelvic-floor symptoms."
+    ],
+    "workup": [
+      "Use transvaginal ultrasound when acceptable and appropriate, with alternative or advanced imaging for suspected deep disease/endometrioma or when anatomy requires it.",
+      "Surgery is selected when symptoms, infertility, mass risk, failed medical therapy or patient goals justify it—not as a universal diagnostic prerequisite."
+    ],
+    "management": [
+      "Use NSAIDs and hormonal suppression such as combined or progestin-based therapy when appropriate; choose therapy with contraceptive/fertility goals and contraindications in mind.",
+      "Refer complex pain, endometrioma/deep disease, infertility or refractory symptoms to gynecology/endometriosis expertise and integrate pelvic-floor/pain support when needed."
+    ],
+    "medicationSafety": [
+      "Hormonal options carry formulation-specific thrombotic, bone-density, hypoestrogenic and pregnancy considerations.",
+      "Avoid repeated opioid prescribing as the default response to chronic endometriosis pain."
+    ],
+    "redFlags": [
+      "Acute abdomen or torsion concern",
+      "Pregnancy with acute pain/bleeding",
+      "Obstructive urinary/bowel symptoms",
+      "Suspicious adnexal mass",
+      "Severe refractory pain or major functional loss"
+    ],
+    "counselling": [
+      "Explain that clinical treatment without surgery is valid and that pain severity does not always correlate with lesion burden."
+    ],
+    "followUp": [
+      "Track pain/function, adverse effects, fertility goals and need for specialty escalation; reconsider overlapping pain generators when expected response does not occur."
+    ],
+    "examTrap": "Telling a patient they cannot have endometriosis or begin treatment until laparoscopy proves it.",
+    "oneLinePearl": "Endometriosis is often a clinical diagnosis; surgery is a management tool, not a mandatory entry ticket to care.",
+    "sourceBasis": [
+      "SOGC Guideline No. 449 Diagnosis and Impact of Endometriosis",
+      "SOGC chronic pelvic pain guidance"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-uterine-fibroids-evaluation-and-management",
+    "title": "Uterine Fibroids: Treat Symptoms, Location, and Reproductive Goals",
+    "system": "Women's Health / Gynecology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Leiomyomas are benign uterine smooth-muscle tumours managed according to bleeding, bulk symptoms, anemia, location, fertility/pregnancy goals and patient preference—not imaging size alone. Confirm that bleeding/pain is actually attributable to fibroids and escalate rapidly growing postmenopausal or otherwise atypical masses for specialist evaluation.",
+    "recognize": [
+      "Heavy menstrual bleeding, pelvic pressure, urinary/bowel bulk symptoms, infertility or pregnancy complications can occur depending on number and location.",
+      "Many fibroids are incidental and require no treatment."
+    ],
+    "differentiate": [
+      "Adenomyosis, endometriosis, pregnancy, endometrial pathology and ovarian/adnexal masses can mimic pain/bleeding.",
+      "Postmenopausal bleeding should not be attributed to known fibroids without endometrial evaluation."
+    ],
+    "assessment": [
+      "Characterize bleeding, pressure/pain, anemia symptoms, pregnancy possibility, fertility goals, age/menopause status and prior imaging/procedures."
+    ],
+    "workup": [
+      "Use CBC/ferritin when heavy bleeding suggests iron deficiency and pelvic ultrasound to define uterine anatomy when findings will alter care.",
+      "Use endometrial sampling based on age/risk/bleeding pattern rather than fibroid presence alone."
+    ],
+    "management": [
+      "Observation is appropriate for asymptomatic disease.",
+      "Medical bleeding control, GnRH-modulating strategies, uterine artery embolization, myomectomy or hysterectomy are selected according to symptoms, anatomy and reproductive goals through current gynecology pathways."
+    ],
+    "medicationSafety": [
+      "Hormonal therapy requires the same estrogen/progestin contraindication review as other indications.",
+      "GnRH therapies and procedural options have bone, hypoestrogenic, fertility and pregnancy implications that require individualized counselling."
+    ],
+    "redFlags": [
+      "Hemodynamic heavy bleeding",
+      "Severe anemia",
+      "Postmenopausal bleeding",
+      "Acute severe pain/possible degeneration or torsion of a pedunculated lesion",
+      "Rapidly enlarging or atypical pelvic mass"
+    ],
+    "counselling": [
+      "Explain that fibroid size does not automatically determine treatment and that preserving fertility or avoiding uterine surgery can change the options."
+    ],
+    "followUp": [
+      "Track bleeding, hemoglobin/iron status, bulk symptoms and reproductive plans; repeat imaging only when symptoms or treatment planning justify it."
+    ],
+    "examTrap": "Sending every fibroid to surgery based on size while ignoring that the patient is asymptomatic—or attributing postmenopausal bleeding to fibroids without evaluating the endometrium.",
+    "oneLinePearl": "Fibroid treatment follows symptoms, location and goals—not centimetres alone.",
+    "sourceBasis": [
+      "Society of Obstetricians and Gynaecologists of Canada uterine leiomyoma/abnormal bleeding practice resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-polycystic-ovary-syndrome-management",
+    "title": "PCOS Management: Diagnose the Syndrome, Then Treat the Patient's Priorities",
+    "system": "Women's Health / Endocrine",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "PCOS is a syndrome of ovulatory dysfunction and/or hyperandrogenism after appropriate exclusions; ovarian ultrasound alone does not diagnose it. Management is goal-directed across menstrual/endometrial protection, hyperandrogenic symptoms, fertility, metabolic risk and mental health.",
+    "recognize": [
+      "Irregular or absent ovulation, clinical/biochemical hyperandrogenism and polycystic ovarian morphology can contribute to diagnosis depending on age and criteria.",
+      "Insulin resistance, dysglycemia, sleep apnea, obesity and mood/eating-disorder burden are common but not required for the diagnosis."
+    ],
+    "differentiate": [
+      "Exclude pregnancy and consider thyroid disease, hyperprolactinemia, nonclassic CAH and androgen-secreting or Cushing-type disorders when the history/tempo warrants it.",
+      "Rapid virilization or markedly progressive androgenic change is not routine PCOS."
+    ],
+    "assessment": [
+      "Assess cycle pattern, acne/hirsutism/alopecia, virilization tempo, fertility goals, weight/metabolic history, medications, sleep, mood/eating symptoms and pregnancy possibility."
+    ],
+    "workup": [
+      "Use targeted endocrine testing to exclude mimics and metabolic testing according to risk; do not order pelvic ultrasound solely to prove PCOS when diagnostic criteria are already met without it.",
+      "Adolescents require developmentally appropriate criteria because normal pubertal physiology can mimic adult PCOS features."
+    ],
+    "management": [
+      "Provide endometrial protection when chronic anovulation exists and choose combined/progestin therapy according to eligibility and goals.",
+      "Use fertility therapy/referral when pregnancy is desired; manage metabolic risk, sleep apnea and weight-related complications with evidence-based chronic-disease care rather than blame."
+    ],
+    "medicationSafety": [
+      "Metformin is used for selected metabolic/reproductive indications, not as a universal cure for PCOS.",
+      "Do not overpromise supplements such as inositol; use current evidence and shared decision-making."
+    ],
+    "redFlags": [
+      "Rapid virilization",
+      "Postmenopausal/new severe androgen excess",
+      "Prolonged amenorrhea with abnormal bleeding",
+      "Severe metabolic decompensation"
+    ],
+    "counselling": [
+      "Explain that PCOS is heterogeneous and that the plan should match the patient's symptoms, fertility goals and long-term health risks."
+    ],
+    "followUp": [
+      "Track cycle/endometrial protection, metabolic markers, treatment tolerance and patient-defined symptom goals."
+    ],
+    "examTrap": "Diagnosing PCOS because ultrasound shows polycystic-appearing ovaries in a patient with regular cycles and no hyperandrogenism.",
+    "oneLinePearl": "PCOS is a clinical-endocrine syndrome, not an ultrasound picture.",
+    "sourceBasis": [
+      "Society of Obstetricians and Gynaecologists of Canada PCOS resources and 2025 inositol position statement"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": false
+  },
+  {
+    "id": "np-premature-ovarian-insufficiency",
+    "title": "Premature Ovarian Insufficiency: Confirm the Diagnosis and Replace Lost Ovarian Health",
+    "system": "Women's Health / Endocrine",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Suspect premature ovarian insufficiency in a patient under 40 with persistent menstrual disturbance/amenorrhea and hypoestrogenic features after pregnancy and other causes are considered. Confirm biochemically through the current POI pathway, evaluate selected autoimmune/genetic causes, address fertility and bone/cardiovascular/sexual health, and replace estrogen when appropriate until the usual menopause age rather than treating symptoms alone.",
+    "recognize": [
+      "Irregular/absent menses, hot flashes, vaginal dryness and infertility can occur, but intermittent ovarian activity/pregnancy remains possible.",
+      "POI has long-term bone and cardiovascular implications beyond fertility."
+    ],
+    "differentiate": [
+      "Pregnancy, hypothalamic amenorrhea, hyperprolactinemia, thyroid disease and PCOS are important alternatives.",
+      "POI differs from natural menopause because intermittent ovarian activity can occur and health consequences arise decades earlier."
+    ],
+    "assessment": [
+      "Assess menstrual timeline, pregnancy possibility, vasomotor/genitourinary symptoms, weight/exercise/eating pattern, galactorrhea, autoimmune symptoms, chemo/radiation/surgery and family/genetic history."
+    ],
+    "workup": [
+      "Use pregnancy testing, FSH confirmation according to current POI guidance, and thyroid/prolactin or cause-directed autoimmune/genetic evaluation when indicated.",
+      "Assess bone health and cardiovascular risk according to age/duration/risk."
+    ],
+    "management": [
+      "Offer physiologic hormone replacement when not contraindicated through approximately the usual menopause age, individualized to uterine status and risk.",
+      "Refer for fertility counselling because spontaneous ovulation may occur but donor-oocyte/other fertility options may be relevant."
+    ],
+    "medicationSafety": [
+      "Hormone replacement for POI has a different benefit-risk context from initiating menopausal hormone therapy at older age; do not withhold needed replacement solely by extrapolating older-menopause risks.",
+      "If the uterus is present, systemic estrogen requires adequate endometrial protection."
+    ],
+    "redFlags": [
+      "Pregnancy with pain/bleeding",
+      "Severe eating-disorder/hypothalamic features",
+      "Pituitary mass symptoms",
+      "Contraindication to systemic hormone requiring specialist plan"
+    ],
+    "counselling": [
+      "Discuss fertility uncertainty, bone/heart health, sexual symptoms and psychological impact; use the patient's preferred reproductive goals."
+    ],
+    "followUp": [
+      "Track symptoms, bleeding, bone/cardiovascular health and hormone tolerability/adherence."
+    ],
+    "examTrap": "Treating a 32-year-old with POI like a 55-year-old starting optional menopausal symptom therapy and withholding replacement without considering decades of estrogen deficiency.",
+    "oneLinePearl": "POI is early loss of ovarian endocrine function, so management protects long-term health as well as symptoms.",
+    "sourceBasis": [
+      "Canadian Menopause Society Menopause HUB",
+      "ESHRE 2024 POI guideline referenced by Canadian Menopause Society"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-menopause-diagnosis-and-hormone-therapy",
+    "title": "Menopause and Hormone Therapy: Treat Symptoms, Protect the Endometrium, Individualize Risk",
+    "system": "Women's Health / Menopause",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "perimenopause",
+      "postmenopause"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Menopause is usually a clinical diagnosis in the expected age range; routine hormone panels are often unnecessary. Menopausal hormone therapy is the most effective treatment for bothersome vasomotor symptoms in appropriate patients, with route and regimen individualized to risk, and systemic estrogen requires endometrial protection when a uterus is present.",
+    "recognize": [
+      "Vasomotor symptoms, sleep disruption and genitourinary symptoms can occur through the menopause transition.",
+      "Irregular cycles are common in perimenopause, but postmenopausal bleeding is not a normal menopause symptom and requires diagnostic evaluation."
+    ],
+    "differentiate": [
+      "Thyroid disease, medication effects, pregnancy and other conditions can mimic symptoms when the pattern is atypical.",
+      "Genitourinary syndrome can often be treated locally and may not require systemic MHT."
+    ],
+    "assessment": [
+      "Clarify symptom burden, bleeding, uterus status, VTE/stroke/cardiovascular history, breast/endometrial cancer risk, migraine/liver disease, osteoporosis risk, sexual/genitourinary symptoms and patient priorities."
+    ],
+    "workup": [
+      "Do not routinely order FSH/estradiol in a typical expected-age menopause transition when the result will not change management.",
+      "Evaluate unexplained or postmenopausal bleeding before assuming symptoms are simply menopausal; use disease-specific testing when another diagnosis is plausible."
+    ],
+    "management": [
+      "Offer MHT for appropriate bothersome symptoms after individualized benefits/risks/contraindications discussion; choose estrogen route/dose and progestogen/endometrial protection according to the patient and uterus status.",
+      "Use evidence-based nonhormonal therapy when hormones are contraindicated or not desired and local vaginal therapy for appropriate genitourinary symptoms."
+    ],
+    "medicationSafety": [
+      "Do not use systemic estrogen alone in a patient with a uterus without an appropriate endometrial-protection strategy.",
+      "Avoid blanket fear-based counselling or an arbitrary universal stop date; reassess benefit/risk over time."
+    ],
+    "redFlags": [
+      "Postmenopausal bleeding",
+      "New breast mass",
+      "VTE/stroke symptoms",
+      "Unexplained liver disease or major new contraindication"
+    ],
+    "counselling": [
+      "Discuss absolute benefits/risks and route-specific considerations rather than presenting all hormone therapy as one risk category."
+    ],
+    "followUp": [
+      "Reassess symptom control, bleeding, adverse effects and evolving health risks; investigate new bleeding rather than simply changing hormones repeatedly."
+    ],
+    "examTrap": "Ordering hormone levels to 'prove' menopause in a typical symptomatic patient—or prescribing systemic estrogen alone despite an intact uterus.",
+    "oneLinePearl": "Menopause care is clinical diagnosis plus symptom- and risk-matched therapy, with endometrial protection when systemic estrogen meets a uterus.",
+    "sourceBasis": [
+      "Canadian Menopause Society clinical resources",
+      "Ontario Health menopause quality-standard resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-osteoporosis-prevention-in-women",
+    "title": "Bone Health Across Reproductive Aging: Prevent Fractures Before the First One",
+    "system": "Women's Health / Endocrine / Prevention",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adult",
+      "perimenopause",
+      "postmenopause",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Bone-health prevention is risk-based across the lifespan: identify premature estrogen loss, glucocorticoid exposure, low-trauma fracture, low weight/nutrition risk and other secondary causes, then use exercise/falls/nutrition plus bone-density or pharmacologic pathways when fracture risk warrants them. Do not wait for an older-age screening milestone when a younger patient has major risk.",
+    "recognize": [
+      "Menopause accelerates bone loss; POI/early menopause extends estrogen deficiency over more years.",
+      "A fragility fracture is a major risk signal even if a prior BMD was not in the osteoporosis range."
+    ],
+    "differentiate": [
+      "Osteoporosis diagnosis/risk is not based on calcium level and BMD is not the only fracture-risk determinant.",
+      "Pregnancy/lactation-associated bone loss, eating disorders, celiac disease, hyperparathyroidism and medications can produce secondary bone disease."
+    ],
+    "assessment": [
+      "Assess fracture history, falls, menopause/POI, glucocorticoids, smoking/alcohol, nutrition, exercise, family history, body weight and secondary disease/medications."
+    ],
+    "workup": [
+      "Use BMD and fracture-risk assessment according to age/risk and investigate secondary causes when clinical features warrant it.",
+      "Avoid routine broad bone-marker testing without a management question."
+    ],
+    "management": [
+      "Ensure adequate dietary calcium/nutrition and vitamin D where needed, weight-bearing/resistance exercise, falls prevention and smoking/alcohol risk reduction.",
+      "Use pharmacotherapy for sufficiently high fracture risk with drug selection based on renal function, fracture site/risk, age, pregnancy potential and long-term sequencing."
+    ],
+    "medicationSafety": [
+      "Bisphosphonates/denosumab and other therapies require indication-specific renal/calcium/dental/reproductive review.",
+      "Denosumab discontinuation requires a transition plan to avoid rebound bone loss/fractures."
+    ],
+    "redFlags": [
+      "Low-trauma hip/vertebral fracture",
+      "Multiple fractures at young age",
+      "Severe hypocalcemia risk before antiresorptive therapy",
+      "Rapid bone loss with systemic disease"
+    ],
+    "counselling": [
+      "Explain fracture prevention rather than presenting BMD as a score to chase; discuss exercise and medication duration/sequence realistically."
+    ],
+    "followUp": [
+      "Reassess fracture risk, adherence and medication strategy at clinically meaningful intervals rather than ordering frequent BMD without a decision attached."
+    ],
+    "examTrap": "Waiting until standard older-age screening because a 38-year-old with POI and chronic glucocorticoid exposure is 'too young' for bone-risk assessment.",
+    "oneLinePearl": "Bone prevention follows fracture risk and estrogen/medication history, not age alone.",
+    "sourceBasis": [
+      "Canadian Menopause Society menopause and osteoporosis resources",
+      "Osteoporosis Canada clinical practice guidance"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-breast-cancer-screening-and-evaluation",
+    "title": "Breast Screening and Evaluation: Screening Is for the Asymptomatic Patient",
+    "system": "Women's Health / Oncology / Prevention",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adult",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Breast screening and breast diagnosis are different pathways. Use the current provincial or territorial program for asymptomatic screening and shared decision-making, but a new mass, suspicious nipple/skin change or focal persistent symptom requires diagnostic breast evaluation rather than waiting for the next screening mammogram interval.",
+    "recognize": [
+      "A new dominant mass, bloody unilateral nipple discharge, peau d'orange/skin retraction, new nipple inversion or persistent focal change is diagnostic, not screening, territory.",
+      "Family/genetic history, prior high-risk lesions and prior chest radiation can move a patient into enhanced-risk pathways."
+    ],
+    "differentiate": [
+      "Population screening recommendations and publicly funded program ages/intervals vary across Canada.",
+      "A normal recent screening mammogram does not rule out a new clinically concerning breast finding."
+    ],
+    "assessment": [
+      "Assess symptom duration, pregnancy/lactation, prior imaging, family/personal cancer history, genetic risk, hormones and previous biopsies; perform focused breast/nodal examination for symptoms."
+    ],
+    "workup": [
+      "Use the current provincial high-risk or average-risk screening program when asymptomatic.",
+      "For symptoms, order age/context-appropriate diagnostic imaging and biopsy referral when imaging/exam is suspicious; do not substitute screening recall for diagnostic workup."
+    ],
+    "management": [
+      "Close the loop on abnormal imaging and pathology and refer confirmed/suspicious cancer promptly.",
+      "Provide informed screening discussions that include benefits, false positives and overdiagnosis rather than a one-size-fits-all recommendation."
+    ],
+    "medicationSafety": [
+      "Do not delay evaluation of a new mass while stopping hormones or waiting to see whether medication changes make it disappear."
+    ],
+    "redFlags": [
+      "New persistent dominant mass",
+      "Inflammatory breast changes",
+      "Bloody unilateral discharge",
+      "Suspicious nodes",
+      "Rapidly progressive skin/nipple change"
+    ],
+    "counselling": [
+      "Explain whether the patient is in a screening or diagnostic pathway and who owns the next result."
+    ],
+    "followUp": [
+      "Track diagnostic imaging/biopsy to resolution; document the next screening interval only after diagnostic concerns are closed."
+    ],
+    "examTrap": "Scheduling routine screening for a patient presenting with a new breast mass instead of initiating diagnostic evaluation.",
+    "oneLinePearl": "No symptoms: screening pathway. New breast finding: diagnostic pathway.",
+    "sourceBasis": [
+      "Provincial and territorial breast-screening programs including Ontario Breast Screening Program 2026",
+      "Canadian breast diagnostic practice pathways"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-cervical-cancer-screening-and-management",
+    "title": "Cervical Screening and Management: HPV-Based Programs, Anatomy, and Symptom Separation",
+    "system": "Women's Health / Oncology / Prevention",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adult",
+      "postmenopause"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Cervical cancer screening is for eligible asymptomatic people with a cervix and increasingly uses HPV-based testing, but implementation varies by province and territory. Unusual bleeding, persistent discharge or a visible cervical lesion requires diagnostic evaluation rather than routine screening.",
+    "recognize": [
+      "Screening eligibility depends on cervical anatomy, age/risk and sexual-contact history—not gender identity assumptions.",
+      "HPV vaccination reduces risk but does not automatically eliminate future screening under current program criteria."
+    ],
+    "differentiate": [
+      "Screening detects risk/precancer in asymptomatic patients; postcoital or unexplained vaginal bleeding is a symptom requiring diagnostic assessment.",
+      "After abnormal HPV/cytology or prior high-grade disease, surveillance intervals differ from average-risk screening."
+    ],
+    "assessment": [
+      "Confirm whether the patient has a cervix, symptoms, prior abnormal results/treatment, immunocompromise, HPV vaccination and local screening history."
+    ],
+    "workup": [
+      "Use the current provincial/territorial HPV/cytology algorithm; do not hard-code one Canada-wide age/interval when programs differ.",
+      "Symptomatic bleeding/discharge or visible lesion requires examination and diagnostic/colposcopy pathway regardless of routine screening status."
+    ],
+    "management": [
+      "Follow abnormal-screen algorithms to repeat testing, reflex cytology/genotyping or colposcopy as locally specified and track results to closure.",
+      "Address access barriers and use trauma-informed approaches for pelvic examination."
+    ],
+    "medicationSafety": [
+      "Do not prescribe repeated empiric treatment for postcoital bleeding while postponing cervical evaluation."
+    ],
+    "redFlags": [
+      "Visible suspicious cervical lesion",
+      "Persistent postcoital bleeding",
+      "Unexplained postmenopausal bleeding",
+      "High-grade screening result with lost follow-up"
+    ],
+    "counselling": [
+      "Explain HPV persistence and that a positive HPV test does not indicate infidelity or cancer by itself."
+    ],
+    "followUp": [
+      "Maintain recall/colposcopy ownership until the abnormal result is definitively resolved."
+    ],
+    "examTrap": "Using the routine screening interval to manage a symptomatic patient with postcoital bleeding.",
+    "oneLinePearl": "Screening is prevention for asymptomatic cervices; symptoms demand diagnosis.",
+    "sourceBasis": [
+      "Current provincial/territorial cervical screening programs including Ontario HPV-based cervical screening 2026"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-endometrial-cancer-recognition",
+    "title": "Endometrial Cancer: Postmenopausal Bleeding Is Cancer Until Evaluated",
+    "system": "Women's Health / Oncology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adult",
+      "postmenopause",
+      "older adult"
+    ],
+    "acuity": "urgent",
+    "bottomLine": "Postmenopausal bleeding and abnormal bleeding in a patient with significant endometrial-cancer risk require timely endometrial evaluation. Screening asymptomatic average-risk patients is not the same as diagnosing symptoms; ultrasound can stratify selected cases, but tissue diagnosis is required when the pathway indicates it.",
+    "recognize": [
+      "Postmenopausal bleeding is the classic presenting symptom; abnormal heavy/irregular bleeding can also occur before menopause.",
+      "Risk rises with prolonged unopposed estrogen exposure, obesity, chronic anovulation/PCOS, tamoxifen, Lynch syndrome and age."
+    ],
+    "differentiate": [
+      "Atrophy, polyps, fibroids and medication-related bleeding are common but do not eliminate cancer risk.",
+      "A normal cervical screening result does not evaluate the endometrium."
+    ],
+    "assessment": [
+      "Clarify menopausal status, bleeding amount/pattern, pregnancy possibility when relevant, hormone/tamoxifen use, PCOS/anovulation, BMI/metabolic risk, Lynch/family history and anemia symptoms."
+    ],
+    "workup": [
+      "Use transvaginal ultrasound and/or endometrial sampling according to the current symptomatic bleeding pathway and individual risk.",
+      "Persistent/recurrent postmenopausal bleeding requires further evaluation even after an initially reassuring test when the clinical pathway indicates it."
+    ],
+    "management": [
+      "Refer abnormal endometrial pathology or persistent high-risk bleeding to gynecology/gynecologic oncology promptly.",
+      "Treat hemodynamic bleeding/anemia in parallel rather than waiting for outpatient cancer workup."
+    ],
+    "medicationSafety": [
+      "Do not prescribe repeated empiric progestin/hormonal therapy for unexplained high-risk bleeding without ensuring appropriate endometrial assessment."
+    ],
+    "redFlags": [
+      "Postmenopausal bleeding",
+      "Hemodynamic heavy bleeding",
+      "Severe anemia",
+      "Persistent/recurrent bleeding despite initial reassuring evaluation",
+      "Pelvic mass or metastatic symptoms"
+    ],
+    "counselling": [
+      "Explain that most bleeding causes are benign, but timely evaluation matters because endometrial cancer often presents early with bleeding."
+    ],
+    "followUp": [
+      "Track pathology and specialty referral to definitive diagnosis; do not let bleeding resolution cancel indicated evaluation."
+    ],
+    "examTrap": "Reassuring a postmenopausal patient because bleeding stopped after one episode or because cervical screening is up to date.",
+    "oneLinePearl": "Postmenopausal bleeding is a diagnostic pathway, not a watch-and-wait symptom.",
+    "sourceBasis": [
+      "Society of Obstetricians and Gynaecologists of Canada abnormal uterine bleeding resources",
+      "Canadian gynecologic-oncology diagnostic pathways"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-ovarian-cancer-recognition",
+    "title": "Ovarian Cancer: Persistent Symptom Pattern, Risk, and the Limits of Screening",
+    "system": "Women's Health / Oncology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management"
+    ],
+    "lifespan": [
+      "adult",
+      "postmenopause",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "There is no effective routine population screening strategy for ovarian cancer in asymptomatic average-risk patients. Persistent new bloating, early satiety, pelvic/abdominal pain, urinary symptoms or an adnexal mass require diagnostic assessment, with hereditary-risk patients routed to genetics/specialty care rather than serial CA-125 screening alone.",
+    "recognize": [
+      "Symptoms are often nonspecific but become concerning when new, persistent and frequent—especially after menopause.",
+      "BRCA-related hereditary cancer and Lynch/family history can materially raise risk."
+    ],
+    "differentiate": [
+      "IBS, urinary disease, fibroids and benign ovarian cysts can mimic symptoms.",
+      "CA-125 can rise in benign conditions and can be normal in malignancy; it is not a stand-alone screening or diagnostic test."
+    ],
+    "assessment": [
+      "Assess symptom duration/frequency, weight loss, abdominal distension, menopausal status, family/personal breast-ovarian-colorectal cancer history, prior imaging and pregnancy possibility when relevant."
+    ],
+    "workup": [
+      "Use pelvic/transvaginal ultrasound as appropriate for an adnexal mass and integrate morphology, menopausal status and validated risk assessment.",
+      "Tumour markers support selected diagnostic/specialist pathways but do not replace imaging and clinical risk."
+    ],
+    "management": [
+      "Refer suspicious adnexal masses to gynecology/gynecologic oncology before non-oncologic surgery when malignancy risk is substantial.",
+      "Offer genetic counselling/testing pathways when hereditary risk criteria are met."
+    ],
+    "medicationSafety": [
+      "Do not repeatedly prescribe symptom treatments or order serial CA-125 in place of diagnostic evaluation for a persistent concerning syndrome."
+    ],
+    "redFlags": [
+      "Suspicious complex adnexal mass",
+      "Ascites",
+      "Bowel obstruction symptoms",
+      "Rapid abdominal enlargement/weight loss",
+      "Strong hereditary cancer syndrome features"
+    ],
+    "counselling": [
+      "Explain why routine screening is not recommended for average-risk asymptomatic people but persistent symptoms still deserve evaluation."
+    ],
+    "followUp": [
+      "Track imaging/referral/genetics to diagnostic closure; persistent symptoms require reassessment even after an initially benign explanation."
+    ],
+    "examTrap": "Ordering annual CA-125 and ultrasound as routine screening in an asymptomatic average-risk patient—or dismissing persistent new bloating because symptoms are nonspecific.",
+    "oneLinePearl": "Ovarian cancer is not a population-screening disease; it is a persistent-symptom and adnexal-risk diagnostic problem.",
+    "sourceBasis": [
+      "Canadian gynecologic-oncology practice pathways",
+      "Choosing Wisely Canada screening principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-vaginitis-diagnosis-and-treatment",
+    "title": "Vaginitis: Diagnose the Vaginal Syndrome Before Treating the Discharge",
+    "system": "Women's Health / Infectious Disease",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "postmenopause"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Vaginal discharge or irritation is not automatically candidiasis. Distinguish bacterial vaginosis, vulvovaginal candidiasis, trichomoniasis, cervicitis/STI, genitourinary syndrome of menopause and noninfectious dermatologic/irritant causes using symptoms, examination and point-of-care/molecular testing when it will change treatment.",
+    "recognize": [
+      "BV, candidiasis and trichomoniasis have overlapping symptoms; recurrent self-treatment can obscure another diagnosis.",
+      "Postmenopausal dryness/burning/dyspareunia may reflect genitourinary syndrome rather than infection."
+    ],
+    "differentiate": [
+      "Cervicitis, PID and genital ulcers are not uncomplicated vaginitis and require STI/upper-tract assessment.",
+      "Odour, pH and microscopy can support a diagnosis but no single bedside feature is perfect."
+    ],
+    "assessment": [
+      "Ask discharge/odour/itch/pain, dysuria, dyspareunia, bleeding, sexual exposure, pregnancy, recent antibiotics, diabetes/immunocompromise, menopause and irritant/product use."
+    ],
+    "workup": [
+      "Use vaginal pH, microscopy or NAAT/molecular testing according to local availability and syndrome; test for gonorrhea/chlamydia/trichomonas at exposed sites when indicated.",
+      "Persistent/recurrent symptoms require confirmation rather than endless empiric antifungal prescriptions."
+    ],
+    "management": [
+      "Treat the identified syndrome using current Canadian guidance and address STI partner/public-health requirements where relevant.",
+      "Manage recurrent disease by confirming diagnosis and modifying predisposing factors rather than escalating unverified treatment."
+    ],
+    "medicationSafety": [
+      "Pregnancy changes treatment choices for some agents; avoid oral or topical regimens not supported for the pregnancy context.",
+      "Do not repeatedly use azole therapy without confirming recurrent candidiasis when symptoms are atypical or persistent."
+    ],
+    "redFlags": [
+      "Pelvic/abdominal pain with fever",
+      "Pregnancy with significant pain/bleeding",
+      "Ulcerative disease or severe vulvar inflammation",
+      "Persistent postmenopausal bleeding"
+    ],
+    "counselling": [
+      "Avoid implying hygiene failure or infidelity; counsel based on the confirmed infection and prevention needs."
+    ],
+    "followUp": [
+      "Reassess persistent/recurrent symptoms and review test results/partner care when an STI is diagnosed."
+    ],
+    "examTrap": "Treating every discharge complaint with fluconazole without considering BV, trichomoniasis, cervicitis or menopause-related disease.",
+    "oneLinePearl": "Discharge is a symptom; diagnose the vaginal or cervical syndrome before choosing the drug.",
+    "sourceBasis": [
+      "Public Health Agency of Canada STI-associated syndromes guide and STBBI guides"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-pelvic-inflammatory-disease-diagnosis-and-treatment",
+    "title": "Pelvic Inflammatory Disease: Treat Early, Escalate the Complicated Patient",
+    "system": "Women's Health / Infectious Disease",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult"
+    ],
+    "acuity": "urgent",
+    "bottomLine": "PID is primarily a clinical diagnosis and delayed treatment increases infertility, ectopic pregnancy and chronic pelvic-pain risk. Maintain a low treatment threshold when compatible pelvic pain plus cervical/uterine/adnexal tenderness is present, while actively excluding ectopic pregnancy and escalating pregnancy, severe illness or tubo-ovarian abscess concern.",
+    "recognize": [
+      "Lower abdominal/pelvic pain, abnormal discharge/bleeding, dyspareunia and cervical motion/uterine/adnexal tenderness can support PID.",
+      "Gonorrhea/chlamydia may be absent on testing; PID can be polymicrobial."
+    ],
+    "differentiate": [
+      "Ectopic pregnancy, appendicitis, ovarian torsion/cyst complication, UTI/pyelonephritis and endometriosis can mimic PID.",
+      "Severe illness, pregnancy or suspected tubo-ovarian abscess is not routine outpatient PID."
+    ],
+    "assessment": [
+      "Assess pregnancy possibility, hemodynamics, fever/toxicity, pain severity, vomiting, discharge/bleeding, STI exposure and ability to adhere/follow up."
+    ],
+    "workup": [
+      "Perform pregnancy testing and gonorrhea/chlamydia/site-specific STI testing as indicated; use ultrasound when TOA/torsion/ectopic or another structural diagnosis is possible.",
+      "Do not wait for positive NAAT before treating a convincing clinical PID syndrome."
+    ],
+    "management": [
+      "Use the current PHAC PID guide and infection-specific gonorrhea/chlamydia guidance; June 2026 updates changed gonorrhea-aligned treatment and removed an outdated levofloxacin/metronidazole regimen.",
+      "Hospitalize/consult for pregnancy, severe illness, inability to tolerate oral therapy, suspected TOA or failed outpatient treatment according to the acute pathway."
+    ],
+    "medicationSafety": [
+      "Check allergy, pregnancy and drug interactions against the current regimen rather than relying on an old memorized STI dose.",
+      "Partner management and abstinence/safer-sex guidance are part of preventing reinfection."
+    ],
+    "redFlags": [
+      "Pregnancy",
+      "Hemodynamic instability or sepsis",
+      "Tubo-ovarian abscess concern",
+      "Severe vomiting/inability to tolerate therapy",
+      "No clinical improvement on appropriate outpatient treatment"
+    ],
+    "counselling": [
+      "Explain why treatment can start before final STI results and discuss partner testing/treatment without blame."
+    ],
+    "followUp": [
+      "Arrange early clinical reassessment and close STI results/partner/public-health actions."
+    ],
+    "examTrap": "Waiting for a positive gonorrhea or chlamydia NAAT before treating a classic PID presentation—or using a superseded regimen from memory.",
+    "oneLinePearl": "PID is treated on clinical probability; the lab refines etiology and partner care.",
+    "sourceBasis": [
+      "PHAC STI-associated syndromes guide: Pelvic inflammatory disease, updated June 2026",
+      "PHAC Gonorrhea and Chlamydia guides"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-sexually-transmitted-infection-management",
+    "title": "STI Management: Test Exposed Sites, Use Current Canadian Regimens, Close the Partner Loop",
+    "system": "Women's Health / Sexual Health / Infectious Disease",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "STI care is anatomy/exposure based and changes quickly. Ask what sites were exposed, test the sites that matter, use current PHAC infection-specific treatment and test-of-cure guidance, assess HIV prevention needs and complete partner/public-health follow-up rather than relying on urine-only testing or an old memorized regimen.",
+    "recognize": [
+      "Gonorrhea/chlamydia can be asymptomatic and pharyngeal/rectal infection is missed when testing follows gender assumptions instead of exposure anatomy.",
+      "Syphilis, HIV, hepatitis and genital ulcer syndromes require different testing and follow-up pathways."
+    ],
+    "differentiate": [
+      "Screening asymptomatic people at risk differs from diagnostic testing of symptoms or known exposure.",
+      "A reactive screening test is not always the final diagnosis; confirmatory algorithms matter for HIV and syphilis interpretation."
+    ],
+    "assessment": [
+      "Use inclusive sexual history: sites/practices, symptoms, pregnancy, contraception, prior STI, HIV prevention, partner status, assault/coercion and antimicrobial allergies/exposures."
+    ],
+    "workup": [
+      "Use NAAT at exposed sites and culture when current gonorrhea guidance recommends it; order infection-specific serology/molecular tests based on exposure and syndrome.",
+      "June 2026 PHAC gonorrhea guidance revised treatment, culture and test-of-cure details, so current guidance must supersede older memorized doses."
+    ],
+    "management": [
+      "Treat according to current PHAC infection-specific guidance, manage syndromes such as PID appropriately and offer PrEP/PEP or vaccination when indicated.",
+      "Complete reporting/partner notification/treatment requirements according to the infection and jurisdiction."
+    ],
+    "medicationSafety": [
+      "Pregnancy and severe allergy alter some treatment choices.",
+      "Do not use a single empiric broad STI regimen for every syndrome when current pathogen-specific guidance is available."
+    ],
+    "redFlags": [
+      "PID/epididymo-orchitis",
+      "Disseminated gonococcal disease",
+      "Neurologic/ocular/otic syphilis",
+      "Pregnancy with syphilis/HIV concern",
+      "Recent high-risk HIV exposure within PEP window"
+    ],
+    "counselling": [
+      "Use non-stigmatizing language, explain test windows and site-specific testing, and teach prevention without assuming monogamy or anatomy."
+    ],
+    "followUp": [
+      "Track test-of-cure/retesting when indicated and ensure partner/public-health actions are completed."
+    ],
+    "examTrap": "Testing urine only after oral/anal exposure—or treating gonorrhea from an old dose table despite a June 2026 PHAC update.",
+    "oneLinePearl": "STI care follows exposed anatomy, current guidance and closed-loop partner care.",
+    "sourceBasis": [
+      "PHAC STBBI Guides for health professionals, updated June 2026",
+      "NAC-STBBI current statements"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-urinary-tract-infections-in-women",
+    "title": "UTI in Women: Treat the Syndrome, Not the Urine Result",
+    "system": "Women's Health / Urology / Infectious Disease",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "postmenopause",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "Diagnose lower UTI from compatible urinary symptoms and context, not pyuria or bacteriuria alone. Separate uncomplicated cystitis from pyelonephritis, pregnancy and complicated infection, and avoid treating asymptomatic bacteriuria except in defined circumstances such as pregnancy or selected urologic procedures.",
+    "recognize": [
+      "Dysuria, frequency and urgency without vaginal symptoms strongly support lower UTI in an appropriate patient.",
+      "Fever, flank pain, systemic illness or vomiting suggests upper-tract infection and changes testing/disposition."
+    ],
+    "differentiate": [
+      "Vaginitis/cervicitis/STI can cause dysuria and should be considered when discharge/irritation/exposure is present.",
+      "Asymptomatic bacteriuria and pyuria are common in older adults and do not prove symptomatic UTI."
+    ],
+    "assessment": [
+      "Assess pregnancy, fever/flank pain, vomiting, recurrent UTI, prior resistant organisms, stones/obstruction, renal disease, catheters, immunocompromise, menopause and STI/vaginal symptoms."
+    ],
+    "workup": [
+      "Urine culture is most useful for pyelonephritis, pregnancy, recurrent/complicated infection, resistant-organism risk or treatment failure rather than every classic uncomplicated cystitis episode.",
+      "Do not attribute delirium alone to a positive urine result without a compatible urinary/systemic syndrome and assessment for other causes."
+    ],
+    "management": [
+      "Use current local Canadian antimicrobial guidance and prior culture data; choose agent/duration by cystitis versus pyelonephritis, pregnancy and complicated features.",
+      "Obstructed infected urinary systems require urgent drainage/source control, not escalating oral antibiotics alone."
+    ],
+    "medicationSafety": [
+      "Renal function, pregnancy and allergy affect antibiotic selection.",
+      "Avoid unnecessary fluoroquinolone/broad-spectrum exposure when a narrower evidence-supported option is appropriate."
+    ],
+    "redFlags": [
+      "Sepsis",
+      "Pregnancy with pyelonephritis",
+      "Obstructed infected system",
+      "Persistent vomiting",
+      "Treatment failure/resistant organism"
+    ],
+    "counselling": [
+      "Explain recurrence prevention and when to seek care for fever, flank pain, pregnancy symptoms or inability to hydrate."
+    ],
+    "followUp": [
+      "Review cultures when obtained and reassess recurrent infection for anatomic/behavioural/postmenopausal contributors rather than prescribing indefinite empiric antibiotics."
+    ],
+    "examTrap": "Treating bacteriuria in an asymptomatic older adult because the urinalysis is abnormal.",
+    "oneLinePearl": "UTI is a clinical syndrome; the urine test supports it but does not create symptoms.",
+    "sourceBasis": [
+      "Choosing Wisely Canada antimicrobial stewardship principles",
+      "Canadian primary-care and pregnancy UTI practice guidance"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-pelvic-floor-disorders-evaluation",
+    "title": "Pelvic Floor Disorders: Identify Prolapse, Incontinence, Pain, and Functional Impact",
+    "system": "Women's Health / Urogynecology",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling"
+    ],
+    "lifespan": [
+      "adult",
+      "postpartum",
+      "older adult"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Pelvic-floor disorders are symptom-and-function diagnoses that include pelvic organ prolapse, urinary/fecal incontinence and pelvic-floor muscle dysfunction. Clarify which function is impaired, examine when appropriate, address reversible contributors and offer conservative pelvic-floor therapy before assuming every patient needs surgery.",
+    "recognize": [
+      "Vaginal pressure/bulge, incomplete emptying, stress/urge leakage, fecal leakage and pelvic-floor pain can coexist.",
+      "Pregnancy/vaginal birth, aging, obesity, chronic cough/constipation and connective-tissue factors can increase risk."
+    ],
+    "differentiate": [
+      "Stress and urgency incontinence require different first-line strategies; urinary retention, fistula or neurologic bladder are separate problems.",
+      "Pelvic pain is not always caused by a weak pelvic floor—overactivity/myofascial dysfunction can require down-training rather than strengthening."
+    ],
+    "assessment": [
+      "Ask bulge/pressure, urinary/fecal symptoms, voiding/defecation, pain/sexual function, obstetric/surgical history, constipation/cough, neurologic symptoms and patient goals."
+    ],
+    "workup": [
+      "Use focused pelvic examination, urinalysis/postvoid residual or bladder diary when clinically indicated; reserve advanced urodynamics/imaging for complex or preprocedural questions."
+    ],
+    "management": [
+      "Treat constipation/cough and offer pelvic-floor physiotherapy, bladder/bowel retraining, pessary or other conservative options according to the disorder and goals.",
+      "Refer urogynecology/urology/colorectal/pelvic-floor specialists for significant prolapse, retention, refractory symptoms, fistula or surgical consideration."
+    ],
+    "medicationSafety": [
+      "Antimuscarinic/other bladder medications require cognitive, constipation, glaucoma and retention risk review.",
+      "Do not prescribe strengthening Kegels reflexively for pain caused by an overactive pelvic floor."
+    ],
+    "redFlags": [
+      "Acute urinary retention",
+      "Gross hematuria",
+      "Fistula symptoms",
+      "New saddle anesthesia/leg weakness/bowel-bladder neurologic change",
+      "Pelvic mass or unexplained bleeding"
+    ],
+    "counselling": [
+      "Normalize discussion of pelvic-floor symptoms and explain that conservative options can meaningfully improve function."
+    ],
+    "followUp": [
+      "Track symptom/function goals and reassess after physiotherapy/pessary/behavioural or medication interventions."
+    ],
+    "examTrap": "Prescribing pelvic-floor strengthening to every patient with pelvic pain without determining whether the muscles are weak or overactive.",
+    "oneLinePearl": "Pelvic-floor treatment follows the function that is failing—not one universal exercise prescription.",
+    "sourceBasis": [
+      "SOGC urogynecology/pelvic-floor practice resources",
+      "Canadian pelvic-health physiotherapy and urogynecology principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-sexual-dysfunction-in-women",
+    "title": "Sexual Dysfunction: Desire, Arousal, Orgasm, Pain, Context, and Consent",
+    "system": "Women's Health / Sexual Health",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.B Diagnosis",
+      "I.C Management",
+      "I.D Counselling",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "adult",
+      "pregnancy",
+      "postpartum",
+      "perimenopause",
+      "postmenopause"
+    ],
+    "acuity": "routine",
+    "bottomLine": "Sexual concerns require patient-defined distress and a biopsychosocial assessment. Clarify whether the main problem is desire, arousal, orgasm, pain/penetration, genitourinary symptoms, medication effect, relationship/context or trauma/coercion; treat the contributors and do not medicalize low desire that is not distressing to the patient.",
+    "recognize": [
+      "Pain can arise from genitourinary syndrome of menopause, infection, vulvodynia, pelvic-floor hypertonicity, endometriosis or dermatologic disease.",
+      "SSRIs/SNRIs and other medications commonly affect desire, arousal and orgasm."
+    ],
+    "differentiate": [
+      "Asexuality or lower desire without distress is not a disorder.",
+      "Pelvic-floor overactivity and fear/pain cycles require different therapy from low estrogen alone.",
+      "IPV, reproductive coercion or sexual trauma can present as pain or avoidance and requires safety-centred care."
+    ],
+    "assessment": [
+      "Ask permission, use inclusive language and assess the patient's goals, onset/context, pain location, arousal/orgasm, menopausal/postpartum symptoms, medications, mood, sleep, relationship factors and safety/consent."
+    ],
+    "workup": [
+      "Use focused pelvic/dermatologic/infection or endocrine testing only when symptoms indicate it; routine hormone panels do not diagnose most sexual dysfunction."
+    ],
+    "management": [
+      "Treat identified causes: medication adjustment, vaginal moisturizers/lubricants or local estrogen when appropriate, pelvic-floor physiotherapy, psychotherapy/sex therapy, pain/endometriosis/vulvar treatment or relationship/safety supports.",
+      "Use pharmacologic treatments for specific diagnosed disorders only after contraindication and goal review."
+    ],
+    "medicationSafety": [
+      "Do not stop effective psychiatric medication abruptly because of sexual adverse effects; weigh relapse risk and alternatives.",
+      "Systemic versus local hormone choices have different risk profiles and indications."
+    ],
+    "redFlags": [
+      "Sexual assault or coercion",
+      "Postcoital/postmenopausal bleeding",
+      "Pelvic mass",
+      "Severe vulvar lesion/ulcer",
+      "Pain with fever or pregnancy concern"
+    ],
+    "counselling": [
+      "Normalize discussion, affirm consent and autonomy, and explain that sexual function is influenced by health, medications, life stage and context rather than one hormone level."
+    ],
+    "followUp": [
+      "Track the patient-defined outcome—comfort, desire, function or distress—rather than a clinician-defined frequency target."
+    ],
+    "examTrap": "Ordering testosterone/estrogen panels for every patient reporting low desire before asking whether it causes distress, reviewing medications, pain, menopause and relationship/safety context.",
+    "oneLinePearl": "Sexual health treatment starts with the patient's distress, goals and context—not a lab panel.",
+    "sourceBasis": [
+      "Canadian Menopause Society genitourinary/menopause resources",
+      "Society of Obstetricians and Gynaecologists of Canada sexual-health and pelvic-health practice resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "np-intimate-partner-violence-screening-and-intervention",
+    "title": "Intimate Partner Violence: Safe Inquiry, Validation, Safety Planning, and Choice",
+    "system": "Women's Health / Safety / Equity",
+    "blueprintDomains": [
+      "I.A Assessment",
+      "I.C Management",
+      "I.D Counselling",
+      "V Advocate"
+    ],
+    "lifespan": [
+      "adolescent",
+      "adult",
+      "pregnancy",
+      "postpartum",
+      "older adult"
+    ],
+    "acuity": "mixed",
+    "bottomLine": "IPV care prioritizes privacy, immediate safety, validation, patient autonomy and practical supports. Do not force disclosure or promise absolute confidentiality; routine universal screening is not uniformly recommended in Canadian guidance, but clinicians should inquire safely when symptoms, injuries, pregnancy, mental health or context raise concern and respond supportively when violence is disclosed.",
+    "recognize": [
+      "Injuries, chronic pain, anxiety/depression/PTSD, reproductive coercion, controlling behaviour, repeated missed care and pregnancy complications can be associated with IPV, but no single presentation proves it.",
+      "Leaving or disclosure can increase danger; the patient's assessment of their own situation matters."
+    ],
+    "differentiate": [
+      "IPV inquiry differs from mandatory reporting: competent adults generally retain choices unless specific legal exceptions apply; child exposure, vulnerable-person statutes or imminent serious harm may create reporting duties depending on jurisdiction.",
+      "A negative answer when a partner is present or privacy is unsafe is not a reliable exclusion."
+    ],
+    "assessment": [
+      "Create private safe conditions, use a professional interpreter rather than family, ask permission/direct nonjudgmental questions and assess immediate danger, strangulation, weapons/threats, stalking, sexual/reproductive coercion, children/dependents, housing and digital safety."
+    ],
+    "workup": [
+      "Document injuries objectively and perform medical/sexual-assault or strangulation evaluation according to symptoms and consent; avoid unnecessary evidence collection outside the patient's goals/legal pathway."
+    ],
+    "management": [
+      "Use a first-line supportive response such as Listen, Inquire about needs, Validate, Enhance safety and connect Supports.",
+      "Offer advocacy, shelter, legal, social-work and culturally appropriate resources; develop a safety plan based on the patient's choices and urgency, with emergency intervention for immediate life-threatening danger."
+    ],
+    "medicationSafety": [
+      "Treat pain, mental health and reproductive needs without allowing medication to substitute for safety/support planning.",
+      "Consider privacy risks in prescriptions, portals, phone messages and printed instructions when an abusive partner monitors access."
+    ],
+    "redFlags": [
+      "Strangulation or head injury",
+      "Threat with weapon or homicide risk",
+      "Escalating stalking/violence",
+      "Sexual assault",
+      "Pregnancy with severe violence",
+      "Child/vulnerable-person safety concern"
+    ],
+    "counselling": [
+      "State clearly that abuse is unacceptable, that the patient is not required to make an immediate leaving/reporting decision, and explain confidentiality/reporting limits before sensitive disclosure when possible."
+    ],
+    "followUp": [
+      "Offer safe follow-up/contact methods, document resources/safety plan and readdress risk without coercion."
+    ],
+    "examTrap": "Calling police automatically after a competent adult discloses IPV despite no specific mandatory-reporting trigger—or asking about abuse with the partner interpreting in the room.",
+    "oneLinePearl": "IPV care is safe inquiry plus validation plus patient-led safety planning, within clear legal limits.",
+    "sourceBasis": [
+      "Public Health Agency of Canada postpartum/IPV guidance and family-violence resources",
+      "Canadian trauma- and violence-informed care principles"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  }
+]
