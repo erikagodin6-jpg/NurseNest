@@ -1,0 +1,65 @@
+[
+  {
+    "id": "np-stroke-acute-management-and-secondary-prevention",
+    "title": "Acute Stroke: Reperfuse Fast, Then Prevent the Next Event",
+    "system": "Neurology / Stroke / Acute Care",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling", "I.E Transition/Discharge/Documentation"],
+    "lifespan": ["adult", "pregnancy", "older adult"],
+    "acuity": "emergent",
+    "bottomLine": "A new disabling focal neurologic deficit is an acute-stroke emergency. Establish last-known-well, check glucose, activate a stroke-capable pathway and obtain immediate brain plus vascular imaging so hemorrhage is excluded and thrombolysis/endovascular-thrombectomy eligibility can be determined without avoidable delay; after stabilization, secondary prevention must target the actual stroke mechanism.",
+    "recognize": [
+      "Sudden unilateral weakness or numbness, aphasia/dysarthria, visual-field loss, neglect, ataxia, gaze deviation or another abrupt focal deficit can represent acute stroke even when pain is absent.",
+      "Posterior-circulation stroke may present with severe gait/truncal ataxia, diplopia, dysarthria, vertigo or reduced consciousness and can be missed when the examination focuses only on FAST-type anterior-circulation signs.",
+      "A normal initial noncontrast CT excludes neither early ischemia nor large-vessel occlusion; its immediate jobs include hemorrhage assessment and support for reperfusion decision-making with vascular imaging."
+    ],
+    "differentiate": [
+      "Hypoglycemia, seizure/postictal deficit, migraine aura and selected toxic/metabolic or functional syndromes can mimic stroke, but a plausible acute focal syndrome is not observed in clinic while those alternatives are leisurely excluded.",
+      "Ischemic and hemorrhagic stroke require different antithrombotic/reperfusion pathways; do not give antiplatelet therapy before intracranial hemorrhage has been excluded.",
+      "TIA is transient focal dysfunction with high early recurrence risk, but a persistent disabling deficit belongs to the acute stroke/reperfusion pathway rather than a routine outpatient TIA workup."
+    ],
+    "assessment": [
+      "Document symptom onset or last-known-well, baseline function, exact neurologic deficits, anticoagulant/antiplatelet use and last dose, recent surgery/bleeding/trauma, pregnancy/postpartum status and major comorbidity while ABCs are stabilized.",
+      "Check point-of-care glucose promptly and assess blood pressure, oxygenation, temperature, cardiac rhythm and swallowing risk without allowing a prolonged general examination to delay stroke-team activation or imaging.",
+      "Use a standardized stroke-severity assessment in the acute-care pathway while recognizing that some disabling posterior, language or visual deficits can be clinically important despite a modest numeric score."
+    ],
+    "workup": [
+      "For potentially reperfusion-eligible ischemic stroke, obtain immediate noncontrast brain imaging plus head/neck vascular imaging according to the stroke-capable centre pathway; current Canadian recommendations use rapid CTA-based assessment and advanced imaging selectively for later-window/tissue-based EVT selection.",
+      "Obtain acute laboratory testing and ECG/rhythm information needed for treatment safety and mechanism evaluation, but do not delay reperfusion solely for nonessential test results.",
+      "After the emergency phase, investigate mechanism with vascular imaging, cardiac/rhythm assessment and other targeted studies so secondary prevention is etiology-specific rather than a generic medication bundle."
+    ],
+    "management": [
+      "Activate EMS/code-stroke transfer immediately and involve stroke expertise on-site or through telestroke. Eligible patients should receive IV thrombolysis as soon as possible; patients meeting current imaging/clinical criteria should proceed to endovascular-thrombectomy evaluation without waiting to see whether thrombolysis produces clinical improvement.",
+      "Provide stroke-unit care after reperfusion/diagnosis, including physiologic monitoring, early complication prevention, swallowing assessment before routine oral intake/medications, mobilization/rehabilitation planning and management of cerebral edema, hemorrhagic transformation, seizures or other complications when they arise.",
+      "Build secondary prevention from mechanism: antiplatelet therapy for appropriate non-cardioembolic disease, anticoagulation for atrial-fibrillation/cardioembolic indications when timing is safe, vascular risk treatment, smoking support, lipid/BP/diabetes management, carotid or other vascular intervention when indicated, and rehabilitation/return-to-function planning."
+    ],
+    "medicationSafety": [
+      "Do not give antiplatelet therapy during the first 24 hours after IV thrombolysis; repeat brain imaging must exclude secondary hemorrhage before antiplatelet initiation according to the acute stroke pathway.",
+      "Current Canadian guidance does not support routine IV thrombolysis in a patient actively taking a DOAC without specialized assessment; provide the exact anticoagulant, dose and last-dose timing to the stroke team rather than assuming all anticoagulation has the same implication.",
+      "Avoid reflex blood-pressure normalization: acute BP targets depend on reperfusion candidacy, hemorrhage versus ischemia and other clinical factors and belong to the validated acute-stroke protocol."
+    ],
+    "redFlags": [
+      "Any new persistent focal neurologic deficit",
+      "Reduced consciousness, severe headache/vomiting or suspected intracranial hemorrhage",
+      "Large-vessel-occlusion features or disabling posterior-circulation syndrome",
+      "Neurologic deterioration after thrombolysis or EVT",
+      "Acute stroke during pregnancy/postpartum or while anticoagulated",
+      "Progressive cerebral edema, airway compromise or recurrent seizure"
+    ],
+    "counselling": [
+      "Teach the patient/family that stroke treatment is time- and tissue-sensitive: call emergency services for new focal symptoms rather than driving to clinic or waiting to see whether symptoms resolve.",
+      "Before discharge, explain the identified stroke mechanism, each prevention medication/intervention, rehabilitation plan, recurrence warning signs, driving/work considerations and responsibility for pending rhythm/vascular investigations using teach-back."
+    ],
+    "followUp": [
+      "Use a closed-loop transition to stroke prevention/primary care/rehabilitation, including medication reconciliation and completion of mechanism-specific investigations such as prolonged rhythm monitoring when indicated.",
+      "Reassess functional recovery, cognition/mood, swallowing/nutrition, falls, recurrence symptoms, treatment tolerability and vascular risk rather than limiting follow-up to blood pressure or antithrombotic refills."
+    ],
+    "examTrap": "Waiting for MRI or a second outpatient examination before activating acute stroke care—or giving aspirin before hemorrhage is excluded because the focal deficit 'looks ischemic'.",
+    "oneLinePearl": "Acute stroke is imaging-to-reperfusion first, mechanism-to-prevention second.",
+    "sourceBasis": [
+      "Canadian Stroke Best Practices — Acute Stroke Management, 7th Edition with Endovascular Thrombectomy Interim Update 2025",
+      "Canadian Stroke Best Practices — Acute Antithrombotic Therapy and Secondary Prevention of Stroke"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  }
+]
