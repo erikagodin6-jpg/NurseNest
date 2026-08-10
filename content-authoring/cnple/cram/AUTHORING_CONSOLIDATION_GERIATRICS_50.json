@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "family": "Geriatrics",
+  "canonicalGeneratorIdentities": 26,
+  "sourceBranch": "content/cnple-cram-parity-geriatrics-50a-20260810",
+  "sourceClinicalSecondPass": "PASS",
+  "added": 26,
+  "alreadyPresentByteEquivalent": 0,
+  "conflicts": [],
+  "finalRawLessonObjects": 780,
+  "finalCanonicalTopicPathways": 772,
+  "finalClinicalJsonFiles": 68,
+  "fullGeneratorCoverage": true,
+  "publicationBoundary": "Authoring parity only; Full-source anchors, Bottom Line evidence, exactly three eligible Quick Checks, runtime certification and learner render QA remain required."
+}
