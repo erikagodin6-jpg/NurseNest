@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "exam": "CNPLE",
+  "pathwayId": "ca-np-cnple",
+  "countryCode": "CA",
+  "tier": "NP",
+  "updatedAt": "2026-08-11",
+  "lessonTarget": {
+    "canonicalFullLessonDenominator": 1172,
+    "source": "private-core reverse coverage audit",
+    "rawCramObjectsAuthored": 483,
+    "canonicalCramPathwaysAuthored": 475,
+    "canonicalCramPathwaysRemaining": 697,
+    "registeredManifestRawObjects": 426,
+    "registeredManifestCanonicalPathways": 418,
+    "authoredPendingOrderedRegistration": 57,
+    "pendingBatches": {
+      "38D": 8,
+      "38E": 8,
+      "39A": 8,
+      "39B": 8,
+      "39C": 9,
+      "40A": 8,
+      "40B": 8
+    },
+    "lastCompletedCanonicalId": "np-hyperparathyroidism-diagnosis-and-management",
+    "nextCanonicalIds": [
+      "np-hypoparathyroidism-management",
+      "np-vitamin-d-deficiency-evaluation-and-treatment",
+      "np-osteoporosis-diagnosis-and-pharmacotherapy",
+      "np-metabolic-bone-disease-evaluation",
+      "np-pituitary-adenoma-recognition-and-management",
+      "np-polycystic-ovary-syndrome-metabolic-management",
+      "np-lipid-disorders-diagnosis-and-management",
+      "np-obesity-pharmacotherapy-selection",
+      "np-electrolyte-disorders-sodium-and-potassium",
+      "np-calcium-disorders-hypercalcemia-and-hypocalcemia"
+    ],
+    "validationStatus": "AUTHORED_BATCHES_37_40B_CLINICAL_SECOND_PASS_PASS; ORDERED_MANIFEST_AND_PRIVATE_CORE_CERTIFICATION_IN_PROGRESS",
+    "publicationStatus": "NOT_COMPLETE_NOT_DEPLOYED"
+  },
+  "questionTarget": {
+    "requiredBankFloor": 3000,
+    "source": "NP Question Bank Expansion Plan — ~1,163 to ~3,000+",
+    "lastRepositoryInventoryApprox": 1163,
+    "lastInventoryDate": "2026-04-10",
+    "exactCurrentTotal": null,
+    "exactCurrentTotalStatus": "LIVE_RECOUNT_REQUIRED_BEFORE_FINAL_COMPLETION_CLAIM",
+    "questionsCompletedInContinuousLane": 0,
+    "questionsRemainingAgainstFloorUsingLastApproxInventory": 1837,
+    "supportedNewAuthoringFormat": "CNPLE single-best-answer, three options, one correct answer, per-option rationales; SATA held unless candidate-guide support is confirmed",
+    "validationStatus": "BASELINE_INVENTORY_STALE; NEW_QUESTIONS_MUST_BE_COUNTED_EXACTLY_FROM_THIS_LEDGER",
+    "publicationStatus": "NOT_COMPLETE_NOT_DEPLOYED"
+  },
+  "rules": {
+    "useExactCanonicalFullSlugForNewParityCramId": true,
+    "noFuzzyMappingForPublication": true,
+    "clinicalSecondPassRequired": true,
+    "canadianGuidanceFirst": true,
+    "siInstructionalUnits": true,
+    "noGenericRepeatedAssessmentInterventionBlocks": true,
+    "questionStemsMustBeDistinctDecisionPoints": true,
+    "perOptionRationalesRequired": true,
+    "continueAutomatically": true
+  }
+}

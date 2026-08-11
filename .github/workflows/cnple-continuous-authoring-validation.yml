@@ -1,0 +1,90 @@
+name: CNPLE Continuous Authoring Validation
+
+on:
+  pull_request:
+    paths:
+      - "content-authoring/cnple/cram/40c-endocrine-metabolic-bone-parity.json"
+      - "content-authoring/cnple/cram/41a-gastro-hepatology-parity.json"
+      - "content-authoring/cnple/cram/AUTHORING_QA_PARITY_40C.md"
+      - "content-authoring/cnple/cram/AUTHORING_QA_PARITY_41A.md"
+      - "content-authoring/cnple/questions/continuous-40c-41a-q001-q060.json"
+      - "content-authoring/cnple/cram/CONTINUOUS_AUTHORING_LEDGER.json"
+      - ".github/workflows/cnple-continuous-authoring-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate CNPLE continuous batch
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, re
+          from pathlib import Path
+          root=Path('content-authoring/cnple')
+          cram=root/'cram'
+          qpath=root/'questions'/'continuous-40c-41a-q001-q060.json'
+          required=['id','title','system','blueprintDomains','lifespan','acuity','bottomLine','recognize','differentiate','assessment','workup','management','medicationSafety','redFlags','counselling','followUp','examTrap','oneLinePearl','sourceBasis','sourceAsOf','localPolicyCheck']
+          lesson_files=[cram/'40c-endocrine-metabolic-bone-parity.json',cram/'41a-gastro-hepatology-parity.json']
+          lesson_ids=[]
+          for p in lesson_files:
+              rows=json.loads(p.read_text())
+              if len(rows)!=10: raise SystemExit(f'{p}: expected 10 lessons, got {len(rows)}')
+              for r in rows:
+                  missing=[k for k in required if k not in r]
+                  if missing: raise SystemExit(f"{r.get('id')}: missing fields {missing}")
+                  if not str(r['id']).startswith('np-'): raise SystemExit(f"{r['id']}: canonical id must start np-")
+                  if len(r['redFlags'])<1 or len(r['management'])<1 or len(r['workup'])<1: raise SystemExit(f"{r['id']}: thin clinical decision field")
+                  lesson_ids.append(r['id'])
+          if len(lesson_ids)!=20 or len(set(lesson_ids))!=20: raise SystemExit('lesson identity uniqueness/count failed')
+
+          pkg=json.loads(qpath.read_text())
+          qs=pkg['questions']
+          if pkg.get('questionCount')!=60 or len(qs)!=60: raise SystemExit(f'question count mismatch declared={pkg.get("questionCount")} actual={len(qs)}')
+          qids=[q['question_id'] for q in qs]
+          if len(set(qids))!=60: raise SystemExit('duplicate question_id')
+          stems=[' '.join(q['stem'].lower().split()) for q in qs]
+          if len(set(stems))!=60: raise SystemExit('duplicate exact stem')
+          by_lesson={i:0 for i in lesson_ids}
+          for q in qs:
+              pl=q.get('primaryLesson')
+              if pl not in by_lesson: raise SystemExit(f"{q['question_id']}: unrecognized primaryLesson {pl}")
+              by_lesson[pl]+=1
+              answers=q.get('answers',[])
+              if len(answers)!=3: raise SystemExit(f"{q['question_id']}: expected exactly 3 options")
+              aids=[a.get('id') for a in answers]
+              if len(set(aids))!=3: raise SystemExit(f"{q['question_id']}: duplicate answer ids")
+              correct=q.get('correct_answer_ids',[])
+              if len(correct)!=1 or correct[0] not in aids: raise SystemExit(f"{q['question_id']}: invalid single correct answer")
+              dr=q.get('distractorRationales',[])
+              expected=set(aids)-set(correct)
+              actual={d.get('answer_id') for d in dr}
+              if actual!=expected: raise SystemExit(f"{q['question_id']}: distractor rationales do not cover both incorrect options")
+              if not str(q.get('correctRationale','')).strip(): raise SystemExit(f"{q['question_id']}: missing correct rationale")
+              if q.get('questionType')!='MCQ': raise SystemExit(f"{q['question_id']}: unsupported new item format")
+          bad={k:v for k,v in by_lesson.items() if v!=3}
+          if bad: raise SystemExit(f'expected exactly 3 questions per lesson: {bad}')
+
+          # Crude anti-template guard: long common stem prefixes should not dominate the package.
+          prefixes={}
+          for s in stems:
+              p=' '.join(s.split()[:8])
+              prefixes[p]=prefixes.get(p,0)+1
+          if max(prefixes.values())>2: raise SystemExit(f'repetitive stem prefix detected: {max(prefixes.values())}')
+
+          print(json.dumps({
+            'lessonsValidated':len(lesson_ids),
+            'questionsValidated':len(qs),
+            'questionsPerLesson':3,
+            'uniqueQuestionIds':len(set(qids)),
+            'uniqueStems':len(set(stems)),
+            'itemFormat':'3-option SBA',
+            'status':'PASS'
+          },indent=2))
+          PY
