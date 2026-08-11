@@ -1,0 +1,141 @@
+[
+  {
+    "id": "mucositis-np",
+    "title": "Cancer-Therapy Mucositis: Protect Intake, Exclude Infection, Escalate Neutropenic Fever",
+    "system": "Oncology / Supportive Care / Oral Health",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling", "I.E Transition/Discharge/Documentation"],
+    "lifespan": ["adolescent", "adult", "older adult"],
+    "acuity": "mixed",
+    "bottomLine": "Oral mucositis is treatment-related inflammatory mucosal injury, but painful mouth lesions in a patient receiving cancer therapy are not automatically 'just mucositis.' Assess oral intake, hydration, airway/swallowing, neutropenia/fever and competing fungal, viral or bacterial infection; severe pain, inability to drink, systemic illness or possible febrile neutropenia requires urgent oncology or acute-care escalation.",
+    "recognize": [
+      "Mucositis commonly causes erythema, edema, ulceration, burning pain and difficulty eating, drinking, speaking or performing oral hygiene during cytotoxic chemotherapy, selected targeted therapies, hematopoietic cell transplantation or head-and-neck radiation.",
+      "Severity matters because reduced intake, dehydration, weight loss, opioid exposure, treatment interruption and secondary infection can become more clinically important than the appearance of the ulcer itself.",
+      "Cancer Care Ontario oral-care guidance treats mucositis, fungal infection, bacterial infection, viral infection, xerostomia and dysphagia as overlapping but distinct oral-care pathways."
+    ],
+    "differentiate": [
+      "Pseudomembranous oral candidiasis produces removable white plaques with an erythematous base; mucositis more often produces diffuse erythema or ulceration without classic removable plaques.",
+      "Grouped vesicles or focal recurrent ulcers can suggest HSV or another viral process; purulence, focal dental pain, spreading swelling or facial cellulitis shifts toward bacterial/dental infection.",
+      "Odynophagia or retrosternal pain out of proportion to visible oral findings raises concern for esophageal involvement and requires a different diagnostic/treatment pathway.",
+      "A fever in a patient who may be neutropenic is an oncology emergency until assessed; do not attribute fever to mouth inflammation without evaluating infection."
+    ],
+    "assessment": [
+      "Inspect lips, buccal mucosa, tongue, palate, gingiva and oropharynx; document ulcer distribution, erythema, plaques, bleeding, saliva/dryness, dentition and ability to swallow.",
+      "Assess pain at rest and with swallowing, oral fluid/food intake, urine output, weight trend, nausea/vomiting, diarrhea, fever/chills, recent systemic therapy or radiation and expected nadir timing.",
+      "Review CBC/neutrophil status when clinically relevant, current immunosuppression, diabetes, dentures, recent antibiotics, inhaled/systemic corticosteroids, and medications that contribute to xerostomia or bleeding.",
+      "Assess airway, voice change, drooling, inability to handle secretions, severe dehydration and hemodynamic instability before focusing on mouth-care details."
+    ],
+    "workup": [
+      "Typical treatment-related mucositis is usually a clinical diagnosis; microbiologic testing is targeted to suspected candidiasis, HSV or bacterial infection rather than ordered routinely for every ulcer.",
+      "In febrile or systemically unwell patients, follow the oncology/febrile-neutropenia pathway with CBC, cultures and source-directed evaluation without delaying time-sensitive antimicrobial therapy when severe infection is suspected.",
+      "Persistent, atypical, unilateral, indurated or nonhealing lesions after the expected recovery period require reassessment for malignancy, medication reaction or another oral disorder rather than indefinite symptomatic treatment."
+    ],
+    "management": [
+      "Use meticulous gentle oral care: soft-bristle brushing, regular bland saline/bicarbonate rinses, moisture support and avoidance of alcohol-containing mouthwash or other irritants.",
+      "Treat pain sufficiently to preserve hydration and nutrition when possible. Analgesic strategy is severity- and setting-specific and may include topical and systemic options; assess sedation, constipation and respiratory risk if opioids are required.",
+      "Engage dietitian/oncology support when pain or dysphagia limits intake, and use IV fluids or hospital-level supportive care when oral hydration is inadequate or systemic instability is present.",
+      "Treat confirmed or strongly suspected fungal, viral or bacterial complications with the appropriate separate pathway rather than adding empiric agents to every mucositis case.",
+      "Coordinate treatment modification only with the oncology team; the NP should not independently hold, dose-reduce or resume antineoplastic therapy without the regimen-specific oncology plan."
+    ],
+    "medicationSafety": [
+      "Avoid assuming a compounded 'magic mouthwash' formulation is evidence-based or equivalent across institutions; components, benefit and toxicity vary, and local oncology protocols govern use.",
+      "Topical anesthetics can impair protective sensation and swallowing; counsel about aspiration/burn risk and avoid overuse.",
+      "Systemic opioids, antifungals, antivirals and antibiotics require medication-interaction and renal/hepatic review in oncology patients with complex regimens.",
+      "Do not use an antifungal solely because a patient has white-appearing ulcer bases; confirm the clinical candidiasis pattern when possible."
+    ],
+    "redFlags": [
+      "Fever or systemic illness with possible neutropenia",
+      "Inability to swallow liquids, severe dehydration or rapidly declining intake",
+      "Airway compromise, drooling, progressive facial/oropharyngeal swelling or inability to handle secretions",
+      "Uncontrolled pain despite appropriate supportive therapy",
+      "Major oral bleeding or thrombocytopenia-related bleeding concern",
+      "Odynophagia/retrosternal pain suggesting esophageal infection or severe treatment injury"
+    ],
+    "counselling": [
+      "Teach patients to report mouth pain or sores early rather than waiting until they cannot eat or drink.",
+      "Use a soft toothbrush and bland rinses, keep the mouth moist, avoid tobacco/alcohol and foods that are acidic, spicy, very hot, hard or sharp when they worsen symptoms.",
+      "Explain that oral sores can come from treatment injury or infection, so new fever, progressive swallowing difficulty, plaques, vesicles or spreading swelling deserve reassessment rather than simply more mouth rinse."
+    ],
+    "followUp": [
+      "Reassess pain, oral intake, hydration, lesion evolution and infection features at a time matched to severity and the cancer-treatment cycle.",
+      "Confirm ownership of pending cultures, blood counts and oncology treatment decisions at transitions of care.",
+      "If symptoms do not improve within the expected treatment-related course, reopen the differential and involve oncology, dentistry/oral medicine, infectious diseases or ENT as clinically indicated."
+    ],
+    "examTrap": "Seeing a chemotherapy patient with painful oral ulcers and choosing routine mouth care only, despite fever and inability to drink, instead of recognizing possible neutropenic infection and dehydration requiring urgent escalation.",
+    "oneLinePearl": "Mucositis is supportive-care territory until fever, infection, airway/swallowing failure or dehydration makes it an acute-care problem.",
+    "sourceBasis": [
+      "Cancer Care Ontario — Oral Care (Mouth Care) guideline and mucositis/fungal-infection algorithms",
+      "Cancer Care Ontario — Mouth Care During Cancer Treatment, updated November 2025",
+      "Cancer Care Ontario systemic-treatment supportive-care resources"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  },
+  {
+    "id": "oral-candidiasis-np",
+    "title": "Oral Candidiasis in Cancer Care: Diagnose the Pattern, Treat the Host and the Fungus",
+    "system": "Oncology / Infectious Disease / Oral Health",
+    "blueprintDomains": ["I.A Assessment", "I.B Diagnosis", "I.C Management", "I.D Counselling"],
+    "lifespan": ["adolescent", "adult", "pregnancy", "older adult"],
+    "acuity": "mixed",
+    "bottomLine": "Oral candidiasis is usually diagnosed clinically from a compatible lesion pattern and host risk, but cancer patients can have concurrent mucositis, HSV, bacterial infection or esophageal disease. Treat localized disease with an appropriate antifungal strategy while correcting predisposing factors; severe immunosuppression, refractory disease or odynophagia requires escalation and consideration of systemic or esophageal candidiasis.",
+    "recognize": [
+      "Pseudomembranous candidiasis classically presents as creamy white plaques that can often be wiped away, leaving an erythematous or friable base.",
+      "Erythematous candidiasis may present mainly as a red, burning, tender tongue or mucosa without dramatic white plaques.",
+      "Risk rises with cytotoxic therapy, neutropenia, broad-spectrum antibiotics, inhaled/systemic corticosteroids, diabetes, xerostomia, dentures and other immunosuppressive states."
+    ],
+    "differentiate": [
+      "Mucositis causes treatment-related erythema/ulceration; non-removable leukoplakia, lichen planus and malignant lesions should not be labelled thrush because they are white.",
+      "HSV commonly produces vesicular or ulcerative lesions rather than classic removable plaques, though immunocompromised presentations may be atypical.",
+      "Odynophagia, dysphagia or retrosternal pain in an immunocompromised patient raises concern for esophageal candidiasis even when oral findings are modest or absent.",
+      "Angular cheilitis, denture stomatitis and xerostomia may coexist and require correction of mechanical/local factors as well as antifungal therapy."
+    ],
+    "assessment": [
+      "Inspect the entire mouth and oropharynx, including beneath dentures, and document whether plaques are removable, whether ulcers/vesicles are present and whether swallowing is painful.",
+      "Assess fever, hydration, oral intake, immune/neutrophil status, recent antibiotics, corticosteroid use, diabetes control, xerostomia and recurrent/refractory history.",
+      "Review pregnancy status and the complete oncology medication list before systemic azole prescribing because drug interactions and reproductive considerations can materially change treatment choice."
+    ],
+    "workup": [
+      "A typical first episode can usually be treated clinically without culture. Obtain scraping/culture/speciation when the appearance is atypical, disease is recurrent/refractory, resistance is plausible or the diagnosis remains uncertain.",
+      "Evaluate possible esophageal candidiasis through the appropriate oncology/infectious-disease or GI pathway; systemic therapy is generally required when esophageal disease is suspected or confirmed.",
+      "If recurrent thrush has no obvious local explanation, assess for uncontrolled diabetes, HIV or another immunocompromising condition according to the clinical context."
+    ],
+    "management": [
+      "Choose topical versus systemic antifungal therapy according to severity, immune status, swallowing/esophageal symptoms, recurrence and ability to use topical medication correctly.",
+      "For mild localized disease, a topical antifungal can be appropriate when drug availability and local guidance support it; moderate/severe or high-risk disease often requires systemic azole therapy or another systemic antifungal chosen for the host and resistance context.",
+      "Correct predisposing factors when possible: rinse after inhaled corticosteroids, clean and remove dentures overnight, address xerostomia, improve glycemic control and avoid unnecessary broad-spectrum antibiotics.",
+      "Refractory disease in a substantially immunocompromised patient warrants specialist review, culture/speciation/susceptibility as appropriate and evaluation for esophageal or invasive disease."
+    ],
+    "medicationSafety": [
+      "Systemic azoles can have clinically important CYP-mediated interactions and QT/hepatic considerations; review the complete cancer and supportive-care regimen before prescribing.",
+      "Pregnancy changes systemic azole risk-benefit decisions; do not extrapolate nonpregnant treatment routines without reviewing current pregnancy guidance and product information.",
+      "Repeated fluconazole exposure can select resistant Candida, particularly in immunosuppressed patients; recurrent disease should trigger diagnostic and host-factor review rather than automatic repeated courses.",
+      "Nystatin and other topical products require correct oral contact time and adherence; swallowing difficulty or severe xerostomia can make topical therapy impractical."
+    ],
+    "redFlags": [
+      "Odynophagia, dysphagia or retrosternal pain suggesting esophageal candidiasis",
+      "Fever/systemic illness in a neutropenic or markedly immunocompromised patient",
+      "Refractory/progressive oral disease despite appropriate therapy",
+      "Inability to maintain oral intake or significant dehydration",
+      "Signs of invasive infection or another serious competing oral diagnosis"
+    ],
+    "counselling": [
+      "Explain the difference between candidiasis and treatment-related mouth sores so patients know when a changing pattern needs reassessment.",
+      "Reinforce oral hygiene, denture care, hydration/moisture measures and inhaled-steroid mouth rinsing when relevant.",
+      "Advise patients to report painful swallowing, fever, worsening lesions or inability to eat/drink rather than simply extending an old antifungal prescription."
+    ],
+    "followUp": [
+      "Reassess clinical response after an appropriate treatment interval and sooner when immune status or symptoms make progression risky.",
+      "If symptoms recur quickly, confirm diagnosis, medication adherence, resistance risk and predisposing factors before repeating therapy.",
+      "Coordinate oncology/infectious-disease follow-up for refractory disease, recurrent disease during ongoing immunosuppression or suspected esophageal involvement."
+    ],
+    "examTrap": "Treating every white oral lesion in a chemotherapy patient as thrush—or repeatedly prescribing fluconazole without noticing odynophagia, interaction risk or refractory disease that needs escalation.",
+    "oneLinePearl": "Thrush is a lesion pattern plus host context; painful swallowing moves the problem beyond routine oral treatment.",
+    "sourceBasis": [
+      "Cancer Care Ontario — Oral Care (Mouth Care) fungal-infection and mucositis algorithms",
+      "Public Health Agency of Canada — Candida albicans Pathogen Safety Data Sheet",
+      "Health Canada medication safety/product information for systemic azole therapy"
+    ],
+    "sourceAsOf": "2026-08",
+    "localPolicyCheck": true
+  }
+]
