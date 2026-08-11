@@ -1,22 +1,22 @@
 # U.S. PN / NCLEX-PN Cram Coverage
 
 Status: ACTIVE AUTHORING
-Authored Cram lessons: 804
-Latest QA addendum: `AUTHORING_QA_ADDENDUM_804.md`
+Authored Cram lessons: 884
+Latest QA addendum: `AUTHORING_QA_ADDENDUM_884.md`
 Locale: United States
 Exam alignment: 2026 NCLEX-PN Test Plan
 
-The library contains 804 distinct U.S. PN/LPN/LVN Cram lessons across all NCLEX-PN Client Needs areas. No numeric authoring milestone is a production-completion claim.
+The library contains 884 distinct U.S. PN/LPN/LVN Cram lessons across all NCLEX-PN Client Needs areas. No numeric authoring milestone is a production-completion claim.
 
-## Latest source-family depth
+## Newly consolidated depth
 
-The newest chest-tube/pleural-drainage batch adds system-position safety, air-leak troubleshooting, abrupt drainage changes, tube dislodgement, tension-pneumothorax recognition, transport safety, subcutaneous emphysema, post-removal monitoring, empyema/drainage infection cues, and pain/deep-breathing safety.
+The 804→884 tranche includes arterial-line/hemodynamic monitoring, noninvasive ventilation/high-flow support, renal/urologic procedures, GI/endoscopy procedures, antenatal acute complications, intrapartum emergencies, vascular/peripheral-perfusion emergencies, and gynecologic acute-care safety.
 
-The newest central-vascular-access batch adds dressing integrity, hub disinfection, CLABSI recognition, occlusion troubleshooting, migration/dislodgement, catheter-associated thrombosis, air embolism, catheter damage, line-necessity review, and home-line safety.
+The newest vascular/perfusion batch adds acute limb ischemia, chronic limb-threatening ischemia, DVT, pulmonary embolism, possible AAA rupture, post-revascularization deterioration, compression-safety screening, carotid-procedure deterioration, arterial-access hematoma, and acute change in chronic venous disease. Current source refresh includes the 2024 ACC/AHA lower-extremity PAD guideline and current CDC VTE guidance.
 
-These lessons are tagged `SOURCE_FAMILY_AUTHORED_NOT_ROW_MAPPED` and are not credited as production row closures.
+The newest gynecologic acute-care batch adds ovarian torsion, acute abnormal uterine bleeding, PID, tubo-ovarian abscess, post-hysterectomy hemorrhage, vaginal cuff dehiscence, post-cervical-procedure bleeding/infection, sexual-assault care, Bartholin abscess, and adolescent heavy menstrual bleeding/bleeding-disorder recognition. Current source refresh includes ACOG acute abnormal uterine bleeding, adnexal torsion, and adolescent heavy menstrual bleeding guidance plus current CDC STI/PID principles.
 
-Current source refresh includes CDC intravascular-catheter infection-prevention guidance and U.S. chest-tube drainage-system safety principles. PN/LVN actions remain focused monitoring, ordered implementation, communication, and escalation; central-line troubleshooting, declotting, device repair, and emergency interventions remain competency/policy dependent.
+All newest lessons are tagged `SOURCE_FAMILY_AUTHORED_NOT_ROW_MAPPED` and are not credited as production row closures.
 
 ## Production denominator
 
