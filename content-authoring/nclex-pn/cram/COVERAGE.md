@@ -1,20 +1,22 @@
 # U.S. PN / NCLEX-PN Cram Coverage
 
 Status: ACTIVE AUTHORING
-Authored Cram lessons: 784
-Latest QA addendum: `AUTHORING_QA_ADDENDUM_784.md`
+Authored Cram lessons: 804
+Latest QA addendum: `AUTHORING_QA_ADDENDUM_804.md`
 Locale: United States
 Exam alignment: 2026 NCLEX-PN Test Plan
 
-The library contains 784 distinct U.S. PN/LPN/LVN Cram lessons across all NCLEX-PN Client Needs areas. No numeric authoring milestone is a production-completion claim.
+The library contains 804 distinct U.S. PN/LPN/LVN Cram lessons across all NCLEX-PN Client Needs areas. No numeric authoring milestone is a production-completion claim.
 
 ## Latest source-family depth
 
-The newest oncology emergency/symptom batch adds neutropenic fever, tumor lysis syndrome, malignant spinal cord compression, superior vena cava syndrome, cancer-related hypercalcemia, mucositis, thrombocytopenia bleeding precautions, vesicant extravasation, cancer-pain reassessment, and malignant pericardial-effusion/tamponade recognition.
+The newest chest-tube/pleural-drainage batch adds system-position safety, air-leak troubleshooting, abrupt drainage changes, tube dislodgement, tension-pneumothorax recognition, transport safety, subcutaneous emphysema, post-removal monitoring, empyema/drainage infection cues, and pain/deep-breathing safety.
 
-The newest preventive/immunization batch adds vaccine contraindication screening, vaccination anaphylaxis readiness, cold-chain/storage safety, immunization-record reconciliation/catch-up logic, screening-versus-symptomatic diagnostic routing, tobacco cessation support, preventive fall-risk review, sexual-health screening, skin-cancer prevention, and preventive medication review.
+The newest central-vascular-access batch adds dressing integrity, hub disinfection, CLABSI recognition, occlusion troubleshooting, migration/dislodgement, catheter-associated thrombosis, air embolism, catheter damage, line-necessity review, and home-line safety.
 
 These lessons are tagged `SOURCE_FAMILY_AUTHORED_NOT_ROW_MAPPED` and are not credited as production row closures.
+
+Current source refresh includes CDC intravascular-catheter infection-prevention guidance and U.S. chest-tube drainage-system safety principles. PN/LVN actions remain focused monitoring, ordered implementation, communication, and escalation; central-line troubleshooting, declotting, device repair, and emergency interventions remain competency/policy dependent.
 
 ## Production denominator
 
