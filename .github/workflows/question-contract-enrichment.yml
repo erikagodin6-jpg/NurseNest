@@ -1,0 +1,105 @@
+name: Question Contract Enrichment
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Maximum active source questions to author in this run"
+        required: false
+        default: "250"
+      path:
+        description: "Optional source path substring to scope this run"
+        required: false
+        default: ""
+  pull_request:
+    paths:
+      - 'script/enrich-active-source-question-contract.ts'
+      - 'script/audit-active-question-enrichment-coverage.ts'
+      - 'client/src/lib/legacy-question-contract.ts'
+      - 'client/src/data/question-contract-enrichment.generated.ts'
+      - '.github/workflows/question-contract-enrichment.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  audit-enrichment-coverage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Audit active authored-v2 coverage
+        run: |
+          set +e
+          npx tsx script/audit-active-question-enrichment-coverage.ts | tee active-question-enrichment-coverage.json
+          code=${PIPESTATUS[0]}
+          echo "coverage_exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+        id: coverage
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: active-question-enrichment-coverage
+          path: active-question-enrichment-coverage.json
+          retention-days: 14
+
+  author-batch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Detect authoring key
+        id: key
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          AI_INTEGRATIONS_OPENAI_API_KEY: ${{ secrets.AI_INTEGRATIONS_OPENAI_API_KEY }}
+        shell: bash
+        run: |
+          if [ -n "${OPENAI_API_KEY:-}" ] || [ -n "${AI_INTEGRATIONS_OPENAI_API_KEY:-}" ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "No OpenAI authoring key configured; generation will be skipped rather than fabricating content."
+          fi
+      - name: Bulk author and validate active source questions
+        if: steps.key.outputs.available == 'true'
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          AI_INTEGRATIONS_OPENAI_API_KEY: ${{ secrets.AI_INTEGRATIONS_OPENAI_API_KEY }}
+          AI_INTEGRATIONS_OPENAI_BASE_URL: ${{ secrets.AI_INTEGRATIONS_OPENAI_BASE_URL }}
+          QUESTION_REPAIR_MODEL: ${{ vars.QUESTION_REPAIR_MODEL }}
+          DISPATCH_LIMIT: ${{ inputs.limit }}
+          DISPATCH_PATH: ${{ inputs.path }}
+        shell: bash
+        run: |
+          limit="${DISPATCH_LIMIT:-50}"
+          if [ -z "$limit" ]; then limit=50; fi
+          args=(--apply "--limit=$limit")
+          if [ -n "${DISPATCH_PATH:-}" ]; then args+=("--path=$DISPATCH_PATH"); fi
+          npx tsx script/enrich-active-source-question-contract.ts "${args[@]}"
+      - name: Verify generated overlay coverage state
+        if: always()
+        run: |
+          set +e
+          npx tsx script/audit-active-question-enrichment-coverage.ts | tee active-question-enrichment-coverage-after.json
+          exit 0
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: question-contract-enrichment-batch
+          path: |
+            client/src/data/question-contract-enrichment.generated.ts
+            .question-contract-enrichment.checkpoint.json
+            active-question-enrichment-coverage-after.json
+          if-no-files-found: ignore
+          retention-days: 14

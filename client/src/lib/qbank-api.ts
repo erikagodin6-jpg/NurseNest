@@ -1,24 +1,45 @@
+export interface QBankOption {
+  id: string;
+  text: string;
+  label?: string;
+}
+
 export interface ServerQuestion {
   id: string;
   tier: string;
   exam: string;
   questionType: string;
   stem: string;
-  options: string[];
+  /** Legacy display surface; server may still return primitive strings during cutover. */
+  options: Array<string | QBankOption>;
+  /** Canonical stable options when the v2 serving contract is available. */
+  optionObjects?: QBankOption[];
+  correctAnswer?: Array<number | string> | number | string;
+  correctAnswerIds?: string[];
   bodySystem: string;
   topic: string;
   subtopic?: string;
   difficulty: number | null;
   regionScope?: string;
-  correctAnswer?: number[];
+  countryCode?: string;
+  countryLabels?: string[];
+  languageCode?: string;
   rationale?: string;
   scenario?: string;
   clinicalPearl?: string;
   examStrategy?: string;
+  hint?: string;
+  whyThisMatters?: string;
   memoryHook?: string;
+  mnemonic?: string;
   frameworkUsed?: string;
   clinicalTrap?: string;
+  correctAnswerExplanation?: string;
   distractorRationales?: Record<string, string>;
+  unitSystemSupport?: { supported?: string[]; default?: string };
+  unitVariants?: any[];
+  optionContractVersion?: number;
+  publicationContractVersion?: number;
 }
 
 export interface QBankResponse {
@@ -37,8 +58,16 @@ export interface ExamSetResponse {
 
 export interface AttemptResponse {
   correct: boolean;
-  correctAnswer: number[];
+  /** Compatibility answer payload; stable IDs are authoritative when present. */
+  correctAnswer?: Array<number | string> | number | string;
+  correctAnswerIds?: string[];
   rationale: string;
+  correctAnswerExplanation?: string | null;
+  distractorRationales?: Record<string, string> | null;
+  clinicalPearl?: string | null;
+  hint?: string | null;
+  whyThisMatters?: string | null;
+  mnemonic?: string | null;
   bodySystem: string;
 }
 
@@ -166,7 +195,11 @@ export async function fetchFilterOptions(tier?: string): Promise<FilterOptions> 
   return res.json();
 }
 
-export async function submitAttempt(questionId: string, selectedOption: number): Promise<AttemptResponse> {
+/**
+ * Submit a stable option ID whenever available. Numeric index is retained only for
+ * temporary compatibility with questions that have not completed the v2 serving cutover.
+ */
+export async function submitAttempt(questionId: string, selectedOption: string | number): Promise<AttemptResponse> {
   const res = await fetch("/api/qbank/attempt", {
     method: "POST",
     headers: {

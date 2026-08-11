@@ -1,129 +1,23 @@
 import type { CareerType } from "@shared/careers";
 import { CAREER_CONFIGS } from "@shared/careers";
 import { fisherYatesShuffle } from "@shared/shuffle";
+import { applyCareerQuestionCorrection } from "../data/career-question-corrections.curated";
+import { PARAMEDIC_V2_QUESTIONS } from "../data/career-questions/paramedic-v2-bank";
+import { PHARMACY_TECH_V2_QUESTIONS } from "../data/career-questions/pharmacy-tech-v2-bank";
+import { normalizeLegacyClientQuestion, type LegacyContractOption } from "./legacy-question-contract";
 
-export interface CareerPooledQuestion {
-  id: string;
-  stem: string;
-  options: string[];
-  correctIndex: number;
-  rationale: string;
-  difficulty: number;
-  category: string;
-  topic: string;
-  careerType: CareerType;
-  tier: string;
-}
-
-let careerQuestionsCache: Record<string, CareerPooledQuestion[]> = {};
-
-async function loadFromApi(careerType: CareerType): Promise<CareerPooledQuestion[] | null> {
-  if (careerType !== "socialWorker") return null;
-  try {
-    const resp = await fetch("/api/social-worker/questions");
-    if (!resp.ok) return null;
-    const data = await resp.json();
-    if (!data.questions || data.questions.length === 0) return null;
-    const config = CAREER_CONFIGS[careerType];
-    const tiers = config.tiers;
-    return data.questions.map((q: any) => {
-      let tier = "free";
-      if (tiers.length >= 3) {
-        if (q.difficulty <= 2) tier = tiers[0].id;
-        else if (q.difficulty <= 3) tier = tiers[1].id;
-        else tier = tiers[2].id;
-      }
-      return { ...q, careerType, tier };
-    });
-  } catch {
-    return null;
-  }
-}
-
-async function loadCareerQuestions(careerType: CareerType): Promise<CareerPooledQuestion[]> {
-  if (careerQuestionsCache[careerType]) return careerQuestionsCache[careerType];
-
-  const apiQuestions = await loadFromApi(careerType);
-  if (apiQuestions && apiQuestions.length > 0) {
-    careerQuestionsCache[careerType] = apiQuestions;
-    return apiQuestions;
-  }
-
-  try {
-    const mod = await import(`../data/career-questions/${CAREER_CONFIGS[careerType].slug}-questions.ts`);
-    const exportKey = Object.keys(mod).find(k => Array.isArray(mod[k]));
-    if (!exportKey) return [];
-    const raw = mod[exportKey] as Array<{
-      id: string;
-      stem: string;
-      options: string[];
-      correctIndex: number;
-      rationale: string;
-      difficulty: number;
-      category: string;
-      topic: string;
-    }>;
-
-    const config = CAREER_CONFIGS[careerType];
-    const tiers = config.tiers;
-    const pooled: CareerPooledQuestion[] = raw.map((q) => {
-      let tier = "free";
-      if (tiers.length >= 3) {
-        if (q.difficulty <= 2) tier = tiers[0].id;
-        else if (q.difficulty <= 3) tier = tiers[1].id;
-        else tier = tiers[2].id;
-      }
-      return {
-        ...q,
-        careerType,
-        tier,
-      };
-    });
-
-    careerQuestionsCache[careerType] = pooled;
-    return pooled;
-  } catch {
-    return [];
-  }
-}
-
-export function getCareerQuestionsSync(careerType: CareerType): CareerPooledQuestion[] {
-  return careerQuestionsCache[careerType] || [];
-}
-
-export async function buildCareerQuestionPool(careerType: CareerType): Promise<CareerPooledQuestion[]> {
-  return loadCareerQuestions(careerType);
-}
-
-export function getCareerExamQuestions(
-  questions: CareerPooledQuestion[],
-  tier: string,
-  count: number,
-  categories?: string[]
-): CareerPooledQuestion[] {
-  let filtered = tier === "all" ? questions : questions.filter(q => q.tier === tier || q.tier === "free");
-  if (categories && categories.length > 0) {
-    filtered = filtered.filter(q => categories.includes(q.category));
-  }
-  const shuffled = fisherYatesShuffle([...filtered]);
-  return shuffled.slice(0, count);
-}
-
-export function getCareerCategories(questions: CareerPooledQuestion[]): string[] {
-  const cats = new Set(questions.map(q => q.category));
-  return Array.from(cats).sort();
-}
-
-export function getCareerPoolStats(questions: CareerPooledQuestion[]): {
-  total: number;
-  categories: Record<string, number>;
-  byDifficulty: Record<number, number>;
-} {
-  const categories: Record<string, number> = {};
-  const byDifficulty: Record<number, number> = {};
-  for (const q of questions) {
-    categories[q.category] = (categories[q.category] || 0) + 1;
-    byDifficulty[q.difficulty] = (byDifficulty[q.difficulty] || 0) + 1;
-  }
-  return { total: questions.length, categories, byDifficulty };
-}
+export interface CareerPooledQuestion {id:string;stem:string;options:string[];correctIndex:number;optionObjects:LegacyContractOption[];correctAnswerIds:string[];distractorRationales:Record<string,string>;correctAnswerExplanation:string;hint:string;whyThisMatters:string;clinicalPearl:string;mnemonic?:string;countryCode?:string;countryLabels?:string[];regionScope:string;languageCode:string;exam?:string;licensingBody?:string;optionContractVersion:2;publicationContractVersion:2;metadataOrigin:"authored-v2"|"legacy-derived";publicationReady:boolean;distractorMetadataOrigin?:"explicit"|"authored-rationale-extracted"|"mixed"|"derived-fallback";rationale:string;difficulty:number;category:string;topic:string;careerType:CareerType;tier:string;}
+let careerQuestionsCache:Record<string,CareerPooledQuestion[]>={};
+function normalizeFingerprintText(value:unknown):string{return String(value??"").toLowerCase().replace(/\s+/g," ").replace(/[.!?,;:]+$/g,"").trim();}
+function careerFingerprint(q:CareerPooledQuestion):string{return `${normalizeFingerprintText(q.stem)}::${q.optionObjects.map(o=>normalizeFingerprintText(o.text)).join("||")}`;}
+function dedupeCareerQuestions(qs:CareerPooledQuestion[]):CareerPooledQuestion[]{const seen=new Set<string>(),out:CareerPooledQuestion[]=[];for(const q of qs){const f=careerFingerprint(q);if(seen.has(f))continue;seen.add(f);out.push(q);}return out;}
+function jurisdictionForCareer(careerType:CareerType){const config=CAREER_CONFIGS[careerType],exams=config.examNames||[],joined=exams.join(" | ");const ca=/\b(?:CSMLS|CBRC|COPR|PEBC|CAMRT|Canada|Canadian|Provincial|REx-PN|CNPLE)\b/i.test(joined),us=/\b(?:NBRC|NREMT|PTCB|ExCPT|ASCP|ARRT|ARDMS|NCLEX|ANCC|AANP)\b/i.test(joined);const countryCode=ca&&!us?"CA":us&&!ca?"US":undefined;const regionScope=ca&&us?"BOTH":countryCode==="CA"?"CAN":countryCode==="US"?"US":"GLOBAL";const countryLabels=ca&&us?["Canada","United States"]:countryCode==="CA"?["Canada"]:countryCode==="US"?["United States"]:["International / exam-specific"];return{countryCode,countryLabels,regionScope,languageCode:"en",exam:exams.join(" / ")||config.name,licensingBody:exams.join(" / ")||undefined};}
+function toPooled(input:any,index:number,careerType:CareerType,tier:string):CareerPooledQuestion|null{const raw=applyCareerQuestionCorrection(input),canonical=normalizeLegacyClientQuestion(raw,index,jurisdictionForCareer(careerType));if(!canonical.options.length||!canonical.correctAnswerIds.length)return null;const correctId=canonical.correctAnswerIds[0],correctIndex=canonical.options.findIndex(o=>o.id===correctId);if(correctIndex<0)return null;const authoredV2=canonical.metadataOrigin==="authored-v2",difficulty=Math.max(1,Math.min(4,Number(raw.difficulty)||2));return{...raw,id:canonical.id,stem:raw.stem,options:canonical.options.map(o=>o.text),correctIndex,optionObjects:canonical.options,correctAnswerIds:canonical.correctAnswerIds,distractorRationales:canonical.distractorRationales,correctAnswerExplanation:canonical.correctAnswerExplanation,hint:canonical.hint,whyThisMatters:canonical.whyThisMatters,clinicalPearl:canonical.clinicalPearl,mnemonic:canonical.mnemonic,countryCode:canonical.countryCode,countryLabels:canonical.countryLabels,regionScope:canonical.regionScope,languageCode:canonical.languageCode,exam:canonical.exam,licensingBody:canonical.licensingBody,optionContractVersion:2,publicationContractVersion:2,metadataOrigin:canonical.metadataOrigin,publicationReady:authoredV2,distractorMetadataOrigin:canonical.distractorMetadataOrigin,rationale:raw.rationale||canonical.correctAnswerExplanation,difficulty,category:raw.category||raw.bodySystem||"General",topic:raw.topic||raw.subtopic||raw.category||"General",careerType,tier};}
+function normalizeCareerRows(raw:any[],careerType:CareerType):CareerPooledQuestion[]{const tiers=CAREER_CONFIGS[careerType].tiers;const normalized=raw.map((q,index)=>{const corrected=applyCareerQuestionCorrection(q);let tier="free";if(tiers.length>=3){if(corrected.difficulty<=2)tier=tiers[0].id;else if(corrected.difficulty<=3)tier=tiers[1].id;else tier=tiers[2].id;}return toPooled(corrected,index,careerType,tier);}).filter((q):q is CareerPooledQuestion=>!!q);return dedupeCareerQuestions(normalized);}
+async function loadFromApi(careerType:CareerType):Promise<CareerPooledQuestion[]|null>{if(careerType!=="socialWorker")return null;try{const resp=await fetch("/api/social-worker/questions");if(!resp.ok)return null;const data=await resp.json();if(!data.questions?.length)return null;return normalizeCareerRows(data.questions,careerType);}catch{return null;}}
+async function loadCareerQuestions(careerType:CareerType):Promise<CareerPooledQuestion[]>{if(careerQuestionsCache[careerType])return careerQuestionsCache[careerType];if(careerType==="paramedic"){const pooled=normalizeCareerRows(PARAMEDIC_V2_QUESTIONS,careerType);careerQuestionsCache[careerType]=pooled;return pooled;}if(careerType==="pharmacyTech"){const pooled=normalizeCareerRows(PHARMACY_TECH_V2_QUESTIONS,careerType);careerQuestionsCache[careerType]=pooled;return pooled;}const apiQuestions=await loadFromApi(careerType);if(apiQuestions?.length){careerQuestionsCache[careerType]=apiQuestions;return apiQuestions;}try{const mod=await import(`../data/career-questions/${CAREER_CONFIGS[careerType].slug}-questions.ts`);const exportKey=Object.keys(mod).find(k=>Array.isArray(mod[k]));if(!exportKey)return[];const pooled=normalizeCareerRows(mod[exportKey] as any[],careerType);careerQuestionsCache[careerType]=pooled;return pooled;}catch{return[];}}
+export function getCareerQuestionsSync(careerType:CareerType):CareerPooledQuestion[]{return careerQuestionsCache[careerType]||[];}
+export async function buildCareerQuestionPool(careerType:CareerType):Promise<CareerPooledQuestion[]>{return loadCareerQuestions(careerType);}
+export function getCareerExamQuestions(questions:CareerPooledQuestion[],tier:string,count:number,categories?:string[]):CareerPooledQuestion[]{let filtered=tier==="all"?questions:questions.filter(q=>q.tier===tier||q.tier==="free");if(categories?.length)filtered=filtered.filter(q=>categories.includes(q.category));return fisherYatesShuffle([...filtered]).slice(0,count);}
+export function getCareerCategories(questions:CareerPooledQuestion[]):string[]{return Array.from(new Set(questions.map(q=>q.category))).sort();}
+export function getCareerPoolStats(questions:CareerPooledQuestion[]){const categories:Record<string,number>={},byDifficulty:Record<number,number>={},byDistractorOrigin:Record<string,number>={};let authoredV2=0,legacyDerived=0,publicationReady=0;for(const q of questions){categories[q.category]=(categories[q.category]||0)+1;byDifficulty[q.difficulty]=(byDifficulty[q.difficulty]||0)+1;byDistractorOrigin[q.distractorMetadataOrigin||"unknown"]=(byDistractorOrigin[q.distractorMetadataOrigin||"unknown"]||0)+1;if(q.metadataOrigin==="authored-v2")authoredV2++;else legacyDerived++;if(q.publicationReady)publicationReady++;}return{total:questions.length,categories,byDifficulty,byDistractorOrigin,authoredV2,legacyDerived,publicationReady,requiresEditorialEnrichment:questions.length-publicationReady};}
