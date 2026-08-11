@@ -8,8 +8,8 @@
   "updatedAt":"2026-08-11",
   "lessons":{
     "canonicalServingDenominator":1177,
-    "authoredCramLessons":804,
-    "authoredRemainingToServingDenominatorByCount":373,
+    "authoredCramLessons":824,
+    "authoredRemainingToServingDenominatorByCount":353,
     "certifiedCanonicalCompleted":0,
     "certifiedCanonicalRemaining":1177,
     "exactAuditSourceCandidates":24,
@@ -25,46 +25,15 @@
     "remaining":858,
     "snapshotStatus":"PRIOR_CATALOGUE_SNAPSHOT; REQUIRES LIVE BANK RECONCILIATION BEFORE FINAL COMPLETION CLAIM",
     "questionContract":"four options; keyed correct answer; correct-answer rationale; plausible distractors; no duplicate/template stems; US NCLEX-PN classification; stable topic/client-needs metadata; stem-hash deduplication",
-    "blueprintTargetPercentages":{
-      "Coordinated Care":21,
-      "Safety and Infection Prevention and Control":13,
-      "Health Promotion and Maintenance":9,
-      "Psychosocial Integrity":11,
-      "Basic Care and Comfort":9,
-      "Pharmacological and Parenteral Therapies":17,
-      "Reduction of Risk Potential":11,
-      "Physiological Adaptation":9
-    },
+    "blueprintTargetPercentages":{"Coordinated Care":21,"Safety and Infection Prevention and Control":13,"Health Promotion and Maintenance":9,"Psychosocial Integrity":11,"Basic Care and Comfort":9,"Pharmacological and Parenteral Therapies":17,"Reduction of Risk Potential":11,"Physiological Adaptation":9},
     "questionTypesRequired":["MCQ","SATA","prioritization","delegation_assignment","case_style_clinical_judgment"],
-    "validationStatus":"LIVE QUESTION BANK RECONCILIATION REQUIRED; NEW AUTHORING MUST PASS STEM-DEDUP AND ANSWER/RATIONALE CONTRACT",
+    "validatedCurrentMainImporterTypes":["MCQ"],
+    "blockedQuestionTypesPendingCompatibleStableAnswerContract":["SATA"],
+    "validationStatus":"LIVE QUESTION BANK RECONCILIATION REQUIRED; MAIN VALIDATOR CURRENTLY SUPPORTS MCQ ONLY; NEW MCQ AUTHORING MUST PASS STEM-SIMILARITY, ANSWER, RATIONALE, COUNTRY, CLIENT-NEEDS AND TOPIC CONTRACT",
     "publicationStatus":"NOT_COMPLETE"
   },
-  "productionAuditBaseline":{
-    "measuredAt":"2026-08-05",
-    "catalogRows":1296,
-    "retiredRows":117,
-    "liveRows":1179,
-    "learnerReachable":1177,
-    "usPn013PharmacologyGap":139,
-    "usPn015CramSafetyGap":971,
-    "usMissingPreTest":796,
-    "usMissingPostTest":919,
-    "usLiveNotIndexed":3,
-    "countedResolvedProductionRows":0
-  },
-  "lastCompletedCheckpoint":{
-    "authoredLessonCount":804,
-    "lastRegisteredFiles":["78-chest-tube-pleural-drainage-safety.json","79-central-vascular-access-safety.json"],
-    "latestQa":"AUTHORING_QA_ADDENDUM_804.md"
-  },
-  "nextWorkQueue":[
-    "recover exact current US learner-reachable canonical source identities where available",
-    "continue distinct source-family Cram authoring without duplicate inflation",
-    "author remaining NCLEX-PN questions against blueprint deficits and approved question contract",
-    "run structural/schema/dedup validation",
-    "map authored Cram records to exact serving Full rows",
-    "close pre-test/post-test gaps",
-    "renderer/runtime certification and publication"
-  ],
+  "productionAuditBaseline":{"measuredAt":"2026-08-05","catalogRows":1296,"retiredRows":117,"liveRows":1179,"learnerReachable":1177,"usPn013PharmacologyGap":139,"usPn015CramSafetyGap":971,"usMissingPreTest":796,"usMissingPostTest":919,"usLiveNotIndexed":3,"countedResolvedProductionRows":0},
+  "lastCompletedCheckpoint":{"authoredLessonCount":824,"lastRegisteredFiles":["80-arterial-line-hemodynamic-monitoring-safety.json","81-noninvasive-ventilation-high-flow-safety.json"],"latestQa":"AUTHORING_QA_ADDENDUM_804.md; 824 batch QA pending consolidated addendum"},
+  "nextWorkQueue":["continue distinct source-family Cram authoring without duplicate inflation","recover exact current US learner-reachable canonical source identities where available","author remaining NCLEX-PN MCQ against blueprint deficits on validated path","inspect stable-answer contract lane for SATA compatibility","run structural/schema/dedup validation","map authored Cram records to exact serving Full rows","close pre-test/post-test gaps","renderer/runtime certification and publication"],
   "stopRule":"Do not stop for batch completion. Stop only at complete validated catalogue or a dependency that blocks all remaining productive work."
 }
