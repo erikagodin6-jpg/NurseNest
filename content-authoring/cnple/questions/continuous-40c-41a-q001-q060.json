@@ -1,0 +1,433 @@
+{
+  "schemaVersion": 1,
+  "packageId": "cnple-continuous-40c-41a-q001-q060",
+  "exam": "CNPLE",
+  "country": "Canada",
+  "countryCode": "CA",
+  "tier": "NP",
+  "questionCount": 60,
+  "itemFormat": "three-option-single-best-answer",
+  "publicationState": "AUTHORED_CLINICAL_QA_PENDING",
+  "questions": [
+    {
+      "question_id":"cnple-cont-001","primaryLesson":"np-hypoparathyroidism-management","category":"Endocrine","primaryConcept":"severe symptomatic hypocalcemia","cognitiveLevel":"Application","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A 48-year-old patient two days after total thyroidectomy develops perioral tingling, carpopedal spasm, and a prolonged QT interval. Corrected calcium is markedly low. Which action is the priority?",
+      "answers":[{"id":"a","text":"Give monitored intravenous calcium and check magnesium while evaluating postoperative hypoparathyroidism"},{"id":"b","text":"Start high-dose oral vitamin D alone and repeat calcium in one week"},{"id":"c","text":"Restrict dietary calcium until the parathyroid hormone result returns"}],"correct_answer_ids":["a"],
+      "correctRationale":"Symptomatic severe hypocalcemia with neuromuscular and ECG manifestations requires monitored IV calcium; magnesium must also be assessed because severe hypomagnesemia can impair PTH secretion/action.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Oral therapy is too slow for symptomatic severe hypocalcemia with ECG changes."},{"answer_id":"c","rationale":"Calcium restriction would worsen the immediate physiologic problem and treatment should not wait for PTH confirmation."}]
+    },
+    {
+      "question_id":"cnple-cont-002","primaryLesson":"np-hypoparathyroidism-management","category":"Endocrine","primaryConcept":"chronic replacement monitoring","cognitiveLevel":"Application","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A patient with chronic postsurgical hypoparathyroidism feels well on calcium and calcitriol. Serum calcium is high-normal, but urinary calcium has risen and the patient has developed recurrent renal stones. What is the best interpretation?",
+      "answers":[{"id":"a","text":"The replacement regimen may be excessive despite acceptable serum calcium"},{"id":"b","text":"The patient needs a higher calcitriol dose because kidney stones indicate persistent hypocalcemia"},{"id":"c","text":"Urinary calcium is irrelevant when serum calcium is within the reference interval"}],"correct_answer_ids":["a"],
+      "correctRationale":"Chronic therapy must balance symptom control against hypercalciuria and renal injury; high-normal serum calcium can coexist with excessive urinary calcium.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Increasing calcitriol would generally worsen hypercalciuria."},{"answer_id":"c","rationale":"Urinary calcium is clinically important in chronic hypoparathyroidism because nephrolithiasis/nephrocalcinosis are treatment complications."}]
+    },
+    {
+      "question_id":"cnple-cont-003","primaryLesson":"np-hypoparathyroidism-management","category":"Endocrine","primaryConcept":"hypomagnesemia mimic","cognitiveLevel":"Diagnostic reasoning","difficulty":"Hard","questionType":"MCQ",
+      "stem":"A patient with alcohol use disorder has hypocalcemia, low magnesium, and an inappropriately low-normal PTH. Which explanation should the NP consider before diagnosing permanent hypoparathyroidism?",
+      "answers":[{"id":"a","text":"Severe hypomagnesemia can suppress PTH secretion and produce functional hypoparathyroidism"},{"id":"b","text":"Low magnesium always causes autonomous PTH excess"},{"id":"c","text":"Magnesium does not meaningfully affect calcium-PTH physiology"}],"correct_answer_ids":["a"],
+      "correctRationale":"Severe magnesium deficiency can impair PTH secretion and action, creating hypocalcemia with an inappropriately low PTH pattern.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Magnesium deficiency does not predictably cause autonomous PTH excess."},{"answer_id":"c","rationale":"Magnesium is an important determinant of PTH secretion/action and must be corrected in refractory hypocalcemia."}]
+    },
+    {
+      "question_id":"cnple-cont-004","primaryLesson":"np-vitamin-d-deficiency-evaluation-and-treatment","category":"Endocrine","primaryConcept":"appropriate testing","cognitiveLevel":"Application","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A healthy 34-year-old without fracture, malabsorption, kidney disease, osteoporosis, or other risk factors requests an annual vitamin D level because friends have theirs checked. What is the best response?",
+      "answers":[{"id":"a","text":"Routine vitamin D testing is not indicated without a clinical reason that would change management"},{"id":"b","text":"Order 1,25-dihydroxyvitamin D because it is the most active form"},{"id":"c","text":"Order both vitamin D metabolites annually because deficiency is common"}],"correct_answer_ids":["a"],
+      "correctRationale":"Canadian laboratory stewardship recommends selective rather than universal 25-hydroxyvitamin D testing; testing should answer an actionable clinical question.",
+      "distractorRationales":[{"answer_id":"b","rationale":"1,25-dihydroxyvitamin D is not the routine test of vitamin D stores."},{"answer_id":"c","rationale":"Routine screening of asymptomatic low-risk adults adds low-value testing without evidence that it improves outcomes."}]
+    },
+    {
+      "question_id":"cnple-cont-005","primaryLesson":"np-vitamin-d-deficiency-evaluation-and-treatment","category":"Endocrine","primaryConcept":"osteomalacia workup","cognitiveLevel":"Diagnostic reasoning","difficulty":"Hard","questionType":"MCQ",
+      "stem":"A patient with chronic malabsorption has diffuse bone pain, proximal muscle weakness, low phosphate, elevated alkaline phosphatase, and suspected osteomalacia. Which test best assesses vitamin D stores?",
+      "answers":[{"id":"a","text":"25-hydroxyvitamin D"},{"id":"b","text":"1,25-dihydroxyvitamin D only"},{"id":"c","text":"Calcitonin"}],"correct_answer_ids":["a"],
+      "correctRationale":"25-hydroxyvitamin D is the standard marker of vitamin D status; osteomalacia evaluation also incorporates calcium, phosphate, ALP, PTH and renal context.",
+      "distractorRationales":[{"answer_id":"b","rationale":"The active metabolite can be normal or high in deficiency and is not the routine measure of stores."},{"answer_id":"c","rationale":"Calcitonin does not assess vitamin D status."}]
+    },
+    {
+      "question_id":"cnple-cont-006","primaryLesson":"np-vitamin-d-deficiency-evaluation-and-treatment","category":"Endocrine","primaryConcept":"supplement toxicity","cognitiveLevel":"Complication recognition","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A patient has been taking very high-dose over-the-counter vitamin D for months and now has nausea, constipation, polyuria, and rising creatinine. Which complication is most concerning?",
+      "answers":[{"id":"a","text":"Hypercalcemia with hypercalciuria and kidney injury"},{"id":"b","text":"Acute iron deficiency"},{"id":"c","text":"Isolated hypoglycemia"}],"correct_answer_ids":["a"],
+      "correctRationale":"Vitamin D excess can produce hypercalcemia and hypercalciuria, causing dehydration, nephrolithiasis and renal injury.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Iron deficiency is not the characteristic toxicity pattern of excessive vitamin D."},{"answer_id":"c","rationale":"Vitamin D toxicity does not characteristically cause isolated hypoglycemia."}]
+    },
+    {
+      "question_id":"cnple-cont-007","primaryLesson":"np-osteoporosis-diagnosis-and-pharmacotherapy","category":"Endocrine","primaryConcept":"fragility fracture treatment","cognitiveLevel":"Management decision","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A 72-year-old sustained a low-trauma hip fracture. DXA later shows a T-score of -2.1. Which management principle is most appropriate?",
+      "answers":[{"id":"a","text":"The fragility hip fracture itself establishes high fracture risk and pharmacotherapy should be offered if not contraindicated"},{"id":"b","text":"No drug therapy is indicated because the T-score is not below -2.5"},{"id":"c","text":"Repeat DXA every three months before considering treatment"}],"correct_answer_ids":["a"],
+      "correctRationale":"Canadian osteoporosis treatment is fracture-risk based; hip or vertebral fragility fracture is a major treatment indication independent of an osteoporosis-range T-score.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Waiting for T-score ≤-2.5 ignores the prognostic importance of a fragility hip fracture."},{"answer_id":"c","rationale":"Frequent repeat DXA delays indicated secondary fracture prevention and is not useful at that interval."}]
+    },
+    {
+      "question_id":"cnple-cont-008","primaryLesson":"np-osteoporosis-diagnosis-and-pharmacotherapy","category":"Endocrine","primaryConcept":"denosumab discontinuation","cognitiveLevel":"Complication recognition","difficulty":"Hard","questionType":"MCQ",
+      "stem":"A patient receiving denosumab for osteoporosis wants to stop because injections are inconvenient. What is the most important planning issue?",
+      "answers":[{"id":"a","text":"Arrange follow-on antiresorptive therapy because abrupt discontinuation can cause rebound vertebral fractures"},{"id":"b","text":"Stop immediately because denosumab has a permanent residual antiresorptive effect"},{"id":"c","text":"Replace denosumab with vitamin D alone regardless of fracture risk"}],"correct_answer_ids":["a"],
+      "correctRationale":"Denosumab cessation without antiresorptive transition can lead to rapid bone turnover and multiple rebound vertebral fractures.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Denosumab's effect reverses after discontinuation rather than persisting indefinitely."},{"answer_id":"c","rationale":"Vitamin D does not replace indicated antiresorptive therapy in a high-risk patient."}]
+    },
+    {
+      "question_id":"cnple-cont-009","primaryLesson":"np-osteoporosis-diagnosis-and-pharmacotherapy","category":"Endocrine","primaryConcept":"secondary bone disease","cognitiveLevel":"Diagnostic reasoning","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"Before starting an antiresorptive drug, a patient with very low BMD is found to have marked vitamin D deficiency, low phosphate, bone pain, and elevated alkaline phosphatase. What is the best next step?",
+      "answers":[{"id":"a","text":"Evaluate and correct possible osteomalacia/mineralization disorder before reflexively treating as routine osteoporosis"},{"id":"b","text":"Start two antiresorptives immediately because the T-score is low"},{"id":"c","text":"Ignore the biochemical abnormalities because DXA alone defines the mechanism"}],"correct_answer_ids":["a"],
+      "correctRationale":"A mineralization defect such as osteomalacia can coexist with low BMD and requires cause-directed correction; DXA does not identify the mechanism of weak bone.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Antiresorptive escalation before correcting severe mineral abnormalities may be inappropriate and harmful."},{"answer_id":"c","rationale":"DXA measures density, not whether mineralization is normal."}]
+    },
+    {
+      "question_id":"cnple-cont-010","primaryLesson":"np-metabolic-bone-disease-evaluation","category":"Endocrine","primaryConcept":"pattern evaluation","cognitiveLevel":"Diagnostic reasoning","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A patient with bone pain and recurrent fractures has low phosphate, elevated alkaline phosphatase, and secondary hyperparathyroidism. Which diagnostic approach is most appropriate?",
+      "answers":[{"id":"a","text":"Interpret calcium, phosphate, PTH, 25-hydroxyvitamin D, renal function and ALP as a mineral-pattern workup"},{"id":"b","text":"Order DXA only and diagnose osteoporosis from the T-score"},{"id":"c","text":"Begin bisphosphonate therapy before determining whether mineralization is impaired"}],"correct_answer_ids":["a"],
+      "correctRationale":"Metabolic bone disease is distinguished by the mineral axis; calcium, phosphate, PTH, vitamin D, renal function and ALP help separate osteomalacia, hyperparathyroidism, CKD-MBD and other causes.",
+      "distractorRationales":[{"answer_id":"b","rationale":"DXA alone cannot distinguish osteoporosis from mineralization disorders."},{"answer_id":"c","rationale":"The mechanism should be clarified before antiresorptive therapy is chosen."}]
+    },
+    {
+      "question_id":"cnple-cont-011","primaryLesson":"np-metabolic-bone-disease-evaluation","category":"Endocrine","primaryConcept":"CKD mineral bone disease","cognitiveLevel":"Application","difficulty":"Hard","questionType":"MCQ",
+      "stem":"A patient with stage 5 CKD has high phosphate, low-normal calcium, markedly elevated PTH, and bone pain. Which framing is best?",
+      "answers":[{"id":"a","text":"This may represent CKD-mineral and bone disorder and requires renal/mineral-axis management rather than routine primary osteoporosis treatment"},{"id":"b","text":"The PTH elevation proves a parathyroid adenoma requiring immediate surgery"},{"id":"c","text":"The abnormalities are unrelated to kidney disease"}],"correct_answer_ids":["a"],
+      "correctRationale":"Advanced CKD alters phosphate retention, vitamin D activation and PTH, producing CKD-MBD; management differs from primary osteoporosis or primary hyperparathyroidism.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Marked secondary hyperparathyroidism is common in advanced CKD and does not by itself prove an adenoma."},{"answer_id":"c","rationale":"Kidney failure is central to this mineral pattern."}]
+    },
+    {
+      "question_id":"cnple-cont-012","primaryLesson":"np-metabolic-bone-disease-evaluation","category":"Endocrine","primaryConcept":"Paget pattern","cognitiveLevel":"Diagnostic reasoning","difficulty":"Hard","questionType":"MCQ",
+      "stem":"An older adult has focal bone pain, a substantially elevated alkaline phosphatase, normal calcium, and characteristic cortical thickening on imaging. Which diagnosis should be considered?",
+      "answers":[{"id":"a","text":"Paget disease of bone"},{"id":"b","text":"Simple vitamin D sufficiency"},{"id":"c","text":"Isolated iron deficiency"}],"correct_answer_ids":["a"],
+      "correctRationale":"Focal high bone turnover with elevated ALP and characteristic imaging is a classic Paget pattern and warrants disease-specific evaluation.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Vitamin D sufficiency does not explain focal high-turnover bone lesions."},{"answer_id":"c","rationale":"Iron deficiency does not produce this bone/imaging pattern."}]
+    },
+    {
+      "question_id":"cnple-cont-013","primaryLesson":"np-pituitary-adenoma-recognition-and-management","category":"Endocrine","primaryConcept":"pituitary apoplexy","cognitiveLevel":"Next best step","difficulty":"Hard","questionType":"MCQ",
+      "stem":"A patient with a known pituitary macroadenoma develops a sudden severe headache, vomiting, ophthalmoplegia, and rapidly worsening vision. What is the priority?",
+      "answers":[{"id":"a","text":"Treat as pituitary apoplexy with urgent emergency/endocrine-neurosurgical assessment and adrenal support as indicated"},{"id":"b","text":"Schedule routine MRI surveillance in six months"},{"id":"c","text":"Increase levothyroxine at home before assessing the cortisol axis"}],"correct_answer_ids":["a"],
+      "correctRationale":"Sudden headache with visual/cranial-nerve deterioration in a pituitary tumour is pituitary apoplexy until excluded and can cause acute adrenal insufficiency.",
+      "distractorRationales":[{"answer_id":"b","rationale":"This is an emergency, not routine surveillance."},{"answer_id":"c","rationale":"Thyroid hormone can worsen cortisol deficiency; adrenal status is an immediate concern."}]
+    },
+    {
+      "question_id":"cnple-cont-014","primaryLesson":"np-pituitary-adenoma-recognition-and-management","category":"Endocrine","primaryConcept":"central hypothyroidism","cognitiveLevel":"Diagnostic reasoning","difficulty":"Hard","questionType":"MCQ",
+      "stem":"A patient with a pituitary mass has low free T4 and a TSH in the laboratory reference interval. Which interpretation is most appropriate?",
+      "answers":[{"id":"a","text":"The TSH may be inappropriately normal, supporting possible central hypothyroidism"},{"id":"b","text":"A normal TSH always excludes hypothyroidism"},{"id":"c","text":"The free T4 should be ignored because TSH is always the only pituitary-thyroid test needed"}],"correct_answer_ids":["a"],
+      "correctRationale":"In pituitary disease, TSH can be low, normal or mildly abnormal despite inadequate thyroid stimulation; free T4 is required to assess the axis.",
+      "distractorRationales":[{"answer_id":"b","rationale":"TSH-first logic assumes an intact pituitary-hypothalamic axis."},{"answer_id":"c","rationale":"Free T4 becomes crucial when central disease is suspected."}]
+    },
+    {
+      "question_id":"cnple-cont-015","primaryLesson":"np-pituitary-adenoma-recognition-and-management","category":"Endocrine","primaryConcept":"combined pituitary hormone deficiency","cognitiveLevel":"Management decision","difficulty":"Hard","questionType":"MCQ",
+      "stem":"A patient with a pituitary macroadenoma has evidence of both central hypothyroidism and possible secondary adrenal insufficiency. Which replacement issue is most important?",
+      "answers":[{"id":"a","text":"Assess and protect the cortisol axis before or with thyroid replacement because thyroid hormone can precipitate adrenal crisis"},{"id":"b","text":"Give levothyroxine first and defer cortisol assessment for several months"},{"id":"c","text":"Do not replace either hormone because the pituitary tumour is the only problem"}],"correct_answer_ids":["a"],
+      "correctRationale":"In combined pituitary deficiency, adrenal insufficiency must be addressed before thyroid hormone is increased because thyroid replacement can increase cortisol demand/clearance and precipitate crisis.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Deferring adrenal assessment can be dangerous."},{"answer_id":"c","rationale":"Pituitary tumours can cause clinically important hormone deficiencies requiring treatment."}]
+    },
+    {
+      "question_id":"cnple-cont-016","primaryLesson":"np-polycystic-ovary-syndrome-metabolic-management","category":"Endocrine","primaryConcept":"diagnostic mimic","cognitiveLevel":"Diagnostic reasoning","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A 26-year-old with irregular menses and hirsutism has rapidly progressive deepening voice and marked virilization over four months. What is the best next step?",
+      "answers":[{"id":"a","text":"Evaluate urgently for an androgen-secreting tumour or other secondary cause rather than assuming routine PCOS"},{"id":"b","text":"Diagnose PCOS from the symptoms alone and defer further testing"},{"id":"c","text":"Order annual ovarian ultrasound only"}],"correct_answer_ids":["a"],
+      "correctRationale":"Rapid virilization is atypical for routine PCOS and warrants evaluation for tumour or other high-androgen secondary causes.",
+      "distractorRationales":[{"answer_id":"b","rationale":"PCOS is common, but rapidly progressive virilization is a red flag."},{"answer_id":"c","rationale":"Serial ultrasound does not evaluate a rapidly progressive androgen syndrome adequately."}]
+    },
+    {
+      "question_id":"cnple-cont-017","primaryLesson":"np-polycystic-ovary-syndrome-metabolic-management","category":"Endocrine","primaryConcept":"endometrial protection","cognitiveLevel":"Management decision","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A patient with PCOS is not seeking pregnancy and has one menstrual period every 5–6 months. Why is a cycle/endometrial-protection strategy important?",
+      "answers":[{"id":"a","text":"Prolonged anovulation can expose the endometrium to unopposed estrogen and increase hyperplasia risk"},{"id":"b","text":"It is required only to improve the ultrasound appearance of the ovaries"},{"id":"c","text":"It prevents all future metabolic disease regardless of other treatment"}],"correct_answer_ids":["a"],
+      "correctRationale":"Infrequent ovulation can result in prolonged unopposed estrogen exposure; endometrial protection is a key management goal when cycles are very infrequent.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Ovarian morphology is not the treatment target."},{"answer_id":"c","rationale":"Cycle control does not eliminate the need to address metabolic risk."}]
+    },
+    {
+      "question_id":"cnple-cont-018","primaryLesson":"np-polycystic-ovary-syndrome-metabolic-management","category":"Endocrine","primaryConcept":"metabolic screening","cognitiveLevel":"Application","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A patient with PCOS has regular blood pressure but central adiposity and a strong family history of type 2 diabetes. What should the NP include in longitudinal care?",
+      "answers":[{"id":"a","text":"Ongoing glycemic and cardiovascular risk assessment in addition to reproductive care"},{"id":"b","text":"Only repeat ovarian ultrasound"},{"id":"c","text":"No metabolic assessment unless infertility develops"}],"correct_answer_ids":["a"],
+      "correctRationale":"PCOS carries increased dysglycemia and cardiometabolic risk; care should address metabolic as well as reproductive health.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Ultrasound does not monitor the major metabolic risks of PCOS."},{"answer_id":"c","rationale":"Metabolic risk is independent of infertility status."}]
+    },
+    {
+      "question_id":"cnple-cont-019","primaryLesson":"np-lipid-disorders-diagnosis-and-management","category":"Endocrine","primaryConcept":"secondary prevention","cognitiveLevel":"Management decision","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A 64-year-old with prior myocardial infarction has an LDL-C that is only mildly above the laboratory target range and is not taking a statin. Which principle is most important?",
+      "answers":[{"id":"a","text":"Established ASCVD makes this secondary prevention; use maximally tolerated statin therapy unless contraindicated"},{"id":"b","text":"Withhold lipid therapy because the LDL-C is not extremely high"},{"id":"c","text":"Treat only if triglycerides are also elevated"}],"correct_answer_ids":["a"],
+      "correctRationale":"Secondary prevention status drives treatment intensity; lipid therapy is not contingent on a dramatically elevated baseline LDL-C.",
+      "distractorRationales":[{"answer_id":"b","rationale":"This ignores the patient's very high absolute vascular risk."},{"answer_id":"c","rationale":"Elevated triglycerides are not required for statin benefit in secondary prevention."}]
+    },
+    {
+      "question_id":"cnple-cont-020","primaryLesson":"np-lipid-disorders-diagnosis-and-management","category":"Endocrine","primaryConcept":"familial hypercholesterolemia","cognitiveLevel":"Diagnostic reasoning","difficulty":"Hard","questionType":"MCQ",
+      "stem":"A 35-year-old has LDL-C 6.1 mmol/L and a father who had an MI at age 42. Which diagnosis should move high on the differential?",
+      "answers":[{"id":"a","text":"Familial hypercholesterolemia"},{"id":"b","text":"Isolated benign laboratory variation"},{"id":"c","text":"Hyperthyroidism as the only possible explanation"}],"correct_answer_ids":["a"],
+      "correctRationale":"Very high LDL-C plus premature family ASCVD strongly suggests familial hypercholesterolemia and warrants aggressive risk management/family assessment.",
+      "distractorRationales":[{"answer_id":"b","rationale":"The magnitude and family history are not reassuring."},{"answer_id":"c","rationale":"Secondary causes should be assessed, but hyperthyroidism is not the only explanation and usually does not produce this classic FH pattern."}]
+    },
+    {
+      "question_id":"cnple-cont-021","primaryLesson":"np-lipid-disorders-diagnosis-and-management","category":"Endocrine","primaryConcept":"statin monitoring","cognitiveLevel":"Application","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"An asymptomatic patient on stable statin therapy asks whether CK should be checked every few months. What is the best response?",
+      "answers":[{"id":"a","text":"Routine serial CK is not required in an asymptomatic patient; evaluate CK when significant muscle symptoms or a specific risk question arises"},{"id":"b","text":"CK must be measured monthly in every statin user"},{"id":"c","text":"CK has no role even if severe muscle weakness and dark urine develop"}],"correct_answer_ids":["a"],
+      "correctRationale":"Routine CK surveillance is low value without symptoms; CK becomes relevant when clinically significant myopathy/rhabdomyolysis is suspected.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Monthly CK does not improve routine statin safety in asymptomatic patients."},{"answer_id":"c","rationale":"Severe muscle symptoms with dark urine are precisely when CK and renal assessment matter."}]
+    },
+    {
+      "question_id":"cnple-cont-022","primaryLesson":"np-obesity-pharmacotherapy-selection","category":"Endocrine","primaryConcept":"long-term treatment","cognitiveLevel":"Management decision","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A patient has lost substantial weight and improved OSA and A1C on an approved obesity medication with tolerable adverse effects. They ask when they should stop because they thought therapy was only a short kick-start. What is the best counselling?",
+      "answers":[{"id":"a","text":"Obesity pharmacotherapy is chronic-disease treatment and may be continued long term when effective and safe"},{"id":"b","text":"All obesity medications must stop after 12 weeks regardless of benefit"},{"id":"c","text":"Stop immediately once any weight loss occurs because continued therapy provides no health benefit"}],"correct_answer_ids":["a"],
+      "correctRationale":"Current Obesity Canada guidance treats pharmacotherapy as long-term chronic-disease treatment when benefits outweigh harms; stopping commonly leads to regain/loss of benefit.",
+      "distractorRationales":[{"answer_id":"b","rationale":"There is no universal 12-week maximum for effective long-term obesity pharmacotherapy."},{"answer_id":"c","rationale":"Continued treatment may preserve cardiometabolic and functional benefit."}]
+    },
+    {
+      "question_id":"cnple-cont-023","primaryLesson":"np-obesity-pharmacotherapy-selection","category":"Endocrine","primaryConcept":"naltrexone bupropion contraindication","cognitiveLevel":"Contraindication","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"Which patient factor most strongly argues against selecting naltrexone/bupropion for obesity treatment?",
+      "answers":[{"id":"a","text":"Current opioid therapy for chronic pain"},{"id":"b","text":"Treated hypertension with good control"},{"id":"c","text":"A history of seasonal allergies"}],"correct_answer_ids":["a"],
+      "correctRationale":"Naltrexone blocks opioid receptors and is inappropriate with active opioid therapy; bupropion also requires seizure-risk assessment.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Blood pressure matters, but well-controlled hypertension is not equivalent to active opioid use as a major contraindication."},{"answer_id":"c","rationale":"Seasonal allergies do not drive this drug-selection decision."}]
+    },
+    {
+      "question_id":"cnple-cont-024","primaryLesson":"np-obesity-pharmacotherapy-selection","category":"Endocrine","primaryConcept":"pregnancy planning","cognitiveLevel":"Contraindication","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A patient taking pharmacotherapy specifically for weight loss plans pregnancy. What is the key management principle?",
+      "answers":[{"id":"a","text":"Review and discontinue weight-loss pharmacotherapy according to product-specific preconception guidance because pregnancy is a stop/contraindication context"},{"id":"b","text":"Increase the dose during pregnancy to prevent gestational weight gain"},{"id":"c","text":"Continue all weight-loss medications unchanged because they treat a chronic disease"}],"correct_answer_ids":["a"],
+      "correctRationale":"Weight-loss pharmacotherapy is not used during pregnancy; product-specific washout/preconception planning is required.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Weight-loss treatment is not used to prevent physiologic pregnancy weight gain."},{"answer_id":"c","rationale":"Chronic-disease framing does not override pregnancy safety restrictions."}]
+    },
+    {
+      "question_id":"cnple-cont-025","primaryLesson":"np-electrolyte-disorders-sodium-and-potassium","category":"Endocrine","primaryConcept":"severe symptomatic hyponatremia","cognitiveLevel":"Next best step","difficulty":"Hard","questionType":"MCQ",
+      "stem":"A patient with chronic thiazide-associated hyponatremia develops a generalized seizure and sodium is 112 mmol/L. Which principle is most appropriate?",
+      "answers":[{"id":"a","text":"Use monitored hypertonic-saline therapy for severe symptoms while limiting total correction to reduce osmotic demyelination risk"},{"id":"b","text":"Normalize sodium to 140 mmol/L as rapidly as possible"},{"id":"c","text":"Give free water because all low sodium represents dehydration"}],"correct_answer_ids":["a"],
+      "correctRationale":"Seizure from severe hyponatremia warrants urgent hypertonic therapy, but chronicity creates osmotic demyelination risk if overall correction is excessive.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Rapid normalization of chronic hyponatremia is dangerous."},{"answer_id":"c","rationale":"Free water may worsen hypotonic hyponatremia; mechanism and volume status must be established."}]
+    },
+    {
+      "question_id":"cnple-cont-026","primaryLesson":"np-electrolyte-disorders-sodium-and-potassium","category":"Endocrine","primaryConcept":"hyperkalemia emergency","cognitiveLevel":"Management decision","difficulty":"Hard","questionType":"MCQ",
+      "stem":"A patient with kidney failure has potassium 6.9 mmol/L and a widened QRS. Which sequence best reflects the immediate goals of hyperkalemia treatment?",
+      "answers":[{"id":"a","text":"Stabilize the myocardium with IV calcium, shift potassium intracellularly, and arrange potassium removal while treating the cause"},{"id":"b","text":"Give a potassium binder only and wait for the ECG to normalize"},{"id":"c","text":"Repeat the potassium tomorrow before treating because pseudohyperkalemia is always the cause"}],"correct_answer_ids":["a"],
+      "correctRationale":"Dangerous hyperkalemia requires immediate membrane stabilization when ECG changes exist, then temporary intracellular shifting and definitive potassium removal/cause treatment.",
+      "distractorRationales":[{"answer_id":"b","rationale":"A binder alone is too slow and does not stabilize the myocardium."},{"answer_id":"c","rationale":"An ECG-toxic presentation must be treated immediately; waiting is unsafe."}]
+    },
+    {
+      "question_id":"cnple-cont-027","primaryLesson":"np-electrolyte-disorders-sodium-and-potassium","category":"Endocrine","primaryConcept":"pseudohyperkalemia","cognitiveLevel":"Diagnostic reasoning","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"An asymptomatic patient with normal renal function has potassium 6.0 mmol/L from a visibly hemolyzed specimen and a normal ECG. What is the best next step?",
+      "answers":[{"id":"a","text":"Promptly repeat potassium using a nonhemolyzed sample while maintaining clinical vigilance"},{"id":"b","text":"Diagnose chronic hyperkalemia from the single hemolyzed specimen"},{"id":"c","text":"Ignore the result permanently because hemolysis excludes true hyperkalemia"}],"correct_answer_ids":["a"],
+      "correctRationale":"Hemolysis can cause pseudohyperkalemia; in a stable low-risk patient the value should be promptly confirmed, not assumed true or dismissed completely.",
+      "distractorRationales":[{"answer_id":"b","rationale":"A hemolyzed sample can artifactually raise potassium."},{"answer_id":"c","rationale":"True hyperkalemia can coexist; confirmation is required rather than permanent dismissal."}]
+    },
+    {
+      "question_id":"cnple-cont-028","primaryLesson":"np-calcium-disorders-hypercalcemia-and-hypocalcemia","category":"Endocrine","primaryConcept":"PTH-dependent hypercalcemia","cognitiveLevel":"Diagnostic reasoning","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"Repeated testing confirms hypercalcemia and PTH is inappropriately high. Which diagnostic branch is most appropriate?",
+      "answers":[{"id":"a","text":"Evaluate PTH-dependent causes such as primary or tertiary hyperparathyroidism"},{"id":"b","text":"Assume malignancy-associated hypercalcemia because all hypercalcemia suppresses PTH"},{"id":"c","text":"Order parathyroid imaging first to make the biochemical diagnosis"}],"correct_answer_ids":["a"],
+      "correctRationale":"An elevated or inappropriately normal PTH in confirmed hypercalcemia indicates a PTH-dependent mechanism; imaging is for localization after biochemical diagnosis.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Most PTH-independent malignancy hypercalcemia suppresses PTH."},{"answer_id":"c","rationale":"Sestamibi/ultrasound do not establish the biochemical diagnosis of primary hyperparathyroidism."}]
+    },
+    {
+      "question_id":"cnple-cont-029","primaryLesson":"np-calcium-disorders-hypercalcemia-and-hypocalcemia","category":"Endocrine","primaryConcept":"symptomatic hypocalcemia","cognitiveLevel":"Complication recognition","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A patient with severe hypocalcemia has tetany and a prolonged QT interval. Which additional laboratory abnormality must be specifically checked because it can make hypocalcemia refractory?",
+      "answers":[{"id":"a","text":"Hypomagnesemia"},{"id":"b","text":"Mild hyperuricemia"},{"id":"c","text":"Isolated high HDL cholesterol"}],"correct_answer_ids":["a"],
+      "correctRationale":"Magnesium deficiency can impair PTH secretion/action and should be corrected in clinically important or refractory hypocalcemia.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Uric acid does not explain refractory hypocalcemia physiology."},{"answer_id":"c","rationale":"HDL cholesterol is unrelated to acute calcium regulation."}]
+    },
+    {
+      "question_id":"cnple-cont-030","primaryLesson":"np-calcium-disorders-hypercalcemia-and-hypocalcemia","category":"Endocrine","primaryConcept":"parathyroid imaging misuse","cognitiveLevel":"Next best step","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A patient has one mildly elevated serum calcium result and no PTH measurement. The clinician considers ordering a sestamibi scan to diagnose hyperparathyroidism. What should happen first?",
+      "answers":[{"id":"a","text":"Confirm true hypercalcemia and measure PTH to establish whether the mechanism is PTH dependent"},{"id":"b","text":"Order sestamibi because imaging is the screening test for primary hyperparathyroidism"},{"id":"c","text":"Schedule parathyroid surgery based on the single calcium result"}],"correct_answer_ids":["a"],
+      "correctRationale":"Primary hyperparathyroidism is a biochemical diagnosis; imaging is used for operative localization after the diagnosis and surgical plan exist.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Imaging is not the diagnostic screening test for primary hyperparathyroidism."},{"answer_id":"c","rationale":"A single unconfirmed calcium result is insufficient to diagnose or plan surgery."}]
+    },
+    {
+      "question_id":"cnple-cont-031","primaryLesson":"np-gastroesophageal-reflux-disease-diagnosis-and-management","category":"Gastrointestinal","primaryConcept":"GERD alarm feature","cognitiveLevel":"Next best step","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A 58-year-old with years of heartburn now reports progressive solid-food dysphagia and 6-kg unintentional weight loss despite taking a PPI. What is the best next step?",
+      "answers":[{"id":"a","text":"Arrange diagnostic upper endoscopy rather than simply escalating acid suppression"},{"id":"b","text":"Double the PPI indefinitely without investigation"},{"id":"c","text":"Reassure because dysphagia is expected in uncomplicated GERD"}],"correct_answer_ids":["a"],
+      "correctRationale":"Progressive dysphagia and weight loss are alarm features requiring structural evaluation for stricture, eosinophilic disease or malignancy.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Escalating empiric therapy can delay diagnosis of a structural lesion."},{"answer_id":"c","rationale":"Progressive dysphagia is not an expected benign GERD feature."}]
+    },
+    {
+      "question_id":"cnple-cont-032","primaryLesson":"np-gastroesophageal-reflux-disease-diagnosis-and-management","category":"Gastrointestinal","primaryConcept":"PPI optimization","cognitiveLevel":"Management decision","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A patient with uncomplicated GERD says the PPI is ineffective. They take it inconsistently after meals when symptoms begin. What should the NP do before labelling the condition refractory?",
+      "answers":[{"id":"a","text":"Optimize adherence and timing of PPI administration, then reassess"},{"id":"b","text":"Immediately refer for antireflux surgery"},{"id":"c","text":"Add three additional acid suppressants without reviewing how the PPI is taken"}],"correct_answer_ids":["a"],
+      "correctRationale":"Correct dosing timing/adherence should be confirmed before escalating the diagnosis or treatment of presumed refractory GERD.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Surgery is not the first response to unoptimized medication use."},{"answer_id":"c","rationale":"Polypharmacy without correcting administration is low-value and can increase harms."}]
+    },
+    {
+      "question_id":"cnple-cont-033","primaryLesson":"np-gastroesophageal-reflux-disease-diagnosis-and-management","category":"Gastrointestinal","primaryConcept":"PPI deprescribing","cognitiveLevel":"Application","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A patient has been symptom-free for a year after treatment of uncomplicated reflux and has no Barrett esophagus, severe erosive disease, or prior GI bleeding indication. Which approach is reasonable?",
+      "answers":[{"id":"a","text":"Reassess the ongoing indication and attempt dose reduction or discontinuation if clinically appropriate"},{"id":"b","text":"Continue the highest PPI dose indefinitely without reviewing indication"},{"id":"c","text":"Stop abruptly in every patient regardless of indication or recurrence"}],"correct_answer_ids":["a"],
+      "correctRationale":"Choosing Wisely Canada recommends periodically reassessing long-term PPI indication and using the lowest effective strategy in most patients while retaining therapy for clear chronic indications.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Unreviewed maximal long-term dosing can create unnecessary treatment burden."},{"answer_id":"c","rationale":"Some patients have strong indications for ongoing therapy and deprescribing must be individualized."}]
+    },
+    {
+      "question_id":"cnple-cont-034","primaryLesson":"np-peptic-ulcer-disease-and-h-pylori-management","category":"Gastrointestinal","primaryConcept":"H pylori test of cure","cognitiveLevel":"Next best step","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A patient completed H. pylori eradication therapy and feels completely better. What is the appropriate next step?",
+      "answers":[{"id":"a","text":"Confirm eradication with an appropriate active-infection test after the required medication washout interval"},{"id":"b","text":"Declare cure based on symptom resolution"},{"id":"c","text":"Use H. pylori IgG serology as the preferred proof of eradication"}],"correct_answer_ids":["a"],
+      "correctRationale":"Eradication should be confirmed with urea breath or stool antigen testing (or endoscopic testing when indicated) after appropriate timing; symptoms and serology do not prove cure.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Symptoms can improve despite persistent infection."},{"answer_id":"c","rationale":"Antibody can remain positive after eradication and is not a test of cure."}]
+    },
+    {
+      "question_id":"cnple-cont-035","primaryLesson":"np-peptic-ulcer-disease-and-h-pylori-management","category":"Gastrointestinal","primaryConcept":"perforated ulcer","cognitiveLevel":"Complication recognition","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A patient with known peptic ulcer disease develops sudden severe generalized abdominal pain with a rigid abdomen and rebound tenderness. What is the priority?",
+      "answers":[{"id":"a","text":"Treat as possible perforation with urgent emergency/surgical assessment"},{"id":"b","text":"Schedule outpatient H. pylori serology next month"},{"id":"c","text":"Increase oral antacids and observe at home"}],"correct_answer_ids":["a"],
+      "correctRationale":"Sudden severe pain with peritonitis in peptic ulcer disease suggests perforation, a surgical emergency.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Outpatient infection testing is inappropriate during a suspected perforation."},{"answer_id":"c","rationale":"Home management risks catastrophic delay."}]
+    },
+    {
+      "question_id":"cnple-cont-036","primaryLesson":"np-peptic-ulcer-disease-and-h-pylori-management","category":"Gastrointestinal","primaryConcept":"NSAID ulcer risk","cognitiveLevel":"Management decision","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"An older adult with prior ulcer bleeding requires ongoing low-dose aspirin for secondary cardiovascular prevention and intermittently uses ibuprofen. Which strategy best addresses recurrent ulcer risk?",
+      "answers":[{"id":"a","text":"Avoid unnecessary NSAID exposure and coordinate gastroprotection while preserving essential antiplatelet therapy when possible"},{"id":"b","text":"Stop all cardiovascular secondary-prevention therapy without assessing thrombotic risk"},{"id":"c","text":"Continue ibuprofen freely because aspirin already protects the stomach"}],"correct_answer_ids":["a"],
+      "correctRationale":"Recurrent ulcer prevention requires minimizing avoidable NSAIDs and using gastroprotection while balancing the cardiovascular indication for antiplatelet therapy.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Stopping essential secondary-prevention therapy can create major thrombotic risk and requires coordinated decision-making."},{"answer_id":"c","rationale":"Aspirin does not protect against NSAID ulcer risk; combined exposure can increase bleeding risk."}]
+    },
+    {
+      "question_id":"cnple-cont-037","primaryLesson":"np-dyspepsia-evaluation-and-management","category":"Gastrointestinal","primaryConcept":"low-risk dyspepsia","cognitiveLevel":"Next best step","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A 36-year-old has several months of epigastric discomfort without weight loss, anemia, vomiting, dysphagia, bleeding, or family history of upper-GI cancer. What is the most appropriate initial strategy?",
+      "answers":[{"id":"a","text":"Use a noninvasive H. pylori test-and-treat and/or empiric PPI strategy according to current guidance rather than routine immediate endoscopy"},{"id":"b","text":"Order upper endoscopy solely because dyspepsia has lasted more than one month"},{"id":"c","text":"Order an upper GI barium series as the preferred first test"}],"correct_answer_ids":["a"],
+      "correctRationale":"In younger low-risk patients without alarm features, CAG/Choosing Wisely supports noninvasive H. pylori testing or empiric acid suppression rather than routine endoscopy or upper-GI series.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Routine endoscopy is low value in this low-risk presentation."},{"answer_id":"c","rationale":"Upper-GI series is not preferred for dyspepsia and has inferior diagnostic utility."}]
+    },
+    {
+      "question_id":"cnple-cont-038","primaryLesson":"np-dyspepsia-evaluation-and-management","category":"Gastrointestinal","primaryConcept":"cardiac mimic","cognitiveLevel":"Diagnostic reasoning","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A 67-year-old describes 'indigestion' that reliably occurs while climbing stairs and resolves with rest. Which approach is safest?",
+      "answers":[{"id":"a","text":"Evaluate for myocardial ischemia before assuming dyspepsia"},{"id":"b","text":"Treat as functional dyspepsia because the symptom is epigastric"},{"id":"c","text":"Start an elimination diet and defer cardiovascular assessment"}],"correct_answer_ids":["a"],
+      "correctRationale":"Exertional, reproducible upper-abdominal/chest discomfort in a high-risk age group can be an ischemic equivalent and deserves cardiac evaluation.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Location alone does not exclude ACS/stable ischemia."},{"answer_id":"c","rationale":"Dietary experimentation should not delay assessment of a potentially dangerous cardiac pattern."}]
+    },
+    {
+      "question_id":"cnple-cont-039","primaryLesson":"np-dyspepsia-evaluation-and-management","category":"Gastrointestinal","primaryConcept":"alarm feature evolution","cognitiveLevel":"Complication recognition","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A patient previously managed for functional dyspepsia now develops iron-deficiency anemia and progressive early satiety. What should the NP do?",
+      "answers":[{"id":"a","text":"Reopen the diagnosis and arrange structural evaluation because new alarm features have emerged"},{"id":"b","text":"Continue the same functional diagnosis permanently because prior testing was normal"},{"id":"c","text":"Increase antacids without additional assessment"}],"correct_answer_ids":["a"],
+      "correctRationale":"A functional diagnosis should be reconsidered when the clinical pattern changes; new anemia and progressive symptoms are alarm features.",
+      "distractorRationales":[{"answer_id":"b","rationale":"A prior functional diagnosis does not protect against later organic disease."},{"answer_id":"c","rationale":"Symptom suppression without reevaluation can delay diagnosis."}]
+    },
+    {
+      "question_id":"cnple-cont-040","primaryLesson":"np-inflammatory-bowel-disease-diagnosis-and-management","category":"Gastrointestinal","primaryConcept":"IBD flare versus infection","cognitiveLevel":"Next best step","difficulty":"Hard","questionType":"MCQ",
+      "stem":"A patient with ulcerative colitis on biologic therapy develops abruptly increased bloody diarrhea after recent antibiotics. Before escalating immunosuppression, what should the NP prioritize?",
+      "answers":[{"id":"a","text":"Evaluate for enteric infection including C. difficile while assessing flare severity"},{"id":"b","text":"Assume every increase in stool frequency is autoimmune flare and immediately double immunosuppression"},{"id":"c","text":"Stop all evaluation because biologic therapy prevents infectious colitis"}],"correct_answer_ids":["a"],
+      "correctRationale":"C. difficile and other infection can mimic or precipitate IBD flare and should be considered before reflex immunosuppression escalation.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Escalating immunosuppression during unrecognized infection can worsen outcomes."},{"answer_id":"c","rationale":"Biologic therapy does not prevent infectious colitis and can increase infection risk."}]
+    },
+    {
+      "question_id":"cnple-cont-041","primaryLesson":"np-inflammatory-bowel-disease-diagnosis-and-management","category":"Gastrointestinal","primaryConcept":"steroid maintenance misuse","cognitiveLevel":"Management decision","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A patient with Crohn disease improves after a corticosteroid induction course and asks to remain on prednisone indefinitely because it worked quickly. What is the best response?",
+      "answers":[{"id":"a","text":"Corticosteroids are not appropriate maintenance therapy; arrange a steroid-sparing maintenance strategy"},{"id":"b","text":"Long-term prednisone is preferred maintenance because rapid symptom control proves safety"},{"id":"c","text":"No maintenance therapy is ever required after the first response"}],"correct_answer_ids":["a"],
+      "correctRationale":"Steroids are effective for induction but have unacceptable long-term toxicity and do not provide appropriate maintenance disease control.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Chronic systemic steroid exposure causes substantial harm and is not standard maintenance therapy."},{"answer_id":"c","rationale":"Many patients require maintenance therapy to prevent relapse/progression."}]
+    },
+    {
+      "question_id":"cnple-cont-042","primaryLesson":"np-inflammatory-bowel-disease-diagnosis-and-management","category":"Gastrointestinal","primaryConcept":"toxic megacolon","cognitiveLevel":"Complication recognition","difficulty":"Hard","questionType":"MCQ",
+      "stem":"A patient with known ulcerative colitis develops fever, tachycardia, marked abdominal distention, severe tenderness, and systemic toxicity. What complication must be considered urgently?",
+      "answers":[{"id":"a","text":"Toxic megacolon/severe fulminant colitis requiring hospital-level care"},{"id":"b","text":"Uncomplicated IBS"},{"id":"c","text":"A benign medication side effect suitable for routine follow-up"}],"correct_answer_ids":["a"],
+      "correctRationale":"Systemic toxicity with severe colitis and distention raises toxic megacolon, an emergency requiring urgent inpatient multidisciplinary management.",
+      "distractorRationales":[{"answer_id":"b","rationale":"IBS does not cause systemic toxicity or severe inflammatory colonic dilation."},{"answer_id":"c","rationale":"The presentation is potentially life-threatening."}]
+    },
+    {
+      "question_id":"cnple-cont-043","primaryLesson":"np-irritable-bowel-syndrome-diagnosis-and-management","category":"Gastrointestinal","primaryConcept":"positive diagnosis","cognitiveLevel":"Diagnostic reasoning","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A 29-year-old has recurrent abdominal pain related to defecation with alternating stool form for two years. CBC and celiac testing are normal, there is no bleeding, weight loss, nocturnal progression, fever, or family history of IBD/CRC. What is the best approach?",
+      "answers":[{"id":"a","text":"Make a positive IBS diagnosis and begin subtype-directed management rather than ordering serial exclusion tests"},{"id":"b","text":"Order CT abdomen every six months until a structural cause appears"},{"id":"c","text":"Avoid giving a diagnosis because IBS can only be diagnosed after every possible GI test is negative"}],"correct_answer_ids":["a"],
+      "correctRationale":"A characteristic stable pattern without alarm features supports a positive IBS diagnosis after focused appropriate assessment.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Repeated CT adds radiation/cost without an indication."},{"answer_id":"c","rationale":"IBS is not a diagnosis of exhaustive exclusion."}]
+    },
+    {
+      "question_id":"cnple-cont-044","primaryLesson":"np-irritable-bowel-syndrome-diagnosis-and-management","category":"Gastrointestinal","primaryConcept":"IBS alarm features","cognitiveLevel":"Complication recognition","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"Which new finding in a patient previously diagnosed with IBS should trigger reevaluation for organic disease?",
+      "answers":[{"id":"a","text":"New iron-deficiency anemia and unintentional weight loss"},{"id":"b","text":"Bloating after a large meal"},{"id":"c","text":"Pain that sometimes improves after defecation"}],"correct_answer_ids":["a"],
+      "correctRationale":"Iron-deficiency anemia and weight loss are alarm features and should not be attributed automatically to IBS.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Meal-related bloating is common in IBS and nonspecific."},{"answer_id":"c","rationale":"Pain related to defecation fits the IBS symptom pattern."}]
+    },
+    {
+      "question_id":"cnple-cont-045","primaryLesson":"np-irritable-bowel-syndrome-diagnosis-and-management","category":"Gastrointestinal","primaryConcept":"low FODMAP strategy","cognitiveLevel":"Management decision","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A patient with IBS wants to start a low-FODMAP diet. Which counselling is best?",
+      "answers":[{"id":"a","text":"Use a structured trial followed by systematic reintroduction and personalization rather than permanent maximal restriction"},{"id":"b","text":"Eliminate all FODMAP-containing foods permanently from day one"},{"id":"c","text":"Diet never has a role in IBS management"}],"correct_answer_ids":["a"],
+      "correctRationale":"A low-FODMAP approach is intended as a structured elimination and reintroduction/personalization process, ideally with dietitian support, to avoid unnecessary restriction.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Long-term maximal restriction can impair dietary adequacy and is not the intended strategy."},{"answer_id":"c","rationale":"Dietary strategies can improve symptoms in selected patients."}]
+    },
+    {
+      "question_id":"cnple-cont-046","primaryLesson":"np-celiac-disease-diagnosis-and-management","category":"Gastrointestinal","primaryConcept":"testing before gluten restriction","cognitiveLevel":"Next best step","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A patient with iron-deficiency anemia and chronic diarrhea suspects celiac disease and plans to stop gluten today. What should the NP advise before diagnostic testing?",
+      "answers":[{"id":"a","text":"Continue consuming gluten until appropriate celiac testing is completed because restriction can reduce test sensitivity"},{"id":"b","text":"Stop gluten for six months before testing so antibodies become easier to detect"},{"id":"c","text":"Celiac serology is unaffected by diet"}],"correct_answer_ids":["a"],
+      "correctRationale":"Celiac serology and biopsy are most interpretable while the patient is eating gluten; premature restriction can normalize markers and obscure diagnosis.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Gluten restriction can cause false-negative testing."},{"answer_id":"c","rationale":"Dietary gluten exposure directly affects serologic/histologic evidence."}]
+    },
+    {
+      "question_id":"cnple-cont-047","primaryLesson":"np-celiac-disease-diagnosis-and-management","category":"Gastrointestinal","primaryConcept":"IgA deficiency","cognitiveLevel":"Diagnostic reasoning","difficulty":"Hard","questionType":"MCQ",
+      "stem":"A patient with strong celiac features has negative tTG-IgA, and total IgA is markedly deficient. What is the best interpretation?",
+      "answers":[{"id":"a","text":"The standard IgA-based test may be falsely negative; use an appropriate IgG-based celiac testing strategy"},{"id":"b","text":"Celiac disease is excluded because tTG-IgA is negative"},{"id":"c","text":"Order no further testing because IgA deficiency lowers celiac risk"}],"correct_answer_ids":["a"],
+      "correctRationale":"IgA deficiency can make tTG-IgA falsely negative; IgG-based assays are used when total IgA is deficient.",
+      "distractorRationales":[{"answer_id":"b","rationale":"The negative result is not reliable in significant IgA deficiency."},{"answer_id":"c","rationale":"IgA deficiency does not exclude celiac disease and is actually associated with autoimmune disease."}]
+    },
+    {
+      "question_id":"cnple-cont-048","primaryLesson":"np-celiac-disease-diagnosis-and-management","category":"Gastrointestinal","primaryConcept":"persistent symptoms","cognitiveLevel":"Next best step","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A patient with biopsy-confirmed celiac disease reports persistent symptoms despite a gluten-free diet. What is the best first approach?",
+      "answers":[{"id":"a","text":"Review dietary adherence/cross-contact and reassess for nutritional deficiencies or alternate diagnoses before labelling refractory celiac disease"},{"id":"b","text":"Assume refractory disease immediately and start immunosuppression"},{"id":"c","text":"Tell the patient symptoms prove the original celiac diagnosis was wrong"}],"correct_answer_ids":["a"],
+      "correctRationale":"Ongoing gluten exposure/cross-contact and alternative conditions are common causes of persistent symptoms and should be assessed before rare refractory celiac disease.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Refractory celiac is uncommon and should not be diagnosed before common causes are excluded."},{"answer_id":"c","rationale":"Persistent symptoms do not invalidate a biopsy-confirmed diagnosis."}]
+    },
+    {
+      "question_id":"cnple-cont-049","primaryLesson":"np-hepatitis-b-and-c-evaluation-and-treatment","category":"Gastrointestinal","primaryConcept":"HCV antibody interpretation","cognitiveLevel":"Diagnostic reasoning","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A patient has a reactive hepatitis C antibody. Which test determines whether infection is currently active?",
+      "answers":[{"id":"a","text":"HCV RNA"},{"id":"b","text":"Repeat HCV antibody only"},{"id":"c","text":"Serum ammonia"}],"correct_answer_ids":["a"],
+      "correctRationale":"A reactive HCV antibody indicates exposure; HCV RNA detects current infection and is required to distinguish active from resolved infection.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Antibody can remain reactive after spontaneous clearance or cure."},{"answer_id":"c","rationale":"Ammonia does not diagnose HCV infection."}]
+    },
+    {
+      "question_id":"cnple-cont-050","primaryLesson":"np-hepatitis-b-and-c-evaluation-and-treatment","category":"Gastrointestinal","primaryConcept":"HBV reactivation risk","cognitiveLevel":"Next best step","difficulty":"Hard","questionType":"MCQ",
+      "stem":"A patient scheduled for anti-CD20 therapy is HBsAg negative but anti-HBc positive. What is the most important next step?",
+      "answers":[{"id":"a","text":"Assess HBV reactivation risk and arrange guideline-directed prophylaxis/monitoring before immunosuppression"},{"id":"b","text":"Ignore prior HBV exposure because HBsAg is negative"},{"id":"c","text":"Give HCV treatment because anti-HBc indicates hepatitis C"}],"correct_answer_ids":["a"],
+      "correctRationale":"Some HBsAg-negative, anti-HBc-positive patients are at clinically important HBV reactivation risk during potent immunosuppression such as anti-CD20 therapy.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Resolved/occult HBV can reactivate under high-risk immunosuppression."},{"answer_id":"c","rationale":"Anti-HBc is a hepatitis B marker, not hepatitis C."}]
+    },
+    {
+      "question_id":"cnple-cont-051","primaryLesson":"np-hepatitis-b-and-c-evaluation-and-treatment","category":"Gastrointestinal","primaryConcept":"HCV cure follow-up","cognitiveLevel":"Application","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A patient with chronic HCV and established cirrhosis achieves sustained virologic response after DAA therapy. Which statement is correct?",
+      "answers":[{"id":"a","text":"HCV is cured, but cirrhosis-related surveillance such as HCC monitoring remains necessary"},{"id":"b","text":"Cure eliminates all future liver-related surveillance needs"},{"id":"c","text":"The patient is immune to future HCV reinfection"}],"correct_answer_ids":["a"],
+      "correctRationale":"SVR represents cure of HCV, but pre-existing cirrhosis continues to confer HCC and portal-hypertension risk; reinfection is also possible.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Cirrhosis risk persists after virologic cure."},{"answer_id":"c","rationale":"Successful treatment does not create protective immunity against reinfection."}]
+    },
+    {
+      "question_id":"cnple-cont-052","primaryLesson":"np-nonalcoholic-fatty-liver-disease-management","category":"Gastrointestinal","primaryConcept":"MASLD fibrosis assessment","cognitiveLevel":"Next best step","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A patient with type 2 diabetes and hepatic steatosis has normal ALT. Which approach best assesses liver prognosis?",
+      "answers":[{"id":"a","text":"Use noninvasive fibrosis risk assessment such as FIB-4 and further elastography/specialty assessment when indicated"},{"id":"b","text":"Reassure that normal ALT excludes advanced fibrosis"},{"id":"c","text":"Repeat ultrasound every month to quantify fat"}],"correct_answer_ids":["a"],
+      "correctRationale":"Normal aminotransferases do not exclude significant MASLD fibrosis; fibrosis-risk tools and elastography are more prognostically relevant than ALT or repeated steatosis imaging.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Significant fibrosis may occur with normal ALT."},{"answer_id":"c","rationale":"Frequent ultrasound does not stage fibrosis and adds no value."}]
+    },
+    {
+      "question_id":"cnple-cont-053","primaryLesson":"np-nonalcoholic-fatty-liver-disease-management","category":"Gastrointestinal","primaryConcept":"statin use in MASLD","cognitiveLevel":"Management decision","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A patient with MASLD has high cardiovascular risk and an indication for statin therapy. Mild stable ALT elevation is present. What is the best approach?",
+      "answers":[{"id":"a","text":"Use indicated statin therapy unless there is a specific contraindication; MASLD alone is not a reason to withhold it"},{"id":"b","text":"Avoid all statins permanently because any fatty liver makes them contraindicated"},{"id":"c","text":"Treat only the liver and ignore cardiovascular risk"}],"correct_answer_ids":["a"],
+      "correctRationale":"Cardiovascular disease is a major risk in MASLD; statins are generally safe and should not be withheld simply for fatty liver or mild stable transaminase elevation.",
+      "distractorRationales":[{"answer_id":"b","rationale":"MASLD is not a blanket statin contraindication."},{"answer_id":"c","rationale":"Cardiometabolic risk treatment is central to MASLD care."}]
+    },
+    {
+      "question_id":"cnple-cont-054","primaryLesson":"np-nonalcoholic-fatty-liver-disease-management","category":"Gastrointestinal","primaryConcept":"terminology and mechanism","cognitiveLevel":"Application","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A learner sees an older lesson slug labelled 'nonalcoholic fatty liver disease' but the current clinical content uses MASLD. What is the best interpretation?",
+      "answers":[{"id":"a","text":"The canonical identity may retain legacy nomenclature while current learner-facing clinical terminology uses metabolic dysfunction-associated steatotic liver disease"},{"id":"b","text":"MASLD and steatotic liver disease are unrelated conditions"},{"id":"c","text":"The only acceptable management is to rename the database identity and break all existing links"}],"correct_answer_ids":["a"],
+      "correctRationale":"Current terminology has changed; preserving a stable canonical identity while updating learner-facing clinical language avoids breaking mappings and keeps content current.",
+      "distractorRationales":[{"answer_id":"b","rationale":"MASLD is the current nomenclature for the metabolic steatotic liver disease category previously termed NAFLD in many resources."},{"answer_id":"c","rationale":"Clinical terminology can be modernized without changing a governed canonical identifier."}]
+    },
+    {
+      "question_id":"cnple-cont-055","primaryLesson":"np-alcoholic-liver-disease-evaluation","category":"Gastrointestinal","primaryConcept":"alcohol-associated hepatitis severity","cognitiveLevel":"Diagnostic reasoning","difficulty":"Hard","questionType":"MCQ",
+      "stem":"A patient with heavy alcohol use has jaundice, fever, tender hepatomegaly, elevated bilirubin/INR and systemic illness. Which approach is best?",
+      "answers":[{"id":"a","text":"Assess for severe alcohol-associated hepatitis and competing causes/infection, using validated severity tools to guide hospital/specialty management"},{"id":"b","text":"Assume the AST elevation alone proves benign alcohol-related steatosis"},{"id":"c","text":"Provide routine abstinence advice and defer evaluation because liver injury is expected with alcohol use"}],"correct_answer_ids":["a"],
+      "correctRationale":"Jaundice and systemic illness with coagulopathy can represent severe alcohol-associated hepatitis and require evaluation for severity, infection and other liver injury causes.",
+      "distractorRationales":[{"answer_id":"b","rationale":"AST pattern alone does not diagnose severity or exclude other causes."},{"answer_id":"c","rationale":"The patient may have life-threatening liver decompensation and needs more than counselling."}]
+    },
+    {
+      "question_id":"cnple-cont-056","primaryLesson":"np-alcoholic-liver-disease-evaluation","category":"Gastrointestinal","primaryConcept":"AUD treatment integration","cognitiveLevel":"Management decision","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A patient with alcohol-associated liver disease wants help reducing alcohol use. Which approach best reflects comprehensive care?",
+      "answers":[{"id":"a","text":"Treat alcohol use disorder with evidence-based behavioural/pharmacologic support while managing liver complications and nutrition"},{"id":"b","text":"Tell the patient to stop drinking without offering treatment because addiction care is separate from hepatology"},{"id":"c","text":"Avoid all AUD medications automatically because any liver disease makes every option unsafe"}],"correct_answer_ids":["a"],
+      "correctRationale":"Alcohol use disorder is a treatable condition and should be integrated into liver care; medication choices are individualized to hepatic/renal status rather than universally prohibited.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Advice alone under-treats alcohol use disorder and worsens liver outcomes."},{"answer_id":"c","rationale":"Some AUD therapies may be appropriate depending on liver severity and comorbidity."}]
+    },
+    {
+      "question_id":"cnple-cont-057","primaryLesson":"np-alcoholic-liver-disease-evaluation","category":"Gastrointestinal","primaryConcept":"withdrawal risk","cognitiveLevel":"Complication recognition","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A hospitalized patient with alcohol-associated cirrhosis had the last drink 18 hours ago and now has tremor, tachycardia, agitation and hallucinations. What must the NP consider urgently?",
+      "answers":[{"id":"a","text":"Alcohol withdrawal requiring monitored treatment while distinguishing it from hepatic encephalopathy and other causes"},{"id":"b","text":"Normal cirrhosis symptoms requiring no intervention"},{"id":"c","text":"Only chronic anxiety because alcohol withdrawal cannot occur with liver disease"}],"correct_answer_ids":["a"],
+      "correctRationale":"Withdrawal can be severe and coexist with liver disease; treatment requires monitoring and careful distinction from encephalopathy, infection or other delirium causes.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Autonomic activation and hallucinations after cessation are not routine benign cirrhosis findings."},{"answer_id":"c","rationale":"Liver disease does not prevent withdrawal."}]
+    },
+    {
+      "question_id":"cnple-cont-058","primaryLesson":"np-cirrhosis-complications-management","category":"Gastrointestinal","primaryConcept":"ascites diagnostic paracentesis","cognitiveLevel":"Next best step","difficulty":"Hard","questionType":"MCQ",
+      "stem":"A patient with cirrhosis is admitted with new worsening ascites, abdominal discomfort, and mild confusion. What is an important early diagnostic step?",
+      "answers":[{"id":"a","text":"Perform diagnostic paracentesis to evaluate for spontaneous bacterial peritonitis unless a specific contraindication exists"},{"id":"b","text":"Wait for fever because SBP is unlikely without high temperature"},{"id":"c","text":"Order serum ammonia only and treat based on its value"}],"correct_answer_ids":["a"],
+      "correctRationale":"New/worsening ascites in hospitalized decompensated cirrhosis warrants diagnostic paracentesis because SBP can present subtly and requires prompt treatment.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Cirrhotic patients with SBP may be afebrile or have subtle symptoms."},{"answer_id":"c","rationale":"Ammonia neither diagnoses SBP nor independently diagnoses hepatic encephalopathy."}]
+    },
+    {
+      "question_id":"cnple-cont-059","primaryLesson":"np-cirrhosis-complications-management","category":"Gastrointestinal","primaryConcept":"ammonia misuse","cognitiveLevel":"Diagnostic reasoning","difficulty":"Moderate","questionType":"MCQ",
+      "stem":"A patient with cirrhosis is confused, but ammonia is within the laboratory reference interval. What is the best interpretation?",
+      "answers":[{"id":"a","text":"Hepatic encephalopathy remains a clinical diagnosis; assess precipitants and alternative causes rather than ruling it out from ammonia alone"},{"id":"b","text":"Normal ammonia definitively excludes hepatic encephalopathy"},{"id":"c","text":"Ammonia should be increased intentionally before treatment can start"}],"correct_answer_ids":["a"],
+      "correctRationale":"Ammonia level alone has poor diagnostic/staging utility; altered mental status in cirrhosis requires clinical evaluation for encephalopathy precipitants and other delirium causes.",
+      "distractorRationales":[{"answer_id":"b","rationale":"A normal value does not reliably exclude hepatic encephalopathy."},{"answer_id":"c","rationale":"There is no therapeutic goal to raise ammonia."}]
+    },
+    {
+      "question_id":"cnple-cont-060","primaryLesson":"np-cirrhosis-complications-management","category":"Gastrointestinal","primaryConcept":"low-risk procedure coagulation","cognitiveLevel":"Management decision","difficulty":"Hard","questionType":"MCQ",
+      "stem":"A stable patient with cirrhosis needs a low-risk bedside procedure. INR is elevated and platelets are moderately reduced, with no active bleeding. Which principle is most appropriate?",
+      "answers":[{"id":"a","text":"Do not automatically transfuse plasma or platelets solely to normalize laboratory values before every low-risk procedure; use procedure- and patient-specific bleeding guidance"},{"id":"b","text":"Normalize INR to 1.0 with plasma before any procedure regardless of bleeding risk"},{"id":"c","text":"Cancel all procedures permanently because cirrhosis makes hemostasis impossible"}],"correct_answer_ids":["a"],
+      "correctRationale":"Cirrhosis produces rebalanced hemostasis and INR does not directly predict procedural bleeding; routine correction before low-risk procedures is often unnecessary and can cause harm.",
+      "distractorRationales":[{"answer_id":"b","rationale":"Routine plasma to normalize INR is not evidence-based and can worsen volume/portal pressure."},{"answer_id":"c","rationale":"Many procedures are safely performed with appropriate risk assessment."}]
+    }
+  ]
+}
