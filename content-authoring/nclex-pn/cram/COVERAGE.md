@@ -1,20 +1,20 @@
 # U.S. PN / NCLEX-PN Cram Coverage
 
 Status: ACTIVE AUTHORING
-Authored Cram lessons: 904
-Latest QA addendum: `AUTHORING_QA_ADDENDUM_904.md`
+Authored Cram lessons: 924
+Latest QA addendum: `AUTHORING_QA_ADDENDUM_924.md`
 Locale: United States
 Exam alignment: 2026 NCLEX-PN Test Plan
 
-The library contains 904 distinct U.S. PN/LPN/LVN Cram lessons across all NCLEX-PN Client Needs areas. No numeric authoring milestone is a production-completion claim.
+The library contains 924 distinct U.S. PN/LPN/LVN Cram lessons across all NCLEX-PN Client Needs areas. No numeric authoring milestone is a production-completion claim.
 
 ## Latest source-family depth
 
-The newest pediatric emergency/toxicology batch adds button-battery ingestion, hydrocarbon ingestion, iron overdose, acetaminophen overdose, salicylate toxicity, caustic ingestion, opioid exposure, cannabis-edible exposure, pediatric lead exposure/testing, and pediatric carbon-monoxide poisoning.
+The newest acute skin/soft-tissue infection batch adds necrotizing soft-tissue infection, cellulitis deterioration, diabetic-foot infection, pressure-injury infection, bite wounds, puncture wounds, water-exposed wound infection, abscess/source-control logic, tetanus wound-risk management, and longitudinal wound deterioration.
 
-The newest geriatric acute-change/polypharmacy batch adds actual-use medication reconciliation, new confusion after medication change, medication-related falls, anticholinergic burden, renal decline/drug accumulation, deprescribing awareness, anticoagulant bleeding risk, hypoglycemia presenting as confusion/falls, dehydration-plus-medication risk, and high-risk OTC use.
+The newest orthopedic-trauma batch adds open fracture, acute compartment syndrome, pelvic-fracture hemorrhage, fat-embolism deterioration, spinal trauma, geriatric hip fracture, crush injury/rhabdomyolysis, cast-related neurovascular compromise, traumatic amputation, and serial neurovascular reassessment.
 
-Current source refresh includes National Capital Poison Center button-battery guidance, CDC carbon-monoxide and childhood-lead guidance current in 2026, and FDA medication-safety principles for older adults.
+Current source refresh includes CDC necrotizing-fasciitis and tetanus-wound guidance and the AAOS 2025 acute-compartment-syndrome guideline.
 
 All newest lessons are `SOURCE_FAMILY_AUTHORED_NOT_ROW_MAPPED` and do not count as certified production-row closure.
 
